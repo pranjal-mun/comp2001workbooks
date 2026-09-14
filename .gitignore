@@ -1,0 +1,10 @@
+# OS / editor noise
+.DS_Store
+.claude/
+__pycache__/
+AGENTS.md
+IDEA.md
+CLAUDE.md
+.build/
+runtime/img/MUN-Logo-RGB-small.jpg
+BrandStandards_March_2026.pdf
