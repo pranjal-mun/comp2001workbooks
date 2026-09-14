@@ -40,6 +40,81 @@
   <p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run on the page takes a few seconds while Java loads). The <code>SmartLamp</code> and <code>GameCharacter</code> classes are already on the classpath of every box that uses them. Exercises award XP when you get them right; XP can be spent to reveal a model answer. The Java examples are IDE-neutral.</p>
 </section>
 <hr>
+<h2 id="review" data-toc-title="10-minute review">The whole lecture in 10 minutes</h2>
+<p>Short on time? This section says everything the lecture says, without the practice. Read it once, then come back to the numbered sections for the exercises. <strong>Big idea:</strong> a Java program models part of the world as objects. Each object remembers things (its <strong>state</strong>) and can be asked to do things (its <strong>behavior</strong>). This lecture uses a finished <code>SmartLamp</code> class; you learn to <em>use</em> objects, not yet to write classes.</p>
+
+<div class="wb-block">
+  <div class="wb-block-title">1. Class or object</div>
+  <p>A <strong>class</strong> (<code>SmartLamp</code>) describes a kind of object: what every lamp can remember and do. An <strong>object</strong>, or instance, is one specific lamp made from that class. Class names start uppercase (<code>SmartLamp</code>), variable names lowercase (<code>deskLamp</code>). Two lamps have the same kinds of fields, but each keeps its own values: changing one does not change the other.</p>
+</div>
+
+<div class="wb-block">
+  <div class="wb-block-title">2. Create objects</div>
+<pre><code><span class="wb-type">SmartLamp</span> deskLamp = <span class="wb-kw">new</span> <span class="wb-type">SmartLamp</span>(<span class="wb-str">"Desk"</span>);</code></pre>
+  <p><code>SmartLamp</code> is the type, <code>deskLamp</code> the reference variable, <code>new</code> builds a fresh object, and <code>SmartLamp("Desk")</code> calls the constructor with one argument. The variable holds a <strong>reference</strong> to the object, not the object itself. The constructor sets the initial state: on = <code>false</code>, brightness = <code>0</code>, color = <code>"warm white"</code>. Every <code>new</code> makes a separate object, even with the same argument. <code>SmartLamp windowLamp;</code> alone declares a variable and creates nothing.</p>
+</div>
+
+<div class="wb-block">
+  <div class="wb-block-title">3. Call methods</div>
+  <p><code>deskLamp.turnOn();</code> reads as "ask the object <code>deskLamp</code> refers to to run <code>turnOn</code>". The <strong>receiver</strong> before the dot decides which object changes; <code>readingLamp.turnOn();</code> changes a different lamp. You can use a method from its header alone:</p>
+  <table>
+    <thead><tr><th>header</th><th>effect</th></tr></thead>
+    <tbody>
+      <tr><td><code>void turnOn()</code>, <code>void turnOff()</code></td><td>change state</td></tr>
+      <tr><td><code>void setBrightness(int newBrightness)</code>, <code>void setColor(String newColor)</code></td><td>store a supplied value</td></tr>
+      <tr><td><code>int getBrightness()</code></td><td>report state</td></tr>
+      <tr><td><code>void printState()</code></td><td>display state</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="wb-block">
+  <div class="wb-block-title">4. Pass values</div>
+  <p>In <code>deskLamp.setBrightness(70);</code> the <strong>parameter</strong> is <code>newBrightness</code> (named in the header) and the <strong>argument</strong> is <code>70</code> (supplied by this call). Types must match: <code>70</code> fits <code>int</code>, <code>"70"</code> does not; text needs quotes (<code>setColor("daylight")</code>, not <code>setColor(daylight)</code>); <code>turnOn(1)</code> fails because <code>turnOn</code> takes no arguments. The method name plus the parameter types form the <strong>signature</strong>, <code>setBrightness(int)</code>. The return type and the parameter names are not part of it.</p>
+</div>
+
+<div class="wb-block">
+  <div class="wb-block-title">5. Track state</div>
+  <p>Each call starts from the state the previous call left. Trace one receiver at a time:</p>
+  <table>
+    <thead><tr><th>after</th><th>on</th><th>brightness</th><th>color</th></tr></thead>
+    <tbody>
+      <tr><td>construction</td><td>false</td><td>0</td><td>warm white</td></tr>
+      <tr><td><code>turnOn()</code></td><td>true</td><td>0</td><td>warm white</td></tr>
+      <tr><td><code>setBrightness(70)</code></td><td>true</td><td>70</td><td>warm white</td></tr>
+      <tr><td><code>setColor("daylight")</code></td><td>true</td><td>70</td><td>daylight</td></tr>
+    </tbody>
+  </table>
+  <p>The reading lamp is untouched by all of this. A <strong>query</strong> such as <code>int level = deskLamp.getBrightness();</code> returns a value without changing state; a <code>void</code> method returns nothing but may change state. Returning a value and printing it are different things. State can be observed with queries, printed output, a debugger, BlueJ's object inspector, or a hand-written trace; the inspector only reveals state, it does not create it.</p>
+</div>
+
+<div class="wb-block">
+  <div class="wb-block-title">6. Put it together: the client pattern</div>
+<pre><code><span class="wb-type">SmartLamp</span> deskLamp = <span class="wb-kw">new</span> <span class="wb-type">SmartLamp</span>(<span class="wb-str">"Desk"</span>);
+<span class="wb-type">SmartLamp</span> readingLamp = <span class="wb-kw">new</span> <span class="wb-type">SmartLamp</span>(<span class="wb-str">"Reading corner"</span>);
+deskLamp.<span class="wb-fn">turnOn</span>();
+deskLamp.<span class="wb-fn">setBrightness</span>(<span class="wb-num">70</span>);
+deskLamp.<span class="wb-fn">setColor</span>(<span class="wb-str">"daylight"</span>);
+readingLamp.<span class="wb-fn">turnOn</span>();
+readingLamp.<span class="wb-fn">setBrightness</span>(<span class="wb-num">35</span>);
+deskLamp.<span class="wb-fn">printState</span>();
+readingLamp.<span class="wb-fn">printState</span>();
+<span class="wb-type">int</span> level = deskLamp.<span class="wb-fn">getBrightness</span>();</code></pre>
+  <p>The two <code>printState()</code> calls print the lines below, and <code>level</code> holds 70.</p>
+<pre class="wb-output">Desk: on=true, brightness=70, color=daylight
+Reading corner: on=true, brightness=35, color=warm white</pre>
+</div>
+
+<div class="wb-block">
+  <div class="wb-block-title">7. Coding practice</div>
+  <p>Given a finished <code>GameCharacter</code> class (fields <code>name</code>, <code>health</code>, <code>xPosition</code>; methods <code>move(int)</code>, <code>takeDamage(int)</code>, <code>getName()</code>, <code>getHealth()</code>, <code>getXPosition()</code>, <code>printState()</code>), write <code>GameCharacterDemo</code>: construct two characters, send each different requests, print both states, store one returned value in a variable, and print it. Each object keeps its own health and position, and <code>getHealth()</code> returns exactly what <code>printState()</code> shows.</p>
+</div>
+
+<div class="wb-callout is-good">
+  <div class="wb-callout-title">Vocabulary to know</div>
+  <p>class, object (instance), reference variable, <code>new</code>, constructor, state, behavior, receiver, method, parameter vs argument, signature, query vs mutator, <code>void</code>, return value vs printed output.</p>
+</div>
+<hr>
 
 <h2 id="s1">1. Class or Object</h2>
 <h3>A class describes a kind of object</h3>
