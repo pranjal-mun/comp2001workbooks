@@ -66,4 +66,6 @@ Rebuild the runner after editing `tools/runner/workbook/Runner.java` with
 - The [Eclipse Compiler for Java](https://www.eclipse.org/jdt/) (`ecj.jar`,
   EPL-2.0) compiles student code inside the page.
 - [CodeMirror 5](https://codemirror.net/5/) (MIT) is the editor.
+- The tab icon is the Java icon from KDE's [Oxygen icon theme](https://github.com/KDE/oxygen-icons)
+  (LGPL-3.0).
 - The runtime is adapted from the COMP 1001 PyLab workbooks.
