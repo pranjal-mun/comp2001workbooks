@@ -1,0 +1,687 @@
+{
+  "id": "lecture-02",
+  "course": "COMP 2001: Object-Oriented Programming",
+  "title": "Lecture 2 Workbook",
+  "subtitle": "Chapter 1: Objects have state and behavior",
+  "exercises": {
+    "p1-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "c1": {
+          "accept": [
+            "class"
+          ],
+          "placeholder": "class / object / reference name",
+          "width": "15rem"
+        },
+        "c2": {
+          "accept": [
+            "object",
+            "an object",
+            "instance",
+            "an instance"
+          ],
+          "placeholder": "class / object / reference name",
+          "width": "15rem",
+          "show": "object"
+        },
+        "c3": {
+          "accept": [
+            "reference-variable name",
+            "reference variable name",
+            "reference variable",
+            "reference-variable",
+            "variable name",
+            "variable",
+            "reference"
+          ],
+          "placeholder": "class / object / reference name",
+          "width": "15rem",
+          "show": "reference-variable name"
+        }
+      }
+    },
+    "p1-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 30,
+      "answer": "YFNtYXJ0TGFtcGAgaXMgdGhlIGdlbmVyYWwgZGVzY3JpcHRpb24gb2YgdGhlIHN0YXRlIGFuZCBiZWhhdmlvciBhdmFpbGFibGUgdG8gc21hcnQgbGFtcHMuIE9uZSBkZXNrIGxhbXAgaXMgYSBjb25jcmV0ZSBvYmplY3QsIG9yIGluc3RhbmNlLCBjcmVhdGVkIGZyb20gdGhhdCBjbGFzcy4="
+    },
+    "p1-3": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "WWVzLiBFYWNoIG9iamVjdCBzdG9yZXMgaXRzIG93biBmaWVsZCB2YWx1ZXMgZXZlbiB0aG91Z2ggYm90aCBvYmplY3RzIHVzZSB0aGUgc2FtZSBjbGFzcyBkZWZpbml0aW9uLg=="
+    },
+    "p1-4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 30,
+      "rows": 4,
+      "answer": "T25lIHNhbXBsZSBhbnN3ZXIgaXMgY2xhc3MgYEdhbWVDaGFyYWN0ZXJgLCBhbiBleHBsb3JlciBvYmplY3QsIGhlYWx0aCBhbmQgcG9zaXRpb24gYXMgc3RhdGUsIGFuZCBgbW92ZWAgYXMgYSBiZWhhdmlvci4gT3RoZXIgY29oZXJlbnQgbW9kZWxzIGFyZSB2YWxpZC4="
+    },
+    "p1-5": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "U3RhdGUgaXMgdGhlIHNldCBvZiB2YWx1ZXMgc3RvcmVkIGluIGZpZWxkcy4gT3V0cHV0IGlzIG9ubHkgb25lIHBvc3NpYmxlIGRpc3BsYXkgb2Ygc29tZSBvciBhbGwgb2YgdGhvc2UgdmFsdWVzLg=="
+    },
+    "ex-new": {
+      "type": "example",
+      "code": "SmartLamp deskLamp = new SmartLamp(\"Desk\");\n\n// Added so you can see the initial state:\ndeskLamp.printState();",
+      "files": [
+        {
+          "name": "SmartLamp.java",
+          "content": "public class SmartLamp\n{\n    private String location;\n    private boolean on;\n    private int brightness;\n    private String color;\n\n    public SmartLamp(String location)\n    {\n        this.location = location;\n        on = false;\n        brightness = 0;\n        color = \"warm white\";\n    }\n\n    public void turnOn()\n    {\n        on = true;\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void setBrightness(int newBrightness)\n    {\n        brightness = newBrightness;\n    }\n\n    public void setColor(String newColor)\n    {\n        color = newColor;\n    }\n\n    public String getLocation()\n    {\n        return location;\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBrightness()\n    {\n        return brightness;\n    }\n\n    public String getColor()\n    {\n        return color;\n    }\n\n    public void printState()\n    {\n        System.out.println(location + \": on=\" + on\n                           + \", brightness=\" + brightness\n                           + \", color=\" + color);\n    }\n}"
+        }
+      ],
+      "output": "Desk: on=false, brightness=0, color=warm white"
+    },
+    "ex-two": {
+      "type": "example",
+      "code": "SmartLamp deskLamp = new SmartLamp(\"Desk\");\nSmartLamp readingLamp = new SmartLamp(\"Reading corner\");\n\n// Added so you can see both states:\ndeskLamp.printState();\nreadingLamp.printState();",
+      "files": [
+        {
+          "name": "SmartLamp.java",
+          "content": "public class SmartLamp\n{\n    private String location;\n    private boolean on;\n    private int brightness;\n    private String color;\n\n    public SmartLamp(String location)\n    {\n        this.location = location;\n        on = false;\n        brightness = 0;\n        color = \"warm white\";\n    }\n\n    public void turnOn()\n    {\n        on = true;\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void setBrightness(int newBrightness)\n    {\n        brightness = newBrightness;\n    }\n\n    public void setColor(String newColor)\n    {\n        color = newColor;\n    }\n\n    public String getLocation()\n    {\n        return location;\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBrightness()\n    {\n        return brightness;\n    }\n\n    public String getColor()\n    {\n        return color;\n    }\n\n    public void printState()\n    {\n        System.out.println(location + \": on=\" + on\n                           + \", brightness=\" + brightness\n                           + \", color=\" + color);\n    }\n}"
+        }
+      ],
+      "output": "Desk: on=false, brightness=0, color=warm white\nReading corner: on=false, brightness=0, color=warm white"
+    },
+    "p2-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "cls": {
+          "accept": [
+            "SmartLamp"
+          ],
+          "caseSensitive": true,
+          "placeholder": "class name"
+        },
+        "var": {
+          "accept": [
+            "deskLamp"
+          ],
+          "caseSensitive": true,
+          "placeholder": "variable name"
+        },
+        "ctor": {
+          "accept": [
+            "new SmartLamp(\"Desk\")",
+            "SmartLamp(\"Desk\")",
+            "new SmartLamp(\"Desk\");"
+          ],
+          "caseSensitive": true,
+          "placeholder": "constructor call",
+          "width": "14rem"
+        },
+        "arg": {
+          "accept": [
+            "\"Desk\"",
+            "Desk"
+          ],
+          "caseSensitive": true,
+          "placeholder": "argument",
+          "show": "\"Desk\""
+        }
+      }
+    },
+    "p2-2": {
+      "type": "code",
+      "xp": 2,
+      "minLines": 3,
+      "starter": "// Create a lamp whose location is \"Window\" and store it in windowLamp.\n\n\nwindowLamp.printState();\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Window: on=false, brightness=0, color=warm white"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"SmartLampwindowLamp\"), \"Declare the variable with its type: SmartLamp windowLamp = ...\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"newSmartLamp(\\\"Window\\\")\"), \"Construct the lamp with new SmartLamp(\\\"Window\\\").\");",
+      "answer": "U21hcnRMYW1wIHdpbmRvd0xhbXAgPSBuZXcgU21hcnRMYW1wKCJXaW5kb3ciKTsKd2luZG93TGFtcC5wcmludFN0YXRlKCk7",
+      "files": [
+        {
+          "name": "SmartLamp.java",
+          "content": "public class SmartLamp\n{\n    private String location;\n    private boolean on;\n    private int brightness;\n    private String color;\n\n    public SmartLamp(String location)\n    {\n        this.location = location;\n        on = false;\n        brightness = 0;\n        color = \"warm white\";\n    }\n\n    public void turnOn()\n    {\n        on = true;\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void setBrightness(int newBrightness)\n    {\n        brightness = newBrightness;\n    }\n\n    public void setColor(String newColor)\n    {\n        color = newColor;\n    }\n\n    public String getLocation()\n    {\n        return location;\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBrightness()\n    {\n        return brightness;\n    }\n\n    public String getColor()\n    {\n        return color;\n    }\n\n    public void printState()\n    {\n        System.out.println(location + \": on=\" + on\n                           + \", brightness=\" + brightness\n                           + \", color=\" + color);\n    }\n}"
+        }
+      ]
+    },
+    "p2-3": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "answer": "Tm8gb2JqZWN0IGlzIGNyZWF0ZWQuIEEgY29uc3RydWN0b3IgY2FsbCB1c2luZyBgbmV3YCBpcyByZXF1aXJlZDoKCmB3aW5kb3dMYW1wID0gbmV3IFNtYXJ0TGFtcCgiV2luZG93Iik7YA=="
+    },
+    "p2-4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhleSBjcmVhdGUgdHdvIGRpc3RpbmN0IG9iamVjdHMuIEV2ZXJ5IGV2YWx1YXRpb24gb2YgYG5ldyBTbWFydExhbXAoLi4uKWAgY29uc3RydWN0cyBhIGZyZXNoIGluc3RhbmNlLg=="
+    },
+    "p2-5": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 30,
+      "answer": "VGhlIHZhcmlhYmxlIHN0b3JlcyBhIHJlZmVyZW5jZSB0aGF0IGxldHMgdGhlIHByb2dyYW0gZmluZCB0aGUgb2JqZWN0LiBUaGUgb2JqZWN0IGhhcyBpdHMgb3duIGlkZW50aXR5IGFuZCBmaWVsZHMgc2VwYXJhdGVseSBmcm9tIHRoZSB2YXJpYWJsZSB0aGF0IGN1cnJlbnRseSByZWZlcnMgdG8gaXQu"
+    },
+    "ex-receivers": {
+      "type": "example",
+      "code": "SmartLamp deskLamp = new SmartLamp(\"Desk\");\nSmartLamp readingLamp = new SmartLamp(\"Reading corner\");\n\ndeskLamp.turnOn();\nreadingLamp.turnOn();\n\n// Added so you can see both states:\ndeskLamp.printState();\nreadingLamp.printState();",
+      "files": [
+        {
+          "name": "SmartLamp.java",
+          "content": "public class SmartLamp\n{\n    private String location;\n    private boolean on;\n    private int brightness;\n    private String color;\n\n    public SmartLamp(String location)\n    {\n        this.location = location;\n        on = false;\n        brightness = 0;\n        color = \"warm white\";\n    }\n\n    public void turnOn()\n    {\n        on = true;\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void setBrightness(int newBrightness)\n    {\n        brightness = newBrightness;\n    }\n\n    public void setColor(String newColor)\n    {\n        color = newColor;\n    }\n\n    public String getLocation()\n    {\n        return location;\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBrightness()\n    {\n        return brightness;\n    }\n\n    public String getColor()\n    {\n        return color;\n    }\n\n    public void printState()\n    {\n        System.out.println(location + \": on=\" + on\n                           + \", brightness=\" + brightness\n                           + \", color=\" + color);\n    }\n}"
+        }
+      ],
+      "output": "Desk: on=true, brightness=0, color=warm white\nReading corner: on=true, brightness=0, color=warm white"
+    },
+    "p3-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "recv": {
+          "accept": [
+            "readingLamp"
+          ],
+          "caseSensitive": true,
+          "placeholder": "receiver"
+        },
+        "meth": {
+          "accept": [
+            "turnOff",
+            "turnOff()"
+          ],
+          "caseSensitive": true,
+          "placeholder": "method"
+        },
+        "nargs": {
+          "accept": [
+            "0",
+            "zero",
+            "none",
+            "no arguments"
+          ],
+          "placeholder": "how many?",
+          "show": "0"
+        }
+      }
+    },
+    "p3-2": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "desk": {
+          "accept": [
+            "off",
+            "false",
+            "on=false"
+          ],
+          "placeholder": "on or off",
+          "show": "off"
+        },
+        "reading": {
+          "accept": [
+            "on",
+            "true",
+            "on=true"
+          ],
+          "placeholder": "on or off",
+          "show": "on"
+        }
+      }
+    },
+    "p3-3": {
+      "type": "code",
+      "xp": 2,
+      "minLines": 4,
+      "starter": "SmartLamp deskLamp = new SmartLamp(\"Desk\");\nSmartLamp readingLamp = new SmartLamp(\"Reading corner\");\n\n// Ask deskLamp to print its state.\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Desk: on=false, brightness=0, color=warm white"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"deskLamp.printState()\"), \"Call printState on the receiver deskLamp: deskLamp.printState();\");",
+      "answer": "U21hcnRMYW1wIGRlc2tMYW1wID0gbmV3IFNtYXJ0TGFtcCgiRGVzayIpOwpTbWFydExhbXAgcmVhZGluZ0xhbXAgPSBuZXcgU21hcnRMYW1wKCJSZWFkaW5nIGNvcm5lciIpOwoKZGVza0xhbXAucHJpbnRTdGF0ZSgpOw==",
+      "files": [
+        {
+          "name": "SmartLamp.java",
+          "content": "public class SmartLamp\n{\n    private String location;\n    private boolean on;\n    private int brightness;\n    private String color;\n\n    public SmartLamp(String location)\n    {\n        this.location = location;\n        on = false;\n        brightness = 0;\n        color = \"warm white\";\n    }\n\n    public void turnOn()\n    {\n        on = true;\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void setBrightness(int newBrightness)\n    {\n        brightness = newBrightness;\n    }\n\n    public void setColor(String newColor)\n    {\n        color = newColor;\n    }\n\n    public String getLocation()\n    {\n        return location;\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBrightness()\n    {\n        return brightness;\n    }\n\n    public String getColor()\n    {\n        return color;\n    }\n\n    public void printState()\n    {\n        System.out.println(location + \": on=\" + on\n                           + \", brightness=\" + brightness\n                           + \", color=\" + color);\n    }\n}"
+        }
+      ]
+    },
+    "p3-4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 30,
+      "answer": "YHR1cm5PbmAsIGB0dXJuT2ZmYCwgYHNldEJyaWdodG5lc3NgLCBhbmQgYHNldENvbG9yYCBjaGFuZ2Ugc3RhdGUuIGBnZXRCcmlnaHRuZXNzYCByZXR1cm5zIHN0YXRlIGluZm9ybWF0aW9uIGFuZCBgcHJpbnRTdGF0ZWAgZGlzcGxheXMgaXQu"
+    },
+    "p3-5": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "SXQgb21pdHMgdGhlIHJlY2VpdmVyIGJlZm9yZSB0aGUgZG90LCBzbyB0aGUgY2xpZW50IGNvZGUgZG9lcyBub3Qgc2F5IHdoaWNoIGxhbXAgb2JqZWN0IHNob3VsZCByZWNlaXZlIHRoZSByZXF1ZXN0Lg=="
+    },
+    "p4-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "param": {
+          "accept": [
+            "newBrightness"
+          ],
+          "caseSensitive": true,
+          "placeholder": "parameter"
+        },
+        "arg": {
+          "accept": [
+            "70"
+          ],
+          "placeholder": "argument"
+        },
+        "type": {
+          "accept": [
+            "int"
+          ],
+          "placeholder": "type"
+        }
+      }
+    },
+    "p4-2": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "t1": {
+          "accept": [
+            "int"
+          ]
+        },
+        "t2": {
+          "accept": [
+            "String"
+          ]
+        },
+        "t3": {
+          "accept": [
+            "boolean"
+          ]
+        },
+        "t4": {
+          "accept": [
+            "String"
+          ]
+        }
+      }
+    },
+    "p4-3": {
+      "type": "code",
+      "xp": 5,
+      "minLines": 8,
+      "starter": "SmartLamp deskLamp = new SmartLamp(\"Desk\");\n\ndeskLamp.turnOn(1);\ndeskLamp.setBrightness(\"70\");\ndeskLamp.setColor(daylight);\ndeskLamp.turnOff();\n\ndeskLamp.printState();\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Desk: on=false, brightness=70, color=daylight"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"deskLamp.turnOn()\"), \"turnOn takes no arguments: deskLamp.turnOn();\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"deskLamp.setBrightness(70)\"), \"setBrightness takes an int, so pass 70 without quotes.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"deskLamp.setColor(\\\"daylight\\\")\"), \"setColor takes a String, so put daylight in double quotes: \\\"daylight\\\".\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"deskLamp.turnOff()\"), \"Keep the call deskLamp.turnOff(); it was already valid.\");",
+      "answer": "U21hcnRMYW1wIGRlc2tMYW1wID0gbmV3IFNtYXJ0TGFtcCgiRGVzayIpOwoKZGVza0xhbXAudHVybk9uKCk7CmRlc2tMYW1wLnNldEJyaWdodG5lc3MoNzApOwpkZXNrTGFtcC5zZXRDb2xvcigiZGF5bGlnaHQiKTsKZGVza0xhbXAudHVybk9mZigpOwoKZGVza0xhbXAucHJpbnRTdGF0ZSgpOw==",
+      "files": [
+        {
+          "name": "SmartLamp.java",
+          "content": "public class SmartLamp\n{\n    private String location;\n    private boolean on;\n    private int brightness;\n    private String color;\n\n    public SmartLamp(String location)\n    {\n        this.location = location;\n        on = false;\n        brightness = 0;\n        color = \"warm white\";\n    }\n\n    public void turnOn()\n    {\n        on = true;\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void setBrightness(int newBrightness)\n    {\n        brightness = newBrightness;\n    }\n\n    public void setColor(String newColor)\n    {\n        color = newColor;\n    }\n\n    public String getLocation()\n    {\n        return location;\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBrightness()\n    {\n        return brightness;\n    }\n\n    public String getColor()\n    {\n        return color;\n    }\n\n    public void printState()\n    {\n        System.out.println(location + \": on=\" + on\n                           + \", brightness=\" + brightness\n                           + \", color=\" + color);\n    }\n}"
+        }
+      ]
+    },
+    "p4-4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 30,
+      "answer": "VGhlIHNpZ25hdHVyZSBpcyBgc2V0QnJpZ2h0bmVzcyhpbnQpYC4gSmF2YSBkZWZpbmVzIGEgbWV0aG9kIHNpZ25hdHVyZSB1c2luZyB0aGUgbWV0aG9kIG5hbWUgYW5kIHBhcmFtZXRlciB0eXBlczsgdGhlIHBhcmFtZXRlciBuYW1lIGlzIGxvY2FsIGRvY3VtZW50YXRpb24gYW5kIHRoZSByZXR1cm4gdHlwZSBkb2VzIG5vdCBkaXN0aW5ndWlzaCBvdmVybG9hZHMu"
+    },
+    "p4-5": {
+      "type": "code",
+      "xp": 5,
+      "minLines": 7,
+      "starter": "SmartLamp readingLamp = new SmartLamp(\"Reading corner\");\n\n// Turn the lamp on, set its brightness to 35, and set its color to \"warm white\".\n\n\n\nreadingLamp.printState();\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Reading corner: on=true, brightness=35, color=warm white"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"readingLamp.turnOn()\"), \"Ask readingLamp to turn on: readingLamp.turnOn();\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"readingLamp.setBrightness(35)\"), \"Set the brightness with readingLamp.setBrightness(35);\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"readingLamp.setColor(\\\"warmwhite\\\")\"), \"Set the color with readingLamp.setColor(\\\"warm white\\\");\");",
+      "answer": "U21hcnRMYW1wIHJlYWRpbmdMYW1wID0gbmV3IFNtYXJ0TGFtcCgiUmVhZGluZyBjb3JuZXIiKTsKCnJlYWRpbmdMYW1wLnR1cm5PbigpOwpyZWFkaW5nTGFtcC5zZXRCcmlnaHRuZXNzKDM1KTsKcmVhZGluZ0xhbXAuc2V0Q29sb3IoIndhcm0gd2hpdGUiKTsKCnJlYWRpbmdMYW1wLnByaW50U3RhdGUoKTs=",
+      "files": [
+        {
+          "name": "SmartLamp.java",
+          "content": "public class SmartLamp\n{\n    private String location;\n    private boolean on;\n    private int brightness;\n    private String color;\n\n    public SmartLamp(String location)\n    {\n        this.location = location;\n        on = false;\n        brightness = 0;\n        color = \"warm white\";\n    }\n\n    public void turnOn()\n    {\n        on = true;\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void setBrightness(int newBrightness)\n    {\n        brightness = newBrightness;\n    }\n\n    public void setColor(String newColor)\n    {\n        color = newColor;\n    }\n\n    public String getLocation()\n    {\n        return location;\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBrightness()\n    {\n        return brightness;\n    }\n\n    public String getColor()\n    {\n        return color;\n    }\n\n    public void printState()\n    {\n        System.out.println(location + \": on=\" + on\n                           + \", brightness=\" + brightness\n                           + \", color=\" + color);\n    }\n}"
+        }
+      ]
+    },
+    "ex-trace": {
+      "type": "example",
+      "code": "SmartLamp deskLamp = new SmartLamp(\"Desk\");\nSmartLamp readingLamp = new SmartLamp(\"Reading corner\");\n\ndeskLamp.turnOn();\ndeskLamp.setBrightness(70);\ndeskLamp.setColor(\"daylight\");\n\n// Added so you can see both states:\ndeskLamp.printState();\nreadingLamp.printState();",
+      "files": [
+        {
+          "name": "SmartLamp.java",
+          "content": "public class SmartLamp\n{\n    private String location;\n    private boolean on;\n    private int brightness;\n    private String color;\n\n    public SmartLamp(String location)\n    {\n        this.location = location;\n        on = false;\n        brightness = 0;\n        color = \"warm white\";\n    }\n\n    public void turnOn()\n    {\n        on = true;\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void setBrightness(int newBrightness)\n    {\n        brightness = newBrightness;\n    }\n\n    public void setColor(String newColor)\n    {\n        color = newColor;\n    }\n\n    public String getLocation()\n    {\n        return location;\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBrightness()\n    {\n        return brightness;\n    }\n\n    public String getColor()\n    {\n        return color;\n    }\n\n    public void printState()\n    {\n        System.out.println(location + \": on=\" + on\n                           + \", brightness=\" + brightness\n                           + \", color=\" + color);\n    }\n}"
+        }
+      ],
+      "output": "Desk: on=true, brightness=70, color=daylight\nReading corner: on=false, brightness=0, color=warm white"
+    },
+    "ex-query": {
+      "type": "example",
+      "code": "SmartLamp deskLamp = new SmartLamp(\"Desk\");\ndeskLamp.turnOn();\ndeskLamp.setBrightness(70);\n\nint level = deskLamp.getBrightness();\n\n// Added so you can see the returned value:\nSystem.out.println(\"level is \" + level);",
+      "files": [
+        {
+          "name": "SmartLamp.java",
+          "content": "public class SmartLamp\n{\n    private String location;\n    private boolean on;\n    private int brightness;\n    private String color;\n\n    public SmartLamp(String location)\n    {\n        this.location = location;\n        on = false;\n        brightness = 0;\n        color = \"warm white\";\n    }\n\n    public void turnOn()\n    {\n        on = true;\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void setBrightness(int newBrightness)\n    {\n        brightness = newBrightness;\n    }\n\n    public void setColor(String newColor)\n    {\n        color = newColor;\n    }\n\n    public String getLocation()\n    {\n        return location;\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBrightness()\n    {\n        return brightness;\n    }\n\n    public String getColor()\n    {\n        return color;\n    }\n\n    public void printState()\n    {\n        System.out.println(location + \": on=\" + on\n                           + \", brightness=\" + brightness\n                           + \", color=\" + color);\n    }\n}"
+        }
+      ],
+      "output": "level is 70"
+    },
+    "p5-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "don": {
+          "accept": [
+            "true",
+            "on",
+            "on=true"
+          ],
+          "placeholder": "true / false",
+          "show": "true"
+        },
+        "dbr": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "brightness"
+        },
+        "ron": {
+          "accept": [
+            "false",
+            "off",
+            "on=false"
+          ],
+          "placeholder": "true / false",
+          "show": "false"
+        },
+        "rbr": {
+          "accept": [
+            "40"
+          ],
+          "placeholder": "brightness"
+        }
+      }
+    },
+    "ex-p5-1": {
+      "type": "example",
+      "code": "SmartLamp deskLamp = new SmartLamp(\"Desk\");\nSmartLamp readingLamp = new SmartLamp(\"Reading corner\");\n\ndeskLamp.turnOn();\nreadingLamp.setBrightness(40);\n\ndeskLamp.printState();\nreadingLamp.printState();",
+      "files": [
+        {
+          "name": "SmartLamp.java",
+          "content": "public class SmartLamp\n{\n    private String location;\n    private boolean on;\n    private int brightness;\n    private String color;\n\n    public SmartLamp(String location)\n    {\n        this.location = location;\n        on = false;\n        brightness = 0;\n        color = \"warm white\";\n    }\n\n    public void turnOn()\n    {\n        on = true;\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void setBrightness(int newBrightness)\n    {\n        brightness = newBrightness;\n    }\n\n    public void setColor(String newColor)\n    {\n        color = newColor;\n    }\n\n    public String getLocation()\n    {\n        return location;\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBrightness()\n    {\n        return brightness;\n    }\n\n    public String getColor()\n    {\n        return color;\n    }\n\n    public void printState()\n    {\n        System.out.println(location + \": on=\" + on\n                           + \", brightness=\" + brightness\n                           + \", color=\" + color);\n    }\n}"
+        }
+      ]
+    },
+    "p5-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhleSBhcmUgZGlzdGluY3Qgb2JqZWN0cyBjcmVhdGVkIGJ5IHNlcGFyYXRlIHVzZXMgb2YgYG5ld2AuIEVhY2ggaW5zdGFuY2Ugc3RvcmVzIGl0cyBvd24gZmllbGQgdmFsdWVzLg=="
+    },
+    "p5-3": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "val": {
+          "accept": [
+            "70"
+          ],
+          "placeholder": "value"
+        },
+        "chg": {
+          "accept": [
+            "no",
+            "false",
+            "it does not",
+            "does not",
+            "no change",
+            "unchanged"
+          ],
+          "placeholder": "yes / no",
+          "show": "no"
+        }
+      }
+    },
+    "p5-4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 30,
+      "answer": "QSByZXR1cm5lZCB2YWx1ZSBpcyBwYXNzZWQgYmFjayB0byB0aGUgY2FsbGluZyBleHByZXNzaW9uIGFuZCBjYW4gYmUgc3RvcmVkIG9yIHVzZWQuIFByaW50ZWQgb3V0cHV0IHNlbmRzIHRleHQgdG8gdGhlIHRlcm1pbmFsIGFuZCBpcyBub3QgYXV0b21hdGljYWxseSBhdmFpbGFibGUgYXMgYSB2YWx1ZSBpbiB0aGUgcHJvZ3JhbS4="
+    },
+    "p5-5": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "on": {
+          "accept": [
+            "false",
+            "on=false",
+            "off"
+          ],
+          "placeholder": "value",
+          "show": "false"
+        },
+        "br": {
+          "accept": [
+            "55",
+            "brightness=55"
+          ],
+          "placeholder": "value",
+          "show": "55"
+        },
+        "col": {
+          "accept": [
+            "\"daylight\"",
+            "daylight",
+            "color=\"daylight\""
+          ],
+          "placeholder": "value",
+          "show": "\"daylight\""
+        }
+      }
+    },
+    "p5-6": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "RXhhbXBsZXMgaW5jbHVkZSBjYWxsaW5nIHF1ZXJ5IG1ldGhvZHMsIHByaW50aW5nIGEgc3RhdGUgcmVwb3J0LCB1c2luZyBhIGRlYnVnZ2VyLCBvciB0cmFjaW5nIGZpZWxkIHZhbHVlcyBpbiBhIHRhYmxlLg=="
+    },
+    "p6-rebuild": {
+      "type": "code",
+      "xp": 5,
+      "minLines": 12,
+      "starter": "SmartLamp deskLamp = ______;\nSmartLamp readingLamp = ______;\n\ndeskLamp.______();\ndeskLamp.______(70);\ndeskLamp.______(\"daylight\");\n\nreadingLamp.______();\nreadingLamp.______(35);\n\ndeskLamp.printState();\nreadingLamp.printState();\n\nint level = ______;\nSystem.out.println(\"Desk brightness returned: \" + level);\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Desk: on=true, brightness=70, color=daylight\nReading corner: on=true, brightness=35, color=warm white\nDesk brightness returned: 70"
+        }
+      ],
+      "check": "require(!source.replaceAll(\"\\\\s+\", \"\").contains(\"______\"), \"Fill in every blank (______) before checking.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"newSmartLamp(\\\"Desk\\\")\"), \"Construct the desk lamp with new SmartLamp(\\\"Desk\\\").\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"newSmartLamp(\\\"Readingcorner\\\")\"), \"Construct the reading lamp with new SmartLamp(\\\"Reading corner\\\").\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"deskLamp.getBrightness()\"), \"Store the returned value of deskLamp.getBrightness() in level.\");",
+      "answer": "U21hcnRMYW1wIGRlc2tMYW1wID0gbmV3IFNtYXJ0TGFtcCgiRGVzayIpOwpTbWFydExhbXAgcmVhZGluZ0xhbXAgPSBuZXcgU21hcnRMYW1wKCJSZWFkaW5nIGNvcm5lciIpOwoKZGVza0xhbXAudHVybk9uKCk7CmRlc2tMYW1wLnNldEJyaWdodG5lc3MoNzApOwpkZXNrTGFtcC5zZXRDb2xvcigiZGF5bGlnaHQiKTsKCnJlYWRpbmdMYW1wLnR1cm5PbigpOwpyZWFkaW5nTGFtcC5zZXRCcmlnaHRuZXNzKDM1KTsKCmRlc2tMYW1wLnByaW50U3RhdGUoKTsKcmVhZGluZ0xhbXAucHJpbnRTdGF0ZSgpOwoKaW50IGxldmVsID0gZGVza0xhbXAuZ2V0QnJpZ2h0bmVzcygpOwpTeXN0ZW0ub3V0LnByaW50bG4oIkRlc2sgYnJpZ2h0bmVzcyByZXR1cm5lZDogIiArIGxldmVsKTs=",
+      "files": [
+        {
+          "name": "SmartLamp.java",
+          "content": "public class SmartLamp\n{\n    private String location;\n    private boolean on;\n    private int brightness;\n    private String color;\n\n    public SmartLamp(String location)\n    {\n        this.location = location;\n        on = false;\n        brightness = 0;\n        color = \"warm white\";\n    }\n\n    public void turnOn()\n    {\n        on = true;\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void setBrightness(int newBrightness)\n    {\n        brightness = newBrightness;\n    }\n\n    public void setColor(String newColor)\n    {\n        color = newColor;\n    }\n\n    public String getLocation()\n    {\n        return location;\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBrightness()\n    {\n        return brightness;\n    }\n\n    public String getColor()\n    {\n        return color;\n    }\n\n    public void printState()\n    {\n        System.out.println(location + \": on=\" + on\n                           + \", brightness=\" + brightness\n                           + \", color=\" + color);\n    }\n}"
+        }
+      ]
+    },
+    "ex-lampdemo": {
+      "type": "example",
+      "code": "public class LampDemo\n{\n    public static void main(String[] args)\n    {\n        SmartLamp deskLamp = new SmartLamp(\"Desk\");\n        SmartLamp readingLamp = new SmartLamp(\"Reading corner\");\n\n        deskLamp.turnOn();\n        deskLamp.setBrightness(70);\n        deskLamp.setColor(\"daylight\");\n\n        readingLamp.turnOn();\n        readingLamp.setBrightness(35);\n\n        deskLamp.printState();\n        readingLamp.printState();\n\n        int level = deskLamp.getBrightness();\n        System.out.println(\"Desk brightness returned: \" + level);\n    }\n}",
+      "files": [
+        {
+          "name": "SmartLamp.java",
+          "content": "public class SmartLamp\n{\n    private String location;\n    private boolean on;\n    private int brightness;\n    private String color;\n\n    public SmartLamp(String location)\n    {\n        this.location = location;\n        on = false;\n        brightness = 0;\n        color = \"warm white\";\n    }\n\n    public void turnOn()\n    {\n        on = true;\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void setBrightness(int newBrightness)\n    {\n        brightness = newBrightness;\n    }\n\n    public void setColor(String newColor)\n    {\n        color = newColor;\n    }\n\n    public String getLocation()\n    {\n        return location;\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBrightness()\n    {\n        return brightness;\n    }\n\n    public String getColor()\n    {\n        return color;\n    }\n\n    public void printState()\n    {\n        System.out.println(location + \": on=\" + on\n                           + \", brightness=\" + brightness\n                           + \", color=\" + color);\n    }\n}"
+        }
+      ],
+      "title": "LampDemo.java",
+      "output": "Desk: on=true, brightness=70, color=daylight\nReading corner: on=true, brightness=35, color=warm white\nDesk brightness returned: 70"
+    },
+    "p6-1": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 30,
+      "rows": 2,
+      "answer": "VGhlIGNvbnN0cnVjdGlvbiBleHByZXNzaW9ucyBhcmUgYG5ldyBTbWFydExhbXAoIkRlc2siKWAgYW5kIGBuZXcgU21hcnRMYW1wKCJSZWFkaW5nIGNvcm5lciIpYC4gVGhlaXIgcmVmZXJlbmNlcyBhcmUgc3RvcmVkIGluIGBkZXNrTGFtcGAgYW5kIGByZWFkaW5nTGFtcGAu"
+    },
+    "p6-2": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "don": {
+          "accept": [
+            "true",
+            "on",
+            "on=true"
+          ],
+          "placeholder": "on?",
+          "show": "true"
+        },
+        "dbr": {
+          "accept": [
+            "70"
+          ],
+          "placeholder": "brightness"
+        },
+        "dcol": {
+          "accept": [
+            "\"daylight\"",
+            "daylight"
+          ],
+          "placeholder": "color",
+          "show": "\"daylight\""
+        },
+        "ron": {
+          "accept": [
+            "true",
+            "on",
+            "on=true"
+          ],
+          "placeholder": "on?",
+          "show": "true"
+        },
+        "rbr": {
+          "accept": [
+            "35"
+          ],
+          "placeholder": "brightness"
+        },
+        "rcol": {
+          "accept": [
+            "\"warm white\"",
+            "warm white"
+          ],
+          "placeholder": "color",
+          "show": "\"warm white\""
+        },
+        "level": {
+          "accept": [
+            "70"
+          ],
+          "placeholder": "value"
+        }
+      }
+    },
+    "p6-3": {
+      "type": "code",
+      "xp": 2,
+      "minLines": 12,
+      "starter": "SmartLamp deskLamp = new SmartLamp(\"Desk\");\nSmartLamp readingLamp = new SmartLamp(\"Reading corner\");\n\ndeskLamp.turnOn();\ndeskLamp.setBrightness(70);\ndeskLamp.setColor(\"daylight\");\n\nreadingLamp.turnOn();\nreadingLamp.setBrightness(35);\n\ndeskLamp.printState();\nreadingLamp.printState();\n\nint level = deskLamp.getBrightness();\nSystem.out.println(\"Desk brightness returned: \" + level);\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Desk: on=true, brightness=70, color=daylight\nReading corner: on=true, brightness=35, color=blue\nDesk brightness returned: 70"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"readingLamp.setColor(\\\"blue\\\")\"), \"Add the call readingLamp.setColor(\\\"blue\\\"); to the reading-lamp configuration.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"deskLamp.setColor(\\\"blue\\\")\"), \"Do not change the receiver to deskLamp: only the reading lamp should turn blue.\");",
+      "answer": "U21hcnRMYW1wIGRlc2tMYW1wID0gbmV3IFNtYXJ0TGFtcCgiRGVzayIpOwpTbWFydExhbXAgcmVhZGluZ0xhbXAgPSBuZXcgU21hcnRMYW1wKCJSZWFkaW5nIGNvcm5lciIpOwoKZGVza0xhbXAudHVybk9uKCk7CmRlc2tMYW1wLnNldEJyaWdodG5lc3MoNzApOwpkZXNrTGFtcC5zZXRDb2xvcigiZGF5bGlnaHQiKTsKCnJlYWRpbmdMYW1wLnR1cm5PbigpOwpyZWFkaW5nTGFtcC5zZXRCcmlnaHRuZXNzKDM1KTsKcmVhZGluZ0xhbXAuc2V0Q29sb3IoImJsdWUiKTsKCmRlc2tMYW1wLnByaW50U3RhdGUoKTsKcmVhZGluZ0xhbXAucHJpbnRTdGF0ZSgpOwoKaW50IGxldmVsID0gZGVza0xhbXAuZ2V0QnJpZ2h0bmVzcygpOwpTeXN0ZW0ub3V0LnByaW50bG4oIkRlc2sgYnJpZ2h0bmVzcyByZXR1cm5lZDogIiArIGxldmVsKTs=",
+      "files": [
+        {
+          "name": "SmartLamp.java",
+          "content": "public class SmartLamp\n{\n    private String location;\n    private boolean on;\n    private int brightness;\n    private String color;\n\n    public SmartLamp(String location)\n    {\n        this.location = location;\n        on = false;\n        brightness = 0;\n        color = \"warm white\";\n    }\n\n    public void turnOn()\n    {\n        on = true;\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void setBrightness(int newBrightness)\n    {\n        brightness = newBrightness;\n    }\n\n    public void setColor(String newColor)\n    {\n        color = newColor;\n    }\n\n    public String getLocation()\n    {\n        return location;\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBrightness()\n    {\n        return brightness;\n    }\n\n    public String getColor()\n    {\n        return color;\n    }\n\n    public void printState()\n    {\n        System.out.println(location + \": on=\" + on\n                           + \", brightness=\" + brightness\n                           + \", color=\" + color);\n    }\n}"
+        }
+      ]
+    },
+    "p6-4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 30,
+      "answer": "VGhlIHB1YmxpYyBpbnRlcmZhY2Ugc3RhdGVzIHRoZSBhdmFpbGFibGUgbWV0aG9kIG5hbWVzLCBwYXJhbWV0ZXIgdHlwZXMsIGFuZCByZXR1cm4gdHlwZXMuIFRoZSBjbGFzcyBoaWRlcyB0aGUgaW1wbGVtZW50YXRpb24gZGV0YWlscyBiZWhpbmQgdGhhdCBpbnRlcmZhY2Uu"
+    },
+    "p7-trace": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "eh": {
+          "accept": [
+            "85"
+          ],
+          "placeholder": "health"
+        },
+        "ex": {
+          "accept": [
+            "8"
+          ],
+          "placeholder": "x-position"
+        },
+        "gh": {
+          "accept": [
+            "120"
+          ],
+          "placeholder": "health"
+        },
+        "gx": {
+          "accept": [
+            "-3"
+          ],
+          "placeholder": "x-position"
+        }
+      }
+    },
+    "p7-demo": {
+      "type": "code",
+      "xp": 10,
+      "minLines": 16,
+      "maxLines": 30,
+      "starter": "public class GameCharacterDemo\n{\n    public static void main(String[] args)\n    {\n        // Your code here\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Explorer: health=85, xPosition=8\nGuardian: health=120, xPosition=-3\nExplorer health returned: 85"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"newGameCharacter(\\\"Explorer\\\",100)\"), \"Construct the explorer with new GameCharacter(\\\"Explorer\\\", 100).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"newGameCharacter(\\\"Guardian\\\",120)\"), \"Construct the guardian with new GameCharacter(\\\"Guardian\\\", 120).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"explorer.move(8)\"), \"Move the explorer by 8: explorer.move(8);\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"explorer.takeDamage(15)\"), \"Apply 15 damage to the explorer: explorer.takeDamage(15);\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"guardian.move(-3)\"), \"Move the guardian by -3: guardian.move(-3);\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"explorer.getHealth()\"), \"Store the explorer's returned health in an int with explorer.getHealth().\");\nrequire(source.matches(\"(?s).*int\\\\s+\\\\w+\\\\s*=\\\\s*explorer\\\\.getHealth\\\\(\\\\).*\"), \"Store the value returned by explorer.getHealth() in an int variable before printing it.\");",
+      "answer": "cHVibGljIGNsYXNzIEdhbWVDaGFyYWN0ZXJEZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgR2FtZUNoYXJhY3RlciBleHBsb3JlciA9IG5ldyBHYW1lQ2hhcmFjdGVyKCJFeHBsb3JlciIsIDEwMCk7CiAgICAgICAgR2FtZUNoYXJhY3RlciBndWFyZGlhbiA9IG5ldyBHYW1lQ2hhcmFjdGVyKCJHdWFyZGlhbiIsIDEyMCk7CgogICAgICAgIGV4cGxvcmVyLm1vdmUoOCk7CiAgICAgICAgZXhwbG9yZXIudGFrZURhbWFnZSgxNSk7CiAgICAgICAgZ3VhcmRpYW4ubW92ZSgtMyk7CgogICAgICAgIGV4cGxvcmVyLnByaW50U3RhdGUoKTsKICAgICAgICBndWFyZGlhbi5wcmludFN0YXRlKCk7CgogICAgICAgIGludCByZW1haW5pbmdIZWFsdGggPSBleHBsb3Jlci5nZXRIZWFsdGgoKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkV4cGxvcmVyIGhlYWx0aCByZXR1cm5lZDogIiArIHJlbWFpbmluZ0hlYWx0aCk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "GameCharacter.java",
+          "content": "public class GameCharacter\n{\n    private String name;\n    private int health;\n    private int xPosition;\n\n    public GameCharacter(String name, int health)\n    {\n        this.name = name;\n        this.health = health;\n        xPosition = 0;\n    }\n\n    public void move(int distance)\n    {\n        xPosition = xPosition + distance;\n    }\n\n    public void takeDamage(int amount)\n    {\n        health = health - amount;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public int getHealth()\n    {\n        return health;\n    }\n\n    public int getXPosition()\n    {\n        return xPosition;\n    }\n\n    public void printState()\n    {\n        System.out.println(name + \": health=\" + health\n                           + \", xPosition=\" + xPosition);\n    }\n}"
+        }
+      ]
+    }
+  }
+}
