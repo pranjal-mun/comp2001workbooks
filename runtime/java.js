@@ -44,9 +44,20 @@ export function declaredTypes(code) {
   });
 }
 
-/** The class whose main method should run: the one that has main, else the public class, else the first type. */
-export function mainClassOf(code) {
+/**
+ * The class whose main method should run: the one that has main, else the
+ * public class, else the first type. When the code declares no main at all
+ * (a class-writing exercise) and one of the supplied `extra` files does,
+ * that file's class runs instead.
+ */
+export function mainClassOf(code, extra = []) {
   const types = declaredTypes(code);
+  if (!types.some((t) => t.hasMain)) {
+    for (const file of extra) {
+      const driver = declaredTypes(file.content).find((t) => t.hasMain);
+      if (driver) return driver.name;
+    }
+  }
   return (types.find((t) => t.hasMain) ?? types.find((t) => t.isPublic) ?? types[0])?.name ?? "Main";
 }
 
@@ -65,7 +76,7 @@ export function buildProject(code, extra = []) {
   let offset = 0;
   if (isSnippet(source)) ({ source, offset } = wrapSnippet(source));
   const studentFile = fileNameOf(source);
-  const entry = mainClassOf(source);
+  const entry = mainClassOf(source, extra);
   const files = [{ name: studentFile, content: source }, ...extra.filter((f) => f.name !== studentFile)];
   return { files, entry, studentFile, offset };
 }

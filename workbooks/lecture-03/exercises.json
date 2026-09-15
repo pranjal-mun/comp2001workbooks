@@ -1,0 +1,707 @@
+{
+  "id": "lecture-03",
+  "course": "COMP 2001: Object-Oriented Programming",
+  "title": "Lecture 3 Workbook",
+  "subtitle": "Chapter 2, Part 1: A class defines an object's state",
+  "exercises": {
+    "p1-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "kw1": {
+          "accept": [
+            "public"
+          ],
+          "placeholder": "keyword"
+        },
+        "kw2": {
+          "accept": [
+            "class"
+          ],
+          "placeholder": "keyword"
+        },
+        "name": {
+          "accept": [
+            "SmartLamp"
+          ],
+          "caseSensitive": true,
+          "placeholder": "class name"
+        },
+        "body": {
+          "accept": [
+            "braces",
+            "curly braces",
+            "curly brackets",
+            "the braces",
+            "the outer braces",
+            "outer braces",
+            "{ }",
+            "{}",
+            "brackets",
+            "a pair of braces",
+            "the curly braces",
+            "the curly brackets"
+          ],
+          "placeholder": "what encloses it?",
+          "show": "the outer braces { }",
+          "width": "12rem"
+        }
+      }
+    },
+    "p1-2": {
+      "type": "code",
+      "xp": 2,
+      "minLines": 4,
+      "title": "Book.java",
+      "starter": "// Write the empty outer wrapper of a public class named Book.\n\n\n\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "The Book class compiled: true"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicclassBook\"), \"The header is public class Book, in that order.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicclassBook\\\\{\\\\}.*\"), \"The class body is an empty pair of braces: public class Book { }\");",
+      "answer": "cHVibGljIGNsYXNzIEJvb2sKewp9",
+      "files": [
+        {
+          "name": "BookWrapperDemo.java",
+          "content": "public class BookWrapperDemo\n{\n    public static void main(String[] args)\n    {\n        Book b = new Book();\n        System.out.println(\"The Book class compiled: \" + (b != null));\n    }\n}"
+        }
+      ]
+    },
+    "p1-3": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "SmF2YSdzIGdyYW1tYXIgcmVxdWlyZXMgdGhlIGFjY2VzcyBtb2RpZmllciBiZWZvcmUgdGhlIGBjbGFzc2Aga2V5d29yZC4gS2V5d29yZHMgY2Fubm90IGJlIHJlb3JkZXJlZCBmcmVlbHku"
+    },
+    "p1-4": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "end": {
+          "accept": [
+            "opening brace",
+            "an opening brace",
+            "brace",
+            "{",
+            "opening curly bracket",
+            "curly bracket",
+            "opening curly brace",
+            "curly brace",
+            "a brace",
+            "an opening curly brace",
+            "an opening curly bracket",
+            "the opening brace"
+          ],
+          "placeholder": "semicolon or opening brace?",
+          "show": "an opening brace",
+          "width": "14rem"
+        }
+      }
+    },
+    "p2-1": {
+      "type": "code",
+      "xp": 2,
+      "minLines": 7,
+      "title": "Book.java",
+      "starter": "public class Book\n{\n    // Declare the four private fields here.\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Declared fields",
+          "expected": "Book declares 4 field(s):\n  private String author\n  private int pages\n  private boolean referenceOnly\n  private String title"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateStringtitle;\"), \"Declare the title as private String title;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateStringauthor;\"), \"Declare the author as private String author;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintpages;\"), \"The page count is a whole number: private int pages;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatebooleanreferenceOnly;\"), \"The reference-only status is true or false: private boolean referenceOnly;\");",
+      "answer": "cHVibGljIGNsYXNzIEJvb2sKewogICAgcHJpdmF0ZSBTdHJpbmcgdGl0bGU7CiAgICBwcml2YXRlIFN0cmluZyBhdXRob3I7CiAgICBwcml2YXRlIGludCBwYWdlczsKICAgIHByaXZhdGUgYm9vbGVhbiByZWZlcmVuY2VPbmx5Owp9",
+      "files": [
+        {
+          "name": "FieldList.java",
+          "content": "import java.lang.reflect.Field;\nimport java.lang.reflect.Modifier;\nimport java.util.Arrays;\n\npublic class FieldList\n{\n    public static void main(String[] args)\n    {\n        Field[] fields = Book.class.getDeclaredFields();\n        Arrays.sort(fields, (a, b) -> a.getName().compareTo(b.getName()));\n        System.out.println(\"Book declares \" + fields.length + \" field(s):\");\n        for (Field f : fields) {\n            System.out.println(\"  \" + Modifier.toString(f.getModifiers()) + \" \" + f.getType().getSimpleName() + \" \" + f.getName());\n        }\n    }\n}"
+        }
+      ]
+    },
+    "p2-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGZpZWxkIHNob3VsZCB1c2UgYGludGAgc28gSmF2YSB0cmVhdHMgdGhlIHZhbHVlIGFzIGEgd2hvbGUgbnVtYmVyIGFuZCByZWplY3RzIHRleHQgYXNzaWdubWVudHMu"
+    },
+    "p2-3": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Tm8uIFRoZSBkZWNsYXJhdGlvbiBpbnRyb2R1Y2VzIGEgZmllbGQgbmFtZSBhbmQgdHlwZS4gSXQgZG9lcyBub3QgY29uc3RydWN0IGEgc3RyaW5nIG9yIGNob29zZSB0aGUgaW50ZW5kZWQgc3RhcnRpbmcgbG9jYXRpb24u"
+    },
+    "p2-4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Tm8uIEVhY2ggb2JqZWN0IGhhcyBpdHMgb3duIGZpZWxkLiBUaGUgdHdvIHNlcGFyYXRlIGZpZWxkcyBoYXBwZW4gdG8gY29udGFpbiBlcXVhbCB2YWx1ZXMu"
+    },
+    "ex-window": {
+      "type": "example",
+      "code": "SmartLamp windowLamp = new SmartLamp(\"Window\");\n\n// Added so you can see the four field values:\nwindowLamp.printState();",
+      "files": [
+        {
+          "name": "SmartLamp.java",
+          "content": "public class SmartLamp\n{\n    private String location;\n    private boolean on;\n    private int brightness;\n    private String color;\n\n    public SmartLamp(String location)\n    {\n        this.location = location;\n        on = false;\n        brightness = 0;\n        color = \"warm white\";\n    }\n\n    public String getLocation()\n    {\n        return location;\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBrightness()\n    {\n        return brightness;\n    }\n\n    public String getColor()\n    {\n        return color;\n    }\n\n    public void printState()\n    {\n        System.out.println(location + \": on=\" + on\n                           + \", brightness=\" + brightness\n                           + \", color=\" + color);\n    }\n}"
+        }
+      ],
+      "output": "Window: on=false, brightness=0, color=warm white"
+    },
+    "p3-1": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "QSBjb25zdHJ1Y3RvciBoYXMgdGhlIHNhbWUgbmFtZSBhcyB0aGUgY2xhc3MgYW5kIGhhcyBubyByZXR1cm4gdHlwZS4gSXQgcnVucyBhcyBwYXJ0IG9mIG9iamVjdCBjb25zdHJ1Y3Rpb24u"
+    },
+    "p3-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGB2b2lkYCByZXR1cm4gdHlwZSBtYWtlcyBpdCBhIG1ldGhvZC4gQSBjb25zdHJ1Y3RvciBoYXMgbm8gcmV0dXJuIHR5cGUu"
+    },
+    "p3-3": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "loc": {
+          "accept": [
+            "\"Window\"",
+            "Window"
+          ],
+          "caseSensitive": true,
+          "placeholder": "value",
+          "show": "\"Window\""
+        },
+        "on": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "value"
+        },
+        "br": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "value"
+        },
+        "col": {
+          "accept": [
+            "\"warm white\"",
+            "warm white"
+          ],
+          "placeholder": "value",
+          "show": "\"warm white\""
+        }
+      }
+    },
+    "p3-4": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "loc": {
+          "accept": [
+            "caller",
+            "the caller"
+          ],
+          "placeholder": "caller / class",
+          "show": "caller"
+        },
+        "on": {
+          "accept": [
+            "class",
+            "the class"
+          ],
+          "placeholder": "caller / class",
+          "show": "class"
+        },
+        "br": {
+          "accept": [
+            "class",
+            "the class"
+          ],
+          "placeholder": "caller / class",
+          "show": "class"
+        },
+        "col": {
+          "accept": [
+            "class",
+            "the class"
+          ],
+          "placeholder": "caller / class",
+          "show": "class"
+        }
+      }
+    },
+    "p3-5": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "SXQgcmVjb3JkcyB0aGF0IDAgaXMgdGhlIGludGVuZGVkIHN0YXJ0aW5nIGJyaWdodG5lc3MgYW5kIHRoYXQgdGhlIGZpZWxkIHdhcyBub3QgYWNjaWRlbnRhbGx5IG9taXR0ZWQgZnJvbSBpbml0aWFsaXphdGlvbi4="
+    },
+    "p4-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "param": {
+          "accept": [
+            "lampLocation",
+            "String lampLocation"
+          ],
+          "caseSensitive": true,
+          "placeholder": "parameter"
+        },
+        "arg": {
+          "accept": [
+            "\"Desk\"",
+            "Desk"
+          ],
+          "caseSensitive": true,
+          "placeholder": "argument",
+          "show": "\"Desk\""
+        }
+      }
+    },
+    "p4-2": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "title": {
+          "accept": [
+            "\"Kindred\"",
+            "Kindred"
+          ],
+          "caseSensitive": true,
+          "placeholder": "value",
+          "show": "\"Kindred\""
+        },
+        "author": {
+          "accept": [
+            "\"Octavia E. Butler\"",
+            "Octavia E. Butler"
+          ],
+          "caseSensitive": true,
+          "placeholder": "value",
+          "show": "\"Octavia E. Butler\"",
+          "width": "13rem"
+        },
+        "pages": {
+          "accept": [
+            "288"
+          ],
+          "placeholder": "value"
+        }
+      }
+    },
+    "ex-book-wrong": {
+      "type": "example",
+      "code": "// The Book constructor is Book(String title, String author, int pages).\n// Press Run to read the compiler's complaint about this call.\nBook novel = new Book(288, \"Kindred\", \"Octavia E. Butler\");",
+      "files": [
+        {
+          "name": "Book.java",
+          "content": "public class Book\n{\n    private String title;\n    private String author;\n    private int pages;\n    private boolean referenceOnly;\n\n    public Book(String title, String author, int pages)\n    {\n        this.title = title;\n        this.author = author;\n        this.pages = pages;\n        referenceOnly = false;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public String getAuthor()\n    {\n        return author;\n    }\n\n    public int getPages()\n    {\n        return pages;\n    }\n\n    public boolean isReferenceOnly()\n    {\n        return referenceOnly;\n    }\n\n    public void printState()\n    {\n        System.out.println(title + \" by \" + author\n                           + \": pages=\" + pages\n                           + \", referenceOnly=\" + referenceOnly);\n    }\n}"
+        }
+      ]
+    },
+    "p4-3": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGZpcnN0IHBhcmFtZXRlciByZXF1aXJlcyBhIGBTdHJpbmdgLCBidXQgdGhlIGNhbGwgc3VwcGxpZXMgYW4gYGludGAuIFRoZSByZW1haW5pbmcgdmFsdWVzIGFyZSBhbHNvIGluIHRoZSB3cm9uZyBwb3NpdGlvbnMu"
+    },
+    "p4-4": {
+      "type": "code",
+      "xp": 2,
+      "minLines": 18,
+      "maxLines": 24,
+      "title": "GameCharacter.java",
+      "starter": "public class GameCharacter\n{\n    private String name;\n    private int health;\n    private int xPosition;\n\n    // Write the constructor header on the next line. Its body is already written.\n\n    {\n        this.name = name;\n        this.health = health;\n        this.xPosition = xPosition;\n    }\n\n    // Supplied so the demo can show the state. Lecture 4 explains how to write it.\n    public void printState()\n    {\n        System.out.println(name + \": health=\" + health + \", xPosition=\" + xPosition);\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Explorer: health=85, xPosition=8"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicGameCharacter(Stringname,inthealth,intxPosition)\"), \"The header is public GameCharacter(String name, int health, int xPosition): the class name, no return type, three typed parameters.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"voidGameCharacter\"), \"A constructor has no return type, not even void.\");",
+      "answer": "cHVibGljIGNsYXNzIEdhbWVDaGFyYWN0ZXIKewogICAgcHJpdmF0ZSBTdHJpbmcgbmFtZTsKICAgIHByaXZhdGUgaW50IGhlYWx0aDsKICAgIHByaXZhdGUgaW50IHhQb3NpdGlvbjsKCiAgICBwdWJsaWMgR2FtZUNoYXJhY3RlcihTdHJpbmcgbmFtZSwgaW50IGhlYWx0aCwgaW50IHhQb3NpdGlvbikKICAgIHsKICAgICAgICB0aGlzLm5hbWUgPSBuYW1lOwogICAgICAgIHRoaXMuaGVhbHRoID0gaGVhbHRoOwogICAgICAgIHRoaXMueFBvc2l0aW9uID0geFBvc2l0aW9uOwogICAgfQoKICAgIC8vIFN1cHBsaWVkIHNvIHRoZSBkZW1vIGNhbiBzaG93IHRoZSBzdGF0ZS4gTGVjdHVyZSA0IGV4cGxhaW5zIGhvdyB0byB3cml0ZSBpdC4KICAgIHB1YmxpYyB2b2lkIHByaW50U3RhdGUoKQogICAgewogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihuYW1lICsgIjogaGVhbHRoPSIgKyBoZWFsdGggKyAiLCB4UG9zaXRpb249IiArIHhQb3NpdGlvbik7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "CharacterDemo.java",
+          "content": "public class CharacterDemo\n{\n    public static void main(String[] args)\n    {\n        GameCharacter explorer = new GameCharacter(\"Explorer\", 85, 8);\n        explorer.printState();\n    }\n}"
+        }
+      ]
+    },
+    "p4-5": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "UGFyYW1ldGVycyBkaXNhcHBlYXIgd2hlbiB0aGUgY29uc3RydWN0b3IgZmluaXNoZXMuIEZpZWxkcyByZW1haW4gd2l0aCB0aGUgb2JqZWN0LCBzbyB0aGV5IHByZXNlcnZlIHZhbHVlcyB0aGUgb2JqZWN0IG5lZWRzIGxhdGVyLg=="
+    },
+    "ex-assign": {
+      "type": "example",
+      "code": "int brightness = 0;\nSystem.out.println(brightness);\n\nbrightness = 25;\nSystem.out.println(brightness);",
+      "output": "0\n25"
+    },
+    "p5-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "val": {
+          "accept": [
+            "25"
+          ],
+          "placeholder": "value"
+        }
+      }
+    },
+    "p5-2": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "read": {
+          "accept": [
+            "lampLocation",
+            "the parameter lampLocation",
+            "parameter lampLocation",
+            "the parameter"
+          ],
+          "caseSensitive": true,
+          "placeholder": "variable",
+          "show": "lampLocation"
+        },
+        "chg": {
+          "accept": [
+            "location",
+            "the field location",
+            "field location",
+            "the field",
+            "this.location"
+          ],
+          "caseSensitive": true,
+          "placeholder": "variable",
+          "show": "location"
+        }
+      }
+    },
+    "p5-3": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 30,
+      "rows": 3,
+      "answer": "VGhlIHBhcmFtZXRlciBkZWNsYXJhdGlvbiBpcyBjbG9zZXIsIHNvIGJvdGggdW5xdWFsaWZpZWQgbmFtZXMgbWVhbiB0aGUgcGFyYW1ldGVyLiBUaGUgc3RhdGVtZW50IGFzc2lnbnMgdGhlIHBhcmFtZXRlciB0byBpdHNlbGYgYW5kIG5ldmVyIHNlbGVjdHMgdGhlIGZpZWxkLg=="
+    },
+    "p5-4": {
+      "type": "code",
+      "xp": 3,
+      "minLines": 18,
+      "maxLines": 24,
+      "title": "Book.java",
+      "starter": "public class Book\n{\n    private String title;\n    private String author;\n    private int pages;\n\n    public Book(String title, String author, int pages)\n    {\n        title = title;\n        author = author;\n        pages = pages;\n    }\n\n    // Supplied so the demo can show the state. Lecture 4 explains how to write it.\n    public void printState()\n    {\n        System.out.println(title + \" by \" + author + \": pages=\" + pages);\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Kindred by Octavia E. Butler: pages=288"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"this.title=title;\"), \"Store the parameter in the field: this.title = title;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"this.author=author;\"), \"Store the parameter in the field: this.author = author;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"this.pages=pages;\"), \"Store the parameter in the field: this.pages = pages;\");",
+      "answer": "cHVibGljIGNsYXNzIEJvb2sKewogICAgcHJpdmF0ZSBTdHJpbmcgdGl0bGU7CiAgICBwcml2YXRlIFN0cmluZyBhdXRob3I7CiAgICBwcml2YXRlIGludCBwYWdlczsKCiAgICBwdWJsaWMgQm9vayhTdHJpbmcgdGl0bGUsIFN0cmluZyBhdXRob3IsIGludCBwYWdlcykKICAgIHsKICAgICAgICB0aGlzLnRpdGxlID0gdGl0bGU7CiAgICAgICAgdGhpcy5hdXRob3IgPSBhdXRob3I7CiAgICAgICAgdGhpcy5wYWdlcyA9IHBhZ2VzOwogICAgfQoKICAgIC8vIFN1cHBsaWVkIHNvIHRoZSBkZW1vIGNhbiBzaG93IHRoZSBzdGF0ZS4gTGVjdHVyZSA0IGV4cGxhaW5zIGhvdyB0byB3cml0ZSBpdC4KICAgIHB1YmxpYyB2b2lkIHByaW50U3RhdGUoKQogICAgewogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbih0aXRsZSArICIgYnkgIiArIGF1dGhvciArICI6IHBhZ2VzPSIgKyBwYWdlcyk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "BookRepairDemo.java",
+          "content": "public class BookRepairDemo\n{\n    public static void main(String[] args)\n    {\n        Book novel = new Book(\"Kindred\", \"Octavia E. Butler\", 288);\n        novel.printState();\n    }\n}"
+        }
+      ]
+    },
+    "p5-5": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 30,
+      "rows": 3,
+      "answer": "YHRoaXMucGFnZXNgIGlzIHRoZSBmaWVsZCBvZiB0aGUgY3VycmVudCBvYmplY3Q7IGA9YCBzdG9yZXMgdGhlIHJpZ2h0LXNpZGUgdmFsdWUgaW50byB0aGF0IGZpZWxkOyB0aGUgcmlnaHQtc2lkZSBgcGFnZXNgIGlzIHRoZSBjb25zdHJ1Y3RvciBwYXJhbWV0ZXIu"
+    },
+    "ex-two": {
+      "type": "example",
+      "code": "SmartLamp deskLamp = new SmartLamp(\"Desk\");\nSmartLamp readingLamp = new SmartLamp(\"Reading corner\");\n\ndeskLamp.printState();\nreadingLamp.printState();",
+      "files": [
+        {
+          "name": "SmartLamp.java",
+          "content": "public class SmartLamp\n{\n    private String location;\n    private boolean on;\n    private int brightness;\n    private String color;\n\n    public SmartLamp(String location)\n    {\n        this.location = location;\n        on = false;\n        brightness = 0;\n        color = \"warm white\";\n    }\n\n    public String getLocation()\n    {\n        return location;\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBrightness()\n    {\n        return brightness;\n    }\n\n    public String getColor()\n    {\n        return color;\n    }\n\n    public void printState()\n    {\n        System.out.println(location + \": on=\" + on\n                           + \", brightness=\" + brightness\n                           + \", color=\" + color);\n    }\n}"
+        }
+      ],
+      "output": "Desk: on=false, brightness=0, color=warm white\nReading corner: on=false, brightness=0, color=warm white"
+    },
+    "p6-1": {
+      "type": "code",
+      "xp": 5,
+      "minLines": 20,
+      "maxLines": 30,
+      "title": "SmartLamp.java",
+      "starter": "public class SmartLamp\n{\n    // Declare the four fields.\n\n\n\n\n    // Write the constructor.\n\n\n\n\n\n\n\n    // Supplied so the demo can show the state. Lecture 4 explains how to write it.\n    public void printState()\n    {\n        System.out.println(location + \": on=\" + on\n                           + \", brightness=\" + brightness\n                           + \", color=\" + color);\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Desk: on=false, brightness=0, color=warm white\nReading corner: on=false, brightness=0, color=warm white"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateStringlocation;\"), \"Declare the location field: private String location;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatebooleanon;\"), \"Declare the on field: private boolean on;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintbrightness;\"), \"Declare the brightness field: private int brightness;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateStringcolor;\"), \"Declare the color field: private String color;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicSmartLamp\\\\(String\\\\w+\\\\)\\\\{.*\"), \"The constructor header is public SmartLamp(String location): the class name, no return type, one String parameter.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"voidSmartLamp\"), \"A constructor has no return type, not even void.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"on=false;\"), \"Give on a fixed starting value: on = false;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"brightness=0;\"), \"Give brightness a fixed starting value: brightness = 0;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"color=\\\"warmwhite\\\";\"), \"Give color a fixed starting value: color = \\\"warm white\\\";\");",
+      "answer": "cHVibGljIGNsYXNzIFNtYXJ0TGFtcAp7CiAgICBwcml2YXRlIFN0cmluZyBsb2NhdGlvbjsKICAgIHByaXZhdGUgYm9vbGVhbiBvbjsKICAgIHByaXZhdGUgaW50IGJyaWdodG5lc3M7CiAgICBwcml2YXRlIFN0cmluZyBjb2xvcjsKCiAgICBwdWJsaWMgU21hcnRMYW1wKFN0cmluZyBsb2NhdGlvbikKICAgIHsKICAgICAgICB0aGlzLmxvY2F0aW9uID0gbG9jYXRpb247CiAgICAgICAgb24gPSBmYWxzZTsKICAgICAgICBicmlnaHRuZXNzID0gMDsKICAgICAgICBjb2xvciA9ICJ3YXJtIHdoaXRlIjsKICAgIH0KCiAgICAvLyBTdXBwbGllZCBzbyB0aGUgZGVtbyBjYW4gc2hvdyB0aGUgc3RhdGUuIExlY3R1cmUgNCBleHBsYWlucyBob3cgdG8gd3JpdGUgaXQuCiAgICBwdWJsaWMgdm9pZCBwcmludFN0YXRlKCkKICAgIHsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4obG9jYXRpb24gKyAiOiBvbj0iICsgb24KICAgICAgICAgICAgICAgICAgICAgICAgICAgKyAiLCBicmlnaHRuZXNzPSIgKyBicmlnaHRuZXNzCiAgICAgICAgICAgICAgICAgICAgICAgICAgICsgIiwgY29sb3I9IiArIGNvbG9yKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "LampDemo.java",
+          "content": "public class LampDemo\n{\n    public static void main(String[] args)\n    {\n        SmartLamp deskLamp = new SmartLamp(\"Desk\");\n        SmartLamp readingLamp = new SmartLamp(\"Reading corner\");\n        deskLamp.printState();\n        readingLamp.printState();\n    }\n}"
+        }
+      ]
+    },
+    "p6-2": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "loc": {
+          "accept": [
+            "argument",
+            "an argument",
+            "the argument"
+          ],
+          "placeholder": "argument / fixed value",
+          "show": "argument",
+          "width": "12rem"
+        },
+        "on": {
+          "accept": [
+            "fixed value",
+            "fixed",
+            "a fixed value"
+          ],
+          "placeholder": "argument / fixed value",
+          "show": "fixed value",
+          "width": "12rem"
+        },
+        "br": {
+          "accept": [
+            "fixed value",
+            "fixed",
+            "a fixed value"
+          ],
+          "placeholder": "argument / fixed value",
+          "show": "fixed value",
+          "width": "12rem"
+        },
+        "col": {
+          "accept": [
+            "fixed value",
+            "fixed",
+            "a fixed value"
+          ],
+          "placeholder": "argument / fixed value",
+          "show": "fixed value",
+          "width": "12rem"
+        }
+      }
+    },
+    "p6-3": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 30,
+      "rows": 3,
+      "answer": "VGhlIGZpcnN0IHN0YXRlbWVudCBkZWNsYXJlcyBhIGZpZWxkIGFuZCBpdHMgdHlwZS4gVGhlIHNlY29uZCBhc3NpZ25tZW50IHN0b3JlcyBhIGNvbnN0cnVjdG9yIHBhcmFtZXRlciB2YWx1ZSBpbiB0aGF0IGZpZWxkIG9mIHRoZSBjdXJyZW50IG9iamVjdC4="
+    },
+    "p7a-book": {
+      "type": "code",
+      "xp": 10,
+      "minLines": 24,
+      "maxLines": 44,
+      "title": "Book.java",
+      "starter": "public class Book\n{\n    // fields\n\n\n\n\n    // constructor\n\n\n\n\n\n\n    // getters and printState, written like the ones in SmartLamp\n\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Output of BookDemo",
+          "expected": "The Left Hand of Darkness by Ursula K. Le Guin: pages=304, referenceOnly=false\nKindred by Octavia E. Butler: pages=288, referenceOnly=false"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateStringtitle;\"), \"Declare private String title;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateStringauthor;\"), \"Declare private String author;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintpages;\"), \"Declare private int pages;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatebooleanreferenceOnly;\"), \"Declare private boolean referenceOnly;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicBook(Stringtitle,Stringauthor,intpages)\"), \"The constructor header is public Book(String title, String author, int pages).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"this.title=title;\"), \"Use this to store the parameter in the same-named field: this.title = title;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"this.author=author;\"), \"Use this to store the parameter in the same-named field: this.author = author;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"this.pages=pages;\"), \"Use this to store the parameter in the same-named field: this.pages = pages;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"referenceOnly=false;\"), \"Give referenceOnly the fixed starting value false.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"StringgetTitle()\"), \"Include the getter String getTitle().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"StringgetAuthor()\"), \"Include the getter String getAuthor().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"intgetPages()\"), \"Include the getter int getPages().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"booleanisReferenceOnly()\"), \"Include the getter boolean isReferenceOnly().\");",
+      "answer": "cHVibGljIGNsYXNzIEJvb2sKewogICAgcHJpdmF0ZSBTdHJpbmcgdGl0bGU7CiAgICBwcml2YXRlIFN0cmluZyBhdXRob3I7CiAgICBwcml2YXRlIGludCBwYWdlczsKICAgIHByaXZhdGUgYm9vbGVhbiByZWZlcmVuY2VPbmx5OwoKICAgIHB1YmxpYyBCb29rKFN0cmluZyB0aXRsZSwgU3RyaW5nIGF1dGhvciwgaW50IHBhZ2VzKQogICAgewogICAgICAgIHRoaXMudGl0bGUgPSB0aXRsZTsKICAgICAgICB0aGlzLmF1dGhvciA9IGF1dGhvcjsKICAgICAgICB0aGlzLnBhZ2VzID0gcGFnZXM7CiAgICAgICAgcmVmZXJlbmNlT25seSA9IGZhbHNlOwogICAgfQoKICAgIHB1YmxpYyBTdHJpbmcgZ2V0VGl0bGUoKQogICAgewogICAgICAgIHJldHVybiB0aXRsZTsKICAgIH0KCiAgICBwdWJsaWMgU3RyaW5nIGdldEF1dGhvcigpCiAgICB7CiAgICAgICAgcmV0dXJuIGF1dGhvcjsKICAgIH0KCiAgICBwdWJsaWMgaW50IGdldFBhZ2VzKCkKICAgIHsKICAgICAgICByZXR1cm4gcGFnZXM7CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gaXNSZWZlcmVuY2VPbmx5KCkKICAgIHsKICAgICAgICByZXR1cm4gcmVmZXJlbmNlT25seTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludFN0YXRlKCkKICAgIHsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4odGl0bGUgKyAiIGJ5ICIgKyBhdXRob3IKICAgICAgICAgICAgICAgICAgICAgICAgICAgKyAiOiBwYWdlcz0iICsgcGFnZXMKICAgICAgICAgICAgICAgICAgICAgICAgICAgKyAiLCByZWZlcmVuY2VPbmx5PSIgKyByZWZlcmVuY2VPbmx5KTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "BookDemo.java",
+          "content": "public class BookDemo\n{\n    public static void main(String[] args)\n    {\n        Book first = new Book(\"The Left Hand of Darkness\",\n                              \"Ursula K. Le Guin\", 304);\n        Book second = new Book(\"Kindred\", \"Octavia E. Butler\", 288);\n        first.printState();\n        second.printState();\n    }\n}"
+        }
+      ]
+    },
+    "p7a-demo": {
+      "type": "code",
+      "xp": 3,
+      "minLines": 10,
+      "maxLines": 20,
+      "title": "BookDemo.java",
+      "starter": "public class BookDemo\n{\n    public static void main(String[] args)\n    {\n        // Construct the two books and print their state.\n\n\n\n\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "The Left Hand of Darkness by Ursula K. Le Guin: pages=304, referenceOnly=false\nKindred by Octavia E. Butler: pages=288, referenceOnly=false"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"newBook(\\\"TheLeftHandofDarkness\\\",\\\"UrsulaK.LeGuin\\\",304)\"), \"Construct the first book with new Book(\\\"The Left Hand of Darkness\\\", \\\"Ursula K. Le Guin\\\", 304).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"newBook(\\\"Kindred\\\",\\\"OctaviaE.Butler\\\",288)\"), \"Construct the second book with new Book(\\\"Kindred\\\", \\\"Octavia E. Butler\\\", 288).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.printState\\\\(\\\\);.*\\\\.printState\\\\(\\\\);.*\"), \"Ask each book to print its state with printState().\");",
+      "answer": "cHVibGljIGNsYXNzIEJvb2tEZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgQm9vayBmaXJzdCA9IG5ldyBCb29rKCJUaGUgTGVmdCBIYW5kIG9mIERhcmtuZXNzIiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIlVyc3VsYSBLLiBMZSBHdWluIiwgMzA0KTsKICAgICAgICBCb29rIHNlY29uZCA9IG5ldyBCb29rKCJLaW5kcmVkIiwgIk9jdGF2aWEgRS4gQnV0bGVyIiwgMjg4KTsKICAgICAgICBmaXJzdC5wcmludFN0YXRlKCk7CiAgICAgICAgc2Vjb25kLnByaW50U3RhdGUoKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Book.java",
+          "content": "public class Book\n{\n    private String title;\n    private String author;\n    private int pages;\n    private boolean referenceOnly;\n\n    public Book(String title, String author, int pages)\n    {\n        this.title = title;\n        this.author = author;\n        this.pages = pages;\n        referenceOnly = false;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public String getAuthor()\n    {\n        return author;\n    }\n\n    public int getPages()\n    {\n        return pages;\n    }\n\n    public boolean isReferenceOnly()\n    {\n        return referenceOnly;\n    }\n\n    public void printState()\n    {\n        System.out.println(title + \" by \" + author\n                           + \": pages=\" + pages\n                           + \", referenceOnly=\" + referenceOnly);\n    }\n}"
+        }
+      ]
+    },
+    "p7b-character": {
+      "type": "code",
+      "xp": 10,
+      "minLines": 24,
+      "maxLines": 44,
+      "title": "GameCharacter.java",
+      "starter": "public class GameCharacter\n{\n    // fields\n\n\n\n\n    // constructor\n\n\n\n\n\n\n    // getters and printState\n\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Output of GameCharacterDemo",
+          "expected": "Explorer: health=85, xPosition=8, active=true\nGuardian: health=120, xPosition=-3, active=true"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateStringname;\"), \"Declare private String name;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateinthealth;\"), \"Declare private int health;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintxPosition;\"), \"Declare private int xPosition;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatebooleanactive;\"), \"Declare private boolean active;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicGameCharacter(Stringname,inthealth,intxPosition)\"), \"The constructor header is public GameCharacter(String name, int health, int xPosition).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"this.name=name;\"), \"Use this to store the parameter in the same-named field: this.name = name;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"this.health=health;\"), \"Use this to store the parameter in the same-named field: this.health = health;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"this.xPosition=xPosition;\"), \"Use this to store the parameter in the same-named field: this.xPosition = xPosition;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"active=true;\"), \"Give active the fixed starting value true.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"StringgetName()\"), \"Include the getter String getName().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"intgetHealth()\"), \"Include the getter int getHealth().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"intgetXPosition()\"), \"Include the getter int getXPosition().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"booleanisActive()\"), \"Include the getter boolean isActive().\");",
+      "answer": "cHVibGljIGNsYXNzIEdhbWVDaGFyYWN0ZXIKewogICAgcHJpdmF0ZSBTdHJpbmcgbmFtZTsKICAgIHByaXZhdGUgaW50IGhlYWx0aDsKICAgIHByaXZhdGUgaW50IHhQb3NpdGlvbjsKICAgIHByaXZhdGUgYm9vbGVhbiBhY3RpdmU7CgogICAgcHVibGljIEdhbWVDaGFyYWN0ZXIoU3RyaW5nIG5hbWUsIGludCBoZWFsdGgsIGludCB4UG9zaXRpb24pCiAgICB7CiAgICAgICAgdGhpcy5uYW1lID0gbmFtZTsKICAgICAgICB0aGlzLmhlYWx0aCA9IGhlYWx0aDsKICAgICAgICB0aGlzLnhQb3NpdGlvbiA9IHhQb3NpdGlvbjsKICAgICAgICBhY3RpdmUgPSB0cnVlOwogICAgfQoKICAgIHB1YmxpYyBTdHJpbmcgZ2V0TmFtZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIG5hbWU7CiAgICB9CgogICAgcHVibGljIGludCBnZXRIZWFsdGgoKQogICAgewogICAgICAgIHJldHVybiBoZWFsdGg7CiAgICB9CgogICAgcHVibGljIGludCBnZXRYUG9zaXRpb24oKQogICAgewogICAgICAgIHJldHVybiB4UG9zaXRpb247CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gaXNBY3RpdmUoKQogICAgewogICAgICAgIHJldHVybiBhY3RpdmU7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRTdGF0ZSgpCiAgICB7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKG5hbWUgKyAiOiBoZWFsdGg9IiArIGhlYWx0aAogICAgICAgICAgICAgICAgICAgICAgICAgICArICIsIHhQb3NpdGlvbj0iICsgeFBvc2l0aW9uCiAgICAgICAgICAgICAgICAgICAgICAgICAgICsgIiwgYWN0aXZlPSIgKyBhY3RpdmUpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "GameCharacterDemo.java",
+          "content": "public class GameCharacterDemo\n{\n    public static void main(String[] args)\n    {\n        GameCharacter explorer = new GameCharacter(\"Explorer\", 85, 8);\n        GameCharacter guardian = new GameCharacter(\"Guardian\", 120, -3);\n        explorer.printState();\n        guardian.printState();\n    }\n}"
+        }
+      ]
+    },
+    "p7b-demo": {
+      "type": "code",
+      "xp": 3,
+      "minLines": 10,
+      "maxLines": 20,
+      "title": "GameCharacterDemo.java",
+      "starter": "public class GameCharacterDemo\n{\n    public static void main(String[] args)\n    {\n        // Construct the two characters and print their state.\n\n\n\n\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Explorer: health=85, xPosition=8, active=true\nGuardian: health=120, xPosition=-3, active=true"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"newGameCharacter(\\\"Explorer\\\",85,8)\"), \"Construct the explorer with new GameCharacter(\\\"Explorer\\\", 85, 8).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"newGameCharacter(\\\"Guardian\\\",120,-3)\"), \"Construct the guardian with new GameCharacter(\\\"Guardian\\\", 120, -3).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.printState\\\\(\\\\);.*\\\\.printState\\\\(\\\\);.*\"), \"Ask each character to print its state with printState().\");",
+      "answer": "cHVibGljIGNsYXNzIEdhbWVDaGFyYWN0ZXJEZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgR2FtZUNoYXJhY3RlciBleHBsb3JlciA9IG5ldyBHYW1lQ2hhcmFjdGVyKCJFeHBsb3JlciIsIDg1LCA4KTsKICAgICAgICBHYW1lQ2hhcmFjdGVyIGd1YXJkaWFuID0gbmV3IEdhbWVDaGFyYWN0ZXIoIkd1YXJkaWFuIiwgMTIwLCAtMyk7CiAgICAgICAgZXhwbG9yZXIucHJpbnRTdGF0ZSgpOwogICAgICAgIGd1YXJkaWFuLnByaW50U3RhdGUoKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "GameCharacter.java",
+          "content": "public class GameCharacter\n{\n    private String name;\n    private int health;\n    private int xPosition;\n    private boolean active;\n\n    public GameCharacter(String name, int health, int xPosition)\n    {\n        this.name = name;\n        this.health = health;\n        this.xPosition = xPosition;\n        active = true;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public int getHealth()\n    {\n        return health;\n    }\n\n    public int getXPosition()\n    {\n        return xPosition;\n    }\n\n    public boolean isActive()\n    {\n        return active;\n    }\n\n    public void printState()\n    {\n        System.out.println(name + \": health=\" + health\n                           + \", xPosition=\" + xPosition\n                           + \", active=\" + active);\n    }\n}"
+        }
+      ]
+    },
+    "p7-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "title": {
+          "accept": [
+            "argument",
+            "an argument",
+            "the argument",
+            "argument value"
+          ],
+          "placeholder": "argument / fixed value",
+          "show": "argument",
+          "width": "12rem"
+        },
+        "author": {
+          "accept": [
+            "argument",
+            "an argument",
+            "the argument",
+            "argument value"
+          ],
+          "placeholder": "argument / fixed value",
+          "show": "argument",
+          "width": "12rem"
+        },
+        "pages": {
+          "accept": [
+            "argument",
+            "an argument",
+            "the argument",
+            "argument value"
+          ],
+          "placeholder": "argument / fixed value",
+          "show": "argument",
+          "width": "12rem"
+        },
+        "ref": {
+          "accept": [
+            "fixed value",
+            "fixed",
+            "a fixed value",
+            "false",
+            "fixed value false",
+            "the fixed value false"
+          ],
+          "placeholder": "argument / fixed value",
+          "show": "fixed value (false)",
+          "width": "12rem"
+        }
+      }
+    },
+    "p7-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 30,
+      "rows": 3,
+      "answer": "VGhlIHBhcmFtZXRlcnMgaGlkZSBmaWVsZHMgd2l0aCB0aGUgc2FtZSBuYW1lcywgc28gYHRoaXNgIHNlbGVjdHMgdGhvc2UgZmllbGRzLiBUaGVyZSBpcyBubyBwYXJhbWV0ZXIgbmFtZWQgYHJlZmVyZW5jZU9ubHlgLCBzbyB0aGUgdW5xdWFsaWZpZWQgbmFtZSBhbHJlYWR5IG1lYW5zIHRoZSBmaWVsZC4="
+    },
+    "p7-3": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "name": {
+          "accept": [
+            "\"Guardian\"",
+            "Guardian"
+          ],
+          "caseSensitive": true,
+          "placeholder": "value",
+          "show": "\"Guardian\""
+        },
+        "health": {
+          "accept": [
+            "120"
+          ],
+          "placeholder": "value"
+        },
+        "x": {
+          "accept": [
+            "-3"
+          ],
+          "placeholder": "value"
+        },
+        "active": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "value"
+        }
+      }
+    },
+    "p7-4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 30,
+      "rows": 3,
+      "answer": "VGhlIHByaW50ZWQgb2JqZWN0cyByZXRhaW4gdGhlaXIgZGlmZmVyZW50IGNvbnN0cnVjdG9yLXN1cHBsaWVkIHRpdGxlcy9uYW1lcywgcGFnZSBjb3VudHMsIGhlYWx0aCwgb3IgcG9zaXRpb25zLiBFYWNoIHJlc3VsdCBtYXRjaGVzIGl0cyBvd24gY29uc3RydWN0b3IgY2FsbC4="
+    }
+  }
+}

@@ -73,8 +73,13 @@ def declared_types(code):
     return types
 
 
-def main_class_of(code):
+def main_class_of(code, extra=()):
     types = declared_types(code)
+    if not any(t["main"] for t in types):
+        for f in extra:
+            for t in declared_types(f["content"]):
+                if t["main"]:
+                    return t["name"]
     for pick in (lambda t: t["main"], lambda t: t["public"], lambda t: True):
         for t in types:
             if pick(t):
@@ -95,7 +100,7 @@ def build_project(code, extra=()):
     source = wrap_snippet(code) if is_snippet(code) else code
     student_file = file_name_of(source)
     files = [(student_file, source)] + [(f["name"], f["content"]) for f in extra if f["name"] != student_file]
-    return files, main_class_of(source)
+    return files, main_class_of(source, extra)
 
 
 # --- mirror of runtime/java-worker.js -------------------------------------

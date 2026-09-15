@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 2001 – Lecture 3 Workbook</title>
+  <link rel="icon" href="../../runtime/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
+  <link rel="stylesheet" href="../../runtime/workbook.css">
+  <script type="module">
+    import { initWorkbook } from "../../runtime/workbook.js";
+    initWorkbook({ id: "lecture-03", specs: "./exercises.json" });
+  </script>
+</head>
+<body>
+<main>
+
+<div class="wb-title-block">
+  <div>
+    <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
+    <h1>Lecture 3 Workbook</h1>
+    <div class="wb-subtitle">Chapter 2, Part 1: A class defines an object's state</div>
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
+  </div>
+  <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+</div>
+
+<section class="wb-outcomes">
+  <h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+  <p>This workbook combines the notes and practice for Lecture 3. Read each short explanation, answer the questions that follow it, and use the final coding section to combine the ideas in complete programs. The class below shows everything this lecture covers. The table names each part. Use this section for a quick review before a test.</p>
+<pre><code><span class="wb-kw">public class</span> <span class="wb-type">SmartLamp</span>              <span class="wb-cmt">// class header; file is SmartLamp.java</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> location;        <span class="wb-cmt">// fields: each object has its own set</span>
+    <span class="wb-kw">private boolean</span> on;
+    <span class="wb-kw">private int</span> brightness;
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> color;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">SmartLamp</span>(<span class="wb-type">String</span> location)   <span class="wb-cmt">// constructor: class name, no return type</span>
+    {
+        <span class="wb-kw">this</span>.location = location;   <span class="wb-cmt">// this.field = parameter</span>
+        on = <span class="wb-kw">false</span>;                 <span class="wb-cmt">// fixed starting values</span>
+        brightness = <span class="wb-num">0</span>;
+        color = <span class="wb-str">"warm white"</span>;
+    }
+}</code></pre>
+  <table>
+    <thead><tr><th>term</th><th>meaning</th></tr></thead>
+    <tbody>
+      <tr><td>class</td><td>defines one kind of object: its fields, constructors, and methods</td></tr>
+      <tr><td>field</td><td>a variable inside an object (an instance variable); it keeps its value as long as the object exists</td></tr>
+      <tr><td><code>private</code></td><td>only code inside the class can use the field directly</td></tr>
+      <tr><td>constructor</td><td>runs when <code>new</code> creates the object; gives every field a starting value on purpose</td></tr>
+      <tr><td>parameter</td><td>a typed variable in the header; it exists only during the call</td></tr>
+      <tr><td>argument</td><td>the value the caller supplies; matched to a parameter by position and type</td></tr>
+      <tr><td>assignment</td><td><code>x = expr;</code> reads the right side and stores it in the left side; a later assignment replaces the old value</td></tr>
+      <tr><td><code>this</code></td><td>the current object; <code>this.location</code> is the field when a parameter has the same name</td></tr>
+      <tr><td><code>new</code></td><td>each <code>new</code> builds a separate object with its own copy of every field</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Common mistakes:</strong> <code>class public Book</code> (keywords in the wrong order); <code>public void SmartLamp(...)</code> (a return type makes it a method, not a constructor); <code>location = location;</code> (assigns the parameter to itself; the field is never set).</p>
+  <p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run on the page takes a few seconds while Java loads). Boxes that ask for a class, not a program, come with a small demo class that constructs objects from your class and prints their state, so Check can compare the output. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
+</section>
+<hr>
+
+<h2 id="s1">1. Class Skeleton</h2>
+<h3>Class definitions</h3>
+<p>Lecture 2 used finished classes as a client. We created objects, called methods, and traced state. We now look inside a class definition and write the parts that create that state.</p>
+<p>A class definition has an outer wrapper and an inner body:</p>
+<pre><code><span class="wb-kw">public class</span> <span class="wb-type">SmartLamp</span>
+{
+    <span class="wb-cmt">// fields, constructors, and methods belong here</span>
+}</code></pre>
+<p><code>public</code> and <code>class</code> are Java keywords. The programmer chooses the name <code>SmartLamp</code>. By convention, class names begin with an uppercase letter, and the source file is named <code>SmartLamp.java</code>. The outer braces enclose the class body.</p>
+<p>The class body normally contains three kinds of members:</p>
+<table>
+  <thead><tr><th>member</th><th>job</th></tr></thead>
+  <tbody>
+    <tr><td>field</td><td>stores part of each object's state</td></tr>
+    <tr><td>constructor</td><td>establishes a new object's initial state</td></tr>
+    <tr><td>method</td><td>provides behavior; implementation details continue in Lecture 4</td></tr>
+  </tbody>
+</table>
+<p>Comments such as <code>// fields go here</code> explain code to people. They do not change how the program runs.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: read and write the wrapper</div>
+  <p><strong>1.1.</strong> In the example above, identify the two Java keywords, the class name, and what encloses the class body.</p>
+  <wb-table id="p1-1">
+    <table>
+      <thead><tr><th>part</th><th>in the example</th></tr></thead>
+      <tbody>
+        <tr><td>first keyword</td><td data-blank="kw1"></td></tr>
+        <tr><td>second keyword</td><td data-blank="kw2"></td></tr>
+        <tr><td>class name</td><td data-blank="name"></td></tr>
+        <tr><td>the class body is enclosed by</td><td data-blank="body"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>1.2.</strong> Write the empty outer wrapper of a public class named <code>Book</code>. The demo behind this box constructs one <code>Book</code> and reports that your class compiled.</p>
+  <wb-exercise id="p1-2"></wb-exercise>
+  <p><strong>1.3.</strong> Explain why <code>class public Book</code> is not a valid class header.</p>
+  <wb-short id="p1-3"></wb-short>
+  <p><strong>1.4.</strong> Which punctuation ends the class header: a semicolon or an opening brace?</p>
+  <wb-table id="p1-4">
+    <table>
+      <thead><tr><th>the class header ends with</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="end"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h2 id="s2">2. Fields</h2>
+<h3>Field declarations</h3>
+<p>A <strong>field</strong> is a variable that belongs to an object. Fields are also called <strong>instance variables</strong>: every instance has its own set of field values. A field keeps its value for as long as its object exists, unless a later assignment changes that value.</p>
+<p>The <code>SmartLamp</code> class needs four fields:</p>
+<pre><code><span class="wb-kw">private</span> <span class="wb-type">String</span> location;
+<span class="wb-kw">private boolean</span> on;
+<span class="wb-kw">private int</span> brightness;
+<span class="wb-kw">private</span> <span class="wb-type">String</span> color;</code></pre>
+<p>Read a field declaration from left to right:</p>
+<table>
+  <thead><tr><th>code</th><th>access</th><th>type</th><th>name</th><th>end</th></tr></thead>
+  <tbody>
+    <tr><td><code>private int brightness;</code></td><td>private</td><td>int</td><td>brightness</td><td>semicolon</td></tr>
+  </tbody>
+</table>
+<p>The type limits the values that may be stored. <code>String</code> is used for text, <code>boolean</code> for <code>true</code> or <code>false</code>, and <code>int</code> for whole numbers. <code>private</code> keeps ordinary client code from assigning fields directly; code inside the class can still use its own fields.</p>
+<p>Field declarations define the state structure, but not the intended starting values. Java supplies default field values, but a constructor should make the class's initialization decisions explicit.</p>
+
+<h3>Fields of separate objects</h3>
+<p>Both objects below use the same field declarations, but they do not share one state:</p>
+<table>
+  <thead><tr><th>object</th><th>location</th><th>on</th><th>brightness</th><th>color</th></tr></thead>
+  <tbody>
+    <tr><td>desk lamp</td><td>Desk</td><td>false</td><td>0</td><td>warm white</td></tr>
+    <tr><td>reading lamp</td><td>Reading corner</td><td>false</td><td>0</td><td>warm white</td></tr>
+  </tbody>
+</table>
+<p>Equal values do not mean shared storage. Each use of <code>new</code> constructs a fresh object with its own fields.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: choose fields and types</div>
+  <p><strong>2.1.</strong> Write private field declarations for a book's title, author, page count, and reference-only status. Name them <code>title</code>, <code>author</code>, <code>pages</code>, and <code>referenceOnly</code>. The demo behind this box lists the fields your class declares, in alphabetical order.</p>
+  <wb-exercise id="p2-1"></wb-exercise>
+  <p><strong>2.2.</strong> Why is <code>String pages;</code> a poor declaration for a whole number of pages?</p>
+  <wb-short id="p2-2"></wb-short>
+  <p><strong>2.3.</strong> Does <code>private String location;</code> construct a <code>String</code> object or choose a useful location? Explain.</p>
+  <wb-short id="p2-3"></wb-short>
+  <p><strong>2.4.</strong> Two new lamps both start with brightness 0. Do they share one brightness field?</p>
+  <wb-short id="p2-4"></wb-short>
+</div>
+
+<h2 id="s3">3. Constructors</h2>
+<h3>The constructor</h3>
+<p>A constructor runs when <code>new</code> creates an object. Its main job is to assign intentional initial values to the new object's fields.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-fn">SmartLamp</span>(<span class="wb-type">String</span> lampLocation)
+{
+    location = lampLocation;
+    on = <span class="wb-kw">false</span>;
+    brightness = <span class="wb-num">0</span>;
+    color = <span class="wb-str">"warm white"</span>;
+}</code></pre>
+<p>A constructor has the same name as its class. It has no return type, not even <code>void</code>. The parameter list is inside parentheses, and the constructor body is the block inside braces.</p>
+<p>The caller supplies the location. The class chooses the other three starting values. After construction, the lamp is ready to answer the operations established in Lecture 2.</p>
+
+<h3>Tracing a constructor</h3>
+<p>For <code>new SmartLamp("Window")</code>, the parameter <code>lampLocation</code> first receives <code>"Window"</code>. Then the four assignments run in order:</p>
+<table>
+  <thead><tr><th>step</th><th>statement</th><th>field value afterward</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><code>location = lampLocation;</code></td><td><code>location</code> is <code>"Window"</code></td></tr>
+    <tr><td>2</td><td><code>on = false;</code></td><td><code>on</code> is <code>false</code></td></tr>
+    <tr><td>3</td><td><code>brightness = 0;</code></td><td><code>brightness</code> is <code>0</code></td></tr>
+    <tr><td>4</td><td><code>color = "warm white";</code></td><td><code>color</code> is <code>"warm white"</code></td></tr>
+  </tbody>
+</table>
+<p>Run the construction and let the supplied <code>printState</code> method show the result. The line marked <em>added</em> is not part of the lecture listing; it only lets you see the fields.</p>
+<wb-example id="ex-window"></wb-example>
+<p>Explicit assignments are useful even when a Java default happens to be the same value. They document intent and show that no field was forgotten.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: recognize and trace construction</div>
+  <p><strong>3.1.</strong> Give two features that distinguish a constructor from a method.</p>
+  <wb-short id="p3-1"></wb-short>
+  <p><strong>3.2.</strong> Why is <code>public void SmartLamp(String location)</code> not a constructor?</p>
+  <wb-short id="p3-2"></wb-short>
+  <p><strong>3.3.</strong> For <code>new SmartLamp("Window")</code>, list all four field values immediately after construction.</p>
+  <wb-table id="p3-3">
+    <table>
+      <thead><tr><th>field</th><th>value after construction</th></tr></thead>
+      <tbody>
+        <tr><td><code>location</code></td><td data-blank="loc"></td></tr>
+        <tr><td><code>on</code></td><td data-blank="on"></td></tr>
+        <tr><td><code>brightness</code></td><td data-blank="br"></td></tr>
+        <tr><td><code>color</code></td><td data-blank="col"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>3.4.</strong> Which initial value is chosen by the caller, and which three are chosen by the class?</p>
+  <wb-table id="p3-4">
+    <table>
+      <thead><tr><th>field</th><th>chosen by the caller or by the class?</th></tr></thead>
+      <tbody>
+        <tr><td><code>location</code></td><td data-blank="loc"></td></tr>
+        <tr><td><code>on</code></td><td data-blank="on"></td></tr>
+        <tr><td><code>brightness</code></td><td data-blank="br"></td></tr>
+        <tr><td><code>color</code></td><td data-blank="col"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>3.5.</strong> Why might explicit <code>brightness = 0;</code> be clearer than relying on Java's default integer field value?</p>
+  <wb-short id="p3-5"></wb-short>
+</div>
+
+<h2 id="s4">4. Passing Values</h2>
+<h3>Parameters and arguments</h3>
+<p>A <strong>parameter</strong> is a typed variable declared in a constructor or method header. An <strong>argument</strong> is the actual value supplied by one call.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-fn">SmartLamp</span>(<span class="wb-type">String</span> lampLocation)  <span class="wb-cmt">// parameter</span>
+
+<span class="wb-kw">new</span> <span class="wb-fn">SmartLamp</span>(<span class="wb-str">"Desk"</span>)                 <span class="wb-cmt">// argument</span></code></pre>
+<p>During this call, <code>lampLocation</code> receives <code>"Desk"</code>. The parameter is temporary: it exists only while the constructor executes. If the object needs the value later, the constructor must store it in a field.</p>
+<p>A constructor may receive several values:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-fn">Book</span>(<span class="wb-type">String</span> title, <span class="wb-type">String</span> author, <span class="wb-kw">int</span> pages)
+
+<span class="wb-type">Book</span> novel = <span class="wb-kw">new</span> <span class="wb-fn">Book</span>(
+    <span class="wb-str">"Kindred"</span>, <span class="wb-str">"Octavia E. Butler"</span>, <span class="wb-num">288</span>
+);</code></pre>
+<p>Arguments match parameters by position and compatible type. Parameter names help readers understand the definition; those names do not appear in the call.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: match arguments and parameters</div>
+  <p><strong>4.1.</strong> In the <code>SmartLamp</code> example, identify the parameter and the argument.</p>
+  <wb-table id="p4-1">
+    <table>
+      <thead><tr><th>parameter</th><th>argument</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="param"></td><td data-blank="arg"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>4.2.</strong> For the <code>Book</code> call, state what value each of the three parameters receives.</p>
+  <wb-table id="p4-2">
+    <table>
+      <thead><tr><th>parameter</th><th>receives</th></tr></thead>
+      <tbody>
+        <tr><td><code>title</code></td><td data-blank="title"></td></tr>
+        <tr><td><code>author</code></td><td data-blank="author"></td></tr>
+        <tr><td><code>pages</code></td><td data-blank="pages"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>4.3.</strong> Why does <code>new Book(288, "Kindred", "Octavia E. Butler")</code> fail to match the constructor? Press <strong>▶ Run</strong> on the box to read the compiler's complaint, then answer.</p>
+  <wb-example id="ex-book-wrong"></wb-example>
+  <wb-short id="p4-3"></wb-short>
+  <p><strong>4.4.</strong> Write the header of a public <code>GameCharacter</code> constructor that receives a <code>String name</code>, an <code>int health</code>, and an <code>int xPosition</code>. The body of the constructor is already in the box; add the header line above it.</p>
+  <wb-exercise id="p4-4"></wb-exercise>
+  <p><strong>4.5.</strong> Why must a constructor copy needed parameter values into fields?</p>
+  <wb-short id="p4-5"></wb-short>
+</div>
+
+<h2 id="s5" data-toc-title="5. Assignment and this">5. Assignment and <code>this</code></h2>
+<h3>Assignment</h3>
+<p>An assignment has a variable on the left and an expression on the right:</p>
+<pre><code>location = lampLocation;</code></pre>
+<p>Read it from right to left: read the value in <code>lampLocation</code>, then store that value in <code>location</code>. Assignment is directional; it is not a mathematical equality. A later assignment replaces the variable's previous value.</p>
+<wb-example id="ex-assign"></wb-example>
+<p>The value on the right must be compatible with the type of the variable on the left. For example, an <code>int</code> may be assigned to <code>brightness</code>, but a text value may not.</p>
+
+<h3>The <code>this</code> keyword</h3>
+<p>It is common to use the same meaningful name for a field and a parameter:</p>
+<pre><code><span class="wb-kw">private</span> <span class="wb-type">String</span> location;
+
+<span class="wb-kw">public</span> <span class="wb-fn">SmartLamp</span>(<span class="wb-type">String</span> location)
+{
+    location = location;   <span class="wb-cmt">// compiles, but does not set the field</span>
+}</code></pre>
+<p>Inside the constructor, the parameter is the closer declaration. The unqualified name <code>location</code> therefore means the parameter. The wrong statement assigns the parameter to itself and leaves the field at its default value.</p>
+<p>The keyword <code>this</code> refers to the current object:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-fn">SmartLamp</span>(<span class="wb-type">String</span> location)
+{
+    <span class="wb-kw">this</span>.location = location;
+}</code></pre>
+<p>Read this statement as: “Store the parameter named <code>location</code> in the current object's field named <code>location</code>.” The left side is a field; the right side is a parameter.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: trace, diagnose, and repair assignments</div>
+  <p><strong>5.1.</strong> After <code>brightness = 0;</code> followed by <code>brightness = 25;</code>, what value is in the field?</p>
+  <wb-table id="p5-1">
+    <table>
+      <thead><tr><th>value in <code>brightness</code> afterward</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="val"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>5.2.</strong> In <code>location = lampLocation;</code>, which variable is read and which variable is changed?</p>
+  <wb-table id="p5-2">
+    <table>
+      <thead><tr><th>variable that is read</th><th>variable that is changed</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="read"></td><td data-blank="chg"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>5.3.</strong> Explain why <code>title = title;</code> does not initialize a same-named field when <code>title</code> is also a parameter.</p>
+  <wb-short id="p5-3"></wb-short>
+  <p><strong>5.4.</strong> Repair this constructor. Press <strong>▶ Run</strong> first: the demo constructs one book and prints its state, so you can see what the broken version leaves in the fields.</p>
+  <wb-exercise id="p5-4"></wb-exercise>
+  <p><strong>5.5.</strong> In <code>this.pages = pages;</code>, explain the meaning of <code>this.pages</code>, the assignment operator, and the right-side <code>pages</code>.</p>
+  <wb-short id="p5-5"></wb-short>
+</div>
+
+<h2 id="s6">6. The Complete Class</h2>
+<h3>The complete <code>SmartLamp</code> class</h3>
+<p>The complete class below combines the class header, fields, constructor, parameters, assignment, and <code>this</code>. The observation methods are supplied so the program can verify the constructor's result. Writing those methods is part of Lecture 4. This is the <code>SmartLamp</code> that the example boxes on this page compile against.</p>
+<pre><code><span class="wb-kw">public class</span> <span class="wb-type">SmartLamp</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> location;
+    <span class="wb-kw">private boolean</span> on;
+    <span class="wb-kw">private int</span> brightness;
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> color;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">SmartLamp</span>(<span class="wb-type">String</span> location)
+    {
+        <span class="wb-kw">this</span>.location = location;
+        on = <span class="wb-kw">false</span>;
+        brightness = <span class="wb-num">0</span>;
+        color = <span class="wb-str">"warm white"</span>;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getLocation</span>()
+    {
+        <span class="wb-kw">return</span> location;
+    }
+
+    <span class="wb-kw">public boolean</span> <span class="wb-fn">isOn</span>()
+    {
+        <span class="wb-kw">return</span> on;
+    }
+
+    <span class="wb-kw">public int</span> <span class="wb-fn">getBrightness</span>()
+    {
+        <span class="wb-kw">return</span> brightness;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getColor</span>()
+    {
+        <span class="wb-kw">return</span> color;
+    }
+
+    <span class="wb-kw">public void</span> <span class="wb-fn">printState</span>()
+    {
+        System.out.println(location + <span class="wb-str">": on="</span> + on
+                           + <span class="wb-str">", brightness="</span> + brightness
+                           + <span class="wb-str">", color="</span> + color);
+    }
+}</code></pre>
+
+<h3>Two objects from one class</h3>
+<wb-example id="ex-two"></wb-example>
+<p>Each call to <code>new</code> creates a fresh object. The location arguments are different, while the other initial field values are intentionally the same. Equal values do not imply shared fields.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: integrate the pattern</div>
+  <p><strong>6.1.</strong> Write the four field declarations and the constructor of <code>SmartLamp</code>. The class header and a supplied <code>printState</code> method are already in the box; the demo constructs the desk lamp and the reading lamp and prints both states.</p>
+  <wb-exercise id="p6-1"></wb-exercise>
+  <p><strong>6.2.</strong> Which constructor statement uses an argument, and which three use fixed values?</p>
+  <wb-table id="p6-2">
+    <table>
+      <thead><tr><th>statement</th><th>argument or fixed value?</th></tr></thead>
+      <tbody>
+        <tr><td><code>this.location = location;</code></td><td data-blank="loc"></td></tr>
+        <tr><td><code>on = false;</code></td><td data-blank="on"></td></tr>
+        <tr><td><code>brightness = 0;</code></td><td data-blank="br"></td></tr>
+        <tr><td><code>color = "warm white";</code></td><td data-blank="col"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>6.3.</strong> Explain the difference between <code>private String location;</code> and <code>this.location = location;</code>.</p>
+  <wb-short id="p6-3"></wb-short>
+</div>
+
+<h2 id="s7">7. Coding Practice</h2>
+<p>These tasks transfer the same class-state pattern to new domains. The observation methods are included in the required class so the driver can display and check the constructed state. Getters are taught in more detail in Lecture 4. For now, look at how the getters and <code>printState</code> are written in the complete <code>SmartLamp</code> class and follow the same pattern, or leave those methods until after Lecture 4 and come back to these boxes.</p>
+
+<h3>Program A: <code>Book</code> and <code>BookDemo</code></h3>
+<p>Write a complete <code>Book</code> class with private fields <code>String title</code>, <code>String author</code>, <code>int pages</code>, and <code>boolean referenceOnly</code>. Its constructor receives the first three values using same-named parameters and initializes <code>referenceOnly</code> to <code>false</code>. Include the supplied-style observation methods <code>getTitle</code>, <code>getAuthor</code>, <code>getPages</code>, <code>isReferenceOnly</code>, and <code>printState</code>. Make <code>printState</code> print one line in this form:</p>
+<pre class="wb-output">Kindred by Octavia E. Butler: pages=288, referenceOnly=false</pre>
+<p>The demo behind this box constructs these two objects and prints their state:</p>
+<pre><code><span class="wb-kw">new</span> <span class="wb-fn">Book</span>(<span class="wb-str">"The Left Hand of Darkness"</span>, <span class="wb-str">"Ursula K. Le Guin"</span>, <span class="wb-num">304</span>)
+<span class="wb-kw">new</span> <span class="wb-fn">Book</span>(<span class="wb-str">"Kindred"</span>, <span class="wb-str">"Octavia E. Butler"</span>, <span class="wb-num">288</span>)</code></pre>
+<wb-exercise id="p7a-book"></wb-exercise>
+<p>Now write <code>BookDemo.main</code> yourself. It constructs the same two objects and prints their state. A finished <code>Book</code> class is on the classpath of this box.</p>
+<wb-exercise id="p7a-demo"></wb-exercise>
+
+<h3>Program B: <code>GameCharacter</code> and <code>GameCharacterDemo</code></h3>
+<p>This is a new version of the <code>GameCharacter</code> class from Lecture 2. Its constructor now receives the starting position, and it has a new <code>active</code> field. Write a complete <code>GameCharacter</code> class with private fields <code>String name</code>, <code>int health</code>, <code>int xPosition</code>, and <code>boolean active</code>. The constructor receives the first three values using same-named parameters and initializes <code>active</code> to <code>true</code>. Include the getters <code>getName</code>, <code>getHealth</code>, <code>getXPosition</code>, and <code>isActive</code>, and a <code>printState</code> method that prints one line in this form:</p>
+<pre class="wb-output">Explorer: health=85, xPosition=8, active=true</pre>
+<p>The demo behind this box constructs an Explorer with health 85 at position 8 and a Guardian with health 120 at position -3, and prints both initial states.</p>
+<wb-exercise id="p7b-character"></wb-exercise>
+<p>Now write <code>GameCharacterDemo.main</code> yourself: construct the Explorer and the Guardian as described and print both initial states. A finished <code>GameCharacter</code> class is on the classpath of this box.</p>
+<wb-exercise id="p7b-demo"></wb-exercise>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: check both programs</div>
+  <p><strong>7.1.</strong> In <code>Book</code>, which fields receive argument values and which field receives a fixed value?</p>
+  <wb-table id="p7-1">
+    <table>
+      <thead><tr><th>field</th><th>argument or fixed value?</th></tr></thead>
+      <tbody>
+        <tr><td><code>title</code></td><td data-blank="title"></td></tr>
+        <tr><td><code>author</code></td><td data-blank="author"></td></tr>
+        <tr><td><code>pages</code></td><td data-blank="pages"></td></tr>
+        <tr><td><code>referenceOnly</code></td><td data-blank="ref"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>7.2.</strong> Why do the three same-named <code>Book</code> assignments require <code>this</code>, but <code>referenceOnly = false;</code> does not?</p>
+  <wb-short id="p7-2"></wb-short>
+  <p><strong>7.3.</strong> State the four initial field values for the Guardian object.</p>
+  <wb-table id="p7-3">
+    <table>
+      <thead><tr><th>field</th><th>initial value</th></tr></thead>
+      <tbody>
+        <tr><td><code>name</code></td><td data-blank="name"></td></tr>
+        <tr><td><code>health</code></td><td data-blank="health"></td></tr>
+        <tr><td><code>xPosition</code></td><td data-blank="x"></td></tr>
+        <tr><td><code>active</code></td><td data-blank="active"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>7.4.</strong> What evidence from the drivers would show that two objects do not share their instance fields?</p>
+  <wb-short id="p7-4"></wb-short>
+</div>
+
+<h3>Validated program output</h3>
+<p>Running the supplied solutions produces these state reports:</p>
+<pre class="wb-output">The Left Hand of Darkness by Ursula K. Le Guin: pages=304, referenceOnly=false
+Kindred by Octavia E. Butler: pages=288, referenceOnly=false</pre>
+<pre class="wb-output">Explorer: health=85, xPosition=8, active=true
+Guardian: health=120, xPosition=-3, active=true</pre>
+<p>Each printed object keeps the values its own constructor call supplied. The fixed values <code>referenceOnly=false</code> and <code>active=true</code> came from the class, not from the caller.</p>
+
+</main>
+</body>
+</html>
