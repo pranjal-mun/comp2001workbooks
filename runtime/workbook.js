@@ -168,7 +168,7 @@ function renderLocked(entry) {
     el("div", { class: "wb-course" }, "COMP 2001: Object-Oriented Programming"),
     el("h1", {}, `Lecture ${entry.n} Workbook`),
     el("p", { class: "wb-locked-when" }, `Opens ${fmtOpens(entry)}`),
-    el("p", {}, "Workbooks unlock on the day of the lecture. Until then, keep working on the earlier ones."),
+    el("p", {}, "Each workbook unlocks when the lecture before it ends. Until then, keep working on the earlier ones."),
     el("a", { class: "wb-btn", href: HOME_URL }, "All workbooks"),
   );
   document.body.append(notice);

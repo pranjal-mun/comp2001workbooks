@@ -1,12 +1,16 @@
 // The course schedule: units, lectures, their dates, and which workbooks are
 // posted. The landing page draws its dashboard from this, and a workbook
-// page stays locked until OPEN_HOUR on the day of its lecture (instructor
-// mode, see instructor.js, ignores the lock).
+// page stays locked until the previous lecture has ended in class: each
+// workbook opens at LECTURE_END on the day of the lecture before it, so
+// students can start the next one as soon as they leave the room
+// (instructor mode, see instructor.js, ignores the lock).
 //
 // When a new workbook is finished, set its `built` flag here. That is the
 // only edit a lecture branch makes outside its own workbook folder.
 
-export const OPEN_HOUR = 10; // workbooks open at 10:00 local time on lecture day
+// Lectures run Tuesday and Thursday, 2:00 to 3:15 p.m. local time.
+export const LECTURE_START = { hour: 14, minute: 0 };
+export const LECTURE_END = { hour: 15, minute: 15 };
 
 export const UNITS = [
   { n: 1, name: "Objects, classes, and collaboration (Chapters 1 to 3)" },
@@ -63,24 +67,44 @@ export function lectureFor(id) {
   return m ? lecture(Number(m[1])) : null;
 }
 
-/** Local time at which the workbook for this lecture opens. */
-export function opensAt(entry) {
-  const d = new Date(`${entry.date}T00:00:00`);
-  d.setHours(OPEN_HOUR, 0, 0, 0);
+function at(iso, { hour, minute }) {
+  const d = new Date(`${iso}T00:00:00`);
+  d.setHours(hour, minute, 0, 0);
   return d;
+}
+
+/** Local time at which this lecture starts and ends in class. */
+export const startsAt = (entry) => at(entry.date, LECTURE_START);
+export const endsAt = (entry) => at(entry.date, LECTURE_END);
+
+/** The schedule entry before this one (a term test counts), or null for the first. */
+export function previous(entry) {
+  const index = LECTURES.findIndex((l) => l.n === entry.n);
+  return index > 0 ? LECTURES[index - 1] : null;
+}
+
+/**
+ * Local time at which the workbook for this lecture opens: when the previous
+ * lecture ends. The first lecture's workbook opens as that lecture starts.
+ */
+export function opensAt(entry) {
+  const before = previous(entry);
+  return before ? endsAt(before) : startsAt(entry);
 }
 
 export function isOpen(entry, now = new Date()) {
   return now >= opensAt(entry);
 }
 
-/** "Wed, Oct 7" style; pass `weekday: null` for "Oct 7". */
-export function fmtDate(iso, { weekday = "short" } = {}) {
-  return new Date(`${iso}T12:00:00`).toLocaleDateString("en-CA", { ...(weekday ? { weekday } : {}), month: "short", day: "numeric" });
+/** "Wed, Oct 7" style; pass `weekday: null` for "Oct 7". Accepts an ISO date string or a Date. */
+export function fmtDate(when, { weekday = "short" } = {}) {
+  const d = when instanceof Date ? when : new Date(`${when}T12:00:00`);
+  return d.toLocaleDateString("en-CA", { ...(weekday ? { weekday } : {}), month: "short", day: "numeric" });
 }
 
+/** "Tue, Sep 15 at 3:15 p.m.": when the workbook for this lecture opens. */
 export function fmtOpens(entry) {
   const t = opensAt(entry);
   const time = t.toLocaleTimeString("en-CA", { hour: "numeric", minute: "2-digit" });
-  return `${fmtDate(entry.date)} at ${time}`;
+  return `${fmtDate(t)} at ${time}`;
 }

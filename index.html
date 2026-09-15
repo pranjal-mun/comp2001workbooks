@@ -75,7 +75,7 @@
   <script type="module">
     import { initTheme } from "./runtime/theme.js";
     import { revealPage } from "./runtime/page.js";
-    import { UNITS, LECTURES, KEY_DATES, workbookId, isOpen, fmtDate, fmtOpens } from "./runtime/schedule.js";
+    import { UNITS, LECTURES, KEY_DATES, workbookId, isOpen, endsAt, fmtDate, fmtOpens } from "./runtime/schedule.js";
     import { initInstructor, isInstructor, instructorBadge } from "./runtime/instructor.js";
 
     initTheme();
@@ -89,7 +89,7 @@
     const at = (d) => new Date(d + "T00:00:00");
     const short = (d) => fmtDate(d, { weekday: null });
     const pageOf = (l) => `./workbooks/${workbookId(l.n)}/index.html`;
-    // A workbook can be opened when it is posted and its lecture day has come (instructors see everything).
+    // A workbook can be opened when it is posted and the lecture before it has ended (instructors see everything).
     const available = (l) => l.built && (instructor || isOpen(l, now));
     const h = (html) => { const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstElementChild; };
 
@@ -116,11 +116,12 @@
       dates.append(h(`<li><span><b>${k.name}</b>${k.note ? `<small>${k.note}</small>` : ""}</span>${k.date ? `<time datetime="${k.date}">${fmtDate(k.date)}</time>` : `<time>${k.when}</time>`}</li>`));
     }
 
-    // Up next: the first lecture on or after today. Before term that is L1; after term, the exam.
+    // Up next: the first lecture that has not ended yet, so the panel moves on at 3:15 as the next workbook opens.
+    // Before term that is L1; after term, the exam.
     const panel = document.querySelector("#next");
     const big = panel.querySelector(".wb-big");
     const note = panel.querySelector(".wb-quiet");
-    const next = LECTURES.find((l) => at(l.date) >= today);
+    const next = LECTURES.find((l) => endsAt(l) > now);
     const latest = [...LECTURES].reverse().find(available);
     if (next) {
       const isToday = at(next.date).getTime() === today.getTime();
@@ -131,7 +132,7 @@
       else {
         big.removeAttribute("href");
         note.hidden = false;
-        note.textContent = next.built ? `This workbook opens ${fmtOpens(next)}` : next.test ? "There is no workbook for a term test." : "This workbook is not posted yet. It appears here on the day of the lecture.";
+        note.textContent = next.built ? `This workbook opens ${fmtOpens(next)}` : next.test ? "There is no workbook for a term test." : "This workbook is not posted yet.";
       }
       document.querySelector(`.wb-lec[data-n="${next.n}"]`)?.classList.add("is-next");
     } else {
