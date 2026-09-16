@@ -59,15 +59,18 @@
       <tr><td>method header</td><td><code>public int getBalance()</code>: visibility, return type, name, and a parameter list in parentheses</td></tr>
       <tr><td>accessor / getter</td><td>returns information about the object and changes no field; a getter returns one field</td></tr>
       <tr><td>mutator / setter</td><td>changes one or more fields; a setter replaces one field directly</td></tr>
-      <tr><td><code>return</code></td><td>sends a value to the caller and ends the call; <code>void</code> means no value comes back</td></tr>
+      <tr><td><code>return</code></td><td>sends a value to the caller and ends the call; the value must match the return type in the header</td></tr>
+      <tr><td><code>void</code></td><td>returns nothing; the method changes fields or prints instead; no <code>return value;</code> allowed</td></tr>
       <tr><td>printing</td><td><code>println</code> shows text on the screen; the caller gets no value back</td></tr>
       <tr><td>condition</td><td><code>if(test) {...} else {...}</code>; exactly one branch runs; <code>&amp;&amp;</code> means both tests must be true</td></tr>
       <tr><td>comparisons</td><td><code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code> <code>==</code> <code>!=</code>; one <code>=</code> assigns, two <code>==</code> compare</td></tr>
-      <tr><td>local variable</td><td>declared inside a method; temporary; must be given a value before it is used</td></tr>
-      <tr><td>scope, lifetime</td><td>field: whole class, as long as the object; parameter: one call; local: its own block</td></tr>
+      <tr><td>boolean method</td><td>returns <code>true</code> or <code>false</code> so the caller can learn whether an action was allowed</td></tr>
+      <tr><td>invariant</td><td>a rule the state always obeys, such as <code>balance &gt;= 0</code>; the constructor and every mutator preserve it</td></tr>
+      <tr><td>field</td><td>declared in the class, outside every method; visible in the whole class; lives as long as the object</td></tr>
+      <tr><td>parameter</td><td>declared in the method header; holds the argument's value; visible in that method for one call</td></tr>
+      <tr><td>local variable</td><td>declared inside a method; visible in its own block; lives until the block ends; set it before use</td></tr>
     </tbody>
   </table>
-  <p><strong>Common mistakes:</strong> <code>public void getBalance()</code> with <code>return balance;</code> (a <code>void</code> method cannot return a value); <code>totalSpent = amount;</code> (overwrites the total instead of adding to it); <code>balance = 0; return balance;</code> (clears the field before returning it; keep the old value in a local first).</p>
   <p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run on the page takes a few seconds while Java loads). Boxes that ask for a method inside a class come with a small demo class that calls your method and prints what comes back, so Check can compare the output. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
 </section>
 <hr>
