@@ -45,6 +45,15 @@ vendor/       pinned CodeMirror for the offline fallback
    so what passes here passes in the browser.
 4. Set `built: true` for the lecture in `runtime/schedule.js`.
 
+## When workbooks open
+
+Lectures run Tuesday and Thursday from 2:00 to 3:15 p.m. A posted workbook
+unlocks at 3:15 p.m. on the day of the lecture before it, so students can
+start the next workbook as soon as class ends (a term test counts as the
+lecture before). The first lecture's workbook opens when that lecture starts.
+Until then the page shows when it opens. The schedule, lecture times, and
+`opensAt` rule live in `runtime/schedule.js`.
+
 Rebuild the runner after editing `tools/runner/workbook/Runner.java` with
 `sh tools/build_runner.sh` (needs a JDK).
 
