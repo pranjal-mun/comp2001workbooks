@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 2001 – Lecture 4 Workbook</title>
+  <link rel="icon" href="../../runtime/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
+  <link rel="stylesheet" href="../../runtime/workbook.css">
+  <script type="module">
+    import { initWorkbook } from "../../runtime/workbook.js";
+    initWorkbook({ id: "lecture-04", specs: "./exercises.json" });
+  </script>
+</head>
+<body>
+<main>
+
+<div class="wb-title-block">
+  <div>
+    <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
+    <h1>Lecture 4 Workbook</h1>
+    <div class="wb-subtitle">Chapter 2, Part 2: Methods make state useful</div>
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
+  </div>
+  <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+</div>
+
+<section class="wb-outcomes">
+  <h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+  <p>This workbook combines the notes and practice for Lecture 4. Read each short explanation, answer the questions that follow it, and use the final coding section to write complete programs. The class and table below cover the whole lecture. Use this section for a quick review before a test.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">CampusCard</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> balance;                <span class="wb-cmt">// field: lives as long as the object</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getBalance</span>()             <span class="wb-cmt">// accessor (getter): changes nothing</span>
+    {
+        <span class="wb-kw">return</span> balance;                 <span class="wb-cmt">// return sends a value to the caller</span>
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">pay</span>(<span class="wb-kw">int</span> amount)      <span class="wb-cmt">// mutator: changes a field</span>
+    {
+        <span class="wb-kw">if</span>(amount &gt; <span class="wb-num">0</span> &amp;&amp; amount &lt;= balance) {   <span class="wb-cmt">// condition protects the state</span>
+            balance = balance - amount;
+            <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
+        }
+        <span class="wb-kw">else</span> {
+            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
+        }
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">refundBalance</span>()
+    {
+        <span class="wb-kw">int</span> amountToRefund = balance;   <span class="wb-cmt">// local variable: exists for one call</span>
+        balance = <span class="wb-num">0</span>;
+        <span class="wb-kw">return</span> amountToRefund;
+    }
+}</code></pre>
+  <table>
+    <thead><tr><th>term</th><th>meaning</th></tr></thead>
+    <tbody>
+      <tr><td>method header</td><td><code>public int getBalance()</code>: visibility, return type, name, and a parameter list in parentheses</td></tr>
+      <tr><td>accessor / getter</td><td>returns information about the object and changes no field; a getter returns one field</td></tr>
+      <tr><td>mutator / setter</td><td>changes one or more fields; a setter replaces one field directly</td></tr>
+      <tr><td><code>return</code></td><td>sends a value to the caller and ends the call; <code>void</code> means no value comes back</td></tr>
+      <tr><td>printing</td><td><code>println</code> shows text on the screen; the caller gets no value back</td></tr>
+      <tr><td>condition</td><td><code>if(test) {...} else {...}</code>; exactly one branch runs; <code>&amp;&amp;</code> means both tests must be true</td></tr>
+      <tr><td>comparisons</td><td><code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code> <code>==</code> <code>!=</code>; one <code>=</code> assigns, two <code>==</code> compare</td></tr>
+      <tr><td>local variable</td><td>declared inside a method; temporary; must be given a value before it is used</td></tr>
+      <tr><td>scope, lifetime</td><td>field: whole class, as long as the object; parameter: one call; local: its own block</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Common mistakes:</strong> <code>public void getBalance()</code> with <code>return balance;</code> (a <code>void</code> method cannot return a value); <code>totalSpent = amount;</code> (overwrites the total instead of adding to it); <code>balance = 0; return balance;</code> (clears the field before returning it; keep the old value in a local first).</p>
+  <p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run on the page takes a few seconds while Java loads). Boxes that ask for a method inside a class come with a small demo class that calls your method and prints what comes back, so Check can compare the output. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
+</section>
+<hr>
+
+<h2 id="s1">1. Read Methods</h2>
+<h3>Fields store state; methods make it usable</h3>
+<p>Lecture 3 established that fields store an object's persistent state and a constructor gives those fields initial values. This workbook starts with a small class that already has those parts:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">CampusCard</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> owner;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> balance;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> totalSpent;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">CampusCard</span>(<span class="wb-type">String</span> owner, <span class="wb-kw">int</span> openingBalance)
+    {
+        <span class="wb-kw">this</span>.owner = owner;
+        balance = openingBalance;
+        totalSpent = <span class="wb-num">0</span>;
+    }
+}</code></pre>
+<p>The values are in the object, but clients still need controlled ways to read and change them. A <strong>method</strong> defines one operation that objects of the class can perform.</p>
+
+<h3>A method has a header and a body</h3>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getBalance</span>()
+{
+    <span class="wb-kw">return</span> balance;
+}</code></pre>
+<p>The header is <code>public int getBalance()</code>. Read it from left to right:</p>
+<table>
+  <thead><tr><th>part</th><th>meaning</th></tr></thead>
+  <tbody>
+    <tr><td><code>public</code></td><td>Code outside the class may call the method.</td></tr>
+    <tr><td><code>int</code></td><td>The call returns an integer result.</td></tr>
+    <tr><td><code>getBalance</code></td><td>The method's name.</td></tr>
+    <tr><td><code>()</code></td><td>The parameter list is empty.</td></tr>
+  </tbody>
+</table>
+<p>The body is the block between the braces. It contains the declarations and statements that perform the work. Parentheses identify a method header even when the list is empty; a field declaration has no parentheses and ends with a semicolon.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: read method structure</div>
+  <p><strong>1.1.</strong> Label the visibility, return type, name, parameter type, and parameter name in this header:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">pay</span>(<span class="wb-kw">int</span> amount)</code></pre>
+  <wb-table id="p1-1">
+    <table>
+      <thead><tr><th>part</th><th>in the header</th></tr></thead>
+      <tbody>
+        <tr><td>visibility</td><td data-blank="vis"></td></tr>
+        <tr><td>return type</td><td data-blank="ret"></td></tr>
+        <tr><td>name</td><td data-blank="name"></td></tr>
+        <tr><td>parameter type</td><td data-blank="ptype"></td></tr>
+        <tr><td>parameter name</td><td data-blank="pname"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>1.2.</strong> How can you tell that <code>getBalance</code> is a method rather than a field?</p>
+  <wb-short id="p1-2"></wb-short>
+  <p><strong>1.3.</strong> Which part of a method tells a caller what types of arguments to supply?</p>
+  <wb-table id="p1-3">
+    <table>
+      <thead><tr><th>the part of the header that lists the argument types</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="part"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>1.4.</strong> Repair the malformed header <code>String public getOwner</code> so the method publicly returns a <code>String</code> and takes no parameters. The demo behind this box constructs a card and prints its owner.</p>
+  <wb-exercise id="p1-4"></wb-exercise>
+</div>
+
+<h2 id="s2">2. Return Values</h2>
+<h3>Accessors answer questions about state</h3>
+<p>An <strong>accessor</strong> returns information about an object without changing its state. A <strong>getter</strong> is a common accessor that returns one field directly.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getOwner</span>()
+{
+    <span class="wb-kw">return</span> owner;
+}
+
+<span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getBalance</span>()
+{
+    <span class="wb-kw">return</span> balance;
+}</code></pre>
+<p>The return type is a promise. <code>getOwner</code> promises a <code>String</code>; <code>getBalance</code> promises an <code>int</code>. The expression after <code>return</code> must produce a compatible value. Executing <code>return</code> sends the value to the caller and ends that method call.</p>
+<p>The name <code>getOwner</code> is only a convention. The body decides what comes back: the method returns <code>owner</code> because its body says <code>return owner;</code>, not because of its name.</p>
+
+<h3>Returning and printing are different</h3>
+<table>
+  <thead><tr><th>return a value</th><th>print text</th></tr></thead>
+  <tbody>
+    <tr><td><code>return balance;</code> sends an integer to the caller.</td><td><code>System.out.println(balance);</code> sends characters to the terminal.</td></tr>
+    <tr><td>The caller can store or calculate with the result.</td><td>Printing alone gives the caller no result value.</td></tr>
+    <tr><td>The method has a non-<code>void</code> return type.</td><td>A printing method may have return type <code>void</code>.</td></tr>
+  </tbody>
+</table>
+<p>The caller decides how to use a returned value. The complete <code>CampusCard</code> class from Section 6 is on the classpath of this box, so the calls work:</p>
+<wb-example id="ex-caller"></wb-example>
+<p><code>void</code> means that a method does not return a result. A <code>void</code> method may still change fields, print, or perform other useful work.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: use returned values</div>
+  <p><strong>2.1.</strong> Write a getter for the field <code>private int totalSpent;</code>. The class in the box already has a working <code>pay</code> method; the demo pays 450 and then prints the total spent.</p>
+  <wb-exercise id="p2-1"></wb-exercise>
+  <p><strong>2.2.</strong> What is the difference between <code>return balance;</code> and <code>System.out.println(balance);</code>?</p>
+  <wb-short id="p2-2"></wb-short>
+  <p><strong>2.3.</strong> Suppose <code>balance</code> is 1200. What value is stored by this statement, and what is printed?</p>
+<pre><code><span class="wb-kw">int</span> saved = card.getBalance();</code></pre>
+  <wb-table id="p2-3">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>value stored in <code>saved</code></td><td data-blank="saved"></td></tr>
+        <tr><td>what is printed</td><td data-blank="printed"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>2.4.</strong> Run this box, then explain why the statement fails when <code>printBalance()</code> has return type <code>void</code>.</p>
+  <wb-example id="ex-void"></wb-example>
+  <wb-short id="p2-4"></wb-short>
+  <p><strong>2.5.</strong> Repair the <code>getBalance</code> method in the box. The demo prints the balance it returns.</p>
+  <wb-exercise id="p2-5"></wb-exercise>
+</div>
+
+<h2 id="s3">3. Change State</h2>
+<h3>Mutators update fields</h3>
+<p>A <strong>mutator</strong> changes one or more fields, so the object's state differs after the call. A typical update reads an old field value, computes a new value, and assigns it back:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">topUp</span>(<span class="wb-kw">int</span> amount)
+{
+    balance = balance + amount;
+}</code></pre>
+<p>If <code>balance</code> is 1200 and <code>amount</code> is 300, the expression on the right evaluates to 1500. Assignment replaces the old field value with 1500. The parameter disappears when the call ends; the field retains its new value.</p>
+<wb-example id="ex-topup"></wb-example>
+<p>A <strong>setter</strong> is a basic mutator that directly replaces a field:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">setOwner</span>(<span class="wb-type">String</span> owner)
+{
+    <span class="wb-kw">this</span>.owner = owner;
+}</code></pre>
+<p>Here <code>this.owner</code> means the current object's field, while <code>owner</code> alone means the parameter. Not every field needs a setter. A behavior method such as <code>topUp</code> states the intended action and can protect the object's rules.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: trace and write mutators</div>
+  <p><strong>3.1.</strong> The balance begins at 800. Trace these calls in order and give the balance after each call.</p>
+  <wb-table id="p3-1">
+    <table>
+      <thead><tr><th>call</th><th>balance afterwards</th></tr></thead>
+      <tbody>
+        <tr><td><code>topUp(200)</code></td><td data-blank="b1"></td></tr>
+        <tr><td><code>topUp(50)</code></td><td data-blank="b2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>3.2.</strong> Repair <code>recordSpending</code> so it adds the new amount to the previous total. The demo records 200 and then 300 and prints the total.</p>
+  <wb-exercise id="p3-2"></wb-exercise>
+  <p><strong>3.3.</strong> Is every <code>void</code> method a mutator? Explain.</p>
+  <wb-short id="p3-3"></wb-short>
+  <p><strong>3.4.</strong> Explain the two meanings of <code>owner</code> in <code>this.owner = owner;</code>.</p>
+  <wb-table id="p3-4">
+    <table>
+      <thead><tr><th>name</th><th>means</th></tr></thead>
+      <tbody>
+        <tr><td><code>this.owner</code></td><td data-blank="field"></td></tr>
+        <tr><td><code>owner</code> on the right</td><td data-blank="param"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>3.5.</strong> Write a mutator <code>clearTotal()</code> that takes no parameters, returns no value, and sets <code>totalSpent</code> to zero. The demo records 400, calls your method, and prints the total before and after.</p>
+  <wb-exercise id="p3-5"></wb-exercise>
+</div>
+
+<h2 id="s4">4. Make Choices</h2>
+<h3>Boolean expressions control branches</h3>
+<p>The naïve <code>topUp</code> method accepts zero and negative values. A naïve payment may also produce a negative balance. A useful object checks a request before changing its fields.</p>
+<p>A <strong>boolean expression</strong> has the value <code>true</code> or <code>false</code>. Common numeric comparisons are:</p>
+<table>
+  <thead><tr><th><code>&lt;</code></th><th><code>&lt;=</code></th><th><code>&gt;</code></th><th><code>&gt;=</code></th><th><code>==</code></th><th><code>!=</code></th></tr></thead>
+  <tbody>
+    <tr><td>less</td><td>at most</td><td>greater</td><td>at least</td><td>equal</td><td>not equal</td></tr>
+  </tbody>
+</table>
+<p>Assignment uses one equals sign; equality comparison uses two. The exact boundary matters: <code>amount &gt; 0</code> rejects zero, while <code>amount &gt;= 0</code> accepts it.</p>
+
+<h3>Use conditions to protect state</h3>
+<p>This version of <code>topUp</code> returns <code>boolean</code> instead of <code>void</code>, so the caller finds out whether the top-up was accepted.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">topUp</span>(<span class="wb-kw">int</span> amount)
+{
+    <span class="wb-kw">if</span>(amount &gt; <span class="wb-num">0</span>) {
+        balance = balance + amount;
+        <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
+    }
+    <span class="wb-kw">else</span> {
+        <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
+    }
+}</code></pre>
+<p>Exactly one branch runs. An invalid amount returns <code>false</code> and leaves the field unchanged.</p>
+<wb-example id="ex-boolean"></wb-example>
+<p>Payment needs two requirements: the amount must be positive, and it must not exceed the balance.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">pay</span>(<span class="wb-kw">int</span> amount)
+{
+    <span class="wb-kw">if</span>(amount &gt; <span class="wb-num">0</span> &amp;&amp; amount &lt;= balance) {
+        balance = balance - amount;
+        totalSpent = totalSpent + amount;
+        <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
+    }
+    <span class="wb-kw">else</span> {
+        <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
+    }
+}</code></pre>
+<p>The operator <code>&amp;&amp;</code> means both boolean conditions must be true. The method is a mutator because successful calls change fields, and it also returns a result that tells the caller whether the change occurred.</p>
+<p>The class protects this invariant: <code>balance &gt;= 0</code>. A constructor and every mutator must preserve that rule.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: trace and repair decisions</div>
+  <p><strong>4.1.</strong> Evaluate each expression when <code>amount</code> is 500 and <code>balance</code> is 500.</p>
+  <wb-table id="p4-1">
+    <table>
+      <thead><tr><th>expression</th><th>value</th></tr></thead>
+      <tbody>
+        <tr><td><code>amount &gt; 0</code></td><td data-blank="e1"></td></tr>
+        <tr><td><code>amount &lt; balance</code></td><td data-blank="e2"></td></tr>
+        <tr><td><code>amount &lt;= balance</code></td><td data-blank="e3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>4.2.</strong> Why must successful payment use <code>amount &lt;= balance</code> rather than <code>amount &lt; balance</code>?</p>
+  <wb-short id="p4-2"></wb-short>
+  <p><strong>4.3.</strong> Start with <code>balance = 500</code> and <code>totalSpent = 0</code>. Trace <code>pay(200)</code>, <code>pay(400)</code>, and <code>pay(300)</code> in order. Record each result and the state afterwards.</p>
+  <wb-table id="p4-3">
+    <table>
+      <thead><tr><th>call</th><th>returns</th><th><code>balance</code></th><th><code>totalSpent</code></th></tr></thead>
+      <tbody>
+        <tr><td><code>pay(200)</code></td><td data-blank="r1"></td><td data-blank="b1"></td><td data-blank="t1"></td></tr>
+        <tr><td><code>pay(400)</code></td><td data-blank="r2"></td><td data-blank="b2"></td><td data-blank="t2"></td></tr>
+        <tr><td><code>pay(300)</code></td><td data-blank="r3"></td><td data-blank="b3"></td><td data-blank="t3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>After you have filled in the table, run this box to confirm your trace. Each line prints the result, the balance, and the total spent.</p>
+  <wb-example id="ex-trace"></wb-example>
+  <p><strong>4.4.</strong> Complete the condition so the error branch handles zero and negative values. The demo tries 0, -5, and 100, then prints the balance.</p>
+  <wb-exercise id="p4-4"></wb-exercise>
+  <p><strong>4.5.</strong> Why should validation occur before an assignment to the field?</p>
+  <wb-short id="p4-5"></wb-short>
+  <p><strong>4.6.</strong> Write a method <code>canAfford(int amount)</code> that returns whether the amount is positive and no greater than the current balance. It must not change any field. The demo asks about 200, 500, 600, and 0 on a card with balance 500, then prints the balance to show it is unchanged.</p>
+  <wb-exercise id="p4-6"></wb-exercise>
+</div>
+
+<h2 id="s5">5. Keep It Local</h2>
+<h3>Use a local variable for temporary storage</h3>
+<p>A refund must return the current balance and then clear the field. Clearing first loses the old value. The demo behind this box refunds a card with balance 1200 and prints what came back:</p>
+<wb-example id="ex-refund-wrong"></wb-example>
+<p>Returning first does not work either because <code>return</code> ends the method; code after it is unreachable, and the compiler says so.</p>
+<wb-example id="ex-unreachable"></wb-example>
+<p>A local variable keeps the old value while the field is cleared:</p>
+<wb-example id="ex-refund"></wb-example>
+<p><code>amountToRefund</code> is a <strong>local variable</strong>. It is declared inside the method, stores temporary work, has no visibility modifier, and is recreated for each call. Local variables receive no default value; a local must be assigned before its value is used.</p>
+
+<h3>Fields, parameters, and locals have different jobs</h3>
+<table>
+  <thead><tr><th>kind</th><th>where declared and used</th><th>how long it lives</th></tr></thead>
+  <tbody>
+    <tr><td>field</td><td>in the class, outside methods; usable throughout the class</td><td>as long as the object</td></tr>
+    <tr><td>parameter</td><td>in a method or constructor header</td><td>one call</td></tr>
+    <tr><td>local</td><td>inside a block; usable only in that block</td><td>while that block executes</td></tr>
+  </tbody>
+</table>
+<p><strong>Scope</strong> is the textual region where a name can be used. <strong>Lifetime</strong> is how long its variable exists at run time. Prefer the narrowest scope that fits the value's purpose. A value needed only while one method runs should usually be local, not a field.</p>
+
+<h3>Nested blocks create smaller scopes</h3>
+<pre><code><span class="wb-cmt">// Fragment: the return statements are left out to keep the example short.</span>
+<span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">pay</span>(<span class="wb-kw">int</span> amount)
+{
+    <span class="wb-kw">if</span>(amount &gt; <span class="wb-num">0</span> &amp;&amp; amount &lt;= balance) {
+        <span class="wb-kw">int</span> oldBalance = balance;
+        balance = balance - amount;
+    }
+    <span class="wb-cmt">// oldBalance is not in scope here.</span>
+}</code></pre>
+<p><code>balance</code> is in scope throughout the class. <code>amount</code> is in scope throughout the method. <code>oldBalance</code> is in scope only in the <code>if</code> block, from its declaration onward. Indentation shows the structure, but braces define it.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: choose storage and scope</div>
+  <p><strong>5.1.</strong> Classify <code>balance</code>, <code>amount</code>, and <code>amountToRefund</code> in the examples above as field, parameter, or local.</p>
+  <wb-table id="p5-1">
+    <table>
+      <thead><tr><th>name</th><th>kind</th></tr></thead>
+      <tbody>
+        <tr><td><code>balance</code></td><td data-blank="bal"></td></tr>
+        <tr><td><code>amount</code></td><td data-blank="amt"></td></tr>
+        <tr><td><code>amountToRefund</code></td><td data-blank="ref"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>5.2.</strong> Explain why this version does not return the old balance:</p>
+<pre><code>balance = <span class="wb-num">0</span>;
+<span class="wb-kw">return</span> balance;</code></pre>
+  <wb-short id="p5-2"></wb-short>
+  <p><strong>5.3.</strong> Explain why Java rejects this order:</p>
+<pre><code><span class="wb-kw">return</span> balance;
+balance = <span class="wb-num">0</span>;</code></pre>
+  <wb-short id="p5-3"></wb-short>
+  <p><strong>5.4.</strong> Should <code>amountToRefund</code> be a field instead of a local? Explain.</p>
+  <wb-short id="p5-4"></wb-short>
+  <p><strong>5.5.</strong> What is the difference between scope and lifetime?</p>
+  <wb-short id="p5-5"></wb-short>
+  <p><strong>5.6.</strong> Repair <code>doubleBalance</code> by declaring and initializing the local before it is used. The demo prints the result for a balance of 1200.</p>
+  <wb-exercise id="p5-6"></wb-exercise>
+</div>
+
+<h2 id="s6">6. Put It Together</h2>
+<h3>Complete reference implementation</h3>
+<p>The complete class combines persistent fields, constructor validation, accessors, protective mutators, returned results, and a local variable. Use it as a reference after attempting the earlier questions.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">CampusCard</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> owner;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> balance;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> totalSpent;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">CampusCard</span>(<span class="wb-type">String</span> owner, <span class="wb-kw">int</span> openingBalance)
+    {
+        <span class="wb-kw">this</span>.owner = owner;
+        <span class="wb-kw">if</span>(openingBalance &gt;= <span class="wb-num">0</span>) {
+            balance = openingBalance;
+        }
+        <span class="wb-kw">else</span> {
+            balance = <span class="wb-num">0</span>;
+        }
+        totalSpent = <span class="wb-num">0</span>;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getOwner</span>()
+    {
+        <span class="wb-kw">return</span> owner;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getBalance</span>()
+    {
+        <span class="wb-kw">return</span> balance;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getTotalSpent</span>()
+    {
+        <span class="wb-kw">return</span> totalSpent;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">topUp</span>(<span class="wb-kw">int</span> amount)
+    {
+        <span class="wb-kw">if</span>(amount &gt; <span class="wb-num">0</span>) {
+            balance = balance + amount;
+            <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
+        }
+        <span class="wb-kw">else</span> {
+            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
+        }
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">pay</span>(<span class="wb-kw">int</span> amount)
+    {
+        <span class="wb-kw">if</span>(amount &gt; <span class="wb-num">0</span> &amp;&amp; amount &lt;= balance) {
+            balance = balance - amount;
+            totalSpent = totalSpent + amount;
+            <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
+        }
+        <span class="wb-kw">else</span> {
+            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
+        }
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">refundBalance</span>()
+    {
+        <span class="wb-kw">int</span> amountToRefund = balance;
+        balance = <span class="wb-num">0</span>;
+        <span class="wb-kw">return</span> amountToRefund;
+    }
+}</code></pre>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: read the complete class</div>
+  <p><strong>6.1.</strong> Name the three accessors and the three methods that can change state.</p>
+  <wb-short id="p6-1"></wb-short>
+  <p><strong>6.2.</strong> Can a mutator return a value? Use one method from the class as evidence.</p>
+  <wb-short id="p6-2"></wb-short>
+  <p><strong>6.3.</strong> What invariant do the constructor, <code>topUp</code>, and <code>pay</code> preserve?</p>
+  <wb-table id="p6-3">
+    <table>
+      <thead><tr><th>the rule that always holds</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="inv"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>6.4.</strong> Predict the exact output of each line before you run anything.</p>
+<pre><code><span class="wb-type">CampusCard</span> card = <span class="wb-kw">new</span> <span class="wb-fn">CampusCard</span>(<span class="wb-str">&quot;Mina&quot;</span>, <span class="wb-num">1200</span>);
+System.out.println(card.topUp(<span class="wb-num">300</span>));
+System.out.println(card.pay(<span class="wb-num">450</span>));
+System.out.println(card.pay(<span class="wb-num">2000</span>));
+System.out.println(card.getBalance());
+System.out.println(card.getTotalSpent());
+System.out.println(card.refundBalance());
+System.out.println(card.getBalance());</code></pre>
+  <wb-table id="p6-4">
+    <table>
+      <thead><tr><th>statement</th><th>prints</th></tr></thead>
+      <tbody>
+        <tr><td><code>card.topUp(300)</code></td><td data-blank="l1"></td></tr>
+        <tr><td><code>card.pay(450)</code></td><td data-blank="l2"></td></tr>
+        <tr><td><code>card.pay(2000)</code></td><td data-blank="l3"></td></tr>
+        <tr><td><code>card.getBalance()</code></td><td data-blank="l4"></td></tr>
+        <tr><td><code>card.getTotalSpent()</code></td><td data-blank="l5"></td></tr>
+        <tr><td><code>card.refundBalance()</code></td><td data-blank="l6"></td></tr>
+        <tr><td><code>card.getBalance()</code></td><td data-blank="l7"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Then run the same statements to check your prediction:</p>
+  <wb-example id="ex-predict"></wb-example>
+</div>
+
+<h2 id="s7">7. Coding Practice</h2>
+<p>These programs use every idea from the lecture: getters, protective mutators that return a result, conditions on boundaries, and a local variable that holds a value for one call. Each class box has a checking program behind it that calls your methods in more situations than the demo does, so read the requirements carefully.</p>
+
+<h3>Program A: <code>Thermostat</code> and <code>ThermostatDemo</code></h3>
+<p>Write a complete, runnable program with these requirements. A <code>double</code> stores a number with a decimal point, such as 20.5.</p>
+<ul>
+  <li><code>Thermostat</code> has <code>double</code> fields named <code>temperature</code>, <code>minimum</code>, <code>maximum</code>, and <code>increment</code>.</li>
+  <li>Its constructor receives the minimum, maximum, and initial temperature. If the initial value is outside the range, use the minimum. Initialize the increment to 1.0.</li>
+  <li><code>getTemperature()</code> returns the current temperature.</li>
+  <li><code>setIncrement(double increment)</code> accepts only a positive value and returns whether it changed the field.</li>
+  <li><code>warmer()</code> and <code>cooler()</code> calculate a local proposed temperature, change the field only when the proposal stays within the range, and return whether the change occurred.</li>
+  <li><code>ThermostatDemo</code> demonstrates a successful change and a rejected boundary change.</li>
+</ul>
+<p>The checking program behind this box constructs <code>new Thermostat(16.0, 24.0, 20.0)</code>, sets the increment to 2.0 and then tries -1.0, warms three times, and reports the temperature. It then constructs a thermostat whose initial temperature is out of range and tries to cool it. Its expected output is:</p>
+<pre class="wb-output">Start: 20.0
+Increment 2.0: true
+Increment -1.0: false
+Warmer: true
+Warmer: true
+Warmer at max: false
+Final: 24.0
+Out of range start: 16.0
+Cooler at min: false
+Still: 16.0</pre>
+<wb-exercise id="p7a-thermostat"></wb-exercise>
+<p>Now write <code>ThermostatDemo.main</code> yourself. A finished <code>Thermostat</code> class is on the classpath of this box. Construct <code>new Thermostat(16.0, 24.0, 20.0)</code>, set the increment to 2.0, and print these five lines by calling <code>getTemperature()</code> and <code>warmer()</code>:</p>
+<pre class="wb-output">Start: 20.0
+Warmer: true
+Warmer: true
+Warmer at max: false
+Final: 24.0</pre>
+<wb-exercise id="p7a-demo"></wb-exercise>
+
+<h3>Program B: <code>GameScore</code> and <code>GameScoreDemo</code></h3>
+<p>Write another complete program:</p>
+<ul>
+  <li><code>GameScore</code> stores <code>String player</code>, <code>int score</code>, and <code>int bestScore</code>. The constructor receives the player's name. Scores begin at zero.</li>
+  <li>Provide getters for all three fields.</li>
+  <li><code>addPoints(int points)</code> accepts only positive points. A successful call increases <code>score</code>, updates <code>bestScore</code> when needed, and returns <code>true</code>; a rejected call changes nothing and returns <code>false</code>.</li>
+  <li><code>finishRound()</code> uses a local variable to remember the completed score, clears <code>score</code>, and returns the completed value. It must not clear <code>bestScore</code>.</li>
+  <li><code>GameScoreDemo</code> adds points, finishes a round, and prints the returned round score, current score, and best score.</li>
+</ul>
+<p>The checking program behind this box constructs <code>new GameScore("Kai")</code>, tries to add -5, adds 40 and 25, finishes the round, adds 30, and finishes again, printing the state along the way. Its expected output is:</p>
+<pre class="wb-output">Player: Kai
+Add -5: false
+Add 40: true
+Add 25: true
+Score: 65, best: 65
+Round: 65
+Score: 0, best: 65
+Score: 30, best: 65
+Round: 30</pre>
+<wb-exercise id="p7b-gamescore"></wb-exercise>
+<p>Now write <code>GameScoreDemo.main</code> yourself. A finished <code>GameScore</code> class is on the classpath of this box. Construct <code>new GameScore("Kai")</code>, add 40 and then 25 points, and print these three lines. The first line joins the player's name and the value returned by <code>finishRound()</code>:</p>
+<pre class="wb-output">Kai finished with 65
+Current: 0
+Best: 65</pre>
+<wb-exercise id="p7b-demo"></wb-exercise>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: check both programs</div>
+  <p><strong>7.1.</strong> A thermostat is constructed with <code>new Thermostat(16.0, 24.0, 30.0)</code> and its increment is left at 1.0. Give its temperature after construction, what <code>warmer()</code> returns on it, and what <code>cooler()</code> returns on a thermostat sitting at 16.0.</p>
+  <wb-table id="p7-1">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>temperature of <code>new Thermostat(16.0, 24.0, 30.0)</code></td><td data-blank="t"></td></tr>
+        <tr><td><code>warmer()</code> on that thermostat</td><td data-blank="w"></td></tr>
+        <tr><td><code>cooler()</code> on a thermostat at 16.0</td><td data-blank="c"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>7.2.</strong> Why is the proposed temperature in <code>warmer()</code> a local variable rather than a field?</p>
+  <wb-short id="p7-2"></wb-short>
+  <p><strong>7.3.</strong> A new <code>GameScore</code> receives <code>addPoints(40)</code>, <code>addPoints(25)</code>, and then <code>finishRound()</code>. Give the value <code>finishRound()</code> returns and the two getter results afterwards.</p>
+  <wb-table id="p7-3">
+    <table>
+      <thead><tr><th>value</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>returned by <code>finishRound()</code></td><td data-blank="round"></td></tr>
+        <tr><td><code>getScore()</code> afterwards</td><td data-blank="score"></td></tr>
+        <tr><td><code>getBestScore()</code> afterwards</td><td data-blank="best"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>7.4.</strong> Why does the best score survive <code>finishRound()</code>?</p>
+  <wb-short id="p7-4"></wb-short>
+</div>
+
+<h3>Validated program output</h3>
+<p>Running the supplied solutions with their demo classes produces this output:</p>
+<pre class="wb-output">Start: 20.0
+Warmer: true
+Warmer: true
+Warmer at max: false
+Final: 24.0</pre>
+<pre class="wb-output">Kai finished with 65
+Current: 0
+Best: 65</pre>
+<p>The third <code>warmer()</code> call proposes 26.0, which is above the maximum, so the field stays at 24.0 and the call returns <code>false</code>. The round score came back through <code>return</code>, the current score was cleared, and the best score was left alone.</p>
+
+</main>
+</body>
+</html>

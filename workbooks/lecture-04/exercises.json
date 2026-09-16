@@ -1,0 +1,842 @@
+{
+  "id": "lecture-04",
+  "course": "COMP 2001: Object-Oriented Programming",
+  "title": "Lecture 4 Workbook",
+  "subtitle": "Chapter 2, Part 2: Methods make state useful",
+  "exercises": {
+    "p1-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "vis": {
+          "accept": [
+            "public"
+          ],
+          "placeholder": "part"
+        },
+        "ret": {
+          "accept": [
+            "boolean"
+          ],
+          "placeholder": "part"
+        },
+        "name": {
+          "accept": [
+            "pay"
+          ],
+          "caseSensitive": true,
+          "placeholder": "part"
+        },
+        "ptype": {
+          "accept": [
+            "int"
+          ],
+          "placeholder": "part"
+        },
+        "pname": {
+          "accept": [
+            "amount"
+          ],
+          "caseSensitive": true,
+          "placeholder": "part"
+        }
+      }
+    },
+    "p1-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "SXRzIGhlYWRlciBjb250YWlucyBwYXJlbnRoZXNlcyBhbmQgaXMgZm9sbG93ZWQgYnkgYSBtZXRob2QtYm9keSBibG9jay4gQSBmaWVsZCBkZWNsYXJhdGlvbiBoYXMgbm8gcGFyYW1ldGVyIHBhcmVudGhlc2VzIGFuZCBlbmRzIHdpdGggYSBzZW1pY29sb24u"
+    },
+    "p1-3": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "part": {
+          "accept": [
+            "parameter list",
+            "the parameter list",
+            "parameters",
+            "the parameters",
+            "its parameters",
+            "its parameter list",
+            "parameter"
+          ],
+          "placeholder": "which part of the header?",
+          "show": "the parameter list",
+          "width": "14rem"
+        }
+      }
+    },
+    "p1-4": {
+      "type": "code",
+      "xp": 2,
+      "minLines": 16,
+      "maxLines": 22,
+      "title": "CampusCard.java",
+      "starter": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        balance = openingBalance;\n        totalSpent = 0;\n    }\n\n    // Repair the header so the method publicly returns a String and takes no parameters.\n    String public getOwner\n    {\n        return owner;\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Owner: Mina"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicStringgetOwner()\"), \"The header is public String getOwner(): visibility, return type, name, then an empty parameter list.\");",
+      "answer": "cHVibGljIGNsYXNzIENhbXB1c0NhcmQKewogICAgcHJpdmF0ZSBTdHJpbmcgb3duZXI7CiAgICBwcml2YXRlIGludCBiYWxhbmNlOwogICAgcHJpdmF0ZSBpbnQgdG90YWxTcGVudDsKCiAgICBwdWJsaWMgQ2FtcHVzQ2FyZChTdHJpbmcgb3duZXIsIGludCBvcGVuaW5nQmFsYW5jZSkKICAgIHsKICAgICAgICB0aGlzLm93bmVyID0gb3duZXI7CiAgICAgICAgYmFsYW5jZSA9IG9wZW5pbmdCYWxhbmNlOwogICAgICAgIHRvdGFsU3BlbnQgPSAwOwogICAgfQoKICAgIHB1YmxpYyBTdHJpbmcgZ2V0T3duZXIoKQogICAgewogICAgICAgIHJldHVybiBvd25lcjsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "OwnerDemo.java",
+          "content": "public class OwnerDemo\n{\n    public static void main(String[] args)\n    {\n        CampusCard card = new CampusCard(\"Mina\", 1200);\n        System.out.println(\"Owner: \" + card.getOwner());\n    }\n}"
+        }
+      ]
+    },
+    "ex-caller": {
+      "type": "example",
+      "code": "CampusCard card = new CampusCard(\"Mina\", 1200);\n\nint current = card.getBalance();\nSystem.out.println(current);\n\nint afterLunch = card.getBalance() - 500;\nSystem.out.println(afterLunch);",
+      "files": [
+        {
+          "name": "CampusCard.java",
+          "content": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        if(openingBalance >= 0) {\n            balance = openingBalance;\n        }\n        else {\n            balance = 0;\n        }\n        totalSpent = 0;\n    }\n\n    public String getOwner()\n    {\n        return owner;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int getTotalSpent()\n    {\n        return totalSpent;\n    }\n\n    public boolean topUp(int amount)\n    {\n        if(amount > 0) {\n            balance = balance + amount;\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    public boolean pay(int amount)\n    {\n        if(amount > 0 && amount <= balance) {\n            balance = balance - amount;\n            totalSpent = totalSpent + amount;\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    public int refundBalance()\n    {\n        int amountToRefund = balance;\n        balance = 0;\n        return amountToRefund;\n    }\n}"
+        }
+      ],
+      "output": "1200\n700"
+    },
+    "p2-1": {
+      "type": "code",
+      "xp": 2,
+      "minLines": 26,
+      "maxLines": 34,
+      "title": "CampusCard.java",
+      "starter": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        balance = openingBalance;\n        totalSpent = 0;\n    }\n\n    public boolean pay(int amount)\n    {\n        if(amount > 0 && amount <= balance) {\n            balance = balance - amount;\n            totalSpent = totalSpent + amount;\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    // Write the getter for totalSpent here.\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Total spent: 450"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetTotalSpent()\"), \"The header is public int getTotalSpent(): the field is an int, so the getter returns an int.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"returntotalSpent;\"), \"The body returns the field: return totalSpent;\");",
+      "answer": "cHVibGljIGNsYXNzIENhbXB1c0NhcmQKewogICAgcHJpdmF0ZSBTdHJpbmcgb3duZXI7CiAgICBwcml2YXRlIGludCBiYWxhbmNlOwogICAgcHJpdmF0ZSBpbnQgdG90YWxTcGVudDsKCiAgICBwdWJsaWMgQ2FtcHVzQ2FyZChTdHJpbmcgb3duZXIsIGludCBvcGVuaW5nQmFsYW5jZSkKICAgIHsKICAgICAgICB0aGlzLm93bmVyID0gb3duZXI7CiAgICAgICAgYmFsYW5jZSA9IG9wZW5pbmdCYWxhbmNlOwogICAgICAgIHRvdGFsU3BlbnQgPSAwOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIHBheShpbnQgYW1vdW50KQogICAgewogICAgICAgIGlmKGFtb3VudCA+IDAgJiYgYW1vdW50IDw9IGJhbGFuY2UpIHsKICAgICAgICAgICAgYmFsYW5jZSA9IGJhbGFuY2UgLSBhbW91bnQ7CiAgICAgICAgICAgIHRvdGFsU3BlbnQgPSB0b3RhbFNwZW50ICsgYW1vdW50OwogICAgICAgICAgICByZXR1cm4gdHJ1ZTsKICAgICAgICB9CiAgICAgICAgZWxzZSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9CiAgICB9CgogICAgcHVibGljIGludCBnZXRUb3RhbFNwZW50KCkKICAgIHsKICAgICAgICByZXR1cm4gdG90YWxTcGVudDsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "TotalSpentDemo.java",
+          "content": "public class TotalSpentDemo\n{\n    public static void main(String[] args)\n    {\n        CampusCard card = new CampusCard(\"Mina\", 1200);\n        card.pay(450);\n        System.out.println(\"Total spent: \" + card.getTotalSpent());\n    }\n}"
+        }
+      ]
+    },
+    "p2-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "YHJldHVybmAgc2VuZHMgdGhlIHZhbHVlIHRvIHRoZSBjYWxsZXIgZm9yIGZ1cnRoZXIgdXNlLiBgcHJpbnRsbmAgZGlzcGxheXMgdGV4dCBidXQgZG9lcyBub3QgcmV0dXJuIHRoYXQgdmFsdWUgdG8gdGhlIGNhbGxlci4="
+    },
+    "p2-3": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "saved": {
+          "accept": [
+            "1200"
+          ],
+          "placeholder": "value"
+        },
+        "printed": {
+          "accept": [
+            "nothing",
+            "nothing is printed",
+            "no output",
+            "none",
+            "nothing at all"
+          ],
+          "placeholder": "what is printed?",
+          "show": "nothing",
+          "width": "12rem"
+        }
+      }
+    },
+    "ex-void": {
+      "type": "example",
+      "code": "// printBalance() has return type void.\n// Press Run to read the compiler's complaint about the assignment.\nCampusCard card = new CampusCard(\"Mina\", 1200);\nint saved = card.printBalance();",
+      "files": [
+        {
+          "name": "CampusCard.java",
+          "content": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        balance = openingBalance;\n        totalSpent = 0;\n    }\n\n    public void printBalance()\n    {\n        System.out.println(\"Balance: \" + balance);\n    }\n}"
+        }
+      ]
+    },
+    "p2-4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "QSBgdm9pZGAgY2FsbCBwcm9kdWNlcyBubyByZXN1bHQgdmFsdWUsIHNvIHRoZXJlIGlzIG5vIGludGVnZXIgdG8gYXNzaWduIHRvIGBzYXZlZGAu"
+    },
+    "p2-5": {
+      "type": "code",
+      "xp": 2,
+      "minLines": 16,
+      "maxLines": 22,
+      "title": "CampusCard.java",
+      "starter": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        balance = openingBalance;\n        totalSpent = 0;\n    }\n\n    // Repair this method.\n    public void getBalance()\n    {\n        return balance;\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Balance: 1200"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetBalance()\"), \"The field is an int, so the return type is int: public int getBalance().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"returnbalance;\"), \"The body can stay as it was: return balance;\");",
+      "answer": "cHVibGljIGNsYXNzIENhbXB1c0NhcmQKewogICAgcHJpdmF0ZSBTdHJpbmcgb3duZXI7CiAgICBwcml2YXRlIGludCBiYWxhbmNlOwogICAgcHJpdmF0ZSBpbnQgdG90YWxTcGVudDsKCiAgICBwdWJsaWMgQ2FtcHVzQ2FyZChTdHJpbmcgb3duZXIsIGludCBvcGVuaW5nQmFsYW5jZSkKICAgIHsKICAgICAgICB0aGlzLm93bmVyID0gb3duZXI7CiAgICAgICAgYmFsYW5jZSA9IG9wZW5pbmdCYWxhbmNlOwogICAgICAgIHRvdGFsU3BlbnQgPSAwOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0QmFsYW5jZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIGJhbGFuY2U7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "BalanceDemo.java",
+          "content": "public class BalanceDemo\n{\n    public static void main(String[] args)\n    {\n        CampusCard card = new CampusCard(\"Mina\", 1200);\n        System.out.println(\"Balance: \" + card.getBalance());\n    }\n}"
+        }
+      ]
+    },
+    "ex-topup": {
+      "type": "example",
+      "code": "CampusCard card = new CampusCard(\"Mina\", 1200);\nSystem.out.println(card.getBalance());\n\ncard.topUp(300);\nSystem.out.println(card.getBalance());",
+      "files": [
+        {
+          "name": "CampusCard.java",
+          "content": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        if(openingBalance >= 0) {\n            balance = openingBalance;\n        }\n        else {\n            balance = 0;\n        }\n        totalSpent = 0;\n    }\n\n    public String getOwner()\n    {\n        return owner;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int getTotalSpent()\n    {\n        return totalSpent;\n    }\n\n    public boolean topUp(int amount)\n    {\n        if(amount > 0) {\n            balance = balance + amount;\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    public boolean pay(int amount)\n    {\n        if(amount > 0 && amount <= balance) {\n            balance = balance - amount;\n            totalSpent = totalSpent + amount;\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    public int refundBalance()\n    {\n        int amountToRefund = balance;\n        balance = 0;\n        return amountToRefund;\n    }\n}"
+        }
+      ],
+      "output": "1200\n1500"
+    },
+    "p3-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "b1": {
+          "accept": [
+            "1000"
+          ],
+          "placeholder": "balance"
+        },
+        "b2": {
+          "accept": [
+            "1050"
+          ],
+          "placeholder": "balance"
+        }
+      }
+    },
+    "p3-2": {
+      "type": "code",
+      "xp": 2,
+      "minLines": 22,
+      "maxLines": 28,
+      "title": "CampusCard.java",
+      "starter": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        balance = openingBalance;\n        totalSpent = 0;\n    }\n\n    public int getTotalSpent()\n    {\n        return totalSpent;\n    }\n\n    // Repair the method so it adds the new amount to the previous total.\n    public void recordSpending(int amount)\n    {\n        totalSpent = amount;\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Total spent: 500"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*(totalSpent=totalSpent\\\\+amount;|totalSpent=amount\\\\+totalSpent;|totalSpent\\\\+=amount;).*\"), \"Add the amount to the old total: totalSpent = totalSpent + amount;\");",
+      "answer": "cHVibGljIGNsYXNzIENhbXB1c0NhcmQKewogICAgcHJpdmF0ZSBTdHJpbmcgb3duZXI7CiAgICBwcml2YXRlIGludCBiYWxhbmNlOwogICAgcHJpdmF0ZSBpbnQgdG90YWxTcGVudDsKCiAgICBwdWJsaWMgQ2FtcHVzQ2FyZChTdHJpbmcgb3duZXIsIGludCBvcGVuaW5nQmFsYW5jZSkKICAgIHsKICAgICAgICB0aGlzLm93bmVyID0gb3duZXI7CiAgICAgICAgYmFsYW5jZSA9IG9wZW5pbmdCYWxhbmNlOwogICAgICAgIHRvdGFsU3BlbnQgPSAwOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0VG90YWxTcGVudCgpCiAgICB7CiAgICAgICAgcmV0dXJuIHRvdGFsU3BlbnQ7CiAgICB9CgogICAgcHVibGljIHZvaWQgcmVjb3JkU3BlbmRpbmcoaW50IGFtb3VudCkKICAgIHsKICAgICAgICB0b3RhbFNwZW50ID0gdG90YWxTcGVudCArIGFtb3VudDsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "SpendingDemo.java",
+          "content": "public class SpendingDemo\n{\n    public static void main(String[] args)\n    {\n        CampusCard card = new CampusCard(\"Mina\", 1200);\n        card.recordSpending(200);\n        card.recordSpending(300);\n        System.out.println(\"Total spent: \" + card.getTotalSpent());\n    }\n}"
+        }
+      ]
+    },
+    "p3-3": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "Tm8uIEEgYHZvaWRgIG1ldGhvZCBtaWdodCBvbmx5IHByaW50IG9yIHBlcmZvcm0gYW5vdGhlciBhY3Rpb24gd2l0aG91dCBjaGFuZ2luZyBhbnkgZmllbGQuIE11dGF0aW9uIGlzIGRldGVybWluZWQgYnkgdGhlIGJvZHksIG5vdCB0aGUgcmV0dXJuIHR5cGUgYWxvbmUu"
+    },
+    "p3-4": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "field": {
+          "accept": [
+            "field",
+            "the field",
+            "the field owner",
+            "field owner",
+            "the current object's field",
+            "the object's field"
+          ],
+          "placeholder": "field / parameter",
+          "show": "the field",
+          "width": "12rem"
+        },
+        "param": {
+          "accept": [
+            "parameter",
+            "the parameter",
+            "the parameter owner",
+            "parameter owner",
+            "the method parameter"
+          ],
+          "placeholder": "field / parameter",
+          "show": "the parameter",
+          "width": "12rem"
+        }
+      }
+    },
+    "p3-5": {
+      "type": "code",
+      "xp": 2,
+      "minLines": 28,
+      "maxLines": 34,
+      "title": "CampusCard.java",
+      "starter": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        balance = openingBalance;\n        totalSpent = 0;\n    }\n\n    public int getTotalSpent()\n    {\n        return totalSpent;\n    }\n\n    public void recordSpending(int amount)\n    {\n        totalSpent = totalSpent + amount;\n    }\n\n    // Write clearTotal() here.\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Before: 400\nAfter: 0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidclearTotal()\"), \"The header is public void clearTotal(): no value comes back and there are no parameters.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"totalSpent=0;\"), \"The body sets the field to zero: totalSpent = 0;\");",
+      "answer": "cHVibGljIGNsYXNzIENhbXB1c0NhcmQKewogICAgcHJpdmF0ZSBTdHJpbmcgb3duZXI7CiAgICBwcml2YXRlIGludCBiYWxhbmNlOwogICAgcHJpdmF0ZSBpbnQgdG90YWxTcGVudDsKCiAgICBwdWJsaWMgQ2FtcHVzQ2FyZChTdHJpbmcgb3duZXIsIGludCBvcGVuaW5nQmFsYW5jZSkKICAgIHsKICAgICAgICB0aGlzLm93bmVyID0gb3duZXI7CiAgICAgICAgYmFsYW5jZSA9IG9wZW5pbmdCYWxhbmNlOwogICAgICAgIHRvdGFsU3BlbnQgPSAwOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0VG90YWxTcGVudCgpCiAgICB7CiAgICAgICAgcmV0dXJuIHRvdGFsU3BlbnQ7CiAgICB9CgogICAgcHVibGljIHZvaWQgcmVjb3JkU3BlbmRpbmcoaW50IGFtb3VudCkKICAgIHsKICAgICAgICB0b3RhbFNwZW50ID0gdG90YWxTcGVudCArIGFtb3VudDsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBjbGVhclRvdGFsKCkKICAgIHsKICAgICAgICB0b3RhbFNwZW50ID0gMDsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "ClearDemo.java",
+          "content": "public class ClearDemo\n{\n    public static void main(String[] args)\n    {\n        CampusCard card = new CampusCard(\"Mina\", 1200);\n        card.recordSpending(400);\n        System.out.println(\"Before: \" + card.getTotalSpent());\n        card.clearTotal();\n        System.out.println(\"After: \" + card.getTotalSpent());\n    }\n}"
+        }
+      ]
+    },
+    "ex-boolean": {
+      "type": "example",
+      "code": "CampusCard card = new CampusCard(\"Mina\", 1200);\n\nSystem.out.println(card.topUp(300));\nSystem.out.println(card.topUp(-50));\nSystem.out.println(card.getBalance());",
+      "files": [
+        {
+          "name": "CampusCard.java",
+          "content": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        if(openingBalance >= 0) {\n            balance = openingBalance;\n        }\n        else {\n            balance = 0;\n        }\n        totalSpent = 0;\n    }\n\n    public String getOwner()\n    {\n        return owner;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int getTotalSpent()\n    {\n        return totalSpent;\n    }\n\n    public boolean topUp(int amount)\n    {\n        if(amount > 0) {\n            balance = balance + amount;\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    public boolean pay(int amount)\n    {\n        if(amount > 0 && amount <= balance) {\n            balance = balance - amount;\n            totalSpent = totalSpent + amount;\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    public int refundBalance()\n    {\n        int amountToRefund = balance;\n        balance = 0;\n        return amountToRefund;\n    }\n}"
+        }
+      ],
+      "output": "true\nfalse\n1500"
+    },
+    "p4-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "e1": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "true / false"
+        },
+        "e2": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "true / false"
+        },
+        "e3": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "true / false"
+        }
+      }
+    },
+    "p4-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "QSBwYXltZW50IGVxdWFsIHRvIHRoZSBiYWxhbmNlIGlzIHZhbGlkIGFuZCBzaG91bGQgbGVhdmUgYSBiYWxhbmNlIG9mIHplcm8uIFVzaW5nIGA8YCB3b3VsZCByZWplY3QgdGhhdCBleGFjdC1ib3VuZGFyeSBjYXNlLg=="
+    },
+    "p4-3": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "r1": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "result"
+        },
+        "b1": {
+          "accept": [
+            "300"
+          ],
+          "placeholder": "balance"
+        },
+        "t1": {
+          "accept": [
+            "200"
+          ],
+          "placeholder": "total"
+        },
+        "r2": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "result"
+        },
+        "b2": {
+          "accept": [
+            "300"
+          ],
+          "placeholder": "balance"
+        },
+        "t2": {
+          "accept": [
+            "200"
+          ],
+          "placeholder": "total"
+        },
+        "r3": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "result"
+        },
+        "b3": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "balance"
+        },
+        "t3": {
+          "accept": [
+            "500"
+          ],
+          "placeholder": "total"
+        }
+      }
+    },
+    "ex-trace": {
+      "type": "example",
+      "code": "CampusCard card = new CampusCard(\"Mina\", 500);\n\nSystem.out.println(card.pay(200) + \" \" + card.getBalance() + \" \" + card.getTotalSpent());\nSystem.out.println(card.pay(400) + \" \" + card.getBalance() + \" \" + card.getTotalSpent());\nSystem.out.println(card.pay(300) + \" \" + card.getBalance() + \" \" + card.getTotalSpent());",
+      "files": [
+        {
+          "name": "CampusCard.java",
+          "content": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        if(openingBalance >= 0) {\n            balance = openingBalance;\n        }\n        else {\n            balance = 0;\n        }\n        totalSpent = 0;\n    }\n\n    public String getOwner()\n    {\n        return owner;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int getTotalSpent()\n    {\n        return totalSpent;\n    }\n\n    public boolean topUp(int amount)\n    {\n        if(amount > 0) {\n            balance = balance + amount;\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    public boolean pay(int amount)\n    {\n        if(amount > 0 && amount <= balance) {\n            balance = balance - amount;\n            totalSpent = totalSpent + amount;\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    public int refundBalance()\n    {\n        int amountToRefund = balance;\n        balance = 0;\n        return amountToRefund;\n    }\n}"
+        }
+      ],
+      "output": "true 300 200\nfalse 300 200\ntrue 0 500"
+    },
+    "p4-4": {
+      "type": "code",
+      "xp": 2,
+      "minLines": 26,
+      "maxLines": 32,
+      "title": "CampusCard.java",
+      "starter": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        balance = openingBalance;\n        totalSpent = 0;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public void topUp(int amount)\n    {\n        // Replace false with a condition that is true for zero and negative amounts.\n        if(false) {\n            System.out.println(\"Amount rejected\");\n        }\n        else {\n            balance = balance + amount;\n        }\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Amount rejected\nAmount rejected\nBalance: 1300"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*if\\\\((amount<=0|amount<1|0>=amount|1>amount|!\\\\(amount>0\\\\)|!\\\\(amount>=1\\\\))\\\\).*\"), \"The error branch must run for zero and for negative values: if(amount <= 0)\");",
+      "answer": "cHVibGljIGNsYXNzIENhbXB1c0NhcmQKewogICAgcHJpdmF0ZSBTdHJpbmcgb3duZXI7CiAgICBwcml2YXRlIGludCBiYWxhbmNlOwogICAgcHJpdmF0ZSBpbnQgdG90YWxTcGVudDsKCiAgICBwdWJsaWMgQ2FtcHVzQ2FyZChTdHJpbmcgb3duZXIsIGludCBvcGVuaW5nQmFsYW5jZSkKICAgIHsKICAgICAgICB0aGlzLm93bmVyID0gb3duZXI7CiAgICAgICAgYmFsYW5jZSA9IG9wZW5pbmdCYWxhbmNlOwogICAgICAgIHRvdGFsU3BlbnQgPSAwOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0QmFsYW5jZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIGJhbGFuY2U7CiAgICB9CgogICAgcHVibGljIHZvaWQgdG9wVXAoaW50IGFtb3VudCkKICAgIHsKICAgICAgICBpZihhbW91bnQgPD0gMCkgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkFtb3VudCByZWplY3RlZCIpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgYmFsYW5jZSA9IGJhbGFuY2UgKyBhbW91bnQ7CiAgICAgICAgfQogICAgfQp9",
+      "files": [
+        {
+          "name": "ConditionDemo.java",
+          "content": "public class ConditionDemo\n{\n    public static void main(String[] args)\n    {\n        CampusCard card = new CampusCard(\"Mina\", 1200);\n        card.topUp(0);\n        card.topUp(-5);\n        card.topUp(100);\n        System.out.println(\"Balance: \" + card.getBalance());\n    }\n}"
+        }
+      ]
+    },
+    "p4-5": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "Q2hlY2tpbmcgZmlyc3QgcHJldmVudHMgaW52YWxpZCBzdGF0ZSBmcm9tIGJlaW5nIHN0b3JlZC4gUHJpbnRpbmcgYW4gZXJyb3IgYWZ0ZXIgYSBiYWQgYXNzaWdubWVudCB3b3VsZCBub3QgdW5kbyB0aGUgbXV0YXRpb24u"
+    },
+    "p4-6": {
+      "type": "code",
+      "xp": 3,
+      "minLines": 22,
+      "maxLines": 32,
+      "title": "CampusCard.java",
+      "starter": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        balance = openingBalance;\n        totalSpent = 0;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    // Write canAfford(int amount) here.\n\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "200: true\n500: true\n600: false\n0: false\nBalance is still 500"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleancanAfford(intamount)\"), \"The header is public boolean canAfford(int amount).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*canAfford\\\\(intamount\\\\)\\\\{[^}]*&&[^}]*\\\\}.*\"), \"Both requirements must hold, so combine them with &&: amount > 0 && amount <= balance\");",
+      "answer": "cHVibGljIGNsYXNzIENhbXB1c0NhcmQKewogICAgcHJpdmF0ZSBTdHJpbmcgb3duZXI7CiAgICBwcml2YXRlIGludCBiYWxhbmNlOwogICAgcHJpdmF0ZSBpbnQgdG90YWxTcGVudDsKCiAgICBwdWJsaWMgQ2FtcHVzQ2FyZChTdHJpbmcgb3duZXIsIGludCBvcGVuaW5nQmFsYW5jZSkKICAgIHsKICAgICAgICB0aGlzLm93bmVyID0gb3duZXI7CiAgICAgICAgYmFsYW5jZSA9IG9wZW5pbmdCYWxhbmNlOwogICAgICAgIHRvdGFsU3BlbnQgPSAwOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0QmFsYW5jZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIGJhbGFuY2U7CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gY2FuQWZmb3JkKGludCBhbW91bnQpCiAgICB7CiAgICAgICAgcmV0dXJuIGFtb3VudCA+IDAgJiYgYW1vdW50IDw9IGJhbGFuY2U7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "AffordDemo.java",
+          "content": "public class AffordDemo\n{\n    public static void main(String[] args)\n    {\n        CampusCard card = new CampusCard(\"Mina\", 500);\n        System.out.println(\"200: \" + card.canAfford(200));\n        System.out.println(\"500: \" + card.canAfford(500));\n        System.out.println(\"600: \" + card.canAfford(600));\n        System.out.println(\"0: \" + card.canAfford(0));\n        System.out.println(\"Balance is still \" + card.getBalance());\n    }\n}"
+        }
+      ]
+    },
+    "ex-refund-wrong": {
+      "type": "example",
+      "code": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        balance = openingBalance;\n        totalSpent = 0;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int refundBalance()\n    {\n        balance = 0;\n        return balance; // Always returns 0.\n    }\n}",
+      "files": [
+        {
+          "name": "RefundDemo.java",
+          "content": "public class RefundDemo\n{\n    public static void main(String[] args)\n    {\n        CampusCard card = new CampusCard(\"Mina\", 1200);\n        System.out.println(\"Refunded: \" + card.refundBalance());\n        System.out.println(\"Balance now: \" + card.getBalance());\n    }\n}"
+        }
+      ],
+      "title": "CampusCard.java",
+      "output": "Refunded: 0\nBalance now: 0"
+    },
+    "ex-unreachable": {
+      "type": "example",
+      "code": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        balance = openingBalance;\n        totalSpent = 0;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    // Press Run to read the compiler's complaint.\n    public int refundBalance()\n    {\n        return balance;\n        balance = 0;\n    }\n}",
+      "files": [
+        {
+          "name": "RefundDemo.java",
+          "content": "public class RefundDemo\n{\n    public static void main(String[] args)\n    {\n        CampusCard card = new CampusCard(\"Mina\", 1200);\n        System.out.println(\"Refunded: \" + card.refundBalance());\n        System.out.println(\"Balance now: \" + card.getBalance());\n    }\n}"
+        }
+      ],
+      "title": "CampusCard.java"
+    },
+    "ex-refund": {
+      "type": "example",
+      "code": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        balance = openingBalance;\n        totalSpent = 0;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int refundBalance()\n    {\n        int amountToRefund = balance;\n        balance = 0;\n        return amountToRefund;\n    }\n}",
+      "files": [
+        {
+          "name": "RefundDemo.java",
+          "content": "public class RefundDemo\n{\n    public static void main(String[] args)\n    {\n        CampusCard card = new CampusCard(\"Mina\", 1200);\n        System.out.println(\"Refunded: \" + card.refundBalance());\n        System.out.println(\"Balance now: \" + card.getBalance());\n    }\n}"
+        }
+      ],
+      "title": "CampusCard.java",
+      "output": "Refunded: 1200\nBalance now: 0"
+    },
+    "p5-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "bal": {
+          "accept": [
+            "field",
+            "a field",
+            "instance variable"
+          ],
+          "placeholder": "field / parameter / local",
+          "show": "field",
+          "width": "12rem"
+        },
+        "amt": {
+          "accept": [
+            "parameter",
+            "a parameter"
+          ],
+          "placeholder": "field / parameter / local",
+          "show": "parameter",
+          "width": "12rem"
+        },
+        "ref": {
+          "accept": [
+            "local",
+            "a local",
+            "local variable",
+            "a local variable"
+          ],
+          "placeholder": "field / parameter / local",
+          "show": "local",
+          "width": "12rem"
+        }
+      }
+    },
+    "p5-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "VGhlIGFzc2lnbm1lbnQgcmVwbGFjZXMgdGhlIG9sZCBmaWVsZCB2YWx1ZSBiZWZvcmUgdGhlIHJldHVybiBleHByZXNzaW9uIGlzIGV2YWx1YXRlZCwgc28gdGhlIG1ldGhvZCByZXR1cm5zIHplcm8u"
+    },
+    "p5-3": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "RXhlY3V0aW5nIGByZXR1cm5gIGVuZHMgdGhlIG1ldGhvZCwgc28gdGhlIGxhdGVyIGFzc2lnbm1lbnQgY2FuIG5ldmVyIGJlIHJlYWNoZWQu"
+    },
+    "p5-4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "Tm8uIEl0IGlzIG5lZWRlZCBvbmx5IGR1cmluZyBvbmUgcmVmdW5kIGNhbGwgYW5kIGlzIG5vdCBwYXJ0IG9mIHRoZSBjYXJkJ3MgcGVyc2lzdGVudCBzdGF0ZS4gQSBsb2NhbCBnaXZlcyBpdCB0aGUgbmFycm93IHNjb3BlIGFuZCBsaWZldGltZSBpdHMgam9iIHJlcXVpcmVzLg=="
+    },
+    "p5-5": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "U2NvcGUgaXMgdGhlIHNvdXJjZS1jb2RlIHJlZ2lvbiB3aGVyZSBhIG5hbWUgbWF5IGJlIHVzZWQuIExpZmV0aW1lIGlzIHRoZSBwZXJpb2QgZHVyaW5nIGV4ZWN1dGlvbiB3aGVuIHRoZSB2YXJpYWJsZSBleGlzdHMu"
+    },
+    "p5-6": {
+      "type": "code",
+      "xp": 2,
+      "minLines": 22,
+      "maxLines": 28,
+      "title": "CampusCard.java",
+      "starter": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        balance = openingBalance;\n        totalSpent = 0;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    // Repair this method by declaring and initializing the local before it is used.\n    public int doubleBalance()\n    {\n        int doubled;\n        return doubled;\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Doubled: 2400"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*intdoubled=(balance\\\\*2|2\\\\*balance|balance\\\\+balance);.*\"), \"Give the local a value when it is declared: int doubled = balance * 2;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"returndoubled;\"), \"Return the local: return doubled;\");",
+      "answer": "cHVibGljIGNsYXNzIENhbXB1c0NhcmQKewogICAgcHJpdmF0ZSBTdHJpbmcgb3duZXI7CiAgICBwcml2YXRlIGludCBiYWxhbmNlOwogICAgcHJpdmF0ZSBpbnQgdG90YWxTcGVudDsKCiAgICBwdWJsaWMgQ2FtcHVzQ2FyZChTdHJpbmcgb3duZXIsIGludCBvcGVuaW5nQmFsYW5jZSkKICAgIHsKICAgICAgICB0aGlzLm93bmVyID0gb3duZXI7CiAgICAgICAgYmFsYW5jZSA9IG9wZW5pbmdCYWxhbmNlOwogICAgICAgIHRvdGFsU3BlbnQgPSAwOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0QmFsYW5jZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIGJhbGFuY2U7CiAgICB9CgogICAgcHVibGljIGludCBkb3VibGVCYWxhbmNlKCkKICAgIHsKICAgICAgICBpbnQgZG91YmxlZCA9IGJhbGFuY2UgKiAyOwogICAgICAgIHJldHVybiBkb3VibGVkOwogICAgfQp9",
+      "files": [
+        {
+          "name": "DoubleDemo.java",
+          "content": "public class DoubleDemo\n{\n    public static void main(String[] args)\n    {\n        CampusCard card = new CampusCard(\"Mina\", 1200);\n        System.out.println(\"Doubled: \" + card.doubleBalance());\n    }\n}"
+        }
+      ]
+    },
+    "p6-1": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "QWNjZXNzb3JzOiBgZ2V0T3duZXJgLCBgZ2V0QmFsYW5jZWAsIGFuZCBgZ2V0VG90YWxTcGVudGAuIFN0YXRlLWNoYW5naW5nIG1ldGhvZHM6IGB0b3BVcGAsIGBwYXlgLCBhbmQgYHJlZnVuZEJhbGFuY2VgLg=="
+    },
+    "p6-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "WWVzLiBgcGF5YCBhbmQgYHRvcFVwYCBtdXRhdGUgc3RhdGUgb24gc3VjY2Vzc2Z1bCBjYWxscyBhbmQgcmV0dXJuIGEgYm9vbGVhbiByZXN1bHQuIGByZWZ1bmRCYWxhbmNlYCBhbHNvIG11dGF0ZXMgYW5kIHJldHVybnMgdGhlIG9sZCBiYWxhbmNlLg=="
+    },
+    "p6-3": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "inv": {
+          "accept": [
+            "balance >= 0",
+            "balance>=0",
+            "the balance is never negative",
+            "balance is never negative",
+            "balance is not negative",
+            "the balance is not negative",
+            "balance is at least 0",
+            "balance is at least zero",
+            "0 <= balance",
+            "balance never goes below zero",
+            "the balance never goes below zero"
+          ],
+          "placeholder": "condition",
+          "show": "balance >= 0",
+          "width": "14rem"
+        }
+      }
+    },
+    "p6-4": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "l1": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "output"
+        },
+        "l2": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "output"
+        },
+        "l3": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "output"
+        },
+        "l4": {
+          "accept": [
+            "1050"
+          ],
+          "placeholder": "output"
+        },
+        "l5": {
+          "accept": [
+            "450"
+          ],
+          "placeholder": "output"
+        },
+        "l6": {
+          "accept": [
+            "1050"
+          ],
+          "placeholder": "output"
+        },
+        "l7": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "output"
+        }
+      }
+    },
+    "ex-predict": {
+      "type": "example",
+      "code": "CampusCard card = new CampusCard(\"Mina\", 1200);\nSystem.out.println(card.topUp(300));\nSystem.out.println(card.pay(450));\nSystem.out.println(card.pay(2000));\nSystem.out.println(card.getBalance());\nSystem.out.println(card.getTotalSpent());\nSystem.out.println(card.refundBalance());\nSystem.out.println(card.getBalance());",
+      "files": [
+        {
+          "name": "CampusCard.java",
+          "content": "public class CampusCard\n{\n    private String owner;\n    private int balance;\n    private int totalSpent;\n\n    public CampusCard(String owner, int openingBalance)\n    {\n        this.owner = owner;\n        if(openingBalance >= 0) {\n            balance = openingBalance;\n        }\n        else {\n            balance = 0;\n        }\n        totalSpent = 0;\n    }\n\n    public String getOwner()\n    {\n        return owner;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int getTotalSpent()\n    {\n        return totalSpent;\n    }\n\n    public boolean topUp(int amount)\n    {\n        if(amount > 0) {\n            balance = balance + amount;\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    public boolean pay(int amount)\n    {\n        if(amount > 0 && amount <= balance) {\n            balance = balance - amount;\n            totalSpent = totalSpent + amount;\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    public int refundBalance()\n    {\n        int amountToRefund = balance;\n        balance = 0;\n        return amountToRefund;\n    }\n}"
+        }
+      ],
+      "output": "true\ntrue\nfalse\n1050\n450\n1050\n0"
+    },
+    "p7a-thermostat": {
+      "type": "code",
+      "xp": 10,
+      "minLines": 30,
+      "maxLines": 60,
+      "title": "Thermostat.java",
+      "starter": "public class Thermostat\n{\n    // fields\n\n\n\n\n\n    // constructor\n\n\n\n\n\n\n\n\n    // getTemperature, setIncrement, warmer, cooler\n\n\n\n\n\n\n\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Start: 20.0\nIncrement 2.0: true\nIncrement -1.0: false\nWarmer: true\nWarmer: true\nWarmer at max: false\nFinal: 24.0\nOut of range start: 16.0\nCooler at min: false\nStill: 16.0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatedoubletemperature;\"), \"Declare private double temperature;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatedoubleminimum;\"), \"Declare private double minimum;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatedoublemaximum;\"), \"Declare private double maximum;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatedoubleincrement;\"), \"Declare private double increment;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicThermostat\\\\(double\\\\w+,double\\\\w+,double\\\\w+\\\\).*\"), \"The constructor header takes three double parameters: public Thermostat(double minimum, double maximum, double initialTemperature).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicdoublegetTemperature()\"), \"Include the accessor public double getTemperature().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicbooleansetIncrement\\\\(double\\\\w+\\\\).*\"), \"Include public boolean setIncrement(double increment).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleanwarmer()\"), \"Include public boolean warmer().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleancooler()\"), \"Include public boolean cooler().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicbooleanwarmer\\\\(\\\\)\\\\{double\\\\w+=.*\"), \"warmer() starts by storing the proposed temperature in a local double variable.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicbooleancooler\\\\(\\\\)\\\\{double\\\\w+=.*\"), \"cooler() starts by storing the proposed temperature in a local double variable.\");",
+      "answer": "cHVibGljIGNsYXNzIFRoZXJtb3N0YXQKewogICAgcHJpdmF0ZSBkb3VibGUgdGVtcGVyYXR1cmU7CiAgICBwcml2YXRlIGRvdWJsZSBtaW5pbXVtOwogICAgcHJpdmF0ZSBkb3VibGUgbWF4aW11bTsKICAgIHByaXZhdGUgZG91YmxlIGluY3JlbWVudDsKCiAgICBwdWJsaWMgVGhlcm1vc3RhdChkb3VibGUgbWluaW11bSwgZG91YmxlIG1heGltdW0sCiAgICAgICAgICAgICAgICAgICAgICBkb3VibGUgaW5pdGlhbFRlbXBlcmF0dXJlKQogICAgewogICAgICAgIHRoaXMubWluaW11bSA9IG1pbmltdW07CiAgICAgICAgdGhpcy5tYXhpbXVtID0gbWF4aW11bTsKICAgICAgICBpZihpbml0aWFsVGVtcGVyYXR1cmUgPj0gbWluaW11bSAmJiBpbml0aWFsVGVtcGVyYXR1cmUgPD0gbWF4aW11bSkgewogICAgICAgICAgICB0ZW1wZXJhdHVyZSA9IGluaXRpYWxUZW1wZXJhdHVyZTsKICAgICAgICB9CiAgICAgICAgZWxzZSB7CiAgICAgICAgICAgIHRlbXBlcmF0dXJlID0gbWluaW11bTsKICAgICAgICB9CiAgICAgICAgaW5jcmVtZW50ID0gMS4wOwogICAgfQoKICAgIHB1YmxpYyBkb3VibGUgZ2V0VGVtcGVyYXR1cmUoKQogICAgewogICAgICAgIHJldHVybiB0ZW1wZXJhdHVyZTsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBzZXRJbmNyZW1lbnQoZG91YmxlIGluY3JlbWVudCkKICAgIHsKICAgICAgICBpZihpbmNyZW1lbnQgPiAwKSB7CiAgICAgICAgICAgIHRoaXMuaW5jcmVtZW50ID0gaW5jcmVtZW50OwogICAgICAgICAgICByZXR1cm4gdHJ1ZTsKICAgICAgICB9CiAgICAgICAgZWxzZSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gd2FybWVyKCkKICAgIHsKICAgICAgICBkb3VibGUgcHJvcG9zZWQgPSB0ZW1wZXJhdHVyZSArIGluY3JlbWVudDsKICAgICAgICBpZihwcm9wb3NlZCA8PSBtYXhpbXVtKSB7CiAgICAgICAgICAgIHRlbXBlcmF0dXJlID0gcHJvcG9zZWQ7CiAgICAgICAgICAgIHJldHVybiB0cnVlOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBjb29sZXIoKQogICAgewogICAgICAgIGRvdWJsZSBwcm9wb3NlZCA9IHRlbXBlcmF0dXJlIC0gaW5jcmVtZW50OwogICAgICAgIGlmKHByb3Bvc2VkID49IG1pbmltdW0pIHsKICAgICAgICAgICAgdGVtcGVyYXR1cmUgPSBwcm9wb3NlZDsKICAgICAgICAgICAgcmV0dXJuIHRydWU7CiAgICAgICAgfQogICAgICAgIGVsc2UgewogICAgICAgICAgICByZXR1cm4gZmFsc2U7CiAgICAgICAgfQogICAgfQp9",
+      "files": [
+        {
+          "name": "ThermostatCheck.java",
+          "content": "public class ThermostatCheck\n{\n    public static void main(String[] args)\n    {\n        Thermostat room = new Thermostat(16.0, 24.0, 20.0);\n        System.out.println(\"Start: \" + room.getTemperature());\n        System.out.println(\"Increment 2.0: \" + room.setIncrement(2.0));\n        System.out.println(\"Increment -1.0: \" + room.setIncrement(-1.0));\n        System.out.println(\"Warmer: \" + room.warmer());\n        System.out.println(\"Warmer: \" + room.warmer());\n        System.out.println(\"Warmer at max: \" + room.warmer());\n        System.out.println(\"Final: \" + room.getTemperature());\n        Thermostat cold = new Thermostat(16.0, 24.0, 30.0);\n        System.out.println(\"Out of range start: \" + cold.getTemperature());\n        System.out.println(\"Cooler at min: \" + cold.cooler());\n        System.out.println(\"Still: \" + cold.getTemperature());\n    }\n}"
+        }
+      ]
+    },
+    "p7a-demo": {
+      "type": "code",
+      "xp": 3,
+      "minLines": 12,
+      "maxLines": 20,
+      "title": "ThermostatDemo.java",
+      "starter": "public class ThermostatDemo\n{\n    public static void main(String[] args)\n    {\n        // Construct the thermostat, set the increment, then warm it past the maximum.\n\n\n\n\n\n\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Start: 20.0\nWarmer: true\nWarmer: true\nWarmer at max: false\nFinal: 24.0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"newThermostat(16.0,24.0,20.0)\"), \"Construct the thermostat with new Thermostat(16.0, 24.0, 20.0).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".setIncrement(2.0)\"), \"Set the increment to 2.0 with setIncrement(2.0).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.warmer\\\\(\\\\).*\\\\.warmer\\\\(\\\\).*\\\\.warmer\\\\(\\\\).*\"), \"Call warmer() three times: the third call is the rejected one.\");",
+      "answer": "cHVibGljIGNsYXNzIFRoZXJtb3N0YXREZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgVGhlcm1vc3RhdCByb29tID0gbmV3IFRoZXJtb3N0YXQoMTYuMCwgMjQuMCwgMjAuMCk7CiAgICAgICAgcm9vbS5zZXRJbmNyZW1lbnQoMi4wKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlN0YXJ0OiAiICsgcm9vbS5nZXRUZW1wZXJhdHVyZSgpKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIldhcm1lcjogIiArIHJvb20ud2FybWVyKCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiV2FybWVyOiAiICsgcm9vbS53YXJtZXIoKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJXYXJtZXIgYXQgbWF4OiAiICsgcm9vbS53YXJtZXIoKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGaW5hbDogIiArIHJvb20uZ2V0VGVtcGVyYXR1cmUoKSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Thermostat.java",
+          "content": "public class Thermostat\n{\n    private double temperature;\n    private double minimum;\n    private double maximum;\n    private double increment;\n\n    public Thermostat(double minimum, double maximum,\n                      double initialTemperature)\n    {\n        this.minimum = minimum;\n        this.maximum = maximum;\n        if(initialTemperature >= minimum && initialTemperature <= maximum) {\n            temperature = initialTemperature;\n        }\n        else {\n            temperature = minimum;\n        }\n        increment = 1.0;\n    }\n\n    public double getTemperature()\n    {\n        return temperature;\n    }\n\n    public boolean setIncrement(double increment)\n    {\n        if(increment > 0) {\n            this.increment = increment;\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    public boolean warmer()\n    {\n        double proposed = temperature + increment;\n        if(proposed <= maximum) {\n            temperature = proposed;\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    public boolean cooler()\n    {\n        double proposed = temperature - increment;\n        if(proposed >= minimum) {\n            temperature = proposed;\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n}"
+        }
+      ]
+    },
+    "p7b-gamescore": {
+      "type": "code",
+      "xp": 10,
+      "minLines": 30,
+      "maxLines": 60,
+      "title": "GameScore.java",
+      "starter": "public class GameScore\n{\n    // fields\n\n\n\n\n    // constructor\n\n\n\n\n\n\n    // getters\n\n\n\n\n\n\n\n    // addPoints and finishRound\n\n\n\n\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Player: Kai\nAdd -5: false\nAdd 40: true\nAdd 25: true\nScore: 65, best: 65\nRound: 65\nScore: 0, best: 65\nScore: 30, best: 65\nRound: 30"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateStringplayer;\"), \"Declare private String player;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintscore;\"), \"Declare private int score;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintbestScore;\"), \"Declare private int bestScore;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicGameScore\\\\(String\\\\w+\\\\).*\"), \"The constructor header is public GameScore(String player).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicStringgetPlayer()\"), \"Include the getter public String getPlayer().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetScore()\"), \"Include the getter public int getScore().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetBestScore()\"), \"Include the getter public int getBestScore().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicbooleanaddPoints\\\\(int\\\\w+\\\\).*\"), \"Include public boolean addPoints(int points).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintfinishRound()\"), \"Include public int finishRound().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicintfinishRound\\\\(\\\\)\\\\{int\\\\w+=score;.*\"), \"finishRound() starts by remembering the score in a local int variable.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicintfinishRound\\\\(\\\\)\\\\{((?!bestScore=)[^}])*\\\\}.*\"), \"finishRound() must not assign to bestScore.\");",
+      "answer": "cHVibGljIGNsYXNzIEdhbWVTY29yZQp7CiAgICBwcml2YXRlIFN0cmluZyBwbGF5ZXI7CiAgICBwcml2YXRlIGludCBzY29yZTsKICAgIHByaXZhdGUgaW50IGJlc3RTY29yZTsKCiAgICBwdWJsaWMgR2FtZVNjb3JlKFN0cmluZyBwbGF5ZXIpCiAgICB7CiAgICAgICAgdGhpcy5wbGF5ZXIgPSBwbGF5ZXI7CiAgICAgICAgc2NvcmUgPSAwOwogICAgICAgIGJlc3RTY29yZSA9IDA7CiAgICB9CgogICAgcHVibGljIFN0cmluZyBnZXRQbGF5ZXIoKQogICAgewogICAgICAgIHJldHVybiBwbGF5ZXI7CiAgICB9CgogICAgcHVibGljIGludCBnZXRTY29yZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIHNjb3JlOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0QmVzdFNjb3JlKCkKICAgIHsKICAgICAgICByZXR1cm4gYmVzdFNjb3JlOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGFkZFBvaW50cyhpbnQgcG9pbnRzKQogICAgewogICAgICAgIGlmKHBvaW50cyA+IDApIHsKICAgICAgICAgICAgc2NvcmUgPSBzY29yZSArIHBvaW50czsKICAgICAgICAgICAgaWYoc2NvcmUgPiBiZXN0U2NvcmUpIHsKICAgICAgICAgICAgICAgIGJlc3RTY29yZSA9IHNjb3JlOwogICAgICAgICAgICB9CiAgICAgICAgICAgIHJldHVybiB0cnVlOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KICAgIH0KCiAgICBwdWJsaWMgaW50IGZpbmlzaFJvdW5kKCkKICAgIHsKICAgICAgICBpbnQgY29tcGxldGVkU2NvcmUgPSBzY29yZTsKICAgICAgICBzY29yZSA9IDA7CiAgICAgICAgcmV0dXJuIGNvbXBsZXRlZFNjb3JlOwogICAgfQp9",
+      "files": [
+        {
+          "name": "GameScoreCheck.java",
+          "content": "public class GameScoreCheck\n{\n    public static void main(String[] args)\n    {\n        GameScore score = new GameScore(\"Kai\");\n        System.out.println(\"Player: \" + score.getPlayer());\n        System.out.println(\"Add -5: \" + score.addPoints(-5));\n        System.out.println(\"Add 40: \" + score.addPoints(40));\n        System.out.println(\"Add 25: \" + score.addPoints(25));\n        System.out.println(\"Score: \" + score.getScore() + \", best: \" + score.getBestScore());\n        System.out.println(\"Round: \" + score.finishRound());\n        System.out.println(\"Score: \" + score.getScore() + \", best: \" + score.getBestScore());\n        score.addPoints(30);\n        System.out.println(\"Score: \" + score.getScore() + \", best: \" + score.getBestScore());\n        System.out.println(\"Round: \" + score.finishRound());\n    }\n}"
+        }
+      ]
+    },
+    "p7b-demo": {
+      "type": "code",
+      "xp": 3,
+      "minLines": 12,
+      "maxLines": 20,
+      "title": "GameScoreDemo.java",
+      "starter": "public class GameScoreDemo\n{\n    public static void main(String[] args)\n    {\n        // Add points, finish a round, and print the round score, current score, and best score.\n\n\n\n\n\n\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Kai finished with 65\nCurrent: 0\nBest: 65"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"newGameScore(\\\"Kai\\\")\"), \"Construct the score with new GameScore(\\\"Kai\\\").\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".addPoints(40)\"), \"Add 40 points with addPoints(40).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".addPoints(25)\"), \"Add 25 points with addPoints(25).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".finishRound()\"), \"Finish the round with finishRound() and print what it returns.\");",
+      "answer": "cHVibGljIGNsYXNzIEdhbWVTY29yZURlbW8KewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBHYW1lU2NvcmUgc2NvcmUgPSBuZXcgR2FtZVNjb3JlKCJLYWkiKTsKICAgICAgICBzY29yZS5hZGRQb2ludHMoNDApOwogICAgICAgIHNjb3JlLmFkZFBvaW50cygyNSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKHNjb3JlLmdldFBsYXllcigpICsgIiBmaW5pc2hlZCB3aXRoICIgKwogICAgICAgICAgICAgICAgICAgICAgICAgICBzY29yZS5maW5pc2hSb3VuZCgpKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkN1cnJlbnQ6ICIgKyBzY29yZS5nZXRTY29yZSgpKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkJlc3Q6ICIgKyBzY29yZS5nZXRCZXN0U2NvcmUoKSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "GameScore.java",
+          "content": "public class GameScore\n{\n    private String player;\n    private int score;\n    private int bestScore;\n\n    public GameScore(String player)\n    {\n        this.player = player;\n        score = 0;\n        bestScore = 0;\n    }\n\n    public String getPlayer()\n    {\n        return player;\n    }\n\n    public int getScore()\n    {\n        return score;\n    }\n\n    public int getBestScore()\n    {\n        return bestScore;\n    }\n\n    public boolean addPoints(int points)\n    {\n        if(points > 0) {\n            score = score + points;\n            if(score > bestScore) {\n                bestScore = score;\n            }\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    public int finishRound()\n    {\n        int completedScore = score;\n        score = 0;\n        return completedScore;\n    }\n}"
+        }
+      ]
+    },
+    "p7-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "t": {
+          "accept": [
+            "16.0",
+            "16"
+          ],
+          "placeholder": "temperature"
+        },
+        "w": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "true / false"
+        },
+        "c": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "true / false"
+        }
+      }
+    },
+    "p7-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 30,
+      "rows": 3,
+      "answer": "VGhlIHByb3Bvc2VkIHRlbXBlcmF0dXJlIGlzIG5lZWRlZCBvbmx5IHdoaWxlIG9uZSB3YXJtZXIoKSBvciBjb29sZXIoKSBjYWxsIGRlY2lkZXMgd2hldGhlciB0byBhY2NlcHQgaXQuIEl0IGlzIG5vdCBwYXJ0IG9mIHRoZSB0aGVybW9zdGF0J3MgcGVyc2lzdGVudCBzdGF0ZSwgc28gYSBsb2NhbCB2YXJpYWJsZSB3aXRoIHRoYXQgb25lLWNhbGwgbGlmZXRpbWUgaXMgdGhlIHJpZ2h0IGNob2ljZS4="
+    },
+    "p7-3": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "round": {
+          "accept": [
+            "65"
+          ],
+          "placeholder": "value"
+        },
+        "score": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "value"
+        },
+        "best": {
+          "accept": [
+            "65"
+          ],
+          "placeholder": "value"
+        }
+      }
+    },
+    "p7-4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 30,
+      "rows": 3,
+      "answer": "YGZpbmlzaFJvdW5kKClgIGNsZWFycyBgc2NvcmVgIGJ1dCBuZXZlciBhc3NpZ25zIHRvIGBiZXN0U2NvcmVgLCBzbyB0aGUgYmVzdCBzY29yZSBzdXJ2aXZlcyB0aGUgcm91bmQuIGBhZGRQb2ludHNgIG9ubHkgcmFpc2VzIGBiZXN0U2NvcmVgIHdoZW4gdGhlIG5ldyBzY29yZSBpcyBoaWdoZXIu"
+    }
+  }
+}
