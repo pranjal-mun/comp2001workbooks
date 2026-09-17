@@ -57,7 +57,7 @@ def file(name, content):
 
 
 # The complete SmartLamp of this lecture: fields, constructor, and the
-# supplied observation methods (Lecture 4 explains how to write those).
+# getters and printState (Lecture 4 explains how to write those).
 SMART_LAMP = '''public class SmartLamp
 {
     private String location;

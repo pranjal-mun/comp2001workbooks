@@ -58,7 +58,6 @@
       <tr><td><code>new</code></td><td>each <code>new</code> builds a separate object with its own copy of every field</td></tr>
     </tbody>
   </table>
-  <p><strong>Common mistakes:</strong> <code>class public Book</code> (keywords in the wrong order); <code>public void SmartLamp(...)</code> (a return type makes it a method, not a constructor); <code>location = location;</code> (assigns the parameter to itself; the field is never set).</p>
   <p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run on the page takes a few seconds while Java loads). Boxes that ask for a class, not a program, come with a small demo class that constructs objects from your class and prints their state, so Check can compare the output. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
 </section>
 <hr>
@@ -315,7 +314,7 @@
 
 <h2 id="s6">6. The Complete Class</h2>
 <h3>The complete <code>SmartLamp</code> class</h3>
-<p>The complete class below combines the class header, fields, constructor, parameters, assignment, and <code>this</code>. The observation methods are supplied so the program can verify the constructor's result. Writing those methods is part of Lecture 4. This is the <code>SmartLamp</code> that the example boxes on this page compile against.</p>
+<p>The complete class below combines the class header, fields, constructor, parameters, assignment, and <code>this</code>. The getters and <code>printState</code> are included so the program can print the fields and check what the constructor did. Writing those methods is part of Lecture 4. This is the <code>SmartLamp</code> that the example boxes on this page compile against.</p>
 <pre><code><span class="wb-kw">public class</span> <span class="wb-type">SmartLamp</span>
 {
     <span class="wb-kw">private</span> <span class="wb-type">String</span> location;
@@ -384,10 +383,10 @@
 </div>
 
 <h2 id="s7">7. Coding Practice</h2>
-<p>These tasks transfer the same class-state pattern to new domains. The observation methods are included in the required class so the driver can display and check the constructed state. Getters are taught in more detail in Lecture 4. For now, look at how the getters and <code>printState</code> are written in the complete <code>SmartLamp</code> class and follow the same pattern, or leave those methods until after Lecture 4 and come back to these boxes.</p>
+<p>These tasks transfer the same class-state pattern to new domains. Getters are taught in more detail in Lecture 4. For now, look at how the getters and <code>printState</code> are written in the complete <code>SmartLamp</code> class and follow the same pattern, or leave those methods until after Lecture 4 and come back to these boxes.</p>
 
 <h3>Program A: <code>Book</code> and <code>BookDemo</code></h3>
-<p>Write a complete <code>Book</code> class with private fields <code>String title</code>, <code>String author</code>, <code>int pages</code>, and <code>boolean referenceOnly</code>. Its constructor receives the first three values using same-named parameters and initializes <code>referenceOnly</code> to <code>false</code>. Include the supplied-style observation methods <code>getTitle</code>, <code>getAuthor</code>, <code>getPages</code>, <code>isReferenceOnly</code>, and <code>printState</code>. Make <code>printState</code> print one line in this form:</p>
+<p>Write a complete <code>Book</code> class with private fields <code>String title</code>, <code>String author</code>, <code>int pages</code>, and <code>boolean referenceOnly</code>. Its constructor receives the first three values using same-named parameters and initializes <code>referenceOnly</code> to <code>false</code>. Include the methods <code>getTitle</code>, <code>getAuthor</code>, <code>getPages</code>, <code>isReferenceOnly</code>, and <code>printState</code>. Make <code>printState</code> print one line in this form:</p>
 <pre class="wb-output">Kindred by Octavia E. Butler: pages=288, referenceOnly=false</pre>
 <p>The demo behind this box constructs these two objects and prints their state:</p>
 <pre><code><span class="wb-kw">new</span> <span class="wb-fn">Book</span>(<span class="wb-str">"The Left Hand of Darkness"</span>, <span class="wb-str">"Ursula K. Le Guin"</span>, <span class="wb-num">304</span>)
