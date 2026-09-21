@@ -1,0 +1,1051 @@
+{
+  "id": "lecture-05",
+  "course": "COMP 2001: Object-Oriented Programming",
+  "title": "Lecture 5 Workbook",
+  "subtitle": "Chapter 3: Objects collaborate",
+  "exercises": {
+    "p1-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "on": {
+          "accept": [
+            "Flashlight"
+          ],
+          "placeholder": "Flashlight / Battery",
+          "show": "Flashlight"
+        },
+        "capacity": {
+          "accept": [
+            "Battery"
+          ],
+          "placeholder": "Flashlight / Battery",
+          "show": "Battery"
+        },
+        "charge": {
+          "accept": [
+            "Battery"
+          ],
+          "placeholder": "Flashlight / Battery",
+          "show": "Battery"
+        },
+        "turnOff": {
+          "accept": [
+            "Flashlight"
+          ],
+          "placeholder": "Flashlight / Battery",
+          "show": "Flashlight"
+        },
+        "drain": {
+          "accept": [
+            "Battery"
+          ],
+          "placeholder": "Flashlight / Battery",
+          "show": "Battery"
+        },
+        "recharge": {
+          "accept": [
+            "Battery"
+          ],
+          "placeholder": "Flashlight / Battery",
+          "show": "Battery"
+        }
+      }
+    },
+    "p1-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "VGhlIHR3byB2YWx1ZXMgY291bGQgZGlzYWdyZWUuIFRoZXJlIHNob3VsZCBiZSBvbmUgYXV0aG9yaXRhdGl2ZSBjaGFyZ2UgdmFsdWUsIG93bmVkIGJ5IGBCYXR0ZXJ5YDsgdGhlIGBGbGFzaGxpZ2h0YCBzaG91bGQgYXNrIGZvciBpdCBpbnN0ZWFkIG9mIGtlZXBpbmcgaXRzIG93biBjb3B5Lg=="
+    },
+    "p1-3": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "QSBjbGFzcyBib3VuZGFyeSBzaG91bGQgcmVwcmVzZW50IGEgdXNlZnVsLCBzZXBhcmF0ZSByZXNwb25zaWJpbGl0eS4gTW92aW5nIGV2ZXJ5IGZpZWxkIGludG8gaXRzIG93biBjbGFzcyBhZGRzIGNvbXBsZXhpdHkgd2l0aG91dCBuZWNlc3NhcmlseSBtYWtpbmcgdGhlIGRlc2lnbiBjbGVhcmVyIG9yIG1vcmUgcmV1c2FibGUu"
+    },
+    "p1-4": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "c0": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "charge"
+        },
+        "c1": {
+          "accept": [
+            "2"
+          ],
+          "placeholder": "charge"
+        },
+        "c2": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "charge"
+        },
+        "c3": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "charge"
+        }
+      }
+    },
+    "ex-battery-trace": {
+      "type": "example",
+      "code": "Battery battery = new Battery(3);\nSystem.out.println(battery.getCharge());\n\nbattery.drain(1);\nSystem.out.println(battery.getCharge());\n\nbattery.drain(5);\nSystem.out.println(battery.getCharge());\n\nbattery.recharge();\nSystem.out.println(battery.getCharge());",
+      "files": [
+        {
+          "name": "Battery.java",
+          "content": "public class Battery\n{\n    private int capacity;\n    private int charge;\n\n    public Battery(int capacity)\n    {\n        this.capacity = capacity;\n        charge = capacity;\n    }\n\n    public int getCharge()\n    {\n        return charge;\n    }\n\n    public boolean isEmpty()\n    {\n        return charge == 0;\n    }\n\n    public void drain(int amount)\n    {\n        if(amount > 0) {\n            charge = charge - amount;\n            if(charge < 0) {\n                charge = 0;\n            }\n        }\n    }\n\n    public void recharge()\n    {\n        charge = capacity;\n    }\n}"
+        }
+      ],
+      "output": "3\n2\n0\n3"
+    },
+    "p1-5": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "YEJhdHRlcnlgIG93bnMgdGhlIGNoYXJnZSBhbmQgdGhlIHJ1bGUgdGhhdCBrZWVwcyBpdCB2YWxpZC4gRW5mb3JjaW5nIHRoZSBydWxlIGluIG9uZSBwbGFjZSBwcm90ZWN0cyBldmVyeSBjYWxsZXIgYW5kIGF2b2lkcyBkdXBsaWNhdGVkIGNoZWNrcyBzY2F0dGVyZWQgYWNyb3NzIG1hbnkgZGV2aWNlIGNsYXNzZXMu"
+    },
+    "p2-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "decl": {
+          "accept": [
+            "private TemperatureSensor sensor;",
+            "private TemperatureSensor sensor"
+          ],
+          "caseSensitive": true,
+          "placeholder": "the field declaration",
+          "show": "private TemperatureSensor sensor;",
+          "width": "18rem"
+        }
+      }
+    },
+    "p2-2": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "mod": {
+          "accept": [
+            "private"
+          ],
+          "caseSensitive": true,
+          "placeholder": "part"
+        },
+        "type": {
+          "accept": [
+            "Battery"
+          ],
+          "caseSensitive": true,
+          "placeholder": "part"
+        },
+        "name": {
+          "accept": [
+            "battery"
+          ],
+          "caseSensitive": true,
+          "placeholder": "part"
+        }
+      }
+    },
+    "p2-3": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "value": {
+          "accept": [
+            "null"
+          ],
+          "placeholder": "value"
+        },
+        "count": {
+          "accept": [
+            "0",
+            "zero",
+            "none"
+          ],
+          "placeholder": "how many?",
+          "show": "zero"
+        }
+      }
+    },
+    "p2-4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "VGhlIGZpcnN0IGNhbGwgaGFzIG5vIGBCYXR0ZXJ5YCBvYmplY3QgYXMgaXRzIHJlY2VpdmVyLCBiZWNhdXNlIHRoZSBmaWVsZCBpcyBzdGlsbCBgbnVsbGAuIFRoZSBjb2xsYWJvcmF0b3IgbXVzdCBiZSBjcmVhdGVkIG9yIGFzc2lnbmVkIGJlZm9yZSBpdHMgbWV0aG9kcyBhcmUgY2FsbGVkLg=="
+    },
+    "p2-5": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "a": {
+          "accept": [
+            "class diagram",
+            "class",
+            "the class diagram"
+          ],
+          "placeholder": "class / object diagram",
+          "show": "class diagram",
+          "width": "12rem"
+        },
+        "b": {
+          "accept": [
+            "object diagram",
+            "object",
+            "the object diagram"
+          ],
+          "placeholder": "class / object diagram",
+          "show": "object diagram",
+          "width": "12rem"
+        },
+        "c": {
+          "accept": [
+            "object diagram",
+            "object",
+            "the object diagram"
+          ],
+          "placeholder": "class / object diagram",
+          "show": "object diagram",
+          "width": "12rem"
+        }
+      }
+    },
+    "p3-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "count": {
+          "accept": [
+            "2",
+            "two"
+          ],
+          "placeholder": "how many?",
+          "show": "two"
+        },
+        "classes": {
+          "accept": [
+            "Flashlight and Battery",
+            "Battery and Flashlight",
+            "Flashlight, Battery",
+            "Battery, Flashlight",
+            "a Flashlight and a Battery",
+            "one Flashlight and one Battery"
+          ],
+          "placeholder": "their classes",
+          "show": "Flashlight and Battery",
+          "width": "14rem"
+        }
+      }
+    },
+    "p3-2": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "f": {
+          "accept": [
+            "2",
+            "two"
+          ],
+          "placeholder": "how many?",
+          "show": "two"
+        },
+        "b": {
+          "accept": [
+            "2",
+            "two"
+          ],
+          "placeholder": "how many?",
+          "show": "two"
+        },
+        "share": {
+          "accept": [
+            "no",
+            "no, each has its own",
+            "they do not share"
+          ],
+          "placeholder": "yes / no",
+          "show": "no"
+        }
+      }
+    },
+    "p3-3": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "k1": {
+          "accept": [
+            "declaration"
+          ],
+          "placeholder": "declaration / construction / assignment / method call",
+          "show": "declaration",
+          "width": "18rem"
+        },
+        "k2": {
+          "accept": [
+            "construction"
+          ],
+          "placeholder": "declaration / construction / assignment / method call",
+          "show": "construction",
+          "width": "18rem"
+        },
+        "k3": {
+          "accept": [
+            "assignment",
+            "assignment containing a construction",
+            "assignment and construction",
+            "construction and assignment",
+            "assignment with a construction"
+          ],
+          "placeholder": "declaration / construction / assignment / method call",
+          "show": "assignment (containing a construction)",
+          "width": "18rem"
+        },
+        "k4": {
+          "accept": [
+            "method call",
+            "call",
+            "a method call"
+          ],
+          "placeholder": "declaration / construction / assignment / method call",
+          "show": "method call",
+          "width": "18rem"
+        }
+      }
+    },
+    "p3-4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "Qm90aCBuYW1lcyBhcmUgYGJhdHRlcnlgLiBgdGhpcy5iYXR0ZXJ5YCBpZGVudGlmaWVzIHRoZSBmaWVsZCBvZiB0aGUgbmV3IGZsYXNobGlnaHQ7IHRoZSB1bnF1YWxpZmllZCBgYmF0dGVyeWAgaWRlbnRpZmllcyB0aGUgY29uc3RydWN0b3IgcGFyYW1ldGVyLiBUaGUgYXNzaWdubWVudCBzdG9yZXMgdGhlIHN1cHBsaWVkIHJlZmVyZW5jZSBpbiB0aGUgZmllbGQu"
+    },
+    "p3-5": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "T25lIGBCYXR0ZXJ5YCBhbmQgb25lIGBGbGFzaGxpZ2h0YC4gYHRlc3RCYXR0ZXJ5YCBhbmQgYHRlc3RMaWdodGAncyBgYmF0dGVyeWAgZmllbGQgYm90aCByZWZlciB0byB0aGUgc2FtZSBiYXR0ZXJ5IG9iamVjdC4="
+    },
+    "p3-6": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "c1": {
+          "accept": [
+            "no-argument",
+            "no-argument constructor",
+            "Flashlight()",
+            "the no-argument constructor",
+            "no argument",
+            "default"
+          ],
+          "show": "no-argument",
+          "placeholder": "no-argument / Battery-parameter",
+          "width": "14rem"
+        },
+        "n1": {
+          "accept": [
+            "yes"
+          ],
+          "placeholder": "yes / no"
+        },
+        "c2": {
+          "accept": [
+            "Battery-parameter",
+            "Battery-parameter constructor",
+            "Flashlight(Battery)",
+            "Flashlight(Battery battery)",
+            "the Battery-parameter constructor",
+            "Battery parameter"
+          ],
+          "show": "Battery-parameter",
+          "placeholder": "no-argument / Battery-parameter",
+          "width": "14rem"
+        },
+        "n2": {
+          "accept": [
+            "no"
+          ],
+          "placeholder": "yes / no"
+        }
+      }
+    },
+    "ex-two-lights": {
+      "type": "example",
+      "code": "Flashlight first = new Flashlight();\nFlashlight second = new Flashlight();\n\nfirst.turnOn();\nfirst.useForOneMinute();\nSystem.out.println(\"first: \" + first.getBatteryCharge());\nSystem.out.println(\"second: \" + second.getBatteryCharge());",
+      "files": [
+        {
+          "name": "Battery.java",
+          "content": "public class Battery\n{\n    private int capacity;\n    private int charge;\n\n    public Battery(int capacity)\n    {\n        this.capacity = capacity;\n        charge = capacity;\n    }\n\n    public int getCharge()\n    {\n        return charge;\n    }\n\n    public boolean isEmpty()\n    {\n        return charge == 0;\n    }\n\n    public void drain(int amount)\n    {\n        if(amount > 0) {\n            charge = charge - amount;\n            if(charge < 0) {\n                charge = 0;\n            }\n        }\n    }\n\n    public void recharge()\n    {\n        charge = capacity;\n    }\n}"
+        },
+        {
+          "name": "Flashlight.java",
+          "content": "public class Flashlight\n{\n    private Battery battery;\n    private boolean on;\n\n    public Flashlight()\n    {\n        battery = new Battery(100);\n        on = false;\n    }\n\n    public Flashlight(Battery battery)\n    {\n        this.battery = battery;\n        on = false;\n    }\n\n    public void turnOn()\n    {\n        if(!battery.isEmpty()) {\n            on = true;\n        }\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void useForOneMinute()\n    {\n        if(on) {\n            battery.drain(1);\n            updatePowerState();\n        }\n    }\n\n    private void updatePowerState()\n    {\n        if(battery.isEmpty()) {\n            on = false;\n        }\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBatteryCharge()\n    {\n        return battery.getCharge();\n    }\n}"
+        }
+      ],
+      "output": "first: 99\nsecond: 100"
+    },
+    "ex-receive": {
+      "type": "example",
+      "code": "Battery testBattery = new Battery(3);\nFlashlight testLight = new Flashlight(testBattery);\n\ntestLight.turnOn();\ntestLight.useForOneMinute();\nSystem.out.println(\"through the flashlight: \" + testLight.getBatteryCharge());\nSystem.out.println(\"through testBattery: \" + testBattery.getCharge());",
+      "files": [
+        {
+          "name": "Battery.java",
+          "content": "public class Battery\n{\n    private int capacity;\n    private int charge;\n\n    public Battery(int capacity)\n    {\n        this.capacity = capacity;\n        charge = capacity;\n    }\n\n    public int getCharge()\n    {\n        return charge;\n    }\n\n    public boolean isEmpty()\n    {\n        return charge == 0;\n    }\n\n    public void drain(int amount)\n    {\n        if(amount > 0) {\n            charge = charge - amount;\n            if(charge < 0) {\n                charge = 0;\n            }\n        }\n    }\n\n    public void recharge()\n    {\n        charge = capacity;\n    }\n}"
+        },
+        {
+          "name": "Flashlight.java",
+          "content": "public class Flashlight\n{\n    private Battery battery;\n    private boolean on;\n\n    public Flashlight()\n    {\n        battery = new Battery(100);\n        on = false;\n    }\n\n    public Flashlight(Battery battery)\n    {\n        this.battery = battery;\n        on = false;\n    }\n\n    public void turnOn()\n    {\n        if(!battery.isEmpty()) {\n            on = true;\n        }\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void useForOneMinute()\n    {\n        if(on) {\n            battery.drain(1);\n            updatePowerState();\n        }\n    }\n\n    private void updatePowerState()\n    {\n        if(battery.isEmpty()) {\n            on = false;\n        }\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBatteryCharge()\n    {\n        return battery.getCharge();\n    }\n}"
+        }
+      ],
+      "output": "through the flashlight: 2\nthrough testBattery: 2"
+    },
+    "p4-1": {
+      "type": "code",
+      "xp": 2,
+      "minLines": 40,
+      "maxLines": 56,
+      "title": "Flashlight.java",
+      "starter": "public class Flashlight\n{\n    private Battery battery;\n    private boolean on;\n\n    public Flashlight()\n    {\n        battery = new Battery(100);\n        on = false;\n    }\n\n    public Flashlight(Battery battery)\n    {\n        this.battery = battery;\n        on = false;\n    }\n\n    public void turnOn()\n    {\n        if(!battery.isEmpty()) {\n            on = true;\n        }\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void useForOneMinute()\n    {\n        if(on) {\n            battery.drain(1);\n            updatePowerState();\n        }\n    }\n\n    private void updatePowerState()\n    {\n        if(battery.isEmpty()) {\n            on = false;\n        }\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    // Repair the call so it has an object as its receiver.\n    public int getBatteryCharge()\n    {\n        return Battery.getCharge();\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Charge: 3"
+        }
+      ],
+      "check": "require(!source.replaceAll(\"\\\\s+\", \"\").contains(\"Battery.getCharge()\"), \"Battery names the class, not an object, so Battery.getCharge() has no receiver.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"battery.getCharge()\"), \"Call the method on the field that refers to the battery object: battery.getCharge().\");",
+      "answer": "cHVibGljIGNsYXNzIEZsYXNobGlnaHQKewogICAgcHJpdmF0ZSBCYXR0ZXJ5IGJhdHRlcnk7CiAgICBwcml2YXRlIGJvb2xlYW4gb247CgogICAgcHVibGljIEZsYXNobGlnaHQoKQogICAgewogICAgICAgIGJhdHRlcnkgPSBuZXcgQmF0dGVyeSgxMDApOwogICAgICAgIG9uID0gZmFsc2U7CiAgICB9CgogICAgcHVibGljIEZsYXNobGlnaHQoQmF0dGVyeSBiYXR0ZXJ5KQogICAgewogICAgICAgIHRoaXMuYmF0dGVyeSA9IGJhdHRlcnk7CiAgICAgICAgb24gPSBmYWxzZTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCB0dXJuT24oKQogICAgewogICAgICAgIGlmKCFiYXR0ZXJ5LmlzRW1wdHkoKSkgewogICAgICAgICAgICBvbiA9IHRydWU7CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyB2b2lkIHR1cm5PZmYoKQogICAgewogICAgICAgIG9uID0gZmFsc2U7CiAgICB9CgogICAgcHVibGljIHZvaWQgdXNlRm9yT25lTWludXRlKCkKICAgIHsKICAgICAgICBpZihvbikgewogICAgICAgICAgICBiYXR0ZXJ5LmRyYWluKDEpOwogICAgICAgICAgICB1cGRhdGVQb3dlclN0YXRlKCk7CiAgICAgICAgfQogICAgfQoKICAgIHByaXZhdGUgdm9pZCB1cGRhdGVQb3dlclN0YXRlKCkKICAgIHsKICAgICAgICBpZihiYXR0ZXJ5LmlzRW1wdHkoKSkgewogICAgICAgICAgICBvbiA9IGZhbHNlOwogICAgICAgIH0KICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBpc09uKCkKICAgIHsKICAgICAgICByZXR1cm4gb247CiAgICB9CgogICAgcHVibGljIGludCBnZXRCYXR0ZXJ5Q2hhcmdlKCkKICAgIHsKICAgICAgICByZXR1cm4gYmF0dGVyeS5nZXRDaGFyZ2UoKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Battery.java",
+          "content": "public class Battery\n{\n    private int capacity;\n    private int charge;\n\n    public Battery(int capacity)\n    {\n        this.capacity = capacity;\n        charge = capacity;\n    }\n\n    public int getCharge()\n    {\n        return charge;\n    }\n\n    public boolean isEmpty()\n    {\n        return charge == 0;\n    }\n\n    public void drain(int amount)\n    {\n        if(amount > 0) {\n            charge = charge - amount;\n            if(charge < 0) {\n                charge = 0;\n            }\n        }\n    }\n\n    public void recharge()\n    {\n        charge = capacity;\n    }\n}"
+        },
+        {
+          "name": "ChargeDemo.java",
+          "content": "public class ChargeDemo\n{\n    public static void main(String[] args)\n    {\n        Flashlight light = new Flashlight(new Battery(3));\n        System.out.println(\"Charge: \" + light.getBatteryCharge());\n    }\n}"
+        }
+      ]
+    },
+    "p4-1-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "YEJhdHRlcnlgIG5hbWVzIHRoZSBjbGFzcywgbm90IGEgcGFydGljdWxhciBiYXR0ZXJ5IG9iamVjdCwgYW5kIGBnZXRDaGFyZ2VgIGlzIGFuIGluc3RhbmNlIG1ldGhvZCwgc28gaXQgbmVlZHMgYW4gb2JqZWN0IHRvIHJ1biBvbi4gRml4OiBgYmF0dGVyeS5nZXRDaGFyZ2UoKTtgLiAoYHN0YXRpY2AgbWV0aG9kcyBjb21lIGxhdGVyLik="
+    },
+    "p4-2": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "empty": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "true / false"
+        },
+        "not": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "true / false"
+        },
+        "on": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "true / false"
+        },
+        "charge": {
+          "accept": [
+            "2"
+          ],
+          "placeholder": "charge"
+        }
+      }
+    },
+    "p4-3": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "empty": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "true / false"
+        },
+        "not": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "true / false"
+        },
+        "on": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "true / false"
+        }
+      }
+    },
+    "ex-turn-on": {
+      "type": "example",
+      "code": "Battery low = new Battery(2);\nFlashlight light = new Flashlight(low);\nlight.turnOn();\nSystem.out.println(\"on: \" + light.isOn() + \", charge: \" + light.getBatteryCharge());\n\nBattery flat = new Battery(2);\nflat.drain(2);\nFlashlight dark = new Flashlight(flat);\ndark.turnOn();\nSystem.out.println(\"on: \" + dark.isOn() + \", charge: \" + dark.getBatteryCharge());",
+      "files": [
+        {
+          "name": "Battery.java",
+          "content": "public class Battery\n{\n    private int capacity;\n    private int charge;\n\n    public Battery(int capacity)\n    {\n        this.capacity = capacity;\n        charge = capacity;\n    }\n\n    public int getCharge()\n    {\n        return charge;\n    }\n\n    public boolean isEmpty()\n    {\n        return charge == 0;\n    }\n\n    public void drain(int amount)\n    {\n        if(amount > 0) {\n            charge = charge - amount;\n            if(charge < 0) {\n                charge = 0;\n            }\n        }\n    }\n\n    public void recharge()\n    {\n        charge = capacity;\n    }\n}"
+        },
+        {
+          "name": "Flashlight.java",
+          "content": "public class Flashlight\n{\n    private Battery battery;\n    private boolean on;\n\n    public Flashlight()\n    {\n        battery = new Battery(100);\n        on = false;\n    }\n\n    public Flashlight(Battery battery)\n    {\n        this.battery = battery;\n        on = false;\n    }\n\n    public void turnOn()\n    {\n        if(!battery.isEmpty()) {\n            on = true;\n        }\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void useForOneMinute()\n    {\n        if(on) {\n            battery.drain(1);\n            updatePowerState();\n        }\n    }\n\n    private void updatePowerState()\n    {\n        if(battery.isEmpty()) {\n            on = false;\n        }\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBatteryCharge()\n    {\n        return battery.getCharge();\n    }\n}"
+        }
+      ],
+      "output": "on: true, charge: 2\non: false, charge: 0"
+    },
+    "p4-4": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "ka": {
+          "accept": [
+            "external"
+          ],
+          "show": "external",
+          "placeholder": "internal / external",
+          "width": "9rem"
+        },
+        "ra": {
+          "accept": [
+            "battery",
+            "the battery",
+            "the battery field",
+            "battery field"
+          ],
+          "placeholder": "receiver",
+          "show": "battery",
+          "width": "14rem"
+        },
+        "kb": {
+          "accept": [
+            "internal"
+          ],
+          "show": "internal",
+          "placeholder": "internal / external",
+          "width": "9rem"
+        },
+        "rb": {
+          "accept": [
+            "this",
+            "the current object",
+            "the current Flashlight object",
+            "the current flashlight",
+            "this flashlight",
+            "the flashlight",
+            "the Flashlight object",
+            "the same object",
+            "this object",
+            "the flashlight itself"
+          ],
+          "placeholder": "receiver",
+          "show": "the current Flashlight object",
+          "width": "14rem"
+        },
+        "kc": {
+          "accept": [
+            "external"
+          ],
+          "show": "external",
+          "placeholder": "internal / external",
+          "width": "9rem"
+        },
+        "rc": {
+          "accept": [
+            "battery",
+            "the battery",
+            "the battery field",
+            "battery field"
+          ],
+          "placeholder": "receiver",
+          "show": "battery",
+          "width": "14rem"
+        }
+      }
+    },
+    "p4-5": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "YHByaXZhdGVgIHByZXZlbnRzIGFjY2VzcyBmcm9tIG91dHNpZGUgdGhlIGRlZmluaW5nIGNsYXNzLiBNZXRob2RzIG9mIHRoYXQgc2FtZSBjbGFzcywgc3VjaCBhcyBhbm90aGVyIGluc3RhbmNlIG1ldGhvZCwgbWF5IHN0aWxsIGNhbGwgdGhlIHByaXZhdGUgaGVscGVyIGludGVybmFsbHku"
+    },
+    "p4-6": {
+      "type": "code",
+      "xp": 2,
+      "minLines": 40,
+      "maxLines": 56,
+      "title": "Flashlight.java",
+      "starter": "public class Flashlight\n{\n    private Battery battery;\n    private boolean on;\n\n    public Flashlight()\n    {\n        battery = new Battery(100);\n        on = false;\n    }\n\n    public Flashlight(Battery battery)\n    {\n        this.battery = battery;\n        on = false;\n    }\n\n    public void turnOn()\n    {\n        if(!battery.isEmpty()) {\n            on = true;\n        }\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void useForOneMinute()\n    {\n        if(on) {\n            battery.drain(1);\n            updatePowerState();\n        }\n    }\n\n    private void updatePowerState()\n    {\n        if(battery.isEmpty()) {\n            on = false;\n        }\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    // Write getBatteryCharge() here. Ask the battery; do not add a charge field.\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Charge: 3\nCharge: 2\nCharge: 3"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetBatteryCharge()\"), \"The header is public int getBatteryCharge(): the charge is an int and no parameters are needed.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"returnbattery.getCharge();\"), \"Delegate to the collaborator: return battery.getCharge();\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintcharge\"), \"Do not add a charge field to Flashlight; the battery already owns that value.\");",
+      "answer": "cHVibGljIGNsYXNzIEZsYXNobGlnaHQKewogICAgcHJpdmF0ZSBCYXR0ZXJ5IGJhdHRlcnk7CiAgICBwcml2YXRlIGJvb2xlYW4gb247CgogICAgcHVibGljIEZsYXNobGlnaHQoKQogICAgewogICAgICAgIGJhdHRlcnkgPSBuZXcgQmF0dGVyeSgxMDApOwogICAgICAgIG9uID0gZmFsc2U7CiAgICB9CgogICAgcHVibGljIEZsYXNobGlnaHQoQmF0dGVyeSBiYXR0ZXJ5KQogICAgewogICAgICAgIHRoaXMuYmF0dGVyeSA9IGJhdHRlcnk7CiAgICAgICAgb24gPSBmYWxzZTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCB0dXJuT24oKQogICAgewogICAgICAgIGlmKCFiYXR0ZXJ5LmlzRW1wdHkoKSkgewogICAgICAgICAgICBvbiA9IHRydWU7CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyB2b2lkIHR1cm5PZmYoKQogICAgewogICAgICAgIG9uID0gZmFsc2U7CiAgICB9CgogICAgcHVibGljIHZvaWQgdXNlRm9yT25lTWludXRlKCkKICAgIHsKICAgICAgICBpZihvbikgewogICAgICAgICAgICBiYXR0ZXJ5LmRyYWluKDEpOwogICAgICAgICAgICB1cGRhdGVQb3dlclN0YXRlKCk7CiAgICAgICAgfQogICAgfQoKICAgIHByaXZhdGUgdm9pZCB1cGRhdGVQb3dlclN0YXRlKCkKICAgIHsKICAgICAgICBpZihiYXR0ZXJ5LmlzRW1wdHkoKSkgewogICAgICAgICAgICBvbiA9IGZhbHNlOwogICAgICAgIH0KICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBpc09uKCkKICAgIHsKICAgICAgICByZXR1cm4gb247CiAgICB9CgogICAgcHVibGljIGludCBnZXRCYXR0ZXJ5Q2hhcmdlKCkKICAgIHsKICAgICAgICByZXR1cm4gYmF0dGVyeS5nZXRDaGFyZ2UoKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Battery.java",
+          "content": "public class Battery\n{\n    private int capacity;\n    private int charge;\n\n    public Battery(int capacity)\n    {\n        this.capacity = capacity;\n        charge = capacity;\n    }\n\n    public int getCharge()\n    {\n        return charge;\n    }\n\n    public boolean isEmpty()\n    {\n        return charge == 0;\n    }\n\n    public void drain(int amount)\n    {\n        if(amount > 0) {\n            charge = charge - amount;\n            if(charge < 0) {\n                charge = 0;\n            }\n        }\n    }\n\n    public void recharge()\n    {\n        charge = capacity;\n    }\n}"
+        },
+        {
+          "name": "DelegateDemo.java",
+          "content": "public class DelegateDemo\n{\n    public static void main(String[] args)\n    {\n        Battery small = new Battery(3);\n        Flashlight light = new Flashlight(small);\n        System.out.println(\"Charge: \" + light.getBatteryCharge());\n        light.turnOn();\n        light.useForOneMinute();\n        System.out.println(\"Charge: \" + light.getBatteryCharge());\n        small.recharge();\n        System.out.println(\"Charge: \" + light.getBatteryCharge());\n    }\n}"
+        }
+      ]
+    },
+    "p5-1": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "b": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "value"
+        }
+      }
+    },
+    "p5-1-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "UHJpbWl0aXZlIGFzc2lnbm1lbnQgY29waWVkIHRoZSB2YWx1ZSBvZiBgYWAgYmVmb3JlIGBhYCBjaGFuZ2VkOyB0aGUgdHdvIHZhcmlhYmxlcyBhcmUgaW5kZXBlbmRlbnQgYWZ0ZXIgdGhhdC4="
+    },
+    "p5-2": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "c": {
+          "accept": [
+            "2"
+          ],
+          "placeholder": "value"
+        }
+      }
+    },
+    "p5-2-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "YHNlY29uZCA9IGZpcnN0YCBjb3BpZWQgdGhlIHJlZmVyZW5jZSwgbm90IHRoZSBvYmplY3QuIEJvdGggdmFyaWFibGVzIHJlYWNoIHRoZSBzYW1lIGJhdHRlcnksIHdoaWNoIHdhcyBjaGFuZ2VkIHRocm91Z2ggYGZpcnN0YC4="
+    },
+    "ex-copies": {
+      "type": "example",
+      "code": "int a = 3;\nint b = a;\na = 2;\nSystem.out.println(\"a = \" + a + \", b = \" + b);\n\nBattery first = new Battery(3);\nBattery second = first;\nfirst.drain(1);\nSystem.out.println(\"first: \" + first.getCharge() + \", second: \" + second.getCharge());",
+      "files": [
+        {
+          "name": "Battery.java",
+          "content": "public class Battery\n{\n    private int capacity;\n    private int charge;\n\n    public Battery(int capacity)\n    {\n        this.capacity = capacity;\n        charge = capacity;\n    }\n\n    public int getCharge()\n    {\n        return charge;\n    }\n\n    public boolean isEmpty()\n    {\n        return charge == 0;\n    }\n\n    public void drain(int amount)\n    {\n        if(amount > 0) {\n            charge = charge - amount;\n            if(charge < 0) {\n                charge = 0;\n            }\n        }\n    }\n\n    public void recharge()\n    {\n        charge = capacity;\n    }\n}"
+        }
+      ],
+      "output": "a = 2, b = 3\nfirst: 2, second: 2"
+    },
+    "p5-3": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "ctor": {
+          "accept": [
+            "no"
+          ],
+          "placeholder": "yes / no"
+        },
+        "obj": {
+          "accept": [
+            "no"
+          ],
+          "placeholder": "yes / no"
+        }
+      }
+    },
+    "p5-4": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "v": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "value"
+        }
+      }
+    },
+    "ex-shared": {
+      "type": "example",
+      "code": "Battery small = new Battery(2);\nFlashlight light = new Flashlight(small);\nsmall.drain(1);\nSystem.out.println(light.getBatteryCharge());",
+      "files": [
+        {
+          "name": "Battery.java",
+          "content": "public class Battery\n{\n    private int capacity;\n    private int charge;\n\n    public Battery(int capacity)\n    {\n        this.capacity = capacity;\n        charge = capacity;\n    }\n\n    public int getCharge()\n    {\n        return charge;\n    }\n\n    public boolean isEmpty()\n    {\n        return charge == 0;\n    }\n\n    public void drain(int amount)\n    {\n        if(amount > 0) {\n            charge = charge - amount;\n            if(charge < 0) {\n                charge = 0;\n            }\n        }\n    }\n\n    public void recharge()\n    {\n        charge = capacity;\n    }\n}"
+        },
+        {
+          "name": "Flashlight.java",
+          "content": "public class Flashlight\n{\n    private Battery battery;\n    private boolean on;\n\n    public Flashlight()\n    {\n        battery = new Battery(100);\n        on = false;\n    }\n\n    public Flashlight(Battery battery)\n    {\n        this.battery = battery;\n        on = false;\n    }\n\n    public void turnOn()\n    {\n        if(!battery.isEmpty()) {\n            on = true;\n        }\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void useForOneMinute()\n    {\n        if(on) {\n            battery.drain(1);\n            updatePowerState();\n        }\n    }\n\n    private void updatePowerState()\n    {\n        if(battery.isEmpty()) {\n            on = false;\n        }\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBatteryCharge()\n    {\n        return battery.getCharge();\n    }\n}"
+        }
+      ],
+      "output": "1"
+    },
+    "p5-5": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "n": {
+          "accept": [
+            "2",
+            "two"
+          ],
+          "placeholder": "how many?",
+          "show": "two"
+        },
+        "a": {
+          "accept": [
+            "5"
+          ],
+          "placeholder": "value"
+        },
+        "b": {
+          "accept": [
+            "10"
+          ],
+          "placeholder": "value"
+        }
+      }
+    },
+    "ex-reassign": {
+      "type": "example",
+      "code": "Battery a = new Battery(5);\nBattery b = a;\nb = new Battery(10);\nSystem.out.println(\"a: \" + a.getCharge() + \", b: \" + b.getCharge());",
+      "files": [
+        {
+          "name": "Battery.java",
+          "content": "public class Battery\n{\n    private int capacity;\n    private int charge;\n\n    public Battery(int capacity)\n    {\n        this.capacity = capacity;\n        charge = capacity;\n    }\n\n    public int getCharge()\n    {\n        return charge;\n    }\n\n    public boolean isEmpty()\n    {\n        return charge == 0;\n    }\n\n    public void drain(int amount)\n    {\n        if(amount > 0) {\n            charge = charge - amount;\n            if(charge < 0) {\n                charge = 0;\n            }\n        }\n    }\n\n    public void recharge()\n    {\n        charge = capacity;\n    }\n}"
+        }
+      ],
+      "output": "a: 5, b: 10"
+    },
+    "p5-6": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "QSBtZXRob2Qgc3VjaCBhcyBgZHJhaW5gIGNoYW5nZXMgZmllbGRzIGluc2lkZSB0aGUgZXhpc3Rpbmcgb2JqZWN0LiBBc3NpZ25tZW50IGNoYW5nZXMgd2hpY2ggb2JqZWN0IGEgdmFyaWFibGUgcmVmZXJzIHRvOyBpdCBkb2VzIG5vdCByZXdyaXRlIG9yIG1vdmUgdGhlIGZvcm1lciBvYmplY3QsIHdoaWNoIG1heSBzdGlsbCBiZSByZWFjaGFibGUgdGhyb3VnaCBhbm90aGVyIHJlZmVyZW5jZS4="
+    },
+    "p6-1": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "YGNoYXJnZWAgaXMgcHJpdmF0ZSBhbmQgYmVsb25ncyB0byBgQmF0dGVyeWAuIGBGbGFzaGxpZ2h0YCBzaG91bGQgdXNlIHRoZSBwdWJsaWMgYGRyYWluYCBtZXRob2Qgc28gdGhhdCBiYXR0ZXJ5IHJ1bGVzIHN0YXkgY2VudHJhbGl6ZWQgaW4gb25lIHBsYWNlLg=="
+    },
+    "p6-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "YEZsYXNobGlnaHRgIGRlcGVuZHMgb24gdGhlIHB1YmxpYyBiZWhhdmlvdXIgb2YgYGRyYWluYCwgbm90IGl0cyBpbXBsZW1lbnRhdGlvbi4gVGhhdCBpcyBhYnN0cmFjdGlvbiBhY3Jvc3MgdGhlIGNsYXNzIGJvdW5kYXJ5OiB0aGUgY2FsbGVyIGNhbiBpZ25vcmUgdGhlIGNvbGxhYm9yYXRvcidzIGludGVybmFsIGRldGFpbHMu"
+    },
+    "ex-flashlight": {
+      "type": "example",
+      "code": "public class Flashlight\n{\n    private Battery battery;\n    private boolean on;\n\n    public Flashlight()\n    {\n        battery = new Battery(100);\n        on = false;\n    }\n\n    public Flashlight(Battery battery)\n    {\n        this.battery = battery;\n        on = false;\n    }\n\n    public void turnOn()\n    {\n        if(!battery.isEmpty()) {\n            on = true;\n        }\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void useForOneMinute()\n    {\n        if(on) {\n            battery.drain(1);\n            updatePowerState();\n        }\n    }\n\n    private void updatePowerState()\n    {\n        if(battery.isEmpty()) {\n            on = false;\n        }\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBatteryCharge()\n    {\n        return battery.getCharge();\n    }\n}",
+      "files": [
+        {
+          "name": "Battery.java",
+          "content": "public class Battery\n{\n    private int capacity;\n    private int charge;\n\n    public Battery(int capacity)\n    {\n        this.capacity = capacity;\n        charge = capacity;\n    }\n\n    public int getCharge()\n    {\n        return charge;\n    }\n\n    public boolean isEmpty()\n    {\n        return charge == 0;\n    }\n\n    public void drain(int amount)\n    {\n        if(amount > 0) {\n            charge = charge - amount;\n            if(charge < 0) {\n                charge = 0;\n            }\n        }\n    }\n\n    public void recharge()\n    {\n        charge = capacity;\n    }\n}"
+        },
+        {
+          "name": "FlashlightDemo.java",
+          "content": "public class FlashlightDemo\n{\n    public static void main(String[] args)\n    {\n        Flashlight light = new Flashlight();\n        light.turnOn();\n        light.useForOneMinute();\n        light.useForOneMinute();\n        System.out.println(\"on: \" + light.isOn() + \", charge: \" + light.getBatteryCharge());\n        light.turnOff();\n        light.useForOneMinute();\n        System.out.println(\"on: \" + light.isOn() + \", charge: \" + light.getBatteryCharge());\n    }\n}"
+        }
+      ],
+      "title": "Flashlight.java",
+      "output": "on: true, charge: 98\non: false, charge: 98"
+    },
+    "p6-3": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "e1": {
+          "accept": [
+            "battery.drain(1)",
+            "battery.drain(1);"
+          ],
+          "show": "battery.drain(1)",
+          "placeholder": "the call",
+          "width": "14rem"
+        },
+        "e2": {
+          "accept": [
+            "battery.isEmpty()",
+            "battery.isEmpty();"
+          ],
+          "show": "battery.isEmpty()",
+          "placeholder": "the call",
+          "width": "14rem"
+        },
+        "i": {
+          "accept": [
+            "updatePowerState()",
+            "updatePowerState();"
+          ],
+          "show": "updatePowerState()",
+          "placeholder": "the call",
+          "width": "14rem"
+        }
+      }
+    },
+    "p6-4": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "n": {
+          "accept": [
+            "2",
+            "two"
+          ],
+          "placeholder": "how many?",
+          "show": "two"
+        },
+        "charge": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "charge"
+        },
+        "on": {
+          "accept": [
+            "false",
+            "off"
+          ],
+          "placeholder": "true / false",
+          "show": "false"
+        }
+      }
+    },
+    "ex-trace": {
+      "type": "example",
+      "code": "Battery small = new Battery(2);\nFlashlight light = new Flashlight(small);\nlight.turnOn();\nlight.useForOneMinute();\nlight.useForOneMinute();\nSystem.out.println(\"charge: \" + light.getBatteryCharge() + \", on: \" + light.isOn());",
+      "files": [
+        {
+          "name": "Battery.java",
+          "content": "public class Battery\n{\n    private int capacity;\n    private int charge;\n\n    public Battery(int capacity)\n    {\n        this.capacity = capacity;\n        charge = capacity;\n    }\n\n    public int getCharge()\n    {\n        return charge;\n    }\n\n    public boolean isEmpty()\n    {\n        return charge == 0;\n    }\n\n    public void drain(int amount)\n    {\n        if(amount > 0) {\n            charge = charge - amount;\n            if(charge < 0) {\n                charge = 0;\n            }\n        }\n    }\n\n    public void recharge()\n    {\n        charge = capacity;\n    }\n}"
+        },
+        {
+          "name": "Flashlight.java",
+          "content": "public class Flashlight\n{\n    private Battery battery;\n    private boolean on;\n\n    public Flashlight()\n    {\n        battery = new Battery(100);\n        on = false;\n    }\n\n    public Flashlight(Battery battery)\n    {\n        this.battery = battery;\n        on = false;\n    }\n\n    public void turnOn()\n    {\n        if(!battery.isEmpty()) {\n            on = true;\n        }\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void useForOneMinute()\n    {\n        if(on) {\n            battery.drain(1);\n            updatePowerState();\n        }\n    }\n\n    private void updatePowerState()\n    {\n        if(battery.isEmpty()) {\n            on = false;\n        }\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBatteryCharge()\n    {\n        return battery.getCharge();\n    }\n}"
+        }
+      ],
+      "output": "charge: 0, on: false"
+    },
+    "p6-5": {
+      "type": "code",
+      "xp": 3,
+      "minLines": 44,
+      "maxLines": 62,
+      "title": "Flashlight.java",
+      "starter": "public class Flashlight\n{\n    private Battery battery;\n    private boolean on;\n\n    public Flashlight()\n    {\n        battery = new Battery(100);\n        on = false;\n    }\n\n    public Flashlight(Battery battery)\n    {\n        this.battery = battery;\n        on = false;\n    }\n\n    public void turnOn()\n    {\n        if(!battery.isEmpty()) {\n            on = true;\n        }\n    }\n\n    public void turnOff()\n    {\n        on = false;\n    }\n\n    public void useForOneMinute()\n    {\n        if(on) {\n            battery.drain(1);\n            updatePowerState();\n        }\n    }\n\n    private void updatePowerState()\n    {\n        if(battery.isEmpty()) {\n            on = false;\n        }\n    }\n\n    public boolean isOn()\n    {\n        return on;\n    }\n\n    public int getBatteryCharge()\n    {\n        return battery.getCharge();\n    }\n\n    // Write rechargeBattery() here.\n\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "on: true, charge: 1\non: false, charge: 2"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidrechargeBattery()\"), \"The header is public void rechargeBattery().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"battery.recharge();\"), \"Delegate the recharge to the battery: battery.recharge();\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicvoidrechargeBattery\\\\(\\\\)\\\\{[^}]*(on=false;|turnOff\\\\(\\\\);)[^}]*\\\\}.*\"), \"Leave the flashlight off: on = false; (or the internal call turnOff();)\");",
+      "answer": "cHVibGljIGNsYXNzIEZsYXNobGlnaHQKewogICAgcHJpdmF0ZSBCYXR0ZXJ5IGJhdHRlcnk7CiAgICBwcml2YXRlIGJvb2xlYW4gb247CgogICAgcHVibGljIEZsYXNobGlnaHQoKQogICAgewogICAgICAgIGJhdHRlcnkgPSBuZXcgQmF0dGVyeSgxMDApOwogICAgICAgIG9uID0gZmFsc2U7CiAgICB9CgogICAgcHVibGljIEZsYXNobGlnaHQoQmF0dGVyeSBiYXR0ZXJ5KQogICAgewogICAgICAgIHRoaXMuYmF0dGVyeSA9IGJhdHRlcnk7CiAgICAgICAgb24gPSBmYWxzZTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCB0dXJuT24oKQogICAgewogICAgICAgIGlmKCFiYXR0ZXJ5LmlzRW1wdHkoKSkgewogICAgICAgICAgICBvbiA9IHRydWU7CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyB2b2lkIHR1cm5PZmYoKQogICAgewogICAgICAgIG9uID0gZmFsc2U7CiAgICB9CgogICAgcHVibGljIHZvaWQgdXNlRm9yT25lTWludXRlKCkKICAgIHsKICAgICAgICBpZihvbikgewogICAgICAgICAgICBiYXR0ZXJ5LmRyYWluKDEpOwogICAgICAgICAgICB1cGRhdGVQb3dlclN0YXRlKCk7CiAgICAgICAgfQogICAgfQoKICAgIHByaXZhdGUgdm9pZCB1cGRhdGVQb3dlclN0YXRlKCkKICAgIHsKICAgICAgICBpZihiYXR0ZXJ5LmlzRW1wdHkoKSkgewogICAgICAgICAgICBvbiA9IGZhbHNlOwogICAgICAgIH0KICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBpc09uKCkKICAgIHsKICAgICAgICByZXR1cm4gb247CiAgICB9CgogICAgcHVibGljIGludCBnZXRCYXR0ZXJ5Q2hhcmdlKCkKICAgIHsKICAgICAgICByZXR1cm4gYmF0dGVyeS5nZXRDaGFyZ2UoKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCByZWNoYXJnZUJhdHRlcnkoKQogICAgewogICAgICAgIGJhdHRlcnkucmVjaGFyZ2UoKTsKICAgICAgICBvbiA9IGZhbHNlOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Battery.java",
+          "content": "public class Battery\n{\n    private int capacity;\n    private int charge;\n\n    public Battery(int capacity)\n    {\n        this.capacity = capacity;\n        charge = capacity;\n    }\n\n    public int getCharge()\n    {\n        return charge;\n    }\n\n    public boolean isEmpty()\n    {\n        return charge == 0;\n    }\n\n    public void drain(int amount)\n    {\n        if(amount > 0) {\n            charge = charge - amount;\n            if(charge < 0) {\n                charge = 0;\n            }\n        }\n    }\n\n    public void recharge()\n    {\n        charge = capacity;\n    }\n}"
+        },
+        {
+          "name": "RechargeDemo.java",
+          "content": "public class RechargeDemo\n{\n    public static void main(String[] args)\n    {\n        Battery small = new Battery(2);\n        Flashlight light = new Flashlight(small);\n        light.turnOn();\n        light.useForOneMinute();\n        System.out.println(\"on: \" + light.isOn() + \", charge: \" + light.getBatteryCharge());\n        light.rechargeBattery();\n        System.out.println(\"on: \" + light.isOn() + \", charge: \" + light.getBatteryCharge());\n    }\n}"
+        }
+      ]
+    },
+    "p7-1": {
+      "type": "code",
+      "xp": 8,
+      "minLines": 26,
+      "maxLines": 50,
+      "title": "FuelTank.java",
+      "starter": "public class FuelTank\n{\n    // fields\n\n\n\n    // constructor\n\n\n\n\n\n    // getFuel, isEmpty, consume, refill\n\n\n\n\n\n\n\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Start: 5, empty: false\nAfter consume(2): 3\nAfter consume(-3): 3\nAfter consume(9): 0, empty: true\nAfter refill(): 5"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintcapacity;\"), \"Declare private int capacity;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintfuel;\"), \"Declare private int fuel;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicFuelTank\\\\(int\\\\w+\\\\).*\"), \"The constructor header takes one int parameter: public FuelTank(int capacity).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetFuel()\"), \"Include public int getFuel().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleanisEmpty()\"), \"Include public boolean isEmpty().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicvoidconsume\\\\(int\\\\w+\\\\).*\"), \"Include public void consume(int amount).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidrefill()\"), \"Include public void refill().\");",
+      "answer": "cHVibGljIGNsYXNzIEZ1ZWxUYW5rCnsKICAgIHByaXZhdGUgaW50IGNhcGFjaXR5OwogICAgcHJpdmF0ZSBpbnQgZnVlbDsKCiAgICBwdWJsaWMgRnVlbFRhbmsoaW50IGNhcGFjaXR5KQogICAgewogICAgICAgIHRoaXMuY2FwYWNpdHkgPSBjYXBhY2l0eTsKICAgICAgICBmdWVsID0gY2FwYWNpdHk7CiAgICB9CgogICAgcHVibGljIGludCBnZXRGdWVsKCkKICAgIHsKICAgICAgICByZXR1cm4gZnVlbDsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBpc0VtcHR5KCkKICAgIHsKICAgICAgICByZXR1cm4gZnVlbCA9PSAwOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGNvbnN1bWUoaW50IGFtb3VudCkKICAgIHsKICAgICAgICBpZihhbW91bnQgPiAwKSB7CiAgICAgICAgICAgIGZ1ZWwgPSBmdWVsIC0gYW1vdW50OwogICAgICAgICAgICBpZihmdWVsIDwgMCkgewogICAgICAgICAgICAgICAgZnVlbCA9IDA7CiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICB9CgogICAgcHVibGljIHZvaWQgcmVmaWxsKCkKICAgIHsKICAgICAgICBmdWVsID0gY2FwYWNpdHk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "FuelTankCheck.java",
+          "content": "public class FuelTankCheck\n{\n    public static void main(String[] args)\n    {\n        FuelTank tank = new FuelTank(5);\n        System.out.println(\"Start: \" + tank.getFuel() + \", empty: \" + tank.isEmpty());\n        tank.consume(2);\n        System.out.println(\"After consume(2): \" + tank.getFuel());\n        tank.consume(-3);\n        System.out.println(\"After consume(-3): \" + tank.getFuel());\n        tank.consume(9);\n        System.out.println(\"After consume(9): \" + tank.getFuel() + \", empty: \" + tank.isEmpty());\n        tank.refill();\n        System.out.println(\"After refill(): \" + tank.getFuel());\n    }\n}"
+        }
+      ]
+    },
+    "p7-2": {
+      "type": "code",
+      "xp": 10,
+      "minLines": 40,
+      "maxLines": 70,
+      "title": "Scooter.java",
+      "starter": "public class Scooter\n{\n    // fields\n\n\n\n\n    // constructors\n\n\n\n\n\n\n\n\n\n\n\n\n    // start, stop, ride, getFuel, isRunning\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Default tank: 100, running: false\nRide while stopped: 100\nStarted: true\nAfter ride(2): 3, running: true\nAfter ride(-1): 3\nRide after stop(): 3\nAfter ride(4): 0, running: false\nShared tank: 0\nStart when empty: false"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateStringname;\"), \"Declare private String name;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateFuelTanktank;\"), \"Declare private FuelTank tank;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatebooleanrunning;\"), \"Declare private boolean running;\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintfuel\"), \"Do not add a separate fuel field to Scooter; the tank owns the fuel.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicScooter\\\\(String\\\\w+\\\\)\\\\{.*\"), \"Include the constructor public Scooter(String name).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"newFuelTank(100)\"), \"The one-parameter constructor creates a default tank of capacity 100: new FuelTank(100).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicScooter\\\\(String\\\\w+,FuelTank\\\\w+\\\\).*\"), \"Include the constructor public Scooter(String name, FuelTank tank).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicScooter\\\\(String\\\\w+,FuelTank(\\\\w+)\\\\)\\\\{[^}]*this\\\\.tank=\\\\1;.*\"), \"The two-parameter constructor stores the tank it receives: this.tank = tank;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidstart()\"), \"Include public void start().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidstop()\"), \"Include public void stop().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicvoidride\\\\(int\\\\w+\\\\).*\"), \"Include public void ride(int distance).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetFuel()\"), \"Include public int getFuel().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleanisRunning()\"), \"Include public boolean isRunning().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"returntank.getFuel();\"), \"getFuel() delegates to the tank: return tank.getFuel();\");",
+      "answer": "cHVibGljIGNsYXNzIFNjb290ZXIKewogICAgcHJpdmF0ZSBTdHJpbmcgbmFtZTsKICAgIHByaXZhdGUgRnVlbFRhbmsgdGFuazsKICAgIHByaXZhdGUgYm9vbGVhbiBydW5uaW5nOwoKICAgIHB1YmxpYyBTY29vdGVyKFN0cmluZyBuYW1lKQogICAgewogICAgICAgIHRoaXMubmFtZSA9IG5hbWU7CiAgICAgICAgdGFuayA9IG5ldyBGdWVsVGFuaygxMDApOwogICAgICAgIHJ1bm5pbmcgPSBmYWxzZTsKICAgIH0KCiAgICBwdWJsaWMgU2Nvb3RlcihTdHJpbmcgbmFtZSwgRnVlbFRhbmsgdGFuaykKICAgIHsKICAgICAgICB0aGlzLm5hbWUgPSBuYW1lOwogICAgICAgIHRoaXMudGFuayA9IHRhbms7CiAgICAgICAgcnVubmluZyA9IGZhbHNlOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHN0YXJ0KCkKICAgIHsKICAgICAgICBpZighdGFuay5pc0VtcHR5KCkpIHsKICAgICAgICAgICAgcnVubmluZyA9IHRydWU7CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyB2b2lkIHN0b3AoKQogICAgewogICAgICAgIHJ1bm5pbmcgPSBmYWxzZTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCByaWRlKGludCBkaXN0YW5jZSkKICAgIHsKICAgICAgICBpZihydW5uaW5nICYmIGRpc3RhbmNlID4gMCkgewogICAgICAgICAgICB0YW5rLmNvbnN1bWUoZGlzdGFuY2UpOwogICAgICAgICAgICBpZih0YW5rLmlzRW1wdHkoKSkgewogICAgICAgICAgICAgICAgcnVubmluZyA9IGZhbHNlOwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0RnVlbCgpCiAgICB7CiAgICAgICAgcmV0dXJuIHRhbmsuZ2V0RnVlbCgpOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGlzUnVubmluZygpCiAgICB7CiAgICAgICAgcmV0dXJuIHJ1bm5pbmc7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "FuelTank.java",
+          "content": "public class FuelTank\n{\n    private int capacity;\n    private int fuel;\n\n    public FuelTank(int capacity)\n    {\n        this.capacity = capacity;\n        fuel = capacity;\n    }\n\n    public int getFuel()\n    {\n        return fuel;\n    }\n\n    public boolean isEmpty()\n    {\n        return fuel == 0;\n    }\n\n    public void consume(int amount)\n    {\n        if(amount > 0) {\n            fuel = fuel - amount;\n            if(fuel < 0) {\n                fuel = 0;\n            }\n        }\n    }\n\n    public void refill()\n    {\n        fuel = capacity;\n    }\n}"
+        },
+        {
+          "name": "ScooterCheck.java",
+          "content": "public class ScooterCheck\n{\n    public static void main(String[] args)\n    {\n        Scooter fresh = new Scooter(\"Commuter\");\n        System.out.println(\"Default tank: \" + fresh.getFuel() + \", running: \" + fresh.isRunning());\n        fresh.ride(10);\n        System.out.println(\"Ride while stopped: \" + fresh.getFuel());\n        FuelTank tank = new FuelTank(5);\n        Scooter scooter = new Scooter(\"Runabout\", tank);\n        scooter.start();\n        System.out.println(\"Started: \" + scooter.isRunning());\n        scooter.ride(2);\n        System.out.println(\"After ride(2): \" + scooter.getFuel() + \", running: \" + scooter.isRunning());\n        scooter.ride(-1);\n        System.out.println(\"After ride(-1): \" + scooter.getFuel());\n        scooter.stop();\n        scooter.ride(1);\n        System.out.println(\"Ride after stop(): \" + scooter.getFuel());\n        scooter.start();\n        scooter.ride(4);\n        System.out.println(\"After ride(4): \" + scooter.getFuel() + \", running: \" + scooter.isRunning());\n        System.out.println(\"Shared tank: \" + tank.getFuel());\n        scooter.start();\n        System.out.println(\"Start when empty: \" + scooter.isRunning());\n    }\n}"
+        }
+      ]
+    },
+    "p7-3": {
+      "type": "code",
+      "xp": 3,
+      "minLines": 14,
+      "maxLines": 24,
+      "title": "ScooterDemo.java",
+      "starter": "public class ScooterDemo\n{\n    public static void main(String[] args)\n    {\n        // Create a tank of capacity 5, pass it to a scooter, start it, ride 2, then ride 4.\n\n\n\n\n\n\n\n\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "After first ride - fuel: 3, running: true\nAfter second ride - fuel: 0, running: false"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"newFuelTank(5)\"), \"Create the tank with new FuelTank(5).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*newScooter\\\\(\\\\\\\"[^\\\\\\\"]*\\\\\\\",\\\\w+\\\\).*\"), \"Pass the tank to the scooter's two-parameter constructor: new Scooter(\\\"Runabout\\\", tank).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".start()\"), \"Start the scooter with start().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".ride(2)\"), \"Ride 2 with ride(2).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".ride(4)\"), \"Ride 4 with ride(4).\");",
+      "answer": "cHVibGljIGNsYXNzIFNjb290ZXJEZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgRnVlbFRhbmsgdGFuayA9IG5ldyBGdWVsVGFuayg1KTsKICAgICAgICBTY29vdGVyIHNjb290ZXIgPSBuZXcgU2Nvb3RlcigiUnVuYWJvdXQiLCB0YW5rKTsKCiAgICAgICAgc2Nvb3Rlci5zdGFydCgpOwoKICAgICAgICBzY29vdGVyLnJpZGUoMik7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJBZnRlciBmaXJzdCByaWRlIC0gZnVlbDogIiArCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBzY29vdGVyLmdldEZ1ZWwoKSArICIsIHJ1bm5pbmc6ICIgKwogICAgICAgICAgICAgICAgICAgICAgICAgICAgc2Nvb3Rlci5pc1J1bm5pbmcoKSk7CgogICAgICAgIHNjb290ZXIucmlkZSg0KTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkFmdGVyIHNlY29uZCByaWRlIC0gZnVlbDogIiArCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBzY29vdGVyLmdldEZ1ZWwoKSArICIsIHJ1bm5pbmc6ICIgKwogICAgICAgICAgICAgICAgICAgICAgICAgICAgc2Nvb3Rlci5pc1J1bm5pbmcoKSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "FuelTank.java",
+          "content": "public class FuelTank\n{\n    private int capacity;\n    private int fuel;\n\n    public FuelTank(int capacity)\n    {\n        this.capacity = capacity;\n        fuel = capacity;\n    }\n\n    public int getFuel()\n    {\n        return fuel;\n    }\n\n    public boolean isEmpty()\n    {\n        return fuel == 0;\n    }\n\n    public void consume(int amount)\n    {\n        if(amount > 0) {\n            fuel = fuel - amount;\n            if(fuel < 0) {\n                fuel = 0;\n            }\n        }\n    }\n\n    public void refill()\n    {\n        fuel = capacity;\n    }\n}"
+        },
+        {
+          "name": "Scooter.java",
+          "content": "public class Scooter\n{\n    private String name;\n    private FuelTank tank;\n    private boolean running;\n\n    public Scooter(String name)\n    {\n        this.name = name;\n        tank = new FuelTank(100);\n        running = false;\n    }\n\n    public Scooter(String name, FuelTank tank)\n    {\n        this.name = name;\n        this.tank = tank;\n        running = false;\n    }\n\n    public void start()\n    {\n        if(!tank.isEmpty()) {\n            running = true;\n        }\n    }\n\n    public void stop()\n    {\n        running = false;\n    }\n\n    public void ride(int distance)\n    {\n        if(running && distance > 0) {\n            tank.consume(distance);\n            if(tank.isEmpty()) {\n                running = false;\n            }\n        }\n    }\n\n    public int getFuel()\n    {\n        return tank.getFuel();\n    }\n\n    public boolean isRunning()\n    {\n        return running;\n    }\n}"
+        }
+      ]
+    },
+    "p7-3-refs": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGxvY2FsIHZhcmlhYmxlIGB0YW5rYCBpbiBgbWFpbmAgYW5kIHRoZSBzY29vdGVyJ3MgYHRhbmtgIGZpZWxkIGJvdGggcmVmZXIgdG8gdGhlIHNhbWUgYEZ1ZWxUYW5rYCBvYmplY3Qu"
+    },
+    "p8-1": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 30,
+      "rows": 3,
+      "answer": "VGhyZWUgb2JqZWN0czogb25lIGBBY2NvdW50YCBvYmplY3QsIGFuZCB0d28gYFBheW1lbnRDYXJkYCBvYmplY3RzIHdob3NlIGBhY2NvdW50YCBmaWVsZHMgYm90aCBwb2ludCB0byB0aGF0IG9uZSBgQWNjb3VudGAgb2JqZWN0LiBUaGUgbG9jYWwgYGFjY291bnRgIHZhcmlhYmxlIGluIGBtYWluYCBhbHNvIHBvaW50cyB0byB0aGUgc2FtZSBvYmplY3Qu"
+    },
+    "p8-2-account": {
+      "type": "code",
+      "xp": 8,
+      "minLines": 28,
+      "maxLines": 50,
+      "title": "Account.java",
+      "starter": "public class Account\n{\n    // field\n\n\n    // constructor\n\n\n\n\n    // getBalance, canAfford, withdraw, deposit\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Balance: 100\nCan afford 100: true\nCan afford 101: false\nWithdraw 30: true\nWithdraw 80: false\nBalance: 70\nAfter deposit(50): 120"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintbalance;\"), \"Declare private int balance;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicAccount\\\\(int\\\\w+\\\\).*\"), \"The constructor receives the opening balance: public Account(int openingBalance).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetBalance()\"), \"Include public int getBalance().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicbooleancanAfford\\\\(int\\\\w+\\\\).*\"), \"Include public boolean canAfford(int amount).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicbooleanwithdraw\\\\(int\\\\w+\\\\).*\"), \"withdraw returns a boolean: public boolean withdraw(int amount).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicvoiddeposit\\\\(int\\\\w+\\\\).*\"), \"Include public void deposit(int amount).\");",
+      "answer": "cHVibGljIGNsYXNzIEFjY291bnQKewogICAgcHJpdmF0ZSBpbnQgYmFsYW5jZTsKCiAgICBwdWJsaWMgQWNjb3VudChpbnQgb3BlbmluZ0JhbGFuY2UpCiAgICB7CiAgICAgICAgYmFsYW5jZSA9IG9wZW5pbmdCYWxhbmNlOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0QmFsYW5jZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIGJhbGFuY2U7CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gY2FuQWZmb3JkKGludCBhbW91bnQpCiAgICB7CiAgICAgICAgcmV0dXJuIGFtb3VudCA+IDAgJiYgYmFsYW5jZSA+PSBhbW91bnQ7CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gd2l0aGRyYXcoaW50IGFtb3VudCkKICAgIHsKICAgICAgICBpZihjYW5BZmZvcmQoYW1vdW50KSkgewogICAgICAgICAgICBiYWxhbmNlID0gYmFsYW5jZSAtIGFtb3VudDsKICAgICAgICAgICAgcmV0dXJuIHRydWU7CiAgICAgICAgfQogICAgICAgIGVsc2UgewogICAgICAgICAgICByZXR1cm4gZmFsc2U7CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyB2b2lkIGRlcG9zaXQoaW50IGFtb3VudCkKICAgIHsKICAgICAgICBpZihhbW91bnQgPiAwKSB7CiAgICAgICAgICAgIGJhbGFuY2UgPSBiYWxhbmNlICsgYW1vdW50OwogICAgICAgIH0KICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "AccountCheck.java",
+          "content": "public class AccountCheck\n{\n    public static void main(String[] args)\n    {\n        Account account = new Account(100);\n        System.out.println(\"Balance: \" + account.getBalance());\n        System.out.println(\"Can afford 100: \" + account.canAfford(100));\n        System.out.println(\"Can afford 101: \" + account.canAfford(101));\n        System.out.println(\"Withdraw 30: \" + account.withdraw(30));\n        System.out.println(\"Withdraw 80: \" + account.withdraw(80));\n        System.out.println(\"Balance: \" + account.getBalance());\n        account.deposit(50);\n        System.out.println(\"After deposit(50): \" + account.getBalance());\n    }\n}"
+        }
+      ]
+    },
+    "p8-2-card": {
+      "type": "code",
+      "xp": 8,
+      "minLines": 24,
+      "maxLines": 40,
+      "title": "PaymentCard.java",
+      "starter": "public class PaymentCard\n{\n    // fields\n\n\n\n    // constructor\n\n\n\n\n\n    // buy, getBalance, getLabel\n\n\n\n\n\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Card A sees 100\nBuy 30 with Card A: true\nCard B sees 70\nBuy 80 with Card B: false\nCard A sees 80"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateStringlabel;\"), \"Declare private String label;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateAccountaccount;\"), \"Declare private Account account;\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintbalance\"), \"Do not store a balance in PaymentCard; the account owns it.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicPaymentCard\\\\(String\\\\w+,Account\\\\w+\\\\).*\"), \"The constructor receives a label and an existing Account: public PaymentCard(String label, Account account).\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"newAccount(\"), \"The card receives an existing account; it must not construct one.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicbooleanbuy\\\\(int\\\\w+\\\\).*\"), \"Include public boolean buy(int amount).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*returnaccount\\\\.withdraw\\\\(\\\\w+\\\\);.*\"), \"buy delegates to the account: return account.withdraw(amount);\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"returnaccount.getBalance();\"), \"getBalance() delegates: return account.getBalance();\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicStringgetLabel()\"), \"Include public String getLabel().\");",
+      "answer": "cHVibGljIGNsYXNzIFBheW1lbnRDYXJkCnsKICAgIHByaXZhdGUgU3RyaW5nIGxhYmVsOwogICAgcHJpdmF0ZSBBY2NvdW50IGFjY291bnQ7CgogICAgcHVibGljIFBheW1lbnRDYXJkKFN0cmluZyBsYWJlbCwgQWNjb3VudCBhY2NvdW50KQogICAgewogICAgICAgIHRoaXMubGFiZWwgPSBsYWJlbDsKICAgICAgICB0aGlzLmFjY291bnQgPSBhY2NvdW50OwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGJ1eShpbnQgYW1vdW50KQogICAgewogICAgICAgIHJldHVybiBhY2NvdW50LndpdGhkcmF3KGFtb3VudCk7CiAgICB9CgogICAgcHVibGljIGludCBnZXRCYWxhbmNlKCkKICAgIHsKICAgICAgICByZXR1cm4gYWNjb3VudC5nZXRCYWxhbmNlKCk7CiAgICB9CgogICAgcHVibGljIFN0cmluZyBnZXRMYWJlbCgpCiAgICB7CiAgICAgICAgcmV0dXJuIGxhYmVsOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Account.java",
+          "content": "public class Account\n{\n    private int balance;\n\n    public Account(int openingBalance)\n    {\n        balance = openingBalance;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public boolean canAfford(int amount)\n    {\n        return amount > 0 && balance >= amount;\n    }\n\n    public boolean withdraw(int amount)\n    {\n        if(canAfford(amount)) {\n            balance = balance - amount;\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    public void deposit(int amount)\n    {\n        if(amount > 0) {\n            balance = balance + amount;\n        }\n    }\n}"
+        },
+        {
+          "name": "PaymentCardCheck.java",
+          "content": "public class PaymentCardCheck\n{\n    public static void main(String[] args)\n    {\n        Account account = new Account(100);\n        PaymentCard cardA = new PaymentCard(\"Card A\", account);\n        PaymentCard cardB = new PaymentCard(\"Card B\", account);\n        System.out.println(cardA.getLabel() + \" sees \" + cardA.getBalance());\n        System.out.println(\"Buy 30 with \" + cardA.getLabel() + \": \" + cardA.buy(30));\n        System.out.println(cardB.getLabel() + \" sees \" + cardB.getBalance());\n        System.out.println(\"Buy 80 with \" + cardB.getLabel() + \": \" + cardB.buy(80));\n        account.deposit(10);\n        System.out.println(cardA.getLabel() + \" sees \" + cardA.getBalance());\n    }\n}"
+        }
+      ]
+    },
+    "p8-3": {
+      "type": "code",
+      "xp": 3,
+      "minLines": 14,
+      "maxLines": 26,
+      "title": "SharedAccountDemo.java",
+      "starter": "public class SharedAccountDemo\n{\n    public static void main(String[] args)\n    {\n        // One account with balance 100, two cards that both receive it.\n\n\n\n\n\n\n\n\n\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Card A balance: 70\nCard B balance: 70\nSecond purchase succeeded: false\nFinal balance: 70"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"newAccount(100)\"), \"Create the account with new Account(100).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*newPaymentCard\\\\(\\\\\\\"[^\\\\\\\"]*\\\\\\\",(\\\\w+)\\\\).*newPaymentCard\\\\(\\\\\\\"[^\\\\\\\"]*\\\\\\\",\\\\1\\\\).*\"), \"Both cards receive the same account variable.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".buy(30)\"), \"Buy for 30 through the first card with buy(30).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".buy(80)\"), \"Attempt the purchase of 80 through the second card with buy(80).\");",
+      "answer": "cHVibGljIGNsYXNzIFNoYXJlZEFjY291bnREZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgQWNjb3VudCBhY2NvdW50ID0gbmV3IEFjY291bnQoMTAwKTsKICAgICAgICBQYXltZW50Q2FyZCBjYXJkQSA9IG5ldyBQYXltZW50Q2FyZCgiQ2FyZCBBIiwgYWNjb3VudCk7CiAgICAgICAgUGF5bWVudENhcmQgY2FyZEIgPSBuZXcgUGF5bWVudENhcmQoIkNhcmQgQiIsIGFjY291bnQpOwoKICAgICAgICBjYXJkQS5idXkoMzApOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQ2FyZCBBIGJhbGFuY2U6ICIgKyBjYXJkQS5nZXRCYWxhbmNlKCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQ2FyZCBCIGJhbGFuY2U6ICIgKyBjYXJkQi5nZXRCYWxhbmNlKCkpOwoKICAgICAgICBib29sZWFuIHNlY29uZFB1cmNoYXNlID0gY2FyZEIuYnV5KDgwKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlNlY29uZCBwdXJjaGFzZSBzdWNjZWVkZWQ6ICIgKwogICAgICAgICAgICAgICAgICAgICAgICAgICAgc2Vjb25kUHVyY2hhc2UpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiRmluYWwgYmFsYW5jZTogIiArIGFjY291bnQuZ2V0QmFsYW5jZSgpKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Account.java",
+          "content": "public class Account\n{\n    private int balance;\n\n    public Account(int openingBalance)\n    {\n        balance = openingBalance;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public boolean canAfford(int amount)\n    {\n        return amount > 0 && balance >= amount;\n    }\n\n    public boolean withdraw(int amount)\n    {\n        if(canAfford(amount)) {\n            balance = balance - amount;\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    public void deposit(int amount)\n    {\n        if(amount > 0) {\n            balance = balance + amount;\n        }\n    }\n}"
+        },
+        {
+          "name": "PaymentCard.java",
+          "content": "public class PaymentCard\n{\n    private String label;\n    private Account account;\n\n    public PaymentCard(String label, Account account)\n    {\n        this.label = label;\n        this.account = account;\n    }\n\n    public boolean buy(int amount)\n    {\n        return account.withdraw(amount);\n    }\n\n    public int getBalance()\n    {\n        return account.getBalance();\n    }\n\n    public String getLabel()\n    {\n        return label;\n    }\n}"
+        }
+      ]
+    }
+  }
+}

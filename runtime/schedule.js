@@ -26,7 +26,7 @@ export const LECTURES = [
   { n: 2, unit: 1, date: "2026-09-15", title: "Chapter 1: Objects have state and behavior", built: true },
   { n: 3, unit: 1, date: "2026-09-17", title: "Chapter 2, Part 1: A class defines an object's state", built: true },
   { n: 4, unit: 1, date: "2026-09-22", title: "Chapter 2, Part 2: Methods make state useful", built: true },
-  { n: 5, unit: 1, date: "2026-09-24", title: "Chapter 3: Objects collaborate", built: false },
+  { n: 5, unit: 1, date: "2026-09-24", title: "Chapter 3: Objects collaborate", built: true },
   { n: 6, unit: 2, date: "2026-09-29", title: "Chapter 4, Part 1: Storing and processing groups of objects", built: false },
   { n: 7, unit: 2, date: "2026-10-01", title: "Chapter 4, Part 2: Traversal, searching, and safe removal", built: false },
   { n: 8, unit: 2, date: "2026-10-06", title: "Chapter 5, Part 1: Lambdas and internal iteration", built: false },
