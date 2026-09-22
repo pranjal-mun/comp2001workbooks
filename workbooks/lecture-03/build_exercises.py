@@ -42,6 +42,14 @@ def has(fragment, message):
     return f'require(source.replaceAll("\\\\s+", "").contains({json.dumps(compact)}), {json.dumps(message)});'
 
 
+def has_field(fragment, message):
+    """Like has(), but the first identifier (after an optional `return`) is a field, so `this.` may precede it."""
+    compact = re.sub(r"\s+", "", fragment)
+    m = re.fullmatch(r"(return)?([A-Za-z_]\w*)(.*)", compact)
+    regex = re.escape(m.group(1) or "") + r"(this\.)?" + re.escape(m.group(2)) + re.escape(m.group(3))
+    return f'require(source.replaceAll("\\\\s+", "").matches({json.dumps("(?s).*" + regex + ".*")}), {json.dumps(message)});'
+
+
 def lacks(fragment, message):
     compact = re.sub(r"\s+", "", fragment)
     return f'require(!source.replaceAll("\\\\s+", "").contains({json.dumps(compact)}), {json.dumps(message)});'
@@ -372,8 +380,8 @@ E["p6-1"] = {"type": "code", "xp": 5, "minLines": 20, "maxLines": 30, "title": "
         has("private String color;", "Declare the color field: private String color;"),
         matches(r".*publicSmartLamp\(String\w+\)\{.*", "The constructor header is public SmartLamp(String location): the class name, no return type, one String parameter."),
         lacks("void SmartLamp", "A constructor has no return type, not even void."),
-        has("on = false;", "Give on a fixed starting value: on = false;"),
-        has("brightness = 0;", "Give brightness a fixed starting value: brightness = 0;"),
+        has_field("on = false;", "Give on a fixed starting value: on = false;"),
+        has_field("brightness = 0;", "Give brightness a fixed starting value: brightness = 0;"),
         has('color = "warm white";', 'Give color a fixed starting value: color = "warm white";')]),
     "answer": b64(p6_1), "files": LAMP_DRIVER}
 E["p6-2"] = {"type": "table", "xp": 1, "blanks": {
@@ -398,7 +406,7 @@ E["p7a-book"] = {"type": "code", "xp": 10, "minLines": 24, "maxLines": 44, "titl
         has("this.title = title;", "Use this to store the parameter in the same-named field: this.title = title;"),
         has("this.author = author;", "Use this to store the parameter in the same-named field: this.author = author;"),
         has("this.pages = pages;", "Use this to store the parameter in the same-named field: this.pages = pages;"),
-        has("referenceOnly = false;", "Give referenceOnly the fixed starting value false."),
+        has_field("referenceOnly = false;", "Give referenceOnly the fixed starting value false."),
         has("String getTitle()", "Include the getter String getTitle()."),
         has("String getAuthor()", "Include the getter String getAuthor()."),
         has("int getPages()", "Include the getter int getPages()."),
@@ -426,7 +434,7 @@ E["p7b-character"] = {"type": "code", "xp": 10, "minLines": 24, "maxLines": 44, 
         has("this.name = name;", "Use this to store the parameter in the same-named field: this.name = name;"),
         has("this.health = health;", "Use this to store the parameter in the same-named field: this.health = health;"),
         has("this.xPosition = xPosition;", "Use this to store the parameter in the same-named field: this.xPosition = xPosition;"),
-        has("active = true;", "Give active the fixed starting value true."),
+        has_field("active = true;", "Give active the fixed starting value true."),
         has("String getName()", "Include the getter String getName()."),
         has("int getHealth()", "Include the getter int getHealth()."),
         has("int getXPosition()", "Include the getter int getXPosition()."),

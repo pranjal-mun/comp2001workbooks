@@ -115,7 +115,7 @@
           "expected": "Total spent: 450"
         }
       ],
-      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetTotalSpent()\"), \"The header is public int getTotalSpent(): the field is an int, so the getter returns an int.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"returntotalSpent;\"), \"The body returns the field: return totalSpent;\");",
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetTotalSpent()\"), \"The header is public int getTotalSpent(): the field is an int, so the getter returns an int.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*return(this\\\\.)?totalSpent;.*\"), \"The body returns the field: return totalSpent;\");",
       "answer": "cHVibGljIGNsYXNzIENhbXB1c0NhcmQKewogICAgcHJpdmF0ZSBTdHJpbmcgb3duZXI7CiAgICBwcml2YXRlIGludCBiYWxhbmNlOwogICAgcHJpdmF0ZSBpbnQgdG90YWxTcGVudDsKCiAgICBwdWJsaWMgQ2FtcHVzQ2FyZChTdHJpbmcgb3duZXIsIGludCBvcGVuaW5nQmFsYW5jZSkKICAgIHsKICAgICAgICB0aGlzLm93bmVyID0gb3duZXI7CiAgICAgICAgYmFsYW5jZSA9IG9wZW5pbmdCYWxhbmNlOwogICAgICAgIHRvdGFsU3BlbnQgPSAwOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIHBheShpbnQgYW1vdW50KQogICAgewogICAgICAgIGlmKGFtb3VudCA+IDAgJiYgYW1vdW50IDw9IGJhbGFuY2UpIHsKICAgICAgICAgICAgYmFsYW5jZSA9IGJhbGFuY2UgLSBhbW91bnQ7CiAgICAgICAgICAgIHRvdGFsU3BlbnQgPSB0b3RhbFNwZW50ICsgYW1vdW50OwogICAgICAgICAgICByZXR1cm4gdHJ1ZTsKICAgICAgICB9CiAgICAgICAgZWxzZSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9CiAgICB9CgogICAgcHVibGljIGludCBnZXRUb3RhbFNwZW50KCkKICAgIHsKICAgICAgICByZXR1cm4gdG90YWxTcGVudDsKICAgIH0KfQ==",
       "files": [
         {
@@ -185,7 +185,7 @@
           "expected": "Balance: 1200"
         }
       ],
-      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetBalance()\"), \"The field is an int, so the return type is int: public int getBalance().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"returnbalance;\"), \"The body can stay as it was: return balance;\");",
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetBalance()\"), \"The field is an int, so the return type is int: public int getBalance().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*return(this\\\\.)?balance;.*\"), \"The body can stay as it was: return balance;\");",
       "answer": "cHVibGljIGNsYXNzIENhbXB1c0NhcmQKewogICAgcHJpdmF0ZSBTdHJpbmcgb3duZXI7CiAgICBwcml2YXRlIGludCBiYWxhbmNlOwogICAgcHJpdmF0ZSBpbnQgdG90YWxTcGVudDsKCiAgICBwdWJsaWMgQ2FtcHVzQ2FyZChTdHJpbmcgb3duZXIsIGludCBvcGVuaW5nQmFsYW5jZSkKICAgIHsKICAgICAgICB0aGlzLm93bmVyID0gb3duZXI7CiAgICAgICAgYmFsYW5jZSA9IG9wZW5pbmdCYWxhbmNlOwogICAgICAgIHRvdGFsU3BlbnQgPSAwOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0QmFsYW5jZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIGJhbGFuY2U7CiAgICB9Cn0=",
       "files": [
         {
@@ -296,7 +296,7 @@
           "expected": "Before: 400\nAfter: 0"
         }
       ],
-      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidclearTotal()\"), \"The header is public void clearTotal(): no value comes back and there are no parameters.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"totalSpent=0;\"), \"The body sets the field to zero: totalSpent = 0;\");",
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidclearTotal()\"), \"The header is public void clearTotal(): no value comes back and there are no parameters.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*(this\\\\.)?totalSpent=0;.*\"), \"The body sets the field to zero: totalSpent = 0;\");",
       "answer": "cHVibGljIGNsYXNzIENhbXB1c0NhcmQKewogICAgcHJpdmF0ZSBTdHJpbmcgb3duZXI7CiAgICBwcml2YXRlIGludCBiYWxhbmNlOwogICAgcHJpdmF0ZSBpbnQgdG90YWxTcGVudDsKCiAgICBwdWJsaWMgQ2FtcHVzQ2FyZChTdHJpbmcgb3duZXIsIGludCBvcGVuaW5nQmFsYW5jZSkKICAgIHsKICAgICAgICB0aGlzLm93bmVyID0gb3duZXI7CiAgICAgICAgYmFsYW5jZSA9IG9wZW5pbmdCYWxhbmNlOwogICAgICAgIHRvdGFsU3BlbnQgPSAwOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0VG90YWxTcGVudCgpCiAgICB7CiAgICAgICAgcmV0dXJuIHRvdGFsU3BlbnQ7CiAgICB9CgogICAgcHVibGljIHZvaWQgcmVjb3JkU3BlbmRpbmcoaW50IGFtb3VudCkKICAgIHsKICAgICAgICB0b3RhbFNwZW50ID0gdG90YWxTcGVudCArIGFtb3VudDsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBjbGVhclRvdGFsKCkKICAgIHsKICAgICAgICB0b3RhbFNwZW50ID0gMDsKICAgIH0KfQ==",
       "files": [
         {

@@ -42,6 +42,14 @@ def has(fragment, message):
     return f'require(source.replaceAll("\\\\s+", "").contains({json.dumps(compact)}), {json.dumps(message)});'
 
 
+def has_field(fragment, message):
+    """Like has(), but the first identifier (after an optional `return`) is a field, so `this.` may precede it."""
+    compact = re.sub(r"\s+", "", fragment)
+    m = re.fullmatch(r"(return)?([A-Za-z_]\w*)(.*)", compact)
+    regex = re.escape(m.group(1) or "") + r"(this\.)?" + re.escape(m.group(2)) + re.escape(m.group(3))
+    return f'require(source.replaceAll("\\\\s+", "").matches({json.dumps("(?s).*" + regex + ".*")}), {json.dumps(message)});'
+
+
 def lacks(fragment, message):
     compact = re.sub(r"\s+", "", fragment)
     return f'require(!source.replaceAll("\\\\s+", "").contains({json.dumps(compact)}), {json.dumps(message)});'
@@ -333,7 +341,7 @@ E["p2-1"] = {"type": "code", "xp": 2, "minLines": 26, "maxLines": 34, "title": "
     "cases": [{"name": "Program output", "expected": run(p2_1, SPENT_DRIVER)}],
     "check": "\n".join([
         has("public int getTotalSpent()", "The header is public int getTotalSpent(): the field is an int, so the getter returns an int."),
-        has("return totalSpent;", "The body returns the field: return totalSpent;")]),
+        has_field("return totalSpent;", "The body returns the field: return totalSpent;")]),
     "answer": b64(p2_1), "files": SPENT_DRIVER}
 E["p2-2"] = SHORT("`return` sends the value to the caller for further use. `println` displays text but does not return that value to the caller.", rows=3)
 E["p2-3"] = {"type": "table", "xp": 1, "blanks": {
@@ -355,7 +363,7 @@ E["p2-5"] = {"type": "code", "xp": 2, "minLines": 16, "maxLines": 22, "title": "
     "cases": [{"name": "Program output", "expected": run(p2_5, BALANCE_DRIVER)}],
     "check": "\n".join([
         has("public int getBalance()", "The field is an int, so the return type is int: public int getBalance()."),
-        has("return balance;", "The body can stay as it was: return balance;")]),
+        has_field("return balance;", "The body can stay as it was: return balance;")]),
     "answer": b64(p2_5), "files": BALANCE_DRIVER}
 
 # ---------------------------------------------------------------- Section 3
@@ -383,7 +391,7 @@ E["p3-5"] = {"type": "code", "xp": 2, "minLines": 28, "maxLines": 34, "title": "
     "cases": [{"name": "Program output", "expected": run(p3_5, CLEAR_DRIVER)}],
     "check": "\n".join([
         has("public void clearTotal()", "The header is public void clearTotal(): no value comes back and there are no parameters."),
-        has("totalSpent = 0;", "The body sets the field to zero: totalSpent = 0;")]),
+        has_field("totalSpent = 0;", "The body sets the field to zero: totalSpent = 0;")]),
     "answer": b64(p3_5), "files": CLEAR_DRIVER}
 
 # ---------------------------------------------------------------- Section 4

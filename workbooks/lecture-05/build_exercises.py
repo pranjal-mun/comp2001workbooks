@@ -43,6 +43,14 @@ def has(fragment, message):
     return f'require(source.replaceAll("\\\\s+", "").contains({json.dumps(compact)}), {json.dumps(message)});'
 
 
+def has_field(fragment, message):
+    """Like has(), but the first identifier (after an optional `return`) is a field, so `this.` may precede it."""
+    compact = re.sub(r"\s+", "", fragment)
+    m = re.fullmatch(r"(return)?([A-Za-z_]\w*)(.*)", compact)
+    regex = re.escape(m.group(1) or "") + r"(this\.)?" + re.escape(m.group(2)) + re.escape(m.group(3))
+    return f'require(source.replaceAll("\\\\s+", "").matches({json.dumps("(?s).*" + regex + ".*")}), {json.dumps(message)});'
+
+
 def lacks(fragment, message):
     compact = re.sub(r"\s+", "", fragment)
     return f'require(!source.replaceAll("\\\\s+", "").contains({json.dumps(compact)}), {json.dumps(message)});'
@@ -440,7 +448,7 @@ E["p4-1"] = {"type": "code", "xp": 2, "minLines": 40, "maxLines": 56, "title": "
     "cases": [{"name": "Program output", "expected": run(p4_1, BATTERY_FILE + CHARGE_DRIVER)}],
     "check": "\n".join([
         lacks("Battery.getCharge()", "Battery names the class, not an object, so Battery.getCharge() has no receiver."),
-        has("battery.getCharge()", "Call the method on the field that refers to the battery object: battery.getCharge().")]),
+        has_field("battery.getCharge()", "Call the method on the field that refers to the battery object: battery.getCharge().")]),
     "answer": b64(p4_1), "files": BATTERY_FILE + CHARGE_DRIVER}
 E["p4-1-why"] = SHORT("`Battery` names the class, not a particular battery object, and `getCharge` is an instance method, so it needs an object to run on. Fix: `battery.getCharge();`. (`static` methods come later.)", rows=3)
 E["p4-2"] = {"type": "table", "xp": 1, "blanks": {
@@ -469,7 +477,7 @@ E["p4-6"] = {"type": "code", "xp": 2, "minLines": 40, "maxLines": 56, "title": "
     "cases": [{"name": "Program output", "expected": run(p4_1, BATTERY_FILE + DELEGATE_DRIVER)}],
     "check": "\n".join([
         has("public int getBatteryCharge()", "The header is public int getBatteryCharge(): the charge is an int and no parameters are needed."),
-        has("return battery.getCharge();", "Delegate to the collaborator: return battery.getCharge();"),
+        has_field("return battery.getCharge();", "Delegate to the collaborator: return battery.getCharge();"),
         lacks("private int charge", "Do not add a charge field to Flashlight; the battery already owns that value.")]),
     "answer": b64(p4_1), "files": BATTERY_FILE + DELEGATE_DRIVER}
 
@@ -518,8 +526,8 @@ E["p6-5"] = {"type": "code", "xp": 3, "minLines": 44, "maxLines": 62, "title": "
     "cases": [{"name": "Program output", "expected": run(p6_5, BATTERY_FILE + RECHARGE_DRIVER)}],
     "check": "\n".join([
         has("public void rechargeBattery()", "The header is public void rechargeBattery()."),
-        has("battery.recharge();", "Delegate the recharge to the battery: battery.recharge();"),
-        matches(r".*publicvoidrechargeBattery\(\)\{[^}]*(on=false;|turnOff\(\);)[^}]*\}.*", "Leave the flashlight off: on = false; (or the internal call turnOff();)")]),
+        has_field("battery.recharge();", "Delegate the recharge to the battery: battery.recharge();"),
+        matches(r".*publicvoidrechargeBattery\(\)\{[^}]*(this\.)?(on=false;|turnOff\(\);)[^}]*\}.*", "Leave the flashlight off: on = false; (or the internal call turnOff();)")]),
     "answer": b64(p6_5), "files": BATTERY_FILE + RECHARGE_DRIVER}
 
 # ---------------------------------------------------------------- Section 7
@@ -584,7 +592,7 @@ E["p7-2"] = {"type": "code", "xp": 10, "minLines": 40, "maxLines": 70, "title": 
         matches(r".*publicvoidride\(int\w+\).*", "Include public void ride(int distance)."),
         has("public int getFuel()", "Include public int getFuel()."),
         has("public boolean isRunning()", "Include public boolean isRunning()."),
-        has("return tank.getFuel();", "getFuel() delegates to the tank: return tank.getFuel();")]),
+        has_field("return tank.getFuel();", "getFuel() delegates to the tank: return tank.getFuel();")]),
     "answer": b64(SCOOTER), "files": FUEL_TANK_FILE + SCOOTER_CHECK}
 SCOOTER_FILES = FUEL_TANK_FILE + [file("Scooter.java", SCOOTER)]
 E["p7-3"] = {"type": "code", "xp": 3, "minLines": 14, "maxLines": 24, "title": "ScooterDemo.java",
@@ -641,7 +649,7 @@ E["p8-2-card"] = {"type": "code", "xp": 8, "minLines": 24, "maxLines": 40, "titl
         lacks("new Account(", "The card receives an existing account; it must not construct one."),
         matches(r".*publicbooleanbuy\(int\w+\).*", "Include public boolean buy(int amount)."),
         matches(r".*returnaccount\.withdraw\(\w+\);.*", "buy delegates to the account: return account.withdraw(amount);"),
-        has("return account.getBalance();", "getBalance() delegates: return account.getBalance();"),
+        has_field("return account.getBalance();", "getBalance() delegates: return account.getBalance();"),
         has("public String getLabel()", "Include public String getLabel().")]),
     "answer": b64(PAYMENT_CARD), "files": ACCOUNT_FILE + CARD_CHECK}
 CARD_FILES = ACCOUNT_FILE + [file("PaymentCard.java", PAYMENT_CARD)]
