@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 2001 – Lecture 5 Workbook</title>
+  <link rel="icon" href="../../runtime/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
+  <link rel="stylesheet" href="../../runtime/workbook.css">
+  <script type="module">
+    import { initWorkbook } from "../../runtime/workbook.js";
+    initWorkbook({ id: "lecture-05", specs: "./exercises.json" });
+  </script>
+  <style>
+    .wb-diagram { display: block; margin: 1rem auto; max-width: 100%; height: auto; font-family: var(--font-mono); font-size: 0.85rem; }
+    .wb-diagram .box { fill: var(--panel); stroke: var(--rule-strong); stroke-width: 1.2; }
+    .wb-diagram text { fill: var(--ink); }
+    .wb-diagram .label { font-family: var(--font-sans); font-size: 0.8rem; fill: var(--ink-quiet); }
+    .wb-diagram .arrow { stroke: var(--ink); stroke-width: 1.6; fill: none; }
+    .wb-diagram .head { fill: var(--ink); }
+  </style>
+</head>
+<body>
+<main>
+
+<div class="wb-title-block">
+  <div>
+    <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
+    <h1>Lecture 5 Workbook</h1>
+    <div class="wb-subtitle">Chapter 3: Objects collaborate</div>
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
+  </div>
+  <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+</div>
+
+<section class="wb-outcomes">
+  <h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+  <p>Read each short explanation, answer the questions that follow it, and use the final coding section to write complete programs. The class and table below cover the whole lecture. Use this section for a quick review before a test.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Flashlight</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">Battery</span> battery;            <span class="wb-cmt">// field whose type is a class: holds a reference</span>
+    <span class="wb-kw">private</span> <span class="wb-kw">boolean</span> on;
+    <span class="wb-kw">public</span> <span class="wb-fn">Flashlight</span>()
+    {
+        battery = <span class="wb-kw">new</span> <span class="wb-fn">Battery</span>(<span class="wb-num">100</span>);     <span class="wb-cmt">// creates the collaborator: one new Battery object</span>
+        on = <span class="wb-kw">false</span>;
+    }
+    <span class="wb-kw">public</span> <span class="wb-fn">Flashlight</span>(<span class="wb-type">Battery</span> battery)
+    {
+        <span class="wb-kw">this</span>.battery = battery;         <span class="wb-cmt">// receives an existing object: no new Battery</span>
+        on = <span class="wb-kw">false</span>;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">useForOneMinute</span>()
+    {
+        <span class="wb-kw">if</span>(on) {
+            battery.drain(<span class="wb-num">1</span>);           <span class="wb-cmt">// external call: the receiver is battery</span>
+            updatePowerState();         <span class="wb-cmt">// internal call: the receiver is this object</span>
+        }
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getBatteryCharge</span>()
+    {
+        <span class="wb-kw">return</span> battery.getCharge();     <span class="wb-cmt">// delegation: no duplicate charge field</span>
+    }
+}</code></pre>
+  <table>
+    <thead><tr><th>term</th><th>meaning</th></tr></thead>
+    <tbody>
+      <tr><td>responsibility</td><td>state or behaviour that one class owns; <code>Battery</code> owns the charge rules, <code>Flashlight</code> owns the switch</td></tr>
+      <tr><td>class as a type</td><td><code>private Battery battery;</code> declares a field whose type is a class; parameters and local variables can do the same</td></tr>
+      <tr><td>reference</td><td>an object-typed variable holds an arrow to an object, not the object itself; before any assignment it holds <code>null</code></td></tr>
+      <tr><td>three steps</td><td><code>Battery b;</code> declares; <code>new Battery(20)</code> constructs one object; <code>b = ...</code> assigns the reference</td></tr>
+      <tr><td>create or receive</td><td><code>battery = new Battery(100);</code> makes a new collaborator; <code>this.battery = battery;</code> stores one passed in</td></tr>
+      <tr><td>alias</td><td>two variables that refer to the same object; <code>b = a;</code> copies the arrow, not the object, so a change through one is seen through both</td></tr>
+      <tr><td>external call</td><td><code>battery.drain(1)</code>: receiver, method, argument; the receiver must refer to an object, not name a class</td></tr>
+      <tr><td>internal call</td><td><code>updatePowerState()</code>: a method of the same object; the receiver is <code>this</code>; <code>private</code> helpers are called this way</td></tr>
+      <tr><td>delegation</td><td>letting the collaborator do its own job: <code>return battery.getCharge();</code> instead of a second charge field</td></tr>
+      <tr><td>overloading</td><td>two constructors with different parameter lists; Java picks the one whose parameters match the arguments</td></tr>
+    </tbody>
+  </table>
+  <p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run on the page takes a few seconds while Java loads). Boxes that use the flashlight have the finished <code>Battery</code> class on their classpath, and boxes that ask for a method inside a class come with a small demo class that calls your method and prints what comes back, so Check can compare the output. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
+</section>
+<hr>
+
+<h2 id="s1">1. Responsibilities</h2>
+<h3>A working class can still have too many responsibilities</h3>
+<p>Imagine a first attempt at a flashlight class with these fields:</p>
+<pre><code><span class="wb-kw">private</span> <span class="wb-kw">boolean</span> on;
+<span class="wb-kw">private</span> <span class="wb-kw">int</span> batteryCapacity;
+<span class="wb-kw">private</span> <span class="wb-kw">int</span> batteryCharge;</code></pre>
+<p>One <code>Flashlight</code> class could manage all three fields, and the program would work. But this mixes light behaviour with battery rules. If a camera, a radio, or a toy also needs a rechargeable battery, the capacity/charge/drain/recharge code would have to be repeated in each of those classes.</p>
+<ul>
+  <li>A <strong>responsibility</strong> is a piece of state or behaviour that a class is expected to own.</li>
+  <li><strong>Modularization</strong> means dividing a program into well-defined parts.</li>
+  <li><strong>Abstraction</strong> means using a part through what it does, without repeatedly reasoning about its internal details.</li>
+</ul>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1: identify the boundary</div>
+  <p><strong>1.1.</strong> Classify each item as primarily a <code>Flashlight</code> responsibility or a <code>Battery</code> responsibility: <code>on</code>, <code>capacity</code>, <code>charge</code>, <code>turnOff</code>, <code>drain</code>, <code>recharge</code>.</p>
+  <wb-table id="p1-1">
+    <table>
+      <thead><tr><th>item</th><th>responsibility of</th></tr></thead>
+      <tbody>
+        <tr><td><code>on</code></td><td data-blank="on"></td></tr>
+        <tr><td><code>capacity</code></td><td data-blank="capacity"></td></tr>
+        <tr><td><code>charge</code></td><td data-blank="charge"></td></tr>
+        <tr><td><code>turnOff</code></td><td data-blank="turnOff"></td></tr>
+        <tr><td><code>drain</code></td><td data-blank="drain"></td></tr>
+        <tr><td><code>recharge</code></td><td data-blank="recharge"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>1.2.</strong> Why would storing <code>batteryCharge</code> in both classes be dangerous?</p>
+  <wb-short id="p1-2"></wb-short>
+  <p><strong>1.3.</strong> A student proposes a separate <code>SwitchState</code> class containing only one boolean and no independent rules. Explain why "more classes" is not automatically better.</p>
+  <wb-short id="p1-3"></wb-short>
+</div>
+
+<h3>Define <code>Battery</code> completely before using it</h3>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Battery</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> capacity;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> charge;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Battery</span>(<span class="wb-kw">int</span> capacity)
+    {
+        <span class="wb-kw">this</span>.capacity = capacity;
+        charge = capacity;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getCharge</span>()
+    {
+        <span class="wb-kw">return</span> charge;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">isEmpty</span>()
+    {
+        <span class="wb-kw">return</span> charge == <span class="wb-num">0</span>;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">drain</span>(<span class="wb-kw">int</span> amount)
+    {
+        <span class="wb-kw">if</span>(amount &gt; <span class="wb-num">0</span>) {
+            charge = charge - amount;
+            <span class="wb-kw">if</span>(charge &lt; <span class="wb-num">0</span>) {
+                charge = <span class="wb-num">0</span>;
+            }
+        }
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">recharge</span>()
+    {
+        charge = capacity;
+    }
+}</code></pre>
+<p>Assume that <code>capacity</code> is positive. You saw nested <code>if</code> statements in earlier lectures.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: trace the battery</div>
+  <p><strong>1.4.</strong> Trace a <code>Battery(3)</code> through <code>drain(1)</code>, <code>drain(5)</code>, and <code>recharge()</code>. Give the charge after each call.</p>
+  <wb-table id="p1-4">
+    <table>
+      <thead><tr><th>moment</th><th>charge</th></tr></thead>
+      <tbody>
+        <tr><td>after <code>new Battery(3)</code></td><td data-blank="c0"></td></tr>
+        <tr><td>after <code>drain(1)</code></td><td data-blank="c1"></td></tr>
+        <tr><td>after <code>drain(5)</code></td><td data-blank="c2"></td></tr>
+        <tr><td>after <code>recharge()</code></td><td data-blank="c3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Run this box to confirm your trace. The <code>Battery</code> class above is on its classpath:</p>
+  <wb-example id="ex-battery-trace"></wb-example>
+  <p><strong>1.5.</strong> Why should <code>Battery.drain</code> protect the lower boundary itself, instead of relying on every device to check it first?</p>
+  <wb-short id="p1-5"></wb-short>
+</div>
+
+<h2 id="s2">2. Class-Typed Fields</h2>
+<h3>A class name is a type</h3>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Flashlight</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">Battery</span> battery;
+    <span class="wb-kw">private</span> <span class="wb-kw">boolean</span> on;
+}</code></pre>
+<p><code>Battery</code> is the type; <code>battery</code> is the field name. A class name can be used as a type anywhere an object type is allowed:</p>
+<pre><code><span class="wb-kw">private</span> <span class="wb-type">Engine</span> engine;                    <span class="wb-cmt">// field</span>
+<span class="wb-type">Battery</span> spare;                            <span class="wb-cmt">// local variable</span>
+<span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">install</span>(<span class="wb-type">Battery</span> replacement)  <span class="wb-cmt">// parameter</span></code></pre>
+<p>The declared type controls which methods may be called through that variable.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: declare and label class-typed variables</div>
+  <p><strong>2.1.</strong> Write a private field named <code>sensor</code> whose type is <code>TemperatureSensor</code>.</p>
+  <wb-table id="p2-1">
+    <table>
+      <thead><tr><th>the field declaration</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="decl"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>2.2.</strong> In <code>private Battery battery;</code>, identify the access modifier, the type, and the name.</p>
+  <wb-table id="p2-2">
+    <table>
+      <thead><tr><th>part</th><th>in the declaration</th></tr></thead>
+      <tbody>
+        <tr><td>access modifier</td><td data-blank="mod"></td></tr>
+        <tr><td>type</td><td data-blank="type"></td></tr>
+        <tr><td>name</td><td data-blank="name"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h3>Reference field and object are separate</h3>
+<p>A primitive variable stores a value directly: <code>int count = 3;</code> stores 3. An object-typed variable stores a <strong>reference</strong>, not the object's fields: <code>Battery battery;</code> stores a reference to a <code>Battery</code> object, or no reference at all.</p>
+<p>At the beginning of a constructor body, before any assignment statements run, an object field has the default value <code>null</code>, meaning "no object reference." This is not a fully constructed object whose constructor simply has not run yet. It is the absence of any object reference.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: the field before the object</div>
+  <p><strong>2.3.</strong> At the beginning of the <code>Flashlight</code> constructor body, before any assignments, what does <code>battery</code> contain? How many <code>Battery</code> objects has the field declaration created?</p>
+  <wb-table id="p2-3">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>what <code>battery</code> contains</td><td data-blank="value"></td></tr>
+        <tr><td><code>Battery</code> objects created by the declaration</td><td data-blank="count"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>2.4.</strong> What is wrong with this order?</p>
+<pre><code>battery.drain(<span class="wb-num">1</span>);
+battery = <span class="wb-kw">new</span> <span class="wb-fn">Battery</span>(<span class="wb-num">100</span>);</code></pre>
+  <wb-short id="p2-4"></wb-short>
+</div>
+
+<h3>Class diagram versus object diagram</h3>
+<svg class="wb-diagram" viewBox="0 0 420 70" width="420" height="70" role="img" aria-label="Class diagram: Flashlight has a Battery">
+  <defs><marker id="head-class" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path class="head" d="M0,0 L8,4 L0,8 z"/></marker></defs>
+  <rect class="box" x="10" y="15" width="130" height="40" rx="6"/>
+  <text x="75" y="40" text-anchor="middle">Flashlight</text>
+  <rect class="box" x="280" y="15" width="130" height="40" rx="6"/>
+  <text x="345" y="40" text-anchor="middle">Battery</text>
+  <line class="arrow" x1="140" y1="35" x2="278" y2="35" marker-end="url(#head-class)"/>
+  <text class="label" x="209" y="28" text-anchor="middle">has a</text>
+</svg>
+<p>The <strong>class diagram</strong> above shows the static, source-level relationship: <code>Flashlight</code> has a <code>Battery</code>. It says nothing about any particular run.</p>
+<svg class="wb-diagram" viewBox="0 0 460 96" width="460" height="96" role="img" aria-label="Object diagram: deskLight, a Flashlight with on = false, whose battery field refers to a Battery with capacity 100 and charge 100">
+  <defs><marker id="head-object" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path class="head" d="M0,0 L8,4 L0,8 z"/></marker></defs>
+  <rect class="box" x="10" y="8" width="208" height="80" rx="6"/>
+  <text x="22" y="32">deskLight : Flashlight</text>
+  <text class="label" x="22" y="56">on = false</text>
+  <text class="label" x="22" y="76">battery:</text>
+  <rect class="box" x="300" y="8" width="150" height="80" rx="6"/>
+  <text x="312" y="32">: Battery</text>
+  <text class="label" x="312" y="56">capacity = 100</text>
+  <text class="label" x="312" y="76">charge = 100</text>
+  <line class="arrow" x1="218" y1="72" x2="298" y2="48" marker-end="url(#head-object)"/>
+</svg>
+<p>The <strong>object diagram</strong> above is one runtime snapshot: one particular flashlight, its particular battery, and the current state of both.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: read the diagrams</div>
+  <p><strong>2.5.</strong> Which diagram answers each question?</p>
+  <wb-table id="p2-5">
+    <table>
+      <thead><tr><th>question</th><th>diagram</th></tr></thead>
+      <tbody>
+        <tr><td>(a) Does the source of <code>Flashlight</code> depend on <code>Battery</code>?</td><td data-blank="a"></td></tr>
+        <tr><td>(b) What charge does <code>deskLight</code>'s battery have right now?</td><td data-blank="b"></td></tr>
+        <tr><td>(c) How many <code>Battery</code> objects exist in this particular run?</td><td data-blank="c"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h2 id="s3">3. Creating and Receiving Collaborators</h2>
+<h3>Declaration, construction, and assignment</h3>
+<pre><code>battery = <span class="wb-kw">new</span> <span class="wb-fn">Battery</span>(<span class="wb-num">100</span>);</code></pre>
+<p>This one line combines two distinct ideas, on top of a declaration that already happened earlier:</p>
+<ul>
+  <li><strong>declaration</strong> (earlier): <code>private Battery battery;</code> introduced the name and type;</li>
+  <li><strong>construction</strong>: <code>new Battery(100)</code> creates one object and runs its constructor;</li>
+  <li><strong>assignment</strong>: <code>=</code> stores the resulting reference in the field.</li>
+</ul>
+
+<h3>The default constructor creates its own collaborator</h3>
+<pre><code><span class="wb-kw">public</span> <span class="wb-fn">Flashlight</span>()
+{
+    battery = <span class="wb-kw">new</span> <span class="wb-fn">Battery</span>(<span class="wb-num">100</span>);
+    on = <span class="wb-kw">false</span>;
+}</code></pre>
+<p>Three states follow in order: the constructor body begins and <code>battery</code> is <code>null</code>; <code>new Battery(100)</code> runs and produces one <code>Battery</code> object; the reference is assigned to <code>battery</code>.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: count the objects</div>
+  <p><strong>3.1.</strong> How many objects are created by one evaluation of <code>new Flashlight()</code> in this design? Name their classes.</p>
+  <wb-table id="p3-1">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>objects created</td><td data-blank="count"></td></tr>
+        <tr><td>their classes</td><td data-blank="classes"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>3.2.</strong> How many <code>Flashlight</code> and <code>Battery</code> objects exist after:</p>
+<pre><code><span class="wb-type">Flashlight</span> first = <span class="wb-kw">new</span> <span class="wb-fn">Flashlight</span>();
+<span class="wb-type">Flashlight</span> second = <span class="wb-kw">new</span> <span class="wb-fn">Flashlight</span>();</code></pre>
+  <p>Do the two flashlights share a battery?</p>
+  <wb-table id="p3-2">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td><code>Flashlight</code> objects</td><td data-blank="f"></td></tr>
+        <tr><td><code>Battery</code> objects</td><td data-blank="b"></td></tr>
+        <tr><td>do they share a battery?</td><td data-blank="share"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Run this box to see that draining one flashlight's battery leaves the other untouched. The complete <code>Flashlight</code> and <code>Battery</code> classes from Section 6 are on its classpath:</p>
+  <wb-example id="ex-two-lights"></wb-example>
+  <p><strong>3.3.</strong> Label each fragment as declaration, construction, assignment, or method call:</p>
+<pre><code><span class="wb-type">Battery</span> spare;
+<span class="wb-kw">new</span> <span class="wb-fn">Battery</span>(<span class="wb-num">20</span>)
+spare = <span class="wb-kw">new</span> <span class="wb-fn">Battery</span>(<span class="wb-num">20</span>);
+spare.recharge();</code></pre>
+  <wb-table id="p3-3">
+    <table>
+      <thead><tr><th>fragment</th><th>label</th></tr></thead>
+      <tbody>
+        <tr><td><code>Battery spare;</code></td><td data-blank="k1"></td></tr>
+        <tr><td><code>new Battery(20)</code></td><td data-blank="k2"></td></tr>
+        <tr><td><code>spare = new Battery(20);</code></td><td data-blank="k3"></td></tr>
+        <tr><td><code>spare.recharge();</code></td><td data-blank="k4"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h3>A constructor can receive an existing object</h3>
+<pre><code><span class="wb-type">Battery</span> testBattery = <span class="wb-kw">new</span> <span class="wb-fn">Battery</span>(<span class="wb-num">3</span>);
+<span class="wb-type">Flashlight</span> testLight = <span class="wb-kw">new</span> <span class="wb-fn">Flashlight</span>(testBattery);</code></pre>
+<pre><code><span class="wb-kw">public</span> <span class="wb-fn">Flashlight</span>(<span class="wb-type">Battery</span> battery)
+{
+    <span class="wb-kw">this</span>.battery = battery;
+    on = <span class="wb-kw">false</span>;
+}</code></pre>
+<p>Java copies the reference into the parameter, so the argument and the parameter refer to the same object. Assignment then copies that reference into the field. No second battery is constructed.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: receive a collaborator</div>
+  <p><strong>3.4.</strong> Why is <code>this.battery = battery;</code> needed instead of just <code>battery = battery;</code>?</p>
+  <wb-short id="p3-4"></wb-short>
+  <p><strong>3.5.</strong> How many objects exist after the two statements at the top of this note? Name them and describe what refers to what.</p>
+  <wb-short id="p3-5"></wb-short>
+  <p>Run this box to see the shared battery from both sides:</p>
+  <wb-example id="ex-receive"></wb-example>
+</div>
+
+<h3>Overloaded constructors</h3>
+<p>Placing both constructors side by side: a class may have more than one constructor when their parameter lists are distinct. Java selects the matching constructor by comparing the argument list at the call site against each constructor's parameter list.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: pick the constructor</div>
+  <p><strong>3.6.</strong> For each call, identify the selected constructor and whether it creates a new battery internally:</p>
+<pre><code><span class="wb-kw">new</span> <span class="wb-fn">Flashlight</span>()
+<span class="wb-kw">new</span> <span class="wb-fn">Flashlight</span>(testBattery)</code></pre>
+  <wb-table id="p3-6">
+    <table>
+      <thead><tr><th>call</th><th>selected constructor</th><th>creates a new battery?</th></tr></thead>
+      <tbody>
+        <tr><td><code>new Flashlight()</code></td><td data-blank="c1"></td><td data-blank="n1"></td></tr>
+        <tr><td><code>new Flashlight(testBattery)</code></td><td data-blank="c2"></td><td data-blank="n2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h2 id="s4">4. Method Calls</h2>
+<h3>External instance-method calls</h3>
+<pre><code>battery.drain(<span class="wb-num">1</span>);</code></pre>
+<table>
+  <thead><tr><th>Part</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td><code>battery</code></td><td>receiver: the object being asked to act</td></tr>
+    <tr><td><code>drain</code></td><td>the method to run</td></tr>
+    <tr><td><code>(1)</code></td><td>the argument</td></tr>
+  </tbody>
+</table>
+<p>Instance methods need an object to run on. In the examples in this lecture, the receiver is a field or variable referring to one particular object. (<code>static</code> methods come later.)</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: name the receiver</div>
+  <p><strong>4.1.</strong> The line <code>Battery.getCharge();</code> does not compile. Say why and fix it. A field named <code>battery</code> exists.</p>
+  <wb-short id="p4-1-why"></wb-short>
+  <p>Now repair the call in this box. The demo behind it constructs a flashlight around a <code>Battery(3)</code> and prints the charge it reports:</p>
+  <wb-exercise id="p4-1"></wb-exercise>
+</div>
+
+<h3>Collaboration combines query and command calls</h3>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">turnOn</span>()
+{
+    <span class="wb-kw">if</span>(!battery.isEmpty()) {
+        on = <span class="wb-kw">true</span>;
+    }
+}</code></pre>
+<p><code>isEmpty</code> <em>returns information</em>; <code>drain</code> <em>requests a state change</em>. A coordinating object often combines several collaborator calls to complete one larger operation.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: trace the switch</div>
+  <p><strong>4.2.</strong> Trace <code>turnOn()</code> when the battery charge is 2 and <code>on</code> is <code>false</code>.</p>
+  <wb-table id="p4-2">
+    <table>
+      <thead><tr><th>step</th><th>result</th></tr></thead>
+      <tbody>
+        <tr><td><code>battery.isEmpty()</code> returns</td><td data-blank="empty"></td></tr>
+        <tr><td><code>!battery.isEmpty()</code> is</td><td data-blank="not"></td></tr>
+        <tr><td><code>on</code> afterwards</td><td data-blank="on"></td></tr>
+        <tr><td>battery charge afterwards</td><td data-blank="charge"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>4.3.</strong> Trace <code>turnOn()</code> when the charge is 0.</p>
+  <wb-table id="p4-3">
+    <table>
+      <thead><tr><th>step</th><th>result</th></tr></thead>
+      <tbody>
+        <tr><td><code>battery.isEmpty()</code> returns</td><td data-blank="empty"></td></tr>
+        <tr><td><code>!battery.isEmpty()</code> is</td><td data-blank="not"></td></tr>
+        <tr><td><code>on</code> afterwards</td><td data-blank="on"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Run this box to check both traces:</p>
+  <wb-example id="ex-turn-on"></wb-example>
+</div>
+
+<h3>Internal calls use the current object</h3>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">useForOneMinute</span>()
+{
+    <span class="wb-kw">if</span>(on) {
+        battery.drain(<span class="wb-num">1</span>);
+        updatePowerState();
+    }
+}
+
+<span class="wb-kw">private</span> <span class="wb-kw">void</span> <span class="wb-fn">updatePowerState</span>()
+{
+    <span class="wb-kw">if</span>(battery.isEmpty()) {
+        on = <span class="wb-kw">false</span>;
+    }
+}</code></pre>
+<p><code>updatePowerState()</code> has an implicit receiver: <code>this</code>, the current object. Calling it is not recursion; it is one ordinary method asking another method of the same object to run.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: internal and external calls</div>
+  <p><strong>4.4.</strong> Classify each call as internal or external, and identify the receiver:</p>
+  <wb-table id="p4-4">
+    <table>
+      <thead><tr><th>call</th><th>kind</th><th>receiver</th></tr></thead>
+      <tbody>
+        <tr><td>(a) <code>battery.drain(1)</code></td><td data-blank="ka"></td><td data-blank="ra"></td></tr>
+        <tr><td>(b) <code>updatePowerState()</code></td><td data-blank="kb"></td><td data-blank="rb"></td></tr>
+        <tr><td>(c) <code>battery.isEmpty()</code></td><td data-blank="kc"></td><td data-blank="rc"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>4.5.</strong> Explain why a private method can still be called by another method in the same class.</p>
+  <wb-short id="p4-5"></wb-short>
+  <p><strong>4.6.</strong> Write <code>getBatteryCharge()</code> so that it asks the collaborator instead of storing a duplicate charge field. The demo behind this box builds a flashlight around a <code>Battery(3)</code>, uses it for a minute, recharges the battery directly, and prints the charge the flashlight reports each time.</p>
+  <wb-exercise id="p4-6"></wb-exercise>
+</div>
+
+<h2 id="s5">5. References and Aliases</h2>
+<h3>Primitive copy versus reference copy</h3>
+<pre><code><span class="wb-kw">int</span> a = <span class="wb-num">3</span>;
+<span class="wb-kw">int</span> b = a;
+a = <span class="wb-num">2</span>;</code></pre>
+<pre><code><span class="wb-type">Battery</span> first = <span class="wb-kw">new</span> <span class="wb-fn">Battery</span>(<span class="wb-num">3</span>);
+<span class="wb-type">Battery</span> second = first;
+first.drain(<span class="wb-num">1</span>);</code></pre>
+<p>Primitive assignment copies a value into a separate box. Reference assignment copies an arrow: <code>second</code> and <code>first</code> then refer to the <em>same</em> <code>Battery</code> object. Two variables or fields that refer to the same object are called <strong>aliases</strong>.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: values and arrows</div>
+  <p><strong>5.1.</strong> What is <code>b</code> after the primitive-variable trace, and why?</p>
+  <wb-table id="p5-1">
+    <table>
+      <thead><tr><th>variable</th><th>value</th></tr></thead>
+      <tbody>
+        <tr><td><code>b</code></td><td data-blank="b"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <wb-short id="p5-1-why"></wb-short>
+  <p><strong>5.2.</strong> What does <code>second.getCharge()</code> return after the reference-variable trace, and why?</p>
+  <wb-table id="p5-2">
+    <table>
+      <thead><tr><th>call</th><th>value</th></tr></thead>
+      <tbody>
+        <tr><td><code>second.getCharge()</code></td><td data-blank="c"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <wb-short id="p5-2-why"></wb-short>
+  <p>Run both traces:</p>
+  <wb-example id="ex-copies"></wb-example>
+  <p><strong>5.3.</strong> Does <code>second = first;</code> run a constructor or create an object?</p>
+  <wb-table id="p5-3">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>runs a constructor?</td><td data-blank="ctor"></td></tr>
+        <tr><td>creates an object?</td><td data-blank="obj"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h3>Passing an object also shares access</h3>
+<pre><code><span class="wb-type">Battery</span> small = <span class="wb-kw">new</span> <span class="wb-fn">Battery</span>(<span class="wb-num">2</span>);
+<span class="wb-type">Flashlight</span> light = <span class="wb-kw">new</span> <span class="wb-fn">Flashlight</span>(small);</code></pre>
+<p>The local variable <code>small</code> and the flashlight's <code>battery</code> field both refer to the same object. The constructor's parameter temporarily receives a copy of that same reference while the constructor runs.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: shared access</div>
+  <p><strong>5.4.</strong> After <code>small.drain(1)</code>, what does <code>light.getBatteryCharge()</code> return?</p>
+  <wb-table id="p5-4">
+    <table>
+      <thead><tr><th>call</th><th>value</th></tr></thead>
+      <tbody>
+        <tr><td><code>light.getBatteryCharge()</code></td><td data-blank="v"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <wb-example id="ex-shared"></wb-example>
+</div>
+
+<h3>Reassignment changes one reference</h3>
+<pre><code><span class="wb-type">Battery</span> a = <span class="wb-kw">new</span> <span class="wb-fn">Battery</span>(<span class="wb-num">5</span>);
+<span class="wb-type">Battery</span> b = a;
+b = <span class="wb-kw">new</span> <span class="wb-fn">Battery</span>(<span class="wb-num">10</span>);</code></pre>
+<svg class="wb-diagram" viewBox="0 0 420 110" width="420" height="110" role="img" aria-label="Object diagram: a refers to a Battery with charge 5, b refers to a different Battery with charge 10">
+  <defs><marker id="head-reassign" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path class="head" d="M0,0 L8,4 L0,8 z"/></marker></defs>
+  <rect class="box" x="10" y="10" width="70" height="34" rx="4"/>
+  <text x="45" y="32" text-anchor="middle">a</text>
+  <rect class="box" x="10" y="66" width="70" height="34" rx="4"/>
+  <text x="45" y="88" text-anchor="middle">b</text>
+  <rect class="box" x="190" y="10" width="220" height="34" rx="6"/>
+  <text x="300" y="32" text-anchor="middle">: Battery, charge = 5</text>
+  <rect class="box" x="190" y="66" width="220" height="34" rx="6"/>
+  <text x="300" y="88" text-anchor="middle">: Battery, charge = 10</text>
+  <line class="arrow" x1="80" y1="27" x2="188" y2="27" marker-end="url(#head-reassign)"/>
+  <line class="arrow" x1="80" y1="83" x2="188" y2="83" marker-end="url(#head-reassign)"/>
+</svg>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: reassign a reference</div>
+  <p><strong>5.5.</strong> After all three lines, how many batteries exist, and what do <code>a.getCharge()</code> and <code>b.getCharge()</code> return?</p>
+  <wb-table id="p5-5">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>batteries that exist</td><td data-blank="n"></td></tr>
+        <tr><td><code>a.getCharge()</code></td><td data-blank="a"></td></tr>
+        <tr><td><code>b.getCharge()</code></td><td data-blank="b"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <wb-example id="ex-reassign"></wb-example>
+  <p><strong>5.6.</strong> Explain the difference between changing an object's state and reassigning a reference variable.</p>
+  <wb-short id="p5-6"></wb-short>
+</div>
+
+<h2 id="s6">6. Delegation</h2>
+<h3>One source of truth and delegation</h3>
+<table>
+  <thead><tr><th>Fact or operation</th><th>Owner and reason</th></tr></thead>
+  <tbody>
+    <tr><td>battery capacity and charge</td><td><code>Battery</code>: it enforces battery rules</td></tr>
+    <tr><td>drain and recharge</td><td><code>Battery</code>: they change battery state</td></tr>
+    <tr><td>whether the light is on</td><td><code>Flashlight</code>: it is light state</td></tr>
+    <tr><td>whether usage is allowed</td><td><code>Flashlight</code>, informed by <code>Battery</code>: it coordinates the device</td></tr>
+    <tr><td>reporting charge</td><td><code>Flashlight</code> delegates to <code>Battery</code>: avoids duplicate state</td></tr>
+  </tbody>
+</table>
+<p><strong>Delegation</strong> is an ordinary method call used to give a subtask to the object responsible for it.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: respect the boundary</div>
+  <p><strong>6.1.</strong> Why should <code>Flashlight</code> not directly change <code>battery.charge</code>?</p>
+  <wb-short id="p6-1"></wb-short>
+  <p><strong>6.2.</strong> If <code>Battery.drain</code> is internally rewritten but keeps the same promised behaviour, why does <code>Flashlight</code> not need to change?</p>
+  <wb-short id="p6-2"></wb-short>
+</div>
+
+<h3>Complete reference implementation</h3>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Battery</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> capacity;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> charge;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Battery</span>(<span class="wb-kw">int</span> capacity)
+    {
+        <span class="wb-kw">this</span>.capacity = capacity;
+        charge = capacity;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getCharge</span>()
+    {
+        <span class="wb-kw">return</span> charge;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">isEmpty</span>()
+    {
+        <span class="wb-kw">return</span> charge == <span class="wb-num">0</span>;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">drain</span>(<span class="wb-kw">int</span> amount)
+    {
+        <span class="wb-kw">if</span>(amount &gt; <span class="wb-num">0</span>) {
+            charge = charge - amount;
+            <span class="wb-kw">if</span>(charge &lt; <span class="wb-num">0</span>) {
+                charge = <span class="wb-num">0</span>;
+            }
+        }
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">recharge</span>()
+    {
+        charge = capacity;
+    }
+}</code></pre>
+<p>The <code>Flashlight</code> class is live. The <code>Battery</code> above and a small demo class are on its classpath; the demo builds a flashlight with the default constructor, turns it on, uses it for two minutes, turns it off, and prints the state after each stage.</p>
+<wb-example id="ex-flashlight"></wb-example>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: read the finished classes</div>
+  <p><strong>6.3.</strong> Identify every external call made inside <code>Flashlight.useForOneMinute()</code> and <code>updatePowerState()</code>, and the one internal call.</p>
+  <wb-table id="p6-3">
+    <table>
+      <thead><tr><th>call</th><th>the call</th></tr></thead>
+      <tbody>
+        <tr><td>external call in <code>useForOneMinute()</code></td><td data-blank="e1"></td></tr>
+        <tr><td>external call in <code>updatePowerState()</code></td><td data-blank="e2"></td></tr>
+        <tr><td>internal call</td><td data-blank="i"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>6.4.</strong> Trace:</p>
+<pre><code><span class="wb-type">Battery</span> small = <span class="wb-kw">new</span> <span class="wb-fn">Battery</span>(<span class="wb-num">2</span>);
+<span class="wb-type">Flashlight</span> light = <span class="wb-kw">new</span> <span class="wb-fn">Flashlight</span>(small);
+light.turnOn();
+light.useForOneMinute();
+light.useForOneMinute();</code></pre>
+  <p>Report the object count, the final charge, and the final on/off state.</p>
+  <wb-table id="p6-4">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>objects in total</td><td data-blank="n"></td></tr>
+        <tr><td>final charge</td><td data-blank="charge"></td></tr>
+        <tr><td><code>on</code> at the end</td><td data-blank="on"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <wb-example id="ex-trace"></wb-example>
+  <p><strong>6.5.</strong> Write a <code>rechargeBattery()</code> method in <code>Flashlight</code> that delegates to the battery and leaves the flashlight off. The demo behind this box runs a flashlight down to charge 1, calls your method, and prints the state before and after.</p>
+  <wb-exercise id="p6-5"></wb-exercise>
+</div>
+
+<h2 id="s7">7. Coding Practice</h2>
+<p>These tasks use the ideas from the flashlight in new settings. Each one needs complete classes and a small program with <code>main</code>. Write and run each program in the boxes below or in any standard Java environment. Each class box has a checking program behind it that calls your methods in more situations than the demo does, so read the requirements carefully.</p>
+
+<h3>Program A: <code>FuelTank</code> and <code>Scooter</code></h3>
+<p>Create a program with three classes.</p>
+<p><strong>1. <code>FuelTank</code></strong></p>
+<p>Fields <code>capacity</code> and <code>fuel</code>. Write:</p>
+<ul>
+  <li>a positive-capacity constructor that starts the tank full;</li>
+  <li><code>getFuel()</code>, <code>isEmpty()</code>, <code>consume(int amount)</code>, and <code>refill()</code>;</li>
+  <li><code>consume</code> accepts only positive amounts and clamps fuel at zero.</li>
+</ul>
+<p><strong>2. <code>Scooter</code></strong></p>
+<p>Fields <code>String name</code>, <code>FuelTank tank</code>, and <code>boolean running</code>. Write:</p>
+<ul>
+  <li><code>Scooter(String name)</code>, which creates a default tank of capacity 100;</li>
+  <li><code>Scooter(String name, FuelTank tank)</code>, which receives an existing tank;</li>
+  <li><code>start()</code>, which starts only if there is fuel;</li>
+  <li><code>stop()</code>;</li>
+  <li><code>ride(int distance)</code>, which consumes fuel equal to a positive distance while running, and stops the scooter if the tank becomes empty;</li>
+  <li><code>getFuel()</code> and <code>isRunning()</code>.</li>
+</ul>
+<p>Do not add a separate fuel field to <code>Scooter</code>.</p>
+<p><strong>3. <code>ScooterDemo</code></strong></p>
+<p>Create a tank of capacity 5, pass it to a scooter, start the scooter, ride 2, then ride 4. Print the fuel and running state after each ride.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: write Program A</div>
+  <p><strong>7.1.</strong> Write the complete <code>FuelTank</code> class. The checking program behind this box constructs <code>new FuelTank(5)</code>, consumes 2, tries to consume -3, consumes 9, and refills, printing the fuel along the way. Its expected output is:</p>
+<pre class="wb-output">Start: 5, empty: false
+After consume(2): 3
+After consume(-3): 3
+After consume(9): 0, empty: true
+After refill(): 5</pre>
+  <wb-exercise id="p7-1"></wb-exercise>
+  <p><strong>7.2.</strong> Write the complete <code>Scooter</code> class with both constructors and all methods. A finished <code>FuelTank</code> is on the classpath of this box. The checking program constructs a scooter with the default tank and tries to ride it before starting, then constructs a <code>FuelTank(5)</code>, passes it to a second scooter, and rides, stops, and restarts it, reading the fuel through the scooter and through the shared tank. Its expected output is:</p>
+<pre class="wb-output">Default tank: 100, running: false
+Ride while stopped: 100
+Started: true
+After ride(2): 3, running: true
+After ride(-1): 3
+Ride after stop(): 3
+After ride(4): 0, running: false
+Shared tank: 0
+Start when empty: false</pre>
+  <wb-exercise id="p7-2"></wb-exercise>
+  <p><strong>7.3.</strong> Write <code>ScooterDemo</code>, predict its output, and identify the two references to the supplied tank. Finished <code>FuelTank</code> and <code>Scooter</code> classes are on the classpath of this box. Name the scooter <code>"Runabout"</code> and print these two lines:</p>
+<pre class="wb-output">After first ride - fuel: 3, running: true
+After second ride - fuel: 0, running: false</pre>
+  <wb-exercise id="p7-3"></wb-exercise>
+  <p>Which two references reach the supplied tank?</p>
+  <wb-short id="p7-3-refs"></wb-short>
+</div>
+
+<h3>Program B: two cards share one <code>Account</code></h3>
+<p>This task emphasizes reference passing and aliasing rather than repeating the flashlight/scooter shape.</p>
+<p><strong>1. <code>Account</code></strong></p>
+<p>Field <code>int balance</code>. Write:</p>
+<ul>
+  <li>a constructor that receives the opening balance, which you may assume is not negative;</li>
+  <li><code>getBalance()</code>;</li>
+  <li><code>canAfford(int amount)</code>;</li>
+  <li><code>withdraw(int amount)</code>, which succeeds only when affordable, changes the balance, and returns a <code>boolean</code>;</li>
+  <li><code>deposit(int amount)</code>. Assume all amounts are positive.</li>
+</ul>
+<p><strong>2. <code>PaymentCard</code></strong></p>
+<p>Fields <code>String label</code> and <code>Account account</code>. Write:</p>
+<ul>
+  <li>a constructor that receives a label and an existing <code>Account</code>;</li>
+  <li><code>buy(int amount)</code>, which delegates to <code>account.withdraw(amount)</code> and returns the result;</li>
+  <li><code>getBalance()</code>, which delegates;</li>
+  <li><code>getLabel()</code>.</li>
+</ul>
+<p>Do not store a balance in <code>PaymentCard</code>.</p>
+<p><strong>3. <code>SharedAccountDemo</code></strong></p>
+<p>Create one account with balance 100. Create two cards that both receive that account. Buy for 30 using the first card. Print the balance through both cards. Attempt a purchase of 80 through the second card and print whether it succeeded and the final balance.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: write Program B</div>
+  <p><strong>8.1.</strong> Before writing code, draw the object diagram after constructing the account and both cards. Sketch it on paper, then describe it here: how many objects there are, and which variables and fields refer to which object.</p>
+  <wb-short id="p8-1"></wb-short>
+  <p><strong>8.2.</strong> Write the complete <code>Account</code> and <code>PaymentCard</code> classes. The checking program behind the first box opens an account with 100, tests <code>canAfford</code> at the boundary, withdraws 30 and then tries 80, and deposits 50. Its expected output is:</p>
+<pre class="wb-output">Balance: 100
+Can afford 100: true
+Can afford 101: false
+Withdraw 30: true
+Withdraw 80: false
+Balance: 70
+After deposit(50): 120</pre>
+  <wb-exercise id="p8-2-account"></wb-exercise>
+  <p>A finished <code>Account</code> is on the classpath of the second box. Its checking program gives two cards the same account, buys through each, and deposits directly into the account. Its expected output is:</p>
+<pre class="wb-output">Card A sees 100
+Buy 30 with Card A: true
+Card B sees 70
+Buy 80 with Card B: false
+Card A sees 80</pre>
+  <wb-exercise id="p8-2-card"></wb-exercise>
+  <p><strong>8.3.</strong> Write <code>SharedAccountDemo</code> and predict the required output. Finished <code>Account</code> and <code>PaymentCard</code> classes are on the classpath of this box. Label the cards <code>"Card A"</code> and <code>"Card B"</code> and print these four lines:</p>
+<pre class="wb-output">Card A balance: 70
+Card B balance: 70
+Second purchase succeeded: false
+Final balance: 70</pre>
+  <wb-exercise id="p8-3"></wb-exercise>
+</div>
+
+<h3>Validated program output</h3>
+<p>Running the supplied solutions with their demo classes produces this output:</p>
+<pre class="wb-output">After first ride - fuel: 3, running: true
+After second ride - fuel: 0, running: false</pre>
+<pre class="wb-output">Card A balance: 70
+Card B balance: 70
+Second purchase succeeded: false
+Final balance: 70</pre>
+<p>The local variable <code>tank</code> in <code>main</code> and the scooter's <code>tank</code> field both refer to the same <code>FuelTank</code> object, so the second ride empties the tank the demo created and the scooter stops itself. Both cards delegate to the one <code>Account</code> object, so the purchase through the first card is visible through the second, and the second purchase is refused because 80 is more than the shared balance of 70.</p>
+
+</main>
+</body>
+</html>

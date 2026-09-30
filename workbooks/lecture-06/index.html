@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 2001 – Lecture 6 Workbook</title>
+  <link rel="icon" href="../../runtime/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
+  <link rel="stylesheet" href="../../runtime/workbook.css">
+  <script type="module">
+    import { initWorkbook } from "../../runtime/workbook.js";
+    initWorkbook({ id: "lecture-06", specs: "./exercises.json" });
+  </script>
+</head>
+<body>
+<main>
+
+<div class="wb-title-block">
+  <div>
+    <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
+    <h1>Lecture 6 Workbook</h1>
+    <div class="wb-subtitle">Chapter 4, Part 1: Collections of objects</div>
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
+  </div>
+  <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+</div>
+
+<section class="wb-outcomes">
+  <h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+  <p>A playlist keeps an ordered list of track references. This class uses the lecture's <code>Track</code>, whose <code>getArtist()</code> returns the artist and whose <code>printDetails()</code> prints the artist and title. Use the code and table to review list operations, index checks, and loops before writing the clinic classes.</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Playlist</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Track</span>&gt; tracks;     <span class="wb-cmt">// declares a reference</span>
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Playlist</span>()
+    {
+        tracks = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();     <span class="wb-cmt">// creates an empty list</span>
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addTrack</span>(<span class="wb-type">Track</span> track)
+    {
+        tracks.add(track);             <span class="wb-cmt">// stores the reference, not a copy</span>
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">size</span>()
+    {
+        <span class="wb-kw">return</span> tracks.size();          <span class="wb-cmt">// no separate count field</span>
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">isEmpty</span>()
+    {
+        <span class="wb-kw">return</span> tracks.isEmpty();
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printTrack</span>(<span class="wb-kw">int</span> index)
+    {
+        <span class="wb-kw">if</span>(index &gt;= <span class="wb-num">0</span> &amp;&amp; index &lt; tracks.size()) {
+            <span class="wb-type">Track</span> track = tracks.get(index);
+            track.printDetails();      <span class="wb-cmt">// the Track prints its own details</span>
+        }
+        <span class="wb-kw">else</span> {
+            System.out.println(<span class="wb-str">"Invalid index"</span>);
+        }
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">removeTrack</span>(<span class="wb-kw">int</span> index)
+    {
+        <span class="wb-kw">if</span>(index &gt;= <span class="wb-num">0</span> &amp;&amp; index &lt; tracks.size()) {
+            tracks.remove(index);      <span class="wb-cmt">// later elements shift left</span>
+        }
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printAllTracks</span>()
+    {
+        <span class="wb-kw">for</span>(<span class="wb-type">Track</span> track : tracks) {     <span class="wb-cmt">// visits each reference in order</span>
+            track.printDetails();
+        }
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printTracksByArtist</span>(<span class="wb-type">String</span> artist)
+    {
+        <span class="wb-kw">boolean</span> found = <span class="wb-kw">false</span>;
+        <span class="wb-kw">for</span>(<span class="wb-type">Track</span> track : tracks) {
+            <span class="wb-kw">if</span>(track.getArtist().equals(artist)) {
+                track.printDetails();
+                found = <span class="wb-kw">true</span>;          <span class="wb-cmt">// at least one match was printed</span>
+            }
+        }
+        <span class="wb-kw">if</span>(!found) {                   <span class="wb-cmt">// also true for an empty list</span>
+            System.out.println(<span class="wb-str">"No matching tracks"</span>);
+        }
+    }
+}</code></pre>
+  <table>
+    <thead><tr><th>term</th><th>meaning</th></tr></thead>
+    <tbody>
+      <tr><td>typed list</td><td><code>ArrayList&lt;Track&gt;</code> is an ordered collection of <code>Track</code> references. A <code>String</code> cannot be added to this list.</td></tr>
+      <tr><td>declaration and construction</td><td>The field declaration does not create a list; the field starts as <code>null</code>. <code>new ArrayList&lt;&gt;()</code> creates an empty list, and the diamond lets Java infer <code>Track</code>.</td></tr>
+      <tr><td>shared references</td><td>Adding the same <code>Track</code> twice gives two list elements referring to one object. Adding a reference does not copy the object.</td></tr>
+      <tr><td>add, size, isEmpty</td><td><code>add(track)</code> appends at the end. <code>size()</code> returns the current count; <code>isEmpty()</code> returns <code>true</code> when that count is zero.</td></tr>
+      <tr><td>valid index</td><td><code>index &gt;= 0 &amp;&amp; index &lt; tracks.size()</code> checks both bounds. For size 3, valid indices are 0, 1, and 2. An empty list has no valid index.</td></tr>
+      <tr><td>get</td><td><code>get(index)</code> returns the reference at that position. An invalid index causes <code>IndexOutOfBoundsException</code>, so check before calling it.</td></tr>
+      <tr><td>remove</td><td><code>remove(index)</code> removes one list element after a bounds check. Removing index 1 from <code>[a, b, c]</code> gives <code>[a, c]</code>: the size is 2 and <code>c</code> shifts to index 1. Another reference can still reach the removed object.</td></tr>
+      <tr><td>for-each</td><td><code>for(Track track : tracks)</code> visits each list element in order. The body runs zero times for an empty list. This is definite iteration; the loop gives no index and should not remove elements from the list.</td></tr>
+      <tr><td>selection and found flag</td><td>A for-each loop with <code>if</code> examines every element but prints only matches. Use <code>equals</code> for string contents. Start <code>found</code> at <code>false</code>, set it to <code>true</code> for a match, and test it after the loop to handle no matches.</td></tr>
+      <tr><td>item, collection, demo</td><td><code>Track</code> stores and reports one recording's details. <code>Playlist</code> manages the collection. <code>PlaylistDemo</code> creates sample tracks and prints test results from <code>main</code>.</td></tr>
+    </tbody>
+  </table>
+  <p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run on the page takes a few seconds while Java loads). Boxes that ask for part of a clinic class come with the rest of that class and a small demo class on their classpath; the demo calls your method and prints what comes back, so Check can compare the output. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
+</section>
+
+<hr>
+
+<p>Use this workbook while we discuss the examples. The two clinic problems match the coding pauses in the slides; they can also be finished later in BlueJ. By the end, you should be able to:</p>
+<ul>
+  <li>declare and construct a typed <code>ArrayList</code>;</li>
+  <li>explain what a list of object references stores;</li>
+  <li>use <code>add</code>, <code>size</code>, <code>isEmpty</code>, <code>get</code>, and <code>remove</code>;</li>
+  <li>check an index before using it, and trace positions after removal;</li>
+  <li>write a for-each loop that processes all objects or selected objects; and</li>
+  <li>divide work among an item class, a collection class, and a demo class.</li>
+</ul>
+
+<h2 id="s1">1. One Object, Then a Collection</h2>
+<h3>A track keeps its values together</h3>
+<p>A playlist needs more than a title for each recording. One <code>Track</code> stores a title, artist, and duration. Its methods can answer questions about that recording.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Track</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> title;
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> artist;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> durationSeconds;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Track</span>(<span class="wb-type">String</span> title, <span class="wb-type">String</span> artist, <span class="wb-kw">int</span> durationSeconds)
+    {
+        <span class="wb-kw">this</span>.title = title;
+        <span class="wb-kw">this</span>.artist = artist;
+        <span class="wb-kw">this</span>.durationSeconds = durationSeconds;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getArtist</span>()
+    {
+        <span class="wb-kw">return</span> artist;
+    }
+}</code></pre>
+<p>The string <code>"John Coltrane - Blue Train - 643"</code> contains the same facts, but a program would have to split the text to obtain the artist or duration. Separate fields give each value a type and a name.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: one track</div>
+  <p><strong>1.</strong> Write a statement that constructs a 224-second track called <code>Northern Sky</code> by <code>Nick Drake</code>. Name the variable <code>northernSky</code>.</p>
+  <wb-table id="q1">
+    <table>
+      <thead><tr><th>the statement</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="stmt"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>2.</strong> Which class should implement <code>getArtist()</code>: the <code>Track</code> or the <code>Playlist</code>? Why?</p>
+  <wb-short id="q2"></wb-short>
+</div>
+
+<h3>A list holds many tracks</h3>
+<p>Fields called <code>track1</code>, <code>track2</code>, and <code>track3</code> limit the playlist to three tracks. An <code>ArrayList</code> is an ordered collection that can be empty, grow, or shrink. It is a class in Java's <code>java.util</code> package.</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Playlist</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Track</span>&gt; tracks;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Playlist</span>()
+    {
+        tracks = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+    }
+}</code></pre>
+<p>The field declaration introduces a reference named <code>tracks</code>. The constructor creates the empty list. <code>Track</code> is the element type; the diamond <code>&lt;&gt;</code> lets Java infer that type on the right.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: the list field</div>
+  <p><strong>3.</strong> What object exists after the field declaration alone? What object exists after the constructor runs?</p>
+  <wb-short id="q3"></wb-short>
+  <p><strong>4.</strong> Decide whether each line compiles when <code>tracks</code> has type <code>ArrayList&lt;Track&gt;</code>. Explain the line that fails.</p>
+<pre><code>tracks.add(<span class="wb-kw">new</span> <span class="wb-fn">Track</span>(<span class="wb-str">"Blue Train"</span>, <span class="wb-str">"John Coltrane"</span>, <span class="wb-num">643</span>));
+tracks.add(<span class="wb-str">"Blue Train"</span>);</code></pre>
+  <wb-short id="q4"></wb-short>
+</div>
+
+<h3>References in a list</h3>
+<pre><code><span class="wb-type">Track</span> a = <span class="wb-kw">new</span> <span class="wb-fn">Track</span>(<span class="wb-str">"Blue Train"</span>, <span class="wb-str">"John Coltrane"</span>, <span class="wb-num">643</span>);
+tracks.add(a);
+tracks.add(a);</code></pre>
+<p>The list now has two elements. Both refer to the same <code>Track</code> object. Adding a reference does not copy the object.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: count objects and elements</div>
+  <p><strong>5.</strong> How many <code>Track</code> objects and how many list elements does this code create? Draw arrows from <code>a</code> and both list positions to the object.</p>
+  <wb-table id="q5">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td><code>Track</code> objects</td><td data-blank="objects"></td></tr>
+        <tr><td>list elements</td><td data-blank="elements"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h2 id="s2">2. Positions and List Operations</h2>
+<h3>The list manages its size</h3>
+<table>
+  <thead><tr><th>Call</th><th>Result</th></tr></thead>
+  <tbody>
+    <tr><td><code>tracks.add(track)</code></td><td>Append a reference at the end.</td></tr>
+    <tr><td><code>tracks.size()</code></td><td>Return the current number of elements.</td></tr>
+    <tr><td><code>tracks.isEmpty()</code></td><td>Return <code>true</code> when the size is zero.</td></tr>
+    <tr><td><code>tracks.get(index)</code></td><td>Return the reference at a valid position.</td></tr>
+    <tr><td><code>tracks.remove(index)</code></td><td>Remove at a valid position; later elements shift left.</td></tr>
+  </tbody>
+</table>
+<p>A separate count field could disagree with the list. Use <code>size()</code> when you need the current count.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: grow a list</div>
+  <p><strong>6.</strong> Start with an empty list. Add <code>Ana</code>, <code>Ben</code>, and <code>Cara</code> in that order. Write the list and its size after each addition.</p>
+  <wb-table id="q6">
+    <table>
+      <thead><tr><th>after adding</th><th>list</th><th>size</th></tr></thead>
+      <tbody>
+        <tr><td><code>Ana</code></td><td data-blank="l1"></td><td data-blank="s1"></td></tr>
+        <tr><td><code>Ben</code></td><td data-blank="l2"></td><td data-blank="s2"></td></tr>
+        <tr><td><code>Cara</code></td><td data-blank="l3"></td><td data-blank="s3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h3>Indexing</h3>
+<p>For <code>[Ana, Ben, Cara]</code>, the indices are 0, 1, and 2. A valid index satisfies <code>index &gt;= 0 &amp;&amp; index &lt; tracks.size()</code>. There is no valid index when the list is empty.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printTrack</span>(<span class="wb-kw">int</span> index)
+{
+    <span class="wb-kw">if</span>(index &gt;= <span class="wb-num">0</span> &amp;&amp; index &lt; tracks.size()) {
+        <span class="wb-type">Track</span> track = tracks.get(index);
+        track.printDetails();
+    }
+}</code></pre>
+<p>Without the test, an invalid <code>get</code> throws <code>IndexOutOfBoundsException</code>.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: valid positions</div>
+  <p><strong>7.</strong> For a list of size 3, mark each index valid or invalid: <code>-1</code>, <code>0</code>, <code>2</code>, <code>3</code>. Which expression retrieves the last element?</p>
+  <wb-table id="q7">
+    <table>
+      <thead><tr><th>index</th><th>valid or invalid</th></tr></thead>
+      <tbody>
+        <tr><td><code>-1</code></td><td data-blank="m1"></td></tr>
+        <tr><td><code>0</code></td><td data-blank="z"></td></tr>
+        <tr><td><code>2</code></td><td data-blank="two"></td></tr>
+        <tr><td><code>3</code></td><td data-blank="three"></td></tr>
+        <tr><td>the last element</td><td data-blank="last"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>8.</strong> Change <code>printTrack</code> so an invalid index prints <code>"Invalid index"</code>.</p>
+  <p>The <code>Track</code> class from the slides, with its <code>printDetails()</code> method, is on the classpath of this box. The checking program adds two tracks and calls <code>printTrack</code> with indices 0, 1, 2, and -1. Its expected output is:</p>
+<pre class="wb-output">John Coltrane - Blue Train
+Nick Drake - Northern Sky
+Invalid index
+Invalid index</pre>
+  <wb-exercise id="q8"></wb-exercise>
+</div>
+
+<h2 id="s3">3. Coding Pause 1: Clinic Schedule</h2>
+<p>Create three classes in one BlueJ project. If we do not finish the code in class, keep the method list below as your plan.</p>
+<h3><code>Appointment</code></h3>
+<p>Store a patient's name and whether the patient has checked in. A new appointment starts unchecked. Write a constructor taking the name, <code>getPatientName()</code>, <code>hasCheckedIn()</code>, and <code>checkIn()</code>. The last method changes the state to checked in.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: write <code>Appointment</code></div>
+  <p><strong>9.</strong> Write the two field declarations and the constructor.</p>
+  <p>The three methods are already in the box. The checking program creates an appointment for Ana, prints her state, checks her in, and prints it again. Its expected output is:</p>
+<pre class="wb-output">Ana, checked in: false
+Ana, checked in: true</pre>
+  <wb-exercise id="q9"></wb-exercise>
+</div>
+
+<h3><code>ClinicSchedule</code></h3>
+<p>Keep appointments in arrival order in a private <code>ArrayList&lt;Appointment&gt;</code>. Create the list in the constructor. Write <code>addAppointment(Appointment appointment)</code>, <code>getCount()</code>, and <code>printPatientAt(int index)</code>. The last method prints the patient's name or <code>"Invalid index"</code>. Do not use a loop or a separate count field here.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: write <code>ClinicSchedule</code></div>
+  <p><strong>10.</strong> Write the import, field declaration, constructor, and <code>getCount()</code>.</p>
+  <p><code>addAppointment</code> is already in the box, and a finished <code>Appointment</code> is on its classpath. The checking program prints the count of a new schedule, adds three appointments, and prints the count again. Its expected output is:</p>
+<pre class="wb-output">New schedule: 0
+After three additions: 3</pre>
+  <wb-exercise id="q10"></wb-exercise>
+  <p><strong>11.</strong> Write the condition that must be true before <code>appointments.get(index)</code> is called.</p>
+  <wb-table id="q11">
+    <table>
+      <thead><tr><th>the condition</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="cond"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Now write <code>printPatientAt(int index)</code>. The checking program calls it on an empty schedule, then adds Ana, Ben, and Cara and calls it with indices 0, 2, 3, and -1. Its expected output is:</p>
+<pre class="wb-output">Invalid index
+Ana
+Cara
+Invalid index
+Invalid index</pre>
+  <wb-exercise id="q11-code"></wb-exercise>
+</div>
+
+<h3><code>ClinicDemo</code></h3>
+<p>Write a <code>main</code> method. Add appointments for Ana, Ben, and Cara in that order. Print the count and the patient at indices 1 and 5.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: predict, then run the demo</div>
+  <p><strong>12.</strong> Before running the program, write its expected three output lines. Use <code>3</code>, <code>Ben</code>, and <code>Invalid index</code> in the right order.</p>
+  <wb-table id="q12">
+    <table>
+      <thead><tr><th>line</th><th>output</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="o1"></td></tr>
+        <tr><td>2</td><td data-blank="o2"></td></tr>
+        <tr><td>3</td><td data-blank="o3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Now write <code>ClinicDemo</code>. Finished <code>Appointment</code> and <code>ClinicSchedule</code> classes are on the classpath of this box.</p>
+  <wb-exercise id="q12-demo"></wb-exercise>
+</div>
+
+<h2 id="s4">4. Removal</h2>
+<h3>Positions change after removal</h3>
+<table>
+  <thead><tr><th></th><th>index 0</th><th>index 1</th><th>index 2</th><th>index 3</th></tr></thead>
+  <tbody>
+    <tr><td>before <code>remove(1)</code></td><td>Ana</td><td>Ben</td><td>Cara</td><td>Dee</td></tr>
+    <tr><td>after <code>remove(1)</code></td><td>Ana</td><td>Cara</td><td>Dee</td><td>–</td></tr>
+  </tbody>
+</table>
+<p>The size falls from 4 to 3. Cara and Dee shift left. An index is a current position, not a permanent ID for an object. Removing an element does not destroy its object if another reference still points to it.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: remove and trace</div>
+  <p><strong>13.</strong> Starting with <code>[Ana, Ben, Cara]</code>, remove index 0. Write the new list, size, and object at index 0.</p>
+  <wb-table id="q13">
+    <table>
+      <thead><tr><th>after <code>remove(0)</code></th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>list</td><td data-blank="list"></td></tr>
+        <tr><td>size</td><td data-blank="size"></td></tr>
+        <tr><td>object at index 0</td><td data-blank="first"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>14.</strong> A separate variable still refers to Ana's appointment. Does removing Ana from the schedule destroy that object? Explain.</p>
+  <wb-short id="q14"></wb-short>
+</div>
+
+<h2 id="s5">5. Visiting and Selecting Objects</h2>
+<h3>For-each loops</h3>
+<pre><code><span class="wb-kw">for</span>(<span class="wb-type">Track</span> track : tracks) {
+    track.printDetails();
+}</code></pre>
+<p>The loop variable <code>track</code> refers to each existing object in order. For an empty list, the body runs zero times. This is <strong>definite iteration</strong>: the collection determines the visits.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: follow the loop</div>
+  <p><strong>15.</strong> For <code>[a, b, c]</code>, what does <code>track</code> refer to on each pass? How many passes occur for an empty list?</p>
+  <wb-table id="q15">
+    <table>
+      <thead><tr><th>pass</th><th><code>track</code> refers to</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="p1"></td></tr>
+        <tr><td>2</td><td data-blank="p2"></td></tr>
+        <tr><td>3</td><td data-blank="p3"></td></tr>
+        <tr><td>passes for an empty list</td><td data-blank="empty"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h3>Selecting some elements</h3>
+<pre><code><span class="wb-kw">boolean</span> found = <span class="wb-kw">false</span>;
+<span class="wb-kw">for</span>(<span class="wb-type">Track</span> track : tracks) {
+    <span class="wb-kw">if</span>(track.getArtist().equals(<span class="wb-str">"Nick Drake"</span>)) {
+        track.printDetails();
+        found = <span class="wb-kw">true</span>;
+    }
+}
+<span class="wb-kw">if</span>(!found) {
+    System.out.println(<span class="wb-str">"No matching tracks"</span>);
+}</code></pre>
+<p>The loop examines every track, but the <code>if</code> prints only matches. Use <code>equals</code> for string contents. The <code>found</code> variable records whether any match appeared, including when the list was empty.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: select with <code>if</code></div>
+  <p><strong>16.</strong> If the playlist contains three Nick Drake tracks, how many are printed? What is printed if it contains none?</p>
+  <wb-table id="q16">
+    <table>
+      <thead><tr><th>case</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>three Nick Drake tracks: how many printed</td><td data-blank="three"></td></tr>
+        <tr><td>no Nick Drake tracks: output</td><td data-blank="none"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>17.</strong> Complete a for-each loop that prints the names of all unchecked appointments. Use <code>hasCheckedIn()</code>.</p>
+<pre><code><span class="wb-kw">for</span>(______________________________) {
+    <span class="wb-kw">if</span>(__________________________________) {
+        System.out.println(____________________________);
+    }
+}</code></pre>
+  <wb-table id="q17">
+    <table>
+      <thead><tr><th>blank</th><th>code</th></tr></thead>
+      <tbody>
+        <tr><td><code>for(...)</code></td><td data-blank="loop"></td></tr>
+        <tr><td><code>if(...)</code></td><td data-blank="test"></td></tr>
+        <tr><td><code>System.out.println(...)</code></td><td data-blank="print"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<p>For-each does not directly give you an index. It is also a poor choice when you must remove elements during the visit. Lecture 7 uses other forms of traversal for those cases.</p>
+
+<h2 id="s6">6. Coding Pause 2: Clinic Cancellations</h2>
+<p>Extend the same BlueJ project. Keep Ben's <code>Appointment</code> reference so the demo can check him in before testing cancellation.</p>
+<h3><code>ClinicSchedule.cancel(int index)</code></h3>
+<p>Return <code>false</code> if the index is invalid or that patient has checked in. Otherwise remove the appointment and return <code>true</code>. Test the index before calling <code>get(index)</code>. No loop is needed.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: write <code>cancel</code></div>
+  <p><strong>18.</strong> Complete the decision table before writing the method.</p>
+  <wb-table id="q18">
+    <table>
+      <thead><tr><th>Case</th><th>Remove?</th><th>Return</th></tr></thead>
+      <tbody>
+        <tr><td>Invalid index</td><td data-blank="r1"></td><td data-blank="v1"></td></tr>
+        <tr><td>Valid, checked in</td><td data-blank="r2"></td><td data-blank="v2"></td></tr>
+        <tr><td>Valid, not checked in</td><td data-blank="r3"></td><td data-blank="v3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>19.</strong> Write <code>cancel(int index)</code>.</p>
+  <p>The Coding Pause 1 methods are already in the box, and a finished <code>Appointment</code> is on its classpath. The checking program tries an empty schedule, then adds Ana, Ben, and Cara, checks in Ben, and tries indices -1, 3, 1, and 0. Its expected output is:</p>
+<pre class="wb-output">cancel(0) on an empty schedule: false
+cancel(-1): false
+cancel(3): false
+cancel(1), Ben checked in: false, count 3
+cancel(0), Ana waiting: true, count 2
+Ben</pre>
+  <wb-exercise id="q19"></wb-exercise>
+</div>
+
+<h3><code>ClinicSchedule.printWaitingPatients()</code></h3>
+<p>Use for-each and <code>if</code> to print the names of patients who have not checked in. Print <code>"No waiting patients"</code> when none match. The empty list has no waiting patients too.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: write <code>printWaitingPatients</code></div>
+  <p><strong>20.</strong> What starting value should a <code>found</code> variable have? When should it change?</p>
+  <wb-short id="q20"></wb-short>
+  <p><strong>21.</strong> Write <code>printWaitingPatients()</code>.</p>
+  <p>The checking program calls it on an empty schedule, after adding Ana, Ben, and Cara and checking in Ben, and after checking in everyone. Its expected output is:</p>
+<pre class="wb-output">Empty schedule:
+No waiting patients
+Ben checked in:
+Ana
+Cara
+Everyone checked in:
+No waiting patients</pre>
+  <wb-exercise id="q21"></wb-exercise>
+</div>
+
+<h3><code>ClinicDemo.main</code></h3>
+<p>Add Ana, Ben, and Cara in that order. Check in Ben. Print the initial count; try cancelling Ben, Ana, and index 5; print each result. Print the patient now at index 0 and the final count. Call <code>printWaitingPatients()</code> once before and once after cancellation.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: predict, then run the demo</div>
+  <p><strong>22.</strong> Predict the three cancellation results and the final list before running the demo.</p>
+  <wb-table id="q22">
+    <table>
+      <thead><tr><th>step</th><th>result</th></tr></thead>
+      <tbody>
+        <tr><td>cancel Ben (index 1)</td><td data-blank="ben"></td></tr>
+        <tr><td>cancel Ana (index 0)</td><td data-blank="ana"></td></tr>
+        <tr><td>cancel index 5</td><td data-blank="five"></td></tr>
+        <tr><td>final list</td><td data-blank="final"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Now write the demo. Finished <code>Appointment</code> and <code>ClinicSchedule</code> classes are on the classpath of this box. Print each value on its own line. Call <code>printWaitingPatients()</code> right after the initial count and again at the end.</p>
+  <wb-exercise id="q22-demo"></wb-exercise>
+  <p><strong>23.</strong> Test the case where every patient has checked in. What should <code>printWaitingPatients()</code> print?</p>
+  <wb-table id="q23">
+    <table>
+      <thead><tr><th>output</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="out"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h2 id="s7">7. Review</h2>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: choose the tool and the owner</div>
+  <p><strong>24.</strong> Choose the appropriate tool for each job: <code>get(index)</code>, <code>size()</code>, <code>remove(index)</code>, or for-each.</p>
+  <wb-table id="q24">
+    <table>
+      <thead><tr><th>job</th><th>tool</th></tr></thead>
+      <tbody>
+        <tr><td>(a) Find the current count.</td><td data-blank="a"></td></tr>
+        <tr><td>(b) Visit every appointment.</td><td data-blank="b"></td></tr>
+        <tr><td>(c) Retrieve one appointment at a checked index.</td><td data-blank="c"></td></tr>
+        <tr><td>(d) Delete the appointment at a checked index.</td><td data-blank="d"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p><strong>25.</strong> Which class should own each job: <code>Appointment</code>, <code>ClinicSchedule</code>, or <code>ClinicDemo</code>?</p>
+  <wb-table id="q25">
+    <table>
+      <thead><tr><th>job</th><th>class</th></tr></thead>
+      <tbody>
+        <tr><td>(a) Remember whether one patient has checked in.</td><td data-blank="a"></td></tr>
+        <tr><td>(b) Keep appointments in arrival order.</td><td data-blank="b"></td></tr>
+        <tr><td>(c) Create sample appointments and print test results.</td><td data-blank="c"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+</main>
+</body>
+</html>
