@@ -1,0 +1,1415 @@
+{
+  "id": "lecture-10",
+  "course": "COMP 2001",
+  "title": "Lecture 10 Workbook",
+  "subtitle": "Chapter 6, Part 1: Learning and using library classes",
+  "exercises": {
+    "q1": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "QXJyYXlMaXN0IHN0b3JlcyBvcmRlcmVkIGVsZW1lbnRzLCBTdHJpbmcgc3VwcGxpZXMgdGV4dCBvcGVyYXRpb25zLCBhbmQgUmFuZG9tIGdlbmVyYXRlcyBwc2V1ZG8tcmFuZG9tIG51bWJlcnMuIEJlZm9yZSBjYWxsaW5nIGEgbWV0aG9kLCBrbm93IGl0cyBuYW1lLCBwYXJhbWV0ZXIgdHlwZXMsIHJldHVybiB0eXBlLCBiZWhhdmlvdXIsIGFuZCByZXN0cmljdGlvbnMgb24gaXRzIGFyZ3VtZW50cy4="
+    },
+    "q2": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "Random-name": {
+          "accept": [
+            "java.util.Random"
+          ],
+          "show": "java.util.Random",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "ArrayList-name": {
+          "accept": [
+            "java.util.ArrayList"
+          ],
+          "show": "java.util.ArrayList",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "String-name": {
+          "accept": [
+            "java.lang.String"
+          ],
+          "show": "java.lang.String",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "Integer-name": {
+          "accept": [
+            "java.lang.Integer"
+          ],
+          "show": "java.lang.Integer",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "Random-import": {
+          "accept": [
+            "import java.util.Random;",
+            "import java.util.Random"
+          ],
+          "show": "import java.util.Random;",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "23rem"
+        },
+        "ArrayList-import": {
+          "accept": [
+            "import java.util.ArrayList;",
+            "import java.util.ArrayList"
+          ],
+          "show": "import java.util.ArrayList;",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "23rem"
+        },
+        "String-import": {
+          "accept": [
+            "none",
+            "no import",
+            "not needed"
+          ],
+          "show": "none",
+          "caseSensitive": false,
+          "placeholder": "text",
+          "width": "16rem"
+        },
+        "Integer-import": {
+          "accept": [
+            "none",
+            "no import",
+            "not needed"
+          ],
+          "show": "none",
+          "caseSensitive": false,
+          "placeholder": "text",
+          "width": "16rem"
+        }
+      }
+    },
+    "q3-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIHdpbGRjYXJkIG1ha2VzIFJhbmRvbSBhdmFpbGFibGUgZnJvbSBqYXZhLnV0aWwgYnV0IGRvZXMgbm90IGluY2x1ZGUgamF2YS51dGlsLmZ1bmN0aW9uOiBzdWJwYWNrYWdlcyBhcmUgc2VwYXJhdGUgcGFja2FnZXMuIEV4cGxpY2l0IGltcG9ydHMgc2hvdyB3aGljaCBjbGFzc2VzIHRoZSBmaWxlIHVzZXMu"
+    },
+    "q3": {
+      "type": "code",
+      "xp": 4,
+      "title": "QualifiedDemo.java",
+      "minLines": 10,
+      "maxLines": 38,
+      "starter": "public class QualifiedDemo\n{\n    public static void main(String[] args)\n    {\n        // Create a generator without an import.\n        System.out.println(generator != null);\n    }\n}",
+      "answer": "cHVibGljIGNsYXNzIFF1YWxpZmllZERlbW8KewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBqYXZhLnV0aWwuUmFuZG9tIGdlbmVyYXRvciA9IG5ldyBqYXZhLnV0aWwuUmFuZG9tKCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGdlbmVyYXRvciAhPSBudWxsKTsKICAgIH0KfQ==",
+      "files": [],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "true"
+        }
+      ],
+      "check": ""
+    },
+    "q4": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "a": {
+          "accept": [
+            "documentation",
+            "public documentation"
+          ],
+          "show": "documentation",
+          "caseSensitive": false,
+          "placeholder": "text",
+          "width": "16rem"
+        },
+        "b": {
+          "accept": [
+            "documentation",
+            "public documentation"
+          ],
+          "show": "documentation",
+          "caseSensitive": false,
+          "placeholder": "text",
+          "width": "16rem"
+        },
+        "c": {
+          "accept": [
+            "implementation",
+            "private implementation"
+          ],
+          "show": "implementation",
+          "caseSensitive": false,
+          "placeholder": "text",
+          "width": "16rem"
+        }
+      }
+    },
+    "q4-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGRvY3VtZW50ZWQgYmVoYXZpb3VyIHNheXMgZ2V0KDApIHJldHVybnMgdGhlIGZpcnN0IGVsZW1lbnQgd2hlbiB0aGUgbGlzdCBpcyBub25lbXB0eS4gSXRzIHByaXZhdGUgc3RvcmFnZSBkZXRhaWxzIGRvIG5vdCBhZmZlY3QgaG93IHdlIG1ha2UgdGhlIGNhbGwu"
+    },
+    "q5": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "access": {
+          "accept": [
+            "public"
+          ],
+          "show": "public",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "result": {
+          "accept": [
+            "boolean"
+          ],
+          "show": "boolean",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "name": {
+          "accept": [
+            "startsWith"
+          ],
+          "show": "startsWith",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "param": {
+          "accept": [
+            "String"
+          ],
+          "show": "String",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "signature": {
+          "accept": [
+            "startsWith(String)",
+            "startsWith (String)"
+          ],
+          "show": "startsWith(String)",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "caller": {
+          "accept": [
+            "no",
+            "No; any suitable String expression"
+          ],
+          "show": "no",
+          "caseSensitive": false,
+          "placeholder": "text",
+          "width": "16rem"
+        }
+      }
+    },
+    "q6": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "add": {
+          "accept": [
+            "public boolean add(String e)"
+          ],
+          "show": "public boolean add(String e)",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "25rem"
+        },
+        "get": {
+          "accept": [
+            "public String get(int index)"
+          ],
+          "show": "public String get(int index)",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "25rem"
+        },
+        "integer": {
+          "accept": [
+            "Integer"
+          ],
+          "show": "Integer",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        }
+      }
+    },
+    "q6-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGRpYW1vbmQgbGV0cyBKYXZhIGluZmVyIHRoZSBlbGVtZW50IHR5cGUgZnJvbSB0aGUgZGVjbGFyYXRpb246IG5ldyBBcnJheUxpc3Q8PigpIGhlcmUgY3JlYXRlcyBhbiBBcnJheUxpc3Q8U3RyaW5nPi4gRSBpcyBhIHR5cGUgcGxhY2Vob2xkZXIsIG5vdCBhIGNsYXNzIHRvIGltcG9ydC4="
+    },
+    "generics-example": {
+      "type": "example",
+      "title": "GenericDemo.java",
+      "code": "import java.util.Random;\nimport java.util.ArrayList;\npublic class GenericDemo\n{\n    public static void main(String[] args)\n    {\n        ArrayList<String> replies = new ArrayList<>();\n        replies.add(\"Can you describe that in more detail?\");\n        String first = replies.get(0);\n        System.out.println(first);\n    }\n}",
+      "output": "Can you describe that in more detail?",
+      "files": [],
+      "maxLines": 32
+    },
+    "q7": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "typed-text": {
+          "accept": [
+            "\"   How do I SUBMIT my work?  \""
+          ],
+          "show": "\"   How do I SUBMIT my work?  \"",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "26rem",
+          "preserveWhitespace": true
+        },
+        "trimmed-text": {
+          "accept": [
+            "\"How do I SUBMIT my work?\""
+          ],
+          "show": "\"How do I SUBMIT my work?\"",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "26rem",
+          "preserveWhitespace": true
+        },
+        "cleaned-text": {
+          "accept": [
+            "\"how do i submit my work?\""
+          ],
+          "show": "\"how do i submit my work?\"",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "26rem",
+          "preserveWhitespace": true
+        },
+        "typed-length": {
+          "accept": [
+            "29"
+          ],
+          "show": "29",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "trimmed-length": {
+          "accept": [
+            "24"
+          ],
+          "show": "24",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "cleaned-length": {
+          "accept": [
+            "24"
+          ],
+          "show": "24",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "strings-example": {
+      "type": "example",
+      "title": "StringTrace.java",
+      "code": "public class StringTrace\n{\n    public static void main(String[] args)\n    {\n        String typed = \"   How do I SUBMIT my work?  \";\n        String trimmed = typed.trim();\n        String cleaned = trimmed.toLowerCase();\n        \n        System.out.println(\"[\" + typed + \"] \" + typed.length());\n        System.out.println(\"[\" + trimmed + \"] \" + trimmed.length());\n        System.out.println(\"[\" + cleaned + \"] \" + cleaned.length());\n    }\n}",
+      "output": "[   How do I SUBMIT my work?  ] 29\n[How do I SUBMIT my work?] 24\n[how do i submit my work?] 24",
+      "files": [],
+      "maxLines": 32
+    },
+    "q8": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "0-result": {
+          "accept": [
+            "false"
+          ],
+          "show": "false",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "1-result": {
+          "accept": [
+            "true"
+          ],
+          "show": "true",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "2-result": {
+          "accept": [
+            "true"
+          ],
+          "show": "true",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "3-result": {
+          "accept": [
+            "true"
+          ],
+          "show": "true",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "4-result": {
+          "accept": [
+            "9"
+          ],
+          "show": "9",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "5-result": {
+          "accept": [
+            "-1"
+          ],
+          "show": "-1",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "6-result": {
+          "accept": [
+            "\"how\"",
+            "how"
+          ],
+          "show": "\"how\"",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "7-result": {
+          "accept": [
+            "false"
+          ],
+          "show": "false",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "0-type": {
+          "accept": [
+            "boolean"
+          ],
+          "show": "boolean",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "9rem"
+        },
+        "1-type": {
+          "accept": [
+            "boolean"
+          ],
+          "show": "boolean",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "9rem"
+        },
+        "2-type": {
+          "accept": [
+            "boolean"
+          ],
+          "show": "boolean",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "9rem"
+        },
+        "3-type": {
+          "accept": [
+            "boolean"
+          ],
+          "show": "boolean",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "9rem"
+        },
+        "4-type": {
+          "accept": [
+            "int"
+          ],
+          "show": "int",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "9rem"
+        },
+        "5-type": {
+          "accept": [
+            "int"
+          ],
+          "show": "int",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "9rem"
+        },
+        "6-type": {
+          "accept": [
+            "String"
+          ],
+          "show": "String",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "9rem"
+        },
+        "7-type": {
+          "accept": [
+            "boolean"
+          ],
+          "show": "boolean",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "9rem"
+        }
+      }
+    },
+    "q8-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Q29udGFpbnMgaXMgY2FzZSBzZW5zaXRpdmUuIFRoZSBvcmlnaW5hbCBjb250YWlucyB1cHBlcmNhc2UgU1VCTUlULCBzbyBsb3dlcmNhc2Ugc3VibWl0IGlzIGFic2VudCB1bnRpbCBjb252ZXJzaW9uLiBTdWJzdHJpbmcoMCwgMykgdGFrZXMgcG9zaXRpb25zIDAsIDEsIGFuZCAyOyB0aGUgZW5kIHBvc2l0aW9uIGlzIGV4Y2x1ZGVkLg=="
+    },
+    "q9": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "original-text": {
+          "accept": [
+            "\"  Ana  \""
+          ],
+          "show": "\"  Ana  \"",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem",
+          "preserveWhitespace": true
+        },
+        "original-length": {
+          "accept": [
+            "7"
+          ],
+          "show": "7",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "16rem"
+        },
+        "cleaned-text": {
+          "accept": [
+            "\"Ana\"",
+            "Ana"
+          ],
+          "show": "\"Ana\"",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem",
+          "preserveWhitespace": true
+        },
+        "cleaned-length": {
+          "accept": [
+            "3"
+          ],
+          "show": "3",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "16rem"
+        }
+      }
+    },
+    "q9-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIHZhcmlhYmxlIG9yaWdpbmFsIGNhbiBiZSByZWFzc2lnbmVkIHRvIGFub3RoZXIgU3RyaW5nLiBUaGlzIGNoYW5nZXMgaXRzIHJlZmVyZW5jZSwgbm90IHRoZSBjaGFyYWN0ZXJzIGluIHRoZSBvbGQgb2JqZWN0LiBJbW11dGFiaWxpdHkgZGVzY3JpYmVzIHRoZSBvYmplY3QsIG5vdCB3aGV0aGVyIGEgdmFyaWFibGUgY2FuIGhvbGQgYSBuZXcgcmVmZXJlbmNlLg=="
+    },
+    "q10-output": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "first": {
+          "accept": [
+            "7"
+          ],
+          "show": "7",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "16rem"
+        },
+        "second": {
+          "accept": [
+            "3"
+          ],
+          "show": "3",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "16rem"
+        }
+      }
+    },
+    "discard-example": {
+      "type": "example",
+      "title": "DiscardDemo.java",
+      "code": "public class DiscardDemo\n{\n    public static void main(String[] args)\n    {\n        String name = \"  Ana  \";\n        name.trim();\n        System.out.println(name.length());\n        name = name.trim();\n        System.out.println(name.length());\n    }\n}",
+      "output": "7\n3",
+      "files": [],
+      "maxLines": 32
+    },
+    "q10": {
+      "type": "code",
+      "xp": 4,
+      "title": "DiscardDemo.java",
+      "minLines": 13,
+      "maxLines": 38,
+      "starter": "public class DiscardDemo\n{\n    public static void main(String[] args)\n    {\n        String name = \"  Ana  \";\n        name.trim();\n        System.out.println(name.length());\n        name = name.trim();\n        System.out.println(name.length());\n    }\n}",
+      "answer": "cHVibGljIGNsYXNzIERpc2NhcmREZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgU3RyaW5nIG5hbWUgPSAiICBBbmEgICI7CiAgICAgICAgbmFtZSA9IG5hbWUudHJpbSgpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihuYW1lLmxlbmd0aCgpKTsKICAgICAgICBuYW1lID0gbmFtZS50cmltKCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKG5hbWUubGVuZ3RoKCkpOwogICAgfQp9",
+      "files": [],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "3\n3"
+        }
+      ],
+      "check": ""
+    },
+    "q10-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "U3RvcmUgdGhlIHJldHVybmVkIFN0cmluZyB3aXRoIG5hbWUgPSBuYW1lLnRyaW0oKS4gVGhlIGFzc2lnbm1lbnQgY2hhbmdlcyB3aGljaCBTdHJpbmcgbmFtZSByZWZlcnMgdG87IGl0IGRvZXMgbm90IGVkaXQgdGhlIG9yaWdpbmFsIG9iamVjdC4="
+    },
+    "q11-clean": {
+      "type": "code",
+      "xp": 4,
+      "title": "HelpBot.java",
+      "minLines": 10,
+      "maxLines": 38,
+      "starter": "public class HelpBot\n{\n    public String clean(String question)\n    {\n        // Chain two String operations.\n        return question;\n    }\n}",
+      "answer": "cHVibGljIGNsYXNzIEhlbHBCb3QKewoKICAgIHB1YmxpYyBTdHJpbmcgY2xlYW4oU3RyaW5nIHF1ZXN0aW9uKQogICAgewogICAgICAgIHJldHVybiBxdWVzdGlvbi50cmltKCkudG9Mb3dlckNhc2UoKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "CleanCheck.java",
+          "content": "public class CleanCheck\n{\n    public static void main(String[] args)\n    {\n        HelpBot bot = new HelpBot();\n        System.out.println(bot.clean(\"   How do I SUBMIT my work?  \"));\n        System.out.println(\"[\" + bot.clean(\"   \") + \"]\");\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "how do i submit my work?\n[]"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\".trim().toLowerCase()\"), \"Use chained trim() and toLowerCase() calls.\");"
+    },
+    "q11-message": {
+      "type": "code",
+      "xp": 4,
+      "title": "MessageDemo.java",
+      "minLines": 9,
+      "maxLines": 38,
+      "starter": "public class MessageDemo\n{\n    public static void main(String[] args)\n    {\n        // Create and print the two-line message.\n    }\n}",
+      "answer": "cHVibGljIGNsYXNzIE1lc3NhZ2VEZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgU3RyaW5nIG1lc3NhZ2UgPSAiUGxlYXNlIGNoZWNrIHRoZSBjb3Vyc2UgcGFnZS5cbiIKICAgICAgICAgICAgKyAiVGhlbiBwb3N0IHlvdXIgcXVlc3Rpb24uIjsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4obWVzc2FnZSk7CiAgICB9Cn0=",
+      "files": [],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "Please check the course page.\nThen post your question."
+        }
+      ],
+      "check": ""
+    },
+    "q11-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VHJpbSByZXR1cm5zIGEgU3RyaW5nLCBzbyB0b0xvd2VyQ2FzZSBjYW4gYmUgY2FsbGVkIG9uIHRoYXQgcmVzdWx0LiBBIG5ld2xpbmUgZXNjYXBlIGluIHRoZSB2YWx1ZSBjcmVhdGVzIGEgbmV3IG91dHB1dCBsaW5lOyBhIHNvdXJjZSBsaW5lIGJyZWFrIGFsb25lIGRvZXMgbm90Lg=="
+    },
+    "q12": {
+      "type": "code",
+      "xp": 4,
+      "title": "ClinicSchedule.java",
+      "minLines": 32,
+      "maxLines": 38,
+      "starter": "import java.util.ArrayList;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment -> System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment -> appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n\n    public long countWaiting()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .count();\n    }\n\n    public void printWaitingNames()\n    {\n        appointments.stream()\n                    .filter(appointment -> !appointment.hasCheckedIn())\n                    .map(appointment -> appointment.getPatientName())\n                    .forEach(name -> System.out.println(name));\n    }\n\n    public int totalWaitingMinutes()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .map(appointment -> appointment.getMinutes())\n                           .reduce(0, (total, minutes) -> total + minutes);\n    }\n\n    /**\n     * Find the first patient whose name matches after cleaning both names.\n     * Leading and trailing spaces and differences in case are ignored.\n     * @param name Describe the parameter and its assumption here.\n     * @return Describe the result and missing case here.\n     */\n    public int findPatientIndexIgnoringCase(String name)\n    {\n        String cleanedName = name; // Clean the request.\n        int index = 0;\n\n        while(index < appointments.size()) {\n            String storedName = appointments.get(index).getPatientName();\n            if(false /* compare the cleaned stored name */) {\n                return -1; // Return the matching index.\n            }\n            index++;\n        }\n        return -1;\n    }\n}",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgQ2xpbmljU2NoZWR1bGUKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8QXBwb2ludG1lbnQ+IGFwcG9pbnRtZW50czsKCiAgICBwdWJsaWMgQ2xpbmljU2NoZWR1bGUoKQogICAgewogICAgICAgIGFwcG9pbnRtZW50cyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZEFwcG9pbnRtZW50KEFwcG9pbnRtZW50IGFwcG9pbnRtZW50KQogICAgewogICAgICAgIGFwcG9pbnRtZW50cy5hZGQoYXBwb2ludG1lbnQpOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0Q291bnQoKQogICAgewogICAgICAgIHJldHVybiBhcHBvaW50bWVudHMuc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50UGF0aWVudEF0KGludCBpbmRleCkKICAgIHsKICAgICAgICBpZihpbmRleCA8IDAgfHwgaW5kZXggPj0gYXBwb2ludG1lbnRzLnNpemUoKSkgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkludmFsaWQgaW5kZXgiKTsKICAgICAgICAgICAgcmV0dXJuOwogICAgICAgIH0KCiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpLmdldFBhdGllbnROYW1lKCkpOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGNhbmNlbChpbnQgaW5kZXgpCiAgICB7CiAgICAgICAgaWYoaW5kZXggPCAwIHx8IGluZGV4ID49IGFwcG9pbnRtZW50cy5zaXplKCkpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgaWYoYXBwb2ludG1lbnRzLmdldChpbmRleCkuaGFzQ2hlY2tlZEluKCkpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgYXBwb2ludG1lbnRzLnJlbW92ZShpbmRleCk7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRXYWl0aW5nUGF0aWVudHMoKQogICAgewogICAgICAgIGJvb2xlYW4gZm91bmQgPSBmYWxzZTsKCiAgICAgICAgZm9yKEFwcG9pbnRtZW50IGFwcG9pbnRtZW50IDogYXBwb2ludG1lbnRzKSB7CiAgICAgICAgICAgIGlmKCFhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSkgewogICAgICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkpOwogICAgICAgICAgICAgICAgZm91bmQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBpZighZm91bmQpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJObyB3YWl0aW5nIHBhdGllbnRzIik7CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyBpbnQgZmluZFBhdGllbnRJbmRleChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICBpbnQgaW5kZXggPSAwOwogICAgICAgIGJvb2xlYW4gZm91bmQgPSBmYWxzZTsKCiAgICAgICAgd2hpbGUoaW5kZXggPCBhcHBvaW50bWVudHMuc2l6ZSgpICYmICFmb3VuZCkgewogICAgICAgICAgICBBcHBvaW50bWVudCBhcHBvaW50bWVudCA9IGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpOwogICAgICAgICAgICBpZihhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpLmVxdWFscyhuYW1lKSkgewogICAgICAgICAgICAgICAgZm91bmQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsc2UgewogICAgICAgICAgICAgICAgaW5kZXgrKzsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgaWYoZm91bmQpIHsKICAgICAgICAgICAgcmV0dXJuIGluZGV4OwogICAgICAgIH0KICAgICAgICByZXR1cm4gLTE7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRBbGxQYXRpZW50cygpCiAgICB7CiAgICAgICAgYXBwb2ludG1lbnRzLmZvckVhY2goYXBwb2ludG1lbnQgLT4gU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkpKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBjaGVja0luQWxsKCkKICAgIHsKICAgICAgICBhcHBvaW50bWVudHMuZm9yRWFjaChBcHBvaW50bWVudDo6Y2hlY2tJbik7CiAgICB9CgogICAgcHVibGljIGludCByZW1vdmVDaGVja2VkSW4oKQogICAgewogICAgICAgIGludCBiZWZvcmUgPSBhcHBvaW50bWVudHMuc2l6ZSgpOwogICAgICAgIGFwcG9pbnRtZW50cy5yZW1vdmVJZihhcHBvaW50bWVudCAtPiBhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSk7CiAgICAgICAgcmV0dXJuIGJlZm9yZSAtIGFwcG9pbnRtZW50cy5zaXplKCk7CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gY2FuY2VsUGF0aWVudChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICByZXR1cm4gYXBwb2ludG1lbnRzLnJlbW92ZUlmKGFwcG9pbnRtZW50IC0+IGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkuZXF1YWxzKG5hbWUpCiAgICAgICAgICAgICYmICFhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSk7CiAgICB9CgogICAgcHVibGljIGxvbmcgY291bnRXYWl0aW5nKCkKICAgIHsKICAgICAgICByZXR1cm4gYXBwb2ludG1lbnRzLnN0cmVhbSgpCiAgICAgICAgICAgICAgICAgICAgICAgICAgIC5maWx0ZXIoYXBwb2ludG1lbnQgLT4gIWFwcG9pbnRtZW50Lmhhc0NoZWNrZWRJbigpKQogICAgICAgICAgICAgICAgICAgICAgICAgICAuY291bnQoKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludFdhaXRpbmdOYW1lcygpCiAgICB7CiAgICAgICAgYXBwb2ludG1lbnRzLnN0cmVhbSgpCiAgICAgICAgICAgICAgICAgICAgLmZpbHRlcihhcHBvaW50bWVudCAtPiAhYXBwb2ludG1lbnQuaGFzQ2hlY2tlZEluKCkpCiAgICAgICAgICAgICAgICAgICAgLm1hcChhcHBvaW50bWVudCAtPiBhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpKQogICAgICAgICAgICAgICAgICAgIC5mb3JFYWNoKG5hbWUgLT4gU3lzdGVtLm91dC5wcmludGxuKG5hbWUpKTsKICAgIH0KCiAgICBwdWJsaWMgaW50IHRvdGFsV2FpdGluZ01pbnV0ZXMoKQogICAgewogICAgICAgIHJldHVybiBhcHBvaW50bWVudHMuc3RyZWFtKCkKICAgICAgICAgICAgICAgICAgICAgICAgICAgLmZpbHRlcihhcHBvaW50bWVudCAtPiAhYXBwb2ludG1lbnQuaGFzQ2hlY2tlZEluKCkpCiAgICAgICAgICAgICAgICAgICAgICAgICAgIC5tYXAoYXBwb2ludG1lbnQgLT4gYXBwb2ludG1lbnQuZ2V0TWludXRlcygpKQogICAgICAgICAgICAgICAgICAgICAgICAgICAucmVkdWNlKDAsICh0b3RhbCwgbWludXRlcykgLT4gdG90YWwgKyBtaW51dGVzKTsKICAgIH0KCiAgICAvKioKICAgICAqIEZpbmQgdGhlIGZpcnN0IHBhdGllbnQgd2hvc2UgbmFtZSBtYXRjaGVzIGFmdGVyIGNsZWFuaW5nIGJvdGggbmFtZXMuCiAgICAgKiBMZWFkaW5nIGFuZCB0cmFpbGluZyBzcGFjZXMgYW5kIGRpZmZlcmVuY2VzIGluIGNhc2UgYXJlIGlnbm9yZWQuCiAgICAgKiBAcGFyYW0gbmFtZSBUaGUgbmFtZSB0byBzZWFyY2ggZm9yOyBtdXN0IG5vdCBiZSBudWxsLgogICAgICogQHJldHVybiBUaGUgZmlyc3QgbWF0Y2hpbmcgaW5kZXgsIG9yIC0xIGlmIG5vIG5hbWUgbWF0Y2hlcy4KICAgICAqLwogICAgcHVibGljIGludCBmaW5kUGF0aWVudEluZGV4SWdub3JpbmdDYXNlKFN0cmluZyBuYW1lKQogICAgewogICAgICAgIFN0cmluZyBjbGVhbmVkTmFtZSA9IG5hbWUudHJpbSgpLnRvTG93ZXJDYXNlKCk7CiAgICAgICAgaW50IGluZGV4ID0gMDsKCiAgICAgICAgd2hpbGUoaW5kZXggPCBhcHBvaW50bWVudHMuc2l6ZSgpKSB7CiAgICAgICAgICAgIFN0cmluZyBzdG9yZWROYW1lID0gYXBwb2ludG1lbnRzLmdldChpbmRleCkuZ2V0UGF0aWVudE5hbWUoKTsKICAgICAgICAgICAgaWYoc3RvcmVkTmFtZS50cmltKCkudG9Mb3dlckNhc2UoKS5lcXVhbHMoY2xlYW5lZE5hbWUpKSB7CiAgICAgICAgICAgICAgICByZXR1cm4gaW5kZXg7CiAgICAgICAgICAgIH0KICAgICAgICAgICAgaW5kZXgrKzsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIC0xOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n    private int minutes;\n\n    public Appointment(String patientName, int minutes)\n    {\n        this.patientName = patientName;\n        this.minutes = minutes;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n\n    public int getMinutes()\n    {\n        return minutes;\n    }\n}"
+        },
+        {
+          "name": "SearchCheck.java",
+          "content": "public class SearchCheck\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule schedule = new ClinicSchedule();\n        System.out.println(schedule.findPatientIndexIgnoringCase(\"Ana\"));\n        schedule.addAppointment(new Appointment(\"Ana\", 15));\n        schedule.addAppointment(new Appointment(\"Ben\", 20));\n        schedule.addAppointment(new Appointment(\"Cara\", 10));\n        schedule.addAppointment(new Appointment(\"  ANA  \", 15));\n        System.out.println(schedule.findPatientIndexIgnoringCase(\"  aNa  \"));\n        System.out.println(schedule.findPatientIndexIgnoringCase(\"bEN\"));\n        System.out.println(schedule.findPatientIndexIgnoringCase(\"  cara  \"));\n        System.out.println(schedule.findPatientIndexIgnoringCase(\"  DANA  \"));\n        System.out.println(schedule.findPatientIndex(\"ANA\"));\n        System.out.println(schedule.findPatientIndex(\"  ANA  \"));\n        schedule.printAllPatients();\n        System.out.println(schedule.getCount());\n        System.out.println(schedule.totalWaitingMinutes());\n        ClinicSchedule spaced = new ClinicSchedule();\n        Appointment spacedAna = new Appointment(\"  ANA  \", 15);\n        spaced.addAppointment(spacedAna);\n        System.out.println(spaced.findPatientIndexIgnoringCase(\"ana\"));\n        System.out.println(\"[\" + spacedAna.getPatientName() + \"]\");\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "-1\n0\n1\n2\n-1\n-1\n3\nAna\nBen\nCara\n  ANA  \n4\n60\n0\n[  ANA  ]"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"@paramname\"), \"Document the name parameter.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"@return\"), \"Document the result.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".trim()\"), \"Trim both names.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".toLowerCase()\"), \"Compare lowercase text.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".equals(\"), \"Compare String contents with equals.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicClinicSchedule()\"), \"Keep the existing clinic operation: public ClinicSchedule()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidaddAppointment(Appointmentappointment)\"), \"Keep the existing clinic operation: public void addAppointment(Appointment appointment)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetCount()\"), \"Keep the existing clinic operation: public int getCount()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintPatientAt(intindex)\"), \"Keep the existing clinic operation: public void printPatientAt(int index)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleancancel(intindex)\"), \"Keep the existing clinic operation: public boolean cancel(int index)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintWaitingPatients()\"), \"Keep the existing clinic operation: public void printWaitingPatients()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintfindPatientIndex(Stringname)\"), \"Keep the existing clinic operation: public int findPatientIndex(String name)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintAllPatients()\"), \"Keep the existing clinic operation: public void printAllPatients()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidcheckInAll()\"), \"Keep the existing clinic operation: public void checkInAll()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintremoveCheckedIn()\"), \"Keep the existing clinic operation: public int removeCheckedIn()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleancancelPatient(Stringname)\"), \"Keep the existing clinic operation: public boolean cancelPatient(String name)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publiclongcountWaiting()\"), \"Keep the existing clinic operation: public long countWaiting()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintWaitingNames()\"), \"Keep the existing clinic operation: public void printWaitingNames()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicinttotalWaitingMinutes()\"), \"Keep the existing clinic operation: public int totalWaitingMinutes()\");"
+    },
+    "q13": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "0": {
+          "accept": [
+            "Empty search: -1"
+          ],
+          "show": "Empty search: -1",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "27rem"
+        },
+        "1": {
+          "accept": [
+            "Exact ANA: -1"
+          ],
+          "show": "Exact ANA: -1",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "27rem"
+        },
+        "2": {
+          "accept": [
+            "Cleaned Ana: 0"
+          ],
+          "show": "Cleaned Ana: 0",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "27rem"
+        },
+        "3": {
+          "accept": [
+            "Cleaned Ben: 1"
+          ],
+          "show": "Cleaned Ben: 1",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "27rem"
+        },
+        "4": {
+          "accept": [
+            "Cleaned Cara: 2"
+          ],
+          "show": "Cleaned Cara: 2",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "27rem"
+        },
+        "5": {
+          "accept": [
+            "Missing Dana: -1"
+          ],
+          "show": "Missing Dana: -1",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "27rem"
+        },
+        "6": {
+          "accept": [
+            "Stored names:"
+          ],
+          "show": "Stored names:",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "27rem"
+        },
+        "7": {
+          "accept": [
+            "Ana"
+          ],
+          "show": "Ana",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "27rem"
+        },
+        "8": {
+          "accept": [
+            "Ben"
+          ],
+          "show": "Ben",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "27rem"
+        },
+        "9": {
+          "accept": [
+            "Cara"
+          ],
+          "show": "Cara",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "27rem"
+        },
+        "10": {
+          "accept": [
+            "Appointments: 3"
+          ],
+          "show": "Appointments: 3",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "27rem"
+        }
+      }
+    },
+    "part9-example": {
+      "type": "example",
+      "title": "ClinicDemo.java",
+      "code": "public class ClinicDemo\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule schedule = new ClinicSchedule();\n        System.out.println(\"Empty search: \"\n            + schedule.findPatientIndexIgnoringCase(\"Ana\"));\n\n        schedule.addAppointment(new Appointment(\"Ana\", 15));\n        schedule.addAppointment(new Appointment(\"Ben\", 20));\n        schedule.addAppointment(new Appointment(\"Cara\", 10));\n\n        System.out.println(\"Exact ANA: \" + schedule.findPatientIndex(\"ANA\"));\n        System.out.println(\"Cleaned Ana: \"\n            + schedule.findPatientIndexIgnoringCase(\"  aNa  \"));\n        System.out.println(\"Cleaned Ben: \"\n            + schedule.findPatientIndexIgnoringCase(\"bEN\"));\n        System.out.println(\"Cleaned Cara: \"\n            + schedule.findPatientIndexIgnoringCase(\"  cara  \"));\n        System.out.println(\"Missing Dana: \"\n            + schedule.findPatientIndexIgnoringCase(\"  DANA  \"));\n        System.out.println(\"Stored names:\");\n        schedule.printAllPatients();\n        System.out.println(\"Appointments: \" + schedule.getCount());\n    }\n}",
+      "output": "Empty search: -1\nExact ANA: -1\nCleaned Ana: 0\nCleaned Ben: 1\nCleaned Cara: 2\nMissing Dana: -1\nStored names:\nAna\nBen\nCara\nAppointments: 3",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n    private int minutes;\n\n    public Appointment(String patientName, int minutes)\n    {\n        this.patientName = patientName;\n        this.minutes = minutes;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n\n    public int getMinutes()\n    {\n        return minutes;\n    }\n}"
+        },
+        {
+          "name": "ClinicSchedule.java",
+          "content": "import java.util.ArrayList;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment -> System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment -> appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n\n    public long countWaiting()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .count();\n    }\n\n    public void printWaitingNames()\n    {\n        appointments.stream()\n                    .filter(appointment -> !appointment.hasCheckedIn())\n                    .map(appointment -> appointment.getPatientName())\n                    .forEach(name -> System.out.println(name));\n    }\n\n    public int totalWaitingMinutes()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .map(appointment -> appointment.getMinutes())\n                           .reduce(0, (total, minutes) -> total + minutes);\n    }\n\n    /**\n     * Find the first patient whose name matches after cleaning both names.\n     * Leading and trailing spaces and differences in case are ignored.\n     * @param name The name to search for; must not be null.\n     * @return The first matching index, or -1 if no name matches.\n     */\n    public int findPatientIndexIgnoringCase(String name)\n    {\n        String cleanedName = name.trim().toLowerCase();\n        int index = 0;\n\n        while(index < appointments.size()) {\n            String storedName = appointments.get(index).getPatientName();\n            if(storedName.trim().toLowerCase().equals(cleanedName)) {\n                return index;\n            }\n            index++;\n        }\n        return -1;\n    }\n}"
+        }
+      ],
+      "maxLines": 32
+    },
+    "q13-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGV4YWN0IHNlYXJjaCBmb3IgQU5BIHJldHVybnMgLTEuIFRoZSBjbGVhbmVkIHNlYXJjaGVzIHJldHVybiAwLCAxLCBhbmQgMjsgRGFuYSBpcyBhYnNlbnQuIFRoZSBzdG9yZWQgbmFtZXMgYW5kIHRocmVlLWFwcG9pbnRtZW50IGxpc3QgcmVtYWluIHVuY2hhbmdlZC4gU2VhcmNoaW5nIGFuIGVtcHR5IHNjaGVkdWxlIHJldHVybnMgLTEgd2l0aG91dCBhY2Nlc3NpbmcgYW4gZWxlbWVudC4="
+    },
+    "q14": {
+      "type": "code",
+      "xp": 4,
+      "title": "RetainedDemo.java",
+      "minLines": 16,
+      "maxLines": 38,
+      "starter": "// Import Random explicitly.\npublic class RetainedDemo\n{\n    // Declare the private generator field here.\n\n    public RetainedDemo()\n    {\n    // Initialize the retained generator here.\n    }\n    public boolean hasGenerator()\n    {\n        return randomGenerator != null;\n    }\n}",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5SYW5kb207CnB1YmxpYyBjbGFzcyBSZXRhaW5lZERlbW8KewogICAgcHJpdmF0ZSBSYW5kb20gcmFuZG9tR2VuZXJhdG9yOwoKICAgIHB1YmxpYyBSZXRhaW5lZERlbW8oKQogICAgewogICAgcmFuZG9tR2VuZXJhdG9yID0gbmV3IFJhbmRvbSgpOwogICAgfQogICAgcHVibGljIGJvb2xlYW4gaGFzR2VuZXJhdG9yKCkKICAgIHsKICAgICAgICByZXR1cm4gcmFuZG9tR2VuZXJhdG9yICE9IG51bGw7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "RetainedCheck.java",
+          "content": "public class RetainedCheck\n{\n    public static void main(String[] args)\n    {\n        System.out.println(new RetainedDemo().hasGenerator());\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "true"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"importjava.util.Random;\"), \"Import Random explicitly.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateRandomrandomGenerator;\"), \"Keep the retained generator private.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"newRandom()\"), \"Use the normal application setup: new Random().\");"
+    },
+    "q14-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGltcG9ydCBnb2VzIGFib3ZlIHRoZSBjbGFzcywgdGhlIHByaXZhdGUgZmllbGQgaW5zaWRlIHRoZSBjbGFzcywgYW5kIHRoZSBpbml0aWFsaXphdGlvbiBpbnNpZGUgaXRzIGNvbnN0cnVjdG9yLiBLZWVwaW5nIG9uZSBnZW5lcmF0b3IgY29udGludWVzIGl0cyBzZXF1ZW5jZS4gUmVjb25zdHJ1Y3RpbmcgaXQgb24gZXZlcnkgc2VsZWN0aW9uIGlzIHVubmVjZXNzYXJ5OyByZXBlYXRlZGx5IHVzaW5nIHRoZSBzYW1lIHNlZWQgcmVzdGFydHMgaXRzIHNlcXVlbmNlLg=="
+    },
+    "q15": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "any": {
+          "accept": [
+            "any int, including negative values",
+            "any int",
+            "any integer"
+          ],
+          "show": "any int, including negative values",
+          "caseSensitive": false,
+          "placeholder": "text",
+          "width": "16rem"
+        },
+        "four": {
+          "accept": [
+            "0, 1, 2, 3",
+            "0 1 2 3",
+            "0 through 3",
+            "0 to 3"
+          ],
+          "show": "0, 1, 2, 3",
+          "caseSensitive": false,
+          "placeholder": "text",
+          "width": "16rem"
+        },
+        "one": {
+          "accept": [
+            "0"
+          ],
+          "show": "0",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "16rem"
+        },
+        "zero": {
+          "accept": [
+            "IllegalArgumentException: bound must be positive",
+            "IllegalArgumentException",
+            "invalid; bound must be positive",
+            "bound must be positive"
+          ],
+          "show": "IllegalArgumentException: bound must be positive",
+          "caseSensitive": false,
+          "placeholder": "text",
+          "width": "16rem"
+        }
+      }
+    },
+    "q15-die": {
+      "type": "code",
+      "xp": 4,
+      "title": "DieDemo.java",
+      "minLines": 12,
+      "maxLines": 38,
+      "starter": "import java.util.Random;\npublic class DieDemo\n{\n    public static void main(String[] args)\n    {\n        Random randomGenerator = new Random(42);\n        int roll = 0; // Replace with a 1-through-6 expression.\n        System.out.println(roll);\n    }\n}",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5SYW5kb207CnB1YmxpYyBjbGFzcyBEaWVEZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgUmFuZG9tIHJhbmRvbUdlbmVyYXRvciA9IG5ldyBSYW5kb20oNDIpOwogICAgICAgIGludCByb2xsID0gMSArIHJhbmRvbUdlbmVyYXRvci5uZXh0SW50KDYpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihyb2xsKTsKICAgIH0KfQ==",
+      "files": [],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "3"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"nextInt(6)\"), \"Use an exclusive bound of 6 for six possibilities.\");"
+    },
+    "q15-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "TmV4dEludChib3VuZCkgaW5jbHVkZXMgMCBhbmQgZXhjbHVkZXMgdGhlIGJvdW5kLiBBZGRpbmcgMSB0byBuZXh0SW50KDYpIHR1cm5zIDAgdGhyb3VnaCA1IGludG8gMSB0aHJvdWdoIDYuIE5leHRJbnQoKSB3aXRob3V0IGEgYm91bmQgbWF5IHJldHVybiBhbiBpbnZhbGlkIGxpc3QgaW5kZXgu"
+    },
+    "q16": {
+      "type": "code",
+      "xp": 4,
+      "title": "HelpBot.java",
+      "minLines": 24,
+      "maxLines": 38,
+      "starter": "import java.util.Random;\nimport java.util.ArrayList;\npublic class HelpBot\n{\n    private ArrayList<String> generalReplies;\n    private Random randomGenerator;\n    public HelpBot()\n    {\n        generalReplies = new ArrayList<>();\n        randomGenerator = new Random();\n        generalReplies.add(\"Can you describe that in more detail?\");\n        generalReplies.add(\"Have you checked the course web page?\");\n        generalReplies.add(\"That question comes up often. Let us look at it together.\");\n        generalReplies.add(\"Please post that on the discussion board so others can see the answer.\");\n    }\n\n    public String pickGeneralReply()\n    {\n        // Choose and return one current entry.\n        return \"\";\n    }\n}",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5SYW5kb207CmltcG9ydCBqYXZhLnV0aWwuQXJyYXlMaXN0OwpwdWJsaWMgY2xhc3MgSGVscEJvdAp7CiAgICBwcml2YXRlIEFycmF5TGlzdDxTdHJpbmc+IGdlbmVyYWxSZXBsaWVzOwogICAgcHJpdmF0ZSBSYW5kb20gcmFuZG9tR2VuZXJhdG9yOwogICAgcHVibGljIEhlbHBCb3QoKQogICAgewogICAgICAgIGdlbmVyYWxSZXBsaWVzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICAgICAgcmFuZG9tR2VuZXJhdG9yID0gbmV3IFJhbmRvbSgpOwogICAgICAgIGdlbmVyYWxSZXBsaWVzLmFkZCgiQ2FuIHlvdSBkZXNjcmliZSB0aGF0IGluIG1vcmUgZGV0YWlsPyIpOwogICAgICAgIGdlbmVyYWxSZXBsaWVzLmFkZCgiSGF2ZSB5b3UgY2hlY2tlZCB0aGUgY291cnNlIHdlYiBwYWdlPyIpOwogICAgICAgIGdlbmVyYWxSZXBsaWVzLmFkZCgiVGhhdCBxdWVzdGlvbiBjb21lcyB1cCBvZnRlbi4gTGV0IHVzIGxvb2sgYXQgaXQgdG9nZXRoZXIuIik7CiAgICAgICAgZ2VuZXJhbFJlcGxpZXMuYWRkKCJQbGVhc2UgcG9zdCB0aGF0IG9uIHRoZSBkaXNjdXNzaW9uIGJvYXJkIHNvIG90aGVycyBjYW4gc2VlIHRoZSBhbnN3ZXIuIik7CiAgICB9CgogICAgcHVibGljIFN0cmluZyBwaWNrR2VuZXJhbFJlcGx5KCkKICAgIHsKICAgICAgICBpbnQgaW5kZXggPSByYW5kb21HZW5lcmF0b3IubmV4dEludChnZW5lcmFsUmVwbGllcy5zaXplKCkpOwogICAgICAgIHJldHVybiBnZW5lcmFsUmVwbGllcy5nZXQoaW5kZXgpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "ReplyCheck.java",
+          "content": "public class ReplyCheck\n{\n    public static void main(String[] args)\n    {\n        HelpBot bot = new HelpBot();\n        boolean allValid = true;\n        for(int i = 0; i < 1000; i++) {\n            String reply = bot.pickGeneralReply();\n            boolean valid = \"Can you describe that in more detail?\".equals(reply) || \"Have you checked the course web page?\".equals(reply) || \"That question comes up often. Let us look at it together.\".equals(reply) || \"Please post that on the discussion board so others can see the answer.\".equals(reply);\n            if(!valid) {\n                allValid = false;\n            }\n        }\n        System.out.println(allValid);\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "true"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"nextInt(generalReplies.size())\"), \"Use the current list size as the bound.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"generalReplies.remove(\"), \"Leave the selected reply in the list.\");"
+    },
+    "q16-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "V2l0aCBmb3VyIGVudHJpZXMsIHNpemUoKSArIDEgcGVybWl0cyBpbmRleCA0LCB3aGljaCBpcyBpbnZhbGlkLiBBIHBvc3NpYmx5IGVtcHR5IGxpc3QgbmVlZHMgYSBjaGVjayBiZWZvcmUgbmV4dEludCgwKS4gSGVscEJvdCBhbHdheXMgaGFzIGZvdXIgcmVwbGllczsgYSBzZWxlY3RlZCByZXBseSBzdGF5cyBhdmFpbGFibGUgYW5kIGNhbiBhcHBlYXIgYWdhaW4u"
+    },
+    "q17": {
+      "type": "code",
+      "xp": 4,
+      "title": "HelpBot.java",
+      "minLines": 32,
+      "maxLines": 38,
+      "starter": "import java.util.Random;\nimport java.util.ArrayList;\npublic class HelpBot\n{\n    private ArrayList<String> generalReplies;\n    private Random randomGenerator;\n    public HelpBot()\n    {\n        generalReplies = new ArrayList<>();\n        randomGenerator = new Random();\n        generalReplies.add(\"Can you describe that in more detail?\");\n        generalReplies.add(\"Have you checked the course web page?\");\n        generalReplies.add(\"That question comes up often. Let us look at it together.\");\n        generalReplies.add(\"Please post that on the discussion board so others can see the answer.\");\n    }\n    public String clean(String question)\n    {\n        return question.trim().toLowerCase();\n    }\n    public String pickGeneralReply()\n    {\n        int index = randomGenerator.nextInt(generalReplies.size());\n        return generalReplies.get(index);\n    }\n\n    public String replyTo(String question)\n    {\n        // Clean, check for empty text, then choose a reply.\n        return \"\";\n    }\n}",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5SYW5kb207CmltcG9ydCBqYXZhLnV0aWwuQXJyYXlMaXN0OwpwdWJsaWMgY2xhc3MgSGVscEJvdAp7CiAgICBwcml2YXRlIEFycmF5TGlzdDxTdHJpbmc+IGdlbmVyYWxSZXBsaWVzOwogICAgcHJpdmF0ZSBSYW5kb20gcmFuZG9tR2VuZXJhdG9yOwogICAgcHVibGljIEhlbHBCb3QoKQogICAgewogICAgICAgIGdlbmVyYWxSZXBsaWVzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICAgICAgcmFuZG9tR2VuZXJhdG9yID0gbmV3IFJhbmRvbSgpOwogICAgICAgIGdlbmVyYWxSZXBsaWVzLmFkZCgiQ2FuIHlvdSBkZXNjcmliZSB0aGF0IGluIG1vcmUgZGV0YWlsPyIpOwogICAgICAgIGdlbmVyYWxSZXBsaWVzLmFkZCgiSGF2ZSB5b3UgY2hlY2tlZCB0aGUgY291cnNlIHdlYiBwYWdlPyIpOwogICAgICAgIGdlbmVyYWxSZXBsaWVzLmFkZCgiVGhhdCBxdWVzdGlvbiBjb21lcyB1cCBvZnRlbi4gTGV0IHVzIGxvb2sgYXQgaXQgdG9nZXRoZXIuIik7CiAgICAgICAgZ2VuZXJhbFJlcGxpZXMuYWRkKCJQbGVhc2UgcG9zdCB0aGF0IG9uIHRoZSBkaXNjdXNzaW9uIGJvYXJkIHNvIG90aGVycyBjYW4gc2VlIHRoZSBhbnN3ZXIuIik7CiAgICB9CiAgICBwdWJsaWMgU3RyaW5nIGNsZWFuKFN0cmluZyBxdWVzdGlvbikKICAgIHsKICAgICAgICByZXR1cm4gcXVlc3Rpb24udHJpbSgpLnRvTG93ZXJDYXNlKCk7CiAgICB9CiAgICBwdWJsaWMgU3RyaW5nIHBpY2tHZW5lcmFsUmVwbHkoKQogICAgewogICAgICAgIGludCBpbmRleCA9IHJhbmRvbUdlbmVyYXRvci5uZXh0SW50KGdlbmVyYWxSZXBsaWVzLnNpemUoKSk7CiAgICAgICAgcmV0dXJuIGdlbmVyYWxSZXBsaWVzLmdldChpbmRleCk7CiAgICB9CgogICAgcHVibGljIFN0cmluZyByZXBseVRvKFN0cmluZyBxdWVzdGlvbikKICAgIHsKICAgICAgICBTdHJpbmcgY2xlYW5lZCA9IGNsZWFuKHF1ZXN0aW9uKTsKICAgICAgICBpZihjbGVhbmVkLmlzRW1wdHkoKSkgewogICAgICAgICAgICByZXR1cm4gIlBsZWFzZSB0eXBlIGEgcXVlc3Rpb24uIjsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIHBpY2tHZW5lcmFsUmVwbHkoKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "QuestionCheck.java",
+          "content": "public class QuestionCheck\n{\n    public static void main(String[] args)\n    {\n        HelpBot bot = new HelpBot();\n        System.out.println(bot.replyTo(\"   \"));\n        String reply = bot.replyTo(\"   How do I SUBMIT my work?  \");\n        System.out.println(\"Can you describe that in more detail?\".equals(reply) || \"Have you checked the course web page?\".equals(reply) || \"That question comes up often. Let us look at it together.\".equals(reply) || \"Please post that on the discussion board so others can see the answer.\".equals(reply));\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "Please type a question.\ntrue"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"clean(question)\"), \"Reuse clean(question).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"pickGeneralReply()\"), \"Use the reply-selection method.\");"
+    },
+    "q17-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "U3BhY2VzIGNsZWFuIHRvIGVtcHR5IHRleHQsIGdpdmluZyBQbGVhc2UgdHlwZSBhIHF1ZXN0aW9uLiBUaGUgbWVzc3kgc3VibWl0IHF1ZXN0aW9uIGdldHMgb25lIG9mIHRoZSBmb3VyIGdlbmVyYWwgcmVwbGllcy4gSXRzIGV4YWN0IHJlcGx5IGNhbm5vdCBiZSBwcmVkaWN0ZWQgd2l0aG91dCBhIHNlZWQgYW5kIGNhbGwgaGlzdG9yeS4gVGhpcyBib3Qgc3RpbGwgaWdub3JlcyB0aGUgcXVlc3Rpb24ncyBtZWFuaW5nLg=="
+    },
+    "q18-types": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "int": {
+          "accept": [
+            "Integer"
+          ],
+          "show": "Integer",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "double": {
+          "accept": [
+            "Double"
+          ],
+          "show": "Double",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "boolean": {
+          "accept": [
+            "Boolean"
+          ],
+          "show": "Boolean",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        },
+        "char": {
+          "accept": [
+            "Character"
+          ],
+          "show": "Character",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "16rem"
+        }
+      }
+    },
+    "q18": {
+      "type": "code",
+      "xp": 4,
+      "title": "RatingsDemo.java",
+      "minLines": 12,
+      "maxLines": 38,
+      "starter": "import java.util.ArrayList;\npublic class RatingsDemo\n{\n    public static void main(String[] args)\n    {\n        // Create ratings, add 5, 3, 4, and read the first into int first.\n        System.out.println(ratings.size());\n        System.out.println(first);\n    }\n}",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CnB1YmxpYyBjbGFzcyBSYXRpbmdzRGVtbwp7CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKQogICAgewogICAgICAgIEFycmF5TGlzdDxJbnRlZ2VyPiByYXRpbmdzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICAgICAgcmF0aW5ncy5hZGQoNSk7CiAgICAgICAgcmF0aW5ncy5hZGQoMyk7CiAgICAgICAgcmF0aW5ncy5hZGQoNCk7CiAgICAgICAgaW50IGZpcnN0ID0gcmF0aW5ncy5nZXQoMCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKHJhdGluZ3Muc2l6ZSgpKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oZmlyc3QpOwogICAgfQp9",
+      "files": [],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "3\n5"
+        }
+      ],
+      "check": ""
+    },
+    "q18-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VXNlIEFycmF5TGlzdDxJbnRlZ2VyPiwgc2luY2UgYSBnZW5lcmljIGVsZW1lbnQgdHlwZSBtdXN0IGJlIGEgcmVmZXJlbmNlIHR5cGUuIEVhY2ggYWRkIGJveGVzIGFuIGludCBpbnRvIGFuIEludGVnZXIuIEFzc2lnbmluZyBnZXQoMCkgdG8gaW50IGZpcnN0IHVuYm94ZXMgaXQ7IGZpcnN0IGlzIDUuIFRoZSBudW1lcmljIHZhbHVlIGlzIHVuY2hhbmdlZCwgYW5kIHRoaXMgbGlzdCBoYXMgbm8gbnVsbCBlbnRyaWVzLg=="
+    },
+    "q19": {
+      "type": "code",
+      "xp": 4,
+      "title": "HelpBot.java",
+      "minLines": 16,
+      "maxLines": 38,
+      "starter": "import java.util.ArrayList;\npublic class HelpBot\n{\n    private ArrayList<Integer> ratings = new ArrayList<>();\n\n    public void addRating(int rating)\n    {\n        // Accept only 1 through 5 inclusive.\n    }\n    public int numberOfRatings()\n    {\n        return 0;\n    }\n}",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CnB1YmxpYyBjbGFzcyBIZWxwQm90CnsKICAgIHByaXZhdGUgQXJyYXlMaXN0PEludGVnZXI+IHJhdGluZ3MgPSBuZXcgQXJyYXlMaXN0PD4oKTsKCiAgICBwdWJsaWMgdm9pZCBhZGRSYXRpbmcoaW50IHJhdGluZykKICAgIHsKICAgICAgICBpZihyYXRpbmcgPj0gMSAmJiByYXRpbmcgPD0gNSkgewogICAgICAgICAgICByYXRpbmdzLmFkZChyYXRpbmcpOwogICAgICAgIH0KICAgIH0KCiAgICBwdWJsaWMgaW50IG51bWJlck9mUmF0aW5ncygpCiAgICB7CiAgICAgICAgcmV0dXJuIHJhdGluZ3Muc2l6ZSgpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "RatingCheck.java",
+          "content": "public class RatingCheck\n{\n    public static void main(String[] args)\n    {\n        HelpBot bot = new HelpBot();\n        System.out.println(bot.numberOfRatings());\n        bot.addRating(5);\n        bot.addRating(3);\n        bot.addRating(4);\n        bot.addRating(0);\n        bot.addRating(6);\n        System.out.println(bot.numberOfRatings());\n        bot.addRating(1);\n        bot.addRating(2);\n        System.out.println(bot.numberOfRatings());\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "0\n3\n5"
+        }
+      ],
+      "check": ""
+    },
+    "q19-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "QWZ0ZXIgNSwgMywgNCwgMCwgYW5kIDYsIG9ubHkgdGhyZWUgZW50cmllcyByZW1haW46IDUsIDMsIGFuZCA0LiBCb3RoIGludmFsaWQgcmF0aW5ncyBhcmUgaWdub3JlZC4gVXNlIHJhdGluZ3Muc2l6ZSgpLCBzbyB0aGVyZSBpcyBubyBzZXBhcmF0ZSBjb3VudCBmaWVsZCB0byBrZWVwIHN5bmNocm9uaXplZC4="
+    },
+    "q20": {
+      "type": "code",
+      "xp": 4,
+      "title": "HelpBot.java",
+      "minLines": 24,
+      "maxLines": 38,
+      "starter": "import java.util.ArrayList;\npublic class HelpBot\n{\n    private ArrayList<Integer> ratings = new ArrayList<>();\n    public void addRating(int rating)\n    {\n        if(rating >= 1 && rating <= 5) {\n            ratings.add(rating);\n        }\n    }\n\n    public int numberOfRatings()\n    {\n        return ratings.size();\n    }\n\n    public int averageRating()\n    {\n        // Check for empty; sum with a for-each loop; divide by size.\n        return 0;\n    }\n}",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CnB1YmxpYyBjbGFzcyBIZWxwQm90CnsKICAgIHByaXZhdGUgQXJyYXlMaXN0PEludGVnZXI+IHJhdGluZ3MgPSBuZXcgQXJyYXlMaXN0PD4oKTsKICAgIHB1YmxpYyB2b2lkIGFkZFJhdGluZyhpbnQgcmF0aW5nKQogICAgewogICAgICAgIGlmKHJhdGluZyA+PSAxICYmIHJhdGluZyA8PSA1KSB7CiAgICAgICAgICAgIHJhdGluZ3MuYWRkKHJhdGluZyk7CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyBpbnQgbnVtYmVyT2ZSYXRpbmdzKCkKICAgIHsKICAgICAgICByZXR1cm4gcmF0aW5ncy5zaXplKCk7CiAgICB9CgogICAgcHVibGljIGludCBhdmVyYWdlUmF0aW5nKCkKICAgIHsKICAgICAgICBpZihyYXRpbmdzLmlzRW1wdHkoKSkgewogICAgICAgICAgICByZXR1cm4gMDsKICAgICAgICB9CiAgICAgICAgaW50IHRvdGFsID0gMDsKICAgICAgICBmb3IoaW50IHJhdGluZyA6IHJhdGluZ3MpIHsKICAgICAgICAgICAgdG90YWwgPSB0b3RhbCArIHJhdGluZzsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIHRvdGFsIC8gcmF0aW5ncy5zaXplKCk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "AverageCheck.java",
+          "content": "public class AverageCheck\n{\n    public static void main(String[] args)\n    {\n        HelpBot bot = new HelpBot();\n        System.out.println(bot.averageRating());\n        bot.addRating(5);\n        bot.addRating(3);\n        bot.addRating(4);\n        System.out.println(bot.numberOfRatings());\n        System.out.println(bot.averageRating());\n        HelpBot separate = new HelpBot();\n        separate.addRating(5);\n        separate.addRating(4);\n        System.out.println(separate.averageRating());\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "0\n3\n4\n4"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\bfor\\\\(int\\\\p{javaJavaIdentifierStart}\\\\p{javaJavaIdentifierPart}*:ratings\\\\).*\"), \"Use a for-each loop over the ratings.\");"
+    },
+    "q20-trace": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "0-total": {
+          "accept": [
+            "5"
+          ],
+          "show": "5",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "16rem"
+        },
+        "1-total": {
+          "accept": [
+            "8"
+          ],
+          "show": "8",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "16rem"
+        },
+        "2-total": {
+          "accept": [
+            "12"
+          ],
+          "show": "12",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "16rem"
+        },
+        "0-count": {
+          "accept": [
+            "1"
+          ],
+          "show": "1",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "16rem"
+        },
+        "1-count": {
+          "accept": [
+            "2"
+          ],
+          "show": "2",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "16rem"
+        },
+        "2-count": {
+          "accept": [
+            "3"
+          ],
+          "show": "3",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "16rem"
+        },
+        "main": {
+          "accept": [
+            "4"
+          ],
+          "show": "4",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "16rem"
+        },
+        "separate": {
+          "accept": [
+            "4"
+          ],
+          "show": "4",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "16rem"
+        }
+      }
+    },
+    "q20-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIHRvdGFsIGlzIDEyIGFuZCB0aGUgY291bnQgaXMgMywgc28gdGhlIGF2ZXJhZ2UgaXMgNC4gVGhlIHNlcGFyYXRlIGxpc3QgZ2l2ZXMgOSAvIDIgPSA0IHdpdGggaW50ZWdlciBkaXZpc2lvbi4gVGhlIGxvb3AgdW5ib3hlcyBlYWNoIEludGVnZXIgaW50byBpbnQuIEFuIGVtcHR5IGNoZWNrIGF2b2lkcyBkaXZpc2lvbiBieSB6ZXJvLg=="
+    },
+    "q21-method": {
+      "type": "code",
+      "xp": 4,
+      "title": "HelpBot.java",
+      "minLines": 10,
+      "maxLines": 38,
+      "starter": "public class HelpBot\n{\n\n    public String clean(String question)\n    {\n        return question.trim().toLowerCase();\n    }\n}",
+      "answer": "cHVibGljIGNsYXNzIEhlbHBCb3QKewoKICAgIC8qKgogICAgICogUmVtb3ZlIHN1cnJvdW5kaW5nIHNwYWNlcyBhbmQgY29udmVydCB0aGUgdGV4dCB0byBsb3dlciBjYXNlLgogICAgICogQHBhcmFtIHF1ZXN0aW9uIFRoZSB0eXBlZCB0ZXh0OyBtdXN0IG5vdCBiZSBudWxsLgogICAgICogQHJldHVybiBUaGUgY2xlYW5lZCB0ZXh0LiBUaGUgb3JpZ2luYWwgc3RyaW5nIGlzIHVuY2hhbmdlZC4KICAgICAqLwogICAgcHVibGljIFN0cmluZyBjbGVhbihTdHJpbmcgcXVlc3Rpb24pCiAgICB7CiAgICAgICAgcmV0dXJuIHF1ZXN0aW9uLnRyaW0oKS50b0xvd2VyQ2FzZSgpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "CleanCheck.java",
+          "content": "public class CleanCheck\n{\n    public static void main(String[] args)\n    {\n        HelpBot bot = new HelpBot();\n        System.out.println(bot.clean(\"   How do I SUBMIT my work?  \"));\n        System.out.println(\"[\" + bot.clean(\"   \") + \"]\");\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "how do i submit my work?\n[]"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"/**\"), \"Begin the documentation comment with /**.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"@paramquestion\"), \"Describe the question parameter and its non-null assumption.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"@return\"), \"Describe the returned cleaned text.\");"
+    },
+    "q21-class": {
+      "type": "code",
+      "xp": 4,
+      "title": "HelpBot.java",
+      "minLines": 8,
+      "maxLines": 38,
+      "starter": "public class HelpBot\n{\n\n}",
+      "answer": "LyoqCiAqIEFuc3dlcnMgY291cnNlIHF1ZXN0aW9ucyB3aXRoIGdlbmVyYWwgcmVwbGllcyBhbmQgc3RvcmVzIHJhdGluZ3MuCiAqIFRoaXMgdmVyc2lvbiBkb2VzIG5vdCBpbnRlcnByZXQgdGhlIHF1ZXN0aW9uJ3MgbWVhbmluZy4KICogQGF1dGhvciBQcmFuamFsIFBhdHJhCiAqIEB2ZXJzaW9uIDEuMAogKi8KcHVibGljIGNsYXNzIEhlbHBCb3QKewp9",
+      "files": [
+        {
+          "name": "ClassCheck.java",
+          "content": "public class ClassCheck\n{\n    public static void main(String[] args)\n    {\n        System.out.println(new HelpBot() != null);\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "true"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"/**\"), \"Use a Javadoc comment.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"@authorPranjalPatra\"), \"Include the stated author.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"@version1.0\"), \"Include version 1.0.\");"
+    },
+    "q21-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "QSBwbGFpbiAvKiBibG9jayBjb21tZW50IGlzIG5vdCBhIEphdmFkb2MgY29tbWVudDsgSmF2YWRvYyBiZWdpbnMgd2l0aCAvKiogYmVmb3JlIHRoZSBkZWNsYXJhdGlvbi4gRGVzY3JpYmUgcHVycG9zZSBhbmQgYXNzdW1wdGlvbnMsIHJhdGhlciB0aGFuIGp1c3QgcmVzdGF0aW5nIHRoZSBtZXRob2QgbmFtZS4gT21pdCBAcmV0dXJuIGZvciB2b2lkIG1ldGhvZHMgYW5kIGNvbnN0cnVjdG9ycy4="
+    },
+    "q22": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 4,
+      "answer": "cHJpdmF0ZSBBcnJheUxpc3Q8SW50ZWdlcj4gcmF0aW5nczsKQ2FsbGVycyByZWNvcmQgcmF0aW5ncyB0aHJvdWdoIGFkZFJhdGluZywgd2hpY2ggY2hlY2tzIHRoZSBhbGxvd2VkIHJhbmdlLiBUaGUgc2V0dXAgaGVscGVyIGZpbGxHZW5lcmFsUmVwbGllcyBzaG91bGQgYmUgcHJpdmF0ZS4gUHJpdmF0ZSBzdG9yYWdlIGFuZCBoZWxwZXIgY29kZSBjYW4gY2hhbmdlIHdoaWxlIHB1YmxpYyBtZXRob2QgbmFtZXMsIHBhcmFtZXRlciB0eXBlcywgcmV0dXJuIHR5cGVzLCBhbmQgcHJvbWlzZWQgYmVoYXZpb3VyIHN0YXkgdGhlIHNhbWUu"
+    },
+    "q23": {
+      "type": "code",
+      "xp": 4,
+      "title": "ClinicSchedule.java",
+      "minLines": 32,
+      "maxLines": 38,
+      "starter": "import java.util.ArrayList;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment -> System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment -> appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n\n    public long countWaiting()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .count();\n    }\n\n    public void printWaitingNames()\n    {\n        appointments.stream()\n                    .filter(appointment -> !appointment.hasCheckedIn())\n                    .map(appointment -> appointment.getPatientName())\n                    .forEach(name -> System.out.println(name));\n    }\n\n    public int totalWaitingMinutes()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .map(appointment -> appointment.getMinutes())\n                           .reduce(0, (total, minutes) -> total + minutes);\n    }\n\n    /**\n     * Find the first patient whose name matches after cleaning both names.\n     * Leading and trailing spaces and differences in case are ignored.\n     * @param name The name to search for; must not be null.\n     * @return The first matching index, or -1 if no name matches.\n     */\n    public int findPatientIndexIgnoringCase(String name)\n    {\n        String cleanedName = name.trim().toLowerCase();\n        int index = 0;\n\n        while(index < appointments.size()) {\n            String storedName = appointments.get(index).getPatientName();\n            if(storedName.trim().toLowerCase().equals(cleanedName)) {\n                return index;\n            }\n            index++;\n        }\n        return -1;\n    }\n\n    public String randomPatientName()\n    {\n        // Handle empty before using one retained generator.\n        return null;\n    }\n}",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CmltcG9ydCBqYXZhLnV0aWwuUmFuZG9tOwoKcHVibGljIGNsYXNzIENsaW5pY1NjaGVkdWxlCnsKICAgIHByaXZhdGUgQXJyYXlMaXN0PEFwcG9pbnRtZW50PiBhcHBvaW50bWVudHM7CiAgICBwcml2YXRlIFJhbmRvbSByYW5kb21HZW5lcmF0b3I7CgogICAgcHVibGljIENsaW5pY1NjaGVkdWxlKCkKICAgIHsKICAgICAgICBhcHBvaW50bWVudHMgPSBuZXcgQXJyYXlMaXN0PD4oKTsKICAgICAgICByYW5kb21HZW5lcmF0b3IgPSBuZXcgUmFuZG9tKDQyKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBhZGRBcHBvaW50bWVudChBcHBvaW50bWVudCBhcHBvaW50bWVudCkKICAgIHsKICAgICAgICBhcHBvaW50bWVudHMuYWRkKGFwcG9pbnRtZW50KTsKICAgIH0KCiAgICBwdWJsaWMgaW50IGdldENvdW50KCkKICAgIHsKICAgICAgICByZXR1cm4gYXBwb2ludG1lbnRzLnNpemUoKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludFBhdGllbnRBdChpbnQgaW5kZXgpCiAgICB7CiAgICAgICAgaWYoaW5kZXggPCAwIHx8IGluZGV4ID49IGFwcG9pbnRtZW50cy5zaXplKCkpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJJbnZhbGlkIGluZGV4Iik7CiAgICAgICAgICAgIHJldHVybjsKICAgICAgICB9CgogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihhcHBvaW50bWVudHMuZ2V0KGluZGV4KS5nZXRQYXRpZW50TmFtZSgpKTsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBjYW5jZWwoaW50IGluZGV4KQogICAgewogICAgICAgIGlmKGluZGV4IDwgMCB8fCBpbmRleCA+PSBhcHBvaW50bWVudHMuc2l6ZSgpKSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9CgogICAgICAgIGlmKGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpLmhhc0NoZWNrZWRJbigpKSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9CgogICAgICAgIGFwcG9pbnRtZW50cy5yZW1vdmUoaW5kZXgpOwogICAgICAgIHJldHVybiB0cnVlOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50V2FpdGluZ1BhdGllbnRzKCkKICAgIHsKICAgICAgICBib29sZWFuIGZvdW5kID0gZmFsc2U7CgogICAgICAgIGZvcihBcHBvaW50bWVudCBhcHBvaW50bWVudCA6IGFwcG9pbnRtZW50cykgewogICAgICAgICAgICBpZighYXBwb2ludG1lbnQuaGFzQ2hlY2tlZEluKCkpIHsKICAgICAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpKTsKICAgICAgICAgICAgICAgIGZvdW5kID0gdHJ1ZTsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgaWYoIWZvdW5kKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiTm8gd2FpdGluZyBwYXRpZW50cyIpOwogICAgICAgIH0KICAgIH0KCiAgICBwdWJsaWMgaW50IGZpbmRQYXRpZW50SW5kZXgoU3RyaW5nIG5hbWUpCiAgICB7CiAgICAgICAgaW50IGluZGV4ID0gMDsKICAgICAgICBib29sZWFuIGZvdW5kID0gZmFsc2U7CgogICAgICAgIHdoaWxlKGluZGV4IDwgYXBwb2ludG1lbnRzLnNpemUoKSAmJiAhZm91bmQpIHsKICAgICAgICAgICAgQXBwb2ludG1lbnQgYXBwb2ludG1lbnQgPSBhcHBvaW50bWVudHMuZ2V0KGluZGV4KTsKICAgICAgICAgICAgaWYoYXBwb2ludG1lbnQuZ2V0UGF0aWVudE5hbWUoKS5lcXVhbHMobmFtZSkpIHsKICAgICAgICAgICAgICAgIGZvdW5kID0gdHJ1ZTsKICAgICAgICAgICAgfQogICAgICAgICAgICBlbHNlIHsKICAgICAgICAgICAgICAgIGluZGV4Kys7CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIGlmKGZvdW5kKSB7CiAgICAgICAgICAgIHJldHVybiBpbmRleDsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIC0xOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50QWxsUGF0aWVudHMoKQogICAgewogICAgICAgIGFwcG9pbnRtZW50cy5mb3JFYWNoKGFwcG9pbnRtZW50IC0+IFN5c3RlbS5vdXQucHJpbnRsbihhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpKSk7CiAgICB9CgogICAgcHVibGljIHZvaWQgY2hlY2tJbkFsbCgpCiAgICB7CiAgICAgICAgYXBwb2ludG1lbnRzLmZvckVhY2goQXBwb2ludG1lbnQ6OmNoZWNrSW4pOwogICAgfQoKICAgIHB1YmxpYyBpbnQgcmVtb3ZlQ2hlY2tlZEluKCkKICAgIHsKICAgICAgICBpbnQgYmVmb3JlID0gYXBwb2ludG1lbnRzLnNpemUoKTsKICAgICAgICBhcHBvaW50bWVudHMucmVtb3ZlSWYoYXBwb2ludG1lbnQgLT4gYXBwb2ludG1lbnQuaGFzQ2hlY2tlZEluKCkpOwogICAgICAgIHJldHVybiBiZWZvcmUgLSBhcHBvaW50bWVudHMuc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGNhbmNlbFBhdGllbnQoU3RyaW5nIG5hbWUpCiAgICB7CiAgICAgICAgcmV0dXJuIGFwcG9pbnRtZW50cy5yZW1vdmVJZihhcHBvaW50bWVudCAtPiBhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpLmVxdWFscyhuYW1lKQogICAgICAgICAgICAmJiAhYXBwb2ludG1lbnQuaGFzQ2hlY2tlZEluKCkpOwogICAgfQoKICAgIHB1YmxpYyBsb25nIGNvdW50V2FpdGluZygpCiAgICB7CiAgICAgICAgcmV0dXJuIGFwcG9pbnRtZW50cy5zdHJlYW0oKQogICAgICAgICAgICAgICAgICAgICAgICAgICAuZmlsdGVyKGFwcG9pbnRtZW50IC0+ICFhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSkKICAgICAgICAgICAgICAgICAgICAgICAgICAgLmNvdW50KCk7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRXYWl0aW5nTmFtZXMoKQogICAgewogICAgICAgIGFwcG9pbnRtZW50cy5zdHJlYW0oKQogICAgICAgICAgICAgICAgICAgIC5maWx0ZXIoYXBwb2ludG1lbnQgLT4gIWFwcG9pbnRtZW50Lmhhc0NoZWNrZWRJbigpKQogICAgICAgICAgICAgICAgICAgIC5tYXAoYXBwb2ludG1lbnQgLT4gYXBwb2ludG1lbnQuZ2V0UGF0aWVudE5hbWUoKSkKICAgICAgICAgICAgICAgICAgICAuZm9yRWFjaChuYW1lIC0+IFN5c3RlbS5vdXQucHJpbnRsbihuYW1lKSk7CiAgICB9CgogICAgcHVibGljIGludCB0b3RhbFdhaXRpbmdNaW51dGVzKCkKICAgIHsKICAgICAgICByZXR1cm4gYXBwb2ludG1lbnRzLnN0cmVhbSgpCiAgICAgICAgICAgICAgICAgICAgICAgICAgIC5maWx0ZXIoYXBwb2ludG1lbnQgLT4gIWFwcG9pbnRtZW50Lmhhc0NoZWNrZWRJbigpKQogICAgICAgICAgICAgICAgICAgICAgICAgICAubWFwKGFwcG9pbnRtZW50IC0+IGFwcG9pbnRtZW50LmdldE1pbnV0ZXMoKSkKICAgICAgICAgICAgICAgICAgICAgICAgICAgLnJlZHVjZSgwLCAodG90YWwsIG1pbnV0ZXMpIC0+IHRvdGFsICsgbWludXRlcyk7CiAgICB9CgogICAgLyoqCiAgICAgKiBGaW5kIHRoZSBmaXJzdCBwYXRpZW50IHdob3NlIG5hbWUgbWF0Y2hlcyBhZnRlciBjbGVhbmluZyBib3RoIG5hbWVzLgogICAgICogTGVhZGluZyBhbmQgdHJhaWxpbmcgc3BhY2VzIGFuZCBkaWZmZXJlbmNlcyBpbiBjYXNlIGFyZSBpZ25vcmVkLgogICAgICogQHBhcmFtIG5hbWUgVGhlIG5hbWUgdG8gc2VhcmNoIGZvcjsgbXVzdCBub3QgYmUgbnVsbC4KICAgICAqIEByZXR1cm4gVGhlIGZpcnN0IG1hdGNoaW5nIGluZGV4LCBvciAtMSBpZiBubyBuYW1lIG1hdGNoZXMuCiAgICAgKi8KICAgIHB1YmxpYyBpbnQgZmluZFBhdGllbnRJbmRleElnbm9yaW5nQ2FzZShTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICBTdHJpbmcgY2xlYW5lZE5hbWUgPSBuYW1lLnRyaW0oKS50b0xvd2VyQ2FzZSgpOwogICAgICAgIGludCBpbmRleCA9IDA7CgogICAgICAgIHdoaWxlKGluZGV4IDwgYXBwb2ludG1lbnRzLnNpemUoKSkgewogICAgICAgICAgICBTdHJpbmcgc3RvcmVkTmFtZSA9IGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpLmdldFBhdGllbnROYW1lKCk7CiAgICAgICAgICAgIGlmKHN0b3JlZE5hbWUudHJpbSgpLnRvTG93ZXJDYXNlKCkuZXF1YWxzKGNsZWFuZWROYW1lKSkgewogICAgICAgICAgICAgICAgcmV0dXJuIGluZGV4OwogICAgICAgICAgICB9CiAgICAgICAgICAgIGluZGV4Kys7CiAgICAgICAgfQogICAgICAgIHJldHVybiAtMTsKICAgIH0KCiAgICAvKioKICAgICAqIENob29zZSBhIHBhdGllbnQgbmFtZSBmcm9tIGFsbCBjdXJyZW50IGFwcG9pbnRtZW50cyBhdCByYW5kb20uCiAgICAgKiBDaGVja2VkLWluIGFwcG9pbnRtZW50cyBhcmUgaW5jbHVkZWQuCiAgICAgKiBAcmV0dXJuIEEgc3RvcmVkIHBhdGllbnQgbmFtZSwgb3IgbnVsbCBpZiB0aGUgc2NoZWR1bGUgaXMgZW1wdHkuCiAgICAgKi8KICAgIHB1YmxpYyBTdHJpbmcgcmFuZG9tUGF0aWVudE5hbWUoKQogICAgewogICAgICAgIGlmKGFwcG9pbnRtZW50cy5pc0VtcHR5KCkpIHsKICAgICAgICAgICAgcmV0dXJuIG51bGw7CiAgICAgICAgfQogICAgICAgIGludCBpbmRleCA9IHJhbmRvbUdlbmVyYXRvci5uZXh0SW50KGFwcG9pbnRtZW50cy5zaXplKCkpOwogICAgICAgIHJldHVybiBhcHBvaW50bWVudHMuZ2V0KGluZGV4KS5nZXRQYXRpZW50TmFtZSgpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n    private int minutes;\n\n    public Appointment(String patientName, int minutes)\n    {\n        this.patientName = patientName;\n        this.minutes = minutes;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n\n    public int getMinutes()\n    {\n        return minutes;\n    }\n}"
+        },
+        {
+          "name": "RandomCheck.java",
+          "content": "public class RandomCheck\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule schedule = new ClinicSchedule();\n        System.out.println(schedule.randomPatientName());\n        Appointment ben = new Appointment(\"Ben\", 20);\n        schedule.addAppointment(new Appointment(\"Ana\", 15));\n        schedule.addAppointment(ben);\n        schedule.addAppointment(new Appointment(\"Cara\", 10));\n        ben.checkIn();\n        System.out.println(schedule.randomPatientName());\n        System.out.println(schedule.randomPatientName());\n        System.out.println(schedule.randomPatientName());\n        System.out.println(schedule.getCount());\n        System.out.println(schedule.countWaiting());\n        System.out.println(schedule.totalWaitingMinutes());\n        System.out.println(schedule.findPatientIndex(\"ANA\"));\n        System.out.println(schedule.findPatientIndexIgnoringCase(\"  ANA  \"));\n        boolean selectedBen = false;\n        for(int i = 0; i < 100; i++) {\n            if(\"Ben\".equals(schedule.randomPatientName())) {\n                selectedBen = true;\n            }\n        }\n        System.out.println(selectedBen);\n        schedule.checkInAll();\n        System.out.println(schedule.countWaiting());\n        schedule.removeCheckedIn();\n        System.out.println(schedule.randomPatientName());\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "null\nCara\nAna\nAna\n3\n2\n25\n-1\n0\ntrue\n0\nnull"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"importjava.util.Random;\"), \"Import Random explicitly.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateRandomrandomGenerator;\"), \"Retain a private generator field.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"newRandom(42)\"), \"Use seed 42 for this repeatable demonstration.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"nextInt(appointments.size())\"), \"Use the current appointment count as the bound.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"@return\"), \"Document the returned name and empty case.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicClinicSchedule()\"), \"Keep the existing clinic operation: public ClinicSchedule()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidaddAppointment(Appointmentappointment)\"), \"Keep the existing clinic operation: public void addAppointment(Appointment appointment)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetCount()\"), \"Keep the existing clinic operation: public int getCount()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintPatientAt(intindex)\"), \"Keep the existing clinic operation: public void printPatientAt(int index)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleancancel(intindex)\"), \"Keep the existing clinic operation: public boolean cancel(int index)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintWaitingPatients()\"), \"Keep the existing clinic operation: public void printWaitingPatients()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintfindPatientIndex(Stringname)\"), \"Keep the existing clinic operation: public int findPatientIndex(String name)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintAllPatients()\"), \"Keep the existing clinic operation: public void printAllPatients()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidcheckInAll()\"), \"Keep the existing clinic operation: public void checkInAll()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintremoveCheckedIn()\"), \"Keep the existing clinic operation: public int removeCheckedIn()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleancancelPatient(Stringname)\"), \"Keep the existing clinic operation: public boolean cancelPatient(String name)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publiclongcountWaiting()\"), \"Keep the existing clinic operation: public long countWaiting()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintWaitingNames()\"), \"Keep the existing clinic operation: public void printWaitingNames()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicinttotalWaitingMinutes()\"), \"Keep the existing clinic operation: public int totalWaitingMinutes()\");"
+    },
+    "q23-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGVtcHR5IGNoZWNrIG11c3QgcnVuIGJlZm9yZSBuZXh0SW50LCBzbyBhbiBlbXB0eSBjaG9pY2UgY29uc3VtZXMgbm8gZ2VuZXJhdGVkIHZhbHVlLiBUaHJlZSBhcHBvaW50bWVudHMgaGF2ZSB2YWxpZCBpbmRpY2VzIDAsIDEsIGFuZCAyLiBSZXBlYXRlZCBuYW1lcyBhcmUgYWxsb3dlZC4gU2VsZWN0aW9uIGRvZXMgbm90IGNhbmNlbCBvciBjaGVjayBpbiBhbiBhcHBvaW50bWVudC4gU2VlZCA0MiBpcyBmb3IgdGhlIGRlbW9uc3RyYXRpb247IGEgbm9ybWFsIGFwcGxpY2F0aW9uIGNhbiB1c2UgbmV3IFJhbmRvbSgpLg=="
+    },
+    "q24-demo": {
+      "type": "code",
+      "xp": 4,
+      "title": "ClinicDemo.java",
+      "minLines": 10,
+      "maxLines": 38,
+      "starter": "public class ClinicDemo\n{\n    public static void main(String[] args)\n    {\n        // Print the empty choice, add Ana/15, Ben/20, Cara/10, and check in Ben.\n        // Print three choices, the appointment count, and waiting count.\n    }\n}",
+      "answer": "cHVibGljIGNsYXNzIENsaW5pY0RlbW8KewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBDbGluaWNTY2hlZHVsZSBzY2hlZHVsZSA9IG5ldyBDbGluaWNTY2hlZHVsZSgpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiRW1wdHkgY2hvaWNlOiAiICsgc2NoZWR1bGUucmFuZG9tUGF0aWVudE5hbWUoKSk7CgogICAgICAgIEFwcG9pbnRtZW50IGFuYSA9IG5ldyBBcHBvaW50bWVudCgiQW5hIiwgMTUpOwogICAgICAgIEFwcG9pbnRtZW50IGJlbiA9IG5ldyBBcHBvaW50bWVudCgiQmVuIiwgMjApOwogICAgICAgIEFwcG9pbnRtZW50IGNhcmEgPSBuZXcgQXBwb2ludG1lbnQoIkNhcmEiLCAxMCk7CiAgICAgICAgc2NoZWR1bGUuYWRkQXBwb2ludG1lbnQoYW5hKTsKICAgICAgICBzY2hlZHVsZS5hZGRBcHBvaW50bWVudChiZW4pOwogICAgICAgIHNjaGVkdWxlLmFkZEFwcG9pbnRtZW50KGNhcmEpOwogICAgICAgIGJlbi5jaGVja0luKCk7CgogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQ2hvaWNlIDE6ICIgKyBzY2hlZHVsZS5yYW5kb21QYXRpZW50TmFtZSgpKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkNob2ljZSAyOiAiICsgc2NoZWR1bGUucmFuZG9tUGF0aWVudE5hbWUoKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJDaG9pY2UgMzogIiArIHNjaGVkdWxlLnJhbmRvbVBhdGllbnROYW1lKCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQXBwb2ludG1lbnRzOiAiICsgc2NoZWR1bGUuZ2V0Q291bnQoKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJXYWl0aW5nIGNvdW50OiAiICsgc2NoZWR1bGUuY291bnRXYWl0aW5nKCkpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n    private int minutes;\n\n    public Appointment(String patientName, int minutes)\n    {\n        this.patientName = patientName;\n        this.minutes = minutes;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n\n    public int getMinutes()\n    {\n        return minutes;\n    }\n}"
+        },
+        {
+          "name": "ClinicSchedule.java",
+          "content": "import java.util.ArrayList;\nimport java.util.Random;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n    private Random randomGenerator;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n        randomGenerator = new Random(42);\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment -> System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment -> appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n\n    public long countWaiting()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .count();\n    }\n\n    public void printWaitingNames()\n    {\n        appointments.stream()\n                    .filter(appointment -> !appointment.hasCheckedIn())\n                    .map(appointment -> appointment.getPatientName())\n                    .forEach(name -> System.out.println(name));\n    }\n\n    public int totalWaitingMinutes()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .map(appointment -> appointment.getMinutes())\n                           .reduce(0, (total, minutes) -> total + minutes);\n    }\n\n    /**\n     * Find the first patient whose name matches after cleaning both names.\n     * Leading and trailing spaces and differences in case are ignored.\n     * @param name The name to search for; must not be null.\n     * @return The first matching index, or -1 if no name matches.\n     */\n    public int findPatientIndexIgnoringCase(String name)\n    {\n        String cleanedName = name.trim().toLowerCase();\n        int index = 0;\n\n        while(index < appointments.size()) {\n            String storedName = appointments.get(index).getPatientName();\n            if(storedName.trim().toLowerCase().equals(cleanedName)) {\n                return index;\n            }\n            index++;\n        }\n        return -1;\n    }\n\n    /**\n     * Choose a patient name from all current appointments at random.\n     * Checked-in appointments are included.\n     * @return A stored patient name, or null if the schedule is empty.\n     */\n    public String randomPatientName()\n    {\n        if(appointments.isEmpty()) {\n            return null;\n        }\n        int index = randomGenerator.nextInt(appointments.size());\n        return appointments.get(index).getPatientName();\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "Empty choice: null\nChoice 1: Cara\nChoice 2: Ana\nChoice 3: Ana\nAppointments: 3\nWaiting count: 2"
+        }
+      ],
+      "check": ""
+    },
+    "q24": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "0": {
+          "accept": [
+            "Empty choice: null"
+          ],
+          "show": "Empty choice: null",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "25rem"
+        },
+        "1": {
+          "accept": [
+            "Choice 1: Cara"
+          ],
+          "show": "Choice 1: Cara",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "25rem"
+        },
+        "2": {
+          "accept": [
+            "Choice 2: Ana"
+          ],
+          "show": "Choice 2: Ana",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "25rem"
+        },
+        "3": {
+          "accept": [
+            "Choice 3: Ana"
+          ],
+          "show": "Choice 3: Ana",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "25rem"
+        },
+        "4": {
+          "accept": [
+            "Appointments: 3"
+          ],
+          "show": "Appointments: 3",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "25rem"
+        },
+        "5": {
+          "accept": [
+            "Waiting count: 2"
+          ],
+          "show": "Waiting count: 2",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "25rem"
+        }
+      }
+    },
+    "q24-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGZpcnN0IHRocmVlIGluZGljZXMgYXJlIDIsIDAsIGFuZCAwLCBwcm9kdWNpbmcgQ2FyYSwgQW5hLCBBbmEuIEJlbiByZW1haW5zIGVsaWdpYmxlIGJlY2F1c2Ugc2VsZWN0aW9uIGluY2x1ZGVzIGNoZWNrZWQtaW4gYXBwb2ludG1lbnRzLiBUaHJlZSBhcHBvaW50bWVudHMgcmVtYWluIGFuZCB0d28gYXJlIHdhaXRpbmcuIEEgY2FsbGVyIG11c3QgY2hlY2sgZm9yIG51bGwgYmVmb3JlIGNhbGxpbmcgYSBTdHJpbmcgbWV0aG9kLCBzaW5jZSBudWxsIHJlZmVycyB0byBubyBTdHJpbmcgb2JqZWN0Lg=="
+    },
+    "q25": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 5,
+      "answer": "KGEpIFRoZSBvcmlnaW5hbCBTdHJpbmcgaXMgdW5jaGFuZ2VkOyBzdG9yZSBvciB1c2UgdGhlIHJldHVybmVkIHVwcGVyY2FzZSBTdHJpbmcuIChiKSBOZXh0SW50KDQpIHJldHVybnMgMCB0aHJvdWdoIDMsIG5ldmVyIDQuIChjKSBVc2UgQXJyYXlMaXN0PEludGVnZXI+LiAoZCkgTm86IC0xIHNpZ25hbHMgYSBtaXNzaW5nIG5hbWUgYW5kIGlzIG5vdCBhIHZhbGlkIGluZGV4LiAoZSkgVGhlIHJlcGx5IGlnbm9yZXMgdGhlIHF1ZXN0aW9uJ3MgbWVhbmluZy4gTGVjdHVyZSAxMSB3aWxsIHVzZSBhIG1hcCB0byBjb25uZWN0IGEgcmVjb2duaXNlZCBrZXl3b3JkIHdpdGggaXRzIHNwZWNpZmljIHJlcGx5Lg=="
+    },
+    "starting-example": {
+      "type": "example",
+      "title": "ClinicDemo.java",
+      "code": "public class ClinicDemo\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule schedule = new ClinicSchedule();\n        System.out.println(\"Empty waiting minutes: \" + schedule.totalWaitingMinutes());\n\n        Appointment ana = new Appointment(\"Ana\", 15);\n        Appointment ben = new Appointment(\"Ben\", 20);\n        Appointment cara = new Appointment(\"Cara\", 10);\n        schedule.addAppointment(ana);\n        schedule.addAppointment(ben);\n        schedule.addAppointment(cara);\n        ben.checkIn();\n\n        System.out.println(\"Waiting names:\");\n        schedule.printWaitingNames();\n        System.out.println(\"Waiting count: \" + schedule.countWaiting());\n        System.out.println(\"Waiting minutes: \" + schedule.totalWaitingMinutes());\n        System.out.println(\"Appointments: \" + schedule.getCount());\n\n        schedule.checkInAll();\n        System.out.println(\"After check-in: \" + schedule.totalWaitingMinutes());\n        System.out.println(\"Appointments: \" + schedule.getCount());\n    }\n}",
+      "output": "Empty waiting minutes: 0\nWaiting names:\nAna\nCara\nWaiting count: 2\nWaiting minutes: 25\nAppointments: 3\nAfter check-in: 0\nAppointments: 3",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n    private int minutes;\n\n    public Appointment(String patientName, int minutes)\n    {\n        this.patientName = patientName;\n        this.minutes = minutes;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n\n    public int getMinutes()\n    {\n        return minutes;\n    }\n}"
+        },
+        {
+          "name": "ClinicSchedule.java",
+          "content": "import java.util.ArrayList;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment -> System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment -> appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n\n    public long countWaiting()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .count();\n    }\n\n    public void printWaitingNames()\n    {\n        appointments.stream()\n                    .filter(appointment -> !appointment.hasCheckedIn())\n                    .map(appointment -> appointment.getPatientName())\n                    .forEach(name -> System.out.println(name));\n    }\n\n    public int totalWaitingMinutes()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .map(appointment -> appointment.getMinutes())\n                           .reduce(0, (total, minutes) -> total + minutes);\n    }\n}"
+        }
+      ],
+      "maxLines": 32
+    },
+    "part10-example": {
+      "type": "example",
+      "title": "ClinicDemo.java",
+      "code": "public class ClinicDemo\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule schedule = new ClinicSchedule();\n        System.out.println(\"Empty choice: \" + schedule.randomPatientName());\n\n        Appointment ana = new Appointment(\"Ana\", 15);\n        Appointment ben = new Appointment(\"Ben\", 20);\n        Appointment cara = new Appointment(\"Cara\", 10);\n        schedule.addAppointment(ana);\n        schedule.addAppointment(ben);\n        schedule.addAppointment(cara);\n        ben.checkIn();\n\n        System.out.println(\"Choice 1: \" + schedule.randomPatientName());\n        System.out.println(\"Choice 2: \" + schedule.randomPatientName());\n        System.out.println(\"Choice 3: \" + schedule.randomPatientName());\n        System.out.println(\"Appointments: \" + schedule.getCount());\n        System.out.println(\"Waiting count: \" + schedule.countWaiting());\n    }\n}",
+      "output": "Empty choice: null\nChoice 1: Cara\nChoice 2: Ana\nChoice 3: Ana\nAppointments: 3\nWaiting count: 2",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n    private int minutes;\n\n    public Appointment(String patientName, int minutes)\n    {\n        this.patientName = patientName;\n        this.minutes = minutes;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n\n    public int getMinutes()\n    {\n        return minutes;\n    }\n}"
+        },
+        {
+          "name": "ClinicSchedule.java",
+          "content": "import java.util.ArrayList;\nimport java.util.Random;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n    private Random randomGenerator;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n        randomGenerator = new Random(42);\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment -> System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment -> appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n\n    public long countWaiting()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .count();\n    }\n\n    public void printWaitingNames()\n    {\n        appointments.stream()\n                    .filter(appointment -> !appointment.hasCheckedIn())\n                    .map(appointment -> appointment.getPatientName())\n                    .forEach(name -> System.out.println(name));\n    }\n\n    public int totalWaitingMinutes()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .map(appointment -> appointment.getMinutes())\n                           .reduce(0, (total, minutes) -> total + minutes);\n    }\n\n    /**\n     * Find the first patient whose name matches after cleaning both names.\n     * Leading and trailing spaces and differences in case are ignored.\n     * @param name The name to search for; must not be null.\n     * @return The first matching index, or -1 if no name matches.\n     */\n    public int findPatientIndexIgnoringCase(String name)\n    {\n        String cleanedName = name.trim().toLowerCase();\n        int index = 0;\n\n        while(index < appointments.size()) {\n            String storedName = appointments.get(index).getPatientName();\n            if(storedName.trim().toLowerCase().equals(cleanedName)) {\n                return index;\n            }\n            index++;\n        }\n        return -1;\n    }\n\n    /**\n     * Choose a patient name from all current appointments at random.\n     * Checked-in appointments are included.\n     * @return A stored patient name, or null if the schedule is empty.\n     */\n    public String randomPatientName()\n    {\n        if(appointments.isEmpty()) {\n            return null;\n        }\n        int index = randomGenerator.nextInt(appointments.size());\n        return appointments.get(index).getPatientName();\n    }\n}"
+        }
+      ],
+      "maxLines": 32
+    },
+    "summary-example": {
+      "type": "example",
+      "title": "HelpBot.java",
+      "code": "import java.util.ArrayList;\nimport java.util.Random;\n\n/**\n * A HelpBot answers typed questions at a course help desk.\n *\n * A question arrives as a string. The bot removes the spaces around it,\n * puts it in lower case, and replies with one of several general replies\n * chosen at random. Users may rate a reply from 1 to 5, and the bot keeps\n * those ratings so that it can report an average.\n *\n * This version does not yet look at what the question says. Lecture 11\n * adds that.\n *\n * @author Pranjal Patra\n * @version 1.0\n */\npublic class HelpBot\n{\n    private ArrayList<String> generalReplies;\n    private ArrayList<Integer> ratings;\n    private Random randomGenerator;\n\n    /**\n     * Create a help bot with its general replies and no ratings.\n     */\n    public HelpBot()\n    {\n        generalReplies = new ArrayList<>();\n        ratings = new ArrayList<>();\n        randomGenerator = new Random();\n        fillGeneralReplies();\n    }\n\n    /**\n     * Answer one question.\n     * @param question The text typed by the user; must not be null.\n     * @return A general reply, or a prompt when nothing was typed.\n     */\n    public String replyTo(String question)\n    {\n        String cleaned = clean(question);\n        if(cleaned.isEmpty()) {\n            return \"Please type a question.\";\n        }\n        return pickGeneralReply();\n    }\n\n    /**\n     * Remove the spaces around a question and put it in lower case.\n     * Each String method returns a result, so the result must be\n     * used or stored.\n     * @param question The text typed by the user; must not be null.\n     * @return The cleaned text.\n     */\n    public String clean(String question)\n    {\n        return question.trim().toLowerCase();\n    }\n\n    /**\n     * Choose one general reply at random. The call nextInt(bound)\n     * returns a value from 0 up to bound - 1, which is exactly the set\n     * of valid indices for a list of that size.\n     * @return One of the general replies.\n     */\n    public String pickGeneralReply()\n    {\n        int index = randomGenerator.nextInt(generalReplies.size());\n        return generalReplies.get(index);\n    }\n\n    /**\n     * Record how useful a reply was. Ratings outside 1 to 5 are ignored.\n     * The int value is boxed into an Integer as it enters the list.\n     * @param rating A rating from 1 to 5.\n     */\n    public void addRating(int rating)\n    {\n        if(rating >= 1 && rating <= 5) {\n            ratings.add(rating);\n        }\n    }\n\n    /**\n     * @return The number of ratings recorded so far.\n     */\n    public int numberOfRatings()\n    {\n        return ratings.size();\n    }\n\n    /**\n     * Work out the average of the recorded ratings. Each Integer in the\n     * list is unboxed into the int loop variable.\n     * @return The whole-number average, or 0 when no rating exists.\n     */\n    public int averageRating()\n    {\n        if(ratings.isEmpty()) {\n            return 0;\n        }\n        int total = 0;\n        for(int rating : ratings) {\n            total = total + rating;\n        }\n        return total / ratings.size();\n    }\n\n    /**\n     * @return The number of general replies available.\n     */\n    public int numberOfGeneralReplies()\n    {\n        return generalReplies.size();\n    }\n\n    /**\n     * Report whether a given reply is one this bot can give.\n     * @param reply The text to look for.\n     * @return true when the text is one of the general replies.\n     */\n    public boolean hasGeneralReply(String reply)\n    {\n        return generalReplies.contains(reply);\n    }\n\n    /**\n     * Build the list of general replies. This method is private because\n     * it is a step in building a HelpBot, not an operation that other\n     * classes should call.\n     */\n    private void fillGeneralReplies()\n    {\n        generalReplies.add(\"Can you describe that in more detail?\");\n        generalReplies.add(\"Have you checked the course web page?\");\n        generalReplies.add(\"That question comes up often. Let us look at it together.\");\n        generalReplies.add(\"Please post that on the discussion board so others can see the answer.\");\n    }\n}",
+      "output": "how do i submit my work?\nPlease type a question.\nGeneral replies: 4\nKnown reply: true\nEmpty average: 0\nRatings: 3\nAverage: 4",
+      "files": [
+        {
+          "name": "HelpBotCheck.java",
+          "content": "public class HelpBotCheck\n{\n    public static void main(String[] args)\n    {\n        HelpBot bot = new HelpBot();\n        System.out.println(bot.clean(\"   How do I SUBMIT my work?  \"));\n        System.out.println(bot.replyTo(\"   \"));\n        System.out.println(\"General replies: \" + bot.numberOfGeneralReplies());\n        System.out.println(\"Known reply: \" + bot.hasGeneralReply(bot.pickGeneralReply()));\n        System.out.println(\"Empty average: \" + bot.averageRating());\n        bot.addRating(5);\n        bot.addRating(3);\n        bot.addRating(4);\n        bot.addRating(0);\n        bot.addRating(6);\n        System.out.println(\"Ratings: \" + bot.numberOfRatings());\n        System.out.println(\"Average: \" + bot.averageRating());\n    }\n}"
+        }
+      ],
+      "maxLines": 32
+    }
+  }
+}

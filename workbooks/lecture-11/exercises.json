@@ -1,0 +1,999 @@
+{
+  "id": "lecture-11",
+  "course": "COMP 2001",
+  "title": "Lecture 11 Workbook",
+  "subtitle": "Chapter 6, Part 2: Maps, sets, and class-level members",
+  "exercises": {
+    "q1": {
+      "type": "code",
+      "xp": 4,
+      "title": "MapSetup.java",
+      "minLines": 15,
+      "maxLines": 38,
+      "starter": "// Import HashMap explicitly.\npublic class MapSetup\n{\n    // Declare the private map.\n    public MapSetup()\n    {\n        // Create an empty map.\n    }\n    public int size()\n    {\n        return replyMap.size();\n    }\n}",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5IYXNoTWFwOwpwdWJsaWMgY2xhc3MgTWFwU2V0dXAKewogICAgcHJpdmF0ZSBIYXNoTWFwPFN0cmluZywgU3RyaW5nPiByZXBseU1hcDsKICAgIHB1YmxpYyBNYXBTZXR1cCgpCiAgICB7CiAgICAgICAgcmVwbHlNYXAgPSBuZXcgSGFzaE1hcDw+KCk7CiAgICB9CiAgICBwdWJsaWMgaW50IHNpemUoKQogICAgewogICAgICAgIHJldHVybiByZXBseU1hcC5zaXplKCk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "MapSetupCheck.java",
+          "content": "public class MapSetupCheck\n{\n    public static void main(String[] args)\n    {\n        System.out.println(new MapSetup().size());\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"importjava.util.HashMap;\"), \"Import HashMap explicitly.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateHashMap<String,String>replyMap;\"), \"Use a private map with String keys and values.\");"
+    },
+    "q1-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "SyBpcyB0aGUga2V5IHR5cGUgYW5kIFYgaXMgdGhlIHZhbHVlIHR5cGUuIEJvdGggYXJlIFN0cmluZyBoZXJlLiBUaGUgaW1wb3J0IGdvZXMgYmVmb3JlIHRoZSBjbGFzcywgdGhlIGZpZWxkIGluc2lkZSBpdCwgYW5kIHRoZSBhc3NpZ25tZW50IGluc2lkZSBpdHMgZXhpc3RpbmcgY29uc3RydWN0b3IuIFRoZSBkaWFtb25kIHVzZXMgdGhlIGRlY2xhcmF0aW9uJ3MgdHlwZXMu"
+    },
+    "q2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Rm9yIGV4YW1wbGUsIHN1Ym1pdCBtYXBzIHRvIHRoZSB1cGxvYWQgcmVwbHkuIFRoZXJlIGFyZSBmb3VyIGVudHJpZXMsIG9uZSBwZXIga2V5LiBSZXBseSBsZW5ndGggZG9lcyBub3QgYWZmZWN0IHRoZSBlbnRyeSBjb3VudC4gVGhlIGxhdGUtd29yayBzZW50ZW5jZSBpcyBleGFtcGxlIGRhdGEsIG5vdCBhIG5ldyBjb3Vyc2UgcG9saWN5Lg=="
+    },
+    "q3-output": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "0": {
+          "accept": [
+            "Term Test 2 covers Chapters 1 to 9 and 12 to 13."
+          ],
+          "show": "Term Test 2 covers Chapters 1 to 9 and 12 to 13.",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        },
+        "1": {
+          "accept": [
+            "4"
+          ],
+          "show": "4",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        },
+        "2": {
+          "accept": [
+            "false"
+          ],
+          "show": "false",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        },
+        "3": {
+          "accept": [
+            "null"
+          ],
+          "show": "null",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        },
+        "4": {
+          "accept": [
+            "I do not have an answer for that yet."
+          ],
+          "show": "I do not have an answer for that yet.",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        }
+      }
+    },
+    "q3-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "TmVpdGhlciByZWFkIGNoYW5nZXMgdGhlIG1hcC4gZ2V0IHJldHVybnMgbnVsbCBmb3IgdGhpcyBhYnNlbnQga2V5OyBnZXRPckRlZmF1bHQgcmV0dXJucyB0aGUgc3VwcGxpZWQgZmFsbGJhY2su"
+    },
+    "q5-output": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "0": {
+          "accept": [
+            "4"
+          ],
+          "show": "4",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        },
+        "1": {
+          "accept": [
+            "Use the upload page."
+          ],
+          "show": "Use the upload page.",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        }
+      }
+    },
+    "q5-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "bGVhcm4gdXNlcyBwdXQuIFRoZSBleGlzdGluZyBrZXkga2VlcHMgb25lIGVudHJ5IGFuZCByZWNlaXZlcyBhIG5ldyB2YWx1ZS4gQSBwcmV2aW91c2x5IGFic2VudCBrZXkgd291bGQgYWRkIG9uZSBlbnRyeSwgbWFraW5nIGZpdmUuIFRoZSBpbml0aWFsIG1hcCBpbiBsYXRlciBxdWVzdGlvbnMgc3RpbGwgdXNlcyB0aGUgb3JpZ2luYWwgdXBsb2FkIHJlcGx5Lg=="
+    },
+    "q10-output": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "0": {
+          "accept": [
+            "true"
+          ],
+          "show": "true",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        },
+        "1": {
+          "accept": [
+            "true"
+          ],
+          "show": "true",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        },
+        "2": {
+          "accept": [
+            "false"
+          ],
+          "show": "false",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        },
+        "3": {
+          "accept": [
+            "false"
+          ],
+          "show": "false",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        },
+        "4": {
+          "accept": [
+            "false"
+          ],
+          "show": "false",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        },
+        "5": {
+          "accept": [
+            "1"
+          ],
+          "show": "1",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        }
+      }
+    },
+    "q10-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "VGhlIHNlY29uZCBhZGQgbGVhdmVzIHRoZSBzZXQgdW5jaGFuZ2VkLiBSZW1vdmluZyBhbiBhYnNlbnQgZWxlbWVudCByZXR1cm5zIGZhbHNlLiBUaGlzIHBhcnRpY3VsYXIgc2V0IGhhcyBvbmx5IHN1Ym1pdCBsZWZ0OyB3aXRoIHNldmVyYWwgZWxlbWVudHMsIHRyYXZlcnNhbCBvcmRlciB3b3VsZCBzdGlsbCBiZSB1bnNwZWNpZmllZC4="
+    },
+    "q16-output": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "0": {
+          "accept": [
+            "0"
+          ],
+          "show": "0",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        },
+        "1": {
+          "accept": [
+            "3"
+          ],
+          "show": "3",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        },
+        "2": {
+          "accept": [
+            "1"
+          ],
+          "show": "1",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        },
+        "3": {
+          "accept": [
+            "0"
+          ],
+          "show": "0",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        }
+      }
+    },
+    "q16-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "T25seSBib3RzQ3JlYXRlZCBpcyBzaGFyZWQuIEVhY2ggY29uc3RydWN0b3IgaW5jcmVtZW50cyBpdCBvbmNlOyBsb3NpbmcgYSByZWZlcmVuY2UgZG9lcyBub3QgZGVjcmVtZW50IGl0LiBNYXBzLCB0b3BpY3MsIGFuZCByYXRpbmdzIGJlbG9uZyB0byBpbmRpdmlkdWFsIGJvdHMuIEJsdWVKIGtlZXBzIGNsYXNzIHN0YXRlIHVudGlsIHRoZSBKVk0gaXMgcmVzZXQu"
+    },
+    "q20-output": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "0": {
+          "accept": [
+            "0"
+          ],
+          "show": "0",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        },
+        "1": {
+          "accept": [
+            "7"
+          ],
+          "show": "7",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        }
+      }
+    },
+    "q20-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "VGhlIGdldHRlciByZWFkcyBzaGFyZWQgY2xhc3Mgc3RhdGUgd2l0aG91dCBhIGN1cnJlbnQgYm90LiBNYXRoLm1heCBpcyBhIGNsYXNzIG1ldGhvZCBhbmQgbmVlZHMgbm8gTWF0aCBvYmplY3Qu"
+    },
+    "q22-output": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "0": {
+          "accept": [
+            "1"
+          ],
+          "show": "1",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        },
+        "1": {
+          "accept": [
+            "Term Test 2 covers Chapters 1 to 9 and 12 to 13."
+          ],
+          "show": "Term Test 2 covers Chapters 1 to 9 and 12 to 13.",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "28rem"
+        }
+      }
+    },
+    "q22-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "bWFpbiBpcyBzdGF0aWMsIHNvIHRoZSBsYXVuY2hlciBjYW4gZW50ZXIgaXQgd2l0aG91dCBhIEhlbHBCb3REZW1vIG9iamVjdC4gbnVtYmVyT2ZCb3RzIGlzIGNhbGxlZCB0aHJvdWdoIHRoZSBjbGFzcyBuYW1lOyByZXBseVRvIGlzIGNhbGxlZCBvbiBib3QuIFRoZSBmYW1pbGlhciBTdHJpbmdbXSBhcmdzIGhlYWRlciBpcyBzdGFydHVwIGJvaWxlcnBsYXRlIGhlcmU7IGFycmF5cyBhcmUgdGhlIG5leHQgY2hhcHRlcidzIHRvcGljLg=="
+    },
+    "q4": {
+      "type": "code",
+      "xp": 4,
+      "title": "LookupDemo.java",
+      "minLines": 21,
+      "maxLines": 38,
+      "starter": "import java.util.HashMap;\npublic class LookupDemo\n{\n    private HashMap<String, String> replyMap = new HashMap<>();\n    public LookupDemo()\n    {\n        replyMap.put(\"submit\",\n            \"Upload your .java files to the assignment page before the deadline.\");\n        replyMap.put(\"compile\",\n            \"Read the first error message and check the line just above it.\");\n        replyMap.put(\"late\", \"Late work loses 10 percent per day.\");\n        replyMap.put(\"test\", \"Term Test 2 covers Chapters 1 to 9 and 12 to 13.\");\n    }\n    public void printReplyLength(String keyword)\n    {\n        String reply = replyMap.get(keyword);\n        System.out.println(reply.length());\n    }\n}",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5IYXNoTWFwOwpwdWJsaWMgY2xhc3MgTG9va3VwRGVtbwp7CiAgICBwcml2YXRlIEhhc2hNYXA8U3RyaW5nLCBTdHJpbmc+IHJlcGx5TWFwID0gbmV3IEhhc2hNYXA8PigpOwogICAgcHVibGljIExvb2t1cERlbW8oKQogICAgewogICAgICAgIHJlcGx5TWFwLnB1dCgic3VibWl0IiwKICAgICAgICAgICAgIlVwbG9hZCB5b3VyIC5qYXZhIGZpbGVzIHRvIHRoZSBhc3NpZ25tZW50IHBhZ2UgYmVmb3JlIHRoZSBkZWFkbGluZS4iKTsKICAgICAgICByZXBseU1hcC5wdXQoImNvbXBpbGUiLAogICAgICAgICAgICAiUmVhZCB0aGUgZmlyc3QgZXJyb3IgbWVzc2FnZSBhbmQgY2hlY2sgdGhlIGxpbmUganVzdCBhYm92ZSBpdC4iKTsKICAgICAgICByZXBseU1hcC5wdXQoImxhdGUiLCAiTGF0ZSB3b3JrIGxvc2VzIDEwIHBlcmNlbnQgcGVyIGRheS4iKTsKICAgICAgICByZXBseU1hcC5wdXQoInRlc3QiLCAiVGVybSBUZXN0IDIgY292ZXJzIENoYXB0ZXJzIDEgdG8gOSBhbmQgMTIgdG8gMTMuIik7CiAgICB9CiAgICBwdWJsaWMgdm9pZCBwcmludFJlcGx5TGVuZ3RoKFN0cmluZyBrZXl3b3JkKQogICAgewogICAgICAgIFN0cmluZyByZXBseSA9IHJlcGx5TWFwLmdldChrZXl3b3JkKTsKICAgICAgICBpZihyZXBseSAhPSBudWxsKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihyZXBseS5sZW5ndGgoKSk7CiAgICAgICAgfQogICAgICAgIGVsc2UgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlVua25vd24ga2V5d29yZCIpOwogICAgICAgIH0KICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "LookupCheck.java",
+          "content": "public class LookupCheck\n{\n    public static void main(String[] args)\n    {\n        LookupDemo lookup = new LookupDemo();\n        lookup.printReplyLength(\"room\");\n        lookup.printReplyLength(\"test\");\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Absent and present reply lengths",
+          "expected": "Unknown keyword\n48"
+        }
+      ],
+      "check": ""
+    },
+    "q4-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "VGhlIGFic2VudCBrZXkgZ2l2ZXMgYSBudWxsIHJlZmVyZW5jZS4gQ2FsbGluZyBsZW5ndGggdGhyb3VnaCBpdCB0aHJvd3MgYSBOdWxsUG9pbnRlckV4Y2VwdGlvbi4gVGhlIHJlcGFpcmVkIHZlcnNpb24gcHJpbnRzIFVua25vd24ga2V5d29yZC4gTnVsbCBpcyBub3QgdGhlIGVtcHR5IHN0cmluZy4="
+    },
+    "q6": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 5,
+      "answer": "VGhlIGZpcnN0IHJldHVybnMgdGhlIGluaXRpYWwgc3VibWl0IHJlcGx5OyB0aGUgc2Vjb25kIHJldHVybnMgdGhlIGZpeGVkIHRlc3QgcmVwbHkuIFRoZSByb29tIHF1ZXN0aW9uIHVzZXMgb25lIG9mIHRoZSBmb3VyIGdlbmVyYWwgcmVwbGllcy4gU3BhY2VzIGFsb25lIHJldHVybiBQbGVhc2UgdHlwZSBhIHF1ZXN0aW9uLiBUaGUgbGVuZ3RocyBhcmUgMjkgYW5kIDI0OyBzdWJtaXQgc3RhcnRzIGF0IGluZGV4IDkgYWZ0ZXIgY2xlYW5pbmcuIFRoZSByZXRhaW5lZCBSYW5kb20gaGFzIG5vIGZpeGVkIGRlbW9uc3RyYXRpb24gc2VlZCBoZXJlLiByZXBseUZvcidzIHVua25vd24ta2V5d29yZCBtZXNzYWdlIGlzIG5vdCByZXBseVRvJ3MgcmFuZG9tIGZhbGxiYWNrLg=="
+    },
+    "q7": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "0": {
+          "accept": [
+            "2"
+          ],
+          "show": "2",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "8rem"
+        },
+        "1": {
+          "accept": [
+            "1"
+          ],
+          "show": "1",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "8rem"
+        },
+        "2": {
+          "accept": [
+            "1"
+          ],
+          "show": "1",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "8rem"
+        },
+        "3": {
+          "accept": [
+            "0"
+          ],
+          "show": "0",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "8rem"
+        },
+        "4": {
+          "accept": [
+            "3"
+          ],
+          "show": "3",
+          "caseSensitive": false,
+          "placeholder": "number",
+          "width": "8rem"
+        }
+      }
+    },
+    "q7-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "QW5vdGhlciBzdWJtaXQgcmFpc2VzIGl0cyBjb3VudCB0byAzOyB0aGUgdG9waWMgY291bnQgc3RheXMgMy4gVGhlcmUgYXJlIHRocmVlIGVudHJpZXMgaW4gdGhlIGNvdW50IG1hcC4gQW4gYWJzZW50IGxhdGUgY291bnQgcmVhZHMgYXMgMC4="
+    },
+    "q8": {
+      "type": "code",
+      "xp": 4,
+      "title": "KeywordRecorder.java",
+      "minLines": 25,
+      "maxLines": 38,
+      "starter": "import java.util.HashMap;\nimport java.util.HashSet;\npublic class KeywordRecorder\n{\n    private HashMap<String, Integer> keywordCounts = new HashMap<>();\n    private HashSet<String> topicsAsked = new HashSet<>();\n    public void record(String keyword)\n    {\n        recordKeyword(keyword);\n    }\n    public int timesAsked(String keyword)\n    {\n        return keywordCounts.getOrDefault(keyword, 0);\n    }\n    public int numberOfTopicsAsked()\n    {\n        return topicsAsked.size();\n    }\n    private void recordKeyword(String keyword)\n    {\n        // Update the count and topic set.\n    }\n}",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5IYXNoTWFwOwppbXBvcnQgamF2YS51dGlsLkhhc2hTZXQ7CnB1YmxpYyBjbGFzcyBLZXl3b3JkUmVjb3JkZXIKewogICAgcHJpdmF0ZSBIYXNoTWFwPFN0cmluZywgSW50ZWdlcj4ga2V5d29yZENvdW50cyA9IG5ldyBIYXNoTWFwPD4oKTsKICAgIHByaXZhdGUgSGFzaFNldDxTdHJpbmc+IHRvcGljc0Fza2VkID0gbmV3IEhhc2hTZXQ8PigpOwogICAgcHVibGljIHZvaWQgcmVjb3JkKFN0cmluZyBrZXl3b3JkKQogICAgewogICAgICAgIHJlY29yZEtleXdvcmQoa2V5d29yZCk7CiAgICB9CiAgICBwdWJsaWMgaW50IHRpbWVzQXNrZWQoU3RyaW5nIGtleXdvcmQpCiAgICB7CiAgICAgICAgcmV0dXJuIGtleXdvcmRDb3VudHMuZ2V0T3JEZWZhdWx0KGtleXdvcmQsIDApOwogICAgfQogICAgcHVibGljIGludCBudW1iZXJPZlRvcGljc0Fza2VkKCkKICAgIHsKICAgICAgICByZXR1cm4gdG9waWNzQXNrZWQuc2l6ZSgpOwogICAgfQogICAgcHJpdmF0ZSB2b2lkIHJlY29yZEtleXdvcmQoU3RyaW5nIGtleXdvcmQpCiAgICB7CiAgICAgICAgaW50IGNvdW50ID0ga2V5d29yZENvdW50cy5nZXRPckRlZmF1bHQoa2V5d29yZCwgMCk7CiAgICAgICAga2V5d29yZENvdW50cy5wdXQoa2V5d29yZCwgY291bnQgKyAxKTsKICAgICAgICB0b3BpY3NBc2tlZC5hZGQoa2V5d29yZCk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "RecordCheck.java",
+          "content": "public class RecordCheck\n{\n    public static void main(String[] args)\n    {\n        KeywordRecorder r = new KeywordRecorder();\n        System.out.println(r.timesAsked(\"late\"));\n        System.out.println(r.numberOfTopicsAsked());\n        r.record(\"submit\"); r.record(\"compile\"); r.record(\"submit\"); r.record(\"test\");\n        System.out.println(r.timesAsked(\"submit\"));\n        System.out.println(r.timesAsked(\"compile\"));\n        System.out.println(r.timesAsked(\"test\"));\n        System.out.println(r.timesAsked(\"late\"));\n        System.out.println(r.numberOfTopicsAsked());\n        r.record(\"submit\");\n        System.out.println(r.timesAsked(\"submit\"));\n        System.out.println(r.numberOfTopicsAsked());\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "0\n0\n2\n1\n1\n0\n3\n3\n3"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatevoidrecordKeyword(Stringkeyword)\"), \"Keep the recording helper private.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"getOrDefault(\"), \"Read a missing count with getOrDefault.\");"
+    },
+    "q8-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "VGhlIHJldHJpZXZlZCBJbnRlZ2VyIGlzIHVuYm94ZWQgaW50byBjb3VudC4gVGhlIGRlZmF1bHQgMCBhbmQgdGhlIHZhbHVlIHBhc3NlZCB0byBwdXQgYXJlIGJveGVkLiBSZWFkaW5nIGEgZGVmYXVsdCBkb2VzIG5vdCBjcmVhdGUgYW4gZW50cnk7IHB1dCBzdG9yZXMgdGhlIHVwZGF0ZWQgY291bnQuIEEgcmVwZWF0ZWQgc2V0IGFkZGl0aW9uIGFkZHMgbm8gZHVwbGljYXRlLg=="
+    },
+    "q9": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "VGhlIGxpc3QgaGFzIHNpemUgMywgaW4gb3JkZXIgc3VibWl0LCBjb21waWxlLCBzdWJtaXQuIFRoZSBzZXQgaGFzIHNpemUgMiwgY29udGFpbmluZyBzdWJtaXQgYW5kIGNvbXBpbGUuIFNldCBwcmludCBvcmRlciBpcyBub3QgcHJvbWlzZWQuIE9ubHkgdGhlIGxpc3QgcHJlc2VydmVzIGJvdGggb2NjdXJyZW5jZXMgYW5kIHRoZWlyIHBvc2l0aW9ucy4="
+    },
+    "q10-loop": {
+      "type": "code",
+      "xp": 4,
+      "title": "TopicDemo.java",
+      "minLines": 17,
+      "maxLines": 38,
+      "starter": "import java.util.HashSet;\npublic class TopicDemo\n{\n    public static void main(String[] args)\n    {\n        HashSet<String> topics = new HashSet<>();\n        System.out.println(topics.isEmpty());\n        System.out.println(topics.add(\"submit\"));\n        System.out.println(topics.add(\"submit\"));\n        System.out.println(topics.contains(\"compile\"));\n        System.out.println(topics.remove(\"late\"));\n        System.out.println(topics.size());\n        // Visit every remaining topic.\n    }\n}",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5IYXNoU2V0OwpwdWJsaWMgY2xhc3MgVG9waWNEZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgSGFzaFNldDxTdHJpbmc+IHRvcGljcyA9IG5ldyBIYXNoU2V0PD4oKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4odG9waWNzLmlzRW1wdHkoKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKHRvcGljcy5hZGQoInN1Ym1pdCIpKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4odG9waWNzLmFkZCgic3VibWl0IikpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbih0b3BpY3MuY29udGFpbnMoImNvbXBpbGUiKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKHRvcGljcy5yZW1vdmUoImxhdGUiKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKHRvcGljcy5zaXplKCkpOwogICAgICAgIGZvcihTdHJpbmcgdG9waWMgOiB0b3BpY3MpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKHRvcGljKTsKICAgICAgICB9CiAgICB9Cn0=",
+      "files": [],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "true\ntrue\nfalse\nfalse\nfalse\n1\nsubmit"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*for\\\\(String[A-Za-z_$][\\\\w$]*:topics\\\\).*\"), \"Use a for-each loop over topics, with any local variable name.\");"
+    },
+    "q11": {
+      "type": "code",
+      "xp": 4,
+      "title": "ClinicSchedule.java",
+      "minLines": 32,
+      "maxLines": 38,
+      "starter": "// Add the explicit collection import.\nimport java.util.ArrayList;\nimport java.util.Random;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n    private Random randomGenerator;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n        randomGenerator = new Random(42);\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment -> System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment -> appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n\n    public long countWaiting()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .count();\n    }\n\n    public void printWaitingNames()\n    {\n        appointments.stream()\n                    .filter(appointment -> !appointment.hasCheckedIn())\n                    .map(appointment -> appointment.getPatientName())\n                    .forEach(name -> System.out.println(name));\n    }\n\n    public int totalWaitingMinutes()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .map(appointment -> appointment.getMinutes())\n                           .reduce(0, (total, minutes) -> total + minutes);\n    }\n\n    /**\n     * Find the first patient whose name matches after cleaning both names.\n     * Leading and trailing spaces and differences in case are ignored.\n     * @param name The name to search for; must not be null.\n     * @return The first matching index, or -1 if no name matches.\n     */\n    public int findPatientIndexIgnoringCase(String name)\n    {\n        String cleanedName = name.trim().toLowerCase();\n        int index = 0;\n\n        while(index < appointments.size()) {\n            String storedName = appointments.get(index).getPatientName();\n            if(storedName.trim().toLowerCase().equals(cleanedName)) {\n                return index;\n            }\n            index++;\n        }\n        return -1;\n    }\n\n    /**\n     * Choose a patient name from all current appointments at random.\n     * Checked-in appointments are included.\n     * @return A stored patient name, or null if the schedule is empty.\n     */\n    public String randomPatientName()\n    {\n        if(appointments.isEmpty()) {\n            return null;\n        }\n        int index = randomGenerator.nextInt(appointments.size());\n        return appointments.get(index).getPatientName();\n    }\n\n    /**\n     * Describe the fresh snapshot and exact names.\n     * @return Describe the empty and nonempty result.\n     */\n    public HashMap<String, Integer> countAppointmentsByName()\n    {\n        // Build the snapshot from current appointments.\n        return null;\n    }\n}",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5IYXNoTWFwOwppbXBvcnQgamF2YS51dGlsLkFycmF5TGlzdDsKaW1wb3J0IGphdmEudXRpbC5SYW5kb207CgpwdWJsaWMgY2xhc3MgQ2xpbmljU2NoZWR1bGUKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8QXBwb2ludG1lbnQ+IGFwcG9pbnRtZW50czsKICAgIHByaXZhdGUgUmFuZG9tIHJhbmRvbUdlbmVyYXRvcjsKCiAgICBwdWJsaWMgQ2xpbmljU2NoZWR1bGUoKQogICAgewogICAgICAgIGFwcG9pbnRtZW50cyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgICAgIHJhbmRvbUdlbmVyYXRvciA9IG5ldyBSYW5kb20oNDIpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZEFwcG9pbnRtZW50KEFwcG9pbnRtZW50IGFwcG9pbnRtZW50KQogICAgewogICAgICAgIGFwcG9pbnRtZW50cy5hZGQoYXBwb2ludG1lbnQpOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0Q291bnQoKQogICAgewogICAgICAgIHJldHVybiBhcHBvaW50bWVudHMuc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50UGF0aWVudEF0KGludCBpbmRleCkKICAgIHsKICAgICAgICBpZihpbmRleCA8IDAgfHwgaW5kZXggPj0gYXBwb2ludG1lbnRzLnNpemUoKSkgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkludmFsaWQgaW5kZXgiKTsKICAgICAgICAgICAgcmV0dXJuOwogICAgICAgIH0KCiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpLmdldFBhdGllbnROYW1lKCkpOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGNhbmNlbChpbnQgaW5kZXgpCiAgICB7CiAgICAgICAgaWYoaW5kZXggPCAwIHx8IGluZGV4ID49IGFwcG9pbnRtZW50cy5zaXplKCkpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgaWYoYXBwb2ludG1lbnRzLmdldChpbmRleCkuaGFzQ2hlY2tlZEluKCkpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgYXBwb2ludG1lbnRzLnJlbW92ZShpbmRleCk7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRXYWl0aW5nUGF0aWVudHMoKQogICAgewogICAgICAgIGJvb2xlYW4gZm91bmQgPSBmYWxzZTsKCiAgICAgICAgZm9yKEFwcG9pbnRtZW50IGFwcG9pbnRtZW50IDogYXBwb2ludG1lbnRzKSB7CiAgICAgICAgICAgIGlmKCFhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSkgewogICAgICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkpOwogICAgICAgICAgICAgICAgZm91bmQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBpZighZm91bmQpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJObyB3YWl0aW5nIHBhdGllbnRzIik7CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyBpbnQgZmluZFBhdGllbnRJbmRleChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICBpbnQgaW5kZXggPSAwOwogICAgICAgIGJvb2xlYW4gZm91bmQgPSBmYWxzZTsKCiAgICAgICAgd2hpbGUoaW5kZXggPCBhcHBvaW50bWVudHMuc2l6ZSgpICYmICFmb3VuZCkgewogICAgICAgICAgICBBcHBvaW50bWVudCBhcHBvaW50bWVudCA9IGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpOwogICAgICAgICAgICBpZihhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpLmVxdWFscyhuYW1lKSkgewogICAgICAgICAgICAgICAgZm91bmQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsc2UgewogICAgICAgICAgICAgICAgaW5kZXgrKzsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgaWYoZm91bmQpIHsKICAgICAgICAgICAgcmV0dXJuIGluZGV4OwogICAgICAgIH0KICAgICAgICByZXR1cm4gLTE7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRBbGxQYXRpZW50cygpCiAgICB7CiAgICAgICAgYXBwb2ludG1lbnRzLmZvckVhY2goYXBwb2ludG1lbnQgLT4gU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkpKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBjaGVja0luQWxsKCkKICAgIHsKICAgICAgICBhcHBvaW50bWVudHMuZm9yRWFjaChBcHBvaW50bWVudDo6Y2hlY2tJbik7CiAgICB9CgogICAgcHVibGljIGludCByZW1vdmVDaGVja2VkSW4oKQogICAgewogICAgICAgIGludCBiZWZvcmUgPSBhcHBvaW50bWVudHMuc2l6ZSgpOwogICAgICAgIGFwcG9pbnRtZW50cy5yZW1vdmVJZihhcHBvaW50bWVudCAtPiBhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSk7CiAgICAgICAgcmV0dXJuIGJlZm9yZSAtIGFwcG9pbnRtZW50cy5zaXplKCk7CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gY2FuY2VsUGF0aWVudChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICByZXR1cm4gYXBwb2ludG1lbnRzLnJlbW92ZUlmKGFwcG9pbnRtZW50IC0+IGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkuZXF1YWxzKG5hbWUpCiAgICAgICAgICAgICYmICFhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSk7CiAgICB9CgogICAgcHVibGljIGxvbmcgY291bnRXYWl0aW5nKCkKICAgIHsKICAgICAgICByZXR1cm4gYXBwb2ludG1lbnRzLnN0cmVhbSgpCiAgICAgICAgICAgICAgICAgICAgICAgICAgIC5maWx0ZXIoYXBwb2ludG1lbnQgLT4gIWFwcG9pbnRtZW50Lmhhc0NoZWNrZWRJbigpKQogICAgICAgICAgICAgICAgICAgICAgICAgICAuY291bnQoKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludFdhaXRpbmdOYW1lcygpCiAgICB7CiAgICAgICAgYXBwb2ludG1lbnRzLnN0cmVhbSgpCiAgICAgICAgICAgICAgICAgICAgLmZpbHRlcihhcHBvaW50bWVudCAtPiAhYXBwb2ludG1lbnQuaGFzQ2hlY2tlZEluKCkpCiAgICAgICAgICAgICAgICAgICAgLm1hcChhcHBvaW50bWVudCAtPiBhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpKQogICAgICAgICAgICAgICAgICAgIC5mb3JFYWNoKG5hbWUgLT4gU3lzdGVtLm91dC5wcmludGxuKG5hbWUpKTsKICAgIH0KCiAgICBwdWJsaWMgaW50IHRvdGFsV2FpdGluZ01pbnV0ZXMoKQogICAgewogICAgICAgIHJldHVybiBhcHBvaW50bWVudHMuc3RyZWFtKCkKICAgICAgICAgICAgICAgICAgICAgICAgICAgLmZpbHRlcihhcHBvaW50bWVudCAtPiAhYXBwb2ludG1lbnQuaGFzQ2hlY2tlZEluKCkpCiAgICAgICAgICAgICAgICAgICAgICAgICAgIC5tYXAoYXBwb2ludG1lbnQgLT4gYXBwb2ludG1lbnQuZ2V0TWludXRlcygpKQogICAgICAgICAgICAgICAgICAgICAgICAgICAucmVkdWNlKDAsICh0b3RhbCwgbWludXRlcykgLT4gdG90YWwgKyBtaW51dGVzKTsKICAgIH0KCiAgICAvKioKICAgICAqIEZpbmQgdGhlIGZpcnN0IHBhdGllbnQgd2hvc2UgbmFtZSBtYXRjaGVzIGFmdGVyIGNsZWFuaW5nIGJvdGggbmFtZXMuCiAgICAgKiBMZWFkaW5nIGFuZCB0cmFpbGluZyBzcGFjZXMgYW5kIGRpZmZlcmVuY2VzIGluIGNhc2UgYXJlIGlnbm9yZWQuCiAgICAgKiBAcGFyYW0gbmFtZSBUaGUgbmFtZSB0byBzZWFyY2ggZm9yOyBtdXN0IG5vdCBiZSBudWxsLgogICAgICogQHJldHVybiBUaGUgZmlyc3QgbWF0Y2hpbmcgaW5kZXgsIG9yIC0xIGlmIG5vIG5hbWUgbWF0Y2hlcy4KICAgICAqLwogICAgcHVibGljIGludCBmaW5kUGF0aWVudEluZGV4SWdub3JpbmdDYXNlKFN0cmluZyBuYW1lKQogICAgewogICAgICAgIFN0cmluZyBjbGVhbmVkTmFtZSA9IG5hbWUudHJpbSgpLnRvTG93ZXJDYXNlKCk7CiAgICAgICAgaW50IGluZGV4ID0gMDsKCiAgICAgICAgd2hpbGUoaW5kZXggPCBhcHBvaW50bWVudHMuc2l6ZSgpKSB7CiAgICAgICAgICAgIFN0cmluZyBzdG9yZWROYW1lID0gYXBwb2ludG1lbnRzLmdldChpbmRleCkuZ2V0UGF0aWVudE5hbWUoKTsKICAgICAgICAgICAgaWYoc3RvcmVkTmFtZS50cmltKCkudG9Mb3dlckNhc2UoKS5lcXVhbHMoY2xlYW5lZE5hbWUpKSB7CiAgICAgICAgICAgICAgICByZXR1cm4gaW5kZXg7CiAgICAgICAgICAgIH0KICAgICAgICAgICAgaW5kZXgrKzsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIC0xOwogICAgfQoKICAgIC8qKgogICAgICogQ2hvb3NlIGEgcGF0aWVudCBuYW1lIGZyb20gYWxsIGN1cnJlbnQgYXBwb2ludG1lbnRzIGF0IHJhbmRvbS4KICAgICAqIENoZWNrZWQtaW4gYXBwb2ludG1lbnRzIGFyZSBpbmNsdWRlZC4KICAgICAqIEByZXR1cm4gQSBzdG9yZWQgcGF0aWVudCBuYW1lLCBvciBudWxsIGlmIHRoZSBzY2hlZHVsZSBpcyBlbXB0eS4KICAgICAqLwogICAgcHVibGljIFN0cmluZyByYW5kb21QYXRpZW50TmFtZSgpCiAgICB7CiAgICAgICAgaWYoYXBwb2ludG1lbnRzLmlzRW1wdHkoKSkgewogICAgICAgICAgICByZXR1cm4gbnVsbDsKICAgICAgICB9CiAgICAgICAgaW50IGluZGV4ID0gcmFuZG9tR2VuZXJhdG9yLm5leHRJbnQoYXBwb2ludG1lbnRzLnNpemUoKSk7CiAgICAgICAgcmV0dXJuIGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpLmdldFBhdGllbnROYW1lKCk7CiAgICB9CgogICAgLyoqCiAgICAgKiBDb3VudCBhcHBvaW50bWVudHMgZm9yIGVhY2ggZXhhY3Qgc3RvcmVkIHBhdGllbnQgbmFtZS4KICAgICAqIENoZWNrZWQtaW4gYXBwb2ludG1lbnRzIGFyZSBpbmNsdWRlZC4KICAgICAqIEByZXR1cm4gQSBmcmVzaCBjb3VudCBtYXA7IGxhdGVyIHNjaGVkdWxlIGNoYW5nZXMgZG8gbm90IHVwZGF0ZSBpdC4KICAgICAqLwogICAgcHVibGljIEhhc2hNYXA8U3RyaW5nLCBJbnRlZ2VyPiBjb3VudEFwcG9pbnRtZW50c0J5TmFtZSgpCiAgICB7CiAgICAgICAgSGFzaE1hcDxTdHJpbmcsIEludGVnZXI+IGNvdW50cyA9IG5ldyBIYXNoTWFwPD4oKTsKICAgICAgICBmb3IoQXBwb2ludG1lbnQgYXBwb2ludG1lbnQgOiBhcHBvaW50bWVudHMpIHsKICAgICAgICAgICAgU3RyaW5nIG5hbWUgPSBhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpOwogICAgICAgICAgICBpbnQgY291bnQgPSBjb3VudHMuZ2V0T3JEZWZhdWx0KG5hbWUsIDApOwogICAgICAgICAgICBjb3VudHMucHV0KG5hbWUsIGNvdW50ICsgMSk7CiAgICAgICAgfQogICAgICAgIHJldHVybiBjb3VudHM7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n    private int minutes;\n\n    public Appointment(String patientName, int minutes)\n    {\n        this.patientName = patientName;\n        this.minutes = minutes;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n\n    public int getMinutes()\n    {\n        return minutes;\n    }\n}"
+        },
+        {
+          "name": "SnapshotCheck.java",
+          "content": "public class SnapshotCheck\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule s = new ClinicSchedule();\n        System.out.println(s.countAppointmentsByName().size());\n        Appointment ana = new Appointment(\"Ana\", 15);\n        ana.checkIn();\n        s.addAppointment(ana);\n        s.addAppointment(new Appointment(\"Ben\", 20));\n        s.addAppointment(new Appointment(\"Cara\", 10));\n        s.addAppointment(new Appointment(\"Ana\", 15));\n        s.addAppointment(new Appointment(\"  ANA  \", 15));\n        java.util.HashMap<String, Integer> old = s.countAppointmentsByName();\n        System.out.println(old.get(\"Ana\"));\n        System.out.println(old.get(\"  ANA  \"));\n        System.out.println(old.get(\"Dana\"));\n        System.out.println(old.getOrDefault(\"Dana\", 0));\n        System.out.println(old.size());\n        System.out.println(s.cancelPatient(\"Ben\"));\n        System.out.println(old.get(\"Ben\"));\n        System.out.println(s.countAppointmentsByName().getOrDefault(\"Ben\", 0));\n        old.put(\"Ana\", 99);\n        System.out.println(s.countAppointmentsByName().get(\"Ana\"));\n        System.out.println(s.getCount());\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "0\n2\n1\nnull\n0\n4\ntrue\n1\n0\n2\n4"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicClinicSchedule()\"), \"Keep the existing clinic operation: public ClinicSchedule()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidaddAppointment(Appointmentappointment)\"), \"Keep the existing clinic operation: public void addAppointment(Appointment appointment)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetCount()\"), \"Keep the existing clinic operation: public int getCount()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintPatientAt(intindex)\"), \"Keep the existing clinic operation: public void printPatientAt(int index)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleancancel(intindex)\"), \"Keep the existing clinic operation: public boolean cancel(int index)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintWaitingPatients()\"), \"Keep the existing clinic operation: public void printWaitingPatients()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintfindPatientIndex(Stringname)\"), \"Keep the existing clinic operation: public int findPatientIndex(String name)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintAllPatients()\"), \"Keep the existing clinic operation: public void printAllPatients()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidcheckInAll()\"), \"Keep the existing clinic operation: public void checkInAll()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintremoveCheckedIn()\"), \"Keep the existing clinic operation: public int removeCheckedIn()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleancancelPatient(Stringname)\"), \"Keep the existing clinic operation: public boolean cancelPatient(String name)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publiclongcountWaiting()\"), \"Keep the existing clinic operation: public long countWaiting()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintWaitingNames()\"), \"Keep the existing clinic operation: public void printWaitingNames()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicinttotalWaitingMinutes()\"), \"Keep the existing clinic operation: public int totalWaitingMinutes()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintfindPatientIndexIgnoringCase(Stringname)\"), \"Keep the existing clinic operation: public int findPatientIndexIgnoringCase(String name)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicStringrandomPatientName()\"), \"Keep the existing clinic operation: public String randomPatientName()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"importjava.util.HashMap;\"), \"Use the explicit collection import.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"@return\"), \"Document the returned snapshot.\");\nrequire(ClinicSchedule.class.getDeclaredFields().length == 2, \"Keep only the existing list and retained random generator fields.\");"
+    },
+    "q11-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "QW4gZW1wdHkgbGlzdCBnaXZlcyBhbiBlbXB0eSBtYXAuIEVhY2ggY2FsbCBidWlsZHMgZnJvbSB0aGUgY3VycmVudCBsaXN0OyBjYW5jZWxsYXRpb24gcmVxdWlyZXMgbm8gY2FjaGVkIGNvdW50IHVwZGF0ZXMu"
+    },
+    "q12": {
+      "type": "code",
+      "xp": 4,
+      "title": "ClinicSchedule.java",
+      "minLines": 32,
+      "maxLines": 38,
+      "starter": "// Add the explicit collection import.\nimport java.util.ArrayList;\nimport java.util.Random;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n    private Random randomGenerator;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n        randomGenerator = new Random(42);\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment -> System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment -> appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n\n    public long countWaiting()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .count();\n    }\n\n    public void printWaitingNames()\n    {\n        appointments.stream()\n                    .filter(appointment -> !appointment.hasCheckedIn())\n                    .map(appointment -> appointment.getPatientName())\n                    .forEach(name -> System.out.println(name));\n    }\n\n    public int totalWaitingMinutes()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .map(appointment -> appointment.getMinutes())\n                           .reduce(0, (total, minutes) -> total + minutes);\n    }\n\n    /**\n     * Find the first patient whose name matches after cleaning both names.\n     * Leading and trailing spaces and differences in case are ignored.\n     * @param name The name to search for; must not be null.\n     * @return The first matching index, or -1 if no name matches.\n     */\n    public int findPatientIndexIgnoringCase(String name)\n    {\n        String cleanedName = name.trim().toLowerCase();\n        int index = 0;\n\n        while(index < appointments.size()) {\n            String storedName = appointments.get(index).getPatientName();\n            if(storedName.trim().toLowerCase().equals(cleanedName)) {\n                return index;\n            }\n            index++;\n        }\n        return -1;\n    }\n\n    /**\n     * Choose a patient name from all current appointments at random.\n     * Checked-in appointments are included.\n     * @return A stored patient name, or null if the schedule is empty.\n     */\n    public String randomPatientName()\n    {\n        if(appointments.isEmpty()) {\n            return null;\n        }\n        int index = randomGenerator.nextInt(appointments.size());\n        return appointments.get(index).getPatientName();\n    }\n\n    /**\n     * Describe the fresh snapshot and exact names.\n     * @return Describe the empty and nonempty result.\n     */\n    public HashSet<String> uniquePatientNames()\n    {\n        // Build the snapshot from current appointments.\n        return null;\n    }\n}",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5IYXNoU2V0OwppbXBvcnQgamF2YS51dGlsLkFycmF5TGlzdDsKaW1wb3J0IGphdmEudXRpbC5SYW5kb207CgpwdWJsaWMgY2xhc3MgQ2xpbmljU2NoZWR1bGUKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8QXBwb2ludG1lbnQ+IGFwcG9pbnRtZW50czsKICAgIHByaXZhdGUgUmFuZG9tIHJhbmRvbUdlbmVyYXRvcjsKCiAgICBwdWJsaWMgQ2xpbmljU2NoZWR1bGUoKQogICAgewogICAgICAgIGFwcG9pbnRtZW50cyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgICAgIHJhbmRvbUdlbmVyYXRvciA9IG5ldyBSYW5kb20oNDIpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZEFwcG9pbnRtZW50KEFwcG9pbnRtZW50IGFwcG9pbnRtZW50KQogICAgewogICAgICAgIGFwcG9pbnRtZW50cy5hZGQoYXBwb2ludG1lbnQpOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0Q291bnQoKQogICAgewogICAgICAgIHJldHVybiBhcHBvaW50bWVudHMuc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50UGF0aWVudEF0KGludCBpbmRleCkKICAgIHsKICAgICAgICBpZihpbmRleCA8IDAgfHwgaW5kZXggPj0gYXBwb2ludG1lbnRzLnNpemUoKSkgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkludmFsaWQgaW5kZXgiKTsKICAgICAgICAgICAgcmV0dXJuOwogICAgICAgIH0KCiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpLmdldFBhdGllbnROYW1lKCkpOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGNhbmNlbChpbnQgaW5kZXgpCiAgICB7CiAgICAgICAgaWYoaW5kZXggPCAwIHx8IGluZGV4ID49IGFwcG9pbnRtZW50cy5zaXplKCkpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgaWYoYXBwb2ludG1lbnRzLmdldChpbmRleCkuaGFzQ2hlY2tlZEluKCkpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgYXBwb2ludG1lbnRzLnJlbW92ZShpbmRleCk7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRXYWl0aW5nUGF0aWVudHMoKQogICAgewogICAgICAgIGJvb2xlYW4gZm91bmQgPSBmYWxzZTsKCiAgICAgICAgZm9yKEFwcG9pbnRtZW50IGFwcG9pbnRtZW50IDogYXBwb2ludG1lbnRzKSB7CiAgICAgICAgICAgIGlmKCFhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSkgewogICAgICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkpOwogICAgICAgICAgICAgICAgZm91bmQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBpZighZm91bmQpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJObyB3YWl0aW5nIHBhdGllbnRzIik7CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyBpbnQgZmluZFBhdGllbnRJbmRleChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICBpbnQgaW5kZXggPSAwOwogICAgICAgIGJvb2xlYW4gZm91bmQgPSBmYWxzZTsKCiAgICAgICAgd2hpbGUoaW5kZXggPCBhcHBvaW50bWVudHMuc2l6ZSgpICYmICFmb3VuZCkgewogICAgICAgICAgICBBcHBvaW50bWVudCBhcHBvaW50bWVudCA9IGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpOwogICAgICAgICAgICBpZihhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpLmVxdWFscyhuYW1lKSkgewogICAgICAgICAgICAgICAgZm91bmQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsc2UgewogICAgICAgICAgICAgICAgaW5kZXgrKzsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgaWYoZm91bmQpIHsKICAgICAgICAgICAgcmV0dXJuIGluZGV4OwogICAgICAgIH0KICAgICAgICByZXR1cm4gLTE7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRBbGxQYXRpZW50cygpCiAgICB7CiAgICAgICAgYXBwb2ludG1lbnRzLmZvckVhY2goYXBwb2ludG1lbnQgLT4gU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkpKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBjaGVja0luQWxsKCkKICAgIHsKICAgICAgICBhcHBvaW50bWVudHMuZm9yRWFjaChBcHBvaW50bWVudDo6Y2hlY2tJbik7CiAgICB9CgogICAgcHVibGljIGludCByZW1vdmVDaGVja2VkSW4oKQogICAgewogICAgICAgIGludCBiZWZvcmUgPSBhcHBvaW50bWVudHMuc2l6ZSgpOwogICAgICAgIGFwcG9pbnRtZW50cy5yZW1vdmVJZihhcHBvaW50bWVudCAtPiBhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSk7CiAgICAgICAgcmV0dXJuIGJlZm9yZSAtIGFwcG9pbnRtZW50cy5zaXplKCk7CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gY2FuY2VsUGF0aWVudChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICByZXR1cm4gYXBwb2ludG1lbnRzLnJlbW92ZUlmKGFwcG9pbnRtZW50IC0+IGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkuZXF1YWxzKG5hbWUpCiAgICAgICAgICAgICYmICFhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSk7CiAgICB9CgogICAgcHVibGljIGxvbmcgY291bnRXYWl0aW5nKCkKICAgIHsKICAgICAgICByZXR1cm4gYXBwb2ludG1lbnRzLnN0cmVhbSgpCiAgICAgICAgICAgICAgICAgICAgICAgICAgIC5maWx0ZXIoYXBwb2ludG1lbnQgLT4gIWFwcG9pbnRtZW50Lmhhc0NoZWNrZWRJbigpKQogICAgICAgICAgICAgICAgICAgICAgICAgICAuY291bnQoKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludFdhaXRpbmdOYW1lcygpCiAgICB7CiAgICAgICAgYXBwb2ludG1lbnRzLnN0cmVhbSgpCiAgICAgICAgICAgICAgICAgICAgLmZpbHRlcihhcHBvaW50bWVudCAtPiAhYXBwb2ludG1lbnQuaGFzQ2hlY2tlZEluKCkpCiAgICAgICAgICAgICAgICAgICAgLm1hcChhcHBvaW50bWVudCAtPiBhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpKQogICAgICAgICAgICAgICAgICAgIC5mb3JFYWNoKG5hbWUgLT4gU3lzdGVtLm91dC5wcmludGxuKG5hbWUpKTsKICAgIH0KCiAgICBwdWJsaWMgaW50IHRvdGFsV2FpdGluZ01pbnV0ZXMoKQogICAgewogICAgICAgIHJldHVybiBhcHBvaW50bWVudHMuc3RyZWFtKCkKICAgICAgICAgICAgICAgICAgICAgICAgICAgLmZpbHRlcihhcHBvaW50bWVudCAtPiAhYXBwb2ludG1lbnQuaGFzQ2hlY2tlZEluKCkpCiAgICAgICAgICAgICAgICAgICAgICAgICAgIC5tYXAoYXBwb2ludG1lbnQgLT4gYXBwb2ludG1lbnQuZ2V0TWludXRlcygpKQogICAgICAgICAgICAgICAgICAgICAgICAgICAucmVkdWNlKDAsICh0b3RhbCwgbWludXRlcykgLT4gdG90YWwgKyBtaW51dGVzKTsKICAgIH0KCiAgICAvKioKICAgICAqIEZpbmQgdGhlIGZpcnN0IHBhdGllbnQgd2hvc2UgbmFtZSBtYXRjaGVzIGFmdGVyIGNsZWFuaW5nIGJvdGggbmFtZXMuCiAgICAgKiBMZWFkaW5nIGFuZCB0cmFpbGluZyBzcGFjZXMgYW5kIGRpZmZlcmVuY2VzIGluIGNhc2UgYXJlIGlnbm9yZWQuCiAgICAgKiBAcGFyYW0gbmFtZSBUaGUgbmFtZSB0byBzZWFyY2ggZm9yOyBtdXN0IG5vdCBiZSBudWxsLgogICAgICogQHJldHVybiBUaGUgZmlyc3QgbWF0Y2hpbmcgaW5kZXgsIG9yIC0xIGlmIG5vIG5hbWUgbWF0Y2hlcy4KICAgICAqLwogICAgcHVibGljIGludCBmaW5kUGF0aWVudEluZGV4SWdub3JpbmdDYXNlKFN0cmluZyBuYW1lKQogICAgewogICAgICAgIFN0cmluZyBjbGVhbmVkTmFtZSA9IG5hbWUudHJpbSgpLnRvTG93ZXJDYXNlKCk7CiAgICAgICAgaW50IGluZGV4ID0gMDsKCiAgICAgICAgd2hpbGUoaW5kZXggPCBhcHBvaW50bWVudHMuc2l6ZSgpKSB7CiAgICAgICAgICAgIFN0cmluZyBzdG9yZWROYW1lID0gYXBwb2ludG1lbnRzLmdldChpbmRleCkuZ2V0UGF0aWVudE5hbWUoKTsKICAgICAgICAgICAgaWYoc3RvcmVkTmFtZS50cmltKCkudG9Mb3dlckNhc2UoKS5lcXVhbHMoY2xlYW5lZE5hbWUpKSB7CiAgICAgICAgICAgICAgICByZXR1cm4gaW5kZXg7CiAgICAgICAgICAgIH0KICAgICAgICAgICAgaW5kZXgrKzsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIC0xOwogICAgfQoKICAgIC8qKgogICAgICogQ2hvb3NlIGEgcGF0aWVudCBuYW1lIGZyb20gYWxsIGN1cnJlbnQgYXBwb2ludG1lbnRzIGF0IHJhbmRvbS4KICAgICAqIENoZWNrZWQtaW4gYXBwb2ludG1lbnRzIGFyZSBpbmNsdWRlZC4KICAgICAqIEByZXR1cm4gQSBzdG9yZWQgcGF0aWVudCBuYW1lLCBvciBudWxsIGlmIHRoZSBzY2hlZHVsZSBpcyBlbXB0eS4KICAgICAqLwogICAgcHVibGljIFN0cmluZyByYW5kb21QYXRpZW50TmFtZSgpCiAgICB7CiAgICAgICAgaWYoYXBwb2ludG1lbnRzLmlzRW1wdHkoKSkgewogICAgICAgICAgICByZXR1cm4gbnVsbDsKICAgICAgICB9CiAgICAgICAgaW50IGluZGV4ID0gcmFuZG9tR2VuZXJhdG9yLm5leHRJbnQoYXBwb2ludG1lbnRzLnNpemUoKSk7CiAgICAgICAgcmV0dXJuIGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpLmdldFBhdGllbnROYW1lKCk7CiAgICB9CgogICAgLyoqCiAgICAgKiBDb2xsZWN0IHRoZSBleGFjdCBzdG9yZWQgcGF0aWVudCBuYW1lcyB3aXRob3V0IGR1cGxpY2F0ZXMuCiAgICAgKiBDaGVja2VkLWluIGFwcG9pbnRtZW50cyBhcmUgaW5jbHVkZWQuCiAgICAgKiBAcmV0dXJuIEEgZnJlc2ggc2V0OyBsYXRlciBzY2hlZHVsZSBjaGFuZ2VzIGRvIG5vdCB1cGRhdGUgaXQuCiAgICAgKi8KICAgIHB1YmxpYyBIYXNoU2V0PFN0cmluZz4gdW5pcXVlUGF0aWVudE5hbWVzKCkKICAgIHsKICAgICAgICBIYXNoU2V0PFN0cmluZz4gbmFtZXMgPSBuZXcgSGFzaFNldDw+KCk7CiAgICAgICAgZm9yKEFwcG9pbnRtZW50IGFwcG9pbnRtZW50IDogYXBwb2ludG1lbnRzKSB7CiAgICAgICAgICAgIG5hbWVzLmFkZChhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpKTsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIG5hbWVzOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n    private int minutes;\n\n    public Appointment(String patientName, int minutes)\n    {\n        this.patientName = patientName;\n        this.minutes = minutes;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n\n    public int getMinutes()\n    {\n        return minutes;\n    }\n}"
+        },
+        {
+          "name": "SnapshotCheck.java",
+          "content": "public class SnapshotCheck\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule s = new ClinicSchedule();\n        System.out.println(s.uniquePatientNames().size());\n        Appointment ana = new Appointment(\"Ana\", 15); ana.checkIn();\n        s.addAppointment(ana);\n        s.addAppointment(new Appointment(\"Ben\", 20));\n        s.addAppointment(new Appointment(\"Cara\", 10));\n        s.addAppointment(new Appointment(\"Ana\", 15));\n        s.addAppointment(new Appointment(\"  ANA  \", 15));\n        java.util.HashSet<String> old = s.uniquePatientNames();\n        System.out.println(old.size());\n        System.out.println(old.contains(\"Ana\"));\n        System.out.println(old.contains(\"  ANA  \"));\n        System.out.println(old.contains(\"Dana\"));\n        System.out.println(s.cancelPatient(\"Ben\"));\n        System.out.println(old.contains(\"Ben\"));\n        System.out.println(s.uniquePatientNames().contains(\"Ben\"));\n        old.clear();\n        System.out.println(s.uniquePatientNames().size());\n        System.out.println(s.getCount());\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "0\n4\ntrue\ntrue\nfalse\ntrue\ntrue\nfalse\n3\n4"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicClinicSchedule()\"), \"Keep the existing clinic operation: public ClinicSchedule()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidaddAppointment(Appointmentappointment)\"), \"Keep the existing clinic operation: public void addAppointment(Appointment appointment)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetCount()\"), \"Keep the existing clinic operation: public int getCount()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintPatientAt(intindex)\"), \"Keep the existing clinic operation: public void printPatientAt(int index)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleancancel(intindex)\"), \"Keep the existing clinic operation: public boolean cancel(int index)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintWaitingPatients()\"), \"Keep the existing clinic operation: public void printWaitingPatients()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintfindPatientIndex(Stringname)\"), \"Keep the existing clinic operation: public int findPatientIndex(String name)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintAllPatients()\"), \"Keep the existing clinic operation: public void printAllPatients()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidcheckInAll()\"), \"Keep the existing clinic operation: public void checkInAll()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintremoveCheckedIn()\"), \"Keep the existing clinic operation: public int removeCheckedIn()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleancancelPatient(Stringname)\"), \"Keep the existing clinic operation: public boolean cancelPatient(String name)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publiclongcountWaiting()\"), \"Keep the existing clinic operation: public long countWaiting()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintWaitingNames()\"), \"Keep the existing clinic operation: public void printWaitingNames()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicinttotalWaitingMinutes()\"), \"Keep the existing clinic operation: public int totalWaitingMinutes()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintfindPatientIndexIgnoringCase(Stringname)\"), \"Keep the existing clinic operation: public int findPatientIndexIgnoringCase(String name)\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicStringrandomPatientName()\"), \"Keep the existing clinic operation: public String randomPatientName()\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"importjava.util.HashSet;\"), \"Use the explicit collection import.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"@return\"), \"Document the returned snapshot.\");\nrequire(ClinicSchedule.class.getDeclaredFields().length == 2, \"Keep only the existing list and retained random generator fields.\");"
+    },
+    "q12-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "QW4gZW1wdHkgc2NoZWR1bGUgZ2l2ZXMgYW4gZW1wdHkgc2V0LiBUaGVzZSBtZXRob2RzIGNvdW50IGV4YWN0IHN0b3JlZCBuYW1lczsgY2xlYW5pbmcgd291bGQgbWVyZ2UgbmFtZXMgdGhhdCB0aGUgdGFzayBrZWVwcyBkaXN0aW5jdC4gRm9yIGV4YW1wbGUsIEFuYSBhbmQgYSBzdG9yZWQgbmFtZSB3aXRoIHN1cnJvdW5kaW5nIHNwYWNlcyBhcmUgZGlmZmVyZW50IGtleXMu"
+    },
+    "q13": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "0": {
+          "accept": [
+            "0"
+          ],
+          "show": "0",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "1": {
+          "accept": [
+            "0"
+          ],
+          "show": "0",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "2": {
+          "accept": [
+            "2"
+          ],
+          "show": "2",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "3": {
+          "accept": [
+            "1"
+          ],
+          "show": "1",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "4": {
+          "accept": [
+            "1"
+          ],
+          "show": "1",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "5": {
+          "accept": [
+            "null"
+          ],
+          "show": "null",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "6": {
+          "accept": [
+            "0"
+          ],
+          "show": "0",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "7": {
+          "accept": [
+            "3"
+          ],
+          "show": "3",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "8": {
+          "accept": [
+            "3"
+          ],
+          "show": "3",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "9": {
+          "accept": [
+            "true"
+          ],
+          "show": "true",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "10": {
+          "accept": [
+            "false"
+          ],
+          "show": "false",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "11": {
+          "accept": [
+            "4"
+          ],
+          "show": "4",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        }
+      }
+    },
+    "q13-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "VGhlIGZvdXIgYXBwb2ludG1lbnRzIHByb2R1Y2UgdGhyZWUgZGlzdGluY3QgZXhhY3QgbmFtZXMuIFRoZSBjb21wbGV0ZSBkZW1vbnN0cmF0aW9uIGluIHRoZSBjb21wbGV0ZSBleGFtcGxlcyBiZWxvdyBhbHNvIHBlcmZvcm1zIHRoZSBjYW5jZWxsYXRpb24gaW4gUXVlc3Rpb24gMTQuIEZvciBQYXJ0IDExLCBrZWVwIHRoZSBzdGFydGluZyBBcHBvaW50bWVudCBhbmQgYWRkIHRoZSB0d28gYW5zd2VyIG1ldGhvZHMgYW5kIGltcG9ydHMgdG8gdGhlIHN0YXJ0aW5nIENsaW5pY1NjaGVkdWxlLiBSZXBsYWNlIG9ubHkgQ2xpbmljRGVtby4="
+    },
+    "q14": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "dHJ1ZTsgMTsgMDsgMjsgMywgcmVzcGVjdGl2ZWx5LiBDYW5jZWxsYXRpb24gcmVtb3ZlcyBCZW4gZnJvbSB0aGUgc291cmNlIGxpc3QuIEFuIGFscmVhZHkgcmV0dXJuZWQgbWFwIG9yIHNldCBpcyBhIHNlcGFyYXRlIGNvbGxlY3Rpb247IGl0IGlzIG5vdCBhIGxpdmUgdmlldyBhbmQgZG9lcyBub3QgdXBkYXRlIGl0c2VsZi4="
+    },
+    "q15": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 4,
+      "answer": "QXJyYXlMaXN0OyBIYXNoU2V0OyBIYXNoTWFwOyBIYXNoTWFwLiBUaGUgZ2VuZXJhbCB0eXBlcyBkZXNjcmliZSBsaXN0LCBzZXQsIGFuZCBtYXAgcm9sZXMgd2hpbGUgdGhlIHJpZ2h0IHNpZGVzIGNvbnN0cnVjdCBjb25jcmV0ZSBjbGFzc2VzLiBUaGV5IG5lZWQgdGhlaXIgb3duIGphdmEudXRpbCBpbXBvcnRzLiBPdXIgbWFpbiBleGFtcGxlcyBrZWVwIGNvbmNyZXRlIGRlY2xhcmF0aW9uczsgdGhlIGdlbmVyYWwtdHlwZSByZWxhdGlvbnNoaXAgaXMgc3R1ZGllZCBsYXRlci4="
+    },
+    "q17": {
+      "type": "code",
+      "xp": 4,
+      "title": "HelpBot.java",
+      "minLines": 32,
+      "maxLines": 38,
+      "starter": "import java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.HashSet;\nimport java.util.Random;\n\n/**\n * Answers course questions using keyword replies and random general replies.\n * Records keyword counts, distinct topics, and ratings.\n * Matching is by substring; questions with several known keywords have\n * no promised priority. This simple example uses non-null English text.\n * @author Pranjal Patra\n * @version 2.0\n */\npublic class HelpBot\n{\n    /** The inclusive rating range. */\n    // Declare the public minimum rating constant.\n    // Declare the public maximum rating constant.\n    private static final String NO_QUESTION = \"Please type a question.\";\n    private static final String UNKNOWN_KEYWORD = \"I do not have an answer for that yet.\";\n    private static int botsCreated = 0;\n\n    private HashMap<String, String> replyMap;\n    private HashMap<String, Integer> keywordCounts;\n    private HashSet<String> topicsAsked;\n    private ArrayList<String> generalReplies;\n    private ArrayList<Integer> ratings;\n    private Random randomGenerator;\n\n    /**\n     * Create a help bot with fixed replies, no recorded topics, and no ratings.\n     */\n    public HelpBot()\n    {\n        generalReplies = new ArrayList<>();\n        ratings = new ArrayList<>();\n        randomGenerator = new Random();\n        fillGeneralReplies();\n        replyMap = new HashMap<>();\n        keywordCounts = new HashMap<>();\n        topicsAsked = new HashSet<>();\n        fillReplyMap();\n        botsCreated++;\n    }\n\n    /**\n     * Answer one question by matching a known keyword, or use a general reply.\n     * @param question The text typed by the user; must not be null.\n     * @return A keyword reply, a general reply, or the empty-question prompt.\n     */\n    public String replyTo(String question)\n    {\n        String cleaned = clean(question);\n        if(cleaned.isEmpty()) {\n            return NO_QUESTION;\n        }\n        for(String keyword : replyMap.keySet()) {\n            if(cleaned.contains(keyword)) {\n                recordKeyword(keyword);\n                return replyMap.get(keyword);\n            }\n        }\n        return pickGeneralReply();\n    }\n\n    /**\n     * Remove the spaces around a question and put it in lower case.\n     * Each String method returns a result, so the result must be\n     * used or stored.\n     * @param question The text typed by the user; must not be null.\n     * @return The cleaned text.\n     */\n    public String clean(String question)\n    {\n        return question.trim().toLowerCase();\n    }\n\n    /**\n     * Choose one general reply at random. The call nextInt(bound)\n     * returns a value from 0 up to bound - 1, which is exactly the set\n     * of valid indices for a list of that size.\n     * @return One of the general replies.\n     */\n    public String pickGeneralReply()\n    {\n        int index = randomGenerator.nextInt(generalReplies.size());\n        return generalReplies.get(index);\n    }\n\n    /**\n     * Record how useful a reply was. Ratings outside 1 to 5 are ignored.\n     * The int value is boxed into an Integer as it enters the list.\n     * @param rating A rating from 1 to 5.\n     */\n    public void addRating(int rating)\n    {\n        // Accept ratings inside the constant bounds.\n    }\n\n    /**\n     * @return The number of ratings recorded so far.\n     */\n    public int numberOfRatings()\n    {\n        return ratings.size();\n    }\n\n    /**\n     * Work out the average of the recorded ratings. Each Integer in the\n     * list is unboxed into the int loop variable.\n     * @return The whole-number average, or 0 when no rating exists.\n     */\n    public int averageRating()\n    {\n        if(ratings.isEmpty()) {\n            return 0;\n        }\n        int total = 0;\n        for(int rating : ratings) {\n            total = total + rating;\n        }\n        return total / ratings.size();\n    }\n\n    /**\n     * @return The number of general replies available.\n     */\n    public int numberOfGeneralReplies()\n    {\n        return generalReplies.size();\n    }\n\n    /**\n     * Report whether a given reply is one this bot can give.\n     * @param reply The text to look for.\n     * @return true when the text is one of the general replies.\n     */\n    public boolean hasGeneralReply(String reply)\n    {\n        return generalReplies.contains(reply);\n    }\n\n    /**\n     * Build the list of general replies. This method is private because\n     * it is a step in building a HelpBot, not an operation that other\n     * classes should call.\n     */\n    private void fillGeneralReplies()\n    {\n        generalReplies.add(\"Can you describe that in more detail?\");\n        generalReplies.add(\"Have you checked the course web page?\");\n        generalReplies.add(\"That question comes up often. Let us look at it together.\");\n        generalReplies.add(\"Please post that on the discussion board so others can see the answer.\");\n    }\n\n    /**\n     * Look up an exact keyword without recording a question.\n     * @param keyword A non-null keyword.\n     * @return Its reply, or the unknown-keyword message if absent.\n     */\n    public String replyFor(String keyword)\n    {\n        return replyMap.getOrDefault(keyword, UNKNOWN_KEYWORD);\n    }\n\n    /**\n     * @param keyword A non-null keyword.\n     * @return true if the keyword has a stored reply.\n     */\n    public boolean knows(String keyword)\n    {\n        return replyMap.containsKey(keyword);\n    }\n\n    /**\n     * Add or replace the reply for one exact keyword.\n     * @param keyword A non-null lowercase keyword.\n     * @param reply A non-null reply.\n     */\n    public void learn(String keyword, String reply)\n    {\n        replyMap.put(keyword, reply);\n    }\n\n    /** @return The number of keyword/reply entries. */\n    public int numberOfKeywords()\n    {\n        return replyMap.size();\n    }\n\n    /**\n     * @param keyword A non-null keyword.\n     * @return Its recorded count, or 0 if it has never matched.\n     */\n    public int timesAsked(String keyword)\n    {\n        return keywordCounts.getOrDefault(keyword, 0);\n    }\n\n    /** @return The number of different recorded topics. */\n    public int numberOfTopicsAsked()\n    {\n        return topicsAsked.size();\n    }\n\n    /**\n     * @param keyword A non-null keyword.\n     * @return true if the keyword has been recorded.\n     */\n    public boolean hasBeenAsked(String keyword)\n    {\n        return topicsAsked.contains(keyword);\n    }\n\n    /** @return The number of bots constructed in this JVM. */\n    public static int numberOfBots()\n    {\n        return botsCreated;\n    }\n\n    /**\n     * Record a recognised keyword in the count map and topic set.\n     * @param keyword The keyword that matched; must not be null.\n     */\n    private void recordKeyword(String keyword)\n    {\n        int count = keywordCounts.getOrDefault(keyword, 0);\n        keywordCounts.put(keyword, count + 1);\n        topicsAsked.add(keyword);\n    }\n\n    /** Fill the four fixed keyword replies during construction. */\n    private void fillReplyMap()\n    {\n        replyMap.put(\"submit\",\n            \"Upload your .java files to the assignment page before the deadline.\");\n        replyMap.put(\"compile\",\n            \"Read the first error message and check the line just above it.\");\n        replyMap.put(\"late\", \"Late work loses 10 percent per day.\");\n        replyMap.put(\"test\", \"Term Test 2 covers Chapters 1 to 9 and 12 to 13.\");\n    }\n}",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CmltcG9ydCBqYXZhLnV0aWwuSGFzaE1hcDsKaW1wb3J0IGphdmEudXRpbC5IYXNoU2V0OwppbXBvcnQgamF2YS51dGlsLlJhbmRvbTsKCi8qKgogKiBBbnN3ZXJzIGNvdXJzZSBxdWVzdGlvbnMgdXNpbmcga2V5d29yZCByZXBsaWVzIGFuZCByYW5kb20gZ2VuZXJhbCByZXBsaWVzLgogKiBSZWNvcmRzIGtleXdvcmQgY291bnRzLCBkaXN0aW5jdCB0b3BpY3MsIGFuZCByYXRpbmdzLgogKiBNYXRjaGluZyBpcyBieSBzdWJzdHJpbmc7IHF1ZXN0aW9ucyB3aXRoIHNldmVyYWwga25vd24ga2V5d29yZHMgaGF2ZQogKiBubyBwcm9taXNlZCBwcmlvcml0eS4gVGhpcyBzaW1wbGUgZXhhbXBsZSB1c2VzIG5vbi1udWxsIEVuZ2xpc2ggdGV4dC4KICogQGF1dGhvciBQcmFuamFsIFBhdHJhCiAqIEB2ZXJzaW9uIDIuMAogKi8KcHVibGljIGNsYXNzIEhlbHBCb3QKewogICAgLyoqIFRoZSBpbmNsdXNpdmUgcmF0aW5nIHJhbmdlLiAqLwogICAgcHVibGljIHN0YXRpYyBmaW5hbCBpbnQgTUlOX1JBVElORyA9IDE7CiAgICBwdWJsaWMgc3RhdGljIGZpbmFsIGludCBNQVhfUkFUSU5HID0gNTsKICAgIHByaXZhdGUgc3RhdGljIGZpbmFsIFN0cmluZyBOT19RVUVTVElPTiA9ICJQbGVhc2UgdHlwZSBhIHF1ZXN0aW9uLiI7CiAgICBwcml2YXRlIHN0YXRpYyBmaW5hbCBTdHJpbmcgVU5LTk9XTl9LRVlXT1JEID0gIkkgZG8gbm90IGhhdmUgYW4gYW5zd2VyIGZvciB0aGF0IHlldC4iOwogICAgcHJpdmF0ZSBzdGF0aWMgaW50IGJvdHNDcmVhdGVkID0gMDsKCiAgICBwcml2YXRlIEhhc2hNYXA8U3RyaW5nLCBTdHJpbmc+IHJlcGx5TWFwOwogICAgcHJpdmF0ZSBIYXNoTWFwPFN0cmluZywgSW50ZWdlcj4ga2V5d29yZENvdW50czsKICAgIHByaXZhdGUgSGFzaFNldDxTdHJpbmc+IHRvcGljc0Fza2VkOwogICAgcHJpdmF0ZSBBcnJheUxpc3Q8U3RyaW5nPiBnZW5lcmFsUmVwbGllczsKICAgIHByaXZhdGUgQXJyYXlMaXN0PEludGVnZXI+IHJhdGluZ3M7CiAgICBwcml2YXRlIFJhbmRvbSByYW5kb21HZW5lcmF0b3I7CgogICAgLyoqCiAgICAgKiBDcmVhdGUgYSBoZWxwIGJvdCB3aXRoIGZpeGVkIHJlcGxpZXMsIG5vIHJlY29yZGVkIHRvcGljcywgYW5kIG5vIHJhdGluZ3MuCiAgICAgKi8KICAgIHB1YmxpYyBIZWxwQm90KCkKICAgIHsKICAgICAgICBnZW5lcmFsUmVwbGllcyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgICAgIHJhdGluZ3MgPSBuZXcgQXJyYXlMaXN0PD4oKTsKICAgICAgICByYW5kb21HZW5lcmF0b3IgPSBuZXcgUmFuZG9tKCk7CiAgICAgICAgZmlsbEdlbmVyYWxSZXBsaWVzKCk7CiAgICAgICAgcmVwbHlNYXAgPSBuZXcgSGFzaE1hcDw+KCk7CiAgICAgICAga2V5d29yZENvdW50cyA9IG5ldyBIYXNoTWFwPD4oKTsKICAgICAgICB0b3BpY3NBc2tlZCA9IG5ldyBIYXNoU2V0PD4oKTsKICAgICAgICBmaWxsUmVwbHlNYXAoKTsKICAgICAgICBib3RzQ3JlYXRlZCsrOwogICAgfQoKICAgIC8qKgogICAgICogQW5zd2VyIG9uZSBxdWVzdGlvbiBieSBtYXRjaGluZyBhIGtub3duIGtleXdvcmQsIG9yIHVzZSBhIGdlbmVyYWwgcmVwbHkuCiAgICAgKiBAcGFyYW0gcXVlc3Rpb24gVGhlIHRleHQgdHlwZWQgYnkgdGhlIHVzZXI7IG11c3Qgbm90IGJlIG51bGwuCiAgICAgKiBAcmV0dXJuIEEga2V5d29yZCByZXBseSwgYSBnZW5lcmFsIHJlcGx5LCBvciB0aGUgZW1wdHktcXVlc3Rpb24gcHJvbXB0LgogICAgICovCiAgICBwdWJsaWMgU3RyaW5nIHJlcGx5VG8oU3RyaW5nIHF1ZXN0aW9uKQogICAgewogICAgICAgIFN0cmluZyBjbGVhbmVkID0gY2xlYW4ocXVlc3Rpb24pOwogICAgICAgIGlmKGNsZWFuZWQuaXNFbXB0eSgpKSB7CiAgICAgICAgICAgIHJldHVybiBOT19RVUVTVElPTjsKICAgICAgICB9CiAgICAgICAgZm9yKFN0cmluZyBrZXl3b3JkIDogcmVwbHlNYXAua2V5U2V0KCkpIHsKICAgICAgICAgICAgaWYoY2xlYW5lZC5jb250YWlucyhrZXl3b3JkKSkgewogICAgICAgICAgICAgICAgcmVjb3JkS2V5d29yZChrZXl3b3JkKTsKICAgICAgICAgICAgICAgIHJldHVybiByZXBseU1hcC5nZXQoa2V5d29yZCk7CiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICAgICAgcmV0dXJuIHBpY2tHZW5lcmFsUmVwbHkoKTsKICAgIH0KCiAgICAvKioKICAgICAqIFJlbW92ZSB0aGUgc3BhY2VzIGFyb3VuZCBhIHF1ZXN0aW9uIGFuZCBwdXQgaXQgaW4gbG93ZXIgY2FzZS4KICAgICAqIEVhY2ggU3RyaW5nIG1ldGhvZCByZXR1cm5zIGEgcmVzdWx0LCBzbyB0aGUgcmVzdWx0IG11c3QgYmUKICAgICAqIHVzZWQgb3Igc3RvcmVkLgogICAgICogQHBhcmFtIHF1ZXN0aW9uIFRoZSB0ZXh0IHR5cGVkIGJ5IHRoZSB1c2VyOyBtdXN0IG5vdCBiZSBudWxsLgogICAgICogQHJldHVybiBUaGUgY2xlYW5lZCB0ZXh0LgogICAgICovCiAgICBwdWJsaWMgU3RyaW5nIGNsZWFuKFN0cmluZyBxdWVzdGlvbikKICAgIHsKICAgICAgICByZXR1cm4gcXVlc3Rpb24udHJpbSgpLnRvTG93ZXJDYXNlKCk7CiAgICB9CgogICAgLyoqCiAgICAgKiBDaG9vc2Ugb25lIGdlbmVyYWwgcmVwbHkgYXQgcmFuZG9tLiBUaGUgY2FsbCBuZXh0SW50KGJvdW5kKQogICAgICogcmV0dXJucyBhIHZhbHVlIGZyb20gMCB1cCB0byBib3VuZCAtIDEsIHdoaWNoIGlzIGV4YWN0bHkgdGhlIHNldAogICAgICogb2YgdmFsaWQgaW5kaWNlcyBmb3IgYSBsaXN0IG9mIHRoYXQgc2l6ZS4KICAgICAqIEByZXR1cm4gT25lIG9mIHRoZSBnZW5lcmFsIHJlcGxpZXMuCiAgICAgKi8KICAgIHB1YmxpYyBTdHJpbmcgcGlja0dlbmVyYWxSZXBseSgpCiAgICB7CiAgICAgICAgaW50IGluZGV4ID0gcmFuZG9tR2VuZXJhdG9yLm5leHRJbnQoZ2VuZXJhbFJlcGxpZXMuc2l6ZSgpKTsKICAgICAgICByZXR1cm4gZ2VuZXJhbFJlcGxpZXMuZ2V0KGluZGV4KTsKICAgIH0KCiAgICAvKioKICAgICAqIFJlY29yZCBob3cgdXNlZnVsIGEgcmVwbHkgd2FzLiBSYXRpbmdzIG91dHNpZGUgMSB0byA1IGFyZSBpZ25vcmVkLgogICAgICogVGhlIGludCB2YWx1ZSBpcyBib3hlZCBpbnRvIGFuIEludGVnZXIgYXMgaXQgZW50ZXJzIHRoZSBsaXN0LgogICAgICogQHBhcmFtIHJhdGluZyBBIHJhdGluZyBmcm9tIDEgdG8gNS4KICAgICAqLwogICAgcHVibGljIHZvaWQgYWRkUmF0aW5nKGludCByYXRpbmcpCiAgICB7CiAgICAgICAgaWYocmF0aW5nID49IE1JTl9SQVRJTkcgJiYgcmF0aW5nIDw9IE1BWF9SQVRJTkcpIHsKICAgICAgICAgICAgcmF0aW5ncy5hZGQocmF0aW5nKTsKICAgICAgICB9CiAgICB9CgogICAgLyoqCiAgICAgKiBAcmV0dXJuIFRoZSBudW1iZXIgb2YgcmF0aW5ncyByZWNvcmRlZCBzbyBmYXIuCiAgICAgKi8KICAgIHB1YmxpYyBpbnQgbnVtYmVyT2ZSYXRpbmdzKCkKICAgIHsKICAgICAgICByZXR1cm4gcmF0aW5ncy5zaXplKCk7CiAgICB9CgogICAgLyoqCiAgICAgKiBXb3JrIG91dCB0aGUgYXZlcmFnZSBvZiB0aGUgcmVjb3JkZWQgcmF0aW5ncy4gRWFjaCBJbnRlZ2VyIGluIHRoZQogICAgICogbGlzdCBpcyB1bmJveGVkIGludG8gdGhlIGludCBsb29wIHZhcmlhYmxlLgogICAgICogQHJldHVybiBUaGUgd2hvbGUtbnVtYmVyIGF2ZXJhZ2UsIG9yIDAgd2hlbiBubyByYXRpbmcgZXhpc3RzLgogICAgICovCiAgICBwdWJsaWMgaW50IGF2ZXJhZ2VSYXRpbmcoKQogICAgewogICAgICAgIGlmKHJhdGluZ3MuaXNFbXB0eSgpKSB7CiAgICAgICAgICAgIHJldHVybiAwOwogICAgICAgIH0KICAgICAgICBpbnQgdG90YWwgPSAwOwogICAgICAgIGZvcihpbnQgcmF0aW5nIDogcmF0aW5ncykgewogICAgICAgICAgICB0b3RhbCA9IHRvdGFsICsgcmF0aW5nOwogICAgICAgIH0KICAgICAgICByZXR1cm4gdG90YWwgLyByYXRpbmdzLnNpemUoKTsKICAgIH0KCiAgICAvKioKICAgICAqIEByZXR1cm4gVGhlIG51bWJlciBvZiBnZW5lcmFsIHJlcGxpZXMgYXZhaWxhYmxlLgogICAgICovCiAgICBwdWJsaWMgaW50IG51bWJlck9mR2VuZXJhbFJlcGxpZXMoKQogICAgewogICAgICAgIHJldHVybiBnZW5lcmFsUmVwbGllcy5zaXplKCk7CiAgICB9CgogICAgLyoqCiAgICAgKiBSZXBvcnQgd2hldGhlciBhIGdpdmVuIHJlcGx5IGlzIG9uZSB0aGlzIGJvdCBjYW4gZ2l2ZS4KICAgICAqIEBwYXJhbSByZXBseSBUaGUgdGV4dCB0byBsb29rIGZvci4KICAgICAqIEByZXR1cm4gdHJ1ZSB3aGVuIHRoZSB0ZXh0IGlzIG9uZSBvZiB0aGUgZ2VuZXJhbCByZXBsaWVzLgogICAgICovCiAgICBwdWJsaWMgYm9vbGVhbiBoYXNHZW5lcmFsUmVwbHkoU3RyaW5nIHJlcGx5KQogICAgewogICAgICAgIHJldHVybiBnZW5lcmFsUmVwbGllcy5jb250YWlucyhyZXBseSk7CiAgICB9CgogICAgLyoqCiAgICAgKiBCdWlsZCB0aGUgbGlzdCBvZiBnZW5lcmFsIHJlcGxpZXMuIFRoaXMgbWV0aG9kIGlzIHByaXZhdGUgYmVjYXVzZQogICAgICogaXQgaXMgYSBzdGVwIGluIGJ1aWxkaW5nIGEgSGVscEJvdCwgbm90IGFuIG9wZXJhdGlvbiB0aGF0IG90aGVyCiAgICAgKiBjbGFzc2VzIHNob3VsZCBjYWxsLgogICAgICovCiAgICBwcml2YXRlIHZvaWQgZmlsbEdlbmVyYWxSZXBsaWVzKCkKICAgIHsKICAgICAgICBnZW5lcmFsUmVwbGllcy5hZGQoIkNhbiB5b3UgZGVzY3JpYmUgdGhhdCBpbiBtb3JlIGRldGFpbD8iKTsKICAgICAgICBnZW5lcmFsUmVwbGllcy5hZGQoIkhhdmUgeW91IGNoZWNrZWQgdGhlIGNvdXJzZSB3ZWIgcGFnZT8iKTsKICAgICAgICBnZW5lcmFsUmVwbGllcy5hZGQoIlRoYXQgcXVlc3Rpb24gY29tZXMgdXAgb2Z0ZW4uIExldCB1cyBsb29rIGF0IGl0IHRvZ2V0aGVyLiIpOwogICAgICAgIGdlbmVyYWxSZXBsaWVzLmFkZCgiUGxlYXNlIHBvc3QgdGhhdCBvbiB0aGUgZGlzY3Vzc2lvbiBib2FyZCBzbyBvdGhlcnMgY2FuIHNlZSB0aGUgYW5zd2VyLiIpOwogICAgfQoKICAgIC8qKgogICAgICogTG9vayB1cCBhbiBleGFjdCBrZXl3b3JkIHdpdGhvdXQgcmVjb3JkaW5nIGEgcXVlc3Rpb24uCiAgICAgKiBAcGFyYW0ga2V5d29yZCBBIG5vbi1udWxsIGtleXdvcmQuCiAgICAgKiBAcmV0dXJuIEl0cyByZXBseSwgb3IgdGhlIHVua25vd24ta2V5d29yZCBtZXNzYWdlIGlmIGFic2VudC4KICAgICAqLwogICAgcHVibGljIFN0cmluZyByZXBseUZvcihTdHJpbmcga2V5d29yZCkKICAgIHsKICAgICAgICByZXR1cm4gcmVwbHlNYXAuZ2V0T3JEZWZhdWx0KGtleXdvcmQsIFVOS05PV05fS0VZV09SRCk7CiAgICB9CgogICAgLyoqCiAgICAgKiBAcGFyYW0ga2V5d29yZCBBIG5vbi1udWxsIGtleXdvcmQuCiAgICAgKiBAcmV0dXJuIHRydWUgaWYgdGhlIGtleXdvcmQgaGFzIGEgc3RvcmVkIHJlcGx5LgogICAgICovCiAgICBwdWJsaWMgYm9vbGVhbiBrbm93cyhTdHJpbmcga2V5d29yZCkKICAgIHsKICAgICAgICByZXR1cm4gcmVwbHlNYXAuY29udGFpbnNLZXkoa2V5d29yZCk7CiAgICB9CgogICAgLyoqCiAgICAgKiBBZGQgb3IgcmVwbGFjZSB0aGUgcmVwbHkgZm9yIG9uZSBleGFjdCBrZXl3b3JkLgogICAgICogQHBhcmFtIGtleXdvcmQgQSBub24tbnVsbCBsb3dlcmNhc2Uga2V5d29yZC4KICAgICAqIEBwYXJhbSByZXBseSBBIG5vbi1udWxsIHJlcGx5LgogICAgICovCiAgICBwdWJsaWMgdm9pZCBsZWFybihTdHJpbmcga2V5d29yZCwgU3RyaW5nIHJlcGx5KQogICAgewogICAgICAgIHJlcGx5TWFwLnB1dChrZXl3b3JkLCByZXBseSk7CiAgICB9CgogICAgLyoqIEByZXR1cm4gVGhlIG51bWJlciBvZiBrZXl3b3JkL3JlcGx5IGVudHJpZXMuICovCiAgICBwdWJsaWMgaW50IG51bWJlck9mS2V5d29yZHMoKQogICAgewogICAgICAgIHJldHVybiByZXBseU1hcC5zaXplKCk7CiAgICB9CgogICAgLyoqCiAgICAgKiBAcGFyYW0ga2V5d29yZCBBIG5vbi1udWxsIGtleXdvcmQuCiAgICAgKiBAcmV0dXJuIEl0cyByZWNvcmRlZCBjb3VudCwgb3IgMCBpZiBpdCBoYXMgbmV2ZXIgbWF0Y2hlZC4KICAgICAqLwogICAgcHVibGljIGludCB0aW1lc0Fza2VkKFN0cmluZyBrZXl3b3JkKQogICAgewogICAgICAgIHJldHVybiBrZXl3b3JkQ291bnRzLmdldE9yRGVmYXVsdChrZXl3b3JkLCAwKTsKICAgIH0KCiAgICAvKiogQHJldHVybiBUaGUgbnVtYmVyIG9mIGRpZmZlcmVudCByZWNvcmRlZCB0b3BpY3MuICovCiAgICBwdWJsaWMgaW50IG51bWJlck9mVG9waWNzQXNrZWQoKQogICAgewogICAgICAgIHJldHVybiB0b3BpY3NBc2tlZC5zaXplKCk7CiAgICB9CgogICAgLyoqCiAgICAgKiBAcGFyYW0ga2V5d29yZCBBIG5vbi1udWxsIGtleXdvcmQuCiAgICAgKiBAcmV0dXJuIHRydWUgaWYgdGhlIGtleXdvcmQgaGFzIGJlZW4gcmVjb3JkZWQuCiAgICAgKi8KICAgIHB1YmxpYyBib29sZWFuIGhhc0JlZW5Bc2tlZChTdHJpbmcga2V5d29yZCkKICAgIHsKICAgICAgICByZXR1cm4gdG9waWNzQXNrZWQuY29udGFpbnMoa2V5d29yZCk7CiAgICB9CgogICAgLyoqIEByZXR1cm4gVGhlIG51bWJlciBvZiBib3RzIGNvbnN0cnVjdGVkIGluIHRoaXMgSlZNLiAqLwogICAgcHVibGljIHN0YXRpYyBpbnQgbnVtYmVyT2ZCb3RzKCkKICAgIHsKICAgICAgICByZXR1cm4gYm90c0NyZWF0ZWQ7CiAgICB9CgogICAgLyoqCiAgICAgKiBSZWNvcmQgYSByZWNvZ25pc2VkIGtleXdvcmQgaW4gdGhlIGNvdW50IG1hcCBhbmQgdG9waWMgc2V0LgogICAgICogQHBhcmFtIGtleXdvcmQgVGhlIGtleXdvcmQgdGhhdCBtYXRjaGVkOyBtdXN0IG5vdCBiZSBudWxsLgogICAgICovCiAgICBwcml2YXRlIHZvaWQgcmVjb3JkS2V5d29yZChTdHJpbmcga2V5d29yZCkKICAgIHsKICAgICAgICBpbnQgY291bnQgPSBrZXl3b3JkQ291bnRzLmdldE9yRGVmYXVsdChrZXl3b3JkLCAwKTsKICAgICAgICBrZXl3b3JkQ291bnRzLnB1dChrZXl3b3JkLCBjb3VudCArIDEpOwogICAgICAgIHRvcGljc0Fza2VkLmFkZChrZXl3b3JkKTsKICAgIH0KCiAgICAvKiogRmlsbCB0aGUgZm91ciBmaXhlZCBrZXl3b3JkIHJlcGxpZXMgZHVyaW5nIGNvbnN0cnVjdGlvbi4gKi8KICAgIHByaXZhdGUgdm9pZCBmaWxsUmVwbHlNYXAoKQogICAgewogICAgICAgIHJlcGx5TWFwLnB1dCgic3VibWl0IiwKICAgICAgICAgICAgIlVwbG9hZCB5b3VyIC5qYXZhIGZpbGVzIHRvIHRoZSBhc3NpZ25tZW50IHBhZ2UgYmVmb3JlIHRoZSBkZWFkbGluZS4iKTsKICAgICAgICByZXBseU1hcC5wdXQoImNvbXBpbGUiLAogICAgICAgICAgICAiUmVhZCB0aGUgZmlyc3QgZXJyb3IgbWVzc2FnZSBhbmQgY2hlY2sgdGhlIGxpbmUganVzdCBhYm92ZSBpdC4iKTsKICAgICAgICByZXBseU1hcC5wdXQoImxhdGUiLCAiTGF0ZSB3b3JrIGxvc2VzIDEwIHBlcmNlbnQgcGVyIGRheS4iKTsKICAgICAgICByZXBseU1hcC5wdXQoInRlc3QiLCAiVGVybSBUZXN0IDIgY292ZXJzIENoYXB0ZXJzIDEgdG8gOSBhbmQgMTIgdG8gMTMuIik7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "RatingCheck.java",
+          "content": "public class RatingCheck\n{\n    public static void main(String[] args)\n    {\n        HelpBot bot = new HelpBot();\n        bot.addRating(5); bot.addRating(3); bot.addRating(4); bot.addRating(0); bot.addRating(6);\n        System.out.println(bot.numberOfRatings());\n        System.out.println(bot.averageRating());\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "3\n4"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicstaticfinalintMIN_RATING=1;\"), \"Declare the public minimum constant.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicstaticfinalintMAX_RATING=5;\"), \"Declare the public maximum constant.\");\nString cleanSource = source.replaceAll(\"(?s)/\\\\*.*?\\\\*/|//[^\\\\r\\\\n]*|\\\\\\\"(?:\\\\\\\\.|[^\\\\\\\"\\\\\\\\])*\\\\\\\"\", \" \");\njava.util.regex.Matcher method = java.util.regex.Pattern.compile(\"\\\\bvoid\\\\s+addRating\\\\s*\\\\([^)]*\\\\)\\\\s*\\\\{\").matcher(cleanSource);\nrequire(method.find(), \"Keep the addRating method.\");\nint start = method.end();\nint end = start;\nint depth = 1;\nwhile(end < cleanSource.length() && depth > 0) {\n    char next = cleanSource.charAt(end++);\n    if(next == '{') { depth++; }\n    else if(next == '}') { depth--; }\n}\nString body = cleanSource.substring(start, end - 1);\nrequire(java.util.regex.Pattern.compile(\"\\\\bMIN_RATING\\\\b\").matcher(body).find(), \"Use the minimum constant in addRating.\");\nrequire(java.util.regex.Pattern.compile(\"\\\\bMAX_RATING\\\\b\").matcher(body).find(), \"Use the maximum constant in addRating.\");\nHelpBot minimum = new HelpBot();\nminimum.addRating(1);\nrequire(minimum.numberOfRatings() == 1 && minimum.averageRating() == 1, \"Accept rating 1.\");\nHelpBot maximum = new HelpBot();\nmaximum.addRating(5);\nrequire(maximum.numberOfRatings() == 1 && maximum.averageRating() == 5, \"Accept rating 5.\");\nHelpBot below = new HelpBot();\nbelow.addRating(0);\nrequire(below.numberOfRatings() == 0 && below.averageRating() == 0, \"Ignore rating 0.\");\nHelpBot above = new HelpBot();\nabove.addRating(6);\nrequire(above.numberOfRatings() == 0 && above.averageRating() == 0, \"Ignore rating 6.\");"
+    },
+    "q17-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "QWNjZXB0ZWQgY291bnQgMywgc3VtIDEyLCBhdmVyYWdlIDQuIFJhdGluZ3MgMCBhbmQgNiBhcmUgaWdub3JlZC4gU3RhdGljIGdpdmVzIGEgY2xhc3Mtd2lkZSB2YWx1ZTsgZmluYWwgcHJldmVudHMgcmVhc3NpZ25tZW50LiBQcml2YXRlIHJhdGluZ3Mgc3RvcCBhIGNhbGxlciBmcm9tIGluc2VydGluZyB2YWx1ZXMgdGhhdCBieXBhc3MgYWRkUmF0aW5nJ3MgcnVsZS4="
+    },
+    "q18": {
+      "type": "code",
+      "xp": 4,
+      "title": "Appointment.java",
+      "minLines": 32,
+      "maxLines": 38,
+      "starter": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n    // Declare the final minutes field.\n\n    public Appointment(String patientName, int minutes)\n    {\n        this.patientName = patientName;\n        // Store the duration once.\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n\n    public int getMinutes()\n    {\n        return minutes;\n    }\n}",
+      "answer": "cHVibGljIGNsYXNzIEFwcG9pbnRtZW50CnsKICAgIHByaXZhdGUgU3RyaW5nIHBhdGllbnROYW1lOwogICAgcHJpdmF0ZSBib29sZWFuIGNoZWNrZWRJbjsKICAgIHByaXZhdGUgZmluYWwgaW50IG1pbnV0ZXM7CgogICAgcHVibGljIEFwcG9pbnRtZW50KFN0cmluZyBwYXRpZW50TmFtZSwgaW50IG1pbnV0ZXMpCiAgICB7CiAgICAgICAgdGhpcy5wYXRpZW50TmFtZSA9IHBhdGllbnROYW1lOwogICAgICAgIHRoaXMubWludXRlcyA9IG1pbnV0ZXM7CiAgICAgICAgY2hlY2tlZEluID0gZmFsc2U7CiAgICB9CgogICAgcHVibGljIFN0cmluZyBnZXRQYXRpZW50TmFtZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIHBhdGllbnROYW1lOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGhhc0NoZWNrZWRJbigpCiAgICB7CiAgICAgICAgcmV0dXJuIGNoZWNrZWRJbjsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBjaGVja0luKCkKICAgIHsKICAgICAgICBjaGVja2VkSW4gPSB0cnVlOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TWludXRlcygpCiAgICB7CiAgICAgICAgcmV0dXJuIG1pbnV0ZXM7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "DurationCheck.java",
+          "content": "public class DurationCheck\n{\n    public static void main(String[] args)\n    {\n        System.out.println(new Appointment(\"Ana\", 15).getMinutes());\n        System.out.println(new Appointment(\"Ben\", 20).getMinutes());\n        System.out.println(new Appointment(\"Cara\", 10).getMinutes());\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "15\n20\n10"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatefinalintminutes;\"), \"Keep duration private and final.\");"
+    },
+    "q18-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "VGhlIGR1cmF0aW9ucyBhcmUgMTUsIDIwLCBhbmQgMTAuIEVhY2ggb2JqZWN0IGhhcyBpdHMgb3duIHZhbHVlLiBUaGUgY29uc3RydWN0b3IgYXNzaWducyB0aGUgYmxhbmsgZmluYWwgZmllbGQgb25jZS4gQSBsYXRlciBzZXR0ZXIgYXNzaWdubWVudCBpcyBhIGNvbXBpbGUtdGltZSBlcnJvci4gRmluYWwgZG9lcyBub3QgbWVhbiBzdGF0aWMu"
+    },
+    "q19": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "VGhlIHNhbWUgbGlzdCBvYmplY3Qgbm93IGNvbnRhaW5zIHN1Ym1pdCwgd2l0aCBzaXplIDEuIFRoZSByZWFzc2lnbm1lbnQgZG9lcyBub3QgY29tcGlsZSBiZWNhdXNlIHRvcGljcyBpcyBmaW5hbC4gTXV0YXRpbmcgdGhlIG9iamVjdCBpcyBkaWZmZXJlbnQgZnJvbSByZXBsYWNpbmcgdGhlIHJlZmVyZW5jZS4gQSBwdWJsaWMgZmluYWwgbGlzdCBjb3VsZCBzdGlsbCBiZSBjaGFuZ2VkIGJ5IGNhbGxlcnMsIHNvIGtlZXAgbXV0YWJsZSBjb2xsZWN0aW9uIGZpZWxkcyBwcml2YXRlLg=="
+    },
+    "q20": {
+      "type": "code",
+      "xp": 4,
+      "title": "HelpBot.java",
+      "minLines": 8,
+      "maxLines": 38,
+      "starter": "public class HelpBot\n{\n    private static int botsCreated = 0;\n    // Add the public static getter.\n}",
+      "answer": "cHVibGljIGNsYXNzIEhlbHBCb3QKewogICAgcHJpdmF0ZSBzdGF0aWMgaW50IGJvdHNDcmVhdGVkID0gMDsKICAgIHB1YmxpYyBzdGF0aWMgaW50IG51bWJlck9mQm90cygpCiAgICB7CiAgICAgICAgcmV0dXJuIGJvdHNDcmVhdGVkOwogICAgfQp9",
+      "files": [
+        {
+          "name": "ClassCallCheck.java",
+          "content": "public class ClassCallCheck\n{\n    public static void main(String[] args)\n    {\n        System.out.println(HelpBot.numberOfBots());\n        System.out.println(Math.max(3, 7));\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "0\n7"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicstaticintnumberOfBots()\"), \"Use a class method.\");"
+    },
+    "q21": {
+      "type": "code",
+      "xp": 4,
+      "title": "ReceiverDemo.java",
+      "minLines": 8,
+      "maxLines": 38,
+      "starter": "public class ReceiverDemo\n{\n    // Add the static helper with a HelpBot parameter.\n}",
+      "answer": "cHVibGljIGNsYXNzIFJlY2VpdmVyRGVtbwp7CiAgICBwdWJsaWMgc3RhdGljIGludCBudW1iZXJPZlJlcGxpZXMoSGVscEJvdCBib3QpCiAgICB7CiAgICAgICAgcmV0dXJuIGJvdC5udW1iZXJPZkdlbmVyYWxSZXBsaWVzKCk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "HelpBot.java",
+          "content": "import java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.HashSet;\nimport java.util.Random;\n\n/**\n * Answers course questions using keyword replies and random general replies.\n * Records keyword counts, distinct topics, and ratings.\n * Matching is by substring; questions with several known keywords have\n * no promised priority. This simple example uses non-null English text.\n * @author Pranjal Patra\n * @version 2.0\n */\npublic class HelpBot\n{\n    /** The inclusive rating range. */\n    public static final int MIN_RATING = 1;\n    public static final int MAX_RATING = 5;\n    private static final String NO_QUESTION = \"Please type a question.\";\n    private static final String UNKNOWN_KEYWORD = \"I do not have an answer for that yet.\";\n    private static int botsCreated = 0;\n\n    private HashMap<String, String> replyMap;\n    private HashMap<String, Integer> keywordCounts;\n    private HashSet<String> topicsAsked;\n    private ArrayList<String> generalReplies;\n    private ArrayList<Integer> ratings;\n    private Random randomGenerator;\n\n    /**\n     * Create a help bot with fixed replies, no recorded topics, and no ratings.\n     */\n    public HelpBot()\n    {\n        generalReplies = new ArrayList<>();\n        ratings = new ArrayList<>();\n        randomGenerator = new Random();\n        fillGeneralReplies();\n        replyMap = new HashMap<>();\n        keywordCounts = new HashMap<>();\n        topicsAsked = new HashSet<>();\n        fillReplyMap();\n        botsCreated++;\n    }\n\n    /**\n     * Answer one question by matching a known keyword, or use a general reply.\n     * @param question The text typed by the user; must not be null.\n     * @return A keyword reply, a general reply, or the empty-question prompt.\n     */\n    public String replyTo(String question)\n    {\n        String cleaned = clean(question);\n        if(cleaned.isEmpty()) {\n            return NO_QUESTION;\n        }\n        for(String keyword : replyMap.keySet()) {\n            if(cleaned.contains(keyword)) {\n                recordKeyword(keyword);\n                return replyMap.get(keyword);\n            }\n        }\n        return pickGeneralReply();\n    }\n\n    /**\n     * Remove the spaces around a question and put it in lower case.\n     * Each String method returns a result, so the result must be\n     * used or stored.\n     * @param question The text typed by the user; must not be null.\n     * @return The cleaned text.\n     */\n    public String clean(String question)\n    {\n        return question.trim().toLowerCase();\n    }\n\n    /**\n     * Choose one general reply at random. The call nextInt(bound)\n     * returns a value from 0 up to bound - 1, which is exactly the set\n     * of valid indices for a list of that size.\n     * @return One of the general replies.\n     */\n    public String pickGeneralReply()\n    {\n        int index = randomGenerator.nextInt(generalReplies.size());\n        return generalReplies.get(index);\n    }\n\n    /**\n     * Record how useful a reply was. Ratings outside 1 to 5 are ignored.\n     * The int value is boxed into an Integer as it enters the list.\n     * @param rating A rating from 1 to 5.\n     */\n    public void addRating(int rating)\n    {\n        if(rating >= MIN_RATING && rating <= MAX_RATING) {\n            ratings.add(rating);\n        }\n    }\n\n    /**\n     * @return The number of ratings recorded so far.\n     */\n    public int numberOfRatings()\n    {\n        return ratings.size();\n    }\n\n    /**\n     * Work out the average of the recorded ratings. Each Integer in the\n     * list is unboxed into the int loop variable.\n     * @return The whole-number average, or 0 when no rating exists.\n     */\n    public int averageRating()\n    {\n        if(ratings.isEmpty()) {\n            return 0;\n        }\n        int total = 0;\n        for(int rating : ratings) {\n            total = total + rating;\n        }\n        return total / ratings.size();\n    }\n\n    /**\n     * @return The number of general replies available.\n     */\n    public int numberOfGeneralReplies()\n    {\n        return generalReplies.size();\n    }\n\n    /**\n     * Report whether a given reply is one this bot can give.\n     * @param reply The text to look for.\n     * @return true when the text is one of the general replies.\n     */\n    public boolean hasGeneralReply(String reply)\n    {\n        return generalReplies.contains(reply);\n    }\n\n    /**\n     * Build the list of general replies. This method is private because\n     * it is a step in building a HelpBot, not an operation that other\n     * classes should call.\n     */\n    private void fillGeneralReplies()\n    {\n        generalReplies.add(\"Can you describe that in more detail?\");\n        generalReplies.add(\"Have you checked the course web page?\");\n        generalReplies.add(\"That question comes up often. Let us look at it together.\");\n        generalReplies.add(\"Please post that on the discussion board so others can see the answer.\");\n    }\n\n    /**\n     * Look up an exact keyword without recording a question.\n     * @param keyword A non-null keyword.\n     * @return Its reply, or the unknown-keyword message if absent.\n     */\n    public String replyFor(String keyword)\n    {\n        return replyMap.getOrDefault(keyword, UNKNOWN_KEYWORD);\n    }\n\n    /**\n     * @param keyword A non-null keyword.\n     * @return true if the keyword has a stored reply.\n     */\n    public boolean knows(String keyword)\n    {\n        return replyMap.containsKey(keyword);\n    }\n\n    /**\n     * Add or replace the reply for one exact keyword.\n     * @param keyword A non-null lowercase keyword.\n     * @param reply A non-null reply.\n     */\n    public void learn(String keyword, String reply)\n    {\n        replyMap.put(keyword, reply);\n    }\n\n    /** @return The number of keyword/reply entries. */\n    public int numberOfKeywords()\n    {\n        return replyMap.size();\n    }\n\n    /**\n     * @param keyword A non-null keyword.\n     * @return Its recorded count, or 0 if it has never matched.\n     */\n    public int timesAsked(String keyword)\n    {\n        return keywordCounts.getOrDefault(keyword, 0);\n    }\n\n    /** @return The number of different recorded topics. */\n    public int numberOfTopicsAsked()\n    {\n        return topicsAsked.size();\n    }\n\n    /**\n     * @param keyword A non-null keyword.\n     * @return true if the keyword has been recorded.\n     */\n    public boolean hasBeenAsked(String keyword)\n    {\n        return topicsAsked.contains(keyword);\n    }\n\n    /** @return The number of bots constructed in this JVM. */\n    public static int numberOfBots()\n    {\n        return botsCreated;\n    }\n\n    /**\n     * Record a recognised keyword in the count map and topic set.\n     * @param keyword The keyword that matched; must not be null.\n     */\n    private void recordKeyword(String keyword)\n    {\n        int count = keywordCounts.getOrDefault(keyword, 0);\n        keywordCounts.put(keyword, count + 1);\n        topicsAsked.add(keyword);\n    }\n\n    /** Fill the four fixed keyword replies during construction. */\n    private void fillReplyMap()\n    {\n        replyMap.put(\"submit\",\n            \"Upload your .java files to the assignment page before the deadline.\");\n        replyMap.put(\"compile\",\n            \"Read the first error message and check the line just above it.\");\n        replyMap.put(\"late\", \"Late work loses 10 percent per day.\");\n        replyMap.put(\"test\", \"Term Test 2 covers Chapters 1 to 9 and 12 to 13.\");\n    }\n}"
+        },
+        {
+          "name": "ReceiverCheck.java",
+          "content": "public class ReceiverCheck\n{\n    public static void main(String[] args)\n    {\n        System.out.println(ReceiverDemo.numberOfReplies(new HelpBot()));\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "4"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicstaticintnumberOfReplies\\\\(HelpBot[A-Za-z_$][\\\\w$]*\\\\).*\"), \"Declare a static helper with one HelpBot parameter.\");"
+    },
+    "q21-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "Z2VuZXJhbFJlcGxpZXMgaXMgYW4gaW5zdGFuY2UgZmllbGQuIEEgc3RhdGljIG1ldGhvZCBoYXMgbm8gY3VycmVudCBib3QgYW5kIG5vIHRoaXMgcmVmZXJlbmNlLCBzbyBpdCBjYW5ub3QgY2hvb3NlIHRoYXQgZmllbGQgd2l0aG91dCBhIHJlY2VpdmVyLiBUaGUgaGVscGVyJ3MgcGFyYW1ldGVyIG5hbWVzIG9uZSBib3QgYW5kIGl0cyBwdWJsaWMgb3BlcmF0aW9uIHJldHVybnMgNC4gVGhpcyBzZXBhcmF0ZSBoZWxwZXIgYWRkcyBubyBIZWxwQm90IEFQSS4="
+    },
+    "q23": {
+      "type": "code",
+      "xp": 4,
+      "title": "Appointment.java",
+      "minLines": 32,
+      "maxLines": 38,
+      "starter": "public class Appointment\n{\n    // Add the default constant and shared creation counter.\n    private String patientName;\n    private boolean checkedIn;\n    // Make the duration field final.\n    private int minutes;\n\n    public Appointment(String patientName, int minutes)\n    {\n        this.patientName = patientName;\n        this.minutes = minutes;\n        checkedIn = false;\n        // Increment the creation counter once.\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n\n    public int getMinutes()\n    {\n        return minutes;\n    }\n\n    // Add the documented class getter.\n}",
+      "answer": "cHVibGljIGNsYXNzIEFwcG9pbnRtZW50CnsKICAgIC8qKiBUaGUgZGVmYXVsdCBkdXJhdGlvbiB1c2VkIGJ5IGRlbW9uc3RyYXRpb25zLiAqLwogICAgcHVibGljIHN0YXRpYyBmaW5hbCBpbnQgREVGQVVMVF9NSU5VVEVTID0gMTU7CiAgICBwcml2YXRlIHN0YXRpYyBpbnQgYXBwb2ludG1lbnRzQ3JlYXRlZCA9IDA7CgogICAgcHJpdmF0ZSBTdHJpbmcgcGF0aWVudE5hbWU7CiAgICBwcml2YXRlIGJvb2xlYW4gY2hlY2tlZEluOwogICAgcHJpdmF0ZSBmaW5hbCBpbnQgbWludXRlczsKCiAgICBwdWJsaWMgQXBwb2ludG1lbnQoU3RyaW5nIHBhdGllbnROYW1lLCBpbnQgbWludXRlcykKICAgIHsKICAgICAgICB0aGlzLnBhdGllbnROYW1lID0gcGF0aWVudE5hbWU7CiAgICAgICAgdGhpcy5taW51dGVzID0gbWludXRlczsKICAgICAgICBjaGVja2VkSW4gPSBmYWxzZTsKICAgICAgICBhcHBvaW50bWVudHNDcmVhdGVkKys7CiAgICB9CgogICAgcHVibGljIFN0cmluZyBnZXRQYXRpZW50TmFtZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIHBhdGllbnROYW1lOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGhhc0NoZWNrZWRJbigpCiAgICB7CiAgICAgICAgcmV0dXJuIGNoZWNrZWRJbjsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBjaGVja0luKCkKICAgIHsKICAgICAgICBjaGVja2VkSW4gPSB0cnVlOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TWludXRlcygpCiAgICB7CiAgICAgICAgcmV0dXJuIG1pbnV0ZXM7CiAgICB9CgogICAgLyoqCiAgICAgKiBSZXBvcnQgaG93IG1hbnkgYXBwb2ludG1lbnRzIGhhdmUgYmVlbiBjb25zdHJ1Y3RlZCBpbiB0aGlzIEpWTS4KICAgICAqIENhbmNlbGxhdGlvbiBkb2VzIG5vdCByZWR1Y2UgdGhlIGNvdW50LgogICAgICogQHJldHVybiBUaGUgbGlmZXRpbWUgbnVtYmVyIG9mIGFwcG9pbnRtZW50cyBjcmVhdGVkLgogICAgICovCiAgICBwdWJsaWMgc3RhdGljIGludCBudW1iZXJPZkFwcG9pbnRtZW50c0NyZWF0ZWQoKQogICAgewogICAgICAgIHJldHVybiBhcHBvaW50bWVudHNDcmVhdGVkOwogICAgfQp9",
+      "files": [
+        {
+          "name": "ClinicSchedule.java",
+          "content": "import java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.HashSet;\nimport java.util.Random;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n    private Random randomGenerator;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n        randomGenerator = new Random(42);\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment -> System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment -> appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n\n    public long countWaiting()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .count();\n    }\n\n    public void printWaitingNames()\n    {\n        appointments.stream()\n                    .filter(appointment -> !appointment.hasCheckedIn())\n                    .map(appointment -> appointment.getPatientName())\n                    .forEach(name -> System.out.println(name));\n    }\n\n    public int totalWaitingMinutes()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .map(appointment -> appointment.getMinutes())\n                           .reduce(0, (total, minutes) -> total + minutes);\n    }\n\n    /**\n     * Find the first patient whose name matches after cleaning both names.\n     * Leading and trailing spaces and differences in case are ignored.\n     * @param name The name to search for; must not be null.\n     * @return The first matching index, or -1 if no name matches.\n     */\n    public int findPatientIndexIgnoringCase(String name)\n    {\n        String cleanedName = name.trim().toLowerCase();\n        int index = 0;\n\n        while(index < appointments.size()) {\n            String storedName = appointments.get(index).getPatientName();\n            if(storedName.trim().toLowerCase().equals(cleanedName)) {\n                return index;\n            }\n            index++;\n        }\n        return -1;\n    }\n\n    /**\n     * Choose a patient name from all current appointments at random.\n     * Checked-in appointments are included.\n     * @return A stored patient name, or null if the schedule is empty.\n     */\n    public String randomPatientName()\n    {\n        if(appointments.isEmpty()) {\n            return null;\n        }\n        int index = randomGenerator.nextInt(appointments.size());\n        return appointments.get(index).getPatientName();\n    }\n\n    /**\n     * Count appointments for each exact stored patient name.\n     * Checked-in appointments are included.\n     * @return A fresh count map; later schedule changes do not update it.\n     */\n    public HashMap<String, Integer> countAppointmentsByName()\n    {\n        HashMap<String, Integer> counts = new HashMap<>();\n        for(Appointment appointment : appointments) {\n            String name = appointment.getPatientName();\n            int count = counts.getOrDefault(name, 0);\n            counts.put(name, count + 1);\n        }\n        return counts;\n    }\n\n    /**\n     * Collect the exact stored patient names without duplicates.\n     * Checked-in appointments are included.\n     * @return A fresh set; later schedule changes do not update it.\n     */\n    public HashSet<String> uniquePatientNames()\n    {\n        HashSet<String> names = new HashSet<>();\n        for(Appointment appointment : appointments) {\n            names.add(appointment.getPatientName());\n        }\n        return names;\n    }\n}"
+        },
+        {
+          "name": "ClinicDemo.java",
+          "content": "public class ClinicDemo\n{\n    public static void main(String[] args)\n    {\n        System.out.println(\"Created before: \" + Appointment.numberOfAppointmentsCreated());\n        System.out.println(\"Default minutes: \" + Appointment.DEFAULT_MINUTES);\n        ClinicSchedule schedule = new ClinicSchedule();\n        schedule.addAppointment(new Appointment(\"Ana\", Appointment.DEFAULT_MINUTES));\n        schedule.addAppointment(new Appointment(\"Ben\", 20));\n        schedule.addAppointment(new Appointment(\"Cara\", 10));\n        System.out.println(\"Created after base: \" + Appointment.numberOfAppointmentsCreated());\n        System.out.println(\"Appointments: \" + schedule.getCount());\n\n        System.out.println(\"Cancelled Ana: \" + schedule.cancelPatient(\"Ana\"));\n        System.out.println(\"Appointments after cancellation: \" + schedule.getCount());\n        System.out.println(\"Created after cancellation: \"\n            + Appointment.numberOfAppointmentsCreated());\n\n        schedule.addAppointment(new Appointment(\"Ana\", Appointment.DEFAULT_MINUTES));\n        System.out.println(\"Created after another Ana: \"\n            + Appointment.numberOfAppointmentsCreated());\n        System.out.println(\"Appointments after another Ana: \" + schedule.getCount());\n        System.out.println(\"Current Ana count: \" + schedule.countAppointmentsByName().get(\"Ana\"));\n    }\n}"
+        }
+      ],
+      "cases": [
+        {
+          "name": "Checking program",
+          "expected": "Created before: 0\nDefault minutes: 15\nCreated after base: 3\nAppointments: 3\nCancelled Ana: true\nAppointments after cancellation: 2\nCreated after cancellation: 3\nCreated after another Ana: 4\nAppointments after another Ana: 3\nCurrent Ana count: 1"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicstaticfinalintDEFAULT_MINUTES=15;\"), \"Declare the default duration constant.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatestaticintappointmentsCreated=0;\"), \"Declare the private shared counter.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatefinalintminutes;\"), \"Make each duration final.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicstaticintnumberOfAppointmentsCreated()\"), \"Use a class getter.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"@return\"), \"Document the creation count.\");\nrequire(Appointment.class.getDeclaredConstructors().length == 1, \"Keep the existing two-parameter constructor only.\");\nrequire(Appointment.numberOfAppointmentsCreated() == 4, \"Cancellation must not lower the lifetime count.\");\nAppointment extra = new Appointment(\"Dana\", 15);\nrequire(Appointment.numberOfAppointmentsCreated() == 5, \"Construction must count even before adding to a schedule.\");\nextra.checkIn();\nrequire(extra.hasCheckedIn() && extra.getMinutes() == 15 && extra.getPatientName().equals(\"Dana\"), \"Keep the old instance operations.\");"
+    },
+    "q23-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "Q2FuY2VsbGF0aW9uIGNoYW5nZXMgdGhlIHNjaGVkdWxlIGxpc3QgYW5kIG5ldmVyIGRlY3JlbWVudHMgdGhlIGxpZmV0aW1lIGNvdW50ZXIuIFRoZSBjb21wbGV0ZSB0aHJlZS1jbGFzcyBQYXJ0IDEyIHByb2plY3QgZm9sbG93cyB0aGUgc3RhcnRpbmcgcHJvamVjdCBiZWxvdy4="
+    },
+    "q24": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "0": {
+          "accept": [
+            "0"
+          ],
+          "show": "0",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "1": {
+          "accept": [
+            "15"
+          ],
+          "show": "15",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "2": {
+          "accept": [
+            "3"
+          ],
+          "show": "3",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "3": {
+          "accept": [
+            "3"
+          ],
+          "show": "3",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "4": {
+          "accept": [
+            "true"
+          ],
+          "show": "true",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "5": {
+          "accept": [
+            "2"
+          ],
+          "show": "2",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "6": {
+          "accept": [
+            "3"
+          ],
+          "show": "3",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "7": {
+          "accept": [
+            "4"
+          ],
+          "show": "4",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "8": {
+          "accept": [
+            "3"
+          ],
+          "show": "3",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        },
+        "9": {
+          "accept": [
+            "1"
+          ],
+          "show": "1",
+          "caseSensitive": true,
+          "placeholder": "code",
+          "width": "8rem"
+        }
+      }
+    },
+    "q24-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "QSBzZWNvbmQgY2FsbCBrZWVwcyB0aGUgY291bnRlcidzIHByZXZpb3VzIHZhbHVlLiBSZXNldCB0aGUgSlZNIGJlZm9yZSBjb21wYXJpbmcgYWJzb2x1dGUgb3V0cHV0LCBvciB1c2UgdGhlIHByaW50ZWQgYmVmb3JlLWNvdW50IHRvIG1lYXN1cmUgdGhlIGluY3JlYXNlLiBUaGUgY29tcGxldGUgcmVwbGFjZW1lbnQgZGVtbyBhcHBlYXJzIHdpdGggdGhlIGVuZGluZyBwcm9qZWN0OyBpdHMgZXhhY3Qgb3V0cHV0IGlzIGFsc28gc2hvd24gYmVsb3cu"
+    },
+    "q25": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 4,
+      "answer": "Z2V0T3JEZWZhdWx0IHN1cHBsaWVzIDAgd2l0aG91dCBpbnNlcnRpbmcgYSBtaXNzaW5nIGNvdW50LiBTbmFwc2hvdHMgZm9sbG93IHRoZSBjdXJyZW50IGxpc3Qgd2l0aG91dCBzeW5jaHJvbml6YXRpb24gZmllbGRzLiBJbnN0YW5jZSBzdGF0ZSBiZWxvbmdzIHRvIGEgcGFydGljdWxhciBvYmplY3QsIHdoaWNoIGEgc3RhdGljIGNhbGwgbXVzdCBpZGVudGlmeS4gRmluYWwgZml4ZXMgYSByZWZlcmVuY2UsIG5vdCB0aGUgb2JqZWN0J3MgY29udGVudHMuIENoYXB0ZXIgNiBiZWxvbmdzIHRvIFRlcm0gVGVzdCAyLCBub3QgVGVybSBUZXN0IDEu"
+    },
+    "summary-example": {
+      "type": "example",
+      "title": "HelpBot.java",
+      "code": "import java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.HashSet;\nimport java.util.Random;\n\n/**\n * Answers course questions using keyword replies and random general replies.\n * Records keyword counts, distinct topics, and ratings.\n * Matching is by substring; questions with several known keywords have\n * no promised priority. This simple example uses non-null English text.\n * @author Pranjal Patra\n * @version 2.0\n */\npublic class HelpBot\n{\n    /** The inclusive rating range. */\n    public static final int MIN_RATING = 1;\n    public static final int MAX_RATING = 5;\n    private static final String NO_QUESTION = \"Please type a question.\";\n    private static final String UNKNOWN_KEYWORD = \"I do not have an answer for that yet.\";\n    private static int botsCreated = 0;\n\n    private HashMap<String, String> replyMap;\n    private HashMap<String, Integer> keywordCounts;\n    private HashSet<String> topicsAsked;\n    private ArrayList<String> generalReplies;\n    private ArrayList<Integer> ratings;\n    private Random randomGenerator;\n\n    /**\n     * Create a help bot with fixed replies, no recorded topics, and no ratings.\n     */\n    public HelpBot()\n    {\n        generalReplies = new ArrayList<>();\n        ratings = new ArrayList<>();\n        randomGenerator = new Random();\n        fillGeneralReplies();\n        replyMap = new HashMap<>();\n        keywordCounts = new HashMap<>();\n        topicsAsked = new HashSet<>();\n        fillReplyMap();\n        botsCreated++;\n    }\n\n    /**\n     * Answer one question by matching a known keyword, or use a general reply.\n     * @param question The text typed by the user; must not be null.\n     * @return A keyword reply, a general reply, or the empty-question prompt.\n     */\n    public String replyTo(String question)\n    {\n        String cleaned = clean(question);\n        if(cleaned.isEmpty()) {\n            return NO_QUESTION;\n        }\n        for(String keyword : replyMap.keySet()) {\n            if(cleaned.contains(keyword)) {\n                recordKeyword(keyword);\n                return replyMap.get(keyword);\n            }\n        }\n        return pickGeneralReply();\n    }\n\n    /**\n     * Remove the spaces around a question and put it in lower case.\n     * Each String method returns a result, so the result must be\n     * used or stored.\n     * @param question The text typed by the user; must not be null.\n     * @return The cleaned text.\n     */\n    public String clean(String question)\n    {\n        return question.trim().toLowerCase();\n    }\n\n    /**\n     * Choose one general reply at random. The call nextInt(bound)\n     * returns a value from 0 up to bound - 1, which is exactly the set\n     * of valid indices for a list of that size.\n     * @return One of the general replies.\n     */\n    public String pickGeneralReply()\n    {\n        int index = randomGenerator.nextInt(generalReplies.size());\n        return generalReplies.get(index);\n    }\n\n    /**\n     * Record how useful a reply was. Ratings outside 1 to 5 are ignored.\n     * The int value is boxed into an Integer as it enters the list.\n     * @param rating A rating from 1 to 5.\n     */\n    public void addRating(int rating)\n    {\n        if(rating >= MIN_RATING && rating <= MAX_RATING) {\n            ratings.add(rating);\n        }\n    }\n\n    /**\n     * @return The number of ratings recorded so far.\n     */\n    public int numberOfRatings()\n    {\n        return ratings.size();\n    }\n\n    /**\n     * Work out the average of the recorded ratings. Each Integer in the\n     * list is unboxed into the int loop variable.\n     * @return The whole-number average, or 0 when no rating exists.\n     */\n    public int averageRating()\n    {\n        if(ratings.isEmpty()) {\n            return 0;\n        }\n        int total = 0;\n        for(int rating : ratings) {\n            total = total + rating;\n        }\n        return total / ratings.size();\n    }\n\n    /**\n     * @return The number of general replies available.\n     */\n    public int numberOfGeneralReplies()\n    {\n        return generalReplies.size();\n    }\n\n    /**\n     * Report whether a given reply is one this bot can give.\n     * @param reply The text to look for.\n     * @return true when the text is one of the general replies.\n     */\n    public boolean hasGeneralReply(String reply)\n    {\n        return generalReplies.contains(reply);\n    }\n\n    /**\n     * Build the list of general replies. This method is private because\n     * it is a step in building a HelpBot, not an operation that other\n     * classes should call.\n     */\n    private void fillGeneralReplies()\n    {\n        generalReplies.add(\"Can you describe that in more detail?\");\n        generalReplies.add(\"Have you checked the course web page?\");\n        generalReplies.add(\"That question comes up often. Let us look at it together.\");\n        generalReplies.add(\"Please post that on the discussion board so others can see the answer.\");\n    }\n\n    /**\n     * Look up an exact keyword without recording a question.\n     * @param keyword A non-null keyword.\n     * @return Its reply, or the unknown-keyword message if absent.\n     */\n    public String replyFor(String keyword)\n    {\n        return replyMap.getOrDefault(keyword, UNKNOWN_KEYWORD);\n    }\n\n    /**\n     * @param keyword A non-null keyword.\n     * @return true if the keyword has a stored reply.\n     */\n    public boolean knows(String keyword)\n    {\n        return replyMap.containsKey(keyword);\n    }\n\n    /**\n     * Add or replace the reply for one exact keyword.\n     * @param keyword A non-null lowercase keyword.\n     * @param reply A non-null reply.\n     */\n    public void learn(String keyword, String reply)\n    {\n        replyMap.put(keyword, reply);\n    }\n\n    /** @return The number of keyword/reply entries. */\n    public int numberOfKeywords()\n    {\n        return replyMap.size();\n    }\n\n    /**\n     * @param keyword A non-null keyword.\n     * @return Its recorded count, or 0 if it has never matched.\n     */\n    public int timesAsked(String keyword)\n    {\n        return keywordCounts.getOrDefault(keyword, 0);\n    }\n\n    /** @return The number of different recorded topics. */\n    public int numberOfTopicsAsked()\n    {\n        return topicsAsked.size();\n    }\n\n    /**\n     * @param keyword A non-null keyword.\n     * @return true if the keyword has been recorded.\n     */\n    public boolean hasBeenAsked(String keyword)\n    {\n        return topicsAsked.contains(keyword);\n    }\n\n    /** @return The number of bots constructed in this JVM. */\n    public static int numberOfBots()\n    {\n        return botsCreated;\n    }\n\n    /**\n     * Record a recognised keyword in the count map and topic set.\n     * @param keyword The keyword that matched; must not be null.\n     */\n    private void recordKeyword(String keyword)\n    {\n        int count = keywordCounts.getOrDefault(keyword, 0);\n        keywordCounts.put(keyword, count + 1);\n        topicsAsked.add(keyword);\n    }\n\n    /** Fill the four fixed keyword replies during construction. */\n    private void fillReplyMap()\n    {\n        replyMap.put(\"submit\",\n            \"Upload your .java files to the assignment page before the deadline.\");\n        replyMap.put(\"compile\",\n            \"Read the first error message and check the line just above it.\");\n        replyMap.put(\"late\", \"Late work loses 10 percent per day.\");\n        replyMap.put(\"test\", \"Term Test 2 covers Chapters 1 to 9 and 12 to 13.\");\n    }\n}",
+      "output": "Bots before: 0\nBots after: 1\nKeywords: 4\nKnows room: false\nRoom lookup: I do not have an answer for that yet.\nUpload your .java files to the assignment page before the deadline.\nRead the first error message and check the line just above it.\nUpload your .java files to the assignment page before the deadline.\nTerm Test 2 covers Chapters 1 to 9 and 12 to 13.\nPlease type a question.\nFallback is general: true\nSubmit count: 2\nCompile count: 1\nTest count: 1\nLate count: 0\nTopics: 3\nHas submit: true\nHas late: false\nRatings: 3\nAverage: 4\nKeywords after replacement: 4\nReplacement: Use the upload page.",
+      "files": [
+        {
+          "name": "HelpBotDemo.java",
+          "content": "public class HelpBotDemo\n{\n    public static void main(String[] args)\n    {\n        System.out.println(\"Bots before: \" + HelpBot.numberOfBots());\n        HelpBot bot = new HelpBot();\n        System.out.println(\"Bots after: \" + HelpBot.numberOfBots());\n        System.out.println(\"Keywords: \" + bot.numberOfKeywords());\n        System.out.println(\"Knows room: \" + bot.knows(\"room\"));\n        System.out.println(\"Room lookup: \" + bot.replyFor(\"room\"));\n        System.out.println(bot.replyTo(\"   How do I SUBMIT my work?  \"));\n        System.out.println(bot.replyTo(\"Why will this not compile?\"));\n        System.out.println(bot.replyTo(\"Where do I submit?\"));\n        System.out.println(bot.replyTo(\"When is the test?\"));\n        System.out.println(bot.replyTo(\"   \"));\n        System.out.println(\"Fallback is general: \"\n            + bot.hasGeneralReply(bot.replyTo(\"Where is the room?\")));\n        System.out.println(\"Submit count: \" + bot.timesAsked(\"submit\"));\n        System.out.println(\"Compile count: \" + bot.timesAsked(\"compile\"));\n        System.out.println(\"Test count: \" + bot.timesAsked(\"test\"));\n        System.out.println(\"Late count: \" + bot.timesAsked(\"late\"));\n        System.out.println(\"Topics: \" + bot.numberOfTopicsAsked());\n        System.out.println(\"Has submit: \" + bot.hasBeenAsked(\"submit\"));\n        System.out.println(\"Has late: \" + bot.hasBeenAsked(\"late\"));\n        bot.addRating(5);\n        bot.addRating(3);\n        bot.addRating(4);\n        bot.addRating(0);\n        bot.addRating(6);\n        System.out.println(\"Ratings: \" + bot.numberOfRatings());\n        System.out.println(\"Average: \" + bot.averageRating());\n        bot.learn(\"submit\", \"Use the upload page.\");\n        System.out.println(\"Keywords after replacement: \" + bot.numberOfKeywords());\n        System.out.println(\"Replacement: \" + bot.replyFor(\"submit\"));\n    }\n}"
+        }
+      ],
+      "maxLines": 32
+    },
+    "starting-example": {
+      "type": "example",
+      "title": "ClinicDemo.java",
+      "code": "public class ClinicDemo\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule schedule = new ClinicSchedule();\n        System.out.println(\"Empty choice: \" + schedule.randomPatientName());\n\n        Appointment ana = new Appointment(\"Ana\", 15);\n        Appointment ben = new Appointment(\"Ben\", 20);\n        Appointment cara = new Appointment(\"Cara\", 10);\n        schedule.addAppointment(ana);\n        schedule.addAppointment(ben);\n        schedule.addAppointment(cara);\n        ben.checkIn();\n\n        System.out.println(\"Choice 1: \" + schedule.randomPatientName());\n        System.out.println(\"Choice 2: \" + schedule.randomPatientName());\n        System.out.println(\"Choice 3: \" + schedule.randomPatientName());\n        System.out.println(\"Appointments: \" + schedule.getCount());\n        System.out.println(\"Waiting count: \" + schedule.countWaiting());\n    }\n}",
+      "output": "Empty choice: null\nChoice 1: Cara\nChoice 2: Ana\nChoice 3: Ana\nAppointments: 3\nWaiting count: 2",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n    private int minutes;\n\n    public Appointment(String patientName, int minutes)\n    {\n        this.patientName = patientName;\n        this.minutes = minutes;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n\n    public int getMinutes()\n    {\n        return minutes;\n    }\n}"
+        },
+        {
+          "name": "ClinicSchedule.java",
+          "content": "import java.util.ArrayList;\nimport java.util.Random;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n    private Random randomGenerator;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n        randomGenerator = new Random(42);\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment -> System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment -> appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n\n    public long countWaiting()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .count();\n    }\n\n    public void printWaitingNames()\n    {\n        appointments.stream()\n                    .filter(appointment -> !appointment.hasCheckedIn())\n                    .map(appointment -> appointment.getPatientName())\n                    .forEach(name -> System.out.println(name));\n    }\n\n    public int totalWaitingMinutes()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .map(appointment -> appointment.getMinutes())\n                           .reduce(0, (total, minutes) -> total + minutes);\n    }\n\n    /**\n     * Find the first patient whose name matches after cleaning both names.\n     * Leading and trailing spaces and differences in case are ignored.\n     * @param name The name to search for; must not be null.\n     * @return The first matching index, or -1 if no name matches.\n     */\n    public int findPatientIndexIgnoringCase(String name)\n    {\n        String cleanedName = name.trim().toLowerCase();\n        int index = 0;\n\n        while(index < appointments.size()) {\n            String storedName = appointments.get(index).getPatientName();\n            if(storedName.trim().toLowerCase().equals(cleanedName)) {\n                return index;\n            }\n            index++;\n        }\n        return -1;\n    }\n\n    /**\n     * Choose a patient name from all current appointments at random.\n     * Checked-in appointments are included.\n     * @return A stored patient name, or null if the schedule is empty.\n     */\n    public String randomPatientName()\n    {\n        if(appointments.isEmpty()) {\n            return null;\n        }\n        int index = randomGenerator.nextInt(appointments.size());\n        return appointments.get(index).getPatientName();\n    }\n}"
+        }
+      ],
+      "maxLines": 32
+    },
+    "part11-example": {
+      "type": "example",
+      "title": "ClinicDemo.java",
+      "code": "import java.util.HashMap;\nimport java.util.HashSet;\n\npublic class ClinicDemo\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule schedule = new ClinicSchedule();\n        System.out.println(\"Empty counts: \" + schedule.countAppointmentsByName().size());\n        System.out.println(\"Empty names: \" + schedule.uniquePatientNames().size());\n\n        schedule.addAppointment(new Appointment(\"Ana\", 15));\n        schedule.addAppointment(new Appointment(\"Ben\", 20));\n        schedule.addAppointment(new Appointment(\"Cara\", 10));\n        schedule.addAppointment(new Appointment(\"Ana\", 15));\n\n        HashMap<String, Integer> counts = schedule.countAppointmentsByName();\n        HashSet<String> names = schedule.uniquePatientNames();\n        System.out.println(\"Ana: \" + counts.get(\"Ana\"));\n        System.out.println(\"Ben: \" + counts.get(\"Ben\"));\n        System.out.println(\"Cara: \" + counts.get(\"Cara\"));\n        System.out.println(\"Dana lookup: \" + counts.get(\"Dana\"));\n        System.out.println(\"Dana count: \" + counts.getOrDefault(\"Dana\", 0));\n        System.out.println(\"Different names: \" + names.size());\n        System.out.println(\"Count entries: \" + counts.size());\n        System.out.println(\"Has Ana: \" + names.contains(\"Ana\"));\n        System.out.println(\"Has Dana: \" + names.contains(\"Dana\"));\n        System.out.println(\"Appointments: \" + schedule.getCount());\n\n        System.out.println(\"Cancelled Ben: \" + schedule.cancelPatient(\"Ben\"));\n        System.out.println(\"Old Ben count: \" + counts.get(\"Ben\"));\n        System.out.println(\"Current Ben count: \"\n            + schedule.countAppointmentsByName().getOrDefault(\"Ben\", 0));\n        System.out.println(\"Current names: \" + schedule.uniquePatientNames().size());\n        System.out.println(\"Appointments: \" + schedule.getCount());\n    }\n}",
+      "output": "Empty counts: 0\nEmpty names: 0\nAna: 2\nBen: 1\nCara: 1\nDana lookup: null\nDana count: 0\nDifferent names: 3\nCount entries: 3\nHas Ana: true\nHas Dana: false\nAppointments: 4\nCancelled Ben: true\nOld Ben count: 1\nCurrent Ben count: 0\nCurrent names: 2\nAppointments: 3",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n    private int minutes;\n\n    public Appointment(String patientName, int minutes)\n    {\n        this.patientName = patientName;\n        this.minutes = minutes;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n\n    public int getMinutes()\n    {\n        return minutes;\n    }\n}"
+        },
+        {
+          "name": "ClinicSchedule.java",
+          "content": "import java.util.HashMap;\nimport java.util.HashSet;\nimport java.util.ArrayList;\nimport java.util.Random;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n    private Random randomGenerator;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n        randomGenerator = new Random(42);\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment -> System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment -> appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n\n    public long countWaiting()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .count();\n    }\n\n    public void printWaitingNames()\n    {\n        appointments.stream()\n                    .filter(appointment -> !appointment.hasCheckedIn())\n                    .map(appointment -> appointment.getPatientName())\n                    .forEach(name -> System.out.println(name));\n    }\n\n    public int totalWaitingMinutes()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .map(appointment -> appointment.getMinutes())\n                           .reduce(0, (total, minutes) -> total + minutes);\n    }\n\n    /**\n     * Find the first patient whose name matches after cleaning both names.\n     * Leading and trailing spaces and differences in case are ignored.\n     * @param name The name to search for; must not be null.\n     * @return The first matching index, or -1 if no name matches.\n     */\n    public int findPatientIndexIgnoringCase(String name)\n    {\n        String cleanedName = name.trim().toLowerCase();\n        int index = 0;\n\n        while(index < appointments.size()) {\n            String storedName = appointments.get(index).getPatientName();\n            if(storedName.trim().toLowerCase().equals(cleanedName)) {\n                return index;\n            }\n            index++;\n        }\n        return -1;\n    }\n\n    /**\n     * Choose a patient name from all current appointments at random.\n     * Checked-in appointments are included.\n     * @return A stored patient name, or null if the schedule is empty.\n     */\n    public String randomPatientName()\n    {\n        if(appointments.isEmpty()) {\n            return null;\n        }\n        int index = randomGenerator.nextInt(appointments.size());\n        return appointments.get(index).getPatientName();\n    }\n\n    /**\n     * Count appointments for each exact stored patient name.\n     * Checked-in appointments are included.\n     * @return A fresh count map; later schedule changes do not update it.\n     */\n    public HashMap<String, Integer> countAppointmentsByName()\n    {\n        HashMap<String, Integer> counts = new HashMap<>();\n        for(Appointment appointment : appointments) {\n            String name = appointment.getPatientName();\n            int count = counts.getOrDefault(name, 0);\n            counts.put(name, count + 1);\n        }\n        return counts;\n    }\n    /**\n     * Collect the exact stored patient names without duplicates.\n     * Checked-in appointments are included.\n     * @return A fresh set; later schedule changes do not update it.\n     */\n    public HashSet<String> uniquePatientNames()\n    {\n        HashSet<String> names = new HashSet<>();\n        for(Appointment appointment : appointments) {\n            names.add(appointment.getPatientName());\n        }\n        return names;\n    }\n}"
+        }
+      ],
+      "maxLines": 32
+    },
+    "part12-example": {
+      "type": "example",
+      "title": "ClinicDemo.java",
+      "code": "public class ClinicDemo\n{\n    public static void main(String[] args)\n    {\n        System.out.println(\"Created before: \" + Appointment.numberOfAppointmentsCreated());\n        System.out.println(\"Default minutes: \" + Appointment.DEFAULT_MINUTES);\n        ClinicSchedule schedule = new ClinicSchedule();\n        schedule.addAppointment(new Appointment(\"Ana\", Appointment.DEFAULT_MINUTES));\n        schedule.addAppointment(new Appointment(\"Ben\", 20));\n        schedule.addAppointment(new Appointment(\"Cara\", 10));\n        System.out.println(\"Created after base: \" + Appointment.numberOfAppointmentsCreated());\n        System.out.println(\"Appointments: \" + schedule.getCount());\n\n        System.out.println(\"Cancelled Ana: \" + schedule.cancelPatient(\"Ana\"));\n        System.out.println(\"Appointments after cancellation: \" + schedule.getCount());\n        System.out.println(\"Created after cancellation: \"\n            + Appointment.numberOfAppointmentsCreated());\n\n        schedule.addAppointment(new Appointment(\"Ana\", Appointment.DEFAULT_MINUTES));\n        System.out.println(\"Created after another Ana: \"\n            + Appointment.numberOfAppointmentsCreated());\n        System.out.println(\"Appointments after another Ana: \" + schedule.getCount());\n        System.out.println(\"Current Ana count: \" + schedule.countAppointmentsByName().get(\"Ana\"));\n    }\n}",
+      "output": "Created before: 0\nDefault minutes: 15\nCreated after base: 3\nAppointments: 3\nCancelled Ana: true\nAppointments after cancellation: 2\nCreated after cancellation: 3\nCreated after another Ana: 4\nAppointments after another Ana: 3\nCurrent Ana count: 1",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    /** The default duration used by demonstrations. */\n    public static final int DEFAULT_MINUTES = 15;\n    private static int appointmentsCreated = 0;\n\n    private String patientName;\n    private boolean checkedIn;\n    private final int minutes;\n\n    public Appointment(String patientName, int minutes)\n    {\n        this.patientName = patientName;\n        this.minutes = minutes;\n        checkedIn = false;\n        appointmentsCreated++;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n\n    public int getMinutes()\n    {\n        return minutes;\n    }\n\n    /**\n     * Report how many appointments have been constructed in this JVM.\n     * Cancellation does not reduce the count.\n     * @return The lifetime number of appointments created.\n     */\n    public static int numberOfAppointmentsCreated()\n    {\n        return appointmentsCreated;\n    }\n}"
+        },
+        {
+          "name": "ClinicSchedule.java",
+          "content": "import java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.HashSet;\nimport java.util.Random;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n    private Random randomGenerator;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n        randomGenerator = new Random(42);\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment -> System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment -> appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n\n    public long countWaiting()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .count();\n    }\n\n    public void printWaitingNames()\n    {\n        appointments.stream()\n                    .filter(appointment -> !appointment.hasCheckedIn())\n                    .map(appointment -> appointment.getPatientName())\n                    .forEach(name -> System.out.println(name));\n    }\n\n    public int totalWaitingMinutes()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .map(appointment -> appointment.getMinutes())\n                           .reduce(0, (total, minutes) -> total + minutes);\n    }\n\n    /**\n     * Find the first patient whose name matches after cleaning both names.\n     * Leading and trailing spaces and differences in case are ignored.\n     * @param name The name to search for; must not be null.\n     * @return The first matching index, or -1 if no name matches.\n     */\n    public int findPatientIndexIgnoringCase(String name)\n    {\n        String cleanedName = name.trim().toLowerCase();\n        int index = 0;\n\n        while(index < appointments.size()) {\n            String storedName = appointments.get(index).getPatientName();\n            if(storedName.trim().toLowerCase().equals(cleanedName)) {\n                return index;\n            }\n            index++;\n        }\n        return -1;\n    }\n\n    /**\n     * Choose a patient name from all current appointments at random.\n     * Checked-in appointments are included.\n     * @return A stored patient name, or null if the schedule is empty.\n     */\n    public String randomPatientName()\n    {\n        if(appointments.isEmpty()) {\n            return null;\n        }\n        int index = randomGenerator.nextInt(appointments.size());\n        return appointments.get(index).getPatientName();\n    }\n\n    /**\n     * Count appointments for each exact stored patient name.\n     * Checked-in appointments are included.\n     * @return A fresh count map; later schedule changes do not update it.\n     */\n    public HashMap<String, Integer> countAppointmentsByName()\n    {\n        HashMap<String, Integer> counts = new HashMap<>();\n        for(Appointment appointment : appointments) {\n            String name = appointment.getPatientName();\n            int count = counts.getOrDefault(name, 0);\n            counts.put(name, count + 1);\n        }\n        return counts;\n    }\n\n    /**\n     * Collect the exact stored patient names without duplicates.\n     * Checked-in appointments are included.\n     * @return A fresh set; later schedule changes do not update it.\n     */\n    public HashSet<String> uniquePatientNames()\n    {\n        HashSet<String> names = new HashSet<>();\n        for(Appointment appointment : appointments) {\n            names.add(appointment.getPatientName());\n        }\n        return names;\n    }\n}"
+        }
+      ],
+      "maxLines": 32
+    },
+    "main-example": {
+      "type": "example",
+      "title": "HelpBotDemo.java",
+      "code": "public class HelpBotDemo\n{\n    public static void main(String[] args)\n    {\n        HelpBot bot = new HelpBot();\n        System.out.println(HelpBot.numberOfBots());\n        System.out.println(bot.replyTo(\"When is the test?\"));\n    }\n}",
+      "output": "1\nTerm Test 2 covers Chapters 1 to 9 and 12 to 13.",
+      "files": [
+        {
+          "name": "HelpBot.java",
+          "content": "import java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.HashSet;\nimport java.util.Random;\n\n/**\n * Answers course questions using keyword replies and random general replies.\n * Records keyword counts, distinct topics, and ratings.\n * Matching is by substring; questions with several known keywords have\n * no promised priority. This simple example uses non-null English text.\n * @author Pranjal Patra\n * @version 2.0\n */\npublic class HelpBot\n{\n    /** The inclusive rating range. */\n    public static final int MIN_RATING = 1;\n    public static final int MAX_RATING = 5;\n    private static final String NO_QUESTION = \"Please type a question.\";\n    private static final String UNKNOWN_KEYWORD = \"I do not have an answer for that yet.\";\n    private static int botsCreated = 0;\n\n    private HashMap<String, String> replyMap;\n    private HashMap<String, Integer> keywordCounts;\n    private HashSet<String> topicsAsked;\n    private ArrayList<String> generalReplies;\n    private ArrayList<Integer> ratings;\n    private Random randomGenerator;\n\n    /**\n     * Create a help bot with fixed replies, no recorded topics, and no ratings.\n     */\n    public HelpBot()\n    {\n        generalReplies = new ArrayList<>();\n        ratings = new ArrayList<>();\n        randomGenerator = new Random();\n        fillGeneralReplies();\n        replyMap = new HashMap<>();\n        keywordCounts = new HashMap<>();\n        topicsAsked = new HashSet<>();\n        fillReplyMap();\n        botsCreated++;\n    }\n\n    /**\n     * Answer one question by matching a known keyword, or use a general reply.\n     * @param question The text typed by the user; must not be null.\n     * @return A keyword reply, a general reply, or the empty-question prompt.\n     */\n    public String replyTo(String question)\n    {\n        String cleaned = clean(question);\n        if(cleaned.isEmpty()) {\n            return NO_QUESTION;\n        }\n        for(String keyword : replyMap.keySet()) {\n            if(cleaned.contains(keyword)) {\n                recordKeyword(keyword);\n                return replyMap.get(keyword);\n            }\n        }\n        return pickGeneralReply();\n    }\n\n    /**\n     * Remove the spaces around a question and put it in lower case.\n     * Each String method returns a result, so the result must be\n     * used or stored.\n     * @param question The text typed by the user; must not be null.\n     * @return The cleaned text.\n     */\n    public String clean(String question)\n    {\n        return question.trim().toLowerCase();\n    }\n\n    /**\n     * Choose one general reply at random. The call nextInt(bound)\n     * returns a value from 0 up to bound - 1, which is exactly the set\n     * of valid indices for a list of that size.\n     * @return One of the general replies.\n     */\n    public String pickGeneralReply()\n    {\n        int index = randomGenerator.nextInt(generalReplies.size());\n        return generalReplies.get(index);\n    }\n\n    /**\n     * Record how useful a reply was. Ratings outside 1 to 5 are ignored.\n     * The int value is boxed into an Integer as it enters the list.\n     * @param rating A rating from 1 to 5.\n     */\n    public void addRating(int rating)\n    {\n        if(rating >= MIN_RATING && rating <= MAX_RATING) {\n            ratings.add(rating);\n        }\n    }\n\n    /**\n     * @return The number of ratings recorded so far.\n     */\n    public int numberOfRatings()\n    {\n        return ratings.size();\n    }\n\n    /**\n     * Work out the average of the recorded ratings. Each Integer in the\n     * list is unboxed into the int loop variable.\n     * @return The whole-number average, or 0 when no rating exists.\n     */\n    public int averageRating()\n    {\n        if(ratings.isEmpty()) {\n            return 0;\n        }\n        int total = 0;\n        for(int rating : ratings) {\n            total = total + rating;\n        }\n        return total / ratings.size();\n    }\n\n    /**\n     * @return The number of general replies available.\n     */\n    public int numberOfGeneralReplies()\n    {\n        return generalReplies.size();\n    }\n\n    /**\n     * Report whether a given reply is one this bot can give.\n     * @param reply The text to look for.\n     * @return true when the text is one of the general replies.\n     */\n    public boolean hasGeneralReply(String reply)\n    {\n        return generalReplies.contains(reply);\n    }\n\n    /**\n     * Build the list of general replies. This method is private because\n     * it is a step in building a HelpBot, not an operation that other\n     * classes should call.\n     */\n    private void fillGeneralReplies()\n    {\n        generalReplies.add(\"Can you describe that in more detail?\");\n        generalReplies.add(\"Have you checked the course web page?\");\n        generalReplies.add(\"That question comes up often. Let us look at it together.\");\n        generalReplies.add(\"Please post that on the discussion board so others can see the answer.\");\n    }\n\n    /**\n     * Look up an exact keyword without recording a question.\n     * @param keyword A non-null keyword.\n     * @return Its reply, or the unknown-keyword message if absent.\n     */\n    public String replyFor(String keyword)\n    {\n        return replyMap.getOrDefault(keyword, UNKNOWN_KEYWORD);\n    }\n\n    /**\n     * @param keyword A non-null keyword.\n     * @return true if the keyword has a stored reply.\n     */\n    public boolean knows(String keyword)\n    {\n        return replyMap.containsKey(keyword);\n    }\n\n    /**\n     * Add or replace the reply for one exact keyword.\n     * @param keyword A non-null lowercase keyword.\n     * @param reply A non-null reply.\n     */\n    public void learn(String keyword, String reply)\n    {\n        replyMap.put(keyword, reply);\n    }\n\n    /** @return The number of keyword/reply entries. */\n    public int numberOfKeywords()\n    {\n        return replyMap.size();\n    }\n\n    /**\n     * @param keyword A non-null keyword.\n     * @return Its recorded count, or 0 if it has never matched.\n     */\n    public int timesAsked(String keyword)\n    {\n        return keywordCounts.getOrDefault(keyword, 0);\n    }\n\n    /** @return The number of different recorded topics. */\n    public int numberOfTopicsAsked()\n    {\n        return topicsAsked.size();\n    }\n\n    /**\n     * @param keyword A non-null keyword.\n     * @return true if the keyword has been recorded.\n     */\n    public boolean hasBeenAsked(String keyword)\n    {\n        return topicsAsked.contains(keyword);\n    }\n\n    /** @return The number of bots constructed in this JVM. */\n    public static int numberOfBots()\n    {\n        return botsCreated;\n    }\n\n    /**\n     * Record a recognised keyword in the count map and topic set.\n     * @param keyword The keyword that matched; must not be null.\n     */\n    private void recordKeyword(String keyword)\n    {\n        int count = keywordCounts.getOrDefault(keyword, 0);\n        keywordCounts.put(keyword, count + 1);\n        topicsAsked.add(keyword);\n    }\n\n    /** Fill the four fixed keyword replies during construction. */\n    private void fillReplyMap()\n    {\n        replyMap.put(\"submit\",\n            \"Upload your .java files to the assignment page before the deadline.\");\n        replyMap.put(\"compile\",\n            \"Read the first error message and check the line just above it.\");\n        replyMap.put(\"late\", \"Late work loses 10 percent per day.\");\n        replyMap.put(\"test\", \"Term Test 2 covers Chapters 1 to 9 and 12 to 13.\");\n    }\n}"
+        }
+      ],
+      "maxLines": 32
+    }
+  }
+}
