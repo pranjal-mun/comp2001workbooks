@@ -1,0 +1,80 @@
+{
+  "id": "lecture-01",
+  "course": "COMP 2001: Object-Oriented Programming",
+  "title": "Lecture 1 Workbook",
+  "subtitle": "Object-Oriented Programming and Java",
+  "exercises": {
+    "ex-hello": {
+      "type": "example",
+      "code": "public class Hello\n{\n    public static void main(String[] args)\n    {\n        System.out.println(\"Hello, MUN!\");\n    }\n}",
+      "output": "Hello, MUN!",
+      "title": "Hello.java"
+    },
+    "ex-variables": {
+      "type": "example",
+      "code": "String course = \"COMP 2001\";\nint students = 85;\nboolean atMun = true;\n\n// Added so you can see the values:\nSystem.out.println(course);\nSystem.out.println(students);\nSystem.out.println(atMun);",
+      "output": "COMP 2001\n85\ntrue"
+    },
+    "ex-operators": {
+      "type": "example",
+      "code": "int labs = 28;\nint tests = 35;\n\nint total = labs + tests;\nboolean passing = total >= 50 && labs > 0;\n\n// Added so you can see the results:\nSystem.out.println(total);\nSystem.out.println(passing);",
+      "output": "63\ntrue"
+    },
+    "ex-conditionals": {
+      "type": "example",
+      "code": "String city = \"St. John's\";\n\nif (city.equals(\"St. John's\")) {\n    System.out.println(\"Welcome to MUN\");\n}\nelse {\n    System.out.println(\"Welcome\");\n}",
+      "output": "Welcome to MUN"
+    },
+    "ex-while": {
+      "type": "example",
+      "code": "int week = 1;\n\nwhile (week <= 3) {\n    System.out.println(\"Week \" + week);\n    week++;\n}",
+      "output": "Week 1\nWeek 2\nWeek 3"
+    },
+    "ex-for": {
+      "type": "example",
+      "code": "for (int week = 1; week <= 3; week++) {\n    System.out.println(\"Week \" + week);\n}",
+      "output": "Week 1\nWeek 2\nWeek 3"
+    },
+    "ex-foreach": {
+      "type": "example",
+      "code": "String[] pets = {\"Oliver\", \"Sabina\"};\n\nfor (String pet : pets) {\n    System.out.println(pet);\n}",
+      "output": "Oliver\nSabina"
+    },
+    "ex-lists": {
+      "type": "example",
+      "code": "import java.util.ArrayList;\n\npublic class Main\n{\n    public static void main(String[] args)\n    {\n        ArrayList<String> pets =\n            new ArrayList<>();\n        pets.add(\"Oliver\");\n        pets.add(\"Sabina\");\n        pets.add(\"Milo\");\n\n        String first = pets.get(0);\n        int count = pets.size();\n\n        // Added so you can see the results:\n        System.out.println(first);\n        System.out.println(count);\n    }\n}",
+      "output": "Oliver\n3"
+    },
+    "ex-maps": {
+      "type": "example",
+      "code": "import java.util.HashMap;\n\npublic class Main\n{\n    public static void main(String[] args)\n    {\n        HashMap<String, String> course =\n            new HashMap<>();\n        course.put(\"code\", \"COMP 2001\");\n        course.put(\"program\", \"Computer Science\");\n\n        System.out.println(course.get(\"program\"));\n    }\n}",
+      "output": "Computer Science"
+    },
+    "ex-methods": {
+      "type": "example",
+      "code": "public class Main\n{\n    static String label(String code, int n)\n    {\n        return code + \" \" + n;\n    }\n\n    public static void main(String[] args)\n    {\n        String course = label(\"COMP\", 2001);\n\n        // Added so you can see the result:\n        System.out.println(course);\n    }\n}",
+      "output": "COMP 2001"
+    },
+    "ex-objects": {
+      "type": "example",
+      "code": "Course comp2001 = new Course(\n    \"COMP 2001\",\n    \"Pranjal Patra\"\n);\n\nSystem.out.println(comp2001.instructor);",
+      "output": "Pranjal Patra",
+      "files": [
+        {
+          "name": "Course.java",
+          "content": "class Course\n{\n    String code;\n    String instructor;\n\n    Course(String code, String instructor)\n    {\n        this.code = code;\n        this.instructor = instructor;\n    }\n}"
+        }
+      ]
+    },
+    "ex-inheritance": {
+      "type": "example",
+      "code": "class Pet {\n    String speak() { return \"...\"; }\n}\n\nclass Dog extends Pet {\n    @Override\n    String speak() { return \"woof\"; }\n}\n\npublic class Main\n{\n    public static void main(String[] args)\n    {\n        Dog oliver = new Dog();\n\n        // Added so you can see which speak() runs:\n        System.out.println(oliver.speak());\n    }\n}",
+      "output": "woof"
+    },
+    "ex-exceptions": {
+      "type": "example",
+      "code": "String text = \"2001\";\n\ntry {\n    int number = Integer.parseInt(text);\n    System.out.println(number);\n}\ncatch (NumberFormatException error) {\n    System.out.println(\"Not a number\");\n}",
+      "output": "2001"
+    }
+  }
+}

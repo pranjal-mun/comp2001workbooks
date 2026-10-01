@@ -22,15 +22,15 @@ export const UNITS = [
 
 // Titles may contain <code>…</code>; they are inserted as HTML.
 export const LECTURES = [
-  { n: 1, unit: 1, date: "2026-09-10", title: "Course introduction and a first Java program", built: false },
+  { n: 1, unit: 1, date: "2026-09-10", title: "Course introduction and a first Java program", built: true },
   { n: 2, unit: 1, date: "2026-09-15", title: "Chapter 1: Objects have state and behavior", built: true },
   { n: 3, unit: 1, date: "2026-09-17", title: "Chapter 2, Part 1: A class defines an object's state", built: true },
   { n: 4, unit: 1, date: "2026-09-22", title: "Chapter 2, Part 2: Methods make state useful", built: true },
   { n: 5, unit: 1, date: "2026-09-24", title: "Chapter 3: Objects collaborate", built: true },
   { n: 6, unit: 2, date: "2026-09-29", title: "Chapter 4, Part 1: Storing and processing groups of objects", built: true },
-  { n: 7, unit: 2, date: "2026-10-01", title: "Chapter 4, Part 2: Traversal, searching, and safe removal", built: false },
-  { n: 8, unit: 2, date: "2026-10-06", title: "Chapter 5, Part 1: Lambdas and internal iteration", built: false },
-  { n: 9, unit: 2, date: "2026-10-08", title: "Chapter 5, Part 2: Filtering and transforming with streams", built: false },
+  { n: 7, unit: 2, date: "2026-10-01", title: "Chapter 4, Part 2: Traversal, searching, and safe removal", built: true },
+  { n: 8, unit: 2, date: "2026-10-06", title: "Chapter 5, Part 1: Lambdas and internal iteration", built: true },
+  { n: 9, unit: 2, date: "2026-10-08", title: "Chapter 5, Part 2: Filtering and transforming with streams", built: true },
   { n: 10, unit: 3, date: "2026-10-15", title: "Chapter 6, Part 1: Learning and using library classes", built: false },
   { n: 11, unit: 3, date: "2026-10-20", title: "Chapter 6, Part 2: Maps, sets, and class-level members", built: false },
   { n: 12, unit: 3, date: "2026-10-22", title: "Chapter 7, Part 1: Fixed-size collections and the <code>for</code> loop", built: false },
@@ -49,7 +49,7 @@ export const LECTURES = [
 export const KEY_DATES = [
   { name: "Fall lecture break", date: "2026-10-13", note: "No class" },
   { name: "Term Test 1", date: "2026-10-21", note: "Chapters 1 to 5, in the lab period" },
-  { name: "Term Test 2", date: "2026-11-18", note: "Chapters 1 to 9 and 12 to 13, in the lab period" },
+  { name: "Term Test 2", date: "2026-11-18", note: "Chapters 1 to 9 and 12 to 13, mostly 6 to 9 and 12 to 13, in the lab period" },
   { name: "Final examination", when: "Dec 10 to 18", note: "Registrar-scheduled" },
 ];
 

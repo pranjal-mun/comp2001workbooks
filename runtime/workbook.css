@@ -491,6 +491,10 @@ main .wb-table-wrap { overflow-x: auto; }
   font-size: 0.8rem;
 }
 .wb-widget-label { color: var(--ink-quiet); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.68rem; font-weight: 700; flex: 1; }
+/* File names and code keep their case: Java names are case-sensitive, and
+   an uppercased Playlist.java or findFirstTrackIndex misleads students. */
+.wb-widget-label.is-file { text-transform: none; letter-spacing: 0; font-family: var(--font-mono); font-size: 0.78rem; }
+h4 code, main th code, .wb-block-title code, .wb-callout-title code, .wb-answer-title code { text-transform: none; letter-spacing: 0; }
 .wb-xp-badge { font-size: 0.7rem; font-weight: 700; color: var(--accent); border: 1px solid currentColor; border-radius: 999px; padding: 0.12rem 0.55rem; white-space: nowrap; letter-spacing: 0.02em; }
 .wb-xp-badge.is-earned { color: var(--good-ink); background: var(--good-wash); }
 .wb-xp-badge.is-revealed { color: var(--ink-quiet); border-style: dashed; }

@@ -58,6 +58,16 @@ function h(tag, attrs = {}, ...children) {
   return el;
 }
 
+/**
+ * The label in a code box's header. A file name such as "Playlist.java" is
+ * shown exactly as written, since Java file names are case-sensitive.
+ */
+function widgetLabel(title, fallback) {
+  const text = title ?? fallback;
+  const isFile = /\.[A-Za-z]+$/.test(text);
+  return h("span", { class: "wb-widget-label" + (isFile ? " is-file" : "") }, text);
+}
+
 function button(label, onclick, extra = {}) {
   return h("button", { type: "button", class: "wb-btn " + (extra.class ?? ""), onclick, title: extra.title, hidden: extra.hidden }, label);
 }
@@ -350,7 +360,7 @@ class ExampleElement extends RunnableElement {
       this.consoleWrap.hidden = true;
     }
     this.append(
-      h("div", { class: "wb-widget-head" }, h("span", { class: "wb-widget-label" }, spec.title ?? "Example")),
+      h("div", { class: "wb-widget-head" }, widgetLabel(spec.title, "Example")),
       this.editorHost, toolbar, this.consoleWrap, this.tutorPanel,
     );
   }
@@ -400,7 +410,7 @@ class ExerciseElement extends RunnableElement {
 
     this.append(
       h("div", { class: "wb-widget-head" },
-        h("span", { class: "wb-widget-label" }, spec.title ?? "Your code"),
+        widgetLabel(spec.title, "Your code"),
         this.statusPill, this.badge),
       this.editorHost, toolbar, this.consoleWrap, this.tutorPanel, this.resultPanel, this.answerPanel,
     );
@@ -617,7 +627,7 @@ class TableElement extends WorkbookElement {
     for (const [name, { input, cell, key }] of this.inputs) {
       if (!input.value.trim()) { cell.classList.remove("is-right", "is-wrong"); continue; }
       attempted++;
-      const ok = matchAnswer(input.value, key.accept, { caseSensitive: key.caseSensitive });
+      const ok = matchAnswer(input.value, key.accept, { caseSensitive: key.caseSensitive, preserveWhitespace: key.preserveWhitespace });
       cell.classList.toggle("is-right", ok);
       cell.classList.toggle("is-wrong", !ok);
       if (ok) {
@@ -699,7 +709,7 @@ class ShortElement extends WorkbookElement {
     );
 
     this.append(
-      h("div", { class: "wb-widget-head" }, h("span", { class: "wb-widget-label" }, spec.title ?? "Your answer"), this.statusPill, this.badge),
+      h("div", { class: "wb-widget-head" }, widgetLabel(spec.title, "Your answer"), this.statusPill, this.badge),
       this.textarea,
       h("div", { class: "wb-toolbar" }, this.compareButton, this.hint, h("span", { class: "wb-spacer" }), this.revealButton),
       this.answerPanel, this.selfCheck,

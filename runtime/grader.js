@@ -83,8 +83,9 @@ export async function runCases(spec, source, files = []) {
 }
 
 /** Normalize a typed answer for comparison with accepted answers. */
-export function normalizeAnswer(text, { caseSensitive = false } = {}) {
-  let value = String(text ?? "").trim().replace(/\s+/g, " ");
+export function normalizeAnswer(text, { caseSensitive = false, preserveWhitespace = false } = {}) {
+  let value = String(text ?? "").trim();
+  if (!preserveWhitespace) value = value.replace(/\s+/g, " ");
   const classMatch = value.match(/^<class\s+['"]([^'"]+)['"]>$/i);
   if (classMatch) value = classMatch[1];
   if (!caseSensitive) value = value.toLowerCase();

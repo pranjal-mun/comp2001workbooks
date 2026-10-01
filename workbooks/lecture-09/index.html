@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 2001 – Lecture 9 Workbook</title>
+  <link rel="icon" href="../../runtime/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
+  <link rel="stylesheet" href="../../runtime/workbook.css">
+  <script type="module">
+    import { initWorkbook } from "../../runtime/workbook.js";
+    initWorkbook({ id: "lecture-09", specs: "./exercises.json" });
+  </script>
+</head>
+<body>
+<main>
+
+<div class="wb-title-block">
+  <div>
+    <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
+    <h1>Lecture 9 Workbook</h1>
+    <div class="wb-subtitle">Chapter 5, Part 2: Filtering and transforming with streams</div>
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
+  </div>
+  <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+</div>
+
+<section class="wb-outcomes">
+  <h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+  <p>A stream pipeline can choose tracks, read their titles or lengths, then print or combine the values. This <code>Playlist</code> uses the <code>Track</code> class from the lecture. With the five-track example, John Coltrane gives two titles, Blue Train and Naima, a count of 2, and a total of 908 seconds. All five tracks stay in the list.</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Playlist</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Track</span>&gt; tracks;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Playlist</span>()
+    {
+        tracks = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addTrack</span>(<span class="wb-type">Track</span> track)
+    {
+        tracks.add(track);
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printTitlesByArtist</span>(<span class="wb-type">String</span> artist)
+    {
+        tracks.stream()                              <span class="wb-cmt">// source: Track objects</span>
+              .filter(t -&gt; t.getArtist().equals(artist)) <span class="wb-cmt">// predicate: true lets a track through</span>
+              .map(t -&gt; t.getTitle())                 <span class="wb-cmt">// now String titles</span>
+              .forEach(title -&gt; System.out.println(title)); <span class="wb-cmt">// terminal action</span>
+    }
+
+    <span class="wb-kw">public</span> long countTracksByArtist(<span class="wb-type">String</span> artist)
+    {
+        <span class="wb-kw">return</span> tracks.stream()                       <span class="wb-cmt">// fresh stream for another result</span>
+                     .filter(t -&gt; t.getArtist().equals(artist))
+                     .count();                       <span class="wb-cmt">// terminal: returns long</span>
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">totalDurationByArtist</span>(<span class="wb-type">String</span> artist)
+    {
+        <span class="wb-kw">return</span> tracks.stream()
+                     .filter(t -&gt; t.getArtist().equals(artist))
+                     .map(t -&gt; t.getDurationSeconds()) <span class="wb-cmt">// now Integer seconds</span>
+                     .reduce(<span class="wb-num">0</span>, (total, seconds) -&gt; total + seconds);
+                                                     <span class="wb-cmt">// identity 0; accumulator adds seconds</span>
+    }
+}</code></pre>
+  <table>
+    <thead><tr><th>term</th><th>meaning</th></tr></thead>
+    <tbody>
+      <tr><td>stream and source</td><td><code>tracks.stream()</code> opens a view of the list's elements for processing, not a stored copy or a list with indexed access. The pipelines above leave the list's membership, order and track fields unchanged.</td></tr>
+      <tr><td>pipeline stages</td><td>a source, zero or more intermediate operations, then one terminal operation. Intermediate operations return streams; the terminal operation starts processing and returns a result or performs an action.</td></tr>
+      <tr><td>filter and predicate</td><td><code>filter</code> takes a boolean test for one element. <code>true</code> passes it onward; <code>false</code> leaves it out. The element type stays <code>Track</code>; the source list loses nothing.</td></tr>
+      <tr><td>map and element type</td><td><code>map</code> supplies one value for each input that reaches it. Titles give <code>String</code> elements; the <code>int</code> durations become <code>Integer</code> elements in this stream. After mapping to titles, you cannot call <code>Track</code> methods on them.</td></tr>
+      <tr><td>forEach</td><td>a terminal operation that runs an action for each arriving element and returns no value. Here it prints each title; it does not return another stream.</td></tr>
+      <tr><td>count</td><td>a terminal operation returning a <code>long</code>, not an <code>int</code>. It counts the elements that reach it, so the Coltrane filter gives 2.</td></tr>
+      <tr><td>reduce, identity and accumulator</td><td><code>reduce(0, (total, seconds) -&gt; total + seconds)</code> combines seconds into one total. The identity 0 leaves addition unchanged. The accumulator takes the total so far and the next value, then returns the new total. Coltrane gives 0, 643, 908.</td></tr>
+      <tr><td>empty stream</td><td>with no matching tracks, <code>forEach</code> runs no action, <code>count</code> returns 0, and identity-based <code>reduce</code> returns its identity without calling the accumulator. An empty playlist gives the same results.</td></tr>
+      <tr><td>one stream per result</td><td>a stream cannot be reused after a terminal operation. Call <code>tracks.stream()</code> again for another result. You cannot put <code>filter</code> after <code>count</code>, because a <code>long</code> has no stream operations.</td></tr>
+      <tr><td>loop or pipeline</td><td>a short pipeline suits choosing, transforming and combining values. A loop can read better when you need an index, an early exit or several updates. Both are valid; choose the version whose steps are easier to follow.</td></tr>
+    </tbody>
+  </table>
+  <p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run on the page takes a few seconds while Java loads). Boxes that ask for part of a clinic class come with the rest of that class and a small demo class on their classpath. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
+</section>
+
+<hr>
+
+<p>Use these questions with the slides or for revision. During the coding pauses, follow the clinic demonstration and predict its results. You can finish or repeat the code later in BlueJ. By the end, you should be able to:</p>
+<ul>
+  <li>trace the values and element types through a stream pipeline;</li>
+  <li>use <code>filter</code>, <code>map</code>, <code>count</code>, and <code>reduce</code>;</li>
+  <li>explain empty results and choose between a pipeline and a loop.</li>
+</ul>
+
+<h2 id="s1">1. Playlist</h2>
+<p><code>Playlist</code> stores an <code>ArrayList&lt;Track&gt;</code> named <code>tracks</code>. Each track has four methods:</p>
+<ul>
+  <li><code>getTitle()</code>, <code>getArtist()</code> and <code>getDurationSeconds()</code>;</li>
+  <li><code>printDetails()</code>, which prints a line such as <code>John Coltrane - Naima (265 s)</code>.</li>
+</ul>
+<p>Use Java 8. Tracks, titles, and artists are non-null. Each question starts with these five tracks in this order unless it says otherwise.</p>
+  <table>
+    <thead><tr><th>Index</th><th>Title</th><th>Artist</th><th>Seconds</th></tr></thead>
+    <tbody>
+      <tr><td>0</td><td>Northern Sky</td><td>Nick Drake</td><td>224</td></tr>
+      <tr><td>1</td><td>Blue Train</td><td>John Coltrane</td><td>643</td></tr>
+      <tr><td>2</td><td>Teardrop</td><td>Massive Attack</td><td>330</td></tr>
+      <tr><td>3</td><td>Naima</td><td>John Coltrane</td><td>265</td></tr>
+      <tr><td>4</td><td>Angel</td><td>Massive Attack</td><td>379</td></tr>
+    </tbody>
+  </table>
+<p>The starting <code>Playlist</code> already uses the Lecture 8 methods. Add each new method inside the class. The list stores the <code>Track</code> references; a pipeline reads values from that list.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printAllTracks</span>()
+{
+    tracks.forEach(t -&gt; t.printDetails());
+}
+
+<span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">removeTracksByArtist</span>(<span class="wb-type">String</span> artist)
+{
+    tracks.removeIf(t -&gt; t.getArtist().equals(artist));
+}</code></pre>
+
+<h2 id="s2">2. Streams</h2>
+<p>A stream is a view of elements for processing. It has no indexed access and stores no second list. <strong>Intermediate</strong> operations describe an onward stream. A <strong>terminal</strong> operation starts the processing and ends the pipeline. A stream could in principle be endless; our examples use finite lists.</p>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: what a stream is not</div>
+  <p><strong>1.</strong> A student says, &ldquo;<code>stream()</code> makes a new list, so I can call <code>get(0)</code> on it and use the stream again after printing.&rdquo; Correct each part of this claim.</p>
+  <wb-short id="q1"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: a loop and a pipeline</div>
+  <p><strong>2.</strong> These two fragments run inside <code>Playlist</code>. State the source and terminal operation in the pipeline. How often does each version call <code>printDetails()</code>? Which track prints first?</p>
+<pre><code><span class="wb-kw">for</span>(<span class="wb-type">Track</span> track : tracks) {
+    track.printDetails();
+}</code></pre>
+<pre><code>tracks.stream()
+      .forEach(track -&gt;
+          track.printDetails());</code></pre>
+  <wb-table id="q2">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>source</td><td data-blank="src"></td></tr>
+        <tr><td>terminal operation</td><td data-blank="term"></td></tr>
+        <tr><td>calls in the loop version</td><td data-blank="loop"></td></tr>
+        <tr><td>calls in the pipeline version</td><td data-blank="stream"></td></tr>
+        <tr><td>first track printed</td><td data-blank="first"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h2 id="s3">3. Filtering</h2>
+<p><code>filter</code> takes a predicate. A true result passes the same element onward; false leaves it out. For example, an artist test for John Coltrane passes Blue Train and Naima. No track or list membership changes.</p>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: <code>printTracksByArtist</code></div>
+  <p><strong>3.</strong> Write the pipeline version of this loop inside <code>Playlist</code>. Use <code>equals</code> for text.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printTracksByArtist</span>(<span class="wb-type">String</span> artist)
+{
+    <span class="wb-kw">for</span>(<span class="wb-type">Track</span> t : tracks) {
+        <span class="wb-kw">if</span>(t.getArtist().equals(artist)) {
+            t.printDetails();
+        }
+    }
+}</code></pre>
+  <p>The <code>Track</code> class is on the classpath of this box. The checking program prints the John Coltrane tracks, then an artist who is not there. Its expected output is:</p>
+<pre class="wb-output">John Coltrane:
+John Coltrane - Blue Train (643 s)
+John Coltrane - Naima (265 s)
+Nobody At All:
+Still 5 tracks</pre>
+  <wb-exercise id="q3"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: filter or remove?</div>
+  <p><strong>4.</strong> Use this predicate first with a filtering pipeline, then with <code>removeIf</code>, on a fresh five-track list each time. Which tracks pass the filter? Which remain after removal? Give the list size after each operation and the element type after the filter.</p>
+<pre><code>t -&gt; t.getDurationSeconds() &lt; <span class="wb-num">300</span></code></pre>
+  <wb-table id="q4">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>tracks that pass the filter</td><td data-blank="pass"></td></tr>
+        <tr><td>list size after the filter</td><td data-blank="fsize"></td></tr>
+        <tr><td>element type after the filter</td><td data-blank="ftype"></td></tr>
+        <tr><td>tracks left after removeIf</td><td data-blank="left"></td></tr>
+        <tr><td>list size after removeIf</td><td data-blank="rsize"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>What does a true result mean for each operation?</p>
+  <wb-short id="q4-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: two filters</div>
+  <p><strong>5.</strong> List the tracks after each filter. Would reversing the two filters change the final output? Explain the condition that makes this safe.</p>
+<pre><code>tracks.stream()
+      .filter(t -&gt; t.getDurationSeconds() &gt; <span class="wb-num">250</span>)
+      .filter(t -&gt; t.getDurationSeconds() &lt; <span class="wb-num">400</span>)
+      .forEach(t -&gt; t.printDetails());</code></pre>
+  <wb-table id="q5">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>after the first filter</td><td data-blank="f1"></td></tr>
+        <tr><td>after the second filter</td><td data-blank="f2"></td></tr>
+        <tr><td>does reversing change the output?</td><td data-blank="rev"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>What condition makes reversing them safe?</p>
+  <wb-short id="q5-why"></wb-short>
+</div>
+
+<h2 id="s4">4. Mapping</h2>
+<p><code>map</code> supplies one output value for every input it receives. Mapping a track to its title produces a <code>String</code>; mapping to its duration produces a number. The source objects stay unchanged.</p>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: <code>printAllTitles</code></div>
+  <p><strong>6.</strong> Write the pipeline version of <code>printAllTitles</code> with <code>map</code>. Compare it with the loop. How many values reach <code>forEach</code>, and of what type?</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printAllTitles</span>()
+{
+    <span class="wb-kw">for</span>(<span class="wb-type">Track</span> t : tracks) {
+        <span class="wb-type">String</span> title = t.getTitle();
+        System.out.println(title);
+    }
+}</code></pre>
+  <p>The <code>Track</code> class is on the classpath of this box. The checking program calls your method on an empty playlist, then on the five tracks. Its expected output is:</p>
+<pre class="wb-output">Empty playlist:
+Five tracks:
+Northern Sky
+Blue Train
+Teardrop
+Naima
+Angel
+Still 5 tracks</pre>
+  <wb-exercise id="q6"></wb-exercise>
+  <wb-table id="q6-type">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>values that reach forEach</td><td data-blank="n"></td></tr>
+        <tr><td>their type</td><td data-blank="type"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: the name is not the type</div>
+  <p><strong>7.</strong> This pipeline does not compile. Explain why the name <code>track</code> does not fix the problem. Write a corrected last line that prints the titles.</p>
+<pre><code>tracks.stream()
+      .map(track -&gt; track.getTitle())
+      .forEach(track -&gt; track.printDetails());</code></pre>
+  <wb-table id="q7">
+    <table>
+      <thead><tr><th>corrected last line</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="fix"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Why does the name <code>track</code> not fix the problem?</p>
+  <wb-short id="q7-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: filter, then map</div>
+  <p><strong>8.</strong> Trace <code>printTitlesByArtist("John Coltrane")</code>. Name the values and their type after <code>filter</code> and after <code>map</code>. Write the output. Could the artist test move after this map unchanged?</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printTitlesByArtist</span>(<span class="wb-type">String</span> artist)
+{
+    tracks.stream()
+          .filter(t -&gt; t.getArtist().equals(artist))
+          .map(t -&gt; t.getTitle())
+          .forEach(System.out::println);
+}</code></pre>
+  <wb-table id="q8">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>values after filter</td><td data-blank="fvals"></td></tr>
+        <tr><td>type after filter</td><td data-blank="ftype"></td></tr>
+        <tr><td>values after map</td><td data-blank="mvals"></td></tr>
+        <tr><td>type after map</td><td data-blank="mtype"></td></tr>
+        <tr><td>output line 1</td><td data-blank="o1"></td></tr>
+        <tr><td>output line 2</td><td data-blank="o2"></td></tr>
+        <tr><td>could the artist test move after map unchanged?</td><td data-blank="move"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <wb-short id="q8-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: <code>countTracksByArtist</code></div>
+  <p><strong>9.</strong> Complete <code>countTracksByArtist</code>. The loop shows the same job. Give the return type and the results for John Coltrane, Nick Drake, and Nobody At All.</p>
+<pre><code><span class="wb-kw">public</span> long countTracksByArtist(<span class="wb-type">String</span> artist)
+{
+    long count = <span class="wb-num">0</span>;
+    <span class="wb-kw">for</span>(<span class="wb-type">Track</span> t : tracks) {
+        <span class="wb-kw">if</span>(t.getArtist().equals(artist)) {
+            count++;
+        }
+    }
+    <span class="wb-kw">return</span> count;
+}</code></pre>
+  <p>The <code>Track</code> class is on the classpath of this box. Fill in the return type, then write the pipeline. The checking program prints the three counts. Its expected output is:</p>
+<pre class="wb-output">John Coltrane: 2
+Nick Drake: 1
+Nobody At All: 0
+Still 5 tracks</pre>
+  <wb-exercise id="q9"></wb-exercise>
+  <wb-table id="q9-results">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>return type of count()</td><td data-blank="type"></td></tr>
+        <tr><td>John Coltrane</td><td data-blank="jc"></td></tr>
+        <tr><td>Nick Drake</td><td data-blank="nd"></td></tr>
+        <tr><td>Nobody At All</td><td data-blank="nb"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h2 id="s5">5. Coding Pause 7: Waiting patients</h2>
+<p>This is clinic Part 7, at slide 18. Start with the finished Lecture 8 Part 6 project. <code>ClinicSchedule</code> stores an <code>ArrayList&lt;Appointment&gt;</code> named <code>appointments</code>. An appointment supplies <code>getPatientName()</code>, <code>hasCheckedIn()</code>, and <code>checkIn()</code>. A waiting appointment has not checked in. Keep all earlier methods, including <code>printWaitingPatients()</code>.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: write <code>countWaiting</code> and <code>printWaitingNames</code></div>
+  <p><strong>10.</strong> Add two methods to <code>ClinicSchedule</code>:</p>
+  <ul>
+    <li><code>long countWaiting()</code>: use <code>filter</code> and <code>count</code>.</li>
+    <li><code>void printWaitingNames()</code>: use <code>filter</code>, then <code>map</code> and <code>forEach</code>, to print one name per line in arrival order.</li>
+  </ul>
+  <p>With no waiting patients, return 0 and print no names. Do not change the list or check-in states, and do not add a count field.</p>
+  <p>The earlier methods are already in the box, and <code>Appointment</code> is on its classpath. The checking program tries an empty schedule, then adds Ana, Ben, Cara, and Dev and checks in Ben and Dev. Its expected output is:</p>
+<pre class="wb-output">Empty count: 0
+Empty names:
+Waiting count: 2
+Waiting names:
+Ana
+Cara
+Appointments: 4
+Ben still checked in: true
+After check-in: 0
+Names after check-in:
+Old method:
+No waiting patients</pre>
+  <wb-exercise id="q10"></wb-exercise>
+  <p>During the demonstration, record the predicate and the type after each stage.</p>
+  <wb-table id="q10-types">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>the predicate</td><td data-blank="pred"></td></tr>
+        <tr><td>type after filter</td><td data-blank="ftype"></td></tr>
+        <tr><td>type after map</td><td data-blank="mtype"></td></tr>
+        <tr><td>count() returns</td><td data-blank="ctype"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h3><code>ClinicDemo.main</code></h3>
+<p>Replace <code>ClinicDemo.main</code> for Part 7:</p>
+<ul>
+  <li>Start empty. Print the waiting count with <code>Empty waiting count:</code>. Print <code>Empty waiting names:</code> and call <code>printWaitingNames()</code>.</li>
+  <li>Add Ana, Ben, Cara in order. Check in Ben. Print the waiting count with <code>Waiting count:</code>, print <code>Waiting names:</code> and the names, then the total with <code>Appointments:</code>.</li>
+  <li>Call <code>checkInAll()</code>. Print the count with <code>After check-in:</code>, print <code>Waiting names after check-in:</code> and the names, then <code>Appointments:</code> again.</li>
+</ul>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: predict, then run the demo</div>
+  <p><strong>11.</strong> Predict the waiting count, names printed, and appointment count for each row.</p>
+  <wb-table id="q11">
+    <table>
+      <thead><tr><th>State</th><th>Waiting count</th><th>Names printed</th><th>Appointments</th></tr></thead>
+      <tbody>
+        <tr><td>Empty</td><td data-blank="ec"></td><td data-blank="en"></td><td data-blank="ea"></td></tr>
+        <tr><td>Ben checked in</td><td data-blank="bc"></td><td data-blank="bn"></td><td data-blank="ba"></td></tr>
+        <tr><td>All checked in</td><td data-blank="ac"></td><td data-blank="an"></td><td data-blank="aa"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Now write the demo. Finished <code>Appointment</code> and <code>ClinicSchedule</code> classes are on the classpath of this box.</p>
+  <wb-exercise id="q11-demo"></wb-exercise>
+</div>
+
+<h2 id="s6">6. Reduction</h2>
+<p>A terminal operation performs an action or returns a result, without returning another stream. <code>count</code> returns how many elements arrive. <code>reduce</code> combines arriving values into one value.</p>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: kinds of operation</div>
+  <p><strong>12.</strong> Complete the table. State whether each operation is a source, an intermediate operation, or a terminal operation, and what it produces.</p>
+  <wb-table id="q12">
+    <table>
+      <thead><tr><th>Operation</th><th>Kind</th><th>Produces</th></tr></thead>
+      <tbody>
+        <tr><td><code>stream()</code></td><td data-blank="k1"></td><td data-blank="p1"></td></tr>
+        <tr><td><code>filter</code></td><td data-blank="k2"></td><td data-blank="p2"></td></tr>
+        <tr><td><code>map</code></td><td data-blank="k3"></td><td data-blank="p3"></td></tr>
+        <tr><td><code>forEach</code></td><td data-blank="k4"></td><td data-blank="p4"></td></tr>
+        <tr><td><code>count</code></td><td data-blank="k5"></td><td data-blank="p5"></td></tr>
+        <tr><td><code>reduce</code></td><td data-blank="k6"></td><td data-blank="p6"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<p>For a sum, start at the <strong>identity</strong> 0. The <strong>accumulator</strong> receives the total so far and the next value, then returns the new total. For the first track, it receives 0 and 224 and returns 224.</p>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: <code>totalDuration</code></div>
+  <p><strong>13.</strong> Write the reduction version of <code>totalDuration</code>. Explain why the accumulator needs parentheses around its parameters.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">totalDuration</span>()
+{
+    <span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
+    <span class="wb-kw">for</span>(<span class="wb-type">Track</span> t : tracks) {
+        total = total + t.getDurationSeconds();
+    }
+    <span class="wb-kw">return</span> total;
+}</code></pre>
+  <p>The <code>Track</code> class is on the classpath of this box. The checking program calls your method on an empty playlist, then on the five tracks. Its expected output is:</p>
+<pre class="wb-output">Empty playlist: 0
+Five tracks: 1841
+Still 5 tracks</pre>
+  <wb-exercise id="q13"></wb-exercise>
+  <p>Why does the accumulator need parentheses around its parameters?</p>
+  <wb-short id="q13-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: running totals</div>
+  <p><strong>14.</strong> Fill in the running totals in Question 13, starting from the identity 0. For the Naima step, give both accumulator arguments and its return value. Is the identity the first track's length?</p>
+  <wb-table id="q14">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>running total after Northern Sky (+224)</td><td data-blank="t1"></td></tr>
+        <tr><td>running total after Blue Train (+643)</td><td data-blank="t2"></td></tr>
+        <tr><td>running total after Teardrop (+330)</td><td data-blank="t3"></td></tr>
+        <tr><td>running total after Naima (+265)</td><td data-blank="t4"></td></tr>
+        <tr><td>running total after Angel (+379)</td><td data-blank="t5"></td></tr>
+        <tr><td>Naima step: first argument (total so far)</td><td data-blank="a1"></td></tr>
+        <tr><td>Naima step: second argument (seconds)</td><td data-blank="a2"></td></tr>
+        <tr><td>Naima step: return value</td><td data-blank="ret"></td></tr>
+        <tr><td>is the identity the first track's length?</td><td data-blank="ident"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <wb-short id="q14-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: reducing text</div>
+  <p><strong>15.</strong> Complete the text reduction. Give its result for the fixed playlist and for an empty playlist. Why does the identity fit this job?</p>
+<pre><code><span class="wb-type">String</span> joined = tracks.stream()
+    .map(t -&gt; t.getTitle())
+    .reduce(____, (text, title) -&gt; text + title);</code></pre>
+  <wb-table id="q15">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>the identity</td><td data-blank="id"></td></tr>
+        <tr><td>result for the five tracks</td><td data-blank="res"></td></tr>
+        <tr><td>result for an empty playlist</td><td data-blank="empty"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <wb-short id="q15-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: <code>totalDurationByArtist</code></div>
+  <p><strong>16.</strong> Write <code>int totalDurationByArtist(String artist)</code>. Filter by artist, map to seconds, then reduce with identity 0. For John Coltrane, list the values after map and the running totals.</p>
+  <p>The <code>Track</code> class is on the classpath of this box. Its expected output is:</p>
+<pre class="wb-output">John Coltrane: 908
+Massive Attack: 709
+Nobody At All: 0
+Still 5 tracks</pre>
+  <wb-exercise id="q16"></wb-exercise>
+  <wb-table id="q16-trace">
+    <table>
+      <thead><tr><th>John Coltrane</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>values after map</td><td data-blank="vals"></td></tr>
+        <tr><td>running totals</td><td data-blank="totals"></td></tr>
+        <tr><td>return value</td><td data-blank="ret"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: nothing arrives</div>
+  <p><strong>17.</strong> For an artist with no tracks, what do printing, counting, and summing produce? What if the source list itself is empty? Explain why an accumulator is not called in either case.</p>
+  <wb-table id="q17">
+    <table>
+      <thead><tr><th>operation</th><th>result</th></tr></thead>
+      <tbody>
+        <tr><td>printing</td><td data-blank="print"></td></tr>
+        <tr><td>counting</td><td data-blank="count"></td></tr>
+        <tr><td>summing with reduce(0, ...)</td><td data-blank="sum"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>What if the source list is empty, and why is the accumulator not called?</p>
+  <wb-short id="q17-why"></wb-short>
+</div>
+
+<h2 id="s7">7. Reading pipelines</h2>
+<p>Read each stage in order, asking which values continue and what type they have. For example, a filter passes <code>Track</code> objects; mapping those objects to titles supplies <code>String</code> values to the next operation.</p>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: annotate a pipeline</div>
+  <p><strong>18.</strong> Annotate this pipeline with the number and type of elements after the source, filter, and map. Write the output. Does the last line return a stream? What is the list size afterward?</p>
+<pre><code>tracks.stream()
+      .filter(t -&gt; t.getDurationSeconds() &gt; <span class="wb-num">300</span>)
+      .map(t -&gt; t.getTitle())
+      .forEach(title -&gt; System.out.println(title));</code></pre>
+  <wb-table id="q18">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>how many after the source</td><td data-blank="ns"></td></tr>
+        <tr><td>type after the source</td><td data-blank="ts"></td></tr>
+        <tr><td>how many after filter</td><td data-blank="nf"></td></tr>
+        <tr><td>type after filter</td><td data-blank="tf"></td></tr>
+        <tr><td>how many after map</td><td data-blank="nm"></td></tr>
+        <tr><td>type after map</td><td data-blank="tm"></td></tr>
+        <tr><td>output line 1</td><td data-blank="o1"></td></tr>
+        <tr><td>output line 2</td><td data-blank="o2"></td></tr>
+        <tr><td>output line 3</td><td data-blank="o3"></td></tr>
+        <tr><td>does forEach return a stream?</td><td data-blank="stream"></td></tr>
+        <tr><td>list size afterward</td><td data-blank="size"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: map is not filter</div>
+  <p><strong>19.</strong> Predict this output. Does it select the Coltrane tracks? Explain what happens to the false values.</p>
+<pre><code>tracks.stream()
+      .map(t -&gt; t.getArtist().equals(<span class="wb-str">"John Coltrane"</span>))
+      .forEach(System.out::println);</code></pre>
+  <wb-table id="q19">
+    <table>
+      <thead><tr><th>line</th><th>output</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="o1"></td></tr>
+        <tr><td>2</td><td data-blank="o2"></td></tr>
+        <tr><td>3</td><td data-blank="o3"></td></tr>
+        <tr><td>4</td><td data-blank="o4"></td></tr>
+        <tr><td>5</td><td data-blank="o5"></td></tr>
+        <tr><td>does it select the Coltrane tracks?</td><td data-blank="sel"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>What happens to the false values?</p>
+  <wb-short id="q19-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: order of operations</div>
+  <p><strong>20.</strong> The first statement below compiles. The second does not. Replace the second statement with a valid pipeline that prints the Coltrane count.</p>
+  <p>The <code>Track</code> class is on the classpath of this box. Run the starter first to see the compile error, then repair it.</p>
+  <wb-exercise id="q20"></wb-exercise>
+  <p>Explain both outcomes. Could you then reuse that same stream for the total duration? How do the methods in Questions 9 and 16 avoid this problem?</p>
+  <wb-short id="q20-why"></wb-short>
+</div>
+
+<h2 id="s8">8. Choosing a style</h2>
+<p>A short pipeline fits selection, transformation, and a final action or value. A loop makes an index, an early exit, or several updates explicit. For example, this search keeps its index and returns at the first match:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">findFirstTrackIndex</span>(<span class="wb-type">String</span> title)
+{
+    <span class="wb-kw">int</span> index = <span class="wb-num">0</span>;
+    <span class="wb-kw">while</span>(index &lt; tracks.size()) {
+        <span class="wb-kw">if</span>(tracks.get(index).getTitle().equals(title)) {
+            <span class="wb-kw">return</span> index;
+        }
+        index = index + <span class="wb-num">1</span>;
+    }
+    <span class="wb-kw">return</span> -<span class="wb-num">1</span>;
+}</code></pre>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: pipeline or loop?</div>
+  <p><strong>21.</strong> Give a suitable style for each job. Also give the result of the two searches.</p>
+  <wb-table id="q21">
+    <table>
+      <thead><tr><th>job</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>(a) Print all tracks by Massive Attack.</td><td data-blank="a"></td></tr>
+        <tr><td>(b) Print every track with its position number.</td><td data-blank="b"></td></tr>
+        <tr><td>(c) Stop at the first track over 600 seconds.</td><td data-blank="c"></td></tr>
+        <tr><td>(d) Update two lists and several counters while visiting tracks.</td><td data-blank="d"></td></tr>
+        <tr><td><code>findFirstTrackIndex("Teardrop")</code></td><td data-blank="s1"></td></tr>
+        <tr><td><code>findFirstTrackIndex("Unknown")</code></td><td data-blank="s2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Give a reason for each choice.</p>
+  <wb-short id="q21-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: the wrong identity</div>
+  <p><strong>22.</strong> This fragment should return the total seconds of tracks longer than 300 seconds. Predict its current result, repair it, and state the result of each version on an empty list.</p>
+<pre><code><span class="wb-kw">return</span> tracks.stream()
+             .filter(t -&gt; t.getDurationSeconds() &gt; <span class="wb-num">300</span>)
+             .map(t -&gt; t.getDurationSeconds())
+             .reduce(<span class="wb-num">10</span>, (total, seconds) -&gt; total + seconds);</code></pre>
+  <wb-table id="q22">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>current result</td><td data-blank="cur"></td></tr>
+        <tr><td>repaired last line</td><td data-blank="fix"></td></tr>
+        <tr><td>repaired result</td><td data-blank="fixed"></td></tr>
+        <tr><td>original on an empty list</td><td data-blank="e1"></td></tr>
+        <tr><td>repair on an empty list</td><td data-blank="e2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h2 id="s9">9. Coding Pause 8: Waiting minutes</h2>
+<p>This is clinic Part 8, at slide 36. Extend Part 7. Keep its methods unchanged. The length of an appointment is a positive number of minutes. No validation or setter is needed.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: add minutes to <code>Appointment</code></div>
+  <p><strong>23.</strong> Add a private <code>int minutes</code> field to <code>Appointment</code>. Replace its constructor with <code>Appointment(String patientName, int minutes)</code> and store both arguments. Add <code>int getMinutes()</code>.</p>
+  <p>The checking program makes Ana (15 minutes) and Ben (20 minutes) and checks in Ben. Its expected output is:</p>
+<pre class="wb-output">Ana 15 false
+Ben 20 true</pre>
+  <wb-exercise id="q23-appt"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: write <code>totalWaitingMinutes</code></div>
+  <p>Then add <code>int totalWaitingMinutes()</code> to <code>ClinicSchedule</code>: filter to appointments not checked in, map to minutes, and <code>reduce(0, ...)</code>. Return 0 when no one is waiting. Do not store a total field.</p>
+  <p>The Part 7 class is in the box, and the new <code>Appointment</code> is on its classpath. The checking program adds Ana (15), Ben (20), Cara (10), and Dev (30). Its expected output is:</p>
+<pre class="wb-output">Empty: 0
+Nobody checked in: 75
+Ben and Dev checked in: 25
+Waiting count: 2
+Appointments: 4
+After check-in: 0</pre>
+  <wb-exercise id="q23"></wb-exercise>
+  <p>During the demonstration, record the map expression and the accumulator.</p>
+  <wb-table id="q23-rec">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>map expression</td><td data-blank="map"></td></tr>
+        <tr><td>accumulator</td><td data-blank="acc"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h3><code>ClinicDemo.main</code></h3>
+<p>Replace <code>ClinicDemo.main</code> for Part 8. Every appointment constructor call now supplies minutes.</p>
+<ul>
+  <li>Print the total waiting minutes for an empty schedule with <code>Empty waiting minutes:</code>.</li>
+  <li>Add Ana (15 minutes), Ben (20), Cara (10), in order. Check in Ben.</li>
+  <li>Print <code>Waiting names:</code> and the names, then <code>Waiting count:</code>, <code>Waiting minutes:</code>, and <code>Appointments:</code>.</li>
+  <li>Call <code>checkInAll()</code>. Print the waiting minutes with <code>After check-in:</code> and the count with <code>Appointments:</code> again.</li>
+</ul>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: predict, then run the demo</div>
+  <p><strong>24.</strong> Predict the waiting names and the running totals before everyone checks in. What does the empty schedule return? What are the minutes and appointment count after <code>checkInAll()</code>?</p>
+  <wb-table id="q24">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>waiting names</td><td data-blank="names"></td></tr>
+        <tr><td>running totals</td><td data-blank="totals"></td></tr>
+        <tr><td>empty schedule</td><td data-blank="empty"></td></tr>
+        <tr><td>minutes after checkInAll()</td><td data-blank="after"></td></tr>
+        <tr><td>appointments after checkInAll()</td><td data-blank="count"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Now write the demo. Finished <code>Appointment</code> and <code>ClinicSchedule</code> classes are on the classpath of this box.</p>
+  <wb-exercise id="q24-demo"></wb-exercise>
+  <p>Why do Ben's 20 minutes not appear in the total?</p>
+  <wb-short id="q24-why"></wb-short>
+</div>
+
+<h2 id="s10">10. Review</h2>
+
+<p>Term Test 1 is on October 21, in the lab. It covers Chapters 1 to 5.</p>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: results and corrections</div>
+  <p><strong>25.</strong> Give the result or correction for each statement.</p>
+  <wb-table id="q25">
+    <table>
+      <thead><tr><th>statement</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>(a) &ldquo;Filtering to two tracks leaves the source list with size 2.&rdquo; The source size is really</td><td data-blank="a"></td></tr>
+        <tr><td>(b) &ldquo;Map can drop the tracks whose titles we do not want.&rdquo; The operation that selects is</td><td data-blank="b"></td></tr>
+        <tr><td>(c) &ldquo;A reduction always adds numbers and needs at least one element.&rdquo; With no elements, <code>reduce(identity, ...)</code> returns</td><td data-blank="c"></td></tr>
+        <tr><td>(d) &ldquo;After <code>count()</code>, another filter can continue the same pipeline.&rdquo; <code>count()</code> returns a</td><td data-blank="d"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Correct each statement in a sentence.</p>
+  <wb-short id="q25-why"></wb-short>
+</div>
+
+</main>
+</body>
+</html>

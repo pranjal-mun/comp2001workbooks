@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 2001 – Lecture 1 Workbook</title>
+  <link rel="icon" href="../../runtime/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
+  <link rel="stylesheet" href="../../runtime/workbook.css">
+  <script type="module">
+    import { initWorkbook } from "../../runtime/workbook.js";
+    initWorkbook({ id: "lecture-01", specs: "./exercises.json" });
+  </script>
+  <style>
+    /* Page-local diagram styles, as in the COMP 1001 Lecture 1 page. Everything
+       uses the theme variables so the drawings follow light and dark mode. */
+    .wb-diagram { display: block; max-width: 36rem; margin: 1rem auto; font-family: var(--font-sans); font-size: 0.85rem; color: var(--ink); }
+    .wb-diagram .node { fill: var(--panel); stroke: var(--ink); stroke-width: 1.2; }
+    .wb-diagram .node-accent { fill: var(--panel-deep); stroke: var(--ink); stroke-width: 1.2; }
+    .wb-diagram .edge { fill: none; stroke: var(--ink); stroke-width: 1.4; marker-end: url(#wb-arrowhead); }
+    .wb-diagram text { fill: var(--ink); text-anchor: middle; dominant-baseline: middle; }
+    .wb-diagram .label { font-size: 0.78rem; fill: var(--ink-quiet); }
+    .wb-diagram .small { font-size: 0.78rem; }
+    .wb-diagram .code { font-family: var(--font-mono); }
+    .wb-diagram .bold { font-weight: 700; }
+    .wb-diagram .big { font-size: 1.3rem; }
+    .wb-diagram .left { text-anchor: start; }
+    .wb-diagram .right { text-anchor: end; }
+    .wb-timeline { list-style: none; padding: 0; margin: 1rem 0; border-left: 2px solid var(--rule-strong); }
+    .wb-timeline li { position: relative; padding: 0.15rem 0 0.15rem 1.4rem; margin: 0.35rem 0; }
+    .wb-timeline li::before { content: ""; position: absolute; left: -0.45rem; top: 0.8rem; width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--accent-fill); }
+    .wb-timeline .year { font-family: var(--font-mono); font-weight: 700; margin-right: 0.6rem; }
+    .wb-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; margin: 1rem 0; }
+    .wb-columns .wb-block { margin: 0; padding: 0.9rem 1.1rem; background: var(--panel); border-radius: 8px; }
+    .wb-columns ul { margin-bottom: 0; }
+    .wb-contact td:first-child { white-space: nowrap; font-weight: 600; }
+  </style>
+</head>
+<body>
+<main>
+
+<div class="wb-title-block">
+  <div>
+    <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
+    <h1>Lecture 1 Workbook</h1>
+    <div class="wb-subtitle">Object-Oriented Programming and Java</div>
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
+  </div>
+  <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+</div>
+
+<section class="wb-outcomes">
+  <h2 id="outcomes" data-toc-title="Today's agenda">Today's agenda</h2>
+  <p>This first lecture has three parts:</p>
+  <ul>
+    <li><strong>Object orientation:</strong> why programs outgrew parallel lists, and how Simula and Smalltalk introduced classes, objects and messages.</li>
+    <li><strong>Java:</strong> where Java came from, how the Java platform runs a program, and where Java is today.</li>
+    <li><strong>Python and Java:</strong> the Python you know from COMP 1001, set beside the same idea in Java.</li>
+  </ul>
+  <p class="wb-meta">This workbook has no questions and awards no XP. It is the reference copy of the Lecture 1 slides. The Java examples on the page are live; press <strong>▶ Run</strong> to compile and run one in your browser. The first run takes a little longer while Java starts.</p>
+</section>
+<hr>
+
+<h2 id="object-orientation">Object Orientation</h2>
+<p>Why programs outgrew parallel lists, and the ideas that object-oriented languages brought.</p>
+
+<h3>Computing in 1960</h3>
+<div class="wb-columns">
+  <div class="wb-block">
+    <div class="wb-block-title">Computers</div>
+    <ul>
+      <li>Computers filled rooms and cost a fortune.</li>
+      <li>Universities and large organizations shared one machine.</li>
+      <li>Processing happened in scheduled batch runs.</li>
+    </ul>
+  </div>
+  <div class="wb-block">
+    <div class="wb-block-title">Programming</div>
+    <ul>
+      <li>Programs often arrived as punched cards.</li>
+      <li>A small mistake could mean another batch run.</li>
+      <li>FORTRAN, COBOL, ALGOL, and Lisp were still young.</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Procedural Ship Simulation</h3>
+<pre><code>names = [<span class="wb-str">"Oliver"</span>, <span class="wb-str">"Sabina"</span>]
+positions = [<span class="wb-num">42</span>, <span class="wb-num">7</span>]
+speeds = [<span class="wb-num">12</span>, <span class="wb-num">6</span>]
+fuel = [<span class="wb-num">81</span>, <span class="wb-num">65</span>]
+
+<span class="wb-kw">def</span> <span class="wb-fn">move</span>(ship_index):
+    positions[ship_index] += speeds[ship_index]
+    fuel[ship_index] -= <span class="wb-num">1</span>
+
+<span class="wb-fn">move</span>(<span class="wb-num">0</span>)
+<span class="wb-fn">print</span>(names[<span class="wb-num">0</span>], positions[<span class="wb-num">0</span>], fuel[<span class="wb-num">0</span>])</code></pre>
+<p>The four lists must stay in the same order. Index 0 means Oliver everywhere.</p>
+
+<h3>Growing Programs</h3>
+<table>
+  <thead><tr><th>index</th><th>36</th><th><strong>37</strong></th><th>38</th><th>39</th></tr></thead>
+  <tbody>
+    <tr><td><code>x[]</code></td><td>12</td><td><strong>42</strong></td><td>7</td><td>30</td></tr>
+    <tr><td><code>y[]</code></td><td>9</td><td><strong>18</strong></td><td>4</td><td>11</td></tr>
+    <tr><td><code>speed[]</code></td><td>8</td><td><strong>12</strong></td><td>6</td><td>9</td></tr>
+    <tr><td><code>fuel[]</code></td><td>72</td><td><strong>81</strong></td><td>65</td><td>44</td></tr>
+    <tr><td><code>cargo[]</code></td><td>mail</td><td><strong>grain</strong></td><td>timber</td><td>empty</td></tr>
+    <tr><td><code>heading[]</code></td><td>N</td><td><strong>E</strong></td><td>W</td><td>S</td></tr>
+  </tbody>
+</table>
+<p>The six values in column 37 describe one ship, but the program does not represent that fact.</p>
+<div class="wb-callout is-warn">
+  <div class="wb-callout-title">One missed index</div>
+  <p>One missed index can give ship 37 the fuel or cargo of ship 38.</p>
+</div>
+
+<h3>The Software Crisis</h3>
+<p>Programs grew faster than teams learned to manage them.</p>
+<p>In 1968, a NATO conference in Garmisch put <strong>software engineering</strong> in its title.</p>
+<p>Large projects exposed recurring problems:</p>
+<ul>
+  <li>schedules slipped,</li>
+  <li>costs grew,</li>
+  <li>changes broke distant parts of the program,</li>
+  <li>no one person understood the whole system.</li>
+</ul>
+<p>The field needed ways to divide a program so people could reason about one part at a time.</p>
+
+<h3>Simula 67</h3>
+<p>Ole-Johan Dahl and Kristen Nygaard developed Simula at the Norwegian Computing Center.</p>
+<p>They were building simulations of systems with many independent parts. Examples include ships in a harbour, customers in a queue, and machines in a factory.</p>
+<p>The old approach scattered each thing across several arrays. Simula let a programmer describe one kind of thing, then create many individual examples of it.</p>
+<ul>
+  <li>Simula 67 introduced classes, objects, inheritance, and virtual methods.</li>
+  <li>Dahl and Nygaard received the 2001 Turing Award for this work.</li>
+</ul>
+
+<h3>Classes and Objects</h3>
+<p>The class <code>Ship</code> describes what every ship has and what every ship can do: position, speed and fuel, and <code>move()</code> and <code>load()</code>. The objects <code>ship37</code> and <code>ship38</code> are made from it.</p>
+<svg class="wb-diagram" viewBox="0 0 480 250" role="img" aria-label="The class Ship lists position, speed and fuel, and the methods move and load. Two objects are instances of it: ship37 with position 42, 18, speed 12 and fuel 81, and ship38 with position 7, 4, speed 6 and fuel 65.">
+  <defs>
+    <marker id="wb-arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
+    </marker>
+  </defs>
+  <rect class="node-accent" x="140" y="10" width="200" height="74" rx="4"></rect>
+  <text class="bold" x="240" y="28">Class: Ship</text>
+  <text class="small" x="240" y="50">position, speed, fuel</text>
+  <text class="small code" x="240" y="69">move(), load()</text>
+  <rect class="node" x="24" y="150" width="176" height="88" rx="4"></rect>
+  <text class="code bold" x="112" y="167">ship37</text>
+  <text class="small left" x="40" y="189">position</text><text class="small right code" x="184" y="189">42, 18</text>
+  <text class="small left" x="40" y="207">speed</text><text class="small right code" x="184" y="207">12</text>
+  <text class="small left" x="40" y="225">fuel</text><text class="small right code" x="184" y="225">81</text>
+  <rect class="node" x="280" y="150" width="176" height="88" rx="4"></rect>
+  <text class="code bold" x="368" y="167">ship38</text>
+  <text class="small left" x="296" y="189">position</text><text class="small right code" x="440" y="189">7, 4</text>
+  <text class="small left" x="296" y="207">speed</text><text class="small right code" x="440" y="207">6</text>
+  <text class="small left" x="296" y="225">fuel</text><text class="small right code" x="440" y="225">65</text>
+  <path class="edge" d="M 112 148 L 190 86"></path>
+  <path class="edge" d="M 368 148 L 290 86"></path>
+  <text class="label right" x="140" y="112">instance of</text>
+  <text class="label left" x="340" y="112">instance of</text>
+</svg>
+<p><code>ship37.move()</code> changes the position stored inside <code>ship37</code>. It does not change <code>ship38</code>.</p>
+<div class="wb-callout is-good">
+  <div class="wb-callout-title">Class and object</div>
+  <p>A class is a definition. An object is one particular instance made from it.</p>
+</div>
+
+<h3>Object-Oriented Ship Simulation</h3>
+<pre><code><span class="wb-kw">class</span> <span class="wb-type">Ship</span>:
+    <span class="wb-kw">def</span> <span class="wb-fn">__init__</span>(self, name, position, speed, fuel):
+        self.name = name
+        self.position = position
+        self.speed = speed
+        self.fuel = fuel
+    <span class="wb-kw">def</span> <span class="wb-fn">move</span>(self):
+        self.position += self.speed
+        self.fuel -= <span class="wb-num">1</span>
+
+oliver = <span class="wb-type">Ship</span>(<span class="wb-str">"Oliver"</span>, <span class="wb-num">42</span>, <span class="wb-num">12</span>, <span class="wb-num">81</span>)
+sabina = <span class="wb-type">Ship</span>(<span class="wb-str">"Sabina"</span>, <span class="wb-num">7</span>, <span class="wb-num">6</span>, <span class="wb-num">65</span>)
+oliver.move()
+<span class="wb-fn">print</span>(oliver.position, oliver.fuel)</code></pre>
+<p>Each object keeps one ship's data together. <code>move()</code> changes the receiver.</p>
+
+<h3>Smalltalk</h3>
+<p>Alan Kay and the Learning Research Group developed Smalltalk at Xerox PARC in the 1970s.</p>
+<p>Simula used objects to model a simulation. Smalltalk applied the object idea throughout the language and its programming environment.</p>
+<ul>
+  <li>Numbers, text, windows, and buttons are objects.</li>
+  <li>A programmer works with live objects and can change a program while it runs.</li>
+  <li>The team designed Smalltalk partly for children learning through computers.</li>
+</ul>
+<p>This work helped establish the style of graphical programming environments that later became familiar on personal computers.</p>
+
+<h3>Messages in Smalltalk</h3>
+<p>Smalltalk reads the familiar expression <code>3 + 4</code> as a message:</p>
+<svg class="wb-diagram" viewBox="0 0 480 120" role="img" aria-label="A sender sends the message plus, with the argument 4, to the receiver 3.">
+  <defs>
+    <marker id="wb-arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
+    </marker>
+  </defs>
+  <rect class="node" x="16" y="36" width="110" height="46" rx="4"></rect>
+  <text x="71" y="59">sender</text>
+  <path class="edge" d="M 126 59 L 334 59"></path>
+  <text class="code big" x="230" y="42">+ 4</text>
+  <text class="label" x="230" y="78">message +, argument 4</text>
+  <rect class="node-accent" x="336" y="24" width="128" height="70" rx="4"></rect>
+  <text class="code big" x="400" y="50">3</text>
+  <text class="label" x="400" y="76">receiver</text>
+</svg>
+<ul>
+  <li>receiver: <code>3</code></li>
+  <li>message: <code>+</code></li>
+  <li>argument: <code>4</code></li>
+</ul>
+<p>Other messages:</p>
+<table class="wb-contact">
+  <tbody>
+    <tr><td><code>button click</code></td><td>Ask a button to respond.</td></tr>
+    <tr><td><code>ship move</code></td><td>Ask a ship to move.</td></tr>
+    <tr><td><code>account deposit: 20</code></td><td>Ask an account to deposit 20.</td></tr>
+  </tbody>
+</table>
+<p>The sender asks for an operation. The receiving object decides how to carry it out.</p>
+
+<h3>Four OOP Ideas</h3>
+<table>
+  <thead><tr><th>Idea</th><th>Problem it addresses</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Encapsulation</strong><br>Keep state with its methods.</td><td>Any part of the program could change shared data.</td></tr>
+    <tr><td><strong>Abstraction</strong><br>Expose a small interface.</td><td>A programmer had to understand every implementation detail.</td></tr>
+    <tr><td><strong>Inheritance</strong><br>Build a specific class from a general one.</td><td>Closely related classes repeated common code.</td></tr>
+    <tr><td><strong>Polymorphism</strong><br>Use one request for several types.</td><td>Adding a new kind required edits throughout the program.</td></tr>
+  </tbody>
+</table>
+<div class="wb-callout is-good">
+  <div class="wb-callout-title">An object</div>
+  <p>An object knows something, can do something, and controls access to its state.</p>
+</div>
+
+<h3>Early Object-Oriented Languages</h3>
+<ul class="wb-timeline">
+  <li><span class="year">1967</span> <strong>Simula 67</strong>: classes, objects, and inheritance</li>
+  <li><span class="year">1979</span> <strong>C with Classes</strong>: Simula-style organization added to C</li>
+  <li><span class="year">1980</span> <strong>Smalltalk-80</strong>: a complete object-oriented environment</li>
+  <li><span class="year">1985</span> <strong>C++</strong>: C with object-oriented language features</li>
+</ul>
+<p>Simula proved the idea. Smalltalk built a complete environment around it.</p>
+<p>Bjarne Stroustrup combined Simula-style program organization with the efficiency and practical reach of C.</p>
+
+<h3>Graphical Interfaces and OOP</h3>
+<div class="wb-columns">
+  <div class="wb-block">
+    <div class="wb-block-title">A natural fit</div>
+    <p>A window has state and behaviour. So do buttons, menus, scrollbars, and documents.</p>
+    <p>Graphical software gave object orientation a natural, visible use.</p>
+  </div>
+  <div class="wb-block">
+    <div class="wb-block-title">Mainstream adoption</div>
+    <p>By the 1990s, C++, Smalltalk, design patterns, and object diagrams had carried OOP into mainstream development.</p>
+  </div>
+</div>
+
+<h3>Object Orientation Today</h3>
+<div class="wb-columns">
+  <div class="wb-block">
+    <div class="wb-block-title">What remains useful</div>
+    <ul>
+      <li>Keep related state and behaviour together.</li>
+      <li>Protect decisions that may change.</li>
+      <li>Give each part of a program a clear responsibility.</li>
+      <li>Program through small, stable interfaces.</li>
+    </ul>
+  </div>
+  <div class="wb-block">
+    <div class="wb-block-title">What modern practice adds</div>
+    <ul>
+      <li>Composition often gives more flexibility than deep inheritance.</li>
+      <li>Immutable data can remove whole classes of bugs.</li>
+      <li>Functional operations can express data processing clearly.</li>
+      <li>Different problems deserve different styles.</li>
+    </ul>
+  </div>
+</div>
+<p>Modern Java uses objects for structure and also includes functional tools for processing data.</p>
+
+<h2 id="java">Java</h2>
+<p>Where Java came from, how the Java platform runs a program, and where Java is today.</p>
+
+<h3>Computing in 1991</h3>
+<div class="wb-columns">
+  <div class="wb-block">
+    <div class="wb-block-title">A new market</div>
+    <p>The World Wide Web was new.</p>
+    <p>Companies expected televisions, organizers, and appliances to become interactive.</p>
+  </div>
+  <div class="wb-block">
+    <div class="wb-block-title">A portability problem</div>
+    <p>Each device family had its own processor and operating system.</p>
+    <p>A program written for one device might need major changes before it could run on another.</p>
+  </div>
+</div>
+
+<h3>Memory and Portability</h3>
+<div class="wb-columns">
+  <div class="wb-block">
+    <div class="wb-block-title">Manual memory management</div>
+    <p>In C and C++, programmers allocate memory and release it themselves.</p>
+    <p>Common failures include:</p>
+    <ul>
+      <li>forgetting to release memory,</li>
+      <li>using memory after release,</li>
+      <li>writing past an array boundary.</li>
+    </ul>
+  </div>
+  <div class="wb-block">
+    <div class="wb-block-title">Native binaries</div>
+    <p>A compiler normally produces instructions for one processor and operating system.</p>
+    <p>Another device needs another build, more testing, and often more platform-specific code.</p>
+  </div>
+</div>
+<p>The Green project wanted reliable software that could survive a changing device market.</p>
+
+<h3>The Green Project</h3>
+<div class="wb-columns">
+  <div class="wb-block">
+    <div class="wb-block-title">The team</div>
+    <p>In 1991, James Gosling, Mike Sheridan, Patrick Naughton, and colleagues at Sun started the Green project.</p>
+    <p>Gosling created a language called Oak for networked consumer devices.</p>
+  </div>
+  <div class="wb-block">
+    <div class="wb-block-title">Design goals</div>
+    <ul>
+      <li>portable programs</li>
+      <li>automatic memory management</li>
+      <li>checked array access</li>
+      <li>a smaller language than C++</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Java and the Web</h3>
+<table class="wb-contact">
+  <tbody>
+    <tr><td>Early 1990s</td><td>The consumer electronics business did not take off as Sun expected.</td></tr>
+    <tr><td>The web</td><td>Portable, network-delivered code suddenly had an obvious use.</td></tr>
+    <tr><td>1995</td><td>Sun renamed Oak to Java and announced it publicly.</td></tr>
+    <tr><td>HotJava</td><td>Sun's browser demonstrated programs running inside web pages.</td></tr>
+  </tbody>
+</table>
+
+<h3>The Java Platform</h3>
+<svg class="wb-diagram" viewBox="0 0 580 130" role="img" aria-label="You write Hello.java. javac compiles it to Hello.class, which holds JVM bytecode. The JVM loads and runs the class file on macOS, Windows, or Linux.">
+  <defs>
+    <marker id="wb-arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
+    </marker>
+  </defs>
+  <rect class="node" x="4" y="36" width="116" height="58" rx="4"></rect>
+  <text class="code" x="62" y="56">Hello.java</text>
+  <text class="label" x="62" y="76">you write source</text>
+  <path class="edge" d="M 120 65 L 178 65"></path>
+  <text class="code small" x="149" y="50">javac</text>
+  <rect class="node" x="180" y="36" width="116" height="58" rx="4"></rect>
+  <text class="code" x="238" y="56">Hello.class</text>
+  <text class="label" x="238" y="76">JVM bytecode</text>
+  <path class="edge" d="M 296 65 L 326 65"></path>
+  <rect class="node-accent" x="328" y="36" width="96" height="58" rx="4"></rect>
+  <text class="bold" x="376" y="56">JVM</text>
+  <text class="label" x="376" y="76">loads and runs</text>
+  <path class="edge" d="M 424 65 L 452 65"></path>
+  <rect class="node" x="454" y="36" width="122" height="58" rx="4"></rect>
+  <text class="small" x="515" y="56">macOS, Windows,</text>
+  <text class="small" x="515" y="76">or Linux</text>
+</svg>
+<table class="wb-contact">
+  <tbody>
+    <tr><td>Compile</td><td><code>javac Hello.java</code></td></tr>
+    <tr><td>Run</td><td><code>java Hello</code></td></tr>
+  </tbody>
+</table>
+<p>The same class file can run on any compatible Java Virtual Machine.</p>
+<div class="wb-callout is-good">
+  <div class="wb-callout-title">On this page</div>
+  <p><strong>▶ Run</strong> does both steps for you: it compiles the example with <code>javac</code>, then runs it on a JVM inside your browser.</p>
+</div>
+
+<h3>Java's Growth</h3>
+<ul class="wb-timeline">
+  <li><span class="year">1995 to 1996</span> Web debut and JDK 1.0</li>
+  <li><span class="year">1998</span> Java 2 and the Collections Framework</li>
+  <li><span class="year">2000s</span> Server software and large business systems</li>
+  <li><span class="year">2008 onward</span> Android applications</li>
+  <li><span class="year">2010 onward</span> Oracle stewardship and regular releases</li>
+</ul>
+<p>Applets drew attention first, then disappeared. Java kept growing through server software, large business systems, developer tools, and Android.</p>
+<p>The 1998 Collections Framework introduced familiar classes such as <code>ArrayList</code>.</p>
+
+<h3>Java Today</h3>
+<div class="wb-columns">
+  <div class="wb-block">
+    <div class="wb-block-title">The platform in 2026</div>
+    <ul>
+      <li>JDK 26 is the current feature release.</li>
+      <li>JDK 25 is the current long-term support release.</li>
+      <li>A new feature release arrives every six months.</li>
+      <li>The JVM also hosts Kotlin, Scala, and Clojure.</li>
+    </ul>
+  </div>
+  <div class="wb-block">
+    <div class="wb-block-title">Modern language features</div>
+    <ul>
+      <li>Lambdas and streams</li>
+      <li>Records</li>
+      <li>Pattern matching</li>
+      <li>Virtual threads</li>
+    </ul>
+  </div>
+</div>
+<p>Java continues to serve long-lived systems where compatibility and clear structure matter.</p>
+
+<h2 id="python-and-java">Python and Java</h2>
+<p>Each pair shows a Python idea from COMP 1001 beside the same idea in Java. Lines marked <code>// Added</code> are not on the slides; they print a value so you can see it.</p>
+
+<h3>Hello World</h3>
+<p><strong>Python</strong></p>
+<pre><code><span class="wb-fn">print</span>(<span class="wb-str">"Hello, MUN!"</span>)</code></pre>
+<p><strong>Java</strong></p>
+<wb-example id="ex-hello"></wb-example>
+<p>Python can run one statement. Java places the statement inside a method and class.</p>
+
+<h3>Variables and Types</h3>
+<p><strong>Python</strong></p>
+<pre><code>course = <span class="wb-str">"COMP 2001"</span>
+students = <span class="wb-num">85</span>
+at_mun = <span class="wb-kw">True</span></code></pre>
+<p><strong>Java</strong></p>
+<wb-example id="ex-variables"></wb-example>
+<p>Python infers the type from the value. Java requires a declared type.</p>
+
+<h3>Operators</h3>
+<p><strong>Python</strong></p>
+<pre><code>labs = <span class="wb-num">28</span>
+tests = <span class="wb-num">35</span>
+
+total = labs + tests
+passing = total &gt;= <span class="wb-num">50</span> <span class="wb-kw">and</span> labs &gt; <span class="wb-num">0</span></code></pre>
+<p><strong>Java</strong></p>
+<wb-example id="ex-operators"></wb-example>
+<p>The arithmetic looks similar. Boolean operators use words in Python and symbols in Java.</p>
+
+<h3>Conditionals</h3>
+<p><strong>Python</strong></p>
+<pre><code>city = <span class="wb-str">"St. John's"</span>
+
+<span class="wb-kw">if</span> city == <span class="wb-str">"St. John's"</span>:
+    <span class="wb-fn">print</span>(<span class="wb-str">"Welcome to MUN"</span>)
+<span class="wb-kw">else</span>:
+    <span class="wb-fn">print</span>(<span class="wb-str">"Welcome"</span>)</code></pre>
+<p><strong>Java</strong></p>
+<wb-example id="ex-conditionals"></wb-example>
+<p>Python uses indentation for the branches. Java uses parentheses and braces.</p>
+
+<h3>While Loops</h3>
+<p><strong>Python</strong></p>
+<pre><code>week = <span class="wb-num">1</span>
+
+<span class="wb-kw">while</span> week &lt;= <span class="wb-num">3</span>:
+    <span class="wb-fn">print</span>(<span class="wb-str">"Week"</span>, week)
+    week += <span class="wb-num">1</span></code></pre>
+<p><strong>Java</strong></p>
+<wb-example id="ex-while"></wb-example>
+<p>Both repeat while a condition remains true.</p>
+
+<h3>Counted For Loops</h3>
+<p><strong>Python</strong></p>
+<pre><code><span class="wb-kw">for</span> week <span class="wb-kw">in</span> <span class="wb-fn">range</span>(<span class="wb-num">1</span>, <span class="wb-num">4</span>):
+    <span class="wb-fn">print</span>(<span class="wb-str">"Week"</span>, week)</code></pre>
+<p><strong>Java</strong></p>
+<wb-example id="ex-for"></wb-example>
+<p>Python generates the values. Java states the start, condition, and update.</p>
+
+<h3>For Each Loops</h3>
+<p><strong>Python</strong></p>
+<pre><code>pets = [<span class="wb-str">"Oliver"</span>, <span class="wb-str">"Sabina"</span>]
+
+<span class="wb-kw">for</span> pet <span class="wb-kw">in</span> pets:
+    <span class="wb-fn">print</span>(pet)</code></pre>
+<p><strong>Java</strong></p>
+<wb-example id="ex-foreach"></wb-example>
+<p>Both versions visit every item without using an index.</p>
+
+<h3>Lists</h3>
+<p><strong>Python</strong></p>
+<pre><code>pets = [<span class="wb-str">"Oliver"</span>, <span class="wb-str">"Sabina"</span>]
+pets.append(<span class="wb-str">"Milo"</span>)
+
+first = pets[<span class="wb-num">0</span>]
+count = <span class="wb-fn">len</span>(pets)</code></pre>
+<p><strong>Java</strong></p>
+<wb-example id="ex-lists"></wb-example>
+<p>Java names the element type and calls methods for common list operations. The Java version needs <code>import java.util.ArrayList;</code> at the top of the file.</p>
+
+<h3>Dictionaries and Maps</h3>
+<p><strong>Python</strong></p>
+<pre><code>course = {
+    <span class="wb-str">"code"</span>: <span class="wb-str">"COMP 2001"</span>,
+    <span class="wb-str">"program"</span>: <span class="wb-str">"Computer Science"</span>
+}
+
+<span class="wb-fn">print</span>(course[<span class="wb-str">"program"</span>])</code></pre>
+<p><strong>Java</strong></p>
+<wb-example id="ex-maps"></wb-example>
+<p>Both associate keys with values. Java declares the types of both. The Java version needs <code>import java.util.HashMap;</code>.</p>
+
+<h3>Functions and Methods</h3>
+<p><strong>Python</strong></p>
+<pre><code><span class="wb-kw">def</span> <span class="wb-fn">label</span>(code, number):
+    <span class="wb-kw">return</span> <span class="wb-str">f"{code} {number}"</span>
+
+course = <span class="wb-fn">label</span>(<span class="wb-str">"COMP"</span>, <span class="wb-num">2001</span>)</code></pre>
+<p><strong>Java</strong></p>
+<wb-example id="ex-methods"></wb-example>
+<p>Java declares parameter and return types. The Java method belongs inside a class.</p>
+
+<h3>Classes</h3>
+<p><strong>Python</strong></p>
+<pre><code><span class="wb-kw">class</span> <span class="wb-type">Course</span>:
+    <span class="wb-kw">def</span> <span class="wb-fn">__init__</span>(self, code, instructor):
+        self.code = code
+        self.instructor = instructor</code></pre>
+<p><strong>Java</strong></p>
+<pre><code><span class="wb-kw">class</span> <span class="wb-type">Course</span>
+{
+    <span class="wb-type">String</span> code;
+    <span class="wb-type">String</span> instructor;
+
+    <span class="wb-type">Course</span>(<span class="wb-type">String</span> code, <span class="wb-type">String</span> instructor)
+    {
+        <span class="wb-kw">this</span>.code = code;
+        <span class="wb-kw">this</span>.instructor = instructor;
+    }
+}</code></pre>
+<p>Both classes describe the data each course object will hold.</p>
+
+<h3>Objects</h3>
+<p><strong>Python</strong></p>
+<pre><code>comp2001 = <span class="wb-type">Course</span>(
+    <span class="wb-str">"COMP 2001"</span>,
+    <span class="wb-str">"Pranjal Patra"</span>
+)
+
+<span class="wb-fn">print</span>(comp2001.instructor)</code></pre>
+<p><strong>Java</strong></p>
+<wb-example id="ex-objects"></wb-example>
+<p>Python calls the class. Java uses <code>new</code> to construct an object. The Java example uses the <code>Course</code> class from the previous section.</p>
+
+<h3>Inheritance</h3>
+<p><strong>Python</strong></p>
+<pre><code><span class="wb-kw">class</span> <span class="wb-type">Pet</span>:
+    <span class="wb-kw">def</span> <span class="wb-fn">speak</span>(self):
+        <span class="wb-kw">return</span> <span class="wb-str">"..."</span>
+
+<span class="wb-kw">class</span> <span class="wb-type">Dog</span>(<span class="wb-type">Pet</span>):
+    <span class="wb-kw">def</span> <span class="wb-fn">speak</span>(self):
+        <span class="wb-kw">return</span> <span class="wb-str">"woof"</span>
+
+oliver = <span class="wb-type">Dog</span>()</code></pre>
+<p><strong>Java</strong></p>
+<wb-example id="ex-inheritance"></wb-example>
+<p><code>Dog</code> inherits from <code>Pet</code> and replaces the inherited <code>speak()</code> behaviour.</p>
+
+<h3>Exceptions</h3>
+<p><strong>Python</strong></p>
+<pre><code>text = <span class="wb-str">"2001"</span>
+
+<span class="wb-kw">try</span>:
+    number = <span class="wb-fn">int</span>(text)
+    <span class="wb-fn">print</span>(number)
+<span class="wb-kw">except</span> <span class="wb-type">ValueError</span>:
+    <span class="wb-fn">print</span>(<span class="wb-str">"Not a number"</span>)</code></pre>
+<p><strong>Java</strong></p>
+<wb-example id="ex-exceptions"></wb-example>
+<p>Both languages let the program handle a conversion that may fail.</p>
+
+<p><strong>Welcome to COMP 2001.</strong></p>
+
+</main>
+</body>
+</html>

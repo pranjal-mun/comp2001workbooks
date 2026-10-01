@@ -1,0 +1,1649 @@
+{
+  "id": "lecture-09",
+  "course": "COMP 2001: Object-Oriented Programming",
+  "title": "Lecture 9 Workbook",
+  "subtitle": "Chapter 5, Part 2: Filtering and transforming with streams",
+  "exercises": {
+    "q1": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "QSBzdHJlYW0gZG9lcyBub3QgbWFrZSBhIHN0b3JlZCBjb3B5IG9mIHRoZSBsaXN0LiBJdCBoYXMgbm8gZ2V0IG9wZXJhdGlvbiBvciBpbmRleC4gQWZ0ZXIgYSB0ZXJtaW5hbCBvcGVyYXRpb24sIHRoYXQgc3RyZWFtIGlzIGNvbnN1bWVkLiBDYWxsIHN0cmVhbSgpIG9uIHRoZSBvcmlnaW5hbCBsaXN0IGFnYWluIHRvIHByb2Nlc3MgaXQgYWdhaW4u"
+    },
+    "q2": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "src": {
+          "accept": [
+            "stream()",
+            "stream();",
+            "tracks.stream()",
+            "tracks.stream();",
+            "stream",
+            "stream;"
+          ],
+          "show": "stream()",
+          "placeholder": "source",
+          "caseSensitive": true,
+          "width": "10rem"
+        },
+        "term": {
+          "accept": [
+            "forEach",
+            "forEach;",
+            "forEach()",
+            "forEach();",
+            ".forEach",
+            ".forEach;"
+          ],
+          "show": "forEach",
+          "placeholder": "terminal",
+          "caseSensitive": true,
+          "width": "10rem"
+        },
+        "loop": {
+          "accept": [
+            "5",
+            "five"
+          ],
+          "show": "5",
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "stream": {
+          "accept": [
+            "5",
+            "five"
+          ],
+          "show": "5",
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "first": {
+          "accept": [
+            "Northern Sky",
+            "Nick Drake - Northern Sky (224 s)",
+            "Nick Drake - Northern Sky"
+          ],
+          "show": "Northern Sky",
+          "placeholder": "title",
+          "width": "12rem"
+        }
+      }
+    },
+    "q3": {
+      "type": "code",
+      "xp": 4,
+      "title": "Playlist.java",
+      "minLines": 42,
+      "maxLines": 54,
+      "starter": "import java.util.ArrayList;\n\npublic class Playlist\n{\n    private ArrayList<Track> tracks;\n\n    public Playlist()\n    {\n        tracks = new ArrayList<>();\n    }\n\n    public void addTrack(Track track)\n    {\n        tracks.add(track);\n    }\n\n    public int getNumberOfTracks()\n    {\n        return tracks.size();\n    }\n\n    public void printAllTracks()\n    {\n        tracks.forEach(t -> t.printDetails());\n    }\n\n    public void removeTracksByArtist(String artist)\n    {\n        tracks.removeIf(t -> t.getArtist().equals(artist));\n    }\n\n    public void printTracksByArtist(String artist)\n    {\n        // Use tracks.stream(), filter, then forEach.\n\n\n\n\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "John Coltrane:\nJohn Coltrane - Blue Train (643 s)\nJohn Coltrane - Naima (265 s)\nNobody At All:\nStill 5 tracks"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintTracksByArtist(Stringartist)\"), \"Keep the header public void printTracksByArtist(String artist).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"tracks.stream()\"), \"Start the pipeline with tracks.stream().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".filter(\"), \"Select the tracks with filter(...).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getArtist().equals(artist)\"), \"Compare the text with t.getArtist().equals(artist).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".forEach(\"), \"End with forEach(...) to print each track.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"for(Track\"), \"Use the pipeline; do not write a for-each loop.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgUGxheWxpc3QKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8VHJhY2s+IHRyYWNrczsKCiAgICBwdWJsaWMgUGxheWxpc3QoKQogICAgewogICAgICAgIHRyYWNrcyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZFRyYWNrKFRyYWNrIHRyYWNrKQogICAgewogICAgICAgIHRyYWNrcy5hZGQodHJhY2spOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TnVtYmVyT2ZUcmFja3MoKQogICAgewogICAgICAgIHJldHVybiB0cmFja3Muc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50QWxsVHJhY2tzKCkKICAgIHsKICAgICAgICB0cmFja3MuZm9yRWFjaCh0IC0+IHQucHJpbnREZXRhaWxzKCkpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHJlbW92ZVRyYWNrc0J5QXJ0aXN0KFN0cmluZyBhcnRpc3QpCiAgICB7CiAgICAgICAgdHJhY2tzLnJlbW92ZUlmKHQgLT4gdC5nZXRBcnRpc3QoKS5lcXVhbHMoYXJ0aXN0KSk7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRUcmFja3NCeUFydGlzdChTdHJpbmcgYXJ0aXN0KQogICAgewogICAgICAgIHRyYWNrcy5zdHJlYW0oKQogICAgICAgICAgICAgIC5maWx0ZXIodCAtPiB0LmdldEFydGlzdCgpLmVxdWFscyhhcnRpc3QpKQogICAgICAgICAgICAgIC5mb3JFYWNoKHQgLT4gdC5wcmludERldGFpbHMoKSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Track.java",
+          "content": "public class Track\n{\n    private String title;\n    private String artist;\n    private int durationSeconds;\n\n    public Track(String title, String artist, int durationSeconds)\n    {\n        this.title = title;\n        this.artist = artist;\n        this.durationSeconds = durationSeconds;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public String getArtist()\n    {\n        return artist;\n    }\n\n    public int getDurationSeconds()\n    {\n        return durationSeconds;\n    }\n\n    public void printDetails()\n    {\n        System.out.println(artist + \" - \" + title + \" (\" + durationSeconds + \" s)\");\n    }\n}"
+        },
+        {
+          "name": "ArtistCheck.java",
+          "content": "public class ArtistCheck\n{\n    public static void main(String[] args)\n    {\n        Playlist playlist = new Playlist();\n        playlist.addTrack(new Track(\"Northern Sky\", \"Nick Drake\", 224));\n        playlist.addTrack(new Track(\"Blue Train\", \"John Coltrane\", 643));\n        playlist.addTrack(new Track(\"Teardrop\", \"Massive Attack\", 330));\n        playlist.addTrack(new Track(\"Naima\", \"John Coltrane\", 265));\n        playlist.addTrack(new Track(\"Angel\", \"Massive Attack\", 379));\n        System.out.println(\"John Coltrane:\");\n        playlist.printTracksByArtist(\"John Coltrane\");\n        System.out.println(\"Nobody At All:\");\n        playlist.printTracksByArtist(\"Nobody At All\");\n        System.out.println(\"Still \" + playlist.getNumberOfTracks() + \" tracks\");\n    }\n}"
+        }
+      ]
+    },
+    "q4": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "pass": {
+          "accept": [
+            "[Northern Sky, Naima]",
+            "Northern Sky, Naima",
+            "[Northern Sky,Naima]",
+            "Northern Sky,Naima",
+            "Northern Sky Naima",
+            "Northern Sky and Naima"
+          ],
+          "show": "Northern Sky, Naima",
+          "placeholder": "tracks",
+          "width": "14rem"
+        },
+        "fsize": {
+          "accept": [
+            "5"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "ftype": {
+          "accept": [
+            "Track",
+            "Track objects",
+            "Track object",
+            "Tracks",
+            "Track references"
+          ],
+          "show": "Track",
+          "placeholder": "type",
+          "width": "9rem"
+        },
+        "left": {
+          "accept": [
+            "[Blue Train, Teardrop, Angel]",
+            "Blue Train, Teardrop, Angel",
+            "[Blue Train,Teardrop,Angel]",
+            "Blue Train,Teardrop,Angel",
+            "Blue Train Teardrop Angel",
+            "Blue Train, Teardrop, and Angel",
+            "Blue Train, Teardrop and Angel"
+          ],
+          "show": "Blue Train, Teardrop, Angel",
+          "placeholder": "tracks",
+          "width": "18rem"
+        },
+        "rsize": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q4-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VHJ1ZSBtZWFucyBwYXNzIG9ud2FyZCBmb3IgZmlsdGVyIGFuZCBkZWxldGUgZnJvbSB0aGUgbGlzdCBmb3IgcmVtb3ZlSWYuIFRoZSBmaWx0ZXIgbGVhdmVzIHRoZSBsaXN0IHdpdGggYWxsIDUgdHJhY2tzLg=="
+    },
+    "q5": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "f1": {
+          "accept": [
+            "[Blue Train, Teardrop, Naima, Angel]",
+            "Blue Train, Teardrop, Naima, Angel",
+            "[Blue Train,Teardrop,Naima,Angel]",
+            "Blue Train,Teardrop,Naima,Angel",
+            "Blue Train Teardrop Naima Angel",
+            "Blue Train, Teardrop, Naima, and Angel",
+            "Blue Train, Teardrop, Naima and Angel"
+          ],
+          "show": "Blue Train, Teardrop, Naima, Angel",
+          "placeholder": "tracks",
+          "width": "20rem"
+        },
+        "f2": {
+          "accept": [
+            "[Teardrop, Naima, Angel]",
+            "Teardrop, Naima, Angel",
+            "[Teardrop,Naima,Angel]",
+            "Teardrop,Naima,Angel",
+            "Teardrop Naima Angel",
+            "Teardrop, Naima, and Angel",
+            "Teardrop, Naima and Angel"
+          ],
+          "show": "Teardrop, Naima, Angel",
+          "placeholder": "tracks",
+          "width": "20rem"
+        },
+        "rev": {
+          "accept": [
+            "no",
+            "No",
+            "no."
+          ],
+          "show": "no",
+          "placeholder": "yes / no"
+        }
+      }
+    },
+    "q5-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "UmV2ZXJzaW5nIHRoZSBmaWx0ZXJzIGdpdmVzIHRoZSBzYW1lIGZpbmFsIHRyYWNrcyBpbiB0aGUgc2FtZSBvcmRlciBiZWNhdXNlIHRoZXNlIHByZWRpY2F0ZXMgaGF2ZSBubyBzaWRlIGVmZmVjdHMuIE9ubHkgdGhlIGludGVybWVkaWF0ZSBzZXQgY2FuIGRpZmZlci4="
+    },
+    "q6": {
+      "type": "code",
+      "xp": 4,
+      "title": "Playlist.java",
+      "minLines": 42,
+      "maxLines": 54,
+      "starter": "import java.util.ArrayList;\n\npublic class Playlist\n{\n    private ArrayList<Track> tracks;\n\n    public Playlist()\n    {\n        tracks = new ArrayList<>();\n    }\n\n    public void addTrack(Track track)\n    {\n        tracks.add(track);\n    }\n\n    public int getNumberOfTracks()\n    {\n        return tracks.size();\n    }\n\n    public void printAllTracks()\n    {\n        tracks.forEach(t -> t.printDetails());\n    }\n\n    public void removeTracksByArtist(String artist)\n    {\n        tracks.removeIf(t -> t.getArtist().equals(artist));\n    }\n\n    public void printAllTitles()\n    {\n        // Use tracks.stream(), map, then forEach.\n\n\n\n\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Empty playlist:\nFive tracks:\nNorthern Sky\nBlue Train\nTeardrop\nNaima\nAngel\nStill 5 tracks"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintAllTitles()\"), \"Keep the header public void printAllTitles().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"tracks.stream()\"), \"Start the pipeline with tracks.stream().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".map(\"), \"Turn each track into its title with map(...).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getTitle()\"), \"Map each track to getTitle().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".forEach(\"), \"End with forEach(...) to print each title.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"for(Track\"), \"Use the pipeline; do not write a for-each loop.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgUGxheWxpc3QKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8VHJhY2s+IHRyYWNrczsKCiAgICBwdWJsaWMgUGxheWxpc3QoKQogICAgewogICAgICAgIHRyYWNrcyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZFRyYWNrKFRyYWNrIHRyYWNrKQogICAgewogICAgICAgIHRyYWNrcy5hZGQodHJhY2spOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TnVtYmVyT2ZUcmFja3MoKQogICAgewogICAgICAgIHJldHVybiB0cmFja3Muc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50QWxsVHJhY2tzKCkKICAgIHsKICAgICAgICB0cmFja3MuZm9yRWFjaCh0IC0+IHQucHJpbnREZXRhaWxzKCkpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHJlbW92ZVRyYWNrc0J5QXJ0aXN0KFN0cmluZyBhcnRpc3QpCiAgICB7CiAgICAgICAgdHJhY2tzLnJlbW92ZUlmKHQgLT4gdC5nZXRBcnRpc3QoKS5lcXVhbHMoYXJ0aXN0KSk7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRBbGxUaXRsZXMoKQogICAgewogICAgICAgIHRyYWNrcy5zdHJlYW0oKQogICAgICAgICAgICAgIC5tYXAodCAtPiB0LmdldFRpdGxlKCkpCiAgICAgICAgICAgICAgLmZvckVhY2godGl0bGUgLT4gU3lzdGVtLm91dC5wcmludGxuKHRpdGxlKSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Track.java",
+          "content": "public class Track\n{\n    private String title;\n    private String artist;\n    private int durationSeconds;\n\n    public Track(String title, String artist, int durationSeconds)\n    {\n        this.title = title;\n        this.artist = artist;\n        this.durationSeconds = durationSeconds;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public String getArtist()\n    {\n        return artist;\n    }\n\n    public int getDurationSeconds()\n    {\n        return durationSeconds;\n    }\n\n    public void printDetails()\n    {\n        System.out.println(artist + \" - \" + title + \" (\" + durationSeconds + \" s)\");\n    }\n}"
+        },
+        {
+          "name": "TitlesCheck.java",
+          "content": "public class TitlesCheck\n{\n    public static void main(String[] args)\n    {\n        Playlist empty = new Playlist();\n        System.out.println(\"Empty playlist:\");\n        empty.printAllTitles();\n        Playlist playlist = new Playlist();\n        playlist.addTrack(new Track(\"Northern Sky\", \"Nick Drake\", 224));\n        playlist.addTrack(new Track(\"Blue Train\", \"John Coltrane\", 643));\n        playlist.addTrack(new Track(\"Teardrop\", \"Massive Attack\", 330));\n        playlist.addTrack(new Track(\"Naima\", \"John Coltrane\", 265));\n        playlist.addTrack(new Track(\"Angel\", \"Massive Attack\", 379));\n        System.out.println(\"Five tracks:\");\n        playlist.printAllTitles();\n        System.out.println(\"Still \" + playlist.getNumberOfTracks() + \" tracks\");\n    }\n}"
+        }
+      ]
+    },
+    "q6-type": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "n": {
+          "accept": [
+            "5",
+            "five"
+          ],
+          "show": "5",
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "type": {
+          "accept": [
+            "String",
+            "Strings",
+            "String values",
+            "String objects"
+          ],
+          "show": "String",
+          "placeholder": "type",
+          "width": "9rem"
+        }
+      }
+    },
+    "q7": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "fix": {
+          "accept": [
+            ".forEach(title -> System.out.println(title));",
+            ".forEach(title->System.out.println(title));",
+            ".forEach(title -> System.out.println(title))",
+            ".forEach(title->System.out.println(title))",
+            ".forEach(System.out::println);",
+            ".forEach(System.out::println)",
+            "forEach(title -> System.out.println(title))",
+            "forEach(title->System.out.println(title))",
+            "forEach(title -> System.out.println(title));",
+            "forEach(title->System.out.println(title));",
+            "forEach(System.out::println)",
+            "forEach(System.out::println);",
+            ".forEach(track -> System.out.println(track));",
+            ".forEach(track->System.out.println(track));",
+            ".forEach(track -> System.out.println(track))",
+            ".forEach(track->System.out.println(track))",
+            "forEach(track -> System.out.println(track))",
+            "forEach(track->System.out.println(track))",
+            "forEach(track -> System.out.println(track));",
+            "forEach(track->System.out.println(track));"
+          ],
+          "show": ".forEach(title -> System.out.println(title));",
+          "placeholder": "new last line",
+          "caseSensitive": true,
+          "width": "26rem"
+        }
+      }
+    },
+    "q7-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "QWZ0ZXIgbWFwLCBlYWNoIGVsZW1lbnQgaXMgYSBTdHJpbmcuIFN0cmluZyBoYXMgbm8gcHJpbnREZXRhaWxzIG1ldGhvZC4gQSBwYXJhbWV0ZXIncyBuYW1lIGRvZXMgbm90IGRldGVybWluZSBpdHMgdHlwZS4="
+    },
+    "q8": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "fvals": {
+          "accept": [
+            "[Blue Train, Naima]",
+            "Blue Train, Naima",
+            "[Blue Train,Naima]",
+            "Blue Train,Naima",
+            "Blue Train Naima",
+            "Blue Train and Naima"
+          ],
+          "show": "Blue Train, Naima",
+          "placeholder": "values",
+          "width": "12rem"
+        },
+        "ftype": {
+          "accept": [
+            "Track",
+            "Track objects",
+            "Track object",
+            "Tracks",
+            "Track references"
+          ],
+          "show": "Track",
+          "placeholder": "type",
+          "width": "9rem"
+        },
+        "mvals": {
+          "accept": [
+            "[Blue Train, Naima]",
+            "Blue Train, Naima",
+            "[Blue Train,Naima]",
+            "Blue Train,Naima",
+            "Blue Train Naima",
+            "Blue Train and Naima",
+            "[\"Blue Train\", \"Naima\"]",
+            "\"Blue Train\", \"Naima\"",
+            "[\"Blue Train\",\"Naima\"]",
+            "\"Blue Train\",\"Naima\"",
+            "\"Blue Train\" \"Naima\"",
+            "\"Blue Train\" and \"Naima\""
+          ],
+          "show": "\"Blue Train\", \"Naima\"",
+          "placeholder": "values",
+          "width": "12rem"
+        },
+        "mtype": {
+          "accept": [
+            "String",
+            "Strings",
+            "String values",
+            "String objects"
+          ],
+          "show": "String",
+          "placeholder": "type",
+          "width": "9rem"
+        },
+        "o1": {
+          "accept": [
+            "Blue Train"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "14rem"
+        },
+        "o2": {
+          "accept": [
+            "Naima"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "14rem"
+        },
+        "move": {
+          "accept": [
+            "no",
+            "No",
+            "no."
+          ],
+          "show": "no",
+          "placeholder": "yes / no"
+        }
+      }
+    },
+    "q8-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGZpbHRlciBjYW5ub3QgbW92ZSBhZnRlciB0aGlzIG1hcCB1bmNoYW5nZWQ6IGFmdGVyIG1hcCB0aGUgdmFsdWVzIGFyZSBTdHJpbmdzLCBhbmQgU3RyaW5nIGhhcyBubyBnZXRBcnRpc3QgbWV0aG9kLiBTeXN0ZW0ub3V0OjpwcmludGxuIGlzIHRoZSBzYW1lIGFjdGlvbiBhcyB0aXRsZSAtPiBTeXN0ZW0ub3V0LnByaW50bG4odGl0bGUpLg=="
+    },
+    "q9": {
+      "type": "code",
+      "xp": 4,
+      "title": "Playlist.java",
+      "minLines": 42,
+      "maxLines": 54,
+      "starter": "import java.util.ArrayList;\n\npublic class Playlist\n{\n    private ArrayList<Track> tracks;\n\n    public Playlist()\n    {\n        tracks = new ArrayList<>();\n    }\n\n    public void addTrack(Track track)\n    {\n        tracks.add(track);\n    }\n\n    public int getNumberOfTracks()\n    {\n        return tracks.size();\n    }\n\n    public void printAllTracks()\n    {\n        tracks.forEach(t -> t.printDetails());\n    }\n\n    public void removeTracksByArtist(String artist)\n    {\n        tracks.removeIf(t -> t.getArtist().equals(artist));\n    }\n\n    public ____ countTracksByArtist(String artist)\n    {\n        // Fill in the return type, then filter and count.\n\n\n\n\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "John Coltrane: 2\nNick Drake: 1\nNobody At All: 0\nStill 5 tracks"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publiclongcountTracksByArtist(Stringartist)\"), \"count() returns long, so the header is public long countTracksByArtist(String artist).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"tracks.stream()\"), \"Start the pipeline with tracks.stream().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".filter(\"), \"Select the artist's tracks with filter(...).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getArtist().equals(artist)\"), \"Compare the text with t.getArtist().equals(artist).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".count()\"), \"End with count().\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"count++\"), \"Let count() do the counting; no counter variable is needed.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgUGxheWxpc3QKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8VHJhY2s+IHRyYWNrczsKCiAgICBwdWJsaWMgUGxheWxpc3QoKQogICAgewogICAgICAgIHRyYWNrcyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZFRyYWNrKFRyYWNrIHRyYWNrKQogICAgewogICAgICAgIHRyYWNrcy5hZGQodHJhY2spOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TnVtYmVyT2ZUcmFja3MoKQogICAgewogICAgICAgIHJldHVybiB0cmFja3Muc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50QWxsVHJhY2tzKCkKICAgIHsKICAgICAgICB0cmFja3MuZm9yRWFjaCh0IC0+IHQucHJpbnREZXRhaWxzKCkpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHJlbW92ZVRyYWNrc0J5QXJ0aXN0KFN0cmluZyBhcnRpc3QpCiAgICB7CiAgICAgICAgdHJhY2tzLnJlbW92ZUlmKHQgLT4gdC5nZXRBcnRpc3QoKS5lcXVhbHMoYXJ0aXN0KSk7CiAgICB9CgogICAgcHVibGljIGxvbmcgY291bnRUcmFja3NCeUFydGlzdChTdHJpbmcgYXJ0aXN0KQogICAgewogICAgICAgIHJldHVybiB0cmFja3Muc3RyZWFtKCkKICAgICAgICAgICAgICAgICAgICAgLmZpbHRlcih0IC0+IHQuZ2V0QXJ0aXN0KCkuZXF1YWxzKGFydGlzdCkpCiAgICAgICAgICAgICAgICAgICAgIC5jb3VudCgpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Track.java",
+          "content": "public class Track\n{\n    private String title;\n    private String artist;\n    private int durationSeconds;\n\n    public Track(String title, String artist, int durationSeconds)\n    {\n        this.title = title;\n        this.artist = artist;\n        this.durationSeconds = durationSeconds;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public String getArtist()\n    {\n        return artist;\n    }\n\n    public int getDurationSeconds()\n    {\n        return durationSeconds;\n    }\n\n    public void printDetails()\n    {\n        System.out.println(artist + \" - \" + title + \" (\" + durationSeconds + \" s)\");\n    }\n}"
+        },
+        {
+          "name": "CountCheck.java",
+          "content": "public class CountCheck\n{\n    public static void main(String[] args)\n    {\n        Playlist playlist = new Playlist();\n        playlist.addTrack(new Track(\"Northern Sky\", \"Nick Drake\", 224));\n        playlist.addTrack(new Track(\"Blue Train\", \"John Coltrane\", 643));\n        playlist.addTrack(new Track(\"Teardrop\", \"Massive Attack\", 330));\n        playlist.addTrack(new Track(\"Naima\", \"John Coltrane\", 265));\n        playlist.addTrack(new Track(\"Angel\", \"Massive Attack\", 379));\n        System.out.println(\"John Coltrane: \" + playlist.countTracksByArtist(\"John Coltrane\"));\n        System.out.println(\"Nick Drake: \" + playlist.countTracksByArtist(\"Nick Drake\"));\n        System.out.println(\"Nobody At All: \" + playlist.countTracksByArtist(\"Nobody At All\"));\n        System.out.println(\"Still \" + playlist.getNumberOfTracks() + \" tracks\");\n    }\n}"
+        }
+      ]
+    },
+    "q9-results": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "type": {
+          "accept": [
+            "long"
+          ],
+          "show": "long",
+          "caseSensitive": true,
+          "placeholder": "type",
+          "width": "7rem"
+        },
+        "jc": {
+          "accept": [
+            "2"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "nd": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "nb": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q10": {
+      "type": "code",
+      "xp": 6,
+      "title": "ClinicSchedule.java",
+      "minLines": 122,
+      "maxLines": 134,
+      "starter": "import java.util.ArrayList;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment -> System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment -> appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n\n    // Write countWaiting() and printWaitingNames() here.\n\n\n\n\n\n\n\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Empty count: 0\nEmpty names:\nWaiting count: 2\nWaiting names:\nAna\nCara\nAppointments: 4\nBen still checked in: true\nAfter check-in: 0\nNames after check-in:\nOld method:\nNo waiting patients"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publiclongcountWaiting()\"), \"Include public long countWaiting().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintWaitingNames()\"), \"Include public void printWaitingNames().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publiclongcountWaiting\\\\(\\\\)\\\\{returnappointments\\\\.stream\\\\(\\\\)\\\\.filter\\\\(.*\"), \"countWaiting returns appointments.stream().filter(...)...\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicvoidprintWaitingNames\\\\(\\\\)\\\\{appointments\\\\.stream\\\\(\\\\)\\\\.filter\\\\(.*\"), \"printWaitingNames starts with appointments.stream().filter(...).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*!\\\\w+\\\\.hasCheckedIn\\\\(\\\\).*!\\\\w+\\\\.hasCheckedIn\\\\(\\\\).*!\\\\w+\\\\.hasCheckedIn\\\\(\\\\).*\"), \"Both filters keep the appointments that have not checked in: !appointment.hasCheckedIn().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".count();\"), \"End countWaiting with count().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".map(\"), \"In printWaitingNames, map each appointment to its name.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getPatientName())\"), \"Map to getPatientName().\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"waitingCount\"), \"Do not add a count field.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgQ2xpbmljU2NoZWR1bGUKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8QXBwb2ludG1lbnQ+IGFwcG9pbnRtZW50czsKCiAgICBwdWJsaWMgQ2xpbmljU2NoZWR1bGUoKQogICAgewogICAgICAgIGFwcG9pbnRtZW50cyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZEFwcG9pbnRtZW50KEFwcG9pbnRtZW50IGFwcG9pbnRtZW50KQogICAgewogICAgICAgIGFwcG9pbnRtZW50cy5hZGQoYXBwb2ludG1lbnQpOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0Q291bnQoKQogICAgewogICAgICAgIHJldHVybiBhcHBvaW50bWVudHMuc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50UGF0aWVudEF0KGludCBpbmRleCkKICAgIHsKICAgICAgICBpZihpbmRleCA8IDAgfHwgaW5kZXggPj0gYXBwb2ludG1lbnRzLnNpemUoKSkgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkludmFsaWQgaW5kZXgiKTsKICAgICAgICAgICAgcmV0dXJuOwogICAgICAgIH0KCiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpLmdldFBhdGllbnROYW1lKCkpOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGNhbmNlbChpbnQgaW5kZXgpCiAgICB7CiAgICAgICAgaWYoaW5kZXggPCAwIHx8IGluZGV4ID49IGFwcG9pbnRtZW50cy5zaXplKCkpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgaWYoYXBwb2ludG1lbnRzLmdldChpbmRleCkuaGFzQ2hlY2tlZEluKCkpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgYXBwb2ludG1lbnRzLnJlbW92ZShpbmRleCk7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRXYWl0aW5nUGF0aWVudHMoKQogICAgewogICAgICAgIGJvb2xlYW4gZm91bmQgPSBmYWxzZTsKCiAgICAgICAgZm9yKEFwcG9pbnRtZW50IGFwcG9pbnRtZW50IDogYXBwb2ludG1lbnRzKSB7CiAgICAgICAgICAgIGlmKCFhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSkgewogICAgICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkpOwogICAgICAgICAgICAgICAgZm91bmQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBpZighZm91bmQpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJObyB3YWl0aW5nIHBhdGllbnRzIik7CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyBpbnQgZmluZFBhdGllbnRJbmRleChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICBpbnQgaW5kZXggPSAwOwogICAgICAgIGJvb2xlYW4gZm91bmQgPSBmYWxzZTsKCiAgICAgICAgd2hpbGUoaW5kZXggPCBhcHBvaW50bWVudHMuc2l6ZSgpICYmICFmb3VuZCkgewogICAgICAgICAgICBBcHBvaW50bWVudCBhcHBvaW50bWVudCA9IGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpOwogICAgICAgICAgICBpZihhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpLmVxdWFscyhuYW1lKSkgewogICAgICAgICAgICAgICAgZm91bmQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsc2UgewogICAgICAgICAgICAgICAgaW5kZXgrKzsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgaWYoZm91bmQpIHsKICAgICAgICAgICAgcmV0dXJuIGluZGV4OwogICAgICAgIH0KICAgICAgICByZXR1cm4gLTE7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRBbGxQYXRpZW50cygpCiAgICB7CiAgICAgICAgYXBwb2ludG1lbnRzLmZvckVhY2goYXBwb2ludG1lbnQgLT4gU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkpKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBjaGVja0luQWxsKCkKICAgIHsKICAgICAgICBhcHBvaW50bWVudHMuZm9yRWFjaChBcHBvaW50bWVudDo6Y2hlY2tJbik7CiAgICB9CgogICAgcHVibGljIGludCByZW1vdmVDaGVja2VkSW4oKQogICAgewogICAgICAgIGludCBiZWZvcmUgPSBhcHBvaW50bWVudHMuc2l6ZSgpOwogICAgICAgIGFwcG9pbnRtZW50cy5yZW1vdmVJZihhcHBvaW50bWVudCAtPiBhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSk7CiAgICAgICAgcmV0dXJuIGJlZm9yZSAtIGFwcG9pbnRtZW50cy5zaXplKCk7CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gY2FuY2VsUGF0aWVudChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICByZXR1cm4gYXBwb2ludG1lbnRzLnJlbW92ZUlmKGFwcG9pbnRtZW50IC0+IGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkuZXF1YWxzKG5hbWUpCiAgICAgICAgICAgICYmICFhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSk7CiAgICB9CgogICAgcHVibGljIGxvbmcgY291bnRXYWl0aW5nKCkKICAgIHsKICAgICAgICByZXR1cm4gYXBwb2ludG1lbnRzLnN0cmVhbSgpCiAgICAgICAgICAgICAgICAgICAgICAgICAgIC5maWx0ZXIoYXBwb2ludG1lbnQgLT4gIWFwcG9pbnRtZW50Lmhhc0NoZWNrZWRJbigpKQogICAgICAgICAgICAgICAgICAgICAgICAgICAuY291bnQoKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludFdhaXRpbmdOYW1lcygpCiAgICB7CiAgICAgICAgYXBwb2ludG1lbnRzLnN0cmVhbSgpCiAgICAgICAgICAgICAgICAgICAgLmZpbHRlcihhcHBvaW50bWVudCAtPiAhYXBwb2ludG1lbnQuaGFzQ2hlY2tlZEluKCkpCiAgICAgICAgICAgICAgICAgICAgLm1hcChhcHBvaW50bWVudCAtPiBhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpKQogICAgICAgICAgICAgICAgICAgIC5mb3JFYWNoKG5hbWUgLT4gU3lzdGVtLm91dC5wcmludGxuKG5hbWUpKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n\n    public Appointment(String patientName)\n    {\n        this.patientName = patientName;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n}"
+        },
+        {
+          "name": "WaitingCheck.java",
+          "content": "public class WaitingCheck\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule schedule = new ClinicSchedule();\n        System.out.println(\"Empty count: \" + schedule.countWaiting());\n        System.out.println(\"Empty names:\");\n        schedule.printWaitingNames();\n        Appointment ana = new Appointment(\"Ana\");\n        Appointment ben = new Appointment(\"Ben\");\n        Appointment cara = new Appointment(\"Cara\");\n        Appointment dev = new Appointment(\"Dev\");\n        schedule.addAppointment(ana);\n        schedule.addAppointment(ben);\n        schedule.addAppointment(cara);\n        schedule.addAppointment(dev);\n        ben.checkIn();\n        dev.checkIn();\n        System.out.println(\"Waiting count: \" + schedule.countWaiting());\n        System.out.println(\"Waiting names:\");\n        schedule.printWaitingNames();\n        System.out.println(\"Appointments: \" + schedule.getCount());\n        System.out.println(\"Ben still checked in: \" + ben.hasCheckedIn());\n        schedule.checkInAll();\n        System.out.println(\"After check-in: \" + schedule.countWaiting());\n        System.out.println(\"Names after check-in:\");\n        schedule.printWaitingNames();\n        System.out.println(\"Old method:\");\n        schedule.printWaitingPatients();\n    }\n}"
+        }
+      ]
+    },
+    "q10-types": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "pred": {
+          "accept": [
+            "appointment -> !appointment.hasCheckedIn()",
+            "appointment->!appointment.hasCheckedIn()",
+            "!appointment.hasCheckedIn()",
+            "a -> !a.hasCheckedIn()",
+            "a->!a.hasCheckedIn()",
+            "!a.hasCheckedIn()"
+          ],
+          "show": "appointment -> !appointment.hasCheckedIn()",
+          "placeholder": "predicate",
+          "caseSensitive": true,
+          "width": "26rem"
+        },
+        "ftype": {
+          "accept": [
+            "Appointment",
+            "Appointments",
+            "Appointment objects",
+            "Appointment object"
+          ],
+          "show": "Appointment",
+          "placeholder": "type",
+          "width": "10rem"
+        },
+        "mtype": {
+          "accept": [
+            "String",
+            "Strings",
+            "String values",
+            "String objects"
+          ],
+          "show": "String",
+          "placeholder": "type",
+          "width": "9rem"
+        },
+        "ctype": {
+          "accept": [
+            "long"
+          ],
+          "show": "long",
+          "caseSensitive": true,
+          "placeholder": "type",
+          "width": "7rem"
+        }
+      }
+    },
+    "q11": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "ec": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "en": {
+          "accept": [
+            "none",
+            "nothing",
+            "(none)",
+            "no names",
+            "-",
+            "nobody"
+          ],
+          "show": "none",
+          "placeholder": "names",
+          "width": "9rem"
+        },
+        "ea": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "bc": {
+          "accept": [
+            "2"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "bn": {
+          "accept": [
+            "[Ana, Cara]",
+            "Ana, Cara",
+            "[Ana,Cara]",
+            "Ana,Cara",
+            "Ana Cara",
+            "Ana and Cara"
+          ],
+          "show": "Ana, Cara",
+          "placeholder": "names",
+          "width": "9rem"
+        },
+        "ba": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "ac": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "an": {
+          "accept": [
+            "none",
+            "nothing",
+            "(none)",
+            "no names",
+            "-",
+            "nobody"
+          ],
+          "show": "none",
+          "placeholder": "names",
+          "width": "9rem"
+        },
+        "aa": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q11-demo": {
+      "type": "code",
+      "xp": 4,
+      "title": "ClinicDemo.java",
+      "minLines": 31,
+      "maxLines": 39,
+      "starter": "public class ClinicDemo\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule schedule = new ClinicSchedule();\n        // Follow the three steps above. Keep a reference to Ben so you can check him in.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Empty waiting count: 0\nEmpty waiting names:\nWaiting count: 2\nWaiting names:\nAna\nCara\nAppointments: 3\nAfter check-in: 0\nWaiting names after check-in:\nAppointments: 3"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*Appointment(\\\\w+)=newAppointment\\\\(\\\\\\\"Ben\\\\\\\"\\\\);.*\\\\1\\\\.checkIn\\\\(\\\\);.*\"), \"Keep Ben's reference and check him in: ben.checkIn();\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*countWaiting\\\\(\\\\).*countWaiting\\\\(\\\\).*countWaiting\\\\(\\\\).*\"), \"Print the waiting count three times with countWaiting().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*printWaitingNames\\\\(\\\\).*printWaitingNames\\\\(\\\\).*printWaitingNames\\\\(\\\\).*\"), \"Call printWaitingNames() three times.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".checkInAll()\"), \"Check everyone in with checkInAll().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getCount()\"), \"Print the appointment count with getCount().\");",
+      "answer": "cHVibGljIGNsYXNzIENsaW5pY0RlbW8KewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBDbGluaWNTY2hlZHVsZSBzY2hlZHVsZSA9IG5ldyBDbGluaWNTY2hlZHVsZSgpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiRW1wdHkgd2FpdGluZyBjb3VudDogIiArIHNjaGVkdWxlLmNvdW50V2FpdGluZygpKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkVtcHR5IHdhaXRpbmcgbmFtZXM6Iik7CiAgICAgICAgc2NoZWR1bGUucHJpbnRXYWl0aW5nTmFtZXMoKTsKCiAgICAgICAgQXBwb2ludG1lbnQgYW5hID0gbmV3IEFwcG9pbnRtZW50KCJBbmEiKTsKICAgICAgICBBcHBvaW50bWVudCBiZW4gPSBuZXcgQXBwb2ludG1lbnQoIkJlbiIpOwogICAgICAgIEFwcG9pbnRtZW50IGNhcmEgPSBuZXcgQXBwb2ludG1lbnQoIkNhcmEiKTsKICAgICAgICBzY2hlZHVsZS5hZGRBcHBvaW50bWVudChhbmEpOwogICAgICAgIHNjaGVkdWxlLmFkZEFwcG9pbnRtZW50KGJlbik7CiAgICAgICAgc2NoZWR1bGUuYWRkQXBwb2ludG1lbnQoY2FyYSk7CiAgICAgICAgYmVuLmNoZWNrSW4oKTsKCiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJXYWl0aW5nIGNvdW50OiAiICsgc2NoZWR1bGUuY291bnRXYWl0aW5nKCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiV2FpdGluZyBuYW1lczoiKTsKICAgICAgICBzY2hlZHVsZS5wcmludFdhaXRpbmdOYW1lcygpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQXBwb2ludG1lbnRzOiAiICsgc2NoZWR1bGUuZ2V0Q291bnQoKSk7CgogICAgICAgIHNjaGVkdWxlLmNoZWNrSW5BbGwoKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkFmdGVyIGNoZWNrLWluOiAiICsgc2NoZWR1bGUuY291bnRXYWl0aW5nKCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiV2FpdGluZyBuYW1lcyBhZnRlciBjaGVjay1pbjoiKTsKICAgICAgICBzY2hlZHVsZS5wcmludFdhaXRpbmdOYW1lcygpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQXBwb2ludG1lbnRzOiAiICsgc2NoZWR1bGUuZ2V0Q291bnQoKSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n\n    public Appointment(String patientName)\n    {\n        this.patientName = patientName;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n}"
+        },
+        {
+          "name": "ClinicSchedule.java",
+          "content": "import java.util.ArrayList;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment -> System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment -> appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n\n    public long countWaiting()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .count();\n    }\n\n    public void printWaitingNames()\n    {\n        appointments.stream()\n                    .filter(appointment -> !appointment.hasCheckedIn())\n                    .map(appointment -> appointment.getPatientName())\n                    .forEach(name -> System.out.println(name));\n    }\n}"
+        }
+      ]
+    },
+    "q12": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "k1": {
+          "accept": [
+            "source",
+            "Source",
+            "the source"
+          ],
+          "show": "source",
+          "placeholder": "kind",
+          "width": "10rem"
+        },
+        "p1": {
+          "accept": [
+            "a stream",
+            "stream",
+            "Stream",
+            "a Stream",
+            "stream of the list's elements",
+            "a stream of the list's elements",
+            "a stream of tracks",
+            "stream of tracks",
+            "a stream, same type",
+            "stream, same type",
+            "a stream of the same type",
+            "stream, one value per input",
+            "a stream of new values",
+            "stream of new values",
+            "a new stream",
+            "new stream"
+          ],
+          "show": "a stream of the list's elements",
+          "placeholder": "produces",
+          "width": "14rem"
+        },
+        "k2": {
+          "accept": [
+            "intermediate",
+            "intermediate operation",
+            "Intermediate"
+          ],
+          "show": "intermediate",
+          "placeholder": "kind",
+          "width": "10rem"
+        },
+        "p2": {
+          "accept": [
+            "a stream",
+            "stream",
+            "Stream",
+            "a Stream",
+            "stream of the list's elements",
+            "a stream of the list's elements",
+            "a stream of tracks",
+            "stream of tracks",
+            "a stream, same type",
+            "stream, same type",
+            "a stream of the same type",
+            "stream, one value per input",
+            "a stream of new values",
+            "stream of new values",
+            "a new stream",
+            "new stream"
+          ],
+          "show": "a stream, same type, no more elements",
+          "placeholder": "produces",
+          "width": "14rem"
+        },
+        "k3": {
+          "accept": [
+            "intermediate",
+            "intermediate operation",
+            "Intermediate"
+          ],
+          "show": "intermediate",
+          "placeholder": "kind",
+          "width": "10rem"
+        },
+        "p3": {
+          "accept": [
+            "a stream",
+            "stream",
+            "Stream",
+            "a Stream",
+            "stream of the list's elements",
+            "a stream of the list's elements",
+            "a stream of tracks",
+            "stream of tracks",
+            "a stream, same type",
+            "stream, same type",
+            "a stream of the same type",
+            "stream, one value per input",
+            "a stream of new values",
+            "stream of new values",
+            "a new stream",
+            "new stream"
+          ],
+          "show": "a stream, one value per input",
+          "placeholder": "produces",
+          "width": "14rem"
+        },
+        "k4": {
+          "accept": [
+            "terminal",
+            "terminal operation",
+            "Terminal"
+          ],
+          "show": "terminal",
+          "placeholder": "kind",
+          "width": "10rem"
+        },
+        "p4": {
+          "accept": [
+            "nothing",
+            "no value",
+            "void",
+            "none",
+            "an action",
+            "no value; performs an action"
+          ],
+          "show": "no value; performs an action",
+          "placeholder": "produces",
+          "width": "14rem"
+        },
+        "k5": {
+          "accept": [
+            "terminal",
+            "terminal operation",
+            "Terminal"
+          ],
+          "show": "terminal",
+          "placeholder": "kind",
+          "width": "10rem"
+        },
+        "p5": {
+          "accept": [
+            "long",
+            "a long",
+            "a long count",
+            "long count"
+          ],
+          "show": "long",
+          "placeholder": "produces",
+          "width": "14rem"
+        },
+        "k6": {
+          "accept": [
+            "terminal",
+            "terminal operation",
+            "Terminal"
+          ],
+          "show": "terminal",
+          "placeholder": "kind",
+          "width": "10rem"
+        },
+        "p6": {
+          "accept": [
+            "one value",
+            "a single value",
+            "one combined value",
+            "a value",
+            "single value",
+            "one result",
+            "a single result"
+          ],
+          "show": "one combined value",
+          "placeholder": "produces",
+          "width": "14rem"
+        }
+      }
+    },
+    "q13": {
+      "type": "code",
+      "xp": 4,
+      "title": "Playlist.java",
+      "minLines": 42,
+      "maxLines": 54,
+      "starter": "import java.util.ArrayList;\n\npublic class Playlist\n{\n    private ArrayList<Track> tracks;\n\n    public Playlist()\n    {\n        tracks = new ArrayList<>();\n    }\n\n    public void addTrack(Track track)\n    {\n        tracks.add(track);\n    }\n\n    public int getNumberOfTracks()\n    {\n        return tracks.size();\n    }\n\n    public void printAllTracks()\n    {\n        tracks.forEach(t -> t.printDetails());\n    }\n\n    public void removeTracksByArtist(String artist)\n    {\n        tracks.removeIf(t -> t.getArtist().equals(artist));\n    }\n\n    public int totalDuration()\n    {\n        // Use tracks.stream(), map to seconds, then reduce(0, ...).\n\n\n\n\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Empty playlist: 0\nFive tracks: 1841\nStill 5 tracks"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicinttotalDuration()\"), \"Keep the header public int totalDuration().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"returntracks.stream()\"), \"Return the result of a pipeline on tracks.stream().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".map(\"), \"Map each track to its seconds.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getDurationSeconds()\"), \"Map to getDurationSeconds().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".reduce(0,\"), \"Reduce with the identity 0: reduce(0, ...).\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"for(Track\"), \"Use the pipeline; do not write a loop.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgUGxheWxpc3QKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8VHJhY2s+IHRyYWNrczsKCiAgICBwdWJsaWMgUGxheWxpc3QoKQogICAgewogICAgICAgIHRyYWNrcyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZFRyYWNrKFRyYWNrIHRyYWNrKQogICAgewogICAgICAgIHRyYWNrcy5hZGQodHJhY2spOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TnVtYmVyT2ZUcmFja3MoKQogICAgewogICAgICAgIHJldHVybiB0cmFja3Muc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50QWxsVHJhY2tzKCkKICAgIHsKICAgICAgICB0cmFja3MuZm9yRWFjaCh0IC0+IHQucHJpbnREZXRhaWxzKCkpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHJlbW92ZVRyYWNrc0J5QXJ0aXN0KFN0cmluZyBhcnRpc3QpCiAgICB7CiAgICAgICAgdHJhY2tzLnJlbW92ZUlmKHQgLT4gdC5nZXRBcnRpc3QoKS5lcXVhbHMoYXJ0aXN0KSk7CiAgICB9CgogICAgcHVibGljIGludCB0b3RhbER1cmF0aW9uKCkKICAgIHsKICAgICAgICByZXR1cm4gdHJhY2tzLnN0cmVhbSgpCiAgICAgICAgICAgICAgICAgICAgIC5tYXAodCAtPiB0LmdldER1cmF0aW9uU2Vjb25kcygpKQogICAgICAgICAgICAgICAgICAgICAucmVkdWNlKDAsICh0b3RhbCwgc2Vjb25kcykgLT4gdG90YWwgKyBzZWNvbmRzKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Track.java",
+          "content": "public class Track\n{\n    private String title;\n    private String artist;\n    private int durationSeconds;\n\n    public Track(String title, String artist, int durationSeconds)\n    {\n        this.title = title;\n        this.artist = artist;\n        this.durationSeconds = durationSeconds;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public String getArtist()\n    {\n        return artist;\n    }\n\n    public int getDurationSeconds()\n    {\n        return durationSeconds;\n    }\n\n    public void printDetails()\n    {\n        System.out.println(artist + \" - \" + title + \" (\" + durationSeconds + \" s)\");\n    }\n}"
+        },
+        {
+          "name": "TotalCheck.java",
+          "content": "public class TotalCheck\n{\n    public static void main(String[] args)\n    {\n        Playlist empty = new Playlist();\n        System.out.println(\"Empty playlist: \" + empty.totalDuration());\n        Playlist playlist = new Playlist();\n        playlist.addTrack(new Track(\"Northern Sky\", \"Nick Drake\", 224));\n        playlist.addTrack(new Track(\"Blue Train\", \"John Coltrane\", 643));\n        playlist.addTrack(new Track(\"Teardrop\", \"Massive Attack\", 330));\n        playlist.addTrack(new Track(\"Naima\", \"John Coltrane\", 265));\n        playlist.addTrack(new Track(\"Angel\", \"Massive Attack\", 379));\n        System.out.println(\"Five tracks: \" + playlist.totalDuration());\n        System.out.println(\"Still \" + playlist.getNumberOfTracks() + \" tracks\");\n    }\n}"
+        }
+      ]
+    },
+    "q13-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGFjY3VtdWxhdG9yIGhhcyB0d28gcGFyYW1ldGVycywgc28gcGFyZW50aGVzZXMgYXJlIHJlcXVpcmVkLiBUaGUgZmlyc3QgaXMgdGhlIHRvdGFsIHNvIGZhciwgdGhlIHNlY29uZCBpcyB0aGUgbmV4dCBkdXJhdGlvbi4gVGhlIG1ldGhvZCByZXR1cm5zIDE4NDEu"
+    },
+    "q14": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "t1": {
+          "accept": [
+            "224"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "t2": {
+          "accept": [
+            "867"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "t3": {
+          "accept": [
+            "1197"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "t4": {
+          "accept": [
+            "1462"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "t5": {
+          "accept": [
+            "1841"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "a1": {
+          "accept": [
+            "1197"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "a2": {
+          "accept": [
+            "265"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "ret": {
+          "accept": [
+            "1462"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "ident": {
+          "accept": [
+            "no",
+            "No",
+            "no."
+          ],
+          "show": "no",
+          "placeholder": "yes / no"
+        }
+      }
+    },
+    "q14-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGlkZW50aXR5IGlzIDAsIGEgbmV1dHJhbCBzdGFydGluZyB2YWx1ZSBmb3IgYWRkaXRpb24sIG5vdCB0aGUgZmlyc3QgdHJhY2sncyBsZW5ndGgu"
+    },
+    "q15": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "id": {
+          "accept": [
+            "\"\""
+          ],
+          "show": "\"\"",
+          "caseSensitive": true,
+          "placeholder": "identity",
+          "width": "7rem"
+        },
+        "res": {
+          "accept": [
+            "Northern SkyBlue TrainTeardropNaimaAngel",
+            "\"Northern SkyBlue TrainTeardropNaimaAngel\""
+          ],
+          "show": "Northern SkyBlue TrainTeardropNaimaAngel",
+          "caseSensitive": true,
+          "placeholder": "result",
+          "width": "22rem"
+        },
+        "empty": {
+          "accept": [
+            "\"\"",
+            "the empty string",
+            "empty string",
+            "an empty string",
+            "empty"
+          ],
+          "show": "\"\"",
+          "placeholder": "result",
+          "width": "10rem"
+        }
+      }
+    },
+    "q15-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Sm9pbmluZyBhbiBlbXB0eSBzdHJpbmcgdG8gYSB0aXRsZSBsZWF2ZXMgdGhlIHRpdGxlIHVuY2hhbmdlZCwgc28gdGhlIGVtcHR5IHN0cmluZyBpcyB0aGUgaWRlbnRpdHkgZm9yIGpvaW5pbmcuIE5vIHNlcGFyYXRvcnMgYXJlIGFkZGVkLiBSZWR1Y2UgaXMgbm90IHJlc3RyaWN0ZWQgdG8gbnVtZXJpYyBhZGRpdGlvbi4="
+    },
+    "q16": {
+      "type": "code",
+      "xp": 5,
+      "title": "Playlist.java",
+      "minLines": 42,
+      "maxLines": 54,
+      "starter": "import java.util.ArrayList;\n\npublic class Playlist\n{\n    private ArrayList<Track> tracks;\n\n    public Playlist()\n    {\n        tracks = new ArrayList<>();\n    }\n\n    public void addTrack(Track track)\n    {\n        tracks.add(track);\n    }\n\n    public int getNumberOfTracks()\n    {\n        return tracks.size();\n    }\n\n    public void printAllTracks()\n    {\n        tracks.forEach(t -> t.printDetails());\n    }\n\n    public void removeTracksByArtist(String artist)\n    {\n        tracks.removeIf(t -> t.getArtist().equals(artist));\n    }\n\n    public int totalDurationByArtist(String artist)\n    {\n        // Filter by artist, map to seconds, then reduce(0, ...).\n\n\n\n\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "John Coltrane: 908\nMassive Attack: 709\nNobody At All: 0\nStill 5 tracks"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicinttotalDurationByArtist(Stringartist)\"), \"Keep the header public int totalDurationByArtist(String artist).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"returntracks.stream()\"), \"Return the result of a pipeline on tracks.stream().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.filter\\\\(.*\\\\.map\\\\(.*\\\\.reduce\\\\(0,.*\"), \"Use filter, then map, then reduce(0, ...), in that order.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getArtist().equals(artist)\"), \"Compare the text with t.getArtist().equals(artist).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getDurationSeconds()\"), \"Map to getDurationSeconds().\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"for(Track\"), \"Use the pipeline; do not write a loop.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgUGxheWxpc3QKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8VHJhY2s+IHRyYWNrczsKCiAgICBwdWJsaWMgUGxheWxpc3QoKQogICAgewogICAgICAgIHRyYWNrcyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZFRyYWNrKFRyYWNrIHRyYWNrKQogICAgewogICAgICAgIHRyYWNrcy5hZGQodHJhY2spOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TnVtYmVyT2ZUcmFja3MoKQogICAgewogICAgICAgIHJldHVybiB0cmFja3Muc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50QWxsVHJhY2tzKCkKICAgIHsKICAgICAgICB0cmFja3MuZm9yRWFjaCh0IC0+IHQucHJpbnREZXRhaWxzKCkpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHJlbW92ZVRyYWNrc0J5QXJ0aXN0KFN0cmluZyBhcnRpc3QpCiAgICB7CiAgICAgICAgdHJhY2tzLnJlbW92ZUlmKHQgLT4gdC5nZXRBcnRpc3QoKS5lcXVhbHMoYXJ0aXN0KSk7CiAgICB9CgogICAgcHVibGljIGludCB0b3RhbER1cmF0aW9uQnlBcnRpc3QoU3RyaW5nIGFydGlzdCkKICAgIHsKICAgICAgICByZXR1cm4gdHJhY2tzLnN0cmVhbSgpCiAgICAgICAgICAgICAgICAgICAgIC5maWx0ZXIodCAtPiB0LmdldEFydGlzdCgpLmVxdWFscyhhcnRpc3QpKQogICAgICAgICAgICAgICAgICAgICAubWFwKHQgLT4gdC5nZXREdXJhdGlvblNlY29uZHMoKSkKICAgICAgICAgICAgICAgICAgICAgLnJlZHVjZSgwLCAodG90YWwsIHNlY29uZHMpIC0+IHRvdGFsICsgc2Vjb25kcyk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Track.java",
+          "content": "public class Track\n{\n    private String title;\n    private String artist;\n    private int durationSeconds;\n\n    public Track(String title, String artist, int durationSeconds)\n    {\n        this.title = title;\n        this.artist = artist;\n        this.durationSeconds = durationSeconds;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public String getArtist()\n    {\n        return artist;\n    }\n\n    public int getDurationSeconds()\n    {\n        return durationSeconds;\n    }\n\n    public void printDetails()\n    {\n        System.out.println(artist + \" - \" + title + \" (\" + durationSeconds + \" s)\");\n    }\n}"
+        },
+        {
+          "name": "ArtistTotalCheck.java",
+          "content": "public class ArtistTotalCheck\n{\n    public static void main(String[] args)\n    {\n        Playlist playlist = new Playlist();\n        playlist.addTrack(new Track(\"Northern Sky\", \"Nick Drake\", 224));\n        playlist.addTrack(new Track(\"Blue Train\", \"John Coltrane\", 643));\n        playlist.addTrack(new Track(\"Teardrop\", \"Massive Attack\", 330));\n        playlist.addTrack(new Track(\"Naima\", \"John Coltrane\", 265));\n        playlist.addTrack(new Track(\"Angel\", \"Massive Attack\", 379));\n        System.out.println(\"John Coltrane: \" + playlist.totalDurationByArtist(\"John Coltrane\"));\n        System.out.println(\"Massive Attack: \" + playlist.totalDurationByArtist(\"Massive Attack\"));\n        System.out.println(\"Nobody At All: \" + playlist.totalDurationByArtist(\"Nobody At All\"));\n        System.out.println(\"Still \" + playlist.getNumberOfTracks() + \" tracks\");\n    }\n}"
+        }
+      ]
+    },
+    "q16-trace": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "vals": {
+          "accept": [
+            "[643, 265]",
+            "643, 265",
+            "[643,265]",
+            "643,265",
+            "643 265",
+            "643 and 265"
+          ],
+          "show": "643, 265",
+          "placeholder": "values",
+          "width": "10rem"
+        },
+        "totals": {
+          "accept": [
+            "[0, 643, 908]",
+            "0, 643, 908",
+            "[0,643,908]",
+            "0,643,908",
+            "0 643 908",
+            "0, 643, and 908",
+            "0, 643 and 908",
+            "[643, 908]",
+            "643, 908",
+            "[643,908]",
+            "643,908",
+            "643 908",
+            "643 and 908"
+          ],
+          "show": "0, 643, 908",
+          "placeholder": "running totals",
+          "width": "12rem"
+        },
+        "ret": {
+          "accept": [
+            "908"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q17": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "print": {
+          "accept": [
+            "nothing",
+            "nothing prints",
+            "no output",
+            "none",
+            "prints nothing",
+            "no lines"
+          ],
+          "show": "nothing",
+          "placeholder": "printing",
+          "width": "10rem"
+        },
+        "count": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "sum": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q17-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "QW4gZW1wdHkgc291cmNlIGxpc3QgZ2l2ZXMgdGhlIHNhbWUgb3V0Y29tZXMuIE5vIGVsZW1lbnQgcmVhY2hlcyB0aGUgdGVybWluYWwgb3BlcmF0aW9uLCBzbyB0aGUgcHJpbnQgYWN0aW9uIG5ldmVyIHJ1bnMgYW5kIHRoZSBhY2N1bXVsYXRvciBoYXMgbm90aGluZyB0byBjb21iaW5lLiBUaGUgc3VtIHJldHVybnMgaXRzIGlkZW50aXR5IDAu"
+    },
+    "q18": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "ns": {
+          "accept": [
+            "5"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "ts": {
+          "accept": [
+            "Track",
+            "Track objects",
+            "Track object",
+            "Tracks",
+            "Track references"
+          ],
+          "show": "Track",
+          "placeholder": "type",
+          "width": "9rem"
+        },
+        "nf": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "tf": {
+          "accept": [
+            "Track",
+            "Track objects",
+            "Track object",
+            "Tracks",
+            "Track references"
+          ],
+          "show": "Track",
+          "placeholder": "type",
+          "width": "9rem"
+        },
+        "nm": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "tm": {
+          "accept": [
+            "String",
+            "Strings",
+            "String values",
+            "String objects"
+          ],
+          "show": "String",
+          "placeholder": "type",
+          "width": "9rem"
+        },
+        "o1": {
+          "accept": [
+            "Blue Train"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "14rem"
+        },
+        "o2": {
+          "accept": [
+            "Teardrop"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "14rem"
+        },
+        "o3": {
+          "accept": [
+            "Angel"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "14rem"
+        },
+        "stream": {
+          "accept": [
+            "no",
+            "No",
+            "no."
+          ],
+          "show": "no",
+          "placeholder": "yes / no"
+        },
+        "size": {
+          "accept": [
+            "5"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q19": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "o1": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "true / false"
+        },
+        "o2": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "true / false"
+        },
+        "o3": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "true / false"
+        },
+        "o4": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "true / false"
+        },
+        "o5": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "true / false"
+        },
+        "sel": {
+          "accept": [
+            "no",
+            "No",
+            "no."
+          ],
+          "show": "no",
+          "placeholder": "yes / no"
+        }
+      }
+    },
+    "q19-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "TWFwIHN1cHBsaWVzIGZpdmUgYm9vbGVhbiB2YWx1ZXM7IGl0IGRvZXMgbm90IHNlbGVjdCB0cmFja3MuIFRoZSBmYWxzZSB2YWx1ZXMgcmVhY2ggZm9yRWFjaCBhbmQgcHJpbnQganVzdCBsaWtlIHRoZSB0cnVlIHZhbHVlcy4="
+    },
+    "q20": {
+      "type": "code",
+      "xp": 4,
+      "title": "CountDemo.java",
+      "minLines": 23,
+      "maxLines": 29,
+      "starter": "import java.util.ArrayList;\n\npublic class CountDemo\n{\n    public static void main(String[] args)\n    {\n        ArrayList<Track> tracks = new ArrayList<>();\n        tracks.add(new Track(\"Northern Sky\", \"Nick Drake\", 224));\n        tracks.add(new Track(\"Blue Train\", \"John Coltrane\", 643));\n        tracks.add(new Track(\"Teardrop\", \"Massive Attack\", 330));\n        tracks.add(new Track(\"Naima\", \"John Coltrane\", 265));\n        tracks.add(new Track(\"Angel\", \"Massive Attack\", 379));\n        tracks.stream()\n              .filter(t -> t.getArtist().equals(\"John Coltrane\"));\n\n        // Replace this statement with a pipeline that prints the Coltrane count.\n        tracks.stream().count()\n              .filter(t -> t.getArtist().equals(\"John Coltrane\"));\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "2"
+        }
+      ],
+      "check": "require(!source.replaceAll(\"\\\\s+\", \"\").contains(\"stream().count().filter(\"), \"count() returns long, which has no filter method. Filter first.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.filter\\\\(\\\\w+->\\\\w+\\\\.getArtist\\\\(\\\\)\\\\.equals\\\\(\\\\\\\"JohnColtrane\\\\\\\"\\\\)\\\\)\\\\.count\\\\(\\\\).*\"), \"Filter by artist, then count().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"System.out.println(\"), \"Print the count.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgQ291bnREZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgQXJyYXlMaXN0PFRyYWNrPiB0cmFja3MgPSBuZXcgQXJyYXlMaXN0PD4oKTsKICAgICAgICB0cmFja3MuYWRkKG5ldyBUcmFjaygiTm9ydGhlcm4gU2t5IiwgIk5pY2sgRHJha2UiLCAyMjQpKTsKICAgICAgICB0cmFja3MuYWRkKG5ldyBUcmFjaygiQmx1ZSBUcmFpbiIsICJKb2huIENvbHRyYW5lIiwgNjQzKSk7CiAgICAgICAgdHJhY2tzLmFkZChuZXcgVHJhY2soIlRlYXJkcm9wIiwgIk1hc3NpdmUgQXR0YWNrIiwgMzMwKSk7CiAgICAgICAgdHJhY2tzLmFkZChuZXcgVHJhY2soIk5haW1hIiwgIkpvaG4gQ29sdHJhbmUiLCAyNjUpKTsKICAgICAgICB0cmFja3MuYWRkKG5ldyBUcmFjaygiQW5nZWwiLCAiTWFzc2l2ZSBBdHRhY2siLCAzNzkpKTsKICAgICAgICB0cmFja3Muc3RyZWFtKCkKICAgICAgICAgICAgICAuZmlsdGVyKHQgLT4gdC5nZXRBcnRpc3QoKS5lcXVhbHMoIkpvaG4gQ29sdHJhbmUiKSk7CgogICAgICAgIGxvbmcgY291bnQgPSB0cmFja3Muc3RyZWFtKCkKICAgICAgICAgICAgICAgICAgICAgICAgICAgLmZpbHRlcih0IC0+IHQuZ2V0QXJ0aXN0KCkuZXF1YWxzKCJKb2huIENvbHRyYW5lIikpCiAgICAgICAgICAgICAgICAgICAgICAgICAgIC5jb3VudCgpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihjb3VudCk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Track.java",
+          "content": "public class Track\n{\n    private String title;\n    private String artist;\n    private int durationSeconds;\n\n    public Track(String title, String artist, int durationSeconds)\n    {\n        this.title = title;\n        this.artist = artist;\n        this.durationSeconds = durationSeconds;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public String getArtist()\n    {\n        return artist;\n    }\n\n    public int getDurationSeconds()\n    {\n        return durationSeconds;\n    }\n\n    public void printDetails()\n    {\n        System.out.println(artist + \" - \" + title + \" (\" + durationSeconds + \" s)\");\n    }\n}"
+        }
+      ]
+    },
+    "q20-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "VGhlIGZpcnN0IHN0YXRlbWVudCBoYXMgbm8gdGVybWluYWwgb3BlcmF0aW9uLCBzbyBpdHMgcHJlZGljYXRlIGRvZXMgbm90IHJ1bi4gSW4gdGhlIHNlY29uZCwgY291bnQgcmV0dXJucyBsb25nLCB3aGljaCBoYXMgbm8gZmlsdGVyIG1ldGhvZC4gQSBjb25zdW1lZCBzdHJlYW0gY2Fubm90IHJ1biBhZ2Fpbiwgc28gdGhlIHNhbWUgc3RyZWFtIGNhbm5vdCB0aGVuIGdpdmUgdGhlIHRvdGFsIGR1cmF0aW9uLiBFYWNoIG1ldGhvZCBpbiBRdWVzdGlvbnMgOSBhbmQgMTYgY2FsbHMgdHJhY2tzLnN0cmVhbSgpIHRvIG9idGFpbiBhIGZyZXNoIHN0cmVhbS4="
+    },
+    "q21": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "a": {
+          "accept": [
+            "pipeline",
+            "a pipeline",
+            "stream",
+            "a stream",
+            "stream pipeline",
+            "a stream pipeline"
+          ],
+          "show": "pipeline",
+          "placeholder": "pipeline / loop",
+          "width": "10rem"
+        },
+        "b": {
+          "accept": [
+            "loop",
+            "a loop",
+            "explicit loop",
+            "an explicit loop",
+            "while",
+            "while loop",
+            "for loop",
+            "for-each loop",
+            "indexed loop"
+          ],
+          "show": "loop",
+          "placeholder": "pipeline / loop",
+          "width": "10rem"
+        },
+        "c": {
+          "accept": [
+            "loop",
+            "a loop",
+            "explicit loop",
+            "an explicit loop",
+            "while",
+            "while loop",
+            "for loop",
+            "for-each loop",
+            "indexed loop"
+          ],
+          "show": "loop",
+          "placeholder": "pipeline / loop",
+          "width": "10rem"
+        },
+        "d": {
+          "accept": [
+            "loop",
+            "a loop",
+            "explicit loop",
+            "an explicit loop",
+            "while",
+            "while loop",
+            "for loop",
+            "for-each loop",
+            "indexed loop"
+          ],
+          "show": "loop",
+          "placeholder": "pipeline / loop",
+          "width": "10rem"
+        },
+        "s1": {
+          "accept": [
+            "2"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "s2": {
+          "accept": [
+            "-1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q21-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "KGEpIGZpbHRlciwgdGhlbiBmb3JFYWNoLiAoYikgYSBsb29wIGtlZXBzIGFuIGluZGV4LiAoYykgYSBsb29wIGNhbiBzdG9wIG9uIHRoZSBmaXJzdCBtYXRjaCwgQmx1ZSBUcmFpbi4gKGQpIHNldmVyYWwgdXBkYXRlcyBhcmUgZWFzaWVyIHRvIGZvbGxvdyB0b2dldGhlciBpbiBvbmUgbG9vcC4gQSBsb29wIGNhbiBhbHNvIHByaW50IGJ5IGFydGlzdDsgc2hvcnRlciBjb2RlIGlzIG5vdCBhdXRvbWF0aWNhbGx5IGNsZWFyZXIu"
+    },
+    "q22": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "cur": {
+          "accept": [
+            "1362"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "fix": {
+          "accept": [
+            ".reduce(0, (total, seconds) -> total + seconds);",
+            ".reduce(0,(total,seconds)->total+seconds);",
+            ".reduce(0, (total, seconds) -> total + seconds)",
+            ".reduce(0,(total,seconds)->total+seconds)",
+            "reduce(0, (total, seconds) -> total + seconds)",
+            "reduce(0,(total,seconds)->total+seconds)",
+            "reduce(0, (total, seconds) -> total + seconds);",
+            "reduce(0,(total,seconds)->total+seconds);",
+            "0",
+            "0;"
+          ],
+          "show": ".reduce(0, (total, seconds) -> total + seconds);",
+          "placeholder": "repaired last line",
+          "caseSensitive": true,
+          "width": "26rem"
+        },
+        "fixed": {
+          "accept": [
+            "1352"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "e1": {
+          "accept": [
+            "10"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "e2": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q23-appt": {
+      "type": "code",
+      "xp": 4,
+      "title": "Appointment.java",
+      "minLines": 35,
+      "maxLines": 41,
+      "starter": "public class Appointment\n{\n    // Add the minutes field, replace the constructor, and add getMinutes().\n    private String patientName;\n    private boolean checkedIn;\n\n    public Appointment(String patientName)\n    {\n        this.patientName = patientName;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Ana 15 false\nBen 20 true"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintminutes;\"), \"Add the field private int minutes;.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicAppointment\\\\(String\\\\w+,int\\\\w+\\\\).*\"), \"Replace the constructor with Appointment(String patientName, int minutes).\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"publicAppointment(StringpatientName)\"), \"Replace the old one-argument constructor; do not keep both.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetMinutes()\"), \"Add public int getMinutes().\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"setMinutes\"), \"No setter is needed.\");",
+      "answer": "cHVibGljIGNsYXNzIEFwcG9pbnRtZW50CnsKICAgIHByaXZhdGUgU3RyaW5nIHBhdGllbnROYW1lOwogICAgcHJpdmF0ZSBib29sZWFuIGNoZWNrZWRJbjsKICAgIHByaXZhdGUgaW50IG1pbnV0ZXM7CgogICAgcHVibGljIEFwcG9pbnRtZW50KFN0cmluZyBwYXRpZW50TmFtZSwgaW50IG1pbnV0ZXMpCiAgICB7CiAgICAgICAgdGhpcy5wYXRpZW50TmFtZSA9IHBhdGllbnROYW1lOwogICAgICAgIHRoaXMubWludXRlcyA9IG1pbnV0ZXM7CiAgICAgICAgY2hlY2tlZEluID0gZmFsc2U7CiAgICB9CgogICAgcHVibGljIFN0cmluZyBnZXRQYXRpZW50TmFtZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIHBhdGllbnROYW1lOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGhhc0NoZWNrZWRJbigpCiAgICB7CiAgICAgICAgcmV0dXJuIGNoZWNrZWRJbjsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBjaGVja0luKCkKICAgIHsKICAgICAgICBjaGVja2VkSW4gPSB0cnVlOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TWludXRlcygpCiAgICB7CiAgICAgICAgcmV0dXJuIG1pbnV0ZXM7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "AppointmentCheck.java",
+          "content": "public class AppointmentCheck\n{\n    public static void main(String[] args)\n    {\n        Appointment ana = new Appointment(\"Ana\", 15);\n        Appointment ben = new Appointment(\"Ben\", 20);\n        System.out.println(ana.getPatientName() + \" \" + ana.getMinutes() + \" \" + ana.hasCheckedIn());\n        ben.checkIn();\n        System.out.println(ben.getPatientName() + \" \" + ben.getMinutes() + \" \" + ben.hasCheckedIn());\n    }\n}"
+        }
+      ]
+    },
+    "q23": {
+      "type": "code",
+      "xp": 5,
+      "title": "ClinicSchedule.java",
+      "minLines": 131,
+      "maxLines": 143,
+      "starter": "import java.util.ArrayList;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment -> System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment -> appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n\n    public long countWaiting()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .count();\n    }\n\n    public void printWaitingNames()\n    {\n        appointments.stream()\n                    .filter(appointment -> !appointment.hasCheckedIn())\n                    .map(appointment -> appointment.getPatientName())\n                    .forEach(name -> System.out.println(name));\n    }\n\n    // Write totalWaitingMinutes() here.\n\n\n\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Empty: 0\nNobody checked in: 75\nBen and Dev checked in: 25\nWaiting count: 2\nAppointments: 4\nAfter check-in: 0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicinttotalWaitingMinutes()\"), \"Include public int totalWaitingMinutes().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicinttotalWaitingMinutes\\\\(\\\\)\\\\{returnappointments\\\\.stream\\\\(\\\\)\\\\.filter\\\\(.*\"), \"Return the result of appointments.stream().filter(...)...\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getMinutes()\"), \"Map each waiting appointment to getMinutes().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicinttotalWaitingMinutes\\\\(\\\\).*\\\\.map\\\\(.*\\\\.reduce\\\\(0,.*\"), \"Map to minutes, then reduce(0, ...).\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"totalMinutes;\"), \"Do not store a total field.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgQ2xpbmljU2NoZWR1bGUKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8QXBwb2ludG1lbnQ+IGFwcG9pbnRtZW50czsKCiAgICBwdWJsaWMgQ2xpbmljU2NoZWR1bGUoKQogICAgewogICAgICAgIGFwcG9pbnRtZW50cyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZEFwcG9pbnRtZW50KEFwcG9pbnRtZW50IGFwcG9pbnRtZW50KQogICAgewogICAgICAgIGFwcG9pbnRtZW50cy5hZGQoYXBwb2ludG1lbnQpOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0Q291bnQoKQogICAgewogICAgICAgIHJldHVybiBhcHBvaW50bWVudHMuc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50UGF0aWVudEF0KGludCBpbmRleCkKICAgIHsKICAgICAgICBpZihpbmRleCA8IDAgfHwgaW5kZXggPj0gYXBwb2ludG1lbnRzLnNpemUoKSkgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkludmFsaWQgaW5kZXgiKTsKICAgICAgICAgICAgcmV0dXJuOwogICAgICAgIH0KCiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpLmdldFBhdGllbnROYW1lKCkpOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGNhbmNlbChpbnQgaW5kZXgpCiAgICB7CiAgICAgICAgaWYoaW5kZXggPCAwIHx8IGluZGV4ID49IGFwcG9pbnRtZW50cy5zaXplKCkpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgaWYoYXBwb2ludG1lbnRzLmdldChpbmRleCkuaGFzQ2hlY2tlZEluKCkpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgYXBwb2ludG1lbnRzLnJlbW92ZShpbmRleCk7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRXYWl0aW5nUGF0aWVudHMoKQogICAgewogICAgICAgIGJvb2xlYW4gZm91bmQgPSBmYWxzZTsKCiAgICAgICAgZm9yKEFwcG9pbnRtZW50IGFwcG9pbnRtZW50IDogYXBwb2ludG1lbnRzKSB7CiAgICAgICAgICAgIGlmKCFhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSkgewogICAgICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkpOwogICAgICAgICAgICAgICAgZm91bmQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBpZighZm91bmQpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJObyB3YWl0aW5nIHBhdGllbnRzIik7CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyBpbnQgZmluZFBhdGllbnRJbmRleChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICBpbnQgaW5kZXggPSAwOwogICAgICAgIGJvb2xlYW4gZm91bmQgPSBmYWxzZTsKCiAgICAgICAgd2hpbGUoaW5kZXggPCBhcHBvaW50bWVudHMuc2l6ZSgpICYmICFmb3VuZCkgewogICAgICAgICAgICBBcHBvaW50bWVudCBhcHBvaW50bWVudCA9IGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpOwogICAgICAgICAgICBpZihhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpLmVxdWFscyhuYW1lKSkgewogICAgICAgICAgICAgICAgZm91bmQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsc2UgewogICAgICAgICAgICAgICAgaW5kZXgrKzsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgaWYoZm91bmQpIHsKICAgICAgICAgICAgcmV0dXJuIGluZGV4OwogICAgICAgIH0KICAgICAgICByZXR1cm4gLTE7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRBbGxQYXRpZW50cygpCiAgICB7CiAgICAgICAgYXBwb2ludG1lbnRzLmZvckVhY2goYXBwb2ludG1lbnQgLT4gU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkpKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBjaGVja0luQWxsKCkKICAgIHsKICAgICAgICBhcHBvaW50bWVudHMuZm9yRWFjaChBcHBvaW50bWVudDo6Y2hlY2tJbik7CiAgICB9CgogICAgcHVibGljIGludCByZW1vdmVDaGVja2VkSW4oKQogICAgewogICAgICAgIGludCBiZWZvcmUgPSBhcHBvaW50bWVudHMuc2l6ZSgpOwogICAgICAgIGFwcG9pbnRtZW50cy5yZW1vdmVJZihhcHBvaW50bWVudCAtPiBhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSk7CiAgICAgICAgcmV0dXJuIGJlZm9yZSAtIGFwcG9pbnRtZW50cy5zaXplKCk7CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gY2FuY2VsUGF0aWVudChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICByZXR1cm4gYXBwb2ludG1lbnRzLnJlbW92ZUlmKGFwcG9pbnRtZW50IC0+IGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkuZXF1YWxzKG5hbWUpCiAgICAgICAgICAgICYmICFhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSk7CiAgICB9CgogICAgcHVibGljIGxvbmcgY291bnRXYWl0aW5nKCkKICAgIHsKICAgICAgICByZXR1cm4gYXBwb2ludG1lbnRzLnN0cmVhbSgpCiAgICAgICAgICAgICAgICAgICAgICAgICAgIC5maWx0ZXIoYXBwb2ludG1lbnQgLT4gIWFwcG9pbnRtZW50Lmhhc0NoZWNrZWRJbigpKQogICAgICAgICAgICAgICAgICAgICAgICAgICAuY291bnQoKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludFdhaXRpbmdOYW1lcygpCiAgICB7CiAgICAgICAgYXBwb2ludG1lbnRzLnN0cmVhbSgpCiAgICAgICAgICAgICAgICAgICAgLmZpbHRlcihhcHBvaW50bWVudCAtPiAhYXBwb2ludG1lbnQuaGFzQ2hlY2tlZEluKCkpCiAgICAgICAgICAgICAgICAgICAgLm1hcChhcHBvaW50bWVudCAtPiBhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpKQogICAgICAgICAgICAgICAgICAgIC5mb3JFYWNoKG5hbWUgLT4gU3lzdGVtLm91dC5wcmludGxuKG5hbWUpKTsKICAgIH0KCiAgICBwdWJsaWMgaW50IHRvdGFsV2FpdGluZ01pbnV0ZXMoKQogICAgewogICAgICAgIHJldHVybiBhcHBvaW50bWVudHMuc3RyZWFtKCkKICAgICAgICAgICAgICAgICAgICAgICAgICAgLmZpbHRlcihhcHBvaW50bWVudCAtPiAhYXBwb2ludG1lbnQuaGFzQ2hlY2tlZEluKCkpCiAgICAgICAgICAgICAgICAgICAgICAgICAgIC5tYXAoYXBwb2ludG1lbnQgLT4gYXBwb2ludG1lbnQuZ2V0TWludXRlcygpKQogICAgICAgICAgICAgICAgICAgICAgICAgICAucmVkdWNlKDAsICh0b3RhbCwgbWludXRlcykgLT4gdG90YWwgKyBtaW51dGVzKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n    private int minutes;\n\n    public Appointment(String patientName, int minutes)\n    {\n        this.patientName = patientName;\n        this.minutes = minutes;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n\n    public int getMinutes()\n    {\n        return minutes;\n    }\n}"
+        },
+        {
+          "name": "MinutesCheck.java",
+          "content": "public class MinutesCheck\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule schedule = new ClinicSchedule();\n        System.out.println(\"Empty: \" + schedule.totalWaitingMinutes());\n        Appointment ana = new Appointment(\"Ana\", 15);\n        Appointment ben = new Appointment(\"Ben\", 20);\n        Appointment cara = new Appointment(\"Cara\", 10);\n        Appointment dev = new Appointment(\"Dev\", 30);\n        schedule.addAppointment(ana);\n        schedule.addAppointment(ben);\n        schedule.addAppointment(cara);\n        schedule.addAppointment(dev);\n        System.out.println(\"Nobody checked in: \" + schedule.totalWaitingMinutes());\n        ben.checkIn();\n        dev.checkIn();\n        System.out.println(\"Ben and Dev checked in: \" + schedule.totalWaitingMinutes());\n        System.out.println(\"Waiting count: \" + schedule.countWaiting());\n        System.out.println(\"Appointments: \" + schedule.getCount());\n        schedule.checkInAll();\n        System.out.println(\"After check-in: \" + schedule.totalWaitingMinutes());\n    }\n}"
+        }
+      ]
+    },
+    "q23-rec": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "map": {
+          "accept": [
+            "appointment -> appointment.getMinutes()",
+            "appointment->appointment.getMinutes()",
+            "appointment.getMinutes()",
+            "a -> a.getMinutes()",
+            "a->a.getMinutes()",
+            "Appointment::getMinutes"
+          ],
+          "show": "appointment -> appointment.getMinutes()",
+          "placeholder": "map expression",
+          "caseSensitive": true,
+          "width": "26rem"
+        },
+        "acc": {
+          "accept": [
+            "(total, minutes) -> total + minutes",
+            "(total,minutes)->total+minutes",
+            "(a, b) -> a + b",
+            "(a,b)->a+b",
+            "(total, m) -> total + m",
+            "(total,m)->total+m",
+            "(sum, minutes) -> sum + minutes",
+            "(sum,minutes)->sum+minutes"
+          ],
+          "show": "(total, minutes) -> total + minutes",
+          "placeholder": "accumulator",
+          "caseSensitive": true,
+          "width": "26rem"
+        }
+      }
+    },
+    "q24": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "names": {
+          "accept": [
+            "[Ana, Cara]",
+            "Ana, Cara",
+            "[Ana,Cara]",
+            "Ana,Cara",
+            "Ana Cara",
+            "Ana and Cara"
+          ],
+          "show": "Ana, Cara",
+          "placeholder": "names",
+          "width": "9rem"
+        },
+        "totals": {
+          "accept": [
+            "[0, 15, 25]",
+            "0, 15, 25",
+            "[0,15,25]",
+            "0,15,25",
+            "0 15 25",
+            "0, 15, and 25",
+            "0, 15 and 25",
+            "[15, 25]",
+            "15, 25",
+            "[15,25]",
+            "15,25",
+            "15 25",
+            "15 and 25"
+          ],
+          "show": "0, 15, 25",
+          "placeholder": "running totals",
+          "width": "10rem"
+        },
+        "empty": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "after": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "count": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q24-demo": {
+      "type": "code",
+      "xp": 4,
+      "title": "ClinicDemo.java",
+      "minLines": 28,
+      "maxLines": 36,
+      "starter": "public class ClinicDemo\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule schedule = new ClinicSchedule();\n        // Follow the steps above. Every constructor call now supplies minutes.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Empty waiting minutes: 0\nWaiting names:\nAna\nCara\nWaiting count: 2\nWaiting minutes: 25\nAppointments: 3\nAfter check-in: 0\nAppointments: 3"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"newAppointment(\\\"Ana\\\",15)\"), \"Add Ana for 15 minutes: new Appointment(\\\"Ana\\\", 15).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*Appointment(\\\\w+)=newAppointment\\\\(\\\\\\\"Ben\\\\\\\",20\\\\);.*\\\\1\\\\.checkIn\\\\(\\\\);.*\"), \"Keep Ben's reference (20 minutes) and check him in.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"newAppointment(\\\"Cara\\\",10)\"), \"Add Cara for 10 minutes: new Appointment(\\\"Cara\\\", 10).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*totalWaitingMinutes\\\\(\\\\).*totalWaitingMinutes\\\\(\\\\).*totalWaitingMinutes\\\\(\\\\).*\"), \"Print the waiting minutes three times.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".printWaitingNames()\"), \"Print the waiting names with printWaitingNames().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".checkInAll()\"), \"Check everyone in with checkInAll().\");",
+      "answer": "cHVibGljIGNsYXNzIENsaW5pY0RlbW8KewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBDbGluaWNTY2hlZHVsZSBzY2hlZHVsZSA9IG5ldyBDbGluaWNTY2hlZHVsZSgpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiRW1wdHkgd2FpdGluZyBtaW51dGVzOiAiICsgc2NoZWR1bGUudG90YWxXYWl0aW5nTWludXRlcygpKTsKCiAgICAgICAgQXBwb2ludG1lbnQgYW5hID0gbmV3IEFwcG9pbnRtZW50KCJBbmEiLCAxNSk7CiAgICAgICAgQXBwb2ludG1lbnQgYmVuID0gbmV3IEFwcG9pbnRtZW50KCJCZW4iLCAyMCk7CiAgICAgICAgQXBwb2ludG1lbnQgY2FyYSA9IG5ldyBBcHBvaW50bWVudCgiQ2FyYSIsIDEwKTsKICAgICAgICBzY2hlZHVsZS5hZGRBcHBvaW50bWVudChhbmEpOwogICAgICAgIHNjaGVkdWxlLmFkZEFwcG9pbnRtZW50KGJlbik7CiAgICAgICAgc2NoZWR1bGUuYWRkQXBwb2ludG1lbnQoY2FyYSk7CiAgICAgICAgYmVuLmNoZWNrSW4oKTsKCiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJXYWl0aW5nIG5hbWVzOiIpOwogICAgICAgIHNjaGVkdWxlLnByaW50V2FpdGluZ05hbWVzKCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJXYWl0aW5nIGNvdW50OiAiICsgc2NoZWR1bGUuY291bnRXYWl0aW5nKCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiV2FpdGluZyBtaW51dGVzOiAiICsgc2NoZWR1bGUudG90YWxXYWl0aW5nTWludXRlcygpKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkFwcG9pbnRtZW50czogIiArIHNjaGVkdWxlLmdldENvdW50KCkpOwoKICAgICAgICBzY2hlZHVsZS5jaGVja0luQWxsKCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJBZnRlciBjaGVjay1pbjogIiArIHNjaGVkdWxlLnRvdGFsV2FpdGluZ01pbnV0ZXMoKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJBcHBvaW50bWVudHM6ICIgKyBzY2hlZHVsZS5nZXRDb3VudCgpKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n    private int minutes;\n\n    public Appointment(String patientName, int minutes)\n    {\n        this.patientName = patientName;\n        this.minutes = minutes;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n\n    public int getMinutes()\n    {\n        return minutes;\n    }\n}"
+        },
+        {
+          "name": "ClinicSchedule.java",
+          "content": "import java.util.ArrayList;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment -> System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment -> appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n\n    public long countWaiting()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .count();\n    }\n\n    public void printWaitingNames()\n    {\n        appointments.stream()\n                    .filter(appointment -> !appointment.hasCheckedIn())\n                    .map(appointment -> appointment.getPatientName())\n                    .forEach(name -> System.out.println(name));\n    }\n\n    public int totalWaitingMinutes()\n    {\n        return appointments.stream()\n                           .filter(appointment -> !appointment.hasCheckedIn())\n                           .map(appointment -> appointment.getMinutes())\n                           .reduce(0, (total, minutes) -> total + minutes);\n    }\n}"
+        }
+      ]
+    },
+    "q24-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "QmVuIGhhcyBjaGVja2VkIGluLCBzbyB0aGUgZmlsdGVyIHN0b3BzIGhpbSBhbmQgaGlzIDIwIG1pbnV0ZXMgbmV2ZXIgcmVhY2ggbWFwIG9yIHJlZHVjZS4gVGhlIGFwcG9pbnRtZW50IGNvdW50IHN0YXlzIDMgYmVjYXVzZSBub3RoaW5nIGlzIHJlbW92ZWQu"
+    },
+    "q25": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "a": {
+          "accept": [
+            "5"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "b": {
+          "accept": [
+            "filter",
+            "use filter",
+            "filter()",
+            "Filter"
+          ],
+          "show": "filter",
+          "placeholder": "operation",
+          "width": "9rem"
+        },
+        "c": {
+          "accept": [
+            "the identity",
+            "identity",
+            "its identity",
+            "0",
+            "the identity value"
+          ],
+          "show": "the identity",
+          "placeholder": "result",
+          "width": "10rem"
+        },
+        "d": {
+          "accept": [
+            "long",
+            "a long"
+          ],
+          "show": "long",
+          "placeholder": "type",
+          "width": "7rem"
+        }
+      }
+    },
+    "q25-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "KGEpIFRoZSBzb3VyY2Ugc3RpbGwgaGFzIHNpemUgNS4gKGIpIE1hcCBzdXBwbGllcyBvbmUgb3V0cHV0IHBlciBpbnB1dDsgdXNlIGZpbHRlciBmb3Igc2VsZWN0aW9uLiAoYykgUmVkdWNlIGNhbiBhbHNvIGpvaW4gdGV4dCwgYW5kIHdpdGggbm8gZWxlbWVudHMgdGhpcyBmb3JtIHJldHVybnMgaXRzIGlkZW50aXR5LiAoZCkgY291bnQgcmV0dXJucyBsb25nLCBub3QgYSBzdHJlYW0sIHNvIGFueSBmaWx0ZXIgbXVzdCBjb21lIGJlZm9yZSBpdC4="
+    }
+  }
+}

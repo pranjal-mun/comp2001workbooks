@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 2001 – Lecture 7 Workbook</title>
+  <link rel="icon" href="../../runtime/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
+  <link rel="stylesheet" href="../../runtime/workbook.css">
+  <script type="module">
+    import { initWorkbook } from "../../runtime/workbook.js";
+    initWorkbook({ id: "lecture-07", specs: "./exercises.json" });
+  </script>
+</head>
+<body>
+<main>
+
+<div class="wb-title-block">
+  <div>
+    <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
+    <h1>Lecture 7 Workbook</h1>
+    <div class="wb-subtitle">Chapter 4, Part 2: Traversal, searching, and safe removal</div>
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
+  </div>
+  <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+</div>
+
+<section class="wb-outcomes">
+  <h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+  <p>A playlist can visit every track, stop at the first matching title, or remove matching tracks as it goes. The class below shows the search and removal patterns. It uses the lecture's <code>Track</code> class and assumes stored tracks, titles, and artists are non-null.</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+<span class="wb-kw">import</span> java.util.Iterator;
+
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Playlist</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Track</span>&gt; tracks;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Playlist</span>()
+    {
+        tracks = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addTrack</span>(<span class="wb-type">Track</span> track)
+    {
+        tracks.add(track);
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">findFirstTrackIndex</span>(<span class="wb-type">String</span> title)
+    {
+        <span class="wb-kw">int</span> index = <span class="wb-num">0</span>;
+        <span class="wb-kw">boolean</span> found = <span class="wb-kw">false</span>;
+        <span class="wb-kw">while</span>(index &lt; tracks.size() &amp;&amp; !found) { <span class="wb-cmt">// bounds and search status</span>
+            <span class="wb-type">Track</span> track = tracks.get(index);
+            <span class="wb-kw">if</span>(track.getTitle().equals(title)) { <span class="wb-cmt">// compare text</span>
+                found = <span class="wb-kw">true</span>;
+            }
+            <span class="wb-kw">else</span> {
+                index++;                       <span class="wb-cmt">// no match: check the next track</span>
+            }
+        }
+        <span class="wb-kw">if</span>(found) {
+            <span class="wb-kw">return</span> index;
+        }
+        <span class="wb-kw">return</span> -<span class="wb-num">1</span>;                             <span class="wb-cmt">// no matching position</span>
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-type">Track</span> <span class="wb-fn">findFirstTrack</span>(<span class="wb-type">String</span> title)
+    {
+        <span class="wb-kw">int</span> index = findFirstTrackIndex(title);
+        <span class="wb-kw">if</span>(index == -<span class="wb-num">1</span>) {                       <span class="wb-cmt">// check before get</span>
+            <span class="wb-kw">return</span> <span class="wb-kw">null</span>;
+        }
+        <span class="wb-kw">return</span> tracks.get(index);
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">removeTracksByArtist</span>(<span class="wb-type">String</span> artist)
+    {
+        <span class="wb-type">Iterator</span>&lt;<span class="wb-type">Track</span>&gt; iterator = tracks.iterator();
+        <span class="wb-kw">while</span>(iterator.hasNext()) {
+            <span class="wb-type">Track</span> track = iterator.next();     <span class="wb-cmt">// return a track and advance</span>
+            <span class="wb-kw">if</span>(track.getArtist().equals(artist)) {
+                iterator.remove();             <span class="wb-cmt">// remove that track safely</span>
+            }
+        }
+    }
+}</code></pre>
+  <table>
+    <thead><tr><th>term</th><th>meaning</th></tr></thead>
+    <tbody>
+      <tr><td>definite and indefinite iteration</td><td>Definite iteration processes a known set, such as every track with for-each. A search is indefinite because a match can stop it early. A failed search may still visit the whole list.</td></tr>
+      <tr><td>while and indexed traversal</td><td>A <code>while</code> tests its condition before each pass, so its body may run zero times. Indexed traversal starts at 0, tests <code>index &lt; tracks.size()</code>, retrieves with <code>get(index)</code>, and updates the index. Missing progress can cause an infinite loop. A while loop need not involve a collection.</td></tr>
+      <tr><td>first-match search</td><td>Continue while the index is valid and <code>!found</code>. A match sets <code>found</code> to true; otherwise increment the index. Keep position and search status separate. Stop on success or exhaustion, including an empty list.</td></tr>
+      <tr><td>equals and ==</td><td>For objects, <code>==</code> compares references. <code>String.equals</code> compares text. Java shares equal string literals, which can make an incorrect <code>==</code> comparison appear to work.</td></tr>
+      <tr><td>sentinel</td><td><code>-1</code> means no matching index; 0 is a valid match. Check the result before calling <code>get</code>. Passing -1 to <code>get</code> throws <code>IndexOutOfBoundsException</code>.</td></tr>
+      <tr><td>iterator</td><td><code>tracks.iterator()</code> supplies an object that remembers traversal state. <code>hasNext()</code> checks without advancing; <code>next()</code> returns an element and advances. Calling <code>next()</code> after exhaustion throws <code>NoSuchElementException</code>.</td></tr>
+      <tr><td>removal during traversal</td><td>Removing through the list during for-each can cause <code>ConcurrentModificationException</code>. In an index loop, removing B from <code>[A, B, C, D]</code> shifts C left; incrementing the index then skips C. Use <code>iterator.remove()</code> to remove the most recently returned element, at most once after each <code>next()</code>. The iterator stays in step with the list.</td></tr>
+      <tr><td>null</td><td><code>null</code> means no object. Reference fields default to null; local variables need an assignment before use. A lookup may return null, so test <code>result != null</code> before <code>result.printDetails()</code>. A method call through null throws <code>NullPointerException</code>.</td></tr>
+      <tr><td>anonymous object</td><td><code>playlist.addTrack(new Track("So What", "Miles Davis", 545));</code> passes a new object directly, without a local variable. The list keeps its reference.</td></tr>
+      <tr><td>chained calls</td><td>Read <code>track.getTitle().length()</code> left to right: <code>getTitle()</code> returns a String, then <code>length()</code> returns an int. Each call uses the previous result. A chain such as <code>playlist.findFirstTrack(title).printDetails()</code> is unsafe if the lookup returns null; store and check that result first.</td></tr>
+    </tbody>
+  </table>
+  <p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run on the page takes a few seconds while Java loads). Boxes that ask for part of a clinic class come with the rest of that class and a small demo class on their classpath; the demo calls your method and prints what comes back, so Check can compare the output. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
+</section>
+
+<hr>
+
+<p>Use these questions as we discuss the slides. During the coding pauses, follow the clinic demonstration and predict its results. You can finish or repeat the code later in BlueJ. By the end, you should be able to:</p>
+<ul>
+  <li>trace indexed traversal and a search that stops at the first match;</li>
+  <li>compare string contents and check a search result before using it;</li>
+  <li>use an iterator to visit and remove elements safely;</li>
+  <li>explain <code>null</code>, anonymous objects, and chained calls.</li>
+</ul>
+
+<h2 id="s1">1. Traversal</h2>
+<p>The <code>Playlist</code> has an <code>ArrayList&lt;Track&gt;</code> field named <code>tracks</code>. Each <code>Track</code> has <code>getTitle()</code>, <code>getArtist()</code>, and <code>printDetails()</code>. Assume stored tracks, titles, and artists are non-null. Use Java 8 throughout.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Track</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> title;
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> artist;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> durationSeconds;
+
+    <span class="wb-cmt">// constructor as in Lecture 6</span>
+
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getTitle</span>()
+    {
+        <span class="wb-kw">return</span> title;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getArtist</span>()
+    {
+        <span class="wb-kw">return</span> artist;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printDetails</span>()
+    {
+        System.out.println(artist + <span class="wb-str">" - "</span> + title);
+    }
+}</code></pre>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: definite and indefinite</div>
+  <p><strong>1.</strong> Printing every title is definite iteration. Searching for the first matching title is indefinite iteration. Explain the difference. Does a failed search become definite because it visited the whole list?</p>
+  <wb-short id="q1"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: a <code>while</code> loop</div>
+  <p><strong>2.</strong> Write the output and the final value of <code>count</code>. What changes if the starting value is 3 instead of 0?</p>
+<pre><code><span class="wb-kw">int</span> count = <span class="wb-num">0</span>;
+<span class="wb-kw">while</span>(count &lt; <span class="wb-num">3</span>) {
+    System.out.println(count);
+    count++;
+}</code></pre>
+  <wb-table id="q2">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>output line 1</td><td data-blank="o1"></td></tr>
+        <tr><td>output line 2</td><td data-blank="o2"></td></tr>
+        <tr><td>output line 3</td><td data-blank="o3"></td></tr>
+        <tr><td>final value of <code>count</code></td><td data-blank="final"></td></tr>
+        <tr><td>lines printed when <code>count</code> starts at 3</td><td data-blank="from3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: indexed traversal</div>
+  <p><strong>3.</strong> Fill in the indexed traversal. For a list of size 3, what is the final index? What happens if the update is missing from a non-empty list? What happens with an empty list?</p>
+<pre><code><span class="wb-kw">int</span> index = ____;
+<span class="wb-kw">while</span>(____________________________) {
+    <span class="wb-type">Track</span> track = tracks.get(________);
+    System.out.println(index + <span class="wb-str">": "</span> + track.getTitle());
+    ________________;
+}</code></pre>
+  <wb-table id="q3">
+    <table>
+      <thead><tr><th>blank</th><th>code</th></tr></thead>
+      <tbody>
+        <tr><td>start value</td><td data-blank="init"></td></tr>
+        <tr><td><code>while(...)</code></td><td data-blank="cond"></td></tr>
+        <tr><td><code>get(...)</code></td><td data-blank="arg"></td></tr>
+        <tr><td>update</td><td data-blank="upd"></td></tr>
+        <tr><td>final index for size 3</td><td data-blank="last"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>What happens without the update, and what happens with an empty list?</p>
+  <wb-short id="q3-why"></wb-short>
+</div>
+
+<h2 id="s2">2. Search</h2>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: two ways to stop</div>
+  <p><strong>4.</strong> A search stops when it finds a match or reaches the end. Explain why the continuation condition uses <code>&amp;&amp;</code>, not <code>||</code>. If the flag were named <code>searching</code>, what would its initial value be, and what would replace <code>!found</code>?</p>
+<pre><code><span class="wb-kw">while</span>(index &lt; tracks.size() &amp;&amp; !found) {
+    <span class="wb-cmt">// examine the track at index</span>
+}</code></pre>
+  <wb-short id="q4"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: <code>==</code> and <code>equals</code></div>
+  <p><strong>5.</strong> Predict the two output lines. Explain why comparing two string literals with <code>==</code> can hide a mistake in a search.</p>
+<pre><code><span class="wb-type">String</span> a = <span class="wb-kw">new</span> <span class="wb-fn">String</span>(<span class="wb-str">"Teardrop"</span>);
+<span class="wb-type">String</span> b = <span class="wb-kw">new</span> <span class="wb-fn">String</span>(<span class="wb-str">"Teardrop"</span>);
+System.out.println(a == b);
+System.out.println(a.equals(b));</code></pre>
+  <wb-table id="q5">
+    <table>
+      <thead><tr><th>line</th><th>output</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="l1"></td></tr>
+        <tr><td>2</td><td data-blank="l2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <wb-short id="q5-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: <code>findFirstTrackIndex</code></div>
+  <p><strong>6.</strong> Complete <code>findFirstTrackIndex</code>. Return the first matching position, or <code>-1</code> if no title matches.</p>
+  <p>The <code>Track</code> class is on the classpath of this box. The checking program searches an empty playlist, then <code>[Northern Sky, Blue Train, Northern Sky]</code> for three titles. Its expected output is:</p>
+<pre class="wb-output">Empty list: -1
+Northern Sky: 0
+Blue Train: 1
+So What: -1</pre>
+  <wb-exercise id="q6"></wb-exercise>
+  <p>Explain why the index update belongs only in the <code>else</code> branch.</p>
+  <wb-short id="q6-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: trace the search</div>
+  <p><strong>7.</strong> Trace Question 6 on <code>[Northern Sky, Blue Train, Northern Sky]</code>. Complete the table. For the empty-list row, use a fresh empty playlist.</p>
+  <wb-table id="q7">
+    <table>
+      <thead><tr><th>Search</th><th>Titles checked</th><th>Final index</th><th><code>found</code></th><th>Return</th></tr></thead>
+      <tbody>
+        <tr><td>Northern Sky</td><td data-blank="nc"></td><td data-blank="ni"></td><td data-blank="nf"></td><td data-blank="nr"></td></tr>
+        <tr><td>Blue Train</td><td data-blank="bc"></td><td data-blank="bi"></td><td data-blank="bf"></td><td data-blank="br"></td></tr>
+        <tr><td>So What</td><td data-blank="sc"></td><td data-blank="si"></td><td data-blank="sf"></td><td data-blank="sr"></td></tr>
+        <tr><td>Empty list</td><td data-blank="ec"></td><td data-blank="ei"></td><td data-blank="ef"></td><td data-blank="er"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: check the result</div>
+  <p><strong>8.</strong> Search for <code>"Teardrop"</code>. Write code that prints the matching track's details, or <code>"Track not found"</code>. Use <code>playlist.getTrack(index)</code>, which returns <code>tracks.get(index)</code>. Why must the caller check the returned index?</p>
+  <p>A finished <code>Playlist</code> with <code>findFirstTrackIndex</code> and <code>getTrack</code> is on the classpath of this box. The sentinel <code>-1</code> is not a valid position; passing it to <code>get</code> throws <code>IndexOutOfBoundsException</code>.</p>
+  <wb-exercise id="q8"></wb-exercise>
+</div>
+
+<h2 id="s3">3. Coding Pause 3: Clinic Search</h2>
+<p>This is Part 3 of the clinic project, at slide 19. Start with the finished Lecture 6 Part 2 classes. Keep <code>Appointment</code> and all existing <code>ClinicSchedule</code> methods. Patient names are non-null and match exactly, including capital letters. Duplicate names are allowed.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: write <code>findPatientIndex</code></div>
+  <p><strong>9.</strong> Add <code>int findPatientIndex(String name)</code> to <code>ClinicSchedule</code>. Search <code>appointments</code> in arrival order using an indexed <code>while</code>, a <code>found</code> flag, and <code>equals</code>. Return the first matching index, or <code>-1</code>, including for an empty schedule. Keep the matching index when the loop stops.</p>
+  <p>The Lecture 6 methods are already in the box, and a finished <code>Appointment</code> is on its classpath. The checking program searches an empty schedule, then adds Ana, Ben, and Ana and searches for four names. Its expected output is:</p>
+<pre class="wb-output">Empty schedule: -1
+Ana: 0
+Ben: 1
+Cara: -1
+ana: -1</pre>
+  <wb-exercise id="q9"></wb-exercise>
+</div>
+
+<h3><code>ClinicDemo.main</code></h3>
+<p>Replace <code>ClinicDemo.main</code> with this demonstration:</p>
+<ul>
+  <li>Search for Ana in an empty schedule and print the result.</li>
+  <li>Add Ana, Ben, Ana. Print search results for Ana, Ben, and Cara.</li>
+  <li>Store Ben's result. Check it against <code>-1</code> before calling <code>printPatientAt</code>.</li>
+</ul>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: predict, then run the demo</div>
+  <p><strong>10.</strong> Predict the output using the labels <code>Empty search:</code>, <code>Ana index:</code>, <code>Ben index:</code>, and <code>Cara index:</code>. The last line is the name printed by <code>printPatientAt</code>.</p>
+  <wb-table id="q10">
+    <table>
+      <thead><tr><th>line</th><th>output</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="o1"></td></tr>
+        <tr><td>2</td><td data-blank="o2"></td></tr>
+        <tr><td>3</td><td data-blank="o3"></td></tr>
+        <tr><td>4</td><td data-blank="o4"></td></tr>
+        <tr><td>5</td><td data-blank="o5"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Now write the demo. Finished <code>Appointment</code> and <code>ClinicSchedule</code> classes are on the classpath of this box.</p>
+  <wb-exercise id="q10-demo"></wb-exercise>
+</div>
+
+<h2 id="s4">4. Iterator</h2>
+<p>An <code>Iterator&lt;Track&gt;</code> stores traversal state. Import <code>java.util.Iterator</code> and ask the list for one with <code>tracks.iterator()</code>. The same traversal pattern works with collections that have no efficient indexed access.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: <code>hasNext</code> and <code>next</code></div>
+  <p><strong>11.</strong> The list contains tracks A and B in that order. Fill in what each call returns. If a call is invalid, name the exception.</p>
+  <wb-table id="q11">
+    <table>
+      <thead><tr><th>Call on a fresh iterator, in this order</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td><code>hasNext()</code></td><td data-blank="h1"></td></tr>
+        <tr><td><code>hasNext()</code></td><td data-blank="h2"></td></tr>
+        <tr><td><code>next()</code></td><td data-blank="n1"></td></tr>
+        <tr><td><code>next()</code></td><td data-blank="n2"></td></tr>
+        <tr><td><code>hasNext()</code></td><td data-blank="h3"></td></tr>
+        <tr><td><code>next()</code></td><td data-blank="n3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: an iterator loop</div>
+  <p><strong>12.</strong> Complete this traversal. Which call advances the iterator? How many passes occur for an empty playlist?</p>
+<pre><code><span class="wb-type">Iterator</span>&lt;<span class="wb-type">Track</span>&gt; iterator = ____________________;
+<span class="wb-kw">while</span>(____________________________) {
+    <span class="wb-type">Track</span> track = ____________________;
+    track.printDetails();
+}</code></pre>
+  <wb-table id="q12">
+    <table>
+      <thead><tr><th>blank or question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td><code>Iterator&lt;Track&gt; iterator = ...</code></td><td data-blank="make"></td></tr>
+        <tr><td><code>while(...)</code></td><td data-blank="test"></td></tr>
+        <tr><td><code>Track track = ...</code></td><td data-blank="next"></td></tr>
+        <tr><td>the call that advances</td><td data-blank="adv"></td></tr>
+        <tr><td>passes for an empty playlist</td><td data-blank="empty"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h2 id="s5">5. Removal</h2>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: an unsafe loop</div>
+  <p><strong>13.</strong> Explain why this code is unsafe. Name the exception it can cause. Does one run without an exception prove that the loop is safe?</p>
+<pre><code><span class="wb-kw">for</span>(<span class="wb-type">Track</span> track : tracks) {
+    <span class="wb-kw">if</span>(track.getArtist().equals(artist)) {
+        tracks.remove(track);
+    }
+}</code></pre>
+  <wb-short id="q13"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: the index shift</div>
+  <p><strong>14.</strong> B and C both match the removal condition. The loop removes B at index 1 and then increments its index. Which tracks remain, which track is visited next, and which matching track is skipped?</p>
+  <table>
+    <thead><tr><th></th><th>index 0</th><th>index 1</th><th>index 2</th><th>index 3</th></tr></thead>
+    <tbody>
+      <tr><td>before <code>remove(1)</code></td><td>A</td><td><strong>B</strong></td><td><strong>C</strong></td><td>D</td></tr>
+    </tbody>
+  </table>
+  <wb-table id="q14">
+    <table>
+      <thead><tr><th>after <code>remove(1)</code> then <code>index++</code></th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>the list</td><td data-blank="after"></td></tr>
+        <tr><td>track visited next</td><td data-blank="next"></td></tr>
+        <tr><td>matching track skipped</td><td data-blank="skip"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: <code>removeTracksByArtist</code></div>
+  <p><strong>15.</strong> Complete <code>removeTracksByArtist</code>. Use the iterator that returned the track to remove it.</p>
+  <p>The <code>Track</code> class is on the classpath of this box. The checking program removes John Coltrane from a playlist where his two tracks are next to each other, then removes an artist who is not there. Its expected output is:</p>
+<pre class="wb-output">After removing John Coltrane:
+Nick Drake - Northern Sky
+Massive Attack - Teardrop
+After removing Miles Davis:
+Nick Drake - Northern Sky
+Massive Attack - Teardrop</pre>
+  <wb-exercise id="q15"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: follow the iterator</div>
+  <p><strong>16.</strong> In <code>[A, B, C, D]</code>, an iterator has returned B. It removes B. Which track will the next <code>next()</code> return? If C also matches, what remains after removing it? Can the iterator call <code>remove()</code> twice without another <code>next()</code>?</p>
+  <wb-table id="q16">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>the next <code>next()</code> returns</td><td data-blank="next"></td></tr>
+        <tr><td>after also removing C</td><td data-blank="left"></td></tr>
+        <tr><td><code>remove()</code> twice in a row?</td><td data-blank="twice"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: choose the loop</div>
+  <p><strong>17.</strong> Choose for-each, indexed <code>while</code>, iterator with <code>while</code>, or general <code>while</code> for each task.</p>
+  <wb-table id="q17">
+    <table>
+      <thead><tr><th>task</th><th>loop</th></tr></thead>
+      <tbody>
+        <tr><td>(a) Print every title.</td><td data-blank="a"></td></tr>
+        <tr><td>(b) Return the first matching position.</td><td data-blank="b"></td></tr>
+        <tr><td>(c) Remove every track by one artist.</td><td data-blank="c"></td></tr>
+        <tr><td>(d) Keep asking until input is valid.</td><td data-blank="d"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h2 id="s6">6. References</h2>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: return <code>null</code></div>
+  <p><strong>18.</strong> Complete this lookup using <code>findFirstTrackIndex</code>. Return the stored track reference on success and <code>null</code> on failure.</p>
+  <p>The <code>Track</code> class is on the classpath of this box. The checking program looks up a title that is there and one that is not. Its expected output is:</p>
+<pre class="wb-output">John Coltrane - Blue Train
+Same object as index 1: true
+Teardrop is null: true</pre>
+  <wb-exercise id="q18"></wb-exercise>
+  <p>Why is <code>-1</code> not the failure result of this method?</p>
+  <wb-short id="q18-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: check for <code>null</code></div>
+  <p><strong>19.</strong> Repair this caller so it prints the details if a track is found, or <code>"Track not found"</code> otherwise. Name the exception the original code causes when the lookup returns <code>null</code>.</p>
+  <p>A finished <code>Playlist</code> is on the classpath of this box. Run the starter first to see the exception, then repair it.</p>
+  <wb-exercise id="q19"></wb-exercise>
+  <wb-table id="q19-exc">
+    <table>
+      <thead><tr><th>the original code throws</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="exc"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: a field that was never assigned</div>
+  <p><strong>20.</strong> Suppose the constructor never assigns the field <code>private ArrayList&lt;Track&gt; tracks;</code>. What value does it have? Explain how this differs from an empty list when <code>tracks.size()</code> is called. Could an unassigned local variable be used in the same way?</p>
+  <wb-short id="q20"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: an anonymous object</div>
+  <p><strong>21.</strong> Replace these two statements with one that constructs an anonymous object as the argument. What keeps the new object available after the call? When would you keep the local variable instead?</p>
+<pre><code><span class="wb-type">Track</span> soWhat = <span class="wb-kw">new</span> <span class="wb-fn">Track</span>(<span class="wb-str">"So What"</span>, <span class="wb-str">"Miles Davis"</span>, <span class="wb-num">545</span>);
+playlist.addTrack(soWhat);</code></pre>
+  <wb-table id="q21">
+    <table>
+      <thead><tr><th>one statement</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="stmt"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <wb-short id="q21-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: a chained call</div>
+  <p><strong>22.</strong> At index 0 is a track titled <code>"Teardrop"</code>. Write the type returned by each call and the final value. Describe the reference path from the playlist through its list to the title string. Which calls require an existing object as their receiver?</p>
+<pre><code><span class="wb-kw">int</span> length = playlist.getTrack(<span class="wb-num">0</span>).getTitle().length();</code></pre>
+  <wb-table id="q22">
+    <table>
+      <thead><tr><th>call or value</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td><code>getTrack(0)</code> returns</td><td data-blank="t1"></td></tr>
+        <tr><td><code>getTitle()</code> returns</td><td data-blank="t2"></td></tr>
+        <tr><td><code>length()</code> returns</td><td data-blank="t3"></td></tr>
+        <tr><td>value of <code>length</code></td><td data-blank="value"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <wb-short id="q22-why"></wb-short>
+</div>
+
+<h2 id="s7">7. Coding Pause 4: Clinic Removal</h2>
+<p>This is Part 4, at slide 35. Extend Part 3 and keep all earlier methods, including <code>findPatientIndex</code>. <code>Appointment</code> is unchanged. The new operation removes checked-in appointments; <code>cancel</code> still refuses to cancel them.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: write <code>removeCheckedIn</code></div>
+  <p><strong>23.</strong> Add <code>int removeCheckedIn()</code> to <code>ClinicSchedule</code>. Import <code>java.util.Iterator</code>. Visit all appointments, remove each checked-in one through the iterator, and return the number removed. Use a local counter. Return 0 for an empty schedule or no matches; keep the remaining appointments in their original order.</p>
+  <p>The earlier methods are already in the box, and a finished <code>Appointment</code> is on its classpath. The checking program tries an empty schedule, then adds Ana, Ben, Cara, and Dev, checks in Ben and Cara, and removes twice. Its expected output is:</p>
+<pre class="wb-output">Empty schedule: 0
+Removed Ben and Cara: 2
+Count: 2
+Ana
+Dev
+Nobody checked in: 0</pre>
+  <wb-exercise id="q23"></wb-exercise>
+</div>
+
+<h3><code>ClinicDemo.main</code></h3>
+<p>Replace <code>ClinicDemo.main</code> with a fresh demonstration:</p>
+<ul>
+  <li>Add Ana, Ben, Cara in order. Check in Ana and Ben.</li>
+  <li>Print the count before removal, number removed, and count after removal.</li>
+  <li>Print <code>Waiting patients:</code> and call <code>printWaitingPatients()</code>.</li>
+  <li>Remove checked-in appointments again and print the result.</li>
+</ul>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: predict, then run the demo</div>
+  <p><strong>24.</strong> Predict the six output lines. Use <code>Before removal:</code>, <code>Removed:</code>, <code>After removal:</code>, and <code>Removed again:</code> for the four numbers.</p>
+  <wb-table id="q24">
+    <table>
+      <thead><tr><th>line</th><th>output</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="o1"></td></tr>
+        <tr><td>2</td><td data-blank="o2"></td></tr>
+        <tr><td>3</td><td data-blank="o3"></td></tr>
+        <tr><td>4</td><td data-blank="o4"></td></tr>
+        <tr><td>5</td><td data-blank="o5"></td></tr>
+        <tr><td>6</td><td data-blank="o6"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Now write the demo. Finished <code>Appointment</code> and <code>ClinicSchedule</code> classes are on the classpath of this box.</p>
+  <wb-exercise id="q24-demo"></wb-exercise>
+  <p>Why are adjacent Ana and Ben useful for this test?</p>
+  <wb-short id="q24-why"></wb-short>
+</div>
+
+<h2 id="s8">8. Review</h2>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: results and corrections</div>
+  <p><strong>25.</strong> Give the result or correction for each case.</p>
+  <wb-table id="q25">
+    <table>
+      <thead><tr><th>case</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>(a) A search finds its first match at index 0. Does 0 mean failure?</td><td data-blank="a"></td></tr>
+        <tr><td>(b) A search returns <code>-1</code>. May the caller pass it to <code>get</code>?</td><td data-blank="b"></td></tr>
+        <tr><td>(c) An iterator has no next element. Should the loop call <code>next()</code>?</td><td data-blank="c"></td></tr>
+        <tr><td>(d) All clinic appointments have checked in. A schedule of size 3 calls <code>removeCheckedIn()</code> twice. The first call returns</td><td data-blank="d1"></td></tr>
+        <tr><td>(d) ... and the second call returns</td><td data-blank="d2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+</main>
+</body>
+</html>

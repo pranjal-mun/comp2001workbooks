@@ -1,0 +1,1089 @@
+{
+  "id": "lecture-08",
+  "course": "COMP 2001: Object-Oriented Programming",
+  "title": "Lecture 8 Workbook",
+  "subtitle": "Chapter 5, Part 1: Lambdas and internal iteration",
+  "exercises": {
+    "q1": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "QWxsIHRocmVlIHZpc2l0IGV2ZXJ5IHRyYWNrIG9uY2UsIGluIGxpc3Qgb3JkZXIuIFRoZSBib2R5IGNoYW5nZXM6IGNhbGwgcHJpbnREZXRhaWxzLCBwcmludCBnZXRUaXRsZSwgb3IgcHJpbnQgZ2V0QXJ0aXN0LiBUaGUgcmVwZWF0ZWQgbG9vcCBzdHJ1Y3R1cmUgY2FuIHN0YXkgaW5zaWRlIGEgY29sbGVjdGlvbiBtZXRob2Qgd2hpbGUgd2Ugc3VwcGx5IHRoZSBhY3Rpb24u"
+    },
+    "q2": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "params": {
+          "accept": [
+            "(Track track)",
+            "(Tracktrack)",
+            "(Track track);",
+            "(Tracktrack);"
+          ],
+          "show": "(Track track)",
+          "placeholder": "parameter list",
+          "caseSensitive": true,
+          "width": "12rem"
+        },
+        "arrow": {
+          "accept": [
+            "->"
+          ],
+          "placeholder": "arrow",
+          "caseSensitive": true,
+          "width": "6rem"
+        },
+        "body": {
+          "accept": [
+            "{ System.out.println(track.getTitle()); }",
+            "{System.out.println(track.getTitle());}"
+          ],
+          "show": "{ System.out.println(track.getTitle()); }",
+          "placeholder": "body",
+          "caseSensitive": true,
+          "width": "26rem"
+        }
+      }
+    },
+    "q2-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGxhbWJkYSBkZWNsYXJlcyB0cmFjayBpbiBpdHMgb3duIHBhcmFtZXRlciBsaXN0LiBUaGUgYXJyb3cgc2VwYXJhdGVzIHRoZSBwYXJhbWV0ZXJzIGZyb20gdGhlIGJvZHk7IGl0IGRvZXMgbm90IG1lYW4gYSB2YWx1ZSBpcyByZXR1cm5lZC4gcHJpbnRsbiByZXR1cm5zIG5vdGhpbmcu"
+    },
+    "q3": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "QSBsYW1iZGEgaGFzIG5vIG5hbWUgb3IgYWNjZXNzIG1vZGlmaWVyLCBhbmQgaXQgd3JpdGVzIG5vIHJldHVybiB0eXBlLiBJdCBkZWNsYXJlcyBubyBjbGFzcyBvZiBpdHMgb3duLCBmaWVsZHMsIG9yIGNvbnN0cnVjdG9yLiBXcml0aW5nIGl0IGRvZXMgbm90IGV4ZWN1dGUgdGhlIGJvZHk7IHRoZSByZWNlaXZpbmcgbWV0aG9kIGRlY2lkZXMgd2hlbiB0byBydW4gaXQuIEEgam9iIG5lZWRpbmcgaXRzIG93biBmaWVsZHMsIGNvbnN0cnVjdG9yLCBvciBpZGVudGl0eSBzdGlsbCBuZWVkcyBhIGNsYXNzLg=="
+    },
+    "q4": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "param": {
+          "accept": [
+            "Track track",
+            "Tracktrack",
+            "Track track;",
+            "Tracktrack;"
+          ],
+          "show": "Track track",
+          "placeholder": "parameter",
+          "caseSensitive": true,
+          "width": "12rem"
+        },
+        "body": {
+          "accept": [
+            "track.printDetails();",
+            "track.printDetails()"
+          ],
+          "show": "track.printDetails();",
+          "placeholder": "statement",
+          "caseSensitive": true,
+          "width": "26rem"
+        }
+      }
+    },
+    "q4-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGZpcnN0IHZlcnNpb24gdXNlcyBleHRlcm5hbCBpdGVyYXRpb246IG91ciBsb29wIGNvbnRyb2xzIHJlcGV0aXRpb24uIFRoZSBzZWNvbmQgdXNlcyBpbnRlcm5hbCBpdGVyYXRpb246IGZvckVhY2ggcnVucyB0aGUgbG9vcCBhbmQgc3VwcGxpZXMgZWFjaCB0cmFjayB0byB0aGUgbGFtYmRhLiBSZXBldGl0aW9uIHN0aWxsIGhhcHBlbnMu"
+    },
+    "q5": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "c1": {
+          "accept": [
+            "Northern Sky"
+          ],
+          "placeholder": "title",
+          "width": "10rem"
+        },
+        "c2": {
+          "accept": [
+            "Blue Train"
+          ],
+          "placeholder": "title",
+          "width": "10rem"
+        },
+        "c3": {
+          "accept": [
+            "Teardrop"
+          ],
+          "placeholder": "title",
+          "width": "10rem"
+        },
+        "c4": {
+          "accept": [
+            "Naima"
+          ],
+          "placeholder": "title",
+          "width": "10rem"
+        },
+        "c5": {
+          "accept": [
+            "Angel"
+          ],
+          "placeholder": "title",
+          "width": "10rem"
+        },
+        "what": {
+          "accept": [
+            "a track reference",
+            "track reference",
+            "a Track reference",
+            "Track reference",
+            "track",
+            "a track",
+            "Track",
+            "a reference",
+            "reference",
+            "a reference to a track",
+            "reference to a track",
+            "a Track"
+          ],
+          "show": "a Track reference",
+          "placeholder": "index or track?",
+          "width": "12rem"
+        },
+        "empty": {
+          "accept": [
+            "0",
+            "zero",
+            "none"
+          ],
+          "show": "0",
+          "placeholder": "calls"
+        }
+      }
+    },
+    "q6": {
+      "type": "code",
+      "xp": 4,
+      "minLines": 34,
+      "maxLines": 50,
+      "title": "Playlist.java",
+      "starter": "import java.util.ArrayList;\n\npublic class Playlist\n{\n    private ArrayList<Track> tracks;\n\n    public Playlist()\n    {\n        tracks = new ArrayList<>();\n    }\n\n    public void addTrack(Track track)\n    {\n        tracks.add(track);\n    }\n\n    public int getNumberOfTracks()\n    {\n        return tracks.size();\n    }\n\n    public void printAllTracks()\n    {\n        tracks.forEach(Track::printDetails);\n    }\n\n    public void printAllTitles()\n    {\n        // Use tracks.forEach with a fully written lambda.\n\n\n\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Empty playlist:\nFive tracks:\nNorthern Sky\nBlue Train\nTeardrop\nNaima\nAngel\nStill 5 tracks"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintAllTitles()\"), \"Keep the header public void printAllTitles().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"tracks.forEach(\"), \"Call tracks.forEach(...).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"(Tracktrack)->\"), \"Write the lambda in full: (Track track) -> { ... }.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"track.getTitle()\"), \"Print track.getTitle() for each track.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"for(Track\"), \"Let forEach do the loop; do not write a for-each loop.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgUGxheWxpc3QKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8VHJhY2s+IHRyYWNrczsKCiAgICBwdWJsaWMgUGxheWxpc3QoKQogICAgewogICAgICAgIHRyYWNrcyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZFRyYWNrKFRyYWNrIHRyYWNrKQogICAgewogICAgICAgIHRyYWNrcy5hZGQodHJhY2spOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TnVtYmVyT2ZUcmFja3MoKQogICAgewogICAgICAgIHJldHVybiB0cmFja3Muc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50QWxsVHJhY2tzKCkKICAgIHsKICAgICAgICB0cmFja3MuZm9yRWFjaChUcmFjazo6cHJpbnREZXRhaWxzKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludEFsbFRpdGxlcygpCiAgICB7CiAgICAgICAgdHJhY2tzLmZvckVhY2goKFRyYWNrIHRyYWNrKSAtPiB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbih0cmFjay5nZXRUaXRsZSgpKTsKICAgICAgICB9KTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Track.java",
+          "content": "public class Track\n{\n    private String title;\n    private String artist;\n    private int durationSeconds;\n\n    public Track(String title, String artist, int durationSeconds)\n    {\n        this.title = title;\n        this.artist = artist;\n        this.durationSeconds = durationSeconds;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public String getArtist()\n    {\n        return artist;\n    }\n\n    public int getDurationSeconds()\n    {\n        return durationSeconds;\n    }\n\n    public void printDetails()\n    {\n        System.out.println(artist + \" - \" + title + \" (\" + durationSeconds + \" s)\");\n    }\n}"
+        },
+        {
+          "name": "TitlesCheck.java",
+          "content": "public class TitlesCheck\n{\n    public static void main(String[] args)\n    {\n        Playlist empty = new Playlist();\n        System.out.println(\"Empty playlist:\");\n        empty.printAllTitles();\n        Playlist playlist = new Playlist();\n        playlist.addTrack(new Track(\"Northern Sky\", \"Nick Drake\", 224));\n        playlist.addTrack(new Track(\"Blue Train\", \"John Coltrane\", 643));\n        playlist.addTrack(new Track(\"Teardrop\", \"Massive Attack\", 330));\n        playlist.addTrack(new Track(\"Naima\", \"John Coltrane\", 265));\n        playlist.addTrack(new Track(\"Angel\", \"Massive Attack\", 379));\n        System.out.println(\"Five tracks:\");\n        playlist.printAllTitles();\n        System.out.println(\"Still \" + playlist.getNumberOfTracks() + \" tracks\");\n    }\n}"
+        }
+      ]
+    },
+    "q7": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "s2": {
+          "accept": [
+            "(track) -> { track.printDetails(); }",
+            "(track)->{track.printDetails();}"
+          ],
+          "show": "(track) -> { track.printDetails(); }",
+          "placeholder": "stage 2",
+          "caseSensitive": true,
+          "width": "26rem"
+        },
+        "s3": {
+          "accept": [
+            "track -> { track.printDetails(); }",
+            "track->{track.printDetails();}"
+          ],
+          "show": "track -> { track.printDetails(); }",
+          "placeholder": "stage 3",
+          "caseSensitive": true,
+          "width": "26rem"
+        },
+        "s4": {
+          "accept": [
+            "track -> track.printDetails()",
+            "track->track.printDetails()"
+          ],
+          "show": "track -> track.printDetails()",
+          "placeholder": "stage 4",
+          "caseSensitive": true,
+          "width": "26rem"
+        }
+      }
+    },
+    "q7-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "VGhlIGxpc3QncyBlbGVtZW50IHR5cGUgc3VwcGxpZXMgVHJhY2suIE9uZSBwYXJhbWV0ZXIgd2l0aCBpdHMgdHlwZSBvbWl0dGVkIG5lZWRzIG5vIHBhcmVudGhlc2VzLiBBIHNpbmdsZSBtZXRob2QtY2FsbCBleHByZXNzaW9uIG5lZWRzIG5vIGJyYWNlcyBvciBpbnRlcm5hbCBzZW1pY29sb24uIEluIGEgY29tcGxldGUgY2FsbCwgdGhlIGZpbmFsIHNlbWljb2xvbiBzdGlsbCBlbmRzIHRyYWNrcy5mb3JFYWNoKC4uLik7LiBFeHBhbmQgdGhlIGxhc3QgZm9ybSBieSByZXN0b3JpbmcgdGhlc2UgcGFydHMgaW4gcmV2ZXJzZSBvcmRlci4="
+    },
+    "q8": {
+      "type": "code",
+      "xp": 3,
+      "minLines": 16,
+      "maxLines": 26,
+      "title": "ShortenDemo.java",
+      "starter": "import java.util.ArrayList;\n\npublic class ShortenDemo\n{\n    public static void main(String[] args)\n    {\n        ArrayList<Track> tracks = new ArrayList<>();\n        tracks.add(new Track(\"Northern Sky\", \"Nick Drake\", 224));\n        tracks.add(new Track(\"Blue Train\", \"John Coltrane\", 643));\n\n        // Shorten this call as far as allowed.\n        tracks.forEach((Track track) -> {\n            System.out.println(track.getTitle());\n            System.out.println(track.getArtist());\n        });\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Northern Sky\nNick Drake\nBlue Train\nJohn Coltrane"
+        }
+      ],
+      "check": "require(!source.replaceAll(\"\\\\s+\", \"\").contains(\"(Tracktrack)\"), \"Omit the parameter type; the list's element type supplies Track.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*forEach\\\\(\\\\w+->\\\\{.*\"), \"One parameter without a type needs no parentheses: track -> { ... }.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"System.out.println(track.getTitle());\"), \"Keep both statements, each with its semicolon.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"System.out.println(track.getArtist());\"), \"Keep both statements, each with its semicolon.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"});\"), \"The final semicolon still ends the forEach call.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgU2hvcnRlbkRlbW8KewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBBcnJheUxpc3Q8VHJhY2s+IHRyYWNrcyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgICAgIHRyYWNrcy5hZGQobmV3IFRyYWNrKCJOb3J0aGVybiBTa3kiLCAiTmljayBEcmFrZSIsIDIyNCkpOwogICAgICAgIHRyYWNrcy5hZGQobmV3IFRyYWNrKCJCbHVlIFRyYWluIiwgIkpvaG4gQ29sdHJhbmUiLCA2NDMpKTsKCiAgICAgICAgdHJhY2tzLmZvckVhY2godHJhY2sgLT4gewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4odHJhY2suZ2V0VGl0bGUoKSk7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbih0cmFjay5nZXRBcnRpc3QoKSk7CiAgICAgICAgfSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Track.java",
+          "content": "public class Track\n{\n    private String title;\n    private String artist;\n    private int durationSeconds;\n\n    public Track(String title, String artist, int durationSeconds)\n    {\n        this.title = title;\n        this.artist = artist;\n        this.durationSeconds = durationSeconds;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public String getArtist()\n    {\n        return artist;\n    }\n\n    public int getDurationSeconds()\n    {\n        return durationSeconds;\n    }\n\n    public void printDetails()\n    {\n        System.out.println(artist + \" - \" + title + \" (\" + durationSeconds + \" s)\");\n    }\n}"
+        }
+      ]
+    },
+    "q8-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIHR3by1zdGF0ZW1lbnQgYm9keSBrZWVwcyBpdHMgYnJhY2VzIGFuZCBib3RoIHN0YXRlbWVudCBzZW1pY29sb25zLiBUaGUgZmluYWwgc2VtaWNvbG9uIGVuZHMgdGhlIGZvckVhY2ggY2FsbC4gWmVybyBvciB0d28gcGFyYW1ldGVycyBtdXN0IGtlZXAgcGFyZW50aGVzZXM7IHNvIG11c3QgYSBwYXJhbWV0ZXIgd2l0aCBhIHdyaXR0ZW4gdHlwZS4="
+    },
+    "q9": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "ref": {
+          "accept": [
+            "tracks.forEach(Track::printDetails);",
+            "tracks.forEach(Track::printDetails)",
+            "Track::printDetails",
+            "Track::printDetails;"
+          ],
+          "show": "tracks.forEach(Track::printDetails);",
+          "placeholder": "new call",
+          "caseSensitive": true,
+          "width": "26rem"
+        }
+      }
+    },
+    "q9-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Zm9yRWFjaCBzdXBwbGllcyBlYWNoIHRyYWNrIGFzIHRoZSByZWNlaXZlciBvZiBwcmludERldGFpbHMuIFN5c3RlbS5vdXQ6OnByaW50bG4gd291bGQgcGFzcyBlYWNoIFRyYWNrIG9iamVjdCB0byBwcmludGxuOyBpdCB3b3VsZCBub3QgY2FsbCBwcmludERldGFpbHMuIEEgbWV0aG9kIHJlZmVyZW5jZSBtdXN0IG5hbWUgdGhlIG1hdGNoaW5nIG1ldGhvZC4="
+    },
+    "q10": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "ref": {
+          "accept": [
+            "titles.forEach(System.out::println);",
+            "titles.forEach(System.out::println)",
+            "System.out::println",
+            "System.out::println;"
+          ],
+          "show": "titles.forEach(System.out::println);",
+          "placeholder": "new call",
+          "caseSensitive": true,
+          "width": "26rem"
+        },
+        "o1": {
+          "accept": [
+            "Northern Sky"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "14rem"
+        },
+        "o2": {
+          "accept": [
+            "Blue Train"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "14rem"
+        }
+      }
+    },
+    "q10-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Zm9yRWFjaCBzdXBwbGllcyBlYWNoIFN0cmluZyBhcyB0aGUgYXJndW1lbnQgdG8gcHJpbnRsbiBvbiBTeXN0ZW0ub3V0Lg=="
+    },
+    "q11": {
+      "type": "code",
+      "xp": 6,
+      "minLines": 110,
+      "maxLines": 136,
+      "title": "ClinicSchedule.java",
+      "starter": "import java.util.ArrayList;\nimport java.util.Iterator;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public int removeCheckedIn()\n    {\n        int removed = 0;\n        Iterator<Appointment> iterator = appointments.iterator();\n\n        while(iterator.hasNext()) {\n            Appointment appointment = iterator.next();\n            if(appointment.hasCheckedIn()) {\n                iterator.remove();\n                removed++;\n            }\n        }\n\n        return removed;\n    }\n\n    // Write printAllPatients() and checkInAll() here.\n\n\n\n\n\n\n\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Empty schedule:\nPatients:\nAna\nBen\nCara\nWaiting patients:\nNo waiting patients\nCount: 3"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintAllPatients()\"), \"Include public void printAllPatients().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidcheckInAll()\"), \"Include public void checkInAll().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicvoidprintAllPatients\\\\(\\\\)\\\\{appointments\\\\.forEach\\\\(.*\"), \"In printAllPatients, call appointments.forEach(...) with a lambda.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getPatientName()\"), \"Print each appointment's getPatientName().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"appointments.forEach(Appointment::checkIn);\"), \"In checkInAll, use appointments.forEach(Appointment::checkIn);\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CmltcG9ydCBqYXZhLnV0aWwuSXRlcmF0b3I7CgpwdWJsaWMgY2xhc3MgQ2xpbmljU2NoZWR1bGUKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8QXBwb2ludG1lbnQ+IGFwcG9pbnRtZW50czsKCiAgICBwdWJsaWMgQ2xpbmljU2NoZWR1bGUoKQogICAgewogICAgICAgIGFwcG9pbnRtZW50cyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZEFwcG9pbnRtZW50KEFwcG9pbnRtZW50IGFwcG9pbnRtZW50KQogICAgewogICAgICAgIGFwcG9pbnRtZW50cy5hZGQoYXBwb2ludG1lbnQpOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0Q291bnQoKQogICAgewogICAgICAgIHJldHVybiBhcHBvaW50bWVudHMuc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50UGF0aWVudEF0KGludCBpbmRleCkKICAgIHsKICAgICAgICBpZihpbmRleCA8IDAgfHwgaW5kZXggPj0gYXBwb2ludG1lbnRzLnNpemUoKSkgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkludmFsaWQgaW5kZXgiKTsKICAgICAgICAgICAgcmV0dXJuOwogICAgICAgIH0KCiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpLmdldFBhdGllbnROYW1lKCkpOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGNhbmNlbChpbnQgaW5kZXgpCiAgICB7CiAgICAgICAgaWYoaW5kZXggPCAwIHx8IGluZGV4ID49IGFwcG9pbnRtZW50cy5zaXplKCkpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgaWYoYXBwb2ludG1lbnRzLmdldChpbmRleCkuaGFzQ2hlY2tlZEluKCkpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgYXBwb2ludG1lbnRzLnJlbW92ZShpbmRleCk7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRXYWl0aW5nUGF0aWVudHMoKQogICAgewogICAgICAgIGJvb2xlYW4gZm91bmQgPSBmYWxzZTsKCiAgICAgICAgZm9yKEFwcG9pbnRtZW50IGFwcG9pbnRtZW50IDogYXBwb2ludG1lbnRzKSB7CiAgICAgICAgICAgIGlmKCFhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSkgewogICAgICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkpOwogICAgICAgICAgICAgICAgZm91bmQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBpZighZm91bmQpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJObyB3YWl0aW5nIHBhdGllbnRzIik7CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyBpbnQgZmluZFBhdGllbnRJbmRleChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICBpbnQgaW5kZXggPSAwOwogICAgICAgIGJvb2xlYW4gZm91bmQgPSBmYWxzZTsKCiAgICAgICAgd2hpbGUoaW5kZXggPCBhcHBvaW50bWVudHMuc2l6ZSgpICYmICFmb3VuZCkgewogICAgICAgICAgICBBcHBvaW50bWVudCBhcHBvaW50bWVudCA9IGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpOwogICAgICAgICAgICBpZihhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpLmVxdWFscyhuYW1lKSkgewogICAgICAgICAgICAgICAgZm91bmQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsc2UgewogICAgICAgICAgICAgICAgaW5kZXgrKzsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgaWYoZm91bmQpIHsKICAgICAgICAgICAgcmV0dXJuIGluZGV4OwogICAgICAgIH0KICAgICAgICByZXR1cm4gLTE7CiAgICB9CgogICAgcHVibGljIGludCByZW1vdmVDaGVja2VkSW4oKQogICAgewogICAgICAgIGludCByZW1vdmVkID0gMDsKICAgICAgICBJdGVyYXRvcjxBcHBvaW50bWVudD4gaXRlcmF0b3IgPSBhcHBvaW50bWVudHMuaXRlcmF0b3IoKTsKCiAgICAgICAgd2hpbGUoaXRlcmF0b3IuaGFzTmV4dCgpKSB7CiAgICAgICAgICAgIEFwcG9pbnRtZW50IGFwcG9pbnRtZW50ID0gaXRlcmF0b3IubmV4dCgpOwogICAgICAgICAgICBpZihhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSkgewogICAgICAgICAgICAgICAgaXRlcmF0b3IucmVtb3ZlKCk7CiAgICAgICAgICAgICAgICByZW1vdmVkKys7CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIHJldHVybiByZW1vdmVkOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50QWxsUGF0aWVudHMoKQogICAgewogICAgICAgIGFwcG9pbnRtZW50cy5mb3JFYWNoKGFwcG9pbnRtZW50IC0+CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpKSk7CiAgICB9CgogICAgcHVibGljIHZvaWQgY2hlY2tJbkFsbCgpCiAgICB7CiAgICAgICAgYXBwb2ludG1lbnRzLmZvckVhY2goQXBwb2ludG1lbnQ6OmNoZWNrSW4pOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n\n    public Appointment(String patientName)\n    {\n        this.patientName = patientName;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n}"
+        },
+        {
+          "name": "ActionsCheck.java",
+          "content": "public class ActionsCheck\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule schedule = new ClinicSchedule();\n        System.out.println(\"Empty schedule:\");\n        schedule.printAllPatients();\n        schedule.checkInAll();\n        schedule.addAppointment(new Appointment(\"Ana\"));\n        schedule.addAppointment(new Appointment(\"Ben\"));\n        schedule.addAppointment(new Appointment(\"Cara\"));\n        System.out.println(\"Patients:\");\n        schedule.printAllPatients();\n        schedule.checkInAll();\n        System.out.println(\"Waiting patients:\");\n        schedule.printWaitingPatients();\n        System.out.println(\"Count: \" + schedule.getCount());\n    }\n}"
+        }
+      ]
+    },
+    "q11-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGNvdW50IHN0YXlzIHRoZSBzYW1lLiBjaGVja0luQWxsIGNoYW5nZXMgZWFjaCBhcHBvaW50bWVudCdzIHN0YXRlLiBPbiBhbiBlbXB0eSBzY2hlZHVsZSBib3RoIGFjdGlvbnMgcnVuIHplcm8gdGltZXMgYW5kIG5vdGhpbmcgcHJpbnRzLg=="
+    },
+    "q12": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "o1": {
+          "accept": [
+            "Patients:"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "14rem"
+        },
+        "o2": {
+          "accept": [
+            "Ana"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "14rem"
+        },
+        "o3": {
+          "accept": [
+            "Ben"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "14rem"
+        },
+        "o4": {
+          "accept": [
+            "Cara"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "14rem"
+        },
+        "o5": {
+          "accept": [
+            "Waiting patients:"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "14rem"
+        },
+        "o6": {
+          "accept": [
+            "No waiting patients"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "14rem"
+        },
+        "o7": {
+          "accept": [
+            "Count: 3"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "14rem"
+        }
+      }
+    },
+    "q12-demo": {
+      "type": "code",
+      "xp": 4,
+      "minLines": 16,
+      "maxLines": 30,
+      "title": "ClinicDemo.java",
+      "starter": "public class ClinicDemo\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule schedule = new ClinicSchedule();\n        // Add Ana, Ben, Cara, print them, check everyone in, then print the waiting patients and the count.\n\n\n\n\n\n\n\n\n\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Patients:\nAna\nBen\nCara\nWaiting patients:\nNo waiting patients\nCount: 3"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\".printAllPatients()\"), \"Print the names with printAllPatients().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".checkInAll()\"), \"Check everyone in with checkInAll().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".printWaitingPatients()\"), \"Print the waiting patients with printWaitingPatients().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getCount()\"), \"Print the count with getCount().\");",
+      "answer": "cHVibGljIGNsYXNzIENsaW5pY0RlbW8KewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBDbGluaWNTY2hlZHVsZSBzY2hlZHVsZSA9IG5ldyBDbGluaWNTY2hlZHVsZSgpOwogICAgICAgIHNjaGVkdWxlLmFkZEFwcG9pbnRtZW50KG5ldyBBcHBvaW50bWVudCgiQW5hIikpOwogICAgICAgIHNjaGVkdWxlLmFkZEFwcG9pbnRtZW50KG5ldyBBcHBvaW50bWVudCgiQmVuIikpOwogICAgICAgIHNjaGVkdWxlLmFkZEFwcG9pbnRtZW50KG5ldyBBcHBvaW50bWVudCgiQ2FyYSIpKTsKCiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJQYXRpZW50czoiKTsKICAgICAgICBzY2hlZHVsZS5wcmludEFsbFBhdGllbnRzKCk7CiAgICAgICAgc2NoZWR1bGUuY2hlY2tJbkFsbCgpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiV2FpdGluZyBwYXRpZW50czoiKTsKICAgICAgICBzY2hlZHVsZS5wcmludFdhaXRpbmdQYXRpZW50cygpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQ291bnQ6ICIgKyBzY2hlZHVsZS5nZXRDb3VudCgpKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n\n    public Appointment(String patientName)\n    {\n        this.patientName = patientName;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n}"
+        },
+        {
+          "name": "ClinicSchedule.java",
+          "content": "import java.util.ArrayList;\nimport java.util.Iterator;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public int removeCheckedIn()\n    {\n        int removed = 0;\n        Iterator<Appointment> iterator = appointments.iterator();\n\n        while(iterator.hasNext()) {\n            Appointment appointment = iterator.next();\n            if(appointment.hasCheckedIn()) {\n                iterator.remove();\n                removed++;\n            }\n        }\n\n        return removed;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment ->\n            System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n}"
+        }
+      ]
+    },
+    "q13": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "cHJpbnREZXRhaWxzIHJldHVybnMgbm90aGluZy4gcmVtb3ZlSWYgbmVlZHMgYSBwcmVkaWNhdGUgdGhhdCByZWNlaXZlcyBvbmUgVHJhY2sgYW5kIHJldHVybnMgYm9vbGVhbi4gZm9yRWFjaCBuZWVkcyBhbiBhY3Rpb24gb24gb25lIFRyYWNrIGFuZCB1c2VzIG5vIHJlc3VsdC4gVGhlIHJlY2VpdmluZyBtZXRob2QgZGV0ZXJtaW5lcyB0aGUgcmVxdWlyZWQgc2hhcGUsIGNhbGxlZCBhIGZ1bmN0aW9uYWwgaW50ZXJmYWNlIGluIHRoZSBKYXZhIGxpYnJhcnku"
+    },
+    "q14": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "r1": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "true / false"
+        },
+        "r2": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "true / false"
+        },
+        "r3": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "true / false"
+        },
+        "r4": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "true / false"
+        },
+        "r5": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "true / false"
+        },
+        "e300": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "true / false"
+        }
+      }
+    },
+    "q14-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "SXQgb25seSByZWFkcyB0aGUgZHVyYXRpb24gYW5kIGFuc3dlcnMgYSBxdWVzdGlvbi4gSXQgY2hhbmdlcyBub3RoaW5nIGJ5IGl0c2VsZi4gRXhhY3RseSAzMDAgZ2l2ZXMgZmFsc2UuIFRoZSByZXN1bHQgdHlwZSBpcyBib29sZWFuLg=="
+    },
+    "q15": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "a": {
+          "accept": [
+            "track -> track.getArtist().equals(\"John Coltrane\")",
+            "track->track.getArtist().equals(\"JohnColtrane\")",
+            "(Track track) -> track.getArtist().equals(\"John Coltrane\")",
+            "(Tracktrack)->track.getArtist().equals(\"JohnColtrane\")"
+          ],
+          "show": "track -> track.getArtist().equals(\"John Coltrane\")",
+          "placeholder": "predicate (a)",
+          "caseSensitive": true,
+          "width": "26rem"
+        },
+        "b": {
+          "accept": [
+            "track -> track.getTitle().contains(\"Blue\")",
+            "track->track.getTitle().contains(\"Blue\")",
+            "(Track track) -> track.getTitle().contains(\"Blue\")",
+            "(Tracktrack)->track.getTitle().contains(\"Blue\")"
+          ],
+          "show": "track -> track.getTitle().contains(\"Blue\")",
+          "placeholder": "predicate (b)",
+          "caseSensitive": true,
+          "width": "26rem"
+        },
+        "c": {
+          "accept": [
+            "track -> { return track.getDurationSeconds() < 300; }",
+            "track->{returntrack.getDurationSeconds()<300;}",
+            "(Track track) -> { return track.getDurationSeconds() < 300; }",
+            "(Tracktrack)->{returntrack.getDurationSeconds()<300;}"
+          ],
+          "show": "track -> { return track.getDurationSeconds() < 300; }",
+          "placeholder": "predicate (c)",
+          "caseSensitive": true,
+          "width": "26rem"
+        },
+        "ma": {
+          "accept": [
+            "[Blue Train, Naima]",
+            "Blue Train, Naima",
+            "[Blue Train,Naima]",
+            "Blue Train,Naima",
+            "Blue Train and Naima"
+          ],
+          "show": "Blue Train, Naima",
+          "placeholder": "matching tracks",
+          "width": "14rem"
+        },
+        "mb": {
+          "accept": [
+            "[Blue Train]",
+            "Blue Train",
+            "[Blue Train]",
+            "Blue Train"
+          ],
+          "show": "Blue Train",
+          "placeholder": "matching tracks",
+          "width": "14rem"
+        },
+        "mc": {
+          "accept": [
+            "[Northern Sky, Naima]",
+            "Northern Sky, Naima",
+            "[Northern Sky,Naima]",
+            "Northern Sky,Naima",
+            "Northern Sky and Naima"
+          ],
+          "show": "Northern Sky, Naima",
+          "placeholder": "matching tracks",
+          "width": "14rem"
+        }
+      }
+    },
+    "q15-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Tm8gaWYgaXMgbmVlZGVkLiBBIGJvb2xlYW4gZXhwcmVzc2lvbiBjYW4gZ2l2ZSB0aGUgYW5zd2VyIGRpcmVjdGx5LiBVc2UgZXF1YWxzIGZvciBzdHJpbmcgY29udGVudHM7ID09IGNvbXBhcmVzIHJlZmVyZW5jZXMu"
+    },
+    "q16": {
+      "type": "code",
+      "xp": 4,
+      "minLines": 30,
+      "maxLines": 50,
+      "title": "Playlist.java",
+      "starter": "import java.util.ArrayList;\nimport java.util.Iterator;\n\npublic class Playlist\n{\n    private ArrayList<Track> tracks;\n\n    public Playlist()\n    {\n        tracks = new ArrayList<>();\n    }\n\n    public void addTrack(Track track)\n    {\n        tracks.add(track);\n    }\n\n    public int getNumberOfTracks()\n    {\n        return tracks.size();\n    }\n\n    public void printAllTracks()\n    {\n        tracks.forEach(Track::printDetails);\n    }\n\n    // Rewrite this method with one removeIf call.\n    public void removeTracksByArtist(String artist)\n    {\n        Iterator<Track> iterator = tracks.iterator();\n        while(iterator.hasNext()) {\n            Track track = iterator.next();\n            if(track.getArtist().equals(artist)) {\n                iterator.remove();\n            }\n        }\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "After removing John Coltrane:\nNick Drake - Northern Sky (224 s)\nMassive Attack - Teardrop (330 s)\nMassive Attack - Angel (379 s)\nTracks after removing Miles Davis: 3"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidremoveTracksByArtist(Stringartist)\"), \"Keep the header public void removeTracksByArtist(String artist).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"tracks.removeIf(\"), \"Use one tracks.removeIf(...) call.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getArtist().equals(artist)\"), \"Test each track with track.getArtist().equals(artist).\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\".iterator()\"), \"removeIf does the traversal; no iterator is needed.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgUGxheWxpc3QKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8VHJhY2s+IHRyYWNrczsKCiAgICBwdWJsaWMgUGxheWxpc3QoKQogICAgewogICAgICAgIHRyYWNrcyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZFRyYWNrKFRyYWNrIHRyYWNrKQogICAgewogICAgICAgIHRyYWNrcy5hZGQodHJhY2spOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TnVtYmVyT2ZUcmFja3MoKQogICAgewogICAgICAgIHJldHVybiB0cmFja3Muc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50QWxsVHJhY2tzKCkKICAgIHsKICAgICAgICB0cmFja3MuZm9yRWFjaChUcmFjazo6cHJpbnREZXRhaWxzKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCByZW1vdmVUcmFja3NCeUFydGlzdChTdHJpbmcgYXJ0aXN0KQogICAgewogICAgICAgIHRyYWNrcy5yZW1vdmVJZih0cmFjayAtPiB0cmFjay5nZXRBcnRpc3QoKS5lcXVhbHMoYXJ0aXN0KSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Track.java",
+          "content": "public class Track\n{\n    private String title;\n    private String artist;\n    private int durationSeconds;\n\n    public Track(String title, String artist, int durationSeconds)\n    {\n        this.title = title;\n        this.artist = artist;\n        this.durationSeconds = durationSeconds;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public String getArtist()\n    {\n        return artist;\n    }\n\n    public int getDurationSeconds()\n    {\n        return durationSeconds;\n    }\n\n    public void printDetails()\n    {\n        System.out.println(artist + \" - \" + title + \" (\" + durationSeconds + \" s)\");\n    }\n}"
+        },
+        {
+          "name": "RemoveCheck.java",
+          "content": "public class RemoveCheck\n{\n    public static void main(String[] args)\n    {\n        Playlist playlist = new Playlist();\n        playlist.addTrack(new Track(\"Northern Sky\", \"Nick Drake\", 224));\n        playlist.addTrack(new Track(\"Blue Train\", \"John Coltrane\", 643));\n        playlist.addTrack(new Track(\"Teardrop\", \"Massive Attack\", 330));\n        playlist.addTrack(new Track(\"Naima\", \"John Coltrane\", 265));\n        playlist.addTrack(new Track(\"Angel\", \"Massive Attack\", 379));\n        playlist.removeTracksByArtist(\"John Coltrane\");\n        System.out.println(\"After removing John Coltrane:\");\n        playlist.printAllTracks();\n        playlist.removeTracksByArtist(\"Miles Davis\");\n        System.out.println(\"Tracks after removing Miles Davis: \" + playlist.getNumberOfTracks());\n    }\n}"
+        }
+      ]
+    },
+    "q16-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "cmVtb3ZlSWYgY29udHJvbHMgdHJhdmVyc2FsIGFuZCByZW1vdmFsOyBvdXIgY29kZSBzdXBwbGllcyB0aGUgdGVzdC4gRXZlcnkgbWF0Y2hpbmcgdHJhY2sgaXMgcmVtb3ZlZC4gRGVsZXRlIHRoZSBJdGVyYXRvciBpbXBvcnQgaWYgbm8gb3RoZXIgbWV0aG9kIHVzZXMgaXQu"
+    },
+    "q17": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "gone": {
+          "accept": [
+            "[Northern Sky, Naima]",
+            "Northern Sky, Naima",
+            "[Northern Sky,Naima]",
+            "Northern Sky,Naima",
+            "Northern Sky and Naima"
+          ],
+          "show": "Northern Sky, Naima",
+          "placeholder": "matching tracks",
+          "width": "14rem"
+        },
+        "left": {
+          "accept": [
+            "[Blue Train, Teardrop, Angel]",
+            "Blue Train, Teardrop, Angel",
+            "[Blue Train,Teardrop,Angel]",
+            "Blue Train,Teardrop,Angel",
+            "Blue Train, Teardrop, and Angel",
+            "Blue Train, Teardrop and Angel"
+          ],
+          "show": "Blue Train, Teardrop, Angel",
+          "placeholder": "survivors",
+          "width": "18rem"
+        },
+        "size": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "size"
+        },
+        "ret": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "true / false"
+        }
+      }
+    },
+    "q17-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlaXIgZmllbGRzIHN0YXkgdGhlIHNhbWUuIFRoZWlyIGxpc3QgcG9zaXRpb25zIGNoYW5nZTogQmx1ZSBUcmFpbiwgVGVhcmRyb3AsIGFuZCBBbmdlbCBhcmUgbm93IGF0IGluZGljZXMgMCwgMSwgYW5kIDIu"
+    },
+    "q18": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "f1": {
+          "accept": [
+            "5"
+          ],
+          "placeholder": "size"
+        },
+        "r1": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "true / false"
+        },
+        "f2": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "size"
+        },
+        "r2": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "true / false"
+        },
+        "f3": {
+          "accept": [
+            "5"
+          ],
+          "placeholder": "size"
+        },
+        "r3": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "true / false"
+        },
+        "f4": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "size"
+        },
+        "r4": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "true / false"
+        }
+      }
+    },
+    "q18-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "QW4gZW1wdHkgbGlzdCBoYXMgbm8gZWxlbWVudCB0byByZW1vdmUuIFRoZSBwcmVkaWNhdGUgcnVucyB6ZXJvIHRpbWVzIGFuZCByZW1vdmVJZiByZXR1cm5zIGZhbHNlLiBJdHMgcmV0dXJuIHZhbHVlIHJlcG9ydHMgd2hldGhlciBhbnkgcmVtb3ZhbCBvY2N1cnJlZCwgbm90IHRoZSBhbnN3ZXIgdGhlIHByZWRpY2F0ZSB3b3VsZCBnaXZlLg=="
+    },
+    "q19": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "pred": {
+          "accept": [
+            "track -> track.getDurationSeconds() > seconds",
+            "track->track.getDurationSeconds()>seconds",
+            "(Track track) -> track.getDurationSeconds() > seconds",
+            "(Tracktrack)->track.getDurationSeconds()>seconds"
+          ],
+          "show": "track -> track.getDurationSeconds() > seconds",
+          "placeholder": "predicate",
+          "caseSensitive": true,
+          "width": "26rem"
+        },
+        "left": {
+          "accept": [
+            "[Northern Sky, Naima]",
+            "Northern Sky, Naima",
+            "[Northern Sky,Naima]",
+            "Northern Sky,Naima",
+            "Northern Sky and Naima"
+          ],
+          "show": "Northern Sky, Naima",
+          "placeholder": "matching tracks",
+          "width": "14rem"
+        },
+        "size": {
+          "accept": [
+            "2"
+          ],
+          "placeholder": "size"
+        },
+        "exact": {
+          "accept": [
+            "no",
+            "No",
+            "no, it stays",
+            "no, it remains"
+          ],
+          "show": "no",
+          "placeholder": "yes / no"
+        }
+      }
+    },
+    "q20": {
+      "type": "code",
+      "xp": 4,
+      "minLines": 20,
+      "maxLines": 30,
+      "title": "RepairDemo.java",
+      "starter": "import java.util.ArrayList;\n\npublic class RepairDemo\n{\n    public static void main(String[] args)\n    {\n        ArrayList<Track> tracks = new ArrayList<>();\n        tracks.add(new Track(\"Northern Sky\", \"Nick Drake\", 224));\n        tracks.add(new Track(\"Blue Train\", \"John Coltrane\", 643));\n        tracks.add(new Track(\"Teardrop\", \"Massive Attack\", 330));\n        tracks.add(new Track(\"Naima\", \"John Coltrane\", 265));\n        tracks.add(new Track(\"Angel\", \"Massive Attack\", 379));\n        int before = tracks.size();\n        // Replace this forEach call with removeIf.\n        tracks.forEach(track -> {\n            if(track.getDurationSeconds() < 300) {\n                tracks.remove(track);\n            }\n        });\n        int removed = before - tracks.size();\n        System.out.println(\"Removed: \" + removed);\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Removed: 2"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"tracks.removeIf(\"), \"Replace the forEach call with tracks.removeIf(...).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getDurationSeconds()<300\"), \"Keep the test getDurationSeconds() < 300.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"tracks.remove(\"), \"Do not remove from the list inside a forEach action.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"intremoved=before-tracks.size();\"), \"Keep the size calculation.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgUmVwYWlyRGVtbwp7CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKQogICAgewogICAgICAgIEFycmF5TGlzdDxUcmFjaz4gdHJhY2tzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICAgICAgdHJhY2tzLmFkZChuZXcgVHJhY2soIk5vcnRoZXJuIFNreSIsICJOaWNrIERyYWtlIiwgMjI0KSk7CiAgICAgICAgdHJhY2tzLmFkZChuZXcgVHJhY2soIkJsdWUgVHJhaW4iLCAiSm9obiBDb2x0cmFuZSIsIDY0MykpOwogICAgICAgIHRyYWNrcy5hZGQobmV3IFRyYWNrKCJUZWFyZHJvcCIsICJNYXNzaXZlIEF0dGFjayIsIDMzMCkpOwogICAgICAgIHRyYWNrcy5hZGQobmV3IFRyYWNrKCJOYWltYSIsICJKb2huIENvbHRyYW5lIiwgMjY1KSk7CiAgICAgICAgdHJhY2tzLmFkZChuZXcgVHJhY2soIkFuZ2VsIiwgIk1hc3NpdmUgQXR0YWNrIiwgMzc5KSk7CiAgICAgICAgaW50IGJlZm9yZSA9IHRyYWNrcy5zaXplKCk7CiAgICAgICAgdHJhY2tzLnJlbW92ZUlmKHRyYWNrIC0+IHRyYWNrLmdldER1cmF0aW9uU2Vjb25kcygpIDwgMzAwKTsKICAgICAgICBpbnQgcmVtb3ZlZCA9IGJlZm9yZSAtIHRyYWNrcy5zaXplKCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJSZW1vdmVkOiAiICsgcmVtb3ZlZCk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Track.java",
+          "content": "public class Track\n{\n    private String title;\n    private String artist;\n    private int durationSeconds;\n\n    public Track(String title, String artist, int durationSeconds)\n    {\n        this.title = title;\n        this.artist = artist;\n        this.durationSeconds = durationSeconds;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public String getArtist()\n    {\n        return artist;\n    }\n\n    public int getDurationSeconds()\n    {\n        return durationSeconds;\n    }\n\n    public void printDetails()\n    {\n        System.out.println(artist + \" - \" + title + \" (\" + durationSeconds + \" s)\");\n    }\n}"
+        }
+      ]
+    },
+    "q20-exc": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "exc": {
+          "accept": [
+            "ConcurrentModificationException",
+            "java.util.ConcurrentModificationException"
+          ],
+          "show": "ConcurrentModificationException",
+          "caseSensitive": true,
+          "placeholder": "exception",
+          "width": "20rem"
+        }
+      }
+    },
+    "q20-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "VGhlIG9yaWdpbmFsIGNoYW5nZXMgdGhlIHNhbWUgbGlzdCdzIG1lbWJlcnNoaXAgZHVyaW5nIGZvckVhY2guIEEgcnVuIHdpdGhvdXQgYW4gZXhjZXB0aW9uIGRvZXMgbm90IHByb3ZlIGl0IHNhZmUuIGNoZWNrSW5BbGwgY2hhbmdlcyBlbGVtZW50IHN0YXRlLCBub3QgbWVtYmVyc2hpcC4gcmVtb3ZlSWYgaXRzZWxmIHJldHVybnMgYSBib29sZWFuLCBub3QgdGhpcyBjb3VudC4="
+    },
+    "q21": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "a": {
+          "accept": [
+            "forEach",
+            "foreach",
+            "for-each",
+            "for each",
+            "forEach()"
+          ],
+          "show": "forEach",
+          "placeholder": "choice",
+          "width": "12rem"
+        },
+        "b": {
+          "accept": [
+            "removeIf",
+            "removeif",
+            "removeIf()"
+          ],
+          "show": "removeIf",
+          "placeholder": "choice",
+          "width": "12rem"
+        },
+        "c": {
+          "accept": [
+            "explicit loop",
+            "an explicit loop",
+            "loop",
+            "a loop",
+            "while",
+            "while loop",
+            "indexed while",
+            "indexed while loop",
+            "for loop",
+            "for-each loop"
+          ],
+          "show": "explicit loop",
+          "placeholder": "choice",
+          "width": "12rem"
+        },
+        "d": {
+          "accept": [
+            "explicit loop",
+            "an explicit loop",
+            "loop",
+            "a loop",
+            "while",
+            "while loop",
+            "indexed while",
+            "indexed while loop",
+            "for loop",
+            "for-each loop"
+          ],
+          "show": "explicit loop",
+          "placeholder": "choice",
+          "width": "12rem"
+        }
+      }
+    },
+    "q21-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "QW4gaWYgaW5zaWRlIGEgZm9yRWFjaCBhY3Rpb24gY2FuIGNob29zZSB3aGF0IHByaW50cywgYnV0IHRoZSBhY3Rpb24gc3RpbGwgcmVjZWl2ZXMgZXZlcnkgZWxlbWVudC4gQSBzZWFyY2ggdGhhdCBzdG9wcyBlYXJseSBhbmQgc2V2ZXJhbCBsb2NhbCB2YXJpYWJsZXMgbmVlZCBhbiBleHBsaWNpdCBsb29wLiBTaG9ydGVyIGNvZGUgaXMgbm90IGF1dG9tYXRpY2FsbHkgY2xlYXJlciBvciBmYXN0ZXIu"
+    },
+    "q22": {
+      "type": "code",
+      "xp": 5,
+      "minLines": 110,
+      "maxLines": 136,
+      "title": "ClinicSchedule.java",
+      "starter": "import java.util.ArrayList;\nimport java.util.Iterator;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    // Rewrite this method with removeIf.\n    public int removeCheckedIn()\n    {\n        int removed = 0;\n        Iterator<Appointment> iterator = appointments.iterator();\n\n        while(iterator.hasNext()) {\n            Appointment appointment = iterator.next();\n            if(appointment.hasCheckedIn()) {\n                iterator.remove();\n                removed++;\n            }\n        }\n\n        return removed;\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment ->\n            System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Empty schedule: 0\nRemoved Ben and Cara: 2\nCount: 2\nAna\nDev\nNobody checked in: 0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintremoveCheckedIn()\"), \"Keep the header public int removeCheckedIn().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"appointments.removeIf(\"), \"Use appointments.removeIf(...).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".hasCheckedIn()\"), \"Remove the appointments where hasCheckedIn() is true.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*return\\\\w+-(this\\\\.)?appointments\\\\.size\\\\(\\\\);.*\"), \"Return the size before minus the size after.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\".iterator()\"), \"removeIf does the traversal; remove the iterator loop.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"importjava.util.Iterator;\"), \"Remove the unused import java.util.Iterator;\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgQ2xpbmljU2NoZWR1bGUKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8QXBwb2ludG1lbnQ+IGFwcG9pbnRtZW50czsKCiAgICBwdWJsaWMgQ2xpbmljU2NoZWR1bGUoKQogICAgewogICAgICAgIGFwcG9pbnRtZW50cyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZEFwcG9pbnRtZW50KEFwcG9pbnRtZW50IGFwcG9pbnRtZW50KQogICAgewogICAgICAgIGFwcG9pbnRtZW50cy5hZGQoYXBwb2ludG1lbnQpOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0Q291bnQoKQogICAgewogICAgICAgIHJldHVybiBhcHBvaW50bWVudHMuc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50UGF0aWVudEF0KGludCBpbmRleCkKICAgIHsKICAgICAgICBpZihpbmRleCA8IDAgfHwgaW5kZXggPj0gYXBwb2ludG1lbnRzLnNpemUoKSkgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkludmFsaWQgaW5kZXgiKTsKICAgICAgICAgICAgcmV0dXJuOwogICAgICAgIH0KCiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpLmdldFBhdGllbnROYW1lKCkpOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGNhbmNlbChpbnQgaW5kZXgpCiAgICB7CiAgICAgICAgaWYoaW5kZXggPCAwIHx8IGluZGV4ID49IGFwcG9pbnRtZW50cy5zaXplKCkpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgaWYoYXBwb2ludG1lbnRzLmdldChpbmRleCkuaGFzQ2hlY2tlZEluKCkpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgYXBwb2ludG1lbnRzLnJlbW92ZShpbmRleCk7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRXYWl0aW5nUGF0aWVudHMoKQogICAgewogICAgICAgIGJvb2xlYW4gZm91bmQgPSBmYWxzZTsKCiAgICAgICAgZm9yKEFwcG9pbnRtZW50IGFwcG9pbnRtZW50IDogYXBwb2ludG1lbnRzKSB7CiAgICAgICAgICAgIGlmKCFhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSkgewogICAgICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkpOwogICAgICAgICAgICAgICAgZm91bmQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBpZighZm91bmQpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJObyB3YWl0aW5nIHBhdGllbnRzIik7CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyBpbnQgZmluZFBhdGllbnRJbmRleChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICBpbnQgaW5kZXggPSAwOwogICAgICAgIGJvb2xlYW4gZm91bmQgPSBmYWxzZTsKCiAgICAgICAgd2hpbGUoaW5kZXggPCBhcHBvaW50bWVudHMuc2l6ZSgpICYmICFmb3VuZCkgewogICAgICAgICAgICBBcHBvaW50bWVudCBhcHBvaW50bWVudCA9IGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpOwogICAgICAgICAgICBpZihhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpLmVxdWFscyhuYW1lKSkgewogICAgICAgICAgICAgICAgZm91bmQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsc2UgewogICAgICAgICAgICAgICAgaW5kZXgrKzsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgaWYoZm91bmQpIHsKICAgICAgICAgICAgcmV0dXJuIGluZGV4OwogICAgICAgIH0KICAgICAgICByZXR1cm4gLTE7CiAgICB9CgogICAgcHVibGljIGludCByZW1vdmVDaGVja2VkSW4oKQogICAgewogICAgICAgIGludCBiZWZvcmUgPSBhcHBvaW50bWVudHMuc2l6ZSgpOwogICAgICAgIGFwcG9pbnRtZW50cy5yZW1vdmVJZihhcHBvaW50bWVudCAtPiBhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSk7CiAgICAgICAgcmV0dXJuIGJlZm9yZSAtIGFwcG9pbnRtZW50cy5zaXplKCk7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRBbGxQYXRpZW50cygpCiAgICB7CiAgICAgICAgYXBwb2ludG1lbnRzLmZvckVhY2goYXBwb2ludG1lbnQgLT4KICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkpKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBjaGVja0luQWxsKCkKICAgIHsKICAgICAgICBhcHBvaW50bWVudHMuZm9yRWFjaChBcHBvaW50bWVudDo6Y2hlY2tJbik7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n\n    public Appointment(String patientName)\n    {\n        this.patientName = patientName;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n}"
+        },
+        {
+          "name": "RemoveCheckedCheck.java",
+          "content": "public class RemoveCheckedCheck\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule schedule = new ClinicSchedule();\n        System.out.println(\"Empty schedule: \" + schedule.removeCheckedIn());\n        Appointment ana = new Appointment(\"Ana\");\n        Appointment ben = new Appointment(\"Ben\");\n        Appointment cara = new Appointment(\"Cara\");\n        Appointment dev = new Appointment(\"Dev\");\n        schedule.addAppointment(ana);\n        schedule.addAppointment(ben);\n        schedule.addAppointment(cara);\n        schedule.addAppointment(dev);\n        ben.checkIn();\n        cara.checkIn();\n        System.out.println(\"Removed Ben and Cara: \" + schedule.removeCheckedIn());\n        System.out.println(\"Count: \" + schedule.getCount());\n        schedule.printAllPatients();\n        System.out.println(\"Nobody checked in: \" + schedule.removeCheckedIn());\n    }\n}"
+        }
+      ]
+    },
+    "q23": {
+      "type": "code",
+      "xp": 5,
+      "minLines": 110,
+      "maxLines": 136,
+      "title": "ClinicSchedule.java",
+      "starter": "import java.util.ArrayList;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment ->\n            System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    // Write cancelPatient(String name) here.\n\n\n\n\n\n\n\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Empty schedule: false\nCancel Dev: false\nCancel Ben: true\nCount: 3\nCancel Ben again: false\nAna\nBen\nCara"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicbooleancancelPatient\\\\(String\\\\w+\\\\).*\"), \"Include public boolean cancelPatient(String name).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"returnappointments.removeIf(\"), \"Return what appointments.removeIf(...) returns.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getPatientName().equals(\"), \"Compare the names with equals.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"&&\"), \"Both conditions must hold: use &&.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*!\\\\w+\\\\.hasCheckedIn\\\\(\\\\).*\"), \"Only remove appointments that have not checked in: !appointment.hasCheckedIn().\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgQ2xpbmljU2NoZWR1bGUKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8QXBwb2ludG1lbnQ+IGFwcG9pbnRtZW50czsKCiAgICBwdWJsaWMgQ2xpbmljU2NoZWR1bGUoKQogICAgewogICAgICAgIGFwcG9pbnRtZW50cyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZEFwcG9pbnRtZW50KEFwcG9pbnRtZW50IGFwcG9pbnRtZW50KQogICAgewogICAgICAgIGFwcG9pbnRtZW50cy5hZGQoYXBwb2ludG1lbnQpOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0Q291bnQoKQogICAgewogICAgICAgIHJldHVybiBhcHBvaW50bWVudHMuc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50UGF0aWVudEF0KGludCBpbmRleCkKICAgIHsKICAgICAgICBpZihpbmRleCA8IDAgfHwgaW5kZXggPj0gYXBwb2ludG1lbnRzLnNpemUoKSkgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkludmFsaWQgaW5kZXgiKTsKICAgICAgICAgICAgcmV0dXJuOwogICAgICAgIH0KCiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpLmdldFBhdGllbnROYW1lKCkpOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGNhbmNlbChpbnQgaW5kZXgpCiAgICB7CiAgICAgICAgaWYoaW5kZXggPCAwIHx8IGluZGV4ID49IGFwcG9pbnRtZW50cy5zaXplKCkpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgaWYoYXBwb2ludG1lbnRzLmdldChpbmRleCkuaGFzQ2hlY2tlZEluKCkpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgYXBwb2ludG1lbnRzLnJlbW92ZShpbmRleCk7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRXYWl0aW5nUGF0aWVudHMoKQogICAgewogICAgICAgIGJvb2xlYW4gZm91bmQgPSBmYWxzZTsKCiAgICAgICAgZm9yKEFwcG9pbnRtZW50IGFwcG9pbnRtZW50IDogYXBwb2ludG1lbnRzKSB7CiAgICAgICAgICAgIGlmKCFhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSkgewogICAgICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkpOwogICAgICAgICAgICAgICAgZm91bmQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBpZighZm91bmQpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJObyB3YWl0aW5nIHBhdGllbnRzIik7CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyBpbnQgZmluZFBhdGllbnRJbmRleChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICBpbnQgaW5kZXggPSAwOwogICAgICAgIGJvb2xlYW4gZm91bmQgPSBmYWxzZTsKCiAgICAgICAgd2hpbGUoaW5kZXggPCBhcHBvaW50bWVudHMuc2l6ZSgpICYmICFmb3VuZCkgewogICAgICAgICAgICBBcHBvaW50bWVudCBhcHBvaW50bWVudCA9IGFwcG9pbnRtZW50cy5nZXQoaW5kZXgpOwogICAgICAgICAgICBpZihhcHBvaW50bWVudC5nZXRQYXRpZW50TmFtZSgpLmVxdWFscyhuYW1lKSkgewogICAgICAgICAgICAgICAgZm91bmQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsc2UgewogICAgICAgICAgICAgICAgaW5kZXgrKzsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgaWYoZm91bmQpIHsKICAgICAgICAgICAgcmV0dXJuIGluZGV4OwogICAgICAgIH0KICAgICAgICByZXR1cm4gLTE7CiAgICB9CgogICAgcHVibGljIGludCByZW1vdmVDaGVja2VkSW4oKQogICAgewogICAgICAgIGludCBiZWZvcmUgPSBhcHBvaW50bWVudHMuc2l6ZSgpOwogICAgICAgIGFwcG9pbnRtZW50cy5yZW1vdmVJZihhcHBvaW50bWVudCAtPiBhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSk7CiAgICAgICAgcmV0dXJuIGJlZm9yZSAtIGFwcG9pbnRtZW50cy5zaXplKCk7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRBbGxQYXRpZW50cygpCiAgICB7CiAgICAgICAgYXBwb2ludG1lbnRzLmZvckVhY2goYXBwb2ludG1lbnQgLT4KICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkpKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBjaGVja0luQWxsKCkKICAgIHsKICAgICAgICBhcHBvaW50bWVudHMuZm9yRWFjaChBcHBvaW50bWVudDo6Y2hlY2tJbik7CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gY2FuY2VsUGF0aWVudChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICByZXR1cm4gYXBwb2ludG1lbnRzLnJlbW92ZUlmKGFwcG9pbnRtZW50IC0+CiAgICAgICAgICAgIGFwcG9pbnRtZW50LmdldFBhdGllbnROYW1lKCkuZXF1YWxzKG5hbWUpCiAgICAgICAgICAgICYmICFhcHBvaW50bWVudC5oYXNDaGVja2VkSW4oKSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n\n    public Appointment(String patientName)\n    {\n        this.patientName = patientName;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n}"
+        },
+        {
+          "name": "CancelCheck.java",
+          "content": "public class CancelCheck\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule schedule = new ClinicSchedule();\n        System.out.println(\"Empty schedule: \" + schedule.cancelPatient(\"Ben\"));\n        Appointment checkedBen = new Appointment(\"Ben\");\n        schedule.addAppointment(new Appointment(\"Ana\"));\n        schedule.addAppointment(new Appointment(\"Ben\"));\n        schedule.addAppointment(checkedBen);\n        schedule.addAppointment(new Appointment(\"Cara\"));\n        schedule.addAppointment(new Appointment(\"Ben\"));\n        checkedBen.checkIn();\n        System.out.println(\"Cancel Dev: \" + schedule.cancelPatient(\"Dev\"));\n        System.out.println(\"Cancel Ben: \" + schedule.cancelPatient(\"Ben\"));\n        System.out.println(\"Count: \" + schedule.getCount());\n        System.out.println(\"Cancel Ben again: \" + schedule.cancelPatient(\"Ben\"));\n        schedule.printAllPatients();\n    }\n}"
+        }
+      ]
+    },
+    "q23-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Qm90aCBjb25kaXRpb25zIG11c3QgaG9sZCwgc28gdXNlIEFORC4gVGhlIG1ldGhvZCByZXR1cm5zIGZhbHNlIGZvciBubyBtYXRjaCBvciBhbiBlbXB0eSBzY2hlZHVsZS4gQSBjaGVja2VkLWluIGFwcG9pbnRtZW50IGlzIGtlcHQgZXZlbiB3aGVuIGl0cyBuYW1lIG1hdGNoZXMu"
+    },
+    "q24": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "o1": {
+          "accept": [
+            "Cancel Ana: false"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "16rem"
+        },
+        "o2": {
+          "accept": [
+            "Cancel Ben: true"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "16rem"
+        },
+        "o3": {
+          "accept": [
+            "Cancel Ben again: false"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "16rem"
+        },
+        "o4": {
+          "accept": [
+            "Removed: 1"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "16rem"
+        },
+        "o5": {
+          "accept": [
+            "Remaining: 1"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "16rem"
+        },
+        "o6": {
+          "accept": [
+            "Cara"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "16rem"
+        },
+        "o7": {
+          "accept": [
+            "Removed again: 0"
+          ],
+          "placeholder": "output line",
+          "caseSensitive": true,
+          "width": "16rem"
+        }
+      }
+    },
+    "q24-demo": {
+      "type": "code",
+      "xp": 4,
+      "minLines": 20,
+      "maxLines": 34,
+      "title": "ClinicDemo.java",
+      "starter": "public class ClinicDemo\n{\n    public static void main(String[] args)\n    {\n        ClinicSchedule schedule = new ClinicSchedule();\n        // Keep a reference to Ana so you can check her in.\n\n\n\n\n\n\n\n\n\n\n\n\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Cancel Ana: false\nCancel Ben: true\nCancel Ben again: false\nRemoved: 1\nRemaining: 1\nCara\nRemoved again: 0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*Appointment(\\\\w+)=newAppointment\\\\(\\\\\\\"Ana\\\\\\\"\\\\);.*\\\\1\\\\.checkIn\\\\(\\\\);.*\"), \"Keep Ana's reference and check her in: ana.checkIn();\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"cancelPatient(\\\"Ana\\\")\"), \"Cancel Ana with cancelPatient(\\\"Ana\\\").\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*cancelPatient\\\\(\\\"Ben\\\"\\\\).*cancelPatient\\\\(\\\"Ben\\\"\\\\).*\"), \"Cancel Ben twice.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*removeCheckedIn\\\\(\\\\).*removeCheckedIn\\\\(\\\\).*\"), \"Call removeCheckedIn() twice.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".printAllPatients()\"), \"Print the remaining names with printAllPatients().\");",
+      "answer": "cHVibGljIGNsYXNzIENsaW5pY0RlbW8KewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBDbGluaWNTY2hlZHVsZSBzY2hlZHVsZSA9IG5ldyBDbGluaWNTY2hlZHVsZSgpOwogICAgICAgIEFwcG9pbnRtZW50IGFuYSA9IG5ldyBBcHBvaW50bWVudCgiQW5hIik7CiAgICAgICAgc2NoZWR1bGUuYWRkQXBwb2ludG1lbnQoYW5hKTsKICAgICAgICBzY2hlZHVsZS5hZGRBcHBvaW50bWVudChuZXcgQXBwb2ludG1lbnQoIkJlbiIpKTsKICAgICAgICBzY2hlZHVsZS5hZGRBcHBvaW50bWVudChuZXcgQXBwb2ludG1lbnQoIkNhcmEiKSk7CiAgICAgICAgYW5hLmNoZWNrSW4oKTsKCiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJDYW5jZWwgQW5hOiAiICsgc2NoZWR1bGUuY2FuY2VsUGF0aWVudCgiQW5hIikpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQ2FuY2VsIEJlbjogIiArIHNjaGVkdWxlLmNhbmNlbFBhdGllbnQoIkJlbiIpKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkNhbmNlbCBCZW4gYWdhaW46ICIgKyBzY2hlZHVsZS5jYW5jZWxQYXRpZW50KCJCZW4iKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJSZW1vdmVkOiAiICsgc2NoZWR1bGUucmVtb3ZlQ2hlY2tlZEluKCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiUmVtYWluaW5nOiAiICsgc2NoZWR1bGUuZ2V0Q291bnQoKSk7CiAgICAgICAgc2NoZWR1bGUucHJpbnRBbGxQYXRpZW50cygpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiUmVtb3ZlZCBhZ2FpbjogIiArIHNjaGVkdWxlLnJlbW92ZUNoZWNrZWRJbigpKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Appointment.java",
+          "content": "public class Appointment\n{\n    private String patientName;\n    private boolean checkedIn;\n\n    public Appointment(String patientName)\n    {\n        this.patientName = patientName;\n        checkedIn = false;\n    }\n\n    public String getPatientName()\n    {\n        return patientName;\n    }\n\n    public boolean hasCheckedIn()\n    {\n        return checkedIn;\n    }\n\n    public void checkIn()\n    {\n        checkedIn = true;\n    }\n}"
+        },
+        {
+          "name": "ClinicSchedule.java",
+          "content": "import java.util.ArrayList;\n\npublic class ClinicSchedule\n{\n    private ArrayList<Appointment> appointments;\n\n    public ClinicSchedule()\n    {\n        appointments = new ArrayList<>();\n    }\n\n    public void addAppointment(Appointment appointment)\n    {\n        appointments.add(appointment);\n    }\n\n    public int getCount()\n    {\n        return appointments.size();\n    }\n\n    public void printPatientAt(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            System.out.println(\"Invalid index\");\n            return;\n        }\n\n        System.out.println(appointments.get(index).getPatientName());\n    }\n\n    public boolean cancel(int index)\n    {\n        if(index < 0 || index >= appointments.size()) {\n            return false;\n        }\n\n        if(appointments.get(index).hasCheckedIn()) {\n            return false;\n        }\n\n        appointments.remove(index);\n        return true;\n    }\n\n    public void printWaitingPatients()\n    {\n        boolean found = false;\n\n        for(Appointment appointment : appointments) {\n            if(!appointment.hasCheckedIn()) {\n                System.out.println(appointment.getPatientName());\n                found = true;\n            }\n        }\n\n        if(!found) {\n            System.out.println(\"No waiting patients\");\n        }\n    }\n\n    public int findPatientIndex(String name)\n    {\n        int index = 0;\n        boolean found = false;\n\n        while(index < appointments.size() && !found) {\n            Appointment appointment = appointments.get(index);\n            if(appointment.getPatientName().equals(name)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public int removeCheckedIn()\n    {\n        int before = appointments.size();\n        appointments.removeIf(appointment -> appointment.hasCheckedIn());\n        return before - appointments.size();\n    }\n\n    public void printAllPatients()\n    {\n        appointments.forEach(appointment ->\n            System.out.println(appointment.getPatientName()));\n    }\n\n    public void checkInAll()\n    {\n        appointments.forEach(Appointment::checkIn);\n    }\n\n    public boolean cancelPatient(String name)\n    {\n        return appointments.removeIf(appointment ->\n            appointment.getPatientName().equals(name)\n            && !appointment.hasCheckedIn());\n    }\n}"
+        }
+      ]
+    },
+    "q24-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Q2FuY2VsbGF0aW9uIHJlZnVzZXMgdG8gcmVtb3ZlIEFuYSBiZWNhdXNlIHNoZSBoYXMgY2hlY2tlZCBpbi4gcmVtb3ZlQ2hlY2tlZEluIHJlbW92ZXMgaGVyIGZvciB0aGF0IHNhbWUgcmVhc29uLiBCZW4gd2FzIGNhbmNlbGxlZCwgc28gb25seSBDYXJhIHJlbWFpbnMu"
+    },
+    "q25": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "a1": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "first call"
+        },
+        "a2": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "second call"
+        },
+        "b1": {
+          "accept": [
+            "true"
+          ],
+          "placeholder": "true / false"
+        },
+        "b2": {
+          "accept": [
+            "false"
+          ],
+          "placeholder": "true / false"
+        }
+      }
+    },
+    "q25-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "KGIpIE9ubHkgdGhlIGNoZWNrZWQtaW4gQmVuIHJlbWFpbnMuIChjKSBOZWl0aGVyOyBmb3JFYWNoIHJldHVybnMgbm90aGluZy4gV2Ugc3RpbGwgbmVlZCBzZXBhcmF0ZSBzdGVwcyB0byBzZWxlY3QgZWxlbWVudHMsIHByb2R1Y2UgYSBkaWZmZXJlbnQgdmFsdWUgZnJvbSBlYWNoLCBhbmQgY29tYmluZSB2YWx1ZXMgaW50byBvbmUgcmVzdWx0LiBMZWN0dXJlIDkgdXNlcyBzdHJlYW1zIGZvciB0aGlzLiBMb29wcyBjYW4gYWxyZWFkeSBzb2x2ZSB0aGVzZSB0YXNrcy4="
+    }
+  }
+}
