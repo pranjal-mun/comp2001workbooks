@@ -126,7 +126,12 @@
     <span class="wb-kw">private</span> <span class="wb-type">String</span> artist;
     <span class="wb-kw">private</span> <span class="wb-kw">int</span> durationSeconds;
 
-    <span class="wb-cmt">// constructor as in Lecture 6</span>
+    <span class="wb-kw">public</span> <span class="wb-fn">Track</span>(<span class="wb-type">String</span> title, <span class="wb-type">String</span> artist, <span class="wb-kw">int</span> durationSeconds)
+    {
+        <span class="wb-kw">this</span>.title = title;
+        <span class="wb-kw">this</span>.artist = artist;
+        <span class="wb-kw">this</span>.durationSeconds = durationSeconds;
+    }
 
     <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getTitle</span>()
     {
@@ -144,7 +149,9 @@
     }
 }</code></pre>
 <p>The playlist owns the list and controls how it is traversed:</p>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Playlist</span>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Playlist</span>
 {
     <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Track</span>&gt; tracks;
 
@@ -352,6 +359,33 @@ So What: -1</pre>
       <tr><td><code>printWaitingPatients()</code></td><td>Prints every patient not yet checked in, or <code>No waiting patients</code>.</td></tr>
   </tbody>
 </table>
+<p>If you missed Lecture 6, here is the finished <code>Appointment</code> class. The finished <code>ClinicSchedule</code> is already in the box for Question 3.1, so you can start from it there.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Appointment</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> patientName;
+    <span class="wb-kw">private</span> <span class="wb-kw">boolean</span> checkedIn;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Appointment</span>(<span class="wb-type">String</span> patientName)
+    {
+        <span class="wb-kw">this</span>.patientName = patientName;
+        checkedIn = <span class="wb-kw">false</span>;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getPatientName</span>()
+    {
+        <span class="wb-kw">return</span> patientName;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">hasCheckedIn</span>()
+    {
+        <span class="wb-kw">return</span> checkedIn;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">checkIn</span>()
+    {
+        checkedIn = <span class="wb-kw">true</span>;
+    }
+}</code></pre>
 <h3>What Part 3 adds</h3>
 <p>Part 3 adds a search for a patient by name. It uses the pattern from Section 2: an indexed <code>while</code>, a <code>found</code> flag, and <code>equals</code> to compare names. Patient names are never <code>null</code> and must match exactly, including capital letters, so <code>"ana"</code> does not match <code>"Ana"</code>. Duplicate names are allowed; the search returns the first one in arrival order. Keep <code>Appointment</code> and every existing <code>ClinicSchedule</code> method unchanged.</p>
 
