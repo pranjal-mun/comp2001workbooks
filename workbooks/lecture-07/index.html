@@ -114,7 +114,7 @@
 </ul>
 
 <h2 id="s1">1. Traversal</h2>
-<p>The <code>Playlist</code> has an <code>ArrayList&lt;Track&gt;</code> field named <code>tracks</code>. Each <code>Track</code> has <code>getTitle()</code>, <code>getArtist()</code>, and <code>printDetails()</code>. Assume stored tracks, titles, and artists are non-null. Use Java 8 throughout.</p>
+<p>The <code>Playlist</code> has an <code>ArrayList&lt;Track&gt;</code> field named <code>tracks</code>. Each <code>Track</code> has <code>getTitle()</code>, <code>getArtist()</code>, and <code>printDetails()</code>. Assume stored tracks, titles, and artists are non-null.</p>
 <pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Track</span>
 {
     <span class="wb-kw">private</span> <span class="wb-type">String</span> title;
@@ -192,7 +192,7 @@
 <h2 id="s2">2. Search</h2>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: two ways to stop</div>
-  <p><strong>4.</strong> A search stops when it finds a match or reaches the end. Explain why the continuation condition uses <code>&amp;&amp;</code>, not <code>||</code>. If the flag were named <code>searching</code>, what would its initial value be, and what would replace <code>!found</code>?</p>
+  <p><strong>4.</strong> A search stops when it finds a match or reaches the end. Explain why the continuation condition uses <code>&amp;&amp;</code>, not <code>||</code>.</p>
 <pre><code><span class="wb-kw">while</span>(index &lt; tracks.size() &amp;&amp; !found) {
     <span class="wb-cmt">// examine the track at index</span>
 }</code></pre>
@@ -200,7 +200,7 @@
 </div>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: <code>==</code> and <code>equals</code></div>
-  <p><strong>5.</strong> Predict the two output lines. Explain why comparing two string literals with <code>==</code> can hide a mistake in a search.</p>
+  <p><strong>5.</strong> Predict the two output lines. Why can <code>==</code> seem to work when both strings are written in quotes?</p>
 <pre><code><span class="wb-type">String</span> a = <span class="wb-kw">new</span> <span class="wb-fn">String</span>(<span class="wb-str">"Teardrop"</span>);
 <span class="wb-type">String</span> b = <span class="wb-kw">new</span> <span class="wb-fn">String</span>(<span class="wb-str">"Teardrop"</span>);
 System.out.println(a == b);
@@ -293,7 +293,7 @@ ana: -1</pre>
 </div>
 
 <h2 id="s4">4. Iterator</h2>
-<p>An <code>Iterator&lt;Track&gt;</code> stores traversal state. Import <code>java.util.Iterator</code> and ask the list for one with <code>tracks.iterator()</code>. The same traversal pattern works with collections that have no efficient indexed access.</p>
+<p>An <code>Iterator&lt;Track&gt;</code> stores traversal state. Import <code>java.util.Iterator</code> and ask the list for one with <code>tracks.iterator()</code>. The same traversal pattern also works for collections that have no index.</p>
 
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: <code>hasNext</code> and <code>next</code></div>
@@ -455,7 +455,7 @@ playlist.addTrack(soWhat);</code></pre>
 </div>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: a chained call</div>
-  <p><strong>22.</strong> At index 0 is a track titled <code>"Teardrop"</code>. Write the type returned by each call and the final value. Describe the reference path from the playlist through its list to the title string. Which calls require an existing object as their receiver?</p>
+  <p><strong>22.</strong> At index 0 is a track titled <code>"Teardrop"</code>. Write the type returned by each call and the final value. Which call fails if <code>getTrack(0)</code> returns <code>null</code>?</p>
 <pre><code><span class="wb-kw">int</span> length = playlist.getTrack(<span class="wb-num">0</span>).getTitle().length();</code></pre>
   <wb-table id="q22">
     <table>
