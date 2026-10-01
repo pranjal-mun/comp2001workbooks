@@ -7,8 +7,9 @@ real behaviour. Run from anywhere (needs `java` on the PATH):
     python3 workbooks/lecture-07/build_exercises.py
     python3 tools/check_workbook.py workbooks/lecture-07
 
-The questions follow the printed Lecture 7 workbook, numbered 1 to 25, and the
-model answers are the ones in the solutions edition. The two coding pauses
+The questions follow the printed Lecture 7 workbook. Their ids are q1 to q25,
+shown as 1.1 to 8.1 by section, and the model answers are the ones in the
+solutions edition. Section 9 adds two complete programs, one box per class. The two coding pauses
 build the clinic classes step by step. A box that asks for part of a class
 starts from the rest of that class, and a small driver class on its classpath
 (the `files` list) calls the student's code and prints what comes back; the
@@ -429,7 +430,7 @@ public class Q3
 assert run(Q3_LOOP, TRACK_FILE) == "0: Northern Sky\n1: Blue Train\n2: Teardrop\n3"
 
 # ---------------------------------------------------------------- Search
-E["q4"] = SHORT("Both conditions must hold to continue. OR would let the loop run after a match or past the end of the list. Start searching at true, use searching in place of !found, and set it to false on a match.", rows=3)
+E["q4"] = SHORT("Both conditions must hold to continue. OR would let the loop run after a match or past the end of the list.", rows=3)
 
 STRINGS = '''String a = new String("Teardrop");
 String b = new String("Teardrop");
@@ -582,7 +583,7 @@ E["q12"] = {"type": "table", "xp": 2, "blanks": {
     "empty": {"accept": ["0", "zero", "none"], "show": "0", "placeholder": "how many?"}}}
 
 # ---------------------------------------------------------------- Removal
-E["q13"] = SHORT("For-each uses an iterator. Removing through the list changes its structure without updating that iterator, so it can throw ConcurrentModificationException, even in one thread. An exception is not guaranteed every time, so one successful run proves nothing.", rows=3)
+E["q13"] = SHORT("For-each uses an iterator. Removing through the list changes its structure without updating that iterator, so it can throw ConcurrentModificationException. An exception is not guaranteed every time, so one successful run proves nothing.", rows=3)
 
 E["q14"] = {"type": "table", "xp": 2, "blanks": {
     "after": {"accept": list_forms("A", "C", "D"), "show": "[A, C, D]", "placeholder": "list", "width": "10rem"},
@@ -694,7 +695,7 @@ TYPE = {"placeholder": "type", "caseSensitive": True, "width": "8rem"}
 E["q22"] = {"type": "table", "xp": 2, "blanks": {
     "t1": {"accept": ["Track"], **TYPE}, "t2": {"accept": ["String"], **TYPE}, "t3": {"accept": ["int"], **TYPE},
     "value": {"accept": ["8"], "placeholder": "value"}}}
-E["q22-why"] = SHORT("The path is Playlist to ArrayList to Track to String. Each call needs an existing receiver: playlist, the returned track, then its title. Index 0 must also be valid. Read the chain left to right.", rows=3)
+E["q22-why"] = SHORT("getTrack returns Track; getTitle returns String; length returns int, with value 8. If getTrack(0) returns null, the getTitle call throws NullPointerException, because there is no track to call it on.", rows=3)
 
 # ---------------------------------------------------------------- Coding Pause 4
 REMOVE_CHECKED_DRIVER = driver("RemoveCheckedCheck", '''ClinicSchedule schedule = new ClinicSchedule();
@@ -753,6 +754,446 @@ E["q25"] = {"type": "table", "xp": 2, "blanks": {
     "c": {"accept": ["no"], "placeholder": "yes / no"},
     "d1": {"accept": ["3"], "placeholder": "first call"},
     "d2": {"accept": ["0"], "placeholder": "second call"}}}
+
+# ---------------------------------------------------------------- Section 9: complete programs
+# One box per class. The model classes go on the classpath of the later boxes,
+# and a hidden driver calls a class that has no main of its own.
+BOOK = '''public class Book
+{
+    private String title;
+    private String author;
+    private int pages;
+
+    public Book(String title, String author, int pages)
+    {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+    }
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+    public String getAuthor()
+    {
+        return author;
+    }
+
+    public int getPages()
+    {
+        return pages;
+    }
+
+    public void printDetails()
+    {
+        System.out.println(title + " by " + author + " (" + pages + " pages)");
+    }
+}
+'''
+BOOKSHELF = '''import java.util.ArrayList;
+
+public class BookShelf
+{
+    private ArrayList<Book> books;
+
+    public BookShelf()
+    {
+        books = new ArrayList<>();
+    }
+
+    public void addBook(Book book)
+    {
+        books.add(book);
+    }
+
+    public int findBookIndex(String title)
+    {
+        int index = 0;
+        boolean found = false;
+        while(index < books.size() && !found) {
+            if(books.get(index).getTitle().equals(title)) {
+                found = true;
+            }
+            else {
+                index++;
+            }
+        }
+        if(found) {
+            return index;
+        }
+        return -1;
+    }
+
+    public Book findBook(String title)
+    {
+        int index = findBookIndex(title);
+        if(index == -1) {
+            return null;
+        }
+        return books.get(index);
+    }
+
+    public void printWithIndices()
+    {
+        int index = 0;
+        while(index < books.size()) {
+            System.out.println(index + ": " + books.get(index).getTitle());
+            index++;
+        }
+    }
+}
+'''
+BOOKSHELF_DEMO = '''public class BookShelfDemo
+{
+    public static void main(String[] args)
+    {
+        BookShelf shelf = new BookShelf();
+        shelf.addBook(new Book("Kindred", "Octavia Butler", 264));
+        shelf.addBook(new Book("Dune", "Frank Herbert", 412));
+        shelf.addBook(new Book("The Dispossessed", "Ursula Le Guin", 341));
+
+        shelf.printWithIndices();
+
+        Book found = shelf.findBook("Dune");
+        if(found != null) {
+            found.printDetails();
+        }
+
+        Book missing = shelf.findBook("Solaris");
+        if(missing == null) {
+            System.out.println("Solaris was not found");
+        }
+    }
+}
+'''
+STUDENT = '''public class Student
+{
+    private String name;
+    private String program;
+
+    public Student(String name, String program)
+    {
+        this.name = name;
+        this.program = program;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public String getProgram()
+    {
+        return program;
+    }
+
+    public void printDetails()
+    {
+        System.out.println(name + " - " + program);
+    }
+}
+'''
+ROSTER = '''import java.util.ArrayList;
+import java.util.Iterator;
+
+public class CourseRoster
+{
+    private ArrayList<Student> students;
+
+    public CourseRoster()
+    {
+        students = new ArrayList<>();
+    }
+
+    public void enrol(Student student)
+    {
+        students.add(student);
+    }
+
+    public void printAllStudents()
+    {
+        for(Student student : students) {
+            student.printDetails();
+        }
+    }
+
+    public void removeStudentsFromProgram(String program)
+    {
+        Iterator<Student> iterator = students.iterator();
+        while(iterator.hasNext()) {
+            Student student = iterator.next();
+            if(student.getProgram().equals(program)) {
+                iterator.remove();
+            }
+        }
+    }
+}
+'''
+ROSTER_DEMO = '''public class CourseRosterDemo
+{
+    public static void main(String[] args)
+    {
+        CourseRoster roster = new CourseRoster();
+        roster.enrol(new Student("Amina", "Computer Science"));
+        roster.enrol(new Student("Diego", "Mathematics"));
+        roster.enrol(new Student("Hana", "Mathematics"));
+        roster.enrol(new Student("Linh", "Business"));
+
+        System.out.println("Before removal:");
+        roster.printAllStudents();
+
+        roster.removeStudentsFromProgram("Mathematics");
+
+        System.out.println("After removal:");
+        roster.printAllStudents();
+    }
+}
+'''
+
+BOOK_STARTER = '''public class Book
+{
+    private String title;
+    private String author;
+    private int pages;
+
+    public Book(String title, String author, int pages)
+    {
+        // Assign the three fields.
+    }
+
+    public String getTitle()
+    {
+    }
+
+    public String getAuthor()
+    {
+    }
+
+    public int getPages()
+    {
+    }
+
+    public void printDetails()
+    {
+    }
+}
+'''
+BOOKSHELF_STARTER = '''import java.util.ArrayList;
+
+public class BookShelf
+{
+    private ArrayList<Book> books;
+
+    public BookShelf()
+    {
+        books = new ArrayList<>();
+    }
+
+    public void addBook(Book book)
+    {
+    }
+
+    public int findBookIndex(String title)
+    {
+        // Indexed while with a found flag.
+    }
+
+    public Book findBook(String title)
+    {
+        // Use findBookIndex.
+    }
+
+    public void printWithIndices()
+    {
+        // Indexed while.
+    }
+}
+'''
+BOOKSHELF_DEMO_STARTER = '''public class BookShelfDemo
+{
+    public static void main(String[] args)
+    {
+        BookShelf shelf = new BookShelf();
+        // 1. Add the three books as anonymous objects.
+        // 2. Print the shelf with indices.
+        // 3. Look up "Dune"; if it was found, print its details.
+        // 4. Look up "Solaris"; if it was not found, print "Solaris was not found".
+    }
+}
+'''
+STUDENT_STARTER = '''public class Student
+{
+    private String name;
+    private String program;
+
+    public Student(String name, String program)
+    {
+        // Assign the two fields.
+    }
+
+    public String getName()
+    {
+    }
+
+    public String getProgram()
+    {
+    }
+
+    public void printDetails()
+    {
+    }
+}
+'''
+ROSTER_STARTER = '''import java.util.ArrayList;
+import java.util.Iterator;
+
+public class CourseRoster
+{
+    private ArrayList<Student> students;
+
+    public CourseRoster()
+    {
+        students = new ArrayList<>();
+    }
+
+    public void enrol(Student student)
+    {
+    }
+
+    public void printAllStudents()
+    {
+        // For-each.
+    }
+
+    public void removeStudentsFromProgram(String program)
+    {
+        // Iterator with while.
+    }
+}
+'''
+ROSTER_DEMO_STARTER = '''public class CourseRosterDemo
+{
+    public static void main(String[] args)
+    {
+        CourseRoster roster = new CourseRoster();
+        // 1. Enrol the four students as anonymous objects.
+        // 2. Print "Before removal:" and the roster.
+        // 3. Remove the Mathematics students.
+        // 4. Print "After removal:" and the roster.
+    }
+}
+'''
+
+BOOK_FILE = [file("Book.java", BOOK)]
+BOOKSHELF_FILES = BOOK_FILE + [file("BookShelf.java", BOOKSHELF)]
+STUDENT_FILE = [file("Student.java", STUDENT)]
+ROSTER_FILES = STUDENT_FILE + [file("CourseRoster.java", ROSTER)]
+
+BOOK_DRIVER = driver("BookCheck", '''Book book = new Book("Dune", "Frank Herbert", 412);
+System.out.println(book.getTitle());
+System.out.println(book.getAuthor());
+System.out.println(book.getPages());
+book.printDetails();''')
+E["p1-book"] = {"type": "code", "xp": 3, "minLines": 34, "maxLines": 44, "title": "Book.java",
+    "starter": BOOK_STARTER,
+    "cases": [{"name": "Output of the checking program", "expected": run(BOOK, BOOK_DRIVER)}],
+    "check": "\n".join([
+        has("public Book(String title, String author, int pages)", "Keep the constructor header Book(String title, String author, int pages)."),
+        has("public void printDetails()", "Include public void printDetails().")]),
+    "answer": b64(BOOK), "files": BOOK_DRIVER}
+assert E["p1-book"]["cases"][0]["expected"] == "Dune\nFrank Herbert\n412\nDune by Frank Herbert (412 pages)"
+
+SHELF_DRIVER = driver("BookShelfCheck", '''BookShelf empty = new BookShelf();
+System.out.println("Empty shelf: " + empty.findBookIndex("Dune"));
+System.out.println("Empty lookup is null: " + (empty.findBook("Dune") == null));
+empty.printWithIndices();
+BookShelf shelf = new BookShelf();
+Book kindred = new Book("Kindred", "Octavia Butler", 264);
+shelf.addBook(kindred);
+shelf.addBook(new Book("Dune", "Frank Herbert", 412));
+shelf.addBook(new Book("Kindred", "Octavia Butler", 264));
+shelf.printWithIndices();
+System.out.println("Kindred: " + shelf.findBookIndex("Kindred"));
+System.out.println("Dune: " + shelf.findBookIndex("Dune"));
+System.out.println("Solaris: " + shelf.findBookIndex("Solaris"));
+System.out.println("First Kindred returned: " + (shelf.findBook("Kindred") == kindred));
+System.out.println("Solaris is null: " + (shelf.findBook("Solaris") == null));''')
+E["p1-shelf"] = {"type": "code", "xp": 6, "minLines": 50, "maxLines": 66, "title": "BookShelf.java",
+    "starter": BOOKSHELF_STARTER,
+    "cases": [{"name": "Output of the checking program", "expected": run(BOOKSHELF, BOOK_FILE + SHELF_DRIVER)}],
+    "check": "\n".join([
+        matches(r".*while\(\w+<(this\.)?books\.size\(\)&&!found\).*", "Search with an indexed while: while(index < books.size() && !found)."),
+        has(".getTitle().equals(title)", "Compare the titles with equals."),
+        has("return -1;", "Return -1 when no title matches."),
+        has("return null;", "Return null from findBook when there is no match."),
+        matches(r".*publicBookfindBook\(String\w+\)\{[^}]*findBookIndex\(.*", "Call findBookIndex inside findBook.")]),
+    "answer": b64(BOOKSHELF), "files": BOOK_FILE + SHELF_DRIVER}
+assert E["p1-shelf"]["cases"][0]["expected"] == ("Empty shelf: -1\nEmpty lookup is null: true\n0: Kindred\n1: Dune\n2: Kindred\n"
+    "Kindred: 0\nDune: 1\nSolaris: -1\nFirst Kindred returned: true\nSolaris is null: true")
+
+E["p1-demo"] = {"type": "code", "xp": 4, "minLines": 22, "maxLines": 34, "title": "BookShelfDemo.java",
+    "starter": BOOKSHELF_DEMO_STARTER,
+    "cases": [{"name": "Program output", "expected": run(BOOKSHELF_DEMO, BOOKSHELF_FILES)}],
+    "check": "\n".join([
+        has("shelf.addBook(new Book(", "Add each book as an anonymous object: shelf.addBook(new Book(...));"),
+        has('findBook("Dune")', 'Look up Dune with shelf.findBook("Dune").'),
+        has("null", "Check each lookup result against null before using it.")]),
+    "answer": b64(BOOKSHELF_DEMO), "files": BOOKSHELF_FILES}
+assert E["p1-demo"]["cases"][0]["expected"] == ("0: Kindred\n1: Dune\n2: The Dispossessed\n"
+    "Dune by Frank Herbert (412 pages)\nSolaris was not found")
+
+STUDENT_DRIVER = driver("StudentCheck", '''Student student = new Student("Amina", "Computer Science");
+System.out.println(student.getName());
+System.out.println(student.getProgram());
+student.printDetails();''')
+E["p2-student"] = {"type": "code", "xp": 3, "minLines": 28, "maxLines": 38, "title": "Student.java",
+    "starter": STUDENT_STARTER,
+    "cases": [{"name": "Output of the checking program", "expected": run(STUDENT, STUDENT_DRIVER)}],
+    "check": "\n".join([
+        has("public Student(String name, String program)", "Keep the constructor header Student(String name, String program)."),
+        has("public void printDetails()", "Include public void printDetails().")]),
+    "answer": b64(STUDENT), "files": STUDENT_DRIVER}
+assert E["p2-student"]["cases"][0]["expected"] == "Amina\nComputer Science\nAmina - Computer Science"
+
+ROSTER_DRIVER = driver("CourseRosterCheck", '''CourseRoster empty = new CourseRoster();
+empty.removeStudentsFromProgram("Mathematics");
+empty.printAllStudents();
+CourseRoster roster = new CourseRoster();
+roster.enrol(new Student("Diego", "Mathematics"));
+roster.enrol(new Student("Hana", "Mathematics"));
+roster.enrol(new Student("Amina", "Computer Science"));
+roster.enrol(new Student("Omar", "Mathematics"));
+roster.removeStudentsFromProgram("Mathematics");
+System.out.println("After removing Mathematics:");
+roster.printAllStudents();
+roster.removeStudentsFromProgram("Physics");
+System.out.println("After removing Physics:");
+roster.printAllStudents();''')
+E["p2-roster"] = {"type": "code", "xp": 5, "minLines": 34, "maxLines": 46, "title": "CourseRoster.java",
+    "starter": ROSTER_STARTER,
+    "cases": [{"name": "Output of the checking program", "expected": run(ROSTER, STUDENT_FILE + ROSTER_DRIVER)}],
+    "check": "\n".join([
+        matches(r".*for\(Student\w+:(this\.)?students\).*", "Print the roster with a for-each loop over students."),
+        has(".iterator()", "Get an iterator with students.iterator()."),
+        has(".hasNext()", "Loop while iterator.hasNext()."),
+        has(".remove();", "Remove through the iterator: iterator.remove();"),
+        lacks("students.remove(", "Do not call students.remove while iterating; use iterator.remove()."),
+        has(".getProgram().equals(program)", "Compare the programs with equals.")]),
+    "answer": b64(ROSTER), "files": STUDENT_FILE + ROSTER_DRIVER}
+assert E["p2-roster"]["cases"][0]["expected"] == ("After removing Mathematics:\nAmina - Computer Science\n"
+    "After removing Physics:\nAmina - Computer Science")
+
+E["p2-demo"] = {"type": "code", "xp": 4, "minLines": 22, "maxLines": 34, "title": "CourseRosterDemo.java",
+    "starter": ROSTER_DEMO_STARTER,
+    "cases": [{"name": "Program output", "expected": run(ROSTER_DEMO, ROSTER_FILES)}],
+    "check": "\n".join([
+        has("roster.enrol(new Student(", "Enrol each student as an anonymous object: roster.enrol(new Student(...));"),
+        has('removeStudentsFromProgram("Mathematics")', 'Remove with roster.removeStudentsFromProgram("Mathematics").')]),
+    "answer": b64(ROSTER_DEMO), "files": ROSTER_FILES}
+assert E["p2-demo"]["cases"][0]["expected"] == ("Before removal:\nAmina - Computer Science\nDiego - Mathematics\n"
+    "Hana - Mathematics\nLinh - Business\nAfter removal:\nAmina - Computer Science\nLinh - Business")
 
 # ---------------------------------------------------------------- write
 data = {

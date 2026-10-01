@@ -822,7 +822,7 @@
       "xp": 2,
       "minChars": 20,
       "rows": 3,
-      "answer": "Z2V0VGl0bGUgZmFpbHMuIElmIGdldFRyYWNrKDApIHJldHVybnMgbnVsbCwgY2FsbGluZyBnZXRUaXRsZSBvbiBpdCB0aHJvd3MgTnVsbFBvaW50ZXJFeGNlcHRpb24sIGJlY2F1c2UgdGhlcmUgaXMgbm8gdHJhY2sgdG8gY2FsbCBpdCBvbi4="
+      "answer": "Z2V0VHJhY2sgcmV0dXJucyBUcmFjazsgZ2V0VGl0bGUgcmV0dXJucyBTdHJpbmc7IGxlbmd0aCByZXR1cm5zIGludCwgd2l0aCB2YWx1ZSA4LiBJZiBnZXRUcmFjaygwKSByZXR1cm5zIG51bGwsIHRoZSBnZXRUaXRsZSBjYWxsIHRocm93cyBOdWxsUG9pbnRlckV4Y2VwdGlvbiwgYmVjYXVzZSB0aGVyZSBpcyBubyB0cmFjayB0byBjYWxsIGl0IG9uLg=="
     },
     "q23": {
       "type": "code",
@@ -972,6 +972,154 @@
           "placeholder": "second call"
         }
       }
+    },
+    "p1-book": {
+      "type": "code",
+      "xp": 3,
+      "minLines": 34,
+      "maxLines": 44,
+      "title": "Book.java",
+      "starter": "public class Book\n{\n    private String title;\n    private String author;\n    private int pages;\n\n    public Book(String title, String author, int pages)\n    {\n        // Assign the three fields.\n    }\n\n    public String getTitle()\n    {\n    }\n\n    public String getAuthor()\n    {\n    }\n\n    public int getPages()\n    {\n    }\n\n    public void printDetails()\n    {\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Dune\nFrank Herbert\n412\nDune by Frank Herbert (412 pages)"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicBook(Stringtitle,Stringauthor,intpages)\"), \"Keep the constructor header Book(String title, String author, int pages).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintDetails()\"), \"Include public void printDetails().\");",
+      "answer": "cHVibGljIGNsYXNzIEJvb2sKewogICAgcHJpdmF0ZSBTdHJpbmcgdGl0bGU7CiAgICBwcml2YXRlIFN0cmluZyBhdXRob3I7CiAgICBwcml2YXRlIGludCBwYWdlczsKCiAgICBwdWJsaWMgQm9vayhTdHJpbmcgdGl0bGUsIFN0cmluZyBhdXRob3IsIGludCBwYWdlcykKICAgIHsKICAgICAgICB0aGlzLnRpdGxlID0gdGl0bGU7CiAgICAgICAgdGhpcy5hdXRob3IgPSBhdXRob3I7CiAgICAgICAgdGhpcy5wYWdlcyA9IHBhZ2VzOwogICAgfQoKICAgIHB1YmxpYyBTdHJpbmcgZ2V0VGl0bGUoKQogICAgewogICAgICAgIHJldHVybiB0aXRsZTsKICAgIH0KCiAgICBwdWJsaWMgU3RyaW5nIGdldEF1dGhvcigpCiAgICB7CiAgICAgICAgcmV0dXJuIGF1dGhvcjsKICAgIH0KCiAgICBwdWJsaWMgaW50IGdldFBhZ2VzKCkKICAgIHsKICAgICAgICByZXR1cm4gcGFnZXM7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnREZXRhaWxzKCkKICAgIHsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4odGl0bGUgKyAiIGJ5ICIgKyBhdXRob3IgKyAiICgiICsgcGFnZXMgKyAiIHBhZ2VzKSIpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "BookCheck.java",
+          "content": "public class BookCheck\n{\n    public static void main(String[] args)\n    {\n        Book book = new Book(\"Dune\", \"Frank Herbert\", 412);\n        System.out.println(book.getTitle());\n        System.out.println(book.getAuthor());\n        System.out.println(book.getPages());\n        book.printDetails();\n    }\n}"
+        }
+      ]
+    },
+    "p1-shelf": {
+      "type": "code",
+      "xp": 6,
+      "minLines": 50,
+      "maxLines": 66,
+      "title": "BookShelf.java",
+      "starter": "import java.util.ArrayList;\n\npublic class BookShelf\n{\n    private ArrayList<Book> books;\n\n    public BookShelf()\n    {\n        books = new ArrayList<>();\n    }\n\n    public void addBook(Book book)\n    {\n    }\n\n    public int findBookIndex(String title)\n    {\n        // Indexed while with a found flag.\n    }\n\n    public Book findBook(String title)\n    {\n        // Use findBookIndex.\n    }\n\n    public void printWithIndices()\n    {\n        // Indexed while.\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Empty shelf: -1\nEmpty lookup is null: true\n0: Kindred\n1: Dune\n2: Kindred\nKindred: 0\nDune: 1\nSolaris: -1\nFirst Kindred returned: true\nSolaris is null: true"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*while\\\\(\\\\w+<(this\\\\.)?books\\\\.size\\\\(\\\\)&&!found\\\\).*\"), \"Search with an indexed while: while(index < books.size() && !found).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getTitle().equals(title)\"), \"Compare the titles with equals.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"return-1;\"), \"Return -1 when no title matches.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"returnnull;\"), \"Return null from findBook when there is no match.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*publicBookfindBook\\\\(String\\\\w+\\\\)\\\\{[^}]*findBookIndex\\\\(.*\"), \"Call findBookIndex inside findBook.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgQm9va1NoZWxmCnsKICAgIHByaXZhdGUgQXJyYXlMaXN0PEJvb2s+IGJvb2tzOwoKICAgIHB1YmxpYyBCb29rU2hlbGYoKQogICAgewogICAgICAgIGJvb2tzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICB9CgogICAgcHVibGljIHZvaWQgYWRkQm9vayhCb29rIGJvb2spCiAgICB7CiAgICAgICAgYm9va3MuYWRkKGJvb2spOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZmluZEJvb2tJbmRleChTdHJpbmcgdGl0bGUpCiAgICB7CiAgICAgICAgaW50IGluZGV4ID0gMDsKICAgICAgICBib29sZWFuIGZvdW5kID0gZmFsc2U7CiAgICAgICAgd2hpbGUoaW5kZXggPCBib29rcy5zaXplKCkgJiYgIWZvdW5kKSB7CiAgICAgICAgICAgIGlmKGJvb2tzLmdldChpbmRleCkuZ2V0VGl0bGUoKS5lcXVhbHModGl0bGUpKSB7CiAgICAgICAgICAgICAgICBmb3VuZCA9IHRydWU7CiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxzZSB7CiAgICAgICAgICAgICAgICBpbmRleCsrOwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgICAgIGlmKGZvdW5kKSB7CiAgICAgICAgICAgIHJldHVybiBpbmRleDsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIC0xOwogICAgfQoKICAgIHB1YmxpYyBCb29rIGZpbmRCb29rKFN0cmluZyB0aXRsZSkKICAgIHsKICAgICAgICBpbnQgaW5kZXggPSBmaW5kQm9va0luZGV4KHRpdGxlKTsKICAgICAgICBpZihpbmRleCA9PSAtMSkgewogICAgICAgICAgICByZXR1cm4gbnVsbDsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIGJvb2tzLmdldChpbmRleCk7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRXaXRoSW5kaWNlcygpCiAgICB7CiAgICAgICAgaW50IGluZGV4ID0gMDsKICAgICAgICB3aGlsZShpbmRleCA8IGJvb2tzLnNpemUoKSkgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oaW5kZXggKyAiOiAiICsgYm9va3MuZ2V0KGluZGV4KS5nZXRUaXRsZSgpKTsKICAgICAgICAgICAgaW5kZXgrKzsKICAgICAgICB9CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Book.java",
+          "content": "public class Book\n{\n    private String title;\n    private String author;\n    private int pages;\n\n    public Book(String title, String author, int pages)\n    {\n        this.title = title;\n        this.author = author;\n        this.pages = pages;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public String getAuthor()\n    {\n        return author;\n    }\n\n    public int getPages()\n    {\n        return pages;\n    }\n\n    public void printDetails()\n    {\n        System.out.println(title + \" by \" + author + \" (\" + pages + \" pages)\");\n    }\n}"
+        },
+        {
+          "name": "BookShelfCheck.java",
+          "content": "public class BookShelfCheck\n{\n    public static void main(String[] args)\n    {\n        BookShelf empty = new BookShelf();\n        System.out.println(\"Empty shelf: \" + empty.findBookIndex(\"Dune\"));\n        System.out.println(\"Empty lookup is null: \" + (empty.findBook(\"Dune\") == null));\n        empty.printWithIndices();\n        BookShelf shelf = new BookShelf();\n        Book kindred = new Book(\"Kindred\", \"Octavia Butler\", 264);\n        shelf.addBook(kindred);\n        shelf.addBook(new Book(\"Dune\", \"Frank Herbert\", 412));\n        shelf.addBook(new Book(\"Kindred\", \"Octavia Butler\", 264));\n        shelf.printWithIndices();\n        System.out.println(\"Kindred: \" + shelf.findBookIndex(\"Kindred\"));\n        System.out.println(\"Dune: \" + shelf.findBookIndex(\"Dune\"));\n        System.out.println(\"Solaris: \" + shelf.findBookIndex(\"Solaris\"));\n        System.out.println(\"First Kindred returned: \" + (shelf.findBook(\"Kindred\") == kindred));\n        System.out.println(\"Solaris is null: \" + (shelf.findBook(\"Solaris\") == null));\n    }\n}"
+        }
+      ]
+    },
+    "p1-demo": {
+      "type": "code",
+      "xp": 4,
+      "minLines": 22,
+      "maxLines": 34,
+      "title": "BookShelfDemo.java",
+      "starter": "public class BookShelfDemo\n{\n    public static void main(String[] args)\n    {\n        BookShelf shelf = new BookShelf();\n        // 1. Add the three books as anonymous objects.\n        // 2. Print the shelf with indices.\n        // 3. Look up \"Dune\"; if it was found, print its details.\n        // 4. Look up \"Solaris\"; if it was not found, print \"Solaris was not found\".\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "0: Kindred\n1: Dune\n2: The Dispossessed\nDune by Frank Herbert (412 pages)\nSolaris was not found"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"shelf.addBook(newBook(\"), \"Add each book as an anonymous object: shelf.addBook(new Book(...));\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"findBook(\\\"Dune\\\")\"), \"Look up Dune with shelf.findBook(\\\"Dune\\\").\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"null\"), \"Check each lookup result against null before using it.\");",
+      "answer": "cHVibGljIGNsYXNzIEJvb2tTaGVsZkRlbW8KewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBCb29rU2hlbGYgc2hlbGYgPSBuZXcgQm9va1NoZWxmKCk7CiAgICAgICAgc2hlbGYuYWRkQm9vayhuZXcgQm9vaygiS2luZHJlZCIsICJPY3RhdmlhIEJ1dGxlciIsIDI2NCkpOwogICAgICAgIHNoZWxmLmFkZEJvb2sobmV3IEJvb2soIkR1bmUiLCAiRnJhbmsgSGVyYmVydCIsIDQxMikpOwogICAgICAgIHNoZWxmLmFkZEJvb2sobmV3IEJvb2soIlRoZSBEaXNwb3NzZXNzZWQiLCAiVXJzdWxhIExlIEd1aW4iLCAzNDEpKTsKCiAgICAgICAgc2hlbGYucHJpbnRXaXRoSW5kaWNlcygpOwoKICAgICAgICBCb29rIGZvdW5kID0gc2hlbGYuZmluZEJvb2soIkR1bmUiKTsKICAgICAgICBpZihmb3VuZCAhPSBudWxsKSB7CiAgICAgICAgICAgIGZvdW5kLnByaW50RGV0YWlscygpOwogICAgICAgIH0KCiAgICAgICAgQm9vayBtaXNzaW5nID0gc2hlbGYuZmluZEJvb2soIlNvbGFyaXMiKTsKICAgICAgICBpZihtaXNzaW5nID09IG51bGwpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJTb2xhcmlzIHdhcyBub3QgZm91bmQiKTsKICAgICAgICB9CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Book.java",
+          "content": "public class Book\n{\n    private String title;\n    private String author;\n    private int pages;\n\n    public Book(String title, String author, int pages)\n    {\n        this.title = title;\n        this.author = author;\n        this.pages = pages;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public String getAuthor()\n    {\n        return author;\n    }\n\n    public int getPages()\n    {\n        return pages;\n    }\n\n    public void printDetails()\n    {\n        System.out.println(title + \" by \" + author + \" (\" + pages + \" pages)\");\n    }\n}"
+        },
+        {
+          "name": "BookShelf.java",
+          "content": "import java.util.ArrayList;\n\npublic class BookShelf\n{\n    private ArrayList<Book> books;\n\n    public BookShelf()\n    {\n        books = new ArrayList<>();\n    }\n\n    public void addBook(Book book)\n    {\n        books.add(book);\n    }\n\n    public int findBookIndex(String title)\n    {\n        int index = 0;\n        boolean found = false;\n        while(index < books.size() && !found) {\n            if(books.get(index).getTitle().equals(title)) {\n                found = true;\n            }\n            else {\n                index++;\n            }\n        }\n        if(found) {\n            return index;\n        }\n        return -1;\n    }\n\n    public Book findBook(String title)\n    {\n        int index = findBookIndex(title);\n        if(index == -1) {\n            return null;\n        }\n        return books.get(index);\n    }\n\n    public void printWithIndices()\n    {\n        int index = 0;\n        while(index < books.size()) {\n            System.out.println(index + \": \" + books.get(index).getTitle());\n            index++;\n        }\n    }\n}"
+        }
+      ]
+    },
+    "p2-student": {
+      "type": "code",
+      "xp": 3,
+      "minLines": 28,
+      "maxLines": 38,
+      "title": "Student.java",
+      "starter": "public class Student\n{\n    private String name;\n    private String program;\n\n    public Student(String name, String program)\n    {\n        // Assign the two fields.\n    }\n\n    public String getName()\n    {\n    }\n\n    public String getProgram()\n    {\n    }\n\n    public void printDetails()\n    {\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Amina\nComputer Science\nAmina - Computer Science"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicStudent(Stringname,Stringprogram)\"), \"Keep the constructor header Student(String name, String program).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintDetails()\"), \"Include public void printDetails().\");",
+      "answer": "cHVibGljIGNsYXNzIFN0dWRlbnQKewogICAgcHJpdmF0ZSBTdHJpbmcgbmFtZTsKICAgIHByaXZhdGUgU3RyaW5nIHByb2dyYW07CgogICAgcHVibGljIFN0dWRlbnQoU3RyaW5nIG5hbWUsIFN0cmluZyBwcm9ncmFtKQogICAgewogICAgICAgIHRoaXMubmFtZSA9IG5hbWU7CiAgICAgICAgdGhpcy5wcm9ncmFtID0gcHJvZ3JhbTsKICAgIH0KCiAgICBwdWJsaWMgU3RyaW5nIGdldE5hbWUoKQogICAgewogICAgICAgIHJldHVybiBuYW1lOwogICAgfQoKICAgIHB1YmxpYyBTdHJpbmcgZ2V0UHJvZ3JhbSgpCiAgICB7CiAgICAgICAgcmV0dXJuIHByb2dyYW07CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnREZXRhaWxzKCkKICAgIHsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4obmFtZSArICIgLSAiICsgcHJvZ3JhbSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "StudentCheck.java",
+          "content": "public class StudentCheck\n{\n    public static void main(String[] args)\n    {\n        Student student = new Student(\"Amina\", \"Computer Science\");\n        System.out.println(student.getName());\n        System.out.println(student.getProgram());\n        student.printDetails();\n    }\n}"
+        }
+      ]
+    },
+    "p2-roster": {
+      "type": "code",
+      "xp": 5,
+      "minLines": 34,
+      "maxLines": 46,
+      "title": "CourseRoster.java",
+      "starter": "import java.util.ArrayList;\nimport java.util.Iterator;\n\npublic class CourseRoster\n{\n    private ArrayList<Student> students;\n\n    public CourseRoster()\n    {\n        students = new ArrayList<>();\n    }\n\n    public void enrol(Student student)\n    {\n    }\n\n    public void printAllStudents()\n    {\n        // For-each.\n    }\n\n    public void removeStudentsFromProgram(String program)\n    {\n        // Iterator with while.\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "After removing Mathematics:\nAmina - Computer Science\nAfter removing Physics:\nAmina - Computer Science"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*for\\\\(Student\\\\w+:(this\\\\.)?students\\\\).*\"), \"Print the roster with a for-each loop over students.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".iterator()\"), \"Get an iterator with students.iterator().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".hasNext()\"), \"Loop while iterator.hasNext().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".remove();\"), \"Remove through the iterator: iterator.remove();\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"students.remove(\"), \"Do not call students.remove while iterating; use iterator.remove().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getProgram().equals(program)\"), \"Compare the programs with equals.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CmltcG9ydCBqYXZhLnV0aWwuSXRlcmF0b3I7CgpwdWJsaWMgY2xhc3MgQ291cnNlUm9zdGVyCnsKICAgIHByaXZhdGUgQXJyYXlMaXN0PFN0dWRlbnQ+IHN0dWRlbnRzOwoKICAgIHB1YmxpYyBDb3Vyc2VSb3N0ZXIoKQogICAgewogICAgICAgIHN0dWRlbnRzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICB9CgogICAgcHVibGljIHZvaWQgZW5yb2woU3R1ZGVudCBzdHVkZW50KQogICAgewogICAgICAgIHN0dWRlbnRzLmFkZChzdHVkZW50KTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludEFsbFN0dWRlbnRzKCkKICAgIHsKICAgICAgICBmb3IoU3R1ZGVudCBzdHVkZW50IDogc3R1ZGVudHMpIHsKICAgICAgICAgICAgc3R1ZGVudC5wcmludERldGFpbHMoKTsKICAgICAgICB9CiAgICB9CgogICAgcHVibGljIHZvaWQgcmVtb3ZlU3R1ZGVudHNGcm9tUHJvZ3JhbShTdHJpbmcgcHJvZ3JhbSkKICAgIHsKICAgICAgICBJdGVyYXRvcjxTdHVkZW50PiBpdGVyYXRvciA9IHN0dWRlbnRzLml0ZXJhdG9yKCk7CiAgICAgICAgd2hpbGUoaXRlcmF0b3IuaGFzTmV4dCgpKSB7CiAgICAgICAgICAgIFN0dWRlbnQgc3R1ZGVudCA9IGl0ZXJhdG9yLm5leHQoKTsKICAgICAgICAgICAgaWYoc3R1ZGVudC5nZXRQcm9ncmFtKCkuZXF1YWxzKHByb2dyYW0pKSB7CiAgICAgICAgICAgICAgICBpdGVyYXRvci5yZW1vdmUoKTsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Student.java",
+          "content": "public class Student\n{\n    private String name;\n    private String program;\n\n    public Student(String name, String program)\n    {\n        this.name = name;\n        this.program = program;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public String getProgram()\n    {\n        return program;\n    }\n\n    public void printDetails()\n    {\n        System.out.println(name + \" - \" + program);\n    }\n}"
+        },
+        {
+          "name": "CourseRosterCheck.java",
+          "content": "public class CourseRosterCheck\n{\n    public static void main(String[] args)\n    {\n        CourseRoster empty = new CourseRoster();\n        empty.removeStudentsFromProgram(\"Mathematics\");\n        empty.printAllStudents();\n        CourseRoster roster = new CourseRoster();\n        roster.enrol(new Student(\"Diego\", \"Mathematics\"));\n        roster.enrol(new Student(\"Hana\", \"Mathematics\"));\n        roster.enrol(new Student(\"Amina\", \"Computer Science\"));\n        roster.enrol(new Student(\"Omar\", \"Mathematics\"));\n        roster.removeStudentsFromProgram(\"Mathematics\");\n        System.out.println(\"After removing Mathematics:\");\n        roster.printAllStudents();\n        roster.removeStudentsFromProgram(\"Physics\");\n        System.out.println(\"After removing Physics:\");\n        roster.printAllStudents();\n    }\n}"
+        }
+      ]
+    },
+    "p2-demo": {
+      "type": "code",
+      "xp": 4,
+      "minLines": 22,
+      "maxLines": 34,
+      "title": "CourseRosterDemo.java",
+      "starter": "public class CourseRosterDemo\n{\n    public static void main(String[] args)\n    {\n        CourseRoster roster = new CourseRoster();\n        // 1. Enrol the four students as anonymous objects.\n        // 2. Print \"Before removal:\" and the roster.\n        // 3. Remove the Mathematics students.\n        // 4. Print \"After removal:\" and the roster.\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Before removal:\nAmina - Computer Science\nDiego - Mathematics\nHana - Mathematics\nLinh - Business\nAfter removal:\nAmina - Computer Science\nLinh - Business"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"roster.enrol(newStudent(\"), \"Enrol each student as an anonymous object: roster.enrol(new Student(...));\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"removeStudentsFromProgram(\\\"Mathematics\\\")\"), \"Remove with roster.removeStudentsFromProgram(\\\"Mathematics\\\").\");",
+      "answer": "cHVibGljIGNsYXNzIENvdXJzZVJvc3RlckRlbW8KewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBDb3Vyc2VSb3N0ZXIgcm9zdGVyID0gbmV3IENvdXJzZVJvc3RlcigpOwogICAgICAgIHJvc3Rlci5lbnJvbChuZXcgU3R1ZGVudCgiQW1pbmEiLCAiQ29tcHV0ZXIgU2NpZW5jZSIpKTsKICAgICAgICByb3N0ZXIuZW5yb2wobmV3IFN0dWRlbnQoIkRpZWdvIiwgIk1hdGhlbWF0aWNzIikpOwogICAgICAgIHJvc3Rlci5lbnJvbChuZXcgU3R1ZGVudCgiSGFuYSIsICJNYXRoZW1hdGljcyIpKTsKICAgICAgICByb3N0ZXIuZW5yb2wobmV3IFN0dWRlbnQoIkxpbmgiLCAiQnVzaW5lc3MiKSk7CgogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQmVmb3JlIHJlbW92YWw6Iik7CiAgICAgICAgcm9zdGVyLnByaW50QWxsU3R1ZGVudHMoKTsKCiAgICAgICAgcm9zdGVyLnJlbW92ZVN0dWRlbnRzRnJvbVByb2dyYW0oIk1hdGhlbWF0aWNzIik7CgogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQWZ0ZXIgcmVtb3ZhbDoiKTsKICAgICAgICByb3N0ZXIucHJpbnRBbGxTdHVkZW50cygpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Student.java",
+          "content": "public class Student\n{\n    private String name;\n    private String program;\n\n    public Student(String name, String program)\n    {\n        this.name = name;\n        this.program = program;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public String getProgram()\n    {\n        return program;\n    }\n\n    public void printDetails()\n    {\n        System.out.println(name + \" - \" + program);\n    }\n}"
+        },
+        {
+          "name": "CourseRoster.java",
+          "content": "import java.util.ArrayList;\nimport java.util.Iterator;\n\npublic class CourseRoster\n{\n    private ArrayList<Student> students;\n\n    public CourseRoster()\n    {\n        students = new ArrayList<>();\n    }\n\n    public void enrol(Student student)\n    {\n        students.add(student);\n    }\n\n    public void printAllStudents()\n    {\n        for(Student student : students) {\n            student.printDetails();\n        }\n    }\n\n    public void removeStudentsFromProgram(String program)\n    {\n        Iterator<Student> iterator = students.iterator();\n        while(iterator.hasNext()) {\n            Student student = iterator.next();\n            if(student.getProgram().equals(program)) {\n                iterator.remove();\n            }\n        }\n    }\n}"
+        }
+      ]
     }
   }
 }
