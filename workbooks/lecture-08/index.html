@@ -20,7 +20,7 @@
   <div>
     <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
     <h1>Lecture 8 Workbook</h1>
-    <div class="wb-subtitle">Chapter 5, Part 1: Lambdas and internal iteration</div>
+    <div class="wb-subtitle">Chapter 5, Part 1: Lambdas and Collection Methods</div>
     <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
   </div>
   <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
@@ -103,42 +103,116 @@
 
 <hr>
 
-<p>Use these questions as we discuss the slides. During each coding pause, follow the clinic demonstration and predict its results. You can write or repeat the code later in BlueJ. By the end, you should be able to:</p>
+<p>This workbook holds the notes and the questions for Lecture 8. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. Sections 5 and 9 are the clinic coding parts that we do together in class; if you missed them, you can do them from the notes here. Section 11 has two complete programs to write after class. By the end, you should be able to:</p>
 <ul>
-  <li>explain how a lambda supplies code to a collection method;</li>
-  <li>trace <code>forEach</code> and shorten a lambda one step at a time;</li>
-  <li>use a method reference for a matching method call;</li>
-  <li>write predicates and use <code>removeIf</code> to remove every match.</li>
+  <li>explain how a lambda passes code to a collection method;</li>
+  <li>name the parts of a lambda and shorten one step at a time;</li>
+  <li>trace <code>forEach</code> and tell internal from external iteration;</li>
+  <li>replace a lambda with a matching method reference;</li>
+  <li>write predicates and use <code>removeIf</code> to remove every match;</li>
+  <li>choose between <code>forEach</code>, <code>removeIf</code> and an explicit loop; and</li>
+  <li>write complete programs that use these methods.</li>
 </ul>
 
 <h2 id="s1">1. Playlist</h2>
-<p><code>Playlist</code> stores an <code>ArrayList&lt;Track&gt;</code> named <code>tracks</code>. Each track has four methods:</p>
-<ul>
-  <li><code>getTitle()</code>, <code>getArtist()</code> and <code>getDurationSeconds()</code>;</li>
-  <li><code>printDetails()</code>, which prints a line such as <code>John Coltrane - Naima (265 s)</code>.</li>
-</ul>
-<p>Stored tracks, titles, and artists are non-null. Each question starts with these five tracks unless it says otherwise.</p>
-  <table>
-    <thead><tr><th>Index</th><th>Title</th><th>Artist</th><th>Seconds</th></tr></thead>
-    <tbody>
+<h3>The running example</h3>
+<p>Lectures 6 and 7 built a <code>Playlist</code> that stores <code>Track</code> objects. This lecture keeps both classes and changes only how the list is processed. A <code>Track</code> keeps a title, an artist and a duration in seconds:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Track</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> title;
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> artist;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> durationSeconds;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Track</span>(<span class="wb-type">String</span> title, <span class="wb-type">String</span> artist, <span class="wb-kw">int</span> durationSeconds)
+    {
+        <span class="wb-kw">this</span>.title = title;
+        <span class="wb-kw">this</span>.artist = artist;
+        <span class="wb-kw">this</span>.durationSeconds = durationSeconds;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getTitle</span>()
+    {
+        <span class="wb-kw">return</span> title;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getArtist</span>()
+    {
+        <span class="wb-kw">return</span> artist;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getDurationSeconds</span>()
+    {
+        <span class="wb-kw">return</span> durationSeconds;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printDetails</span>()
+    {
+        System.out.println(artist + <span class="wb-str">" - "</span> + title + <span class="wb-str">" ("</span> + durationSeconds + <span class="wb-str">" s)"</span>);
+    }
+}</code></pre>
+<p>The <code>Playlist</code> stores an <code>ArrayList&lt;Track&gt;</code> named <code>tracks</code>. Stored tracks, titles and artists are never <code>null</code>. Every example and question starts with these five tracks, in this order, unless it says otherwise:</p>
+<table>
+  <thead><tr><th>Index</th><th>Title</th><th>Artist</th><th>Seconds</th></tr></thead>
+  <tbody>
       <tr><td>0</td><td>Northern Sky</td><td>Nick Drake</td><td>224</td></tr>
       <tr><td>1</td><td>Blue Train</td><td>John Coltrane</td><td>643</td></tr>
       <tr><td>2</td><td>Teardrop</td><td>Massive Attack</td><td>330</td></tr>
       <tr><td>3</td><td>Naima</td><td>John Coltrane</td><td>265</td></tr>
       <tr><td>4</td><td>Angel</td><td>Massive Attack</td><td>379</td></tr>
-    </tbody>
-  </table>
+  </tbody>
+</table>
+<h3>One loop, many actions</h3>
+<p>Here are two <code>Playlist</code> methods in the style of Lecture 6:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printAllTracks</span>()
+{
+    <span class="wb-kw">for</span>(<span class="wb-type">Track</span> track : tracks) {
+        track.printDetails();
+    }
+}
+
+<span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printAllTitles</span>()
+{
+    <span class="wb-kw">for</span>(<span class="wb-type">Track</span> track : tracks) {
+        System.out.println(track.getTitle());
+    }
+}</code></pre>
+<p>Both visit every track once, in list order. Only the statement inside the loop changes. If we could hand the list just that statement, the list could do the looping for us. To do that, Java needs a way to write a piece of code as a value that can be passed to a method. That value is a lambda.</p>
+
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: the repeated loop</div>
-  <p><strong>1.</strong> Three methods use a for-each loop over <code>tracks</code>: one prints details, one prints titles, and one prints artists. What stays the same in all three loops? What changes?</p>
+  <p><strong>1.1</strong> A third method prints every artist with a for-each loop over <code>tracks</code>. What stays the same in all three loops? What changes?</p>
   <wb-short id="q1"></wb-short>
 </div>
 
 <h2 id="s2">2. Lambdas</h2>
+<h3>Code as an argument</h3>
+<p>So far, every argument has been data: a number such as the <code>2</code> in <code>getTrack(2)</code>, or a reference such as the <code>track</code> in <code>addTrack(track)</code>. A <strong>lambda</strong> is a piece of code that can be stored and passed to a method as an argument. The method that receives it decides when to run it, how many times, and what argument to give it each time. Writing a lambda does not run its body, in the same way that writing a method does not call it.</p>
+
+<h3>From a method to a lambda</h3>
+<p>Compare a small method with the lambda that does the same job:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printTrack</span>(<span class="wb-type">Track</span> track)
+{
+    track.printDetails();
+}</code></pre>
+<pre><code>(<span class="wb-type">Track</span> track) -&gt; { track.printDetails(); }</code></pre>
+<p>The lambda drops the access modifier, the return type and the name. Java works out the result type from the body. Because it has no name, a lambda is also called an <strong>anonymous function</strong>. It keeps the parameter list and the body, and puts an arrow between them. A lambda is not a class: it has no fields and no constructor. A job that needs to remember its own state between calls still needs a class.</p>
+
+<h3>Lambda parts</h3>
+<pre><code>(<span class="wb-type">Track</span> track) -&gt; { System.out.println(track.getTitle()); }</code></pre>
+<table>
+  <thead><tr><th>Part</th><th>Meaning</th></tr></thead>
+  <tbody>
+      <tr><td><code>(Track track)</code></td><td>The parameter list: one track to work on.</td></tr>
+      <tr><td><code>-&gt;</code></td><td>The arrow separates the parameters from the body.</td></tr>
+      <tr><td><code>{ System.out.println(...); }</code></td><td>The body: the code to run for that track.</td></tr>
+  </tbody>
+</table>
+<p>The lambda declares <code>track</code> itself, just as a method declares its parameters, so no earlier declaration is needed. The name is our choice; <code>t</code> or <code>song</code> would work too. The arrow does not mean "return". This body prints, and returns nothing.</p>
+
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: the parts of a lambda</div>
-  <p><strong>2.</strong> Label the parameter list, arrow, and body. Where is <code>track</code> declared? Does the arrow mean this lambda returns a value?</p>
-<pre><code>(<span class="wb-type">Track</span> track) -&gt; { System.out.println(track.getTitle()); }</code></pre>
+  <p><strong>2.1</strong> Label the parameter list, arrow, and body of this lambda. Where is <code>song</code> declared? Does the arrow mean this lambda returns a value?</p>
+<pre><code>(<span class="wb-type">Track</span> song) -&gt; { System.out.println(song.getArtist()); }</code></pre>
   <wb-table id="q2">
     <table>
       <thead><tr><th>part</th><th>code</th></tr></thead>
@@ -149,24 +223,47 @@
       </tbody>
     </table>
   </wb-table>
-  <p>Where is <code>track</code> declared, and does the arrow mean a value is returned?</p>
+  <p>Where is <code>song</code> declared, and does the arrow mean a value is returned?</p>
   <wb-short id="q2-why"></wb-short>
 </div>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: a lambda and a named method</div>
-  <p><strong>3.</strong> Give two differences between a lambda and a named method. Does writing a lambda run its body? Who decides when it runs? When would a class still be needed for a job?</p>
+  <p><strong>2.2</strong> Give two differences between a lambda and a named method. Does writing a lambda run its body? Who decides when it runs? When would a class still be needed for a job?</p>
   <wb-short id="q3"></wb-short>
 </div>
 
 <h2 id="s3">3. forEach</h2>
+<h3>The forEach method</h3>
+<p>Every <code>ArrayList</code> has a method <code>forEach</code>. Its one argument is an action: a lambda that takes one element. <code>forEach</code> runs the action once for each element, in list order, and passes the element in as the argument. These two versions of <code>printAllTracks</code> print the same output:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printAllTracks</span>()
+{
+    <span class="wb-kw">for</span>(<span class="wb-type">Track</span> track : tracks) {
+        track.printDetails();
+    }
+}</code></pre>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printAllTracks</span>()
+{
+    tracks.forEach((<span class="wb-type">Track</span> track) -&gt; {
+        track.printDetails();
+    });
+}</code></pre>
+<p>The <code>(Track track) -&gt; { ... }</code> part is the lambda. The final <code>);</code> closes the call to <code>forEach</code>.</p>
+
+<h3>External and internal iteration</h3>
+<p>In the first version, our code runs the loop and asks the list for each element in turn. This is <strong>external iteration</strong>, the usual imperative style. In the second version, the loop is inside <code>forEach</code>; our code supplies only the action. This is <strong>internal iteration</strong>, the style of functional programming. The loop has not disappeared. It has moved into the list's method, which we did not write.</p>
+
+<h3>One call per element</h3>
+<p>With the five tracks, <code>forEach</code> calls the lambda five times. The first call receives a reference to Northern Sky, the second a reference to Blue Train, and so on. The lambda receives the element itself, not its index. With an empty list, the lambda is called zero times and <code>forEach</code> finishes normally.</p>
+<p><code>forEach</code> returns nothing. A <code>forEach</code> call can print every title, but it cannot give back a list of titles or a total. The action may call methods that change the element, such as a mutator. It must not add elements to, or remove elements from, the same list while <code>forEach</code> is running; Section 7 shows what goes wrong.</p>
+
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: where the loop went</div>
-  <p><strong>4.</strong> Complete the second version using a fully written lambda. Explain where the loop went. Which version uses external iteration?</p>
+  <p><strong>3.1</strong> Complete the second version using a fully written lambda. Explain where the loop went. Which version uses external iteration?</p>
 <pre><code><span class="wb-kw">for</span>(<span class="wb-type">Track</span> track : tracks) {
-    track.printDetails();
+    System.out.println(track.getArtist());
 }</code></pre>
 <pre><code>tracks.forEach((__________________) -&gt; {
-    ____________________________;
+    ____________________________________;
 });</code></pre>
   <wb-table id="q4">
     <table>
@@ -182,7 +279,7 @@
 </div>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: one lambda, five calls</div>
-  <p><strong>5.</strong> <code>forEach</code> runs the lambda from Question 4 once for each track. Write the title of the track supplied on each call. Does the lambda receive an index or a track reference? How many calls occur for an empty list?</p>
+  <p><strong>3.2</strong> <code>forEach</code> runs the lambda from Question 3.1 once for each track. Write the title of the track supplied on each call. Does the lambda receive an index or a track reference? How many calls occur for an empty list?</p>
   <wb-table id="q5">
     <table>
       <thead><tr><th>call</th><th>track supplied</th></tr></thead>
@@ -200,7 +297,7 @@
 </div>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: <code>printAllTitles</code></div>
-  <p><strong>6.</strong> Write <code>public void printAllTitles()</code> inside <code>Playlist</code>, using <code>forEach</code> and a lambda. Use the fully written parameter type and block body. Does it return a list of titles?</p>
+  <p><strong>3.3</strong> Write <code>public void printAllTitles()</code> inside <code>Playlist</code>, using <code>forEach</code> and a lambda. Use the fully written parameter type and block body. Does it return a list of titles?</p>
   <p>The <code>Track</code> class is on the classpath of this box. The checking program calls your method on an empty playlist, then on the five tracks. Its expected output is:</p>
 <pre class="wb-output">Empty playlist:
 Five tracks:
@@ -214,11 +311,41 @@ Still 5 tracks</pre>
 </div>
 
 <h2 id="s4">4. Syntax</h2>
+<h3>Four stages</h3>
+<p>The lambdas so far were written out in full. Java lets us leave parts out when it can work them out. Each stage below makes one omission from the stage before; all four mean the same thing as an argument to <code>tracks.forEach(...)</code>:</p>
+<pre><code><span class="wb-cmt">// Stage 1: everything written</span>
+(<span class="wb-type">Track</span> track) -&gt; { track.printDetails(); }
+<span class="wb-cmt">// Stage 2: omit the parameter type</span>
+(track) -&gt; { track.printDetails(); }
+<span class="wb-cmt">// Stage 3: omit the parameter parentheses</span>
+track -&gt; { track.printDetails(); }
+<span class="wb-cmt">// Stage 4: use an expression body</span>
+track -&gt; track.printDetails()</code></pre>
+<table>
+  <thead><tr><th>Omission</th><th>Why it is allowed</th></tr></thead>
+  <tbody>
+      <tr><td>Parameter type</td><td><code>tracks</code> is an <code>ArrayList&lt;Track&gt;</code>, so Java already knows each element is a <code>Track</code>.</td></tr>
+      <tr><td>Parentheses</td><td>There is exactly one parameter and its type is not written. Keep them for zero parameters, two or more, or a written type.</td></tr>
+      <tr><td>Braces and <code>;</code></td><td>The body is a single expression. Java uses its value, if it has one, as the result.</td></tr>
+  </tbody>
+</table>
+<p>So <code>(Track track)</code> and <code>(track)</code> are valid, but <code>Track track -&gt; ...</code> is not. In a complete statement the last stage reads <code>tracks.forEach(track -&gt; track.printDetails());</code>. The final <code>;</code> ends the <code>forEach</code> call, not the lambda.</p>
+<p>A body with two or more statements must keep its braces and the semicolon after each statement. Only the type and the parentheses can go. To read a short lambda, put the parts back in reverse order: braces and semicolon, then parentheses, then the type.</p>
+
+<h3>Method references</h3>
+<p>When a lambda does nothing except call one existing method, a <strong>method reference</strong> can replace it. It names the class and the method, separated by <code>::</code>, with no parentheses after the method name:</p>
+<pre><code>tracks.forEach(track -&gt; track.printDetails());
+tracks.forEach(<span class="wb-type">Track</span>::printDetails);</code></pre>
+<p>Here <code>forEach</code> supplies each track, and <code>printDetails()</code> is called <em>on</em> that track. A method reference can also pass the element as an argument. If <code>titles</code> is an <code>ArrayList&lt;String&gt;</code>, these two lines print every title:</p>
+<pre><code>titles.forEach(title -&gt; System.out.println(title));
+titles.forEach(System.out::println);</code></pre>
+<p>Here each title is passed <em>to</em> <code>println</code>, which is called on the object <code>System.out</code>. Writing a method reference does not call the method, just as writing a lambda does not run its body. The method must match the job: <code>tracks.forEach(System.out::println)</code> compiles, but it passes each <code>Track</code> object to <code>println</code>, which prints text such as <code>Track@1b6d3586</code> rather than the track's details.</p>
+
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: shorten one step at a time</div>
-  <p><strong>7.</strong> Fill in stages 2, 3, and 4. Each stage makes just the stated omission from the previous stage. These are alternative arguments to <code>tracks.forEach(...)</code>. Explain why each omission is allowed.</p>
+  <p><strong>4.1</strong> Fill in stages 2, 3, and 4 for a different body. Each stage makes just the stated omission from the previous stage. Explain why each omission is allowed.</p>
 <pre><code><span class="wb-cmt">// Stage 1: everything written</span>
-(<span class="wb-type">Track</span> track) -&gt; { track.printDetails(); }</code></pre>
+(<span class="wb-type">Track</span> track) -&gt; { System.out.println(track.getTitle()); }</code></pre>
   <wb-table id="q7">
     <table>
       <thead><tr><th>stage</th><th>lambda</th></tr></thead>
@@ -234,16 +361,14 @@ Still 5 tracks</pre>
 </div>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: what must stay</div>
-  <p><strong>8.</strong> Shorten this call as far as allowed. Explain which braces and semicolons must stay. Would zero or two lambda parameters be allowed to omit their parentheses?</p>
+  <p><strong>4.2</strong> Shorten this call as far as allowed. Explain which braces and semicolons must stay. Would zero or two lambda parameters be allowed to omit their parentheses?</p>
   <p>The <code>Track</code> class is on the classpath of this box. The list holds the first two tracks. Run it first, then shorten the lambda and run it again; the output must not change.</p>
   <wb-exercise id="q8"></wb-exercise>
   <wb-short id="q8-why"></wb-short>
 </div>
-
-<h2 id="s5">5. Method references</h2>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: <code>Track::printDetails</code></div>
-  <p><strong>9.</strong> Replace the lambda with a method reference. Explain what supplies the receiver for <code>printDetails</code>. Would <code>System.out::println</code> call that same method on each track?</p>
+  <p><strong>4.3</strong> Replace the lambda with a method reference. Explain what supplies the receiver for <code>printDetails</code>. Would <code>System.out::println</code> call that same method on each track?</p>
 <pre><code>tracks.forEach(track -&gt; track.printDetails());</code></pre>
   <wb-table id="q9">
     <table>
@@ -257,8 +382,8 @@ Still 5 tracks</pre>
 </div>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: <code>System.out::println</code></div>
-  <p><strong>10.</strong> Here <code>titles</code> is an <code>ArrayList&lt;String&gt;</code> holding <code>"Northern Sky"</code> and <code>"Blue Train"</code>, in that order. Replace the lambda with a method reference. Give the output and say what supplies each argument to <code>println</code>.</p>
-<pre><code>titles.forEach(title -&gt; System.out.println(title));</code></pre>
+  <p><strong>4.4</strong> Here <code>artists</code> is an <code>ArrayList&lt;String&gt;</code> holding <code>"Nick Drake"</code> and <code>"John Coltrane"</code>, in that order. Replace the lambda with a method reference. Give the output and say what supplies each argument to <code>println</code>.</p>
+<pre><code>artists.forEach(artist -&gt; System.out.println(artist));</code></pre>
   <wb-table id="q10">
     <table>
       <thead><tr><th>question</th><th>answer</th></tr></thead>
@@ -273,12 +398,29 @@ Still 5 tracks</pre>
   <wb-short id="q10-why"></wb-short>
 </div>
 
-<h2 id="s6">6. Coding Pause 5: Clinic actions</h2>
-<p>This is clinic Part 5, at slide 18. Start with the finished Lecture 7 Part 4 project. Keep the existing <code>ClinicSchedule</code> methods, including iterator removal. <code>Appointment</code> is unchanged. The list field is <code>appointments</code>. An appointment has <code>getPatientName()</code>, <code>hasCheckedIn()</code>, and <code>checkIn()</code>. Names are non-null and match exactly. Duplicate names are allowed.</p>
+<h2 id="s5">5. Clinic Part 5: Actions</h2>
+<h3>The clinic so far</h3>
+<p>We do this part together in class. The clinic project grew through Lectures 6 and 7. An <code>Appointment</code> stores a patient name and whether the patient has checked in. It provides <code>getPatientName()</code>, <code>hasCheckedIn()</code> and <code>checkIn()</code>; a new appointment starts not checked in. <code>ClinicSchedule</code> stores an <code>ArrayList&lt;Appointment&gt;</code> named <code>appointments</code>. At the end of Lecture 7 Part 4 it has these methods:</p>
+<table>
+  <thead><tr><th>Method</th><th>What it does</th></tr></thead>
+  <tbody>
+      <tr><td><code>addAppointment(Appointment a)</code></td><td>Adds an appointment at the end.</td></tr>
+      <tr><td><code>getCount()</code></td><td>Returns the number of appointments.</td></tr>
+      <tr><td><code>printPatientAt(int index)</code></td><td>Prints the patient's name, or <code>Invalid index</code>.</td></tr>
+      <tr><td><code>cancel(int index)</code></td><td>Removes the appointment and returns true; returns false for an invalid index or a checked-in patient.</td></tr>
+      <tr><td><code>printWaitingPatients()</code></td><td>Prints every patient not yet checked in, or <code>No waiting patients</code>.</td></tr>
+      <tr><td><code>findPatientIndex(String name)</code></td><td>Returns the index of the first matching name, or <code>-1</code>.</td></tr>
+      <tr><td><code>removeCheckedIn()</code></td><td>Removes every checked-in appointment with an iterator and returns how many it removed.</td></tr>
+  </tbody>
+</table>
+<p>Names are never <code>null</code> and must match exactly, including capital letters. Duplicate names are allowed. If you missed Lecture 7, the finished <code>ClinicSchedule</code> is already in the box for Question 5.1, so you can start from it there.</p>
+
+<h3>New in Part 5</h3>
+<p>Part 5 adds two actions that visit every appointment. <code>printAllPatients()</code> passes <code>forEach</code> a lambda that prints one patient's name. <code>checkInAll()</code> passes it the method reference <code>Appointment::checkIn</code>, so <code>checkIn()</code> is called on each appointment in turn. That action changes the state of each appointment, but it does not add or remove any, so it is safe inside <code>forEach</code> and the count stays the same. On an empty schedule both methods do nothing, with no special case. Keep <code>Appointment</code> and every existing method unchanged.</p>
 
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: write <code>printAllPatients</code> and <code>checkInAll</code></div>
-  <p><strong>11.</strong> Add two methods to <code>ClinicSchedule</code>:</p>
+  <p><strong>5.1</strong> Add two methods to <code>ClinicSchedule</code>:</p>
   <ul>
     <li><code>void printAllPatients()</code>: use <code>appointments.forEach(...)</code> with a lambda to print every patient name in arrival order.</li>
     <li><code>void checkInAll()</code>: use <code>appointments.forEach(Appointment::checkIn)</code> to check in everyone.</li>
@@ -296,19 +438,16 @@ Count: 3</pre>
   <p>What happens to the count? What do both methods do on an empty schedule?</p>
   <wb-short id="q11-why"></wb-short>
 </div>
-
-<h3><code>ClinicDemo.main</code></h3>
-<p>Replace <code>ClinicDemo.main</code> for Part 5:</p>
-<ul>
-  <li>Add Ana, Ben, Cara in that order.</li>
-  <li>Print <code>Patients:</code> and call <code>printAllPatients()</code>.</li>
-  <li>Call <code>checkInAll()</code>. Print <code>Waiting patients:</code> and call <code>printWaitingPatients()</code>.</li>
-  <li>Print the count with the label <code>Count:</code>.</li>
-</ul>
-
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: predict, then run the demo</div>
-  <p><strong>12.</strong> Predict all seven output lines. The existing waiting-patient method prints <code>No waiting patients</code> if everyone has checked in.</p>
+  <p><strong>5.2</strong> Replace <code>ClinicDemo.main</code> for Part 5:</p>
+  <ul>
+    <li>Add Ana, Ben, Cara in that order.</li>
+    <li>Print <code>Patients:</code> and call <code>printAllPatients()</code>.</li>
+    <li>Call <code>checkInAll()</code>. Print <code>Waiting patients:</code> and call <code>printWaitingPatients()</code>.</li>
+    <li>Print the count with the label <code>Count:</code>.</li>
+  </ul>
+  <p>Predict all seven output lines. The existing waiting-patient method prints <code>No waiting patients</code> if everyone has checked in.</p>
   <wb-table id="q12">
     <table>
       <thead><tr><th>line</th><th>output</th></tr></thead>
@@ -327,17 +466,32 @@ Count: 3</pre>
   <wb-exercise id="q12-demo"></wb-exercise>
 </div>
 
-<h2 id="s7">7. Predicates</h2>
+<h2 id="s6">6. Predicates</h2>
+<h3>Actions and tests</h3>
+<p>A lambda can do one of two kinds of job. An <strong>action</strong> does something with an element and gives nothing back, like <code>track -&gt; track.printDetails()</code>. A <strong>test</strong> answers a yes-or-no question about an element, like <code>track -&gt; track.getDurationSeconds() &lt; 300</code>.</p>
+<p>The method that receives the lambda decides which kind it needs. <code>forEach</code> needs an action. <code>removeIf</code>, in Section 7, needs a test. If we pass the wrong kind, the code does not compile: <code>tracks.removeIf(track -&gt; track.printDetails())</code> fails because <code>printDetails()</code> gives no boolean answer. In the Java library these shapes are called <strong>functional interfaces</strong>; you do not need to write their names in this course.</p>
+
+<h3>Predicates</h3>
+<p>A test of one element that returns <code>true</code> or <code>false</code> is called a <strong>predicate</strong>. With an expression body, the boolean expression is the answer, so no <code>if</code> and no <code>return</code> are needed. Applied to the five tracks, <code>track -&gt; track.getDurationSeconds() &lt; 300</code> gives true for Northern Sky (224) and Naima (265), and false for the other three. A track of exactly 300 seconds would give false, because <code>&lt;</code> is strict. A predicate only reads the track; it does not change or remove it.</p>
+
+<h3>Predicate expressions</h3>
+<p>Any boolean expression about the parameter can be the body:</p>
+<pre><code>track -&gt; track.getArtist().equals(<span class="wb-str">"Nick Drake"</span>)
+track -&gt; track.getTitle().contains(<span class="wb-str">"Sky"</span>)
+track -&gt; track.getDurationSeconds() &gt;= <span class="wb-num">330</span>
+track -&gt; <span class="wb-kw">true</span></code></pre>
+<p>Use <code>equals</code> to compare text; <code>==</code> compares references, as in Lecture 7. The <code>String</code> method <code>contains</code> returns true if the given text appears anywhere in the string. The constant predicate <code>track -&gt; true</code> accepts every track, and <code>track -&gt; false</code> accepts none. Combine conditions with <code>&amp;&amp;</code> and <code>||</code>. A block body is allowed, but then it must return the answer: <code>track -&gt; { return track.getDurationSeconds() &lt; 300; }</code>.</p>
+
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: an action is not a predicate</div>
-  <p><strong>13.</strong> Why does this call fail to compile? Describe the input and result required of a <code>removeIf</code> lambda. How does that differ from the action used by <code>forEach</code>?</p>
-<pre><code>tracks.removeIf(track -&gt; track.printDetails());</code></pre>
+  <p><strong>6.1</strong> Why does this call fail to compile? Describe the input and result required of a <code>removeIf</code> lambda. How does that differ from the action used by <code>forEach</code>?</p>
+<pre><code>tracks.removeIf(track -&gt; System.out.println(track.getTitle()));</code></pre>
   <wb-short id="q13"></wb-short>
 </div>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: evaluate a predicate</div>
-  <p><strong>14.</strong> Complete the result column for this predicate. Does the predicate itself remove a track? What result would exactly 300 seconds give?</p>
-<pre><code>track -&gt; track.getDurationSeconds() &lt; <span class="wb-num">300</span></code></pre>
+  <p><strong>6.2</strong> Complete the result column for this predicate. Does the predicate itself remove a track? What result would exactly 379 seconds give?</p>
+<pre><code>track -&gt; track.getDurationSeconds() &gt; <span class="wb-num">330</span></code></pre>
   <wb-table id="q14">
     <table>
       <thead><tr><th>Title</th><th>Seconds</th><th>Result</th></tr></thead>
@@ -347,7 +501,6 @@ Count: 3</pre>
         <tr><td>Teardrop</td><td>330</td><td data-blank="r3"></td></tr>
         <tr><td>Naima</td><td>265</td><td data-blank="r4"></td></tr>
         <tr><td>Angel</td><td>379</td><td data-blank="r5"></td></tr>
-        <tr><td>(a track of exactly 300 s)</td><td>300</td><td data-blank="e300"></td></tr>
       </tbody>
     </table>
   </wb-table>
@@ -356,7 +509,7 @@ Count: 3</pre>
 </div>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: write predicates</div>
-  <p><strong>15.</strong> Write a predicate for each condition. These will be arguments to a collection method, not standalone statements. Then name the matching tracks.</p>
+  <p><strong>6.3</strong> Write a predicate for each condition. These will be arguments to a collection method, not standalone statements. Name the matching tracks for each condition.</p>
   <wb-table id="q15">
     <table>
       <thead><tr><th>condition</th><th>predicate</th><th>matching tracks</th></tr></thead>
@@ -371,23 +524,52 @@ Count: 3</pre>
   <wb-short id="q15-why"></wb-short>
 </div>
 
-<h2 id="s8">8. Removal</h2>
+<h2 id="s7">7. Removal</h2>
+<h3>The removeIf method</h3>
+<p><code>removeIf</code> takes a predicate. It runs the predicate once for each element. When the answer is <code>true</code> it removes that element; when it is <code>false</code> it keeps it. Every match is removed, including matches that sit next to each other, so it never skips an element the way the indexed loop in Lecture 7 could. The remaining elements keep their order and move to lower indexes. The call changes the existing list; it does not make a new one.</p>
+<p><code>removeIf</code> also returns a <code>boolean</code>: <code>true</code> if it removed at least one element, <code>false</code> if the list did not change. The predicate answers for one element; the return value answers for the whole call.</p>
+
+<h3>Removal by artist</h3>
+<p>Lecture 7 removed every track by an artist with an iterator. With <code>removeIf</code>, the list does the traversal and the removal, and we supply only the test:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">removeTracksByArtist</span>(<span class="wb-type">String</span> artist)
+{
+    tracks.removeIf(track -&gt; track.getArtist().equals(artist));
+}</code></pre>
+<p>The lambda can use the parameter <code>artist</code> of the surrounding method. If no other method in the class uses <code>Iterator</code>, delete <code>import java.util.Iterator;</code>.</p>
+
+<h3>Counting removals</h3>
+<p>To know how many elements were removed, save the size first:</p>
+<pre><code><span class="wb-kw">int</span> before = tracks.size();
+<span class="wb-kw">boolean</span> changed = tracks.removeIf(track -&gt; track.getDurationSeconds() &lt; <span class="wb-num">300</span>);
+<span class="wb-kw">int</span> removed = before - tracks.size();</code></pre>
+<p>For the five tracks, Northern Sky and Naima are removed, <code>changed</code> is <code>true</code> and <code>removed</code> is 2. If nothing matches, <code>removed</code> is 0 and <code>changed</code> is <code>false</code>.</p>
+
+<h3>Removal inside forEach</h3>
+<p>Lecture 7 showed that removing through the list inside a for-each loop is unsafe. The same is true inside <code>forEach</code>:</p>
+<pre><code>tracks.forEach(track -&gt; {
+    <span class="wb-kw">if</span>(track.getArtist().equals(<span class="wb-str">"John Coltrane"</span>)) {
+        tracks.remove(track);
+    }
+});</code></pre>
+<p>Changing which elements are in the list while <code>forEach</code> is running can throw a <code>ConcurrentModificationException</code>. Use <code>removeIf</code> instead, and do not call <code>remove</code> inside its predicate either. Calling a mutator on an element, such as <code>checkIn()</code>, is fine: it changes the element, not the list.</p>
+
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: <code>removeTracksByArtist</code> with <code>removeIf</code></div>
-  <p><strong>16.</strong> Rewrite this Lecture 7 method with one <code>removeIf</code> call. Keep its signature. Explain why no iterator is needed in your version and when its import can be removed.</p>
-  <p>The <code>Track</code> class is on the classpath of this box. The Lecture 7 version is in the box and already passes; rewrite it. The checking program removes John Coltrane from the five tracks, then an artist who is not there. Its expected output is:</p>
-<pre class="wb-output">After removing John Coltrane:
+  <div class="wb-block-title">Practice: <code>removeTracksByTitle</code> with <code>removeIf</code></div>
+  <p><strong>7.1</strong> Rewrite this Lecture 7 method with one <code>removeIf</code> call. Keep its signature. Explain why no iterator is needed in your version and when its import can be removed.</p>
+  <p>The <code>Track</code> class is on the classpath of this box. The Lecture 7 version is in the box and already passes; rewrite it. The checking program removes Teardrop from the five tracks, then a title that is not there. Its expected output is:</p>
+<pre class="wb-output">After removing Teardrop:
 Nick Drake - Northern Sky (224 s)
-Massive Attack - Teardrop (330 s)
+John Coltrane - Blue Train (643 s)
+John Coltrane - Naima (265 s)
 Massive Attack - Angel (379 s)
-Tracks after removing Miles Davis: 3</pre>
+Tracks after removing So What: 4</pre>
   <wb-exercise id="q16"></wb-exercise>
   <wb-short id="q16-why"></wb-short>
 </div>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: trace <code>removeIf</code></div>
-  <p><strong>17.</strong> Trace the call below. Give the removed tracks, the survivors from left to right, the new size, and the boolean returned by the call.</p>
-<pre><code>tracks.removeIf(track -&gt; track.getDurationSeconds() &lt; <span class="wb-num">300</span>);</code></pre>
+  <p><strong>7.2</strong> Trace the call below. Give the removed tracks, the survivors from left to right, the new size, and the boolean returned by the call.</p>
+<pre><code>tracks.removeIf(track -&gt; track.getArtist().equals(<span class="wb-str">"Massive Attack"</span>));</code></pre>
   <wb-table id="q17">
     <table>
       <thead><tr><th>question</th><th>answer</th></tr></thead>
@@ -404,7 +586,7 @@ Tracks after removing Miles Davis: 3</pre>
 </div>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: what <code>removeIf</code> returns</div>
-  <p><strong>18.</strong> Complete the table. Each row starts with a fresh list of the stated size. Each predicate is supplied to <code>removeIf</code>.</p>
+  <p><strong>7.3</strong> Complete the table. Each row starts with a fresh list of the stated size. Each predicate is supplied to <code>removeIf</code>.</p>
   <wb-table id="q18">
     <table>
       <thead><tr><th>Start</th><th>Predicate</th><th>Final size</th><th>Returns</th></tr></thead>
@@ -421,7 +603,7 @@ Tracks after removing Miles Davis: 3</pre>
 </div>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: <code>removeLongTracks</code></div>
-  <p><strong>19.</strong> Complete <code>removeLongTracks</code> to remove every track longer than <code>seconds</code>. For 300, give the remaining titles and size. Would a track lasting exactly 300 seconds be removed?</p>
+  <p><strong>7.4</strong> Complete <code>removeLongTracks</code> to remove every track longer than <code>seconds</code>. For 300, give the remaining titles and size. Would a track lasting exactly 300 seconds be removed?</p>
 <pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">removeLongTracks</span>(<span class="wb-kw">int</span> seconds)
 {
     tracks.removeIf(________________________________________);
@@ -440,7 +622,7 @@ Tracks after removing Miles Davis: 3</pre>
 </div>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: repair an unsafe removal</div>
-  <p><strong>20.</strong> Repair this code by replacing the entire <code>forEach</code> call with <code>removeIf</code>. Keep the size calculation. Why is the original unsafe, while the clinic's <code>checkInAll()</code> is safe?</p>
+  <p><strong>7.5</strong> Repair this code by replacing the entire <code>forEach</code> call with <code>removeIf</code>. Keep the size calculation. Why is the original unsafe, while the clinic's <code>checkInAll()</code> is safe? Give <code>removed</code> after your repaired code runs on the five tracks.</p>
   <p>The <code>Track</code> class is on the classpath of this box. Run the starter first to see the exception, then repair it.</p>
   <wb-exercise id="q20"></wb-exercise>
   <wb-table id="q20-exc">
@@ -455,10 +637,31 @@ Tracks after removing Miles Davis: 3</pre>
   <wb-short id="q20-why"></wb-short>
 </div>
 
-<h2 id="s9">9. Choices</h2>
+<h2 id="s8">8. Choices</h2>
+<h3>Choosing a loop</h3>
+<p><code>forEach</code> and <code>removeIf</code> do not replace loops; they cover two common jobs.</p>
+<table>
+  <thead><tr><th>Job</th><th>Useful choice</th></tr></thead>
+  <tbody>
+      <tr><td>One small action for every element</td><td><code>forEach</code>, or a for-each loop</td></tr>
+      <tr><td>Remove every element that passes one test</td><td><code>removeIf</code></td></tr>
+      <tr><td>Use an index, or stop at the first match</td><td>an explicit loop, such as an indexed <code>while</code></td></tr>
+      <tr><td>Update local variables while visiting</td><td>an explicit loop</td></tr>
+  </tbody>
+</table>
+<p>The last row has a reason. A lambda can read a local variable of the surrounding method, as the removal method in Section 7 reads <code>artist</code>, but only if that variable never changes after it gets its value. A lambda cannot change a local variable either, so this does not compile:</p>
+<pre><code><span class="wb-kw">int</span> count = <span class="wb-num">0</span>;
+tracks.forEach(track -&gt; {
+    count++;
+});</code></pre>
+<p>A for-each loop that adds 1 to <code>count</code> works. Lecture 9 shows a better tool for counting and totals.</p>
+
+<h3>Selection inside an action</h3>
+<p>A <code>forEach</code> action can contain an <code>if</code>, so it can print only the Coltrane tracks. It still receives every track; the selection is buried inside the action. Lecture 9 separates choosing elements from what is done with them. Shorter code is not automatically clearer or faster, and this list's <code>forEach</code> runs one element at a time, in order.</p>
+
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: choose the tool</div>
-  <p><strong>21.</strong> Choose <code>forEach</code>, <code>removeIf</code>, or an explicit loop for each job.</p>
+  <p><strong>8.1</strong> Choose <code>forEach</code>, <code>removeIf</code>, or an explicit loop for each job. Explain one choice.</p>
   <wb-table id="q21">
     <table>
       <thead><tr><th>job</th><th>choice</th></tr></thead>
@@ -466,7 +669,7 @@ Tracks after removing Miles Davis: 3</pre>
         <tr><td>(a) Print every track's details.</td><td data-blank="a"></td></tr>
         <tr><td>(b) Remove every track by one artist.</td><td data-blank="b"></td></tr>
         <tr><td>(c) Return the index of the first matching title and stop searching.</td><td data-blank="c"></td></tr>
-        <tr><td>(d) Update several local variables while visiting the tracks.</td><td data-blank="d"></td></tr>
+        <tr><td>(d) Count the tracks longer than 300 seconds in a local variable.</td><td data-blank="d"></td></tr>
       </tbody>
     </table>
   </wb-table>
@@ -474,12 +677,16 @@ Tracks after removing Miles Davis: 3</pre>
   <wb-short id="q21-why"></wb-short>
 </div>
 
-<h2 id="s10">10. Coding Pause 6: Clinic removal</h2>
-<p>This is clinic Part 6, at slide 33. Extend Part 5. Keep both Part 5 methods and all earlier methods except the removal method being rewritten. <code>Appointment</code> and <code>cancel(int index)</code> do not change.</p>
+<h2 id="s9">9. Clinic Part 6: Removal</h2>
+<h3>New in Part 6</h3>
+<p>We do this part together in class, as the last part of the lecture. It extends Part 5 and keeps every earlier method; <code>Appointment</code> and <code>cancel(int index)</code> do not change.</p>
+<p>First, rewrite <code>removeCheckedIn()</code> with <code>removeIf</code>. The method still returns how many appointments it removed, so save the size before the call and return the size before minus the size after. Delete <code>import java.util.Iterator;</code>, which nothing uses any more.</p>
+<p>Second, add <code>cancelPatient(String name)</code>. It removes every appointment with that exact name that has <em>not</em> checked in, so its predicate needs both conditions joined with <code>&amp;&amp;</code>. If unchecked appointments share the name, all of them go; a checked-in appointment with the name stays. The method returns what <code>removeIf</code> returns: <code>true</code> if it cancelled at least one appointment.</p>
+<p>The two methods treat a checked-in patient in opposite ways. <code>cancelPatient</code> refuses to remove one, as <code>cancel</code> did in Lecture 6. <code>removeCheckedIn</code> removes only checked-in patients.</p>
 
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: rewrite <code>removeCheckedIn</code></div>
-  <p><strong>22.</strong> Rewrite <code>int removeCheckedIn()</code> with <code>removeIf</code>. Save the size before removal and return size before minus size after. Remove the unused <code>Iterator</code> import. The method must return 0 for an empty schedule or no matches.</p>
+  <p><strong>9.1</strong> Rewrite <code>int removeCheckedIn()</code> with <code>removeIf</code>. Save the size before removal and return size before minus size after. Remove the unused <code>Iterator</code> import. The method must return 0 for an empty schedule or no matches.</p>
   <p>The Part 5 class is in the box, with the Lecture 7 iterator version of <code>removeCheckedIn</code>. A finished <code>Appointment</code> is on its classpath. The checking program tries an empty schedule, then adds Ana, Ben, Cara, and Dev, checks in Ben and Cara, and removes twice. Its expected output is:</p>
 <pre class="wb-output">Empty schedule: 0
 Removed Ben and Cara: 2
@@ -491,7 +698,7 @@ Nobody checked in: 0</pre>
 </div>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: write <code>cancelPatient</code></div>
-  <p><strong>23.</strong> Add <code>boolean cancelPatient(String name)</code> using <code>removeIf</code>. Remove appointments with that exact name only if they have not checked in. Return what <code>removeIf</code> returns. Remove all unchecked matches if names repeat; keep checked-in matches.</p>
+  <p><strong>9.2</strong> Add <code>boolean cancelPatient(String name)</code> using <code>removeIf</code>. Remove appointments with that exact name only if they have not checked in. Return what <code>removeIf</code> returns. Remove all unchecked matches if names repeat; keep checked-in matches.</p>
   <p>The box holds the class with the new <code>removeCheckedIn</code>. The checking program cancels on an empty schedule, then adds Ana, Ben, Ben (checked in), Cara, and Ben. Its expected output is:</p>
 <pre class="wb-output">Empty schedule: false
 Cancel Dev: false
@@ -505,19 +712,16 @@ Cara</pre>
   <p>What does the method return for no match or an empty schedule?</p>
   <wb-short id="q23-why"></wb-short>
 </div>
-
-<h3><code>ClinicDemo.main</code></h3>
-<p>Replace <code>ClinicDemo.main</code> for Part 6:</p>
-<ul>
-  <li>Add Ana, Ben, Cara and check in only Ana.</li>
-  <li>Print the results of cancelling Ana, cancelling Ben, then cancelling Ben again. Use labels <code>Cancel Ana:</code>, <code>Cancel Ben:</code>, and <code>Cancel Ben again:</code>.</li>
-  <li>Call <code>removeCheckedIn()</code> and print its result with <code>Removed:</code>. Print the count with <code>Remaining:</code>, then call <code>printAllPatients()</code>.</li>
-  <li>Call removal again and print its result with <code>Removed again:</code>.</li>
-</ul>
-
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: predict, then run the demo</div>
-  <p><strong>24.</strong> Predict all seven output lines.</p>
+  <p><strong>9.3</strong> Replace <code>ClinicDemo.main</code> for Part 6:</p>
+  <ul>
+    <li>Add Ana, Ben, Cara and check in only Ana.</li>
+    <li>Print the results of cancelling Ana, cancelling Ben, then cancelling Ben again. Use labels <code>Cancel Ana:</code>, <code>Cancel Ben:</code>, and <code>Cancel Ben again:</code>.</li>
+    <li>Call <code>removeCheckedIn()</code> and print its result with <code>Removed:</code>. Print the count with <code>Remaining:</code>, then call <code>printAllPatients()</code>.</li>
+    <li>Call removal again and print its result with <code>Removed again:</code>.</li>
+  </ul>
+  <p>Predict all seven output lines.</p>
   <wb-table id="q24">
     <table>
       <thead><tr><th>line</th><th>output</th></tr></thead>
@@ -538,11 +742,11 @@ Cara</pre>
   <wb-short id="q24-why"></wb-short>
 </div>
 
-<h2 id="s11">11. Review</h2>
+<h2 id="s10">10. Review</h2>
 
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: results and corrections</div>
-  <p><strong>25.</strong> Give the result or correction for each case.</p>
+  <p><strong>10.1</strong> Give the result or correction for each case.</p>
   <wb-table id="q25">
     <table>
       <thead><tr><th>case</th><th>answer</th></tr></thead>
@@ -556,6 +760,72 @@ Cara</pre>
   </wb-table>
   <p>(b) Who remains? (c) Does <code>forEach</code> return a list of titles or the total playing time? What is missing from the operations we have used so far?</p>
   <wb-short id="q25-why"></wb-short>
+</div>
+
+<h2 id="s11">11. Complete Java Programs</h2>
+<p>Write these two programs after class. Use additional paper or an IDE for the complete implementation. Each one uses the methods of this lecture in a new setting. Each box below starts from a skeleton: fill in the method bodies, then run. There is one box per class. When you reach a later class, finished copies of the earlier classes are on its classpath, so a mistake in one box does not stop the next.</p>
+
+<h3>11.1 Program A: Plant, Greenhouse and GreenhouseDemo</h3>
+<ul>
+  <li><code>Plant</code> stores a name and the number of days since it was watered. Give it a constructor, a getter for each field, <code>water()</code>, which sets the days to 0, and <code>printDetails()</code>, which prints a line such as <code>Fern (3 days)</code>.</li>
+  <li><code>Greenhouse</code> stores an <code>ArrayList&lt;Plant&gt;</code>. Give it a constructor, <code>addPlant(Plant plant)</code>, and four methods that use no explicit loop: <code>printAll()</code> and <code>waterAll()</code>, which use <code>forEach</code> with a method reference; <code>printThirsty(int days)</code>, which uses <code>forEach</code> with a lambda to print the name of every plant not watered for at least <code>days</code> days; and <code>removeNeglected(int days)</code>, which uses <code>removeIf</code> to remove every plant not watered for more than <code>days</code> days and returns how many it removed.</li>
+  <li><code>GreenhouseDemo</code> adds Fern (3 days), Cactus (20), Basil (6) and Orchid (16). It prints all plants, prints <code>Thirsty:</code> and the plants not watered for at least 5 days, removes the plants neglected for more than 14 days and prints the count, then waters all plants and prints them again.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Plant</code></div>
+  <p>A checking program creates Fern (3 days), prints the two getters and the details, waters it, and prints the details again.</p>
+  <wb-exercise id="p1-plant"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Greenhouse</code></div>
+  <p>A finished <code>Plant</code> is on the classpath of this box. The checking program tries an empty greenhouse, then four plants with two neglected ones next to each other.</p>
+  <wb-exercise id="p1-greenhouse"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>GreenhouseDemo</code></div>
+  <p>Finished <code>Plant</code> and <code>Greenhouse</code> classes are on the classpath of this box. Expected output:</p>
+<pre class="wb-output">Fern (3 days)
+Cactus (20 days)
+Basil (6 days)
+Orchid (16 days)
+Thirsty:
+Cactus
+Basil
+Orchid
+Removed: 2
+Fern (0 days)
+Basil (0 days)</pre>
+  <wb-exercise id="p1-demo"></wb-exercise>
+</div>
+
+<h3>11.2 Program B: Task, TaskList and TaskListDemo</h3>
+<ul>
+  <li><code>Task</code> stores a description and whether it is done. A new task is not done. Give it a constructor, <code>getDescription()</code>, <code>isDone()</code>, <code>complete()</code>, and <code>printDetails()</code>, which prints <code>[x] Pay rent</code> for a done task and <code>[ ] Pay rent</code> otherwise.</li>
+  <li><code>TaskList</code> stores an <code>ArrayList&lt;Task&gt;</code>. Give it a constructor and these methods, with no explicit loop: <code>addTask(Task task)</code>; <code>printAll()</code>, which uses <code>forEach</code>; <code>completeTask(String description)</code>, which uses <code>forEach</code> with a lambda to complete every task with that exact description; and <code>removeDone()</code>, which uses <code>removeIf</code> with the method reference <code>Task::isDone</code> and returns what <code>removeIf</code> returns.</li>
+  <li><code>TaskListDemo</code> adds Buy milk, Write report, Pay rent and Book flights, in that order. It completes Write report and Pay rent, which are next to each other, and prints all tasks. It prints the result of <code>removeDone()</code> with the label <code>Removed done tasks:</code>, then calls it again with the label <code>Removed again:</code>, and prints all tasks.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Task</code></div>
+  <p>A checking program creates Pay rent, prints the getters and the details, completes it, and prints them again.</p>
+  <wb-exercise id="p2-task"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>TaskList</code></div>
+  <p>A finished <code>Task</code> is on the classpath of this box. The checking program tries an empty list, then completes a description that appears twice and removes the done tasks.</p>
+  <wb-exercise id="p2-tasklist"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>TaskListDemo</code></div>
+  <p>Finished <code>Task</code> and <code>TaskList</code> classes are on the classpath of this box. Expected output:</p>
+<pre class="wb-output">[ ] Buy milk
+[x] Write report
+[x] Pay rent
+[ ] Book flights
+Removed done tasks: true
+Removed again: false
+[ ] Buy milk
+[ ] Book flights</pre>
+  <wb-exercise id="p2-demo"></wb-exercise>
 </div>
 
 </main>

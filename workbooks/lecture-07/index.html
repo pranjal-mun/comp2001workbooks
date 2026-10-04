@@ -20,7 +20,7 @@
   <div>
     <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
     <h1>Lecture 7 Workbook</h1>
-    <div class="wb-subtitle">Chapter 4, Part 2: Traversal, searching, and safe removal</div>
+    <div class="wb-subtitle">Chapter 4, Part 2: Traversal, Search and Removal</div>
     <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
   </div>
   <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
@@ -348,7 +348,7 @@ So What: -1</pre>
 
 <h2 id="s3">3. Clinic Part 3: Search</h2>
 <h3>The clinic so far</h3>
-<p>We do this part together in class at slide 19. The clinic project began in Lecture 6. An <code>Appointment</code> stores a patient name and whether the patient has checked in. It provides <code>getPatientName()</code>, <code>hasCheckedIn()</code> and <code>checkIn()</code>; a new appointment starts not checked in. At the end of Lecture 6 Part 2, <code>ClinicSchedule</code> stores an <code>ArrayList&lt;Appointment&gt;</code> named <code>appointments</code> and has these methods:</p>
+<p>We do this part together in class. The clinic project began in Lecture 6. An <code>Appointment</code> stores a patient name and whether the patient has checked in. It provides <code>getPatientName()</code>, <code>hasCheckedIn()</code> and <code>checkIn()</code>; a new appointment starts not checked in. At the end of Lecture 6 Part 2, <code>ClinicSchedule</code> stores an <code>ArrayList&lt;Appointment&gt;</code> named <code>appointments</code> and has these methods:</p>
 <table>
   <thead><tr><th>Method</th><th>What it does</th></tr></thead>
   <tbody>
@@ -386,7 +386,7 @@ So What: -1</pre>
         checkedIn = <span class="wb-kw">true</span>;
     }
 }</code></pre>
-<h3>What Part 3 adds</h3>
+<h3>New in Part 3</h3>
 <p>Part 3 adds a search for a patient by name. It uses the pattern from Section 2: an indexed <code>while</code>, a <code>found</code> flag, and <code>equals</code> to compare names. Patient names are never <code>null</code> and must match exactly, including capital letters, so <code>"ana"</code> does not match <code>"Ana"</code>. Duplicate names are allowed; the search returns the first one in arrival order. Keep <code>Appointment</code> and every existing <code>ClinicSchedule</code> method unchanged.</p>
 
 <div class="wb-checkpoint">
@@ -676,8 +676,8 @@ playlist.addTrack(soWhat);</code></pre>
 </div>
 
 <h2 id="s7">7. Clinic Part 4: Removal</h2>
-<h3>What Part 4 adds</h3>
-<p>We do this part together in class at slide 35. It extends Part 3 and keeps every earlier method, including <code>findPatientIndex</code>; <code>Appointment</code> is unchanged. At the end of the day, the clinic wants to clear out the patients who have already checked in. That means visiting every appointment and removing some of them during the traversal, so Section 5 says to use an iterator and its <code>remove()</code> method. Import <code>java.util.Iterator</code> above the class.</p>
+<h3>New in Part 4</h3>
+<p>We do this part together in class, as the last part of the lecture. It extends Part 3 and keeps every earlier method, including <code>findPatientIndex</code>; <code>Appointment</code> is unchanged. At the end of the day, the clinic wants to clear out the patients who have already checked in. That means visiting every appointment and removing some of them during the traversal, so Section 5 says to use an iterator and its <code>remove()</code> method. Import <code>java.util.Iterator</code> above the class.</p>
 <p>The method also reports how many appointments it removed. Use a local <code>int</code> counter that starts at 0 and goes up by 1 after each removal. With an empty schedule, or no checked-in patients, the loop removes nothing and the method returns 0. The remaining appointments keep their original order. The new method does not change <code>cancel</code>, which still refuses to cancel a checked-in patient.</p>
 
 <div class="wb-checkpoint">

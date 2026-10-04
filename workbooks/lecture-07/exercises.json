@@ -2,7 +2,7 @@
   "id": "lecture-07",
   "course": "COMP 2001: Object-Oriented Programming",
   "title": "Lecture 7 Workbook",
-  "subtitle": "Chapter 4, Part 2: Traversal, searching, and safe removal",
+  "subtitle": "Chapter 4, Part 2: Traversal, Search and Removal",
   "exercises": {
     "q1": {
       "type": "short",

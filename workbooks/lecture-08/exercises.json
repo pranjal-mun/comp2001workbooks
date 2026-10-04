@@ -2,7 +2,7 @@
   "id": "lecture-08",
   "course": "COMP 2001: Object-Oriented Programming",
   "title": "Lecture 8 Workbook",
-  "subtitle": "Chapter 5, Part 1: Lambdas and internal iteration",
+  "subtitle": "Chapter 5, Part 1: Lambdas and Collection Methods",
   "exercises": {
     "q1": {
       "type": "short",
@@ -17,12 +17,12 @@
       "blanks": {
         "params": {
           "accept": [
-            "(Track track)",
-            "(Tracktrack)",
-            "(Track track);",
-            "(Tracktrack);"
+            "(Track song)",
+            "(Tracksong)",
+            "(Track song);",
+            "(Tracksong);"
           ],
-          "show": "(Track track)",
+          "show": "(Track song)",
           "placeholder": "parameter list",
           "caseSensitive": true,
           "width": "12rem"
@@ -37,10 +37,10 @@
         },
         "body": {
           "accept": [
-            "{ System.out.println(track.getTitle()); }",
-            "{System.out.println(track.getTitle());}"
+            "{ System.out.println(song.getArtist()); }",
+            "{System.out.println(song.getArtist());}"
           ],
-          "show": "{ System.out.println(track.getTitle()); }",
+          "show": "{ System.out.println(song.getArtist()); }",
           "placeholder": "body",
           "caseSensitive": true,
           "width": "26rem"
@@ -52,7 +52,7 @@
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "VGhlIGxhbWJkYSBkZWNsYXJlcyB0cmFjayBpbiBpdHMgb3duIHBhcmFtZXRlciBsaXN0LiBUaGUgYXJyb3cgc2VwYXJhdGVzIHRoZSBwYXJhbWV0ZXJzIGZyb20gdGhlIGJvZHk7IGl0IGRvZXMgbm90IG1lYW4gYSB2YWx1ZSBpcyByZXR1cm5lZC4gcHJpbnRsbiByZXR1cm5zIG5vdGhpbmcu"
+      "answer": "VGhlIGxhbWJkYSBkZWNsYXJlcyBzb25nIGluIGl0cyBvd24gcGFyYW1ldGVyIGxpc3QsIHNvIG5vIGVhcmxpZXIgZGVjbGFyYXRpb24gaXMgbmVlZGVkLiBUaGUgYXJyb3cgc2VwYXJhdGVzIHRoZSBwYXJhbWV0ZXJzIGZyb20gdGhlIGJvZHk7IGl0IGRvZXMgbm90IG1lYW4gYSB2YWx1ZSBpcyByZXR1cm5lZC4gcHJpbnRsbiByZXR1cm5zIG5vdGhpbmcu"
     },
     "q3": {
       "type": "short",
@@ -79,10 +79,10 @@
         },
         "body": {
           "accept": [
-            "track.printDetails();",
-            "track.printDetails()"
+            "System.out.println(track.getArtist());",
+            "System.out.println(track.getArtist())"
           ],
-          "show": "track.printDetails();",
+          "show": "System.out.println(track.getArtist());",
           "placeholder": "statement",
           "caseSensitive": true,
           "width": "26rem"
@@ -197,30 +197,30 @@
       "blanks": {
         "s2": {
           "accept": [
-            "(track) -> { track.printDetails(); }",
-            "(track)->{track.printDetails();}"
+            "(track) -> { System.out.println(track.getTitle()); }",
+            "(track)->{System.out.println(track.getTitle());}"
           ],
-          "show": "(track) -> { track.printDetails(); }",
+          "show": "(track) -> { System.out.println(track.getTitle()); }",
           "placeholder": "stage 2",
           "caseSensitive": true,
           "width": "26rem"
         },
         "s3": {
           "accept": [
-            "track -> { track.printDetails(); }",
-            "track->{track.printDetails();}"
+            "track -> { System.out.println(track.getTitle()); }",
+            "track->{System.out.println(track.getTitle());}"
           ],
-          "show": "track -> { track.printDetails(); }",
+          "show": "track -> { System.out.println(track.getTitle()); }",
           "placeholder": "stage 3",
           "caseSensitive": true,
           "width": "26rem"
         },
         "s4": {
           "accept": [
-            "track -> track.printDetails()",
-            "track->track.printDetails()"
+            "track -> System.out.println(track.getTitle())",
+            "track->System.out.println(track.getTitle())"
           ],
-          "show": "track -> track.printDetails()",
+          "show": "track -> System.out.println(track.getTitle())",
           "placeholder": "stage 4",
           "caseSensitive": true,
           "width": "26rem"
@@ -294,19 +294,19 @@
       "blanks": {
         "ref": {
           "accept": [
-            "titles.forEach(System.out::println);",
-            "titles.forEach(System.out::println)",
+            "artists.forEach(System.out::println);",
+            "artists.forEach(System.out::println)",
             "System.out::println",
             "System.out::println;"
           ],
-          "show": "titles.forEach(System.out::println);",
+          "show": "artists.forEach(System.out::println);",
           "placeholder": "new call",
           "caseSensitive": true,
           "width": "26rem"
         },
         "o1": {
           "accept": [
-            "Northern Sky"
+            "Nick Drake"
           ],
           "placeholder": "output line",
           "caseSensitive": true,
@@ -314,7 +314,7 @@
         },
         "o2": {
           "accept": [
-            "Blue Train"
+            "John Coltrane"
           ],
           "placeholder": "output line",
           "caseSensitive": true,
@@ -455,7 +455,7 @@
       "xp": 2,
       "minChars": 20,
       "rows": 3,
-      "answer": "cHJpbnREZXRhaWxzIHJldHVybnMgbm90aGluZy4gcmVtb3ZlSWYgbmVlZHMgYSBwcmVkaWNhdGUgdGhhdCByZWNlaXZlcyBvbmUgVHJhY2sgYW5kIHJldHVybnMgYm9vbGVhbi4gZm9yRWFjaCBuZWVkcyBhbiBhY3Rpb24gb24gb25lIFRyYWNrIGFuZCB1c2VzIG5vIHJlc3VsdC4gVGhlIHJlY2VpdmluZyBtZXRob2QgZGV0ZXJtaW5lcyB0aGUgcmVxdWlyZWQgc2hhcGUsIGNhbGxlZCBhIGZ1bmN0aW9uYWwgaW50ZXJmYWNlIGluIHRoZSBKYXZhIGxpYnJhcnku"
+      "answer": "cHJpbnRsbiByZXR1cm5zIG5vdGhpbmcuIHJlbW92ZUlmIG5lZWRzIGEgcHJlZGljYXRlIHRoYXQgcmVjZWl2ZXMgb25lIFRyYWNrIGFuZCByZXR1cm5zIGJvb2xlYW4uIGZvckVhY2ggbmVlZHMgYW4gYWN0aW9uIG9uIG9uZSBUcmFjayBhbmQgdXNlcyBubyByZXN1bHQuIFRoZSByZWNlaXZpbmcgbWV0aG9kIGRldGVybWluZXMgdGhlIHJlcXVpcmVkIHNoYXBlLCBjYWxsZWQgYSBmdW5jdGlvbmFsIGludGVyZmFjZSBpbiB0aGUgSmF2YSBsaWJyYXJ5Lg=="
     },
     "q14": {
       "type": "table",
@@ -463,13 +463,13 @@
       "blanks": {
         "r1": {
           "accept": [
-            "true"
+            "false"
           ],
           "placeholder": "true / false"
         },
         "r2": {
           "accept": [
-            "false"
+            "true"
           ],
           "placeholder": "true / false"
         },
@@ -481,19 +481,13 @@
         },
         "r4": {
           "accept": [
-            "true"
+            "false"
           ],
           "placeholder": "true / false"
         },
         "r5": {
           "accept": [
-            "false"
-          ],
-          "placeholder": "true / false"
-        },
-        "e300": {
-          "accept": [
-            "false"
+            "true"
           ],
           "placeholder": "true / false"
         }
@@ -504,7 +498,7 @@
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "SXQgb25seSByZWFkcyB0aGUgZHVyYXRpb24gYW5kIGFuc3dlcnMgYSBxdWVzdGlvbi4gSXQgY2hhbmdlcyBub3RoaW5nIGJ5IGl0c2VsZi4gRXhhY3RseSAzMDAgZ2l2ZXMgZmFsc2UuIFRoZSByZXN1bHQgdHlwZSBpcyBib29sZWFuLg=="
+      "answer": "SXQgb25seSByZWFkcyB0aGUgZHVyYXRpb24gYW5kIGFuc3dlcnMgYSBxdWVzdGlvbi4gSXQgY2hhbmdlcyBub3RoaW5nIGJ5IGl0c2VsZi4gVGVhcmRyb3AsIGF0IGV4YWN0bHkgMzMwLCBnaXZlcyBmYWxzZSBiZWNhdXNlID4gaXMgc3RyaWN0OyAzNzkgZ2l2ZXMgdHJ1ZSwgYXMgQW5nZWwgc2hvd3Mu"
     },
     "q15": {
       "type": "table",
@@ -596,15 +590,15 @@
       "minLines": 30,
       "maxLines": 50,
       "title": "Playlist.java",
-      "starter": "import java.util.ArrayList;\nimport java.util.Iterator;\n\npublic class Playlist\n{\n    private ArrayList<Track> tracks;\n\n    public Playlist()\n    {\n        tracks = new ArrayList<>();\n    }\n\n    public void addTrack(Track track)\n    {\n        tracks.add(track);\n    }\n\n    public int getNumberOfTracks()\n    {\n        return tracks.size();\n    }\n\n    public void printAllTracks()\n    {\n        tracks.forEach(Track::printDetails);\n    }\n\n    // Rewrite this method with one removeIf call.\n    public void removeTracksByArtist(String artist)\n    {\n        Iterator<Track> iterator = tracks.iterator();\n        while(iterator.hasNext()) {\n            Track track = iterator.next();\n            if(track.getArtist().equals(artist)) {\n                iterator.remove();\n            }\n        }\n    }\n}\n",
+      "starter": "import java.util.ArrayList;\nimport java.util.Iterator;\n\npublic class Playlist\n{\n    private ArrayList<Track> tracks;\n\n    public Playlist()\n    {\n        tracks = new ArrayList<>();\n    }\n\n    public void addTrack(Track track)\n    {\n        tracks.add(track);\n    }\n\n    public int getNumberOfTracks()\n    {\n        return tracks.size();\n    }\n\n    public void printAllTracks()\n    {\n        tracks.forEach(Track::printDetails);\n    }\n\n    // Rewrite this method with one removeIf call.\n    public void removeTracksByTitle(String title)\n    {\n        Iterator<Track> iterator = tracks.iterator();\n        while(iterator.hasNext()) {\n            Track track = iterator.next();\n            if(track.getTitle().equals(title)) {\n                iterator.remove();\n            }\n        }\n    }\n}\n",
       "cases": [
         {
           "name": "Output of the checking program",
-          "expected": "After removing John Coltrane:\nNick Drake - Northern Sky (224 s)\nMassive Attack - Teardrop (330 s)\nMassive Attack - Angel (379 s)\nTracks after removing Miles Davis: 3"
+          "expected": "After removing Teardrop:\nNick Drake - Northern Sky (224 s)\nJohn Coltrane - Blue Train (643 s)\nJohn Coltrane - Naima (265 s)\nMassive Attack - Angel (379 s)\nTracks after removing So What: 4"
         }
       ],
-      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidremoveTracksByArtist(Stringartist)\"), \"Keep the header public void removeTracksByArtist(String artist).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"tracks.removeIf(\"), \"Use one tracks.removeIf(...) call.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getArtist().equals(artist)\"), \"Test each track with track.getArtist().equals(artist).\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\".iterator()\"), \"removeIf does the traversal; no iterator is needed.\");",
-      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgUGxheWxpc3QKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8VHJhY2s+IHRyYWNrczsKCiAgICBwdWJsaWMgUGxheWxpc3QoKQogICAgewogICAgICAgIHRyYWNrcyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZFRyYWNrKFRyYWNrIHRyYWNrKQogICAgewogICAgICAgIHRyYWNrcy5hZGQodHJhY2spOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TnVtYmVyT2ZUcmFja3MoKQogICAgewogICAgICAgIHJldHVybiB0cmFja3Muc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50QWxsVHJhY2tzKCkKICAgIHsKICAgICAgICB0cmFja3MuZm9yRWFjaChUcmFjazo6cHJpbnREZXRhaWxzKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCByZW1vdmVUcmFja3NCeUFydGlzdChTdHJpbmcgYXJ0aXN0KQogICAgewogICAgICAgIHRyYWNrcy5yZW1vdmVJZih0cmFjayAtPiB0cmFjay5nZXRBcnRpc3QoKS5lcXVhbHMoYXJ0aXN0KSk7CiAgICB9Cn0=",
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidremoveTracksByTitle(Stringtitle)\"), \"Keep the header public void removeTracksByTitle(String title).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"tracks.removeIf(\"), \"Use one tracks.removeIf(...) call.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getTitle().equals(title)\"), \"Test each track with track.getTitle().equals(title).\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\".iterator()\"), \"removeIf does the traversal; no iterator is needed.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgUGxheWxpc3QKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8VHJhY2s+IHRyYWNrczsKCiAgICBwdWJsaWMgUGxheWxpc3QoKQogICAgewogICAgICAgIHRyYWNrcyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZFRyYWNrKFRyYWNrIHRyYWNrKQogICAgewogICAgICAgIHRyYWNrcy5hZGQodHJhY2spOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TnVtYmVyT2ZUcmFja3MoKQogICAgewogICAgICAgIHJldHVybiB0cmFja3Muc2l6ZSgpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50QWxsVHJhY2tzKCkKICAgIHsKICAgICAgICB0cmFja3MuZm9yRWFjaChUcmFjazo6cHJpbnREZXRhaWxzKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCByZW1vdmVUcmFja3NCeVRpdGxlKFN0cmluZyB0aXRsZSkKICAgIHsKICAgICAgICB0cmFja3MucmVtb3ZlSWYodHJhY2sgLT4gdHJhY2suZ2V0VGl0bGUoKS5lcXVhbHModGl0bGUpKTsKICAgIH0KfQ==",
       "files": [
         {
           "name": "Track.java",
@@ -612,7 +606,7 @@
         },
         {
           "name": "RemoveCheck.java",
-          "content": "public class RemoveCheck\n{\n    public static void main(String[] args)\n    {\n        Playlist playlist = new Playlist();\n        playlist.addTrack(new Track(\"Northern Sky\", \"Nick Drake\", 224));\n        playlist.addTrack(new Track(\"Blue Train\", \"John Coltrane\", 643));\n        playlist.addTrack(new Track(\"Teardrop\", \"Massive Attack\", 330));\n        playlist.addTrack(new Track(\"Naima\", \"John Coltrane\", 265));\n        playlist.addTrack(new Track(\"Angel\", \"Massive Attack\", 379));\n        playlist.removeTracksByArtist(\"John Coltrane\");\n        System.out.println(\"After removing John Coltrane:\");\n        playlist.printAllTracks();\n        playlist.removeTracksByArtist(\"Miles Davis\");\n        System.out.println(\"Tracks after removing Miles Davis: \" + playlist.getNumberOfTracks());\n    }\n}"
+          "content": "public class RemoveCheck\n{\n    public static void main(String[] args)\n    {\n        Playlist playlist = new Playlist();\n        playlist.addTrack(new Track(\"Northern Sky\", \"Nick Drake\", 224));\n        playlist.addTrack(new Track(\"Blue Train\", \"John Coltrane\", 643));\n        playlist.addTrack(new Track(\"Teardrop\", \"Massive Attack\", 330));\n        playlist.addTrack(new Track(\"Naima\", \"John Coltrane\", 265));\n        playlist.addTrack(new Track(\"Angel\", \"Massive Attack\", 379));\n        playlist.removeTracksByTitle(\"Teardrop\");\n        System.out.println(\"After removing Teardrop:\");\n        playlist.printAllTracks();\n        playlist.removeTracksByTitle(\"So What\");\n        System.out.println(\"Tracks after removing So What: \" + playlist.getNumberOfTracks());\n    }\n}"
         }
       ]
     },
@@ -621,7 +615,7 @@
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "cmVtb3ZlSWYgY29udHJvbHMgdHJhdmVyc2FsIGFuZCByZW1vdmFsOyBvdXIgY29kZSBzdXBwbGllcyB0aGUgdGVzdC4gRXZlcnkgbWF0Y2hpbmcgdHJhY2sgaXMgcmVtb3ZlZC4gRGVsZXRlIHRoZSBJdGVyYXRvciBpbXBvcnQgaWYgbm8gb3RoZXIgbWV0aG9kIHVzZXMgaXQu"
+      "answer": "cmVtb3ZlSWYgY29udHJvbHMgdHJhdmVyc2FsIGFuZCByZW1vdmFsOyBvdXIgY29kZSBzdXBwbGllcyB0aGUgdGVzdC4gRXZlcnkgbWF0Y2hpbmcgdHJhY2sgaXMgcmVtb3ZlZC4gRGVsZXRlIHRoZSBJdGVyYXRvciBpbXBvcnQgaWYgbm8gb3RoZXIgbWV0aG9kIHVzZXMgaXQuIEZvciBUZWFyZHJvcCwgZm91ciB0cmFja3MgcmVtYWluLg=="
     },
     "q17": {
       "type": "table",
@@ -629,26 +623,26 @@
       "blanks": {
         "gone": {
           "accept": [
-            "[Northern Sky, Naima]",
-            "Northern Sky, Naima",
-            "[Northern Sky,Naima]",
-            "Northern Sky,Naima",
-            "Northern Sky and Naima"
+            "[Teardrop, Angel]",
+            "Teardrop, Angel",
+            "[Teardrop,Angel]",
+            "Teardrop,Angel",
+            "Teardrop and Angel"
           ],
-          "show": "Northern Sky, Naima",
+          "show": "Teardrop, Angel",
           "placeholder": "matching tracks",
           "width": "14rem"
         },
         "left": {
           "accept": [
-            "[Blue Train, Teardrop, Angel]",
-            "Blue Train, Teardrop, Angel",
-            "[Blue Train,Teardrop,Angel]",
-            "Blue Train,Teardrop,Angel",
-            "Blue Train, Teardrop, and Angel",
-            "Blue Train, Teardrop and Angel"
+            "[Northern Sky, Blue Train, Naima]",
+            "Northern Sky, Blue Train, Naima",
+            "[Northern Sky,Blue Train,Naima]",
+            "Northern Sky,Blue Train,Naima",
+            "Northern Sky, Blue Train, and Naima",
+            "Northern Sky, Blue Train and Naima"
           ],
-          "show": "Blue Train, Teardrop, Angel",
+          "show": "Northern Sky, Blue Train, Naima",
           "placeholder": "survivors",
           "width": "18rem"
         },
@@ -671,7 +665,7 @@
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "VGhlaXIgZmllbGRzIHN0YXkgdGhlIHNhbWUuIFRoZWlyIGxpc3QgcG9zaXRpb25zIGNoYW5nZTogQmx1ZSBUcmFpbiwgVGVhcmRyb3AsIGFuZCBBbmdlbCBhcmUgbm93IGF0IGluZGljZXMgMCwgMSwgYW5kIDIu"
+      "answer": "VGhlaXIgZmllbGRzIHN0YXkgdGhlIHNhbWUuIE5vcnRoZXJuIFNreSwgQmx1ZSBUcmFpbiwgYW5kIE5haW1hIGFyZSBub3cgYXQgaW5kaWNlcyAwLCAxLCBhbmQgMjsgTmFpbWEgbW92ZXMgZnJvbSBpbmRleCAzIHRvIGluZGV4IDIu"
     },
     "q18": {
       "type": "table",
@@ -823,7 +817,7 @@
       "xp": 2,
       "minChars": 20,
       "rows": 3,
-      "answer": "VGhlIG9yaWdpbmFsIGNoYW5nZXMgdGhlIHNhbWUgbGlzdCdzIG1lbWJlcnNoaXAgZHVyaW5nIGZvckVhY2guIEEgcnVuIHdpdGhvdXQgYW4gZXhjZXB0aW9uIGRvZXMgbm90IHByb3ZlIGl0IHNhZmUuIGNoZWNrSW5BbGwgY2hhbmdlcyBlbGVtZW50IHN0YXRlLCBub3QgbWVtYmVyc2hpcC4gcmVtb3ZlSWYgaXRzZWxmIHJldHVybnMgYSBib29sZWFuLCBub3QgdGhpcyBjb3VudC4="
+      "answer": "VGhlIG9yaWdpbmFsIGNoYW5nZXMgdGhlIHNhbWUgbGlzdCdzIG1lbWJlcnNoaXAgZHVyaW5nIGZvckVhY2guIEEgcnVuIHdpdGhvdXQgYW4gZXhjZXB0aW9uIGRvZXMgbm90IHByb3ZlIGl0IHNhZmUuIGNoZWNrSW5BbGwgY2hhbmdlcyBlbGVtZW50IHN0YXRlLCBub3QgbWVtYmVyc2hpcC4gVGhlIHJlcGFpcmVkIGNvZGUgZ2l2ZXMgNSBtaW51cyAzLCBzbyByZW1vdmVkIGlzIDIuIHJlbW92ZUlmIGl0c2VsZiByZXR1cm5zIGEgYm9vbGVhbiwgbm90IHRoaXMgY291bnQu"
     },
     "q21": {
       "type": "table",
@@ -892,7 +886,7 @@
       "xp": 2,
       "minChars": 20,
       "rows": 3,
-      "answer": "QW4gaWYgaW5zaWRlIGEgZm9yRWFjaCBhY3Rpb24gY2FuIGNob29zZSB3aGF0IHByaW50cywgYnV0IHRoZSBhY3Rpb24gc3RpbGwgcmVjZWl2ZXMgZXZlcnkgZWxlbWVudC4gQSBzZWFyY2ggdGhhdCBzdG9wcyBlYXJseSBhbmQgc2V2ZXJhbCBsb2NhbCB2YXJpYWJsZXMgbmVlZCBhbiBleHBsaWNpdCBsb29wLiBTaG9ydGVyIGNvZGUgaXMgbm90IGF1dG9tYXRpY2FsbHkgY2xlYXJlciBvciBmYXN0ZXIu"
+      "answer": "KGEpIGZvckVhY2gsIHRob3VnaCBmb3ItZWFjaCBhbHNvIHdvcmtzLiAoYikgcmVtb3ZlSWYuIChjKSBBbiBleHBsaWNpdCBsb29wLCBzdWNoIGFzIGFuIGluZGV4ZWQgd2hpbGUuIChkKSBBbiBleHBsaWNpdCBsb29wOiBhIGxhbWJkYSBjYW5ub3QgY2hhbmdlIGEgbG9jYWwgdmFyaWFibGUuIEFuIGlmIGluc2lkZSBhIGZvckVhY2ggYWN0aW9uIGNhbiBjaG9vc2Ugd2hhdCBwcmludHMsIGJ1dCB0aGUgYWN0aW9uIHN0aWxsIHJlY2VpdmVzIGV2ZXJ5IGVsZW1lbnQu"
     },
     "q22": {
       "type": "code",
@@ -1084,6 +1078,154 @@
       "minChars": 20,
       "rows": 3,
       "answer": "KGIpIE9ubHkgdGhlIGNoZWNrZWQtaW4gQmVuIHJlbWFpbnMuIChjKSBOZWl0aGVyOyBmb3JFYWNoIHJldHVybnMgbm90aGluZy4gV2Ugc3RpbGwgbmVlZCBzZXBhcmF0ZSBzdGVwcyB0byBzZWxlY3QgZWxlbWVudHMsIHByb2R1Y2UgYSBkaWZmZXJlbnQgdmFsdWUgZnJvbSBlYWNoLCBhbmQgY29tYmluZSB2YWx1ZXMgaW50byBvbmUgcmVzdWx0LiBMZWN0dXJlIDkgdXNlcyBzdHJlYW1zIGZvciB0aGlzLiBMb29wcyBjYW4gYWxyZWFkeSBzb2x2ZSB0aGVzZSB0YXNrcy4="
+    },
+    "p1-plant": {
+      "type": "code",
+      "xp": 3,
+      "minLines": 28,
+      "maxLines": 40,
+      "title": "Plant.java",
+      "starter": "public class Plant\n{\n    private String name;\n    private int daysSinceWatered;\n\n    public Plant(String name, int daysSinceWatered)\n    {\n        // Assign the two fields.\n    }\n\n    public String getName()\n    {\n    }\n\n    public int getDaysSinceWatered()\n    {\n    }\n\n    public void water()\n    {\n    }\n\n    public void printDetails()\n    {\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Fern\n3\nFern (3 days)\nFern (0 days)"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicPlant(Stringname,intdaysSinceWatered)\"), \"Keep the constructor header Plant(String name, int daysSinceWatered).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidwater()\"), \"Include public void water().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidprintDetails()\"), \"Include public void printDetails().\");",
+      "answer": "cHVibGljIGNsYXNzIFBsYW50CnsKICAgIHByaXZhdGUgU3RyaW5nIG5hbWU7CiAgICBwcml2YXRlIGludCBkYXlzU2luY2VXYXRlcmVkOwoKICAgIHB1YmxpYyBQbGFudChTdHJpbmcgbmFtZSwgaW50IGRheXNTaW5jZVdhdGVyZWQpCiAgICB7CiAgICAgICAgdGhpcy5uYW1lID0gbmFtZTsKICAgICAgICB0aGlzLmRheXNTaW5jZVdhdGVyZWQgPSBkYXlzU2luY2VXYXRlcmVkOwogICAgfQoKICAgIHB1YmxpYyBTdHJpbmcgZ2V0TmFtZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIG5hbWU7CiAgICB9CgogICAgcHVibGljIGludCBnZXREYXlzU2luY2VXYXRlcmVkKCkKICAgIHsKICAgICAgICByZXR1cm4gZGF5c1NpbmNlV2F0ZXJlZDsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCB3YXRlcigpCiAgICB7CiAgICAgICAgZGF5c1NpbmNlV2F0ZXJlZCA9IDA7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnREZXRhaWxzKCkKICAgIHsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4obmFtZSArICIgKCIgKyBkYXlzU2luY2VXYXRlcmVkICsgIiBkYXlzKSIpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "PlantCheck.java",
+          "content": "public class PlantCheck\n{\n    public static void main(String[] args)\n    {\n        Plant plant = new Plant(\"Fern\", 3);\n        System.out.println(plant.getName());\n        System.out.println(plant.getDaysSinceWatered());\n        plant.printDetails();\n        plant.water();\n        plant.printDetails();\n    }\n}"
+        }
+      ]
+    },
+    "p1-greenhouse": {
+      "type": "code",
+      "xp": 6,
+      "minLines": 40,
+      "maxLines": 56,
+      "title": "Greenhouse.java",
+      "starter": "import java.util.ArrayList;\n\npublic class Greenhouse\n{\n    private ArrayList<Plant> plants;\n\n    public Greenhouse()\n    {\n        plants = new ArrayList<>();\n    }\n\n    public void addPlant(Plant plant)\n    {\n    }\n\n    public void printAll()\n    {\n        // forEach with a method reference.\n    }\n\n    public void waterAll()\n    {\n        // forEach with a method reference.\n    }\n\n    public void printThirsty(int days)\n    {\n        // forEach with a lambda.\n    }\n\n    public int removeNeglected(int days)\n    {\n        // removeIf; return the number removed.\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Empty greenhouse:\nRemoved from empty: 0\nThirsty for 7 or more:\nAloe\nYucca\nMint\nRemoved: 2\nIvy (2 days)\nMint (7 days)\nRemoved again: 0\nIvy (0 days)\nMint (0 days)"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"plants.forEach(Plant::printDetails)\"), \"Print all plants with plants.forEach(Plant::printDetails);\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"plants.forEach(Plant::water)\"), \"Water all plants with plants.forEach(Plant::water);\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"plants.removeIf(\"), \"Remove the neglected plants with plants.removeIf(...).\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"for(\"), \"Use forEach and removeIf; do not write an explicit loop.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"while(\"), \"Use forEach and removeIf; do not write an explicit loop.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgR3JlZW5ob3VzZQp7CiAgICBwcml2YXRlIEFycmF5TGlzdDxQbGFudD4gcGxhbnRzOwoKICAgIHB1YmxpYyBHcmVlbmhvdXNlKCkKICAgIHsKICAgICAgICBwbGFudHMgPSBuZXcgQXJyYXlMaXN0PD4oKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBhZGRQbGFudChQbGFudCBwbGFudCkKICAgIHsKICAgICAgICBwbGFudHMuYWRkKHBsYW50KTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludEFsbCgpCiAgICB7CiAgICAgICAgcGxhbnRzLmZvckVhY2goUGxhbnQ6OnByaW50RGV0YWlscyk7CiAgICB9CgogICAgcHVibGljIHZvaWQgd2F0ZXJBbGwoKQogICAgewogICAgICAgIHBsYW50cy5mb3JFYWNoKFBsYW50Ojp3YXRlcik7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRUaGlyc3R5KGludCBkYXlzKQogICAgewogICAgICAgIHBsYW50cy5mb3JFYWNoKHBsYW50IC0+IHsKICAgICAgICAgICAgaWYocGxhbnQuZ2V0RGF5c1NpbmNlV2F0ZXJlZCgpID49IGRheXMpIHsKICAgICAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihwbGFudC5nZXROYW1lKCkpOwogICAgICAgICAgICB9CiAgICAgICAgfSk7CiAgICB9CgogICAgcHVibGljIGludCByZW1vdmVOZWdsZWN0ZWQoaW50IGRheXMpCiAgICB7CiAgICAgICAgaW50IGJlZm9yZSA9IHBsYW50cy5zaXplKCk7CiAgICAgICAgcGxhbnRzLnJlbW92ZUlmKHBsYW50IC0+IHBsYW50LmdldERheXNTaW5jZVdhdGVyZWQoKSA+IGRheXMpOwogICAgICAgIHJldHVybiBiZWZvcmUgLSBwbGFudHMuc2l6ZSgpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Plant.java",
+          "content": "public class Plant\n{\n    private String name;\n    private int daysSinceWatered;\n\n    public Plant(String name, int daysSinceWatered)\n    {\n        this.name = name;\n        this.daysSinceWatered = daysSinceWatered;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public int getDaysSinceWatered()\n    {\n        return daysSinceWatered;\n    }\n\n    public void water()\n    {\n        daysSinceWatered = 0;\n    }\n\n    public void printDetails()\n    {\n        System.out.println(name + \" (\" + daysSinceWatered + \" days)\");\n    }\n}"
+        },
+        {
+          "name": "GreenhouseCheck.java",
+          "content": "public class GreenhouseCheck\n{\n    public static void main(String[] args)\n    {\n        Greenhouse empty = new Greenhouse();\n        System.out.println(\"Empty greenhouse:\");\n        empty.printAll();\n        empty.printThirsty(0);\n        System.out.println(\"Removed from empty: \" + empty.removeNeglected(0));\n        Greenhouse greenhouse = new Greenhouse();\n        greenhouse.addPlant(new Plant(\"Ivy\", 2));\n        greenhouse.addPlant(new Plant(\"Aloe\", 30));\n        greenhouse.addPlant(new Plant(\"Yucca\", 25));\n        greenhouse.addPlant(new Plant(\"Mint\", 7));\n        System.out.println(\"Thirsty for 7 or more:\");\n        greenhouse.printThirsty(7);\n        System.out.println(\"Removed: \" + greenhouse.removeNeglected(7));\n        greenhouse.printAll();\n        System.out.println(\"Removed again: \" + greenhouse.removeNeglected(7));\n        greenhouse.waterAll();\n        greenhouse.printAll();\n    }\n}"
+        }
+      ]
+    },
+    "p1-demo": {
+      "type": "code",
+      "xp": 4,
+      "minLines": 16,
+      "maxLines": 28,
+      "title": "GreenhouseDemo.java",
+      "starter": "public class GreenhouseDemo\n{\n    public static void main(String[] args)\n    {\n        Greenhouse greenhouse = new Greenhouse();\n        // 1. Add the four plants.\n        // 2. Print all plants.\n        // 3. Print \"Thirsty:\" and the plants not watered for at least 5 days.\n        // 4. Remove plants neglected for more than 14 days; print \"Removed: \" and the count.\n        // 5. Water all plants and print them again.\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Fern (3 days)\nCactus (20 days)\nBasil (6 days)\nOrchid (16 days)\nThirsty:\nCactus\nBasil\nOrchid\nRemoved: 2\nFern (0 days)\nBasil (0 days)"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"greenhouse.addPlant(newPlant(\"), \"Add each plant as an anonymous object: greenhouse.addPlant(new Plant(...));\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"printThirsty(5)\"), \"Print the plants not watered for at least 5 days with printThirsty(5).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"removeNeglected(14)\"), \"Remove the plants neglected for more than 14 days with removeNeglected(14).\");",
+      "answer": "cHVibGljIGNsYXNzIEdyZWVuaG91c2VEZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgR3JlZW5ob3VzZSBncmVlbmhvdXNlID0gbmV3IEdyZWVuaG91c2UoKTsKICAgICAgICBncmVlbmhvdXNlLmFkZFBsYW50KG5ldyBQbGFudCgiRmVybiIsIDMpKTsKICAgICAgICBncmVlbmhvdXNlLmFkZFBsYW50KG5ldyBQbGFudCgiQ2FjdHVzIiwgMjApKTsKICAgICAgICBncmVlbmhvdXNlLmFkZFBsYW50KG5ldyBQbGFudCgiQmFzaWwiLCA2KSk7CiAgICAgICAgZ3JlZW5ob3VzZS5hZGRQbGFudChuZXcgUGxhbnQoIk9yY2hpZCIsIDE2KSk7CgogICAgICAgIGdyZWVuaG91c2UucHJpbnRBbGwoKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlRoaXJzdHk6Iik7CiAgICAgICAgZ3JlZW5ob3VzZS5wcmludFRoaXJzdHkoNSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJSZW1vdmVkOiAiICsgZ3JlZW5ob3VzZS5yZW1vdmVOZWdsZWN0ZWQoMTQpKTsKICAgICAgICBncmVlbmhvdXNlLndhdGVyQWxsKCk7CiAgICAgICAgZ3JlZW5ob3VzZS5wcmludEFsbCgpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Plant.java",
+          "content": "public class Plant\n{\n    private String name;\n    private int daysSinceWatered;\n\n    public Plant(String name, int daysSinceWatered)\n    {\n        this.name = name;\n        this.daysSinceWatered = daysSinceWatered;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public int getDaysSinceWatered()\n    {\n        return daysSinceWatered;\n    }\n\n    public void water()\n    {\n        daysSinceWatered = 0;\n    }\n\n    public void printDetails()\n    {\n        System.out.println(name + \" (\" + daysSinceWatered + \" days)\");\n    }\n}"
+        },
+        {
+          "name": "Greenhouse.java",
+          "content": "import java.util.ArrayList;\n\npublic class Greenhouse\n{\n    private ArrayList<Plant> plants;\n\n    public Greenhouse()\n    {\n        plants = new ArrayList<>();\n    }\n\n    public void addPlant(Plant plant)\n    {\n        plants.add(plant);\n    }\n\n    public void printAll()\n    {\n        plants.forEach(Plant::printDetails);\n    }\n\n    public void waterAll()\n    {\n        plants.forEach(Plant::water);\n    }\n\n    public void printThirsty(int days)\n    {\n        plants.forEach(plant -> {\n            if(plant.getDaysSinceWatered() >= days) {\n                System.out.println(plant.getName());\n            }\n        });\n    }\n\n    public int removeNeglected(int days)\n    {\n        int before = plants.size();\n        plants.removeIf(plant -> plant.getDaysSinceWatered() > days);\n        return before - plants.size();\n    }\n}"
+        }
+      ]
+    },
+    "p2-task": {
+      "type": "code",
+      "xp": 3,
+      "minLines": 30,
+      "maxLines": 44,
+      "title": "Task.java",
+      "starter": "public class Task\n{\n    private String description;\n    private boolean done;\n\n    public Task(String description)\n    {\n        // A new task is not done.\n    }\n\n    public String getDescription()\n    {\n    }\n\n    public boolean isDone()\n    {\n    }\n\n    public void complete()\n    {\n    }\n\n    public void printDetails()\n    {\n        // [x] or [ ], then the description.\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Pay rent\nfalse\n[ ] Pay rent\ntrue\n[x] Pay rent"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicTask(Stringdescription)\"), \"Keep the constructor header Task(String description).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleanisDone()\"), \"Include public boolean isDone().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicvoidcomplete()\"), \"Include public void complete().\");",
+      "answer": "cHVibGljIGNsYXNzIFRhc2sKewogICAgcHJpdmF0ZSBTdHJpbmcgZGVzY3JpcHRpb247CiAgICBwcml2YXRlIGJvb2xlYW4gZG9uZTsKCiAgICBwdWJsaWMgVGFzayhTdHJpbmcgZGVzY3JpcHRpb24pCiAgICB7CiAgICAgICAgdGhpcy5kZXNjcmlwdGlvbiA9IGRlc2NyaXB0aW9uOwogICAgICAgIGRvbmUgPSBmYWxzZTsKICAgIH0KCiAgICBwdWJsaWMgU3RyaW5nIGdldERlc2NyaXB0aW9uKCkKICAgIHsKICAgICAgICByZXR1cm4gZGVzY3JpcHRpb247CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gaXNEb25lKCkKICAgIHsKICAgICAgICByZXR1cm4gZG9uZTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBjb21wbGV0ZSgpCiAgICB7CiAgICAgICAgZG9uZSA9IHRydWU7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnREZXRhaWxzKCkKICAgIHsKICAgICAgICBpZihkb25lKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiW3hdICIgKyBkZXNjcmlwdGlvbik7CiAgICAgICAgfQogICAgICAgIGVsc2UgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlsgXSAiICsgZGVzY3JpcHRpb24pOwogICAgICAgIH0KICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "TaskCheck.java",
+          "content": "public class TaskCheck\n{\n    public static void main(String[] args)\n    {\n        Task task = new Task(\"Pay rent\");\n        System.out.println(task.getDescription());\n        System.out.println(task.isDone());\n        task.printDetails();\n        task.complete();\n        System.out.println(task.isDone());\n        task.printDetails();\n    }\n}"
+        }
+      ]
+    },
+    "p2-tasklist": {
+      "type": "code",
+      "xp": 6,
+      "minLines": 34,
+      "maxLines": 50,
+      "title": "TaskList.java",
+      "starter": "import java.util.ArrayList;\n\npublic class TaskList\n{\n    private ArrayList<Task> tasks;\n\n    public TaskList()\n    {\n        tasks = new ArrayList<>();\n    }\n\n    public void addTask(Task task)\n    {\n    }\n\n    public void printAll()\n    {\n        // forEach.\n    }\n\n    public void completeTask(String description)\n    {\n        // forEach with a lambda.\n    }\n\n    public boolean removeDone()\n    {\n        // removeIf with Task::isDone.\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Empty list:\nRemoved from empty: false\n[x] Walk dog\n[ ] Call home\n[x] Walk dog\n[ ] Water plants\nRemoved done tasks: true\n[ ] Call home\n[ ] Water plants\nRemoved again: false"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"tasks.forEach(\"), \"Use tasks.forEach(...) in printAll and completeTask.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getDescription().equals(description)\"), \"Compare the descriptions with equals.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"tasks.removeIf(Task::isDone)\"), \"Remove the done tasks with tasks.removeIf(Task::isDone).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"returntasks.removeIf(\"), \"Return what removeIf returns.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"for(\"), \"Use forEach and removeIf; do not write an explicit loop.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"while(\"), \"Use forEach and removeIf; do not write an explicit loop.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgVGFza0xpc3QKewogICAgcHJpdmF0ZSBBcnJheUxpc3Q8VGFzaz4gdGFza3M7CgogICAgcHVibGljIFRhc2tMaXN0KCkKICAgIHsKICAgICAgICB0YXNrcyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZFRhc2soVGFzayB0YXNrKQogICAgewogICAgICAgIHRhc2tzLmFkZCh0YXNrKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludEFsbCgpCiAgICB7CiAgICAgICAgdGFza3MuZm9yRWFjaChUYXNrOjpwcmludERldGFpbHMpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGNvbXBsZXRlVGFzayhTdHJpbmcgZGVzY3JpcHRpb24pCiAgICB7CiAgICAgICAgdGFza3MuZm9yRWFjaCh0YXNrIC0+IHsKICAgICAgICAgICAgaWYodGFzay5nZXREZXNjcmlwdGlvbigpLmVxdWFscyhkZXNjcmlwdGlvbikpIHsKICAgICAgICAgICAgICAgIHRhc2suY29tcGxldGUoKTsKICAgICAgICAgICAgfQogICAgICAgIH0pOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIHJlbW92ZURvbmUoKQogICAgewogICAgICAgIHJldHVybiB0YXNrcy5yZW1vdmVJZihUYXNrOjppc0RvbmUpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Task.java",
+          "content": "public class Task\n{\n    private String description;\n    private boolean done;\n\n    public Task(String description)\n    {\n        this.description = description;\n        done = false;\n    }\n\n    public String getDescription()\n    {\n        return description;\n    }\n\n    public boolean isDone()\n    {\n        return done;\n    }\n\n    public void complete()\n    {\n        done = true;\n    }\n\n    public void printDetails()\n    {\n        if(done) {\n            System.out.println(\"[x] \" + description);\n        }\n        else {\n            System.out.println(\"[ ] \" + description);\n        }\n    }\n}"
+        },
+        {
+          "name": "TaskListCheck.java",
+          "content": "public class TaskListCheck\n{\n    public static void main(String[] args)\n    {\n        TaskList empty = new TaskList();\n        System.out.println(\"Empty list:\");\n        empty.printAll();\n        empty.completeTask(\"Walk dog\");\n        System.out.println(\"Removed from empty: \" + empty.removeDone());\n        TaskList list = new TaskList();\n        list.addTask(new Task(\"Walk dog\"));\n        list.addTask(new Task(\"Call home\"));\n        list.addTask(new Task(\"Walk dog\"));\n        list.addTask(new Task(\"Water plants\"));\n        list.completeTask(\"Walk dog\");\n        list.completeTask(\"Feed cat\");\n        list.printAll();\n        System.out.println(\"Removed done tasks: \" + list.removeDone());\n        list.printAll();\n        System.out.println(\"Removed again: \" + list.removeDone());\n    }\n}"
+        }
+      ]
+    },
+    "p2-demo": {
+      "type": "code",
+      "xp": 4,
+      "minLines": 16,
+      "maxLines": 28,
+      "title": "TaskListDemo.java",
+      "starter": "public class TaskListDemo\n{\n    public static void main(String[] args)\n    {\n        TaskList list = new TaskList();\n        // 1. Add the four tasks.\n        // 2. Complete \"Write report\" and \"Pay rent\", then print all tasks.\n        // 3. Print \"Removed done tasks: \" and the result of removeDone().\n        // 4. Print \"Removed again: \" and the result of removeDone().\n        // 5. Print all tasks.\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "[ ] Buy milk\n[x] Write report\n[x] Pay rent\n[ ] Book flights\nRemoved done tasks: true\nRemoved again: false\n[ ] Buy milk\n[ ] Book flights"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"list.addTask(newTask(\"), \"Add each task as an anonymous object: list.addTask(new Task(...));\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"completeTask(\\\"Writereport\\\")\"), \"Complete Write report with list.completeTask(\\\"Write report\\\").\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"completeTask(\\\"Payrent\\\")\"), \"Complete Pay rent with list.completeTask(\\\"Pay rent\\\").\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"removeDone()\"), \"Call removeDone() twice and print each result.\");",
+      "answer": "cHVibGljIGNsYXNzIFRhc2tMaXN0RGVtbwp7CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKQogICAgewogICAgICAgIFRhc2tMaXN0IGxpc3QgPSBuZXcgVGFza0xpc3QoKTsKICAgICAgICBsaXN0LmFkZFRhc2sobmV3IFRhc2soIkJ1eSBtaWxrIikpOwogICAgICAgIGxpc3QuYWRkVGFzayhuZXcgVGFzaygiV3JpdGUgcmVwb3J0IikpOwogICAgICAgIGxpc3QuYWRkVGFzayhuZXcgVGFzaygiUGF5IHJlbnQiKSk7CiAgICAgICAgbGlzdC5hZGRUYXNrKG5ldyBUYXNrKCJCb29rIGZsaWdodHMiKSk7CgogICAgICAgIGxpc3QuY29tcGxldGVUYXNrKCJXcml0ZSByZXBvcnQiKTsKICAgICAgICBsaXN0LmNvbXBsZXRlVGFzaygiUGF5IHJlbnQiKTsKICAgICAgICBsaXN0LnByaW50QWxsKCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJSZW1vdmVkIGRvbmUgdGFza3M6ICIgKyBsaXN0LnJlbW92ZURvbmUoKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJSZW1vdmVkIGFnYWluOiAiICsgbGlzdC5yZW1vdmVEb25lKCkpOwogICAgICAgIGxpc3QucHJpbnRBbGwoKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Task.java",
+          "content": "public class Task\n{\n    private String description;\n    private boolean done;\n\n    public Task(String description)\n    {\n        this.description = description;\n        done = false;\n    }\n\n    public String getDescription()\n    {\n        return description;\n    }\n\n    public boolean isDone()\n    {\n        return done;\n    }\n\n    public void complete()\n    {\n        done = true;\n    }\n\n    public void printDetails()\n    {\n        if(done) {\n            System.out.println(\"[x] \" + description);\n        }\n        else {\n            System.out.println(\"[ ] \" + description);\n        }\n    }\n}"
+        },
+        {
+          "name": "TaskList.java",
+          "content": "import java.util.ArrayList;\n\npublic class TaskList\n{\n    private ArrayList<Task> tasks;\n\n    public TaskList()\n    {\n        tasks = new ArrayList<>();\n    }\n\n    public void addTask(Task task)\n    {\n        tasks.add(task);\n    }\n\n    public void printAll()\n    {\n        tasks.forEach(Task::printDetails);\n    }\n\n    public void completeTask(String description)\n    {\n        tasks.forEach(task -> {\n            if(task.getDescription().equals(description)) {\n                task.complete();\n            }\n        });\n    }\n\n    public boolean removeDone()\n    {\n        return tasks.removeIf(Task::isDone);\n    }\n}"
+        }
+      ]
     }
   }
 }

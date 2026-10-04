@@ -7,9 +7,11 @@ real behaviour. Run from anywhere (needs `java` on the PATH):
     python3 workbooks/lecture-08/build_exercises.py
     python3 tools/check_workbook.py workbooks/lecture-08
 
-The questions follow the printed Lecture 8 workbook, numbered 1 to 25, and the
-model answers are the ones in the solutions edition. The two coding pauses
-build the clinic classes step by step (Parts 5 and 6). A box that asks for
+The questions follow the printed Lecture 8 workbook, numbered 1.1 to 10.1
+(ids q1 to q25, in the same order), and the model answers are the ones in the
+solutions edition. Sections 5 and 9 build the clinic classes step by step
+(Parts 5 and 6). Section 11 has two complete programs, one box per class
+(ids p1-* and p2-*). A box that asks for
 part of a class starts from the rest of that class, and a small driver class
 on its classpath (the `files` list) calls the student's code and prints what
 comes back; the runner uses that main when the editor's class has none.
@@ -169,27 +171,27 @@ PRINT_TITLES = '''
         });
     }
 '''
-REMOVE_ARTIST_ITER = '''
-    public void removeTracksByArtist(String artist)
+REMOVE_TITLE_ITER = '''
+    public void removeTracksByTitle(String title)
     {
         Iterator<Track> iterator = tracks.iterator();
         while(iterator.hasNext()) {
             Track track = iterator.next();
-            if(track.getArtist().equals(artist)) {
+            if(track.getTitle().equals(title)) {
                 iterator.remove();
             }
         }
     }
 '''
-REMOVE_ARTIST = '''
-    public void removeTracksByArtist(String artist)
+REMOVE_TITLE = '''
+    public void removeTracksByTitle(String title)
     {
-        tracks.removeIf(track -> track.getArtist().equals(artist));
+        tracks.removeIf(track -> track.getTitle().equals(title));
     }
 '''
 PLAYLIST_TITLES = PLAYLIST_HEAD + PRINT_TITLES + "}\n"
-PLAYLIST_REMOVE = PLAYLIST_HEAD + REMOVE_ARTIST + "}\n"
-PLAYLIST_REMOVE_OLD = PLAYLIST_HEAD.replace("import java.util.ArrayList;", "import java.util.ArrayList;\nimport java.util.Iterator;") + REMOVE_ARTIST_ITER + "}\n"
+PLAYLIST_REMOVE = PLAYLIST_HEAD + REMOVE_TITLE + "}\n"
+PLAYLIST_REMOVE_OLD = PLAYLIST_HEAD.replace("import java.util.ArrayList;", "import java.util.ArrayList;\nimport java.util.Iterator;") + REMOVE_TITLE_ITER + "}\n"
 
 # The clinic classes: Appointment and the Lecture 7 Part 4 schedule, then the
 # Part 5 and Part 6 methods from Clinic appointments L8.md.
@@ -410,16 +412,16 @@ E["q1"] = SHORT("All three visit every track once, in list order. The body chang
 
 # ---------------------------------------------------------------- Lambdas
 E["q2"] = {"type": "table", "xp": 2, "blanks": {
-    "params": {"accept": code_forms("(Track track)"), "show": "(Track track)", "placeholder": "parameter list", **CODE, "width": "12rem"},
+    "params": {"accept": code_forms("(Track song)"), "show": "(Track song)", "placeholder": "parameter list", **CODE, "width": "12rem"},
     "arrow": {"accept": ["->"], "placeholder": "arrow", **CODE, "width": "6rem"},
-    "body": {"accept": no_semi(code_forms("{ System.out.println(track.getTitle()); }")), "show": "{ System.out.println(track.getTitle()); }", "placeholder": "body", **CODE}}}
-E["q2-why"] = SHORT("The lambda declares track in its own parameter list. The arrow separates the parameters from the body; it does not mean a value is returned. println returns nothing.", rows=2)
+    "body": {"accept": no_semi(code_forms("{ System.out.println(song.getArtist()); }")), "show": "{ System.out.println(song.getArtist()); }", "placeholder": "body", **CODE}}}
+E["q2-why"] = SHORT("The lambda declares song in its own parameter list, so no earlier declaration is needed. The arrow separates the parameters from the body; it does not mean a value is returned. println returns nothing.", rows=2)
 E["q3"] = SHORT("A lambda has no name or access modifier, and it writes no return type. It declares no class of its own, fields, or constructor. Writing it does not execute the body; the receiving method decides when to run it. A job needing its own fields, constructor, or identity still needs a class.", rows=3)
 
 # ---------------------------------------------------------------- forEach
 E["q4"] = {"type": "table", "xp": 2, "blanks": {
     "param": {"accept": code_forms("Track track"), "show": "Track track", "placeholder": "parameter", **CODE, "width": "12rem"},
-    "body": {"accept": code_forms("track.printDetails();"), "show": "track.printDetails();", "placeholder": "statement", **CODE}}}
+    "body": {"accept": code_forms("System.out.println(track.getArtist());"), "show": "System.out.println(track.getArtist());", "placeholder": "statement", **CODE}}}
 E["q4-why"] = SHORT("The first version uses external iteration: our loop controls repetition. The second uses internal iteration: forEach runs the loop and supplies each track to the lambda. Repetition still happens.", rows=2)
 
 FOREACH_TRACE = list_program("Q4", '''        tracks.forEach((Track track) -> {
@@ -455,12 +457,12 @@ E["q6"] = {"type": "code", "xp": 4, "minLines": 34, "maxLines": 50, "title": "Pl
 assert E["q6"]["cases"][0]["expected"] == "Empty playlist:\nFive tracks:\nNorthern Sky\nBlue Train\nTeardrop\nNaima\nAngel\nStill 5 tracks"
 
 # ---------------------------------------------------------------- Syntax
-for stage in ("(track) -> { track.printDetails(); }", "track -> { track.printDetails(); }", "track -> track.printDetails()"):
+STAGES = ["(track) -> { System.out.println(track.getTitle()); }", "track -> { System.out.println(track.getTitle()); }",
+          "track -> System.out.println(track.getTitle())"]
+for stage in STAGES:
     assert run(list_program("Stage", f"        tracks.forEach({stage});\n"), TRACK_FILE).count("\n") == 4
 E["q7"] = {"type": "table", "xp": 3, "blanks": {
-    "s2": {"accept": no_semi(code_forms("(track) -> { track.printDetails(); }")), "show": "(track) -> { track.printDetails(); }", "placeholder": "stage 2", **CODE},
-    "s3": {"accept": no_semi(code_forms("track -> { track.printDetails(); }")), "show": "track -> { track.printDetails(); }", "placeholder": "stage 3", **CODE},
-    "s4": {"accept": no_semi(code_forms("track -> track.printDetails()")), "show": "track -> track.printDetails()", "placeholder": "stage 4", **CODE}}}
+    **{f"s{i + 2}": {"accept": no_semi(code_forms(st)), "show": st, "placeholder": f"stage {i + 2}", **CODE} for i, st in enumerate(STAGES)}}}
 E["q7-why"] = SHORT("The list's element type supplies Track. One parameter with its type omitted needs no parentheses. A single method-call expression needs no braces or internal semicolon. In a complete call, the final semicolon still ends tracks.forEach(...);. Expand the last form by restoring these parts in reverse order.", rows=3)
 
 SHORTEN_SETUP = '''        ArrayList<Track> tracks = new ArrayList<>();
@@ -498,23 +500,23 @@ E["q9"] = {"type": "table", "xp": 1, "blanks": {
     "ref": {"accept": code_forms("tracks.forEach(Track::printDetails);", "Track::printDetails"), "show": "tracks.forEach(Track::printDetails);", "placeholder": "new call", **CODE}}}
 E["q9-why"] = SHORT("forEach supplies each track as the receiver of printDetails. System.out::println would pass each Track object to println; it would not call printDetails. A method reference must name the matching method.", rows=2)
 
-TITLES_REF = '''import java.util.ArrayList;
+ARTISTS_REF = '''import java.util.ArrayList;
 
 public class Q10
 {
     public static void main(String[] args)
     {
-        ArrayList<String> titles = new ArrayList<>();
-        titles.add("Northern Sky");
-        titles.add("Blue Train");
-        titles.forEach(System.out::println);
+        ArrayList<String> artists = new ArrayList<>();
+        artists.add("Nick Drake");
+        artists.add("John Coltrane");
+        artists.forEach(System.out::println);
     }
 }
 '''
-assert run(TITLES_REF) == "Northern Sky\nBlue Train"
+assert run(ARTISTS_REF) == "Nick Drake\nJohn Coltrane"
 E["q10"] = {"type": "table", "xp": 2, "blanks": {
-    "ref": {"accept": code_forms("titles.forEach(System.out::println);", "System.out::println"), "show": "titles.forEach(System.out::println);", "placeholder": "new call", **CODE},
-    "o1": {"accept": ["Northern Sky"], **LINE}, "o2": {"accept": ["Blue Train"], **LINE}}}
+    "ref": {"accept": code_forms("artists.forEach(System.out::println);", "System.out::println"), "show": "artists.forEach(System.out::println);", "placeholder": "new call", **CODE},
+    "o1": {"accept": ["Nick Drake"], **LINE}, "o2": {"accept": ["John Coltrane"], **LINE}}}
 E["q10-why"] = SHORT("forEach supplies each String as the argument to println on System.out.", rows=2)
 
 # ---------------------------------------------------------------- Coding Pause 5
@@ -558,16 +560,14 @@ E["q12-demo"] = {"type": "code", "xp": 4, "minLines": 16, "maxLines": 30, "title
     "answer": b64(DEMO_5), "files": PAUSE5_FILES}
 
 # ---------------------------------------------------------------- Predicates
-E["q13"] = SHORT("printDetails returns nothing. removeIf needs a predicate that receives one Track and returns boolean. forEach needs an action on one Track and uses no result. The receiving method determines the required shape, called a functional interface in the Java library.", rows=3)
+E["q13"] = SHORT("println returns nothing. removeIf needs a predicate that receives one Track and returns boolean. forEach needs an action on one Track and uses no result. The receiving method determines the required shape, called a functional interface in the Java library.", rows=3)
 
-PRED = list_program("Q14", '''        tracks.forEach(track -> System.out.println(track.getDurationSeconds() < 300));
-        System.out.println(300 < 300);
+PRED = list_program("Q14", '''        tracks.forEach(track -> System.out.println(track.getDurationSeconds() > 330));
 ''')
-assert run(PRED, TRACK_FILE) == "true\nfalse\nfalse\ntrue\nfalse\nfalse"
+assert run(PRED, TRACK_FILE) == "false\ntrue\nfalse\nfalse\ntrue"
 E["q14"] = {"type": "table", "xp": 2, "blanks": {
-    **{f"r{i + 1}": {"accept": [str(s < 300).lower()], **BOOL} for i, (_, _, s) in enumerate(FIVE)},
-    "e300": {"accept": ["false"], **BOOL}}}
-E["q14-why"] = SHORT("It only reads the duration and answers a question. It changes nothing by itself. Exactly 300 gives false. The result type is boolean.", rows=2)
+    **{f"r{i + 1}": {"accept": [str(s > 330).lower()], **BOOL} for i, (_, _, s) in enumerate(FIVE)}}}
+E["q14-why"] = SHORT("It only reads the duration and answers a question. It changes nothing by itself. Teardrop, at exactly 330, gives false because > is strict; 379 gives true, as Angel shows.", rows=2)
 
 PREDICATES = ['track -> track.getArtist().equals("John Coltrane")', 'track -> track.getTitle().contains("Blue")',
               "track -> { return track.getDurationSeconds() < 300; }"]
@@ -589,37 +589,37 @@ E["q15-why"] = SHORT("No if is needed. A boolean expression can give the answer 
 
 # ---------------------------------------------------------------- Removal
 REMOVE_DRIVER = driver("RemoveCheck", '''Playlist playlist = new Playlist();
-''' + add_five("playlist", "addTrack") + '''playlist.removeTracksByArtist("John Coltrane");
-System.out.println("After removing John Coltrane:");
+''' + add_five("playlist", "addTrack") + '''playlist.removeTracksByTitle("Teardrop");
+System.out.println("After removing Teardrop:");
 playlist.printAllTracks();
-playlist.removeTracksByArtist("Miles Davis");
-System.out.println("Tracks after removing Miles Davis: " + playlist.getNumberOfTracks());''')
+playlist.removeTracksByTitle("So What");
+System.out.println("Tracks after removing So What: " + playlist.getNumberOfTracks());''')
 E["q16"] = {"type": "code", "xp": 4, "minLines": 30, "maxLines": 50, "title": "Playlist.java",
-    "starter": PLAYLIST_REMOVE_OLD.replace("    public void removeTracksByArtist", "    // Rewrite this method with one removeIf call.\n    public void removeTracksByArtist"),
+    "starter": PLAYLIST_REMOVE_OLD.replace("    public void removeTracksByTitle", "    // Rewrite this method with one removeIf call.\n    public void removeTracksByTitle"),
     "cases": [{"name": "Output of the checking program", "expected": run(PLAYLIST_REMOVE, TRACK_FILE + REMOVE_DRIVER)}],
     "check": "\n".join([
-        has("public void removeTracksByArtist(String artist)", "Keep the header public void removeTracksByArtist(String artist)."),
+        has("public void removeTracksByTitle(String title)", "Keep the header public void removeTracksByTitle(String title)."),
         has("tracks.removeIf(", "Use one tracks.removeIf(...) call."),
-        has(".getArtist().equals(artist)", "Test each track with track.getArtist().equals(artist)."),
+        has(".getTitle().equals(title)", "Test each track with track.getTitle().equals(title)."),
         lacks(".iterator()", "removeIf does the traversal; no iterator is needed.")]),
     "answer": b64(PLAYLIST_REMOVE), "files": TRACK_FILE + REMOVE_DRIVER}
 assert run(PLAYLIST_REMOVE_OLD, TRACK_FILE + REMOVE_DRIVER) == E["q16"]["cases"][0]["expected"]
-assert E["q16"]["cases"][0]["expected"] == ("After removing John Coltrane:\nNick Drake - Northern Sky (224 s)\nMassive Attack - Teardrop (330 s)\n"
-                                             "Massive Attack - Angel (379 s)\nTracks after removing Miles Davis: 3")
-E["q16-why"] = SHORT("removeIf controls traversal and removal; our code supplies the test. Every matching track is removed. Delete the Iterator import if no other method uses it.", rows=2)
+assert E["q16"]["cases"][0]["expected"] == ("After removing Teardrop:\nNick Drake - Northern Sky (224 s)\nJohn Coltrane - Blue Train (643 s)\n"
+                                             "John Coltrane - Naima (265 s)\nMassive Attack - Angel (379 s)\nTracks after removing So What: 4")
+E["q16-why"] = SHORT("removeIf controls traversal and removal; our code supplies the test. Every matching track is removed. Delete the Iterator import if no other method uses it. For Teardrop, four tracks remain.", rows=2)
 
-REMOVE_SHORT = list_program("Q17", '''        boolean changed = tracks.removeIf(track -> track.getDurationSeconds() < 300);
+REMOVE_SHORT = list_program("Q17", '''        boolean changed = tracks.removeIf(track -> track.getArtist().equals("Massive Attack"));
         tracks.forEach(track -> System.out.println(track.getTitle()));
         System.out.println(tracks.size());
         System.out.println(changed);
 ''')
-assert run(REMOVE_SHORT, TRACK_FILE) == "Blue Train\nTeardrop\nAngel\n3\ntrue"
+assert run(REMOVE_SHORT, TRACK_FILE) == "Northern Sky\nBlue Train\nNaima\n3\ntrue"
 E["q17"] = {"type": "table", "xp": 3, "blanks": {
-    "gone": {"accept": list_forms("Northern Sky", "Naima"), "show": "Northern Sky, Naima", **TRACKS},
-    "left": {"accept": list_forms("Blue Train", "Teardrop", "Angel"), "show": "Blue Train, Teardrop, Angel", "placeholder": "survivors", "width": "18rem"},
+    "gone": {"accept": list_forms("Teardrop", "Angel"), "show": "Teardrop, Angel", **TRACKS},
+    "left": {"accept": list_forms("Northern Sky", "Blue Train", "Naima"), "show": "Northern Sky, Blue Train, Naima", "placeholder": "survivors", "width": "18rem"},
     "size": {"accept": ["3"], "placeholder": "size"},
     "ret": {"accept": ["true"], **BOOL}}}
-E["q17-why"] = SHORT("Their fields stay the same. Their list positions change: Blue Train, Teardrop, and Angel are now at indices 0, 1, and 2.", rows=2)
+E["q17-why"] = SHORT("Their fields stay the same. Northern Sky, Blue Train, and Naima are now at indices 0, 1, and 2; Naima moves from index 3 to index 2.", rows=2)
 
 TABLE_CHECK = '''import java.util.ArrayList;
 
@@ -689,7 +689,7 @@ E["q20"] = {"type": "code", "xp": 4, "minLines": 20, "maxLines": 30, "title": "R
 assert E["q20"]["cases"][0]["expected"] == "Removed: 2"
 E["q20-exc"] = {"type": "table", "xp": 1, "blanks": {
     "exc": {"accept": ["ConcurrentModificationException", "java.util.ConcurrentModificationException"], "show": "ConcurrentModificationException", "caseSensitive": True, "placeholder": "exception", "width": "20rem"}}}
-E["q20-why"] = SHORT("The original changes the same list's membership during forEach. A run without an exception does not prove it safe. checkInAll changes element state, not membership. removeIf itself returns a boolean, not this count.", rows=3)
+E["q20-why"] = SHORT("The original changes the same list's membership during forEach. A run without an exception does not prove it safe. checkInAll changes element state, not membership. The repaired code gives 5 minus 3, so removed is 2. removeIf itself returns a boolean, not this count.", rows=3)
 
 # ---------------------------------------------------------------- Choices
 CHOICE = {"placeholder": "choice", "width": "12rem"}
@@ -699,7 +699,7 @@ E["q21"] = {"type": "table", "xp": 2, "blanks": {
     "b": {"accept": ["removeIf", "removeif", "removeIf()"], "show": "removeIf", **CHOICE},
     "c": {"accept": LOOP, "show": "explicit loop", **CHOICE},
     "d": {"accept": LOOP, "show": "explicit loop", **CHOICE}}}
-E["q21-why"] = SHORT("An if inside a forEach action can choose what prints, but the action still receives every element. A search that stops early and several local variables need an explicit loop. Shorter code is not automatically clearer or faster.", rows=3)
+E["q21-why"] = SHORT("(a) forEach, though for-each also works. (b) removeIf. (c) An explicit loop, such as an indexed while. (d) An explicit loop: a lambda cannot change a local variable. An if inside a forEach action can choose what prints, but the action still receives every element.", rows=3)
 
 # ---------------------------------------------------------------- Coding Pause 6
 REMOVE_CHECKED_DRIVER = driver("RemoveCheckedCheck", '''ClinicSchedule schedule = new ClinicSchedule();
@@ -779,12 +779,482 @@ E["q25"] = {"type": "table", "xp": 2, "blanks": {
     "b1": {"accept": ["true"], **BOOL}, "b2": {"accept": ["false"], **BOOL}}}
 E["q25-why"] = SHORT("(b) Only the checked-in Ben remains. (c) Neither; forEach returns nothing. We still need separate steps to select elements, produce a different value from each, and combine values into one result. Lecture 9 uses streams for this. Loops can already solve these tasks.", rows=3)
 
+
+# ---------------------------------------------------------------- Complete Java programs
+# The classes and skeletons are the ones in Section 11 of the printed workbook.
+PLANT = '''public class Plant
+{
+    private String name;
+    private int daysSinceWatered;
+
+    public Plant(String name, int daysSinceWatered)
+    {
+        this.name = name;
+        this.daysSinceWatered = daysSinceWatered;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public int getDaysSinceWatered()
+    {
+        return daysSinceWatered;
+    }
+
+    public void water()
+    {
+        daysSinceWatered = 0;
+    }
+
+    public void printDetails()
+    {
+        System.out.println(name + " (" + daysSinceWatered + " days)");
+    }
+}
+'''
+
+GREENHOUSE = '''import java.util.ArrayList;
+
+public class Greenhouse
+{
+    private ArrayList<Plant> plants;
+
+    public Greenhouse()
+    {
+        plants = new ArrayList<>();
+    }
+
+    public void addPlant(Plant plant)
+    {
+        plants.add(plant);
+    }
+
+    public void printAll()
+    {
+        plants.forEach(Plant::printDetails);
+    }
+
+    public void waterAll()
+    {
+        plants.forEach(Plant::water);
+    }
+
+    public void printThirsty(int days)
+    {
+        plants.forEach(plant -> {
+            if(plant.getDaysSinceWatered() >= days) {
+                System.out.println(plant.getName());
+            }
+        });
+    }
+
+    public int removeNeglected(int days)
+    {
+        int before = plants.size();
+        plants.removeIf(plant -> plant.getDaysSinceWatered() > days);
+        return before - plants.size();
+    }
+}
+'''
+
+GREENHOUSE_DEMO = '''public class GreenhouseDemo
+{
+    public static void main(String[] args)
+    {
+        Greenhouse greenhouse = new Greenhouse();
+        greenhouse.addPlant(new Plant("Fern", 3));
+        greenhouse.addPlant(new Plant("Cactus", 20));
+        greenhouse.addPlant(new Plant("Basil", 6));
+        greenhouse.addPlant(new Plant("Orchid", 16));
+
+        greenhouse.printAll();
+        System.out.println("Thirsty:");
+        greenhouse.printThirsty(5);
+        System.out.println("Removed: " + greenhouse.removeNeglected(14));
+        greenhouse.waterAll();
+        greenhouse.printAll();
+    }
+}
+'''
+
+PLANT_STARTER = '''public class Plant
+{
+    private String name;
+    private int daysSinceWatered;
+
+    public Plant(String name, int daysSinceWatered)
+    {
+        // Assign the two fields.
+    }
+
+    public String getName()
+    {
+    }
+
+    public int getDaysSinceWatered()
+    {
+    }
+
+    public void water()
+    {
+    }
+
+    public void printDetails()
+    {
+    }
+}
+'''
+
+GREENHOUSE_STARTER = '''import java.util.ArrayList;
+
+public class Greenhouse
+{
+    private ArrayList<Plant> plants;
+
+    public Greenhouse()
+    {
+        plants = new ArrayList<>();
+    }
+
+    public void addPlant(Plant plant)
+    {
+    }
+
+    public void printAll()
+    {
+        // forEach with a method reference.
+    }
+
+    public void waterAll()
+    {
+        // forEach with a method reference.
+    }
+
+    public void printThirsty(int days)
+    {
+        // forEach with a lambda.
+    }
+
+    public int removeNeglected(int days)
+    {
+        // removeIf; return the number removed.
+    }
+}
+'''
+
+GREENHOUSE_DEMO_STARTER = '''public class GreenhouseDemo
+{
+    public static void main(String[] args)
+    {
+        Greenhouse greenhouse = new Greenhouse();
+        // 1. Add the four plants.
+        // 2. Print all plants.
+        // 3. Print "Thirsty:" and the plants not watered for at least 5 days.
+        // 4. Remove plants neglected for more than 14 days; print "Removed: " and the count.
+        // 5. Water all plants and print them again.
+    }
+}
+'''
+
+TASK = '''public class Task
+{
+    private String description;
+    private boolean done;
+
+    public Task(String description)
+    {
+        this.description = description;
+        done = false;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public boolean isDone()
+    {
+        return done;
+    }
+
+    public void complete()
+    {
+        done = true;
+    }
+
+    public void printDetails()
+    {
+        if(done) {
+            System.out.println("[x] " + description);
+        }
+        else {
+            System.out.println("[ ] " + description);
+        }
+    }
+}
+'''
+
+TASKLIST = '''import java.util.ArrayList;
+
+public class TaskList
+{
+    private ArrayList<Task> tasks;
+
+    public TaskList()
+    {
+        tasks = new ArrayList<>();
+    }
+
+    public void addTask(Task task)
+    {
+        tasks.add(task);
+    }
+
+    public void printAll()
+    {
+        tasks.forEach(Task::printDetails);
+    }
+
+    public void completeTask(String description)
+    {
+        tasks.forEach(task -> {
+            if(task.getDescription().equals(description)) {
+                task.complete();
+            }
+        });
+    }
+
+    public boolean removeDone()
+    {
+        return tasks.removeIf(Task::isDone);
+    }
+}
+'''
+
+TASKLIST_DEMO = '''public class TaskListDemo
+{
+    public static void main(String[] args)
+    {
+        TaskList list = new TaskList();
+        list.addTask(new Task("Buy milk"));
+        list.addTask(new Task("Write report"));
+        list.addTask(new Task("Pay rent"));
+        list.addTask(new Task("Book flights"));
+
+        list.completeTask("Write report");
+        list.completeTask("Pay rent");
+        list.printAll();
+        System.out.println("Removed done tasks: " + list.removeDone());
+        System.out.println("Removed again: " + list.removeDone());
+        list.printAll();
+    }
+}
+'''
+
+TASK_STARTER = '''public class Task
+{
+    private String description;
+    private boolean done;
+
+    public Task(String description)
+    {
+        // A new task is not done.
+    }
+
+    public String getDescription()
+    {
+    }
+
+    public boolean isDone()
+    {
+    }
+
+    public void complete()
+    {
+    }
+
+    public void printDetails()
+    {
+        // [x] or [ ], then the description.
+    }
+}
+'''
+
+TASKLIST_STARTER = '''import java.util.ArrayList;
+
+public class TaskList
+{
+    private ArrayList<Task> tasks;
+
+    public TaskList()
+    {
+        tasks = new ArrayList<>();
+    }
+
+    public void addTask(Task task)
+    {
+    }
+
+    public void printAll()
+    {
+        // forEach.
+    }
+
+    public void completeTask(String description)
+    {
+        // forEach with a lambda.
+    }
+
+    public boolean removeDone()
+    {
+        // removeIf with Task::isDone.
+    }
+}
+'''
+
+TASKLIST_DEMO_STARTER = '''public class TaskListDemo
+{
+    public static void main(String[] args)
+    {
+        TaskList list = new TaskList();
+        // 1. Add the four tasks.
+        // 2. Complete "Write report" and "Pay rent", then print all tasks.
+        // 3. Print "Removed done tasks: " and the result of removeDone().
+        // 4. Print "Removed again: " and the result of removeDone().
+        // 5. Print all tasks.
+    }
+}
+'''
+
+PLANT_FILE = [file("Plant.java", PLANT)]
+GREENHOUSE_FILES = PLANT_FILE + [file("Greenhouse.java", GREENHOUSE)]
+TASK_FILE = [file("Task.java", TASK)]
+TASKLIST_FILES = TASK_FILE + [file("TaskList.java", TASKLIST)]
+
+PLANT_DRIVER = driver("PlantCheck", '''Plant plant = new Plant("Fern", 3);
+System.out.println(plant.getName());
+System.out.println(plant.getDaysSinceWatered());
+plant.printDetails();
+plant.water();
+plant.printDetails();''')
+E["p1-plant"] = {"type": "code", "xp": 3, "minLines": 28, "maxLines": 40, "title": "Plant.java",
+    "starter": PLANT_STARTER,
+    "cases": [{"name": "Output of the checking program", "expected": run(PLANT, PLANT_DRIVER)}],
+    "check": "\n".join([
+        has("public Plant(String name, int daysSinceWatered)", "Keep the constructor header Plant(String name, int daysSinceWatered)."),
+        has("public void water()", "Include public void water()."),
+        has("public void printDetails()", "Include public void printDetails().")]),
+    "answer": b64(PLANT), "files": PLANT_DRIVER}
+assert E["p1-plant"]["cases"][0]["expected"] == "Fern\n3\nFern (3 days)\nFern (0 days)"
+
+GREENHOUSE_DRIVER = driver("GreenhouseCheck", '''Greenhouse empty = new Greenhouse();
+System.out.println("Empty greenhouse:");
+empty.printAll();
+empty.printThirsty(0);
+System.out.println("Removed from empty: " + empty.removeNeglected(0));
+Greenhouse greenhouse = new Greenhouse();
+greenhouse.addPlant(new Plant("Ivy", 2));
+greenhouse.addPlant(new Plant("Aloe", 30));
+greenhouse.addPlant(new Plant("Yucca", 25));
+greenhouse.addPlant(new Plant("Mint", 7));
+System.out.println("Thirsty for 7 or more:");
+greenhouse.printThirsty(7);
+System.out.println("Removed: " + greenhouse.removeNeglected(7));
+greenhouse.printAll();
+System.out.println("Removed again: " + greenhouse.removeNeglected(7));
+greenhouse.waterAll();
+greenhouse.printAll();''')
+E["p1-greenhouse"] = {"type": "code", "xp": 6, "minLines": 40, "maxLines": 56, "title": "Greenhouse.java",
+    "starter": GREENHOUSE_STARTER,
+    "cases": [{"name": "Output of the checking program", "expected": run(GREENHOUSE, PLANT_FILE + GREENHOUSE_DRIVER)}],
+    "check": "\n".join([
+        has("plants.forEach(Plant::printDetails)", "Print all plants with plants.forEach(Plant::printDetails);"),
+        has("plants.forEach(Plant::water)", "Water all plants with plants.forEach(Plant::water);"),
+        has("plants.removeIf(", "Remove the neglected plants with plants.removeIf(...)."),
+        lacks("for(", "Use forEach and removeIf; do not write an explicit loop."),
+        lacks("while(", "Use forEach and removeIf; do not write an explicit loop.")]),
+    "answer": b64(GREENHOUSE), "files": PLANT_FILE + GREENHOUSE_DRIVER}
+assert E["p1-greenhouse"]["cases"][0]["expected"] == ("Empty greenhouse:\nRemoved from empty: 0\nThirsty for 7 or more:\nAloe\nYucca\nMint\n"
+    "Removed: 2\nIvy (2 days)\nMint (7 days)\nRemoved again: 0\nIvy (0 days)\nMint (0 days)")
+
+E["p1-demo"] = {"type": "code", "xp": 4, "minLines": 16, "maxLines": 28, "title": "GreenhouseDemo.java",
+    "starter": GREENHOUSE_DEMO_STARTER,
+    "cases": [{"name": "Program output", "expected": run(GREENHOUSE_DEMO, GREENHOUSE_FILES)}],
+    "check": "\n".join([
+        has("greenhouse.addPlant(new Plant(", "Add each plant as an anonymous object: greenhouse.addPlant(new Plant(...));"),
+        has("printThirsty(5)", "Print the plants not watered for at least 5 days with printThirsty(5)."),
+        has("removeNeglected(14)", "Remove the plants neglected for more than 14 days with removeNeglected(14).")]),
+    "answer": b64(GREENHOUSE_DEMO), "files": GREENHOUSE_FILES}
+assert E["p1-demo"]["cases"][0]["expected"] == ("Fern (3 days)\nCactus (20 days)\nBasil (6 days)\nOrchid (16 days)\nThirsty:\n"
+    "Cactus\nBasil\nOrchid\nRemoved: 2\nFern (0 days)\nBasil (0 days)")
+
+TASK_DRIVER = driver("TaskCheck", '''Task task = new Task("Pay rent");
+System.out.println(task.getDescription());
+System.out.println(task.isDone());
+task.printDetails();
+task.complete();
+System.out.println(task.isDone());
+task.printDetails();''')
+E["p2-task"] = {"type": "code", "xp": 3, "minLines": 30, "maxLines": 44, "title": "Task.java",
+    "starter": TASK_STARTER,
+    "cases": [{"name": "Output of the checking program", "expected": run(TASK, TASK_DRIVER)}],
+    "check": "\n".join([
+        has("public Task(String description)", "Keep the constructor header Task(String description)."),
+        has("public boolean isDone()", "Include public boolean isDone()."),
+        has("public void complete()", "Include public void complete().")]),
+    "answer": b64(TASK), "files": TASK_DRIVER}
+assert E["p2-task"]["cases"][0]["expected"] == "Pay rent\nfalse\n[ ] Pay rent\ntrue\n[x] Pay rent"
+
+TASKLIST_DRIVER = driver("TaskListCheck", '''TaskList empty = new TaskList();
+System.out.println("Empty list:");
+empty.printAll();
+empty.completeTask("Walk dog");
+System.out.println("Removed from empty: " + empty.removeDone());
+TaskList list = new TaskList();
+list.addTask(new Task("Walk dog"));
+list.addTask(new Task("Call home"));
+list.addTask(new Task("Walk dog"));
+list.addTask(new Task("Water plants"));
+list.completeTask("Walk dog");
+list.completeTask("Feed cat");
+list.printAll();
+System.out.println("Removed done tasks: " + list.removeDone());
+list.printAll();
+System.out.println("Removed again: " + list.removeDone());''')
+E["p2-tasklist"] = {"type": "code", "xp": 6, "minLines": 34, "maxLines": 50, "title": "TaskList.java",
+    "starter": TASKLIST_STARTER,
+    "cases": [{"name": "Output of the checking program", "expected": run(TASKLIST, TASK_FILE + TASKLIST_DRIVER)}],
+    "check": "\n".join([
+        has("tasks.forEach(", "Use tasks.forEach(...) in printAll and completeTask."),
+        has(".getDescription().equals(description)", "Compare the descriptions with equals."),
+        has("tasks.removeIf(Task::isDone)", "Remove the done tasks with tasks.removeIf(Task::isDone)."),
+        has("return tasks.removeIf(", "Return what removeIf returns."),
+        lacks("for(", "Use forEach and removeIf; do not write an explicit loop."),
+        lacks("while(", "Use forEach and removeIf; do not write an explicit loop.")]),
+    "answer": b64(TASKLIST), "files": TASK_FILE + TASKLIST_DRIVER}
+assert E["p2-tasklist"]["cases"][0]["expected"] == ("Empty list:\nRemoved from empty: false\n[x] Walk dog\n[ ] Call home\n[x] Walk dog\n"
+    "[ ] Water plants\nRemoved done tasks: true\n[ ] Call home\n[ ] Water plants\nRemoved again: false")
+
+E["p2-demo"] = {"type": "code", "xp": 4, "minLines": 16, "maxLines": 28, "title": "TaskListDemo.java",
+    "starter": TASKLIST_DEMO_STARTER,
+    "cases": [{"name": "Program output", "expected": run(TASKLIST_DEMO, TASKLIST_FILES)}],
+    "check": "\n".join([
+        has("list.addTask(new Task(", "Add each task as an anonymous object: list.addTask(new Task(...));"),
+        has('completeTask("Write report")', 'Complete Write report with list.completeTask("Write report").'),
+        has('completeTask("Pay rent")', 'Complete Pay rent with list.completeTask("Pay rent").'),
+        has("removeDone()", "Call removeDone() twice and print each result.")]),
+    "answer": b64(TASKLIST_DEMO), "files": TASKLIST_FILES}
+assert E["p2-demo"]["cases"][0]["expected"] == ("[ ] Buy milk\n[x] Write report\n[x] Pay rent\n[ ] Book flights\n"
+    "Removed done tasks: true\nRemoved again: false\n[ ] Buy milk\n[ ] Book flights")
+
 # ---------------------------------------------------------------- write
 data = {
     "id": "lecture-08",
     "course": "COMP 2001: Object-Oriented Programming",
     "title": "Lecture 8 Workbook",
-    "subtitle": "Chapter 5, Part 1: Lambdas and internal iteration",
+    "subtitle": "Chapter 5, Part 1: Lambdas and Collection Methods",
     "exercises": E,
 }
 out = pathlib.Path(__file__).with_name("exercises.json")

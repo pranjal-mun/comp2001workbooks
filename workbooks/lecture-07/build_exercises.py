@@ -1200,7 +1200,7 @@ data = {
     "id": "lecture-07",
     "course": "COMP 2001: Object-Oriented Programming",
     "title": "Lecture 7 Workbook",
-    "subtitle": "Chapter 4, Part 2: Traversal, searching, and safe removal",
+    "subtitle": "Chapter 4, Part 2: Traversal, Search and Removal",
     "exercises": E,
 }
 out = pathlib.Path(__file__).with_name("exercises.json")
