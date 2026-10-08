@@ -7,13 +7,15 @@ real behaviour. Run from anywhere (needs `java` on the PATH):
     python3 workbooks/lecture-09/build_exercises.py
     python3 tools/check_workbook.py workbooks/lecture-09
 
-The questions follow the printed Lecture 9 workbook, numbered 1 to 25, and the
-model answers are the ones in the solutions edition. The two coding pauses
-build the clinic classes step by step (Parts 7 and 8, from Clinic appointments
-L9.md). A box that asks for part of a class starts from the rest of that class,
-and a small driver class on its classpath (the `files` list) calls the
-student's code and prints what comes back; the runner uses that main when the
-editor's class has none.
+The questions follow the printed Lecture 9 workbook, numbered 1.1 to 10.1,
+and the model answers are the ones in the solutions edition. The ids q1 to q25
+keep the meaning they had on the first published page (2.1 to 10.1, in the
+same order); q26 is the new Question 1.1. Sections 5 and 9 build the clinic
+classes step by step (Parts 7 and 8). Section 11 has two complete programs,
+one box per class (ids p1-* and p2-*). A box that asks for part of a class
+starts from the rest of that class, and a small driver class on its classpath
+(the `files` list) calls the student's code and prints what comes back; the
+runner uses that main when the editor's class has none.
 """
 import base64, json, re, sys, pathlib
 
@@ -462,7 +464,9 @@ def on_list(body):
 
 
 # ---------------------------------------------------------------- Streams
-E["q1"] = SHORT("A stream does not make a stored copy of the list. It has no get operation or index. After a terminal operation, that stream is consumed. Call stream() on the original list again to process it again.", rows=3)
+E["q26"] = SHORT("A lambda may read a local variable of the method around it, but it may not assign a new value to it, and this lambda assigns to total. forEach returns nothing (its return type is void), so it can never give back a total as a value. We need a terminal operation that returns a result: reduce, in Section 6.", rows=3)
+
+E["q1"] = SHORT("A stream does not make a stored copy of the list. It has no get operation or index. After a terminal operation, that stream is used up. Call stream() on the original list again to process it again.", rows=3)
 
 LOOP_PRINT = on_list("        for(Track track : tracks) {\n            track.printDetails();\n        }\n")
 assert LOOP_PRINT == on_list("        tracks.stream()\n              .forEach(track ->\n                  track.printDetails());\n")
@@ -531,7 +535,7 @@ E["q5"] = {"type": "table", "xp": 3, "blanks": {
     "f1": {"accept": list_forms("Blue Train", "Teardrop", "Naima", "Angel"), "show": "Blue Train, Teardrop, Naima, Angel", "placeholder": "tracks", "width": "20rem"},
     "f2": {"accept": list_forms("Teardrop", "Naima", "Angel"), "show": "Teardrop, Naima, Angel", "placeholder": "tracks", "width": "20rem"},
     "rev": {"accept": NO, "show": "no", **YESNO}}}
-E["q5-why"] = SHORT("Reversing the filters gives the same final tracks in the same order because these predicates have no side effects. Only the intermediate set can differ.", rows=2)
+E["q5-why"] = SHORT("Reversing the filters gives the same final tracks in the same order because each predicate only reads the track and changes nothing. Only the tracks between the two filters can differ.", rows=2)
 
 # ---------------------------------------------------------------- Mapping
 ALL_TITLES = '''
@@ -689,17 +693,18 @@ E["q11-demo"] = {"type": "code", "xp": 4, "title": "ClinicDemo.java", **box(Q11_
     "answer": b64(DEMO_7), "files": PAUSE7_FILES}
 
 # ---------------------------------------------------------------- Reduction
-STREAM_WORDS = ["a stream", "stream", "Stream", "a Stream", "stream of the list's elements", "a stream of the list's elements", "a stream of tracks",
-                "stream of tracks", "a stream, same type", "stream, same type", "a stream of the same type", "stream, one value per input",
-                "a stream of new values", "stream of new values", "a new stream", "new stream"]
+STREAM_WORDS = ["a stream", "stream", "Stream", "a Stream", "a new stream", "new stream"]
+SOURCE_WORDS = STREAM_WORDS + ["stream of the list's elements", "a stream of the list's elements", "a stream of tracks", "stream of tracks"]
+FILTER_WORDS = STREAM_WORDS + ["a stream, same type", "stream, same type", "a stream of the same type", "stream of the same type"]
+MAP_WORDS = STREAM_WORDS + ["stream, one value per input", "a stream, one value per input", "a stream of new values", "stream of new values"]
 KIND = {"placeholder": "kind", "width": "10rem"}
 PRODUCES = {"placeholder": "produces", "width": "14rem"}
 TERMINAL = ["terminal", "terminal operation", "Terminal"]
 INTER = ["intermediate", "intermediate operation", "Intermediate"]
 E["q12"] = {"type": "table", "xp": 3, "blanks": {
-    "k1": {"accept": ["source", "Source", "the source"], "show": "source", **KIND}, "p1": {"accept": STREAM_WORDS, "show": "a stream of the list's elements", **PRODUCES},
-    "k2": {"accept": INTER, "show": "intermediate", **KIND}, "p2": {"accept": STREAM_WORDS, "show": "a stream, same type, no more elements", **PRODUCES},
-    "k3": {"accept": INTER, "show": "intermediate", **KIND}, "p3": {"accept": STREAM_WORDS, "show": "a stream, one value per input", **PRODUCES},
+    "k1": {"accept": ["source", "Source", "the source"], "show": "source", **KIND}, "p1": {"accept": SOURCE_WORDS, "show": "a stream of the list's elements", **PRODUCES},
+    "k2": {"accept": INTER, "show": "intermediate", **KIND}, "p2": {"accept": FILTER_WORDS, "show": "a stream, same type, no more elements", **PRODUCES},
+    "k3": {"accept": INTER, "show": "intermediate", **KIND}, "p3": {"accept": MAP_WORDS, "show": "a stream, one value per input", **PRODUCES},
     "k4": {"accept": TERMINAL, "show": "terminal", **KIND}, "p4": {"accept": ["nothing", "no value", "void", "none", "an action", "no value; performs an action"], "show": "no value; performs an action", **PRODUCES},
     "k5": {"accept": TERMINAL, "show": "terminal", **KIND}, "p5": {"accept": ["long", "a long", "a long count", "long count"], "show": "long", **PRODUCES},
     "k6": {"accept": TERMINAL, "show": "terminal", **KIND}, "p6": {"accept": ["one value", "a single value", "one combined value", "a value", "single value", "one result", "a single result"], "show": "one combined value", **PRODUCES}}}
@@ -844,7 +849,7 @@ Q20_ANSWER = list_program("CountDemo", '''        tracks.stream()
 Q20_STARTER = list_program("CountDemo", '''        tracks.stream()
               .filter(t -> t.getArtist().equals("John Coltrane"));
 
-        // Replace this statement with a pipeline that prints the Coltrane count.
+        // Replace this statement: store the Coltrane count in a variable, then print it.
         tracks.stream().count()
               .filter(t -> t.getArtist().equals("John Coltrane"));
 ''')
@@ -858,7 +863,7 @@ E["q20"] = {"type": "code", "xp": 4, "title": "CountDemo.java", **box(Q20_STARTE
         has("System.out.println(", "Print the count.")]),
     "answer": b64(Q20_ANSWER), "files": TRACK_FILE}
 assert E["q20"]["cases"][0]["expected"] == "2"
-E["q20-why"] = SHORT("The first statement has no terminal operation, so its predicate does not run. In the second, count returns long, which has no filter method. A consumed stream cannot run again, so the same stream cannot then give the total duration. Each method in Questions 9 and 16 calls tracks.stream() to obtain a fresh stream.", rows=3)
+E["q20-why"] = SHORT("The first statement has no terminal operation, so its predicate does not run. In the second, count returns long, which has no filter method. A used-up stream cannot run again, so the same stream cannot then give the total duration. Each method in Questions 4.4 and 6.5 calls tracks.stream() to obtain a fresh stream.", rows=3)
 
 # ---------------------------------------------------------------- Choosing a style
 FIND_FIRST = '''
@@ -984,12 +989,475 @@ E["q25"] = {"type": "table", "xp": 3, "blanks": {
     "d": {"accept": ["long", "a long"], "show": "long", "placeholder": "type", "width": "7rem"}}}
 E["q25-why"] = SHORT("(a) The source still has size 5. (b) Map supplies one output per input; use filter for selection. (c) Reduce can also join text, and with no elements this form returns its identity. (d) count returns long, not a stream, so any filter must come before it.", rows=3)
 
+# ---------------------------------------------------------------- Complete Java Programs
+BOOK = '''public class Book
+{
+    private String title;
+    private String author;
+    private int pages;
+
+    public Book(String title, String author, int pages)
+    {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+    }
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+    public String getAuthor()
+    {
+        return author;
+    }
+
+    public int getPages()
+    {
+        return pages;
+    }
+}
+'''
+
+BOOKSHELF = '''import java.util.ArrayList;
+
+public class Bookshelf
+{
+    private ArrayList<Book> books;
+
+    public Bookshelf()
+    {
+        books = new ArrayList<>();
+    }
+
+    public void addBook(Book book)
+    {
+        books.add(book);
+    }
+
+    public int getNumberOfBooks()
+    {
+        return books.size();
+    }
+
+    public void printAuthors()
+    {
+        books.stream()
+             .map(book -> book.getAuthor())
+             .forEach(author -> System.out.println(author));
+    }
+
+    public void printTitlesBy(String author)
+    {
+        books.stream()
+             .filter(book -> book.getAuthor().equals(author))
+             .map(book -> book.getTitle())
+             .forEach(title -> System.out.println(title));
+    }
+
+    public long countLongerThan(int pages)
+    {
+        return books.stream()
+                    .filter(book -> book.getPages() > pages)
+                    .count();
+    }
+}
+'''
+
+BOOKSHELF_DEMO = '''public class BookshelfDemo
+{
+    public static void main(String[] args)
+    {
+        Bookshelf shelf = new Bookshelf();
+        shelf.addBook(new Book("Dune", "Frank Herbert", 412));
+        shelf.addBook(new Book("Emma", "Jane Austen", 474));
+        shelf.addBook(new Book("Persuasion", "Jane Austen", 249));
+        shelf.addBook(new Book("Holes", "Louis Sachar", 233));
+        shelf.addBook(new Book("Beloved", "Toni Morrison", 324));
+
+        System.out.println("Authors:");
+        shelf.printAuthors();
+        System.out.println("Austen titles:");
+        shelf.printTitlesBy("Jane Austen");
+        System.out.println("Tolkien titles:");
+        shelf.printTitlesBy("J. R. R. Tolkien");
+        System.out.println("Over 300 pages: " + shelf.countLongerThan(300));
+        System.out.println("Over 500 pages: " + shelf.countLongerThan(500));
+        System.out.println("Books: " + shelf.getNumberOfBooks());
+    }
+}
+'''
+
+EXPENSE = '''public class Expense
+{
+    private String description;
+    private String category;
+    private int amount;
+
+    public Expense(String description, String category, int amount)
+    {
+        this.description = description;
+        this.category = category;
+        this.amount = amount;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public String getCategory()
+    {
+        return category;
+    }
+
+    public int getAmount()
+    {
+        return amount;
+    }
+}
+'''
+
+EXPENSE_LOG = '''import java.util.ArrayList;
+
+public class ExpenseLog
+{
+    private ArrayList<Expense> expenses;
+
+    public ExpenseLog()
+    {
+        expenses = new ArrayList<>();
+    }
+
+    public void addExpense(Expense expense)
+    {
+        expenses.add(expense);
+    }
+
+    public int total()
+    {
+        return expenses.stream()
+                       .map(expense -> expense.getAmount())
+                       .reduce(0, (sum, amount) -> sum + amount);
+    }
+
+    public int totalFor(String category)
+    {
+        return expenses.stream()
+                       .filter(expense -> expense.getCategory().equals(category))
+                       .map(expense -> expense.getAmount())
+                       .reduce(0, (sum, amount) -> sum + amount);
+    }
+
+    public int findFirstOver(int amount)
+    {
+        int index = 0;
+        while(index < expenses.size()) {
+            if(expenses.get(index).getAmount() > amount) {
+                return index;
+            }
+            index = index + 1;
+        }
+        return -1;
+    }
+}
+'''
+
+EXPENSE_LOG_DEMO = '''public class ExpenseLogDemo
+{
+    public static void main(String[] args)
+    {
+        ExpenseLog log = new ExpenseLog();
+        System.out.println("Empty total: " + log.total());
+
+        log.addExpense(new Expense("Groceries", "Food", 85));
+        log.addExpense(new Expense("Rent", "Housing", 900));
+        log.addExpense(new Expense("Bus pass", "Transport", 60));
+        log.addExpense(new Expense("Cafe", "Food", 12));
+        log.addExpense(new Expense("Textbook", "School", 140));
+
+        System.out.println("Total: " + log.total());
+        System.out.println("Food: " + log.totalFor("Food"));
+        System.out.println("Housing: " + log.totalFor("Housing"));
+        System.out.println("Pets: " + log.totalFor("Pets"));
+        System.out.println("First over 100: " + log.findFirstOver(100));
+        System.out.println("First over 1000: " + log.findFirstOver(1000));
+    }
+}
+'''
+
+BOOK_STARTER = '''public class Book
+{
+    private String title;
+    private String author;
+    private int pages;
+
+    public Book(String title, String author, int pages)
+    {
+        // Assign the three fields.
+    }
+
+    public String getTitle()
+    {
+    }
+
+    public String getAuthor()
+    {
+    }
+
+    public int getPages()
+    {
+    }
+}
+'''
+
+BOOKSHELF_STARTER = '''import java.util.ArrayList;
+
+public class Bookshelf
+{
+    private ArrayList<Book> books;
+
+    public Bookshelf()
+    {
+        books = new ArrayList<>();
+    }
+
+    public void addBook(Book book)
+    {
+    }
+
+    public int getNumberOfBooks()
+    {
+    }
+
+    public void printAuthors()
+    {
+        // map, then forEach.
+    }
+
+    public void printTitlesBy(String author)
+    {
+        // filter, map, then forEach.
+    }
+
+    public long countLongerThan(int pages)
+    {
+        // filter, then count.
+    }
+}
+'''
+
+BOOKSHELF_DEMO_STARTER = '''public class BookshelfDemo
+{
+    public static void main(String[] args)
+    {
+        Bookshelf shelf = new Bookshelf();
+        // 1. Add the five books in order.
+        // 2. Print "Authors:" and the authors.
+        // 3. Print "Austen titles:" and the titles by Jane Austen.
+        // 4. Print "Tolkien titles:" and the titles by J. R. R. Tolkien.
+        // 5. Print "Over 300 pages: " and "Over 500 pages: " with the counts.
+        // 6. Print "Books: " and the number of books.
+    }
+}
+'''
+
+EXPENSE_STARTER = '''public class Expense
+{
+    private String description;
+    private String category;
+    private int amount;
+
+    public Expense(String description, String category, int amount)
+    {
+        // Assign the three fields.
+    }
+
+    public String getDescription()
+    {
+    }
+
+    public String getCategory()
+    {
+    }
+
+    public int getAmount()
+    {
+    }
+}
+'''
+
+EXPENSE_LOG_STARTER = '''import java.util.ArrayList;
+
+public class ExpenseLog
+{
+    private ArrayList<Expense> expenses;
+
+    public ExpenseLog()
+    {
+        expenses = new ArrayList<>();
+    }
+
+    public void addExpense(Expense expense)
+    {
+    }
+
+    public int total()
+    {
+        // map, then reduce from 0.
+    }
+
+    public int totalFor(String category)
+    {
+        // filter, map, then reduce from 0.
+    }
+
+    public int findFirstOver(int amount)
+    {
+        // while loop; return the index or -1.
+    }
+}
+'''
+
+EXPENSE_LOG_DEMO_STARTER = '''public class ExpenseLogDemo
+{
+    public static void main(String[] args)
+    {
+        ExpenseLog log = new ExpenseLog();
+        // 1. Print "Empty total: " and the total of the empty log.
+        // 2. Add the five expenses in order.
+        // 3. Print "Total: " and the total.
+        // 4. Print "Food: ", "Housing: " and "Pets: " with their totals.
+        // 5. Print "First over 100: " and "First over 1000: " with the indexes.
+    }
+}
+'''
+
+BOOK_FILE = [file("Book.java", BOOK)]
+BOOKSHELF_FILES = BOOK_FILE + [file("Bookshelf.java", BOOKSHELF)]
+EXPENSE_FILE = [file("Expense.java", EXPENSE)]
+EXPENSE_LOG_FILES = EXPENSE_FILE + [file("ExpenseLog.java", EXPENSE_LOG)]
+NO_LOOP = [lacks("for(", "Use one pipeline in each method; do not write an explicit loop."),
+           lacks("while(", "Use one pipeline in each method; do not write an explicit loop.")]
+
+BOOK_DRIVER = driver("BookCheck", """Book book = new Book("Emma", "Jane Austen", 474);
+System.out.println(book.getTitle());
+System.out.println(book.getAuthor());
+System.out.println(book.getPages());""")
+E["p1-item"] = {"type": "code", "xp": 3, "minLines": 28, "maxLines": 40, "title": "Book.java",
+    "starter": BOOK_STARTER,
+    "cases": [{"name": "Output of the checking program", "expected": run(BOOK, BOOK_DRIVER)}],
+    "check": "\n".join([
+        has("public Book(String title, String author, int pages)", "Keep the constructor header Book(String title, String author, int pages)."),
+        has("public int getPages()", "Include public int getPages().")]),
+    "answer": b64(BOOK), "files": BOOK_DRIVER}
+assert E["p1-item"]["cases"][0]["expected"] == "Emma\nJane Austen\n474"
+
+BOOKSHELF_DRIVER = driver("BookshelfCheck", """Bookshelf empty = new Bookshelf();
+System.out.println("Empty shelf:");
+empty.printAuthors();
+empty.printTitlesBy("Louis Sachar");
+System.out.println("Longer than 0: " + empty.countLongerThan(0));
+System.out.println("Books: " + empty.getNumberOfBooks());
+Bookshelf shelf = new Bookshelf();
+shelf.addBook(new Book("Holes", "Louis Sachar", 233));
+shelf.addBook(new Book("Dune", "Frank Herbert", 412));
+shelf.addBook(new Book("Small Steps", "Louis Sachar", 257));
+System.out.println("Authors:");
+shelf.printAuthors();
+System.out.println("Sachar titles:");
+shelf.printTitlesBy("Louis Sachar");
+System.out.println("Longer than 250: " + shelf.countLongerThan(250));
+System.out.println("Longer than 412: " + shelf.countLongerThan(412));
+System.out.println("Books: " + shelf.getNumberOfBooks());""")
+E["p1-collection"] = {"type": "code", "xp": 6, "minLines": 42, "maxLines": 58, "title": "Bookshelf.java",
+    "starter": BOOKSHELF_STARTER,
+    "cases": [{"name": "Output of the checking program", "expected": run(BOOKSHELF, BOOK_FILE + BOOKSHELF_DRIVER)}],
+    "check": "\n".join([
+        has("books.stream()", "Start each pipeline with books.stream()."),
+        has(".map(", "Use map to get the authors and the titles."),
+        has(".filter(", "Use filter to choose the books."),
+        has(".getAuthor().equals(author)", "Compare the authors with equals."),
+        has(".count()", "Count with count()."),
+        *NO_LOOP]),
+    "answer": b64(BOOKSHELF), "files": BOOK_FILE + BOOKSHELF_DRIVER}
+assert E["p1-collection"]["cases"][0]["expected"] == ("Empty shelf:\nLonger than 0: 0\nBooks: 0\nAuthors:\nLouis Sachar\nFrank Herbert\n"
+    "Louis Sachar\nSachar titles:\nHoles\nSmall Steps\nLonger than 250: 2\nLonger than 412: 0\nBooks: 3")
+
+E["p1-demo"] = {"type": "code", "xp": 4, "minLines": 16, "maxLines": 28, "title": "BookshelfDemo.java",
+    "starter": BOOKSHELF_DEMO_STARTER,
+    "cases": [{"name": "Program output", "expected": run(BOOKSHELF_DEMO, BOOKSHELF_FILES)}],
+    "check": "\n".join([
+        has("shelf.addBook(new Book(", "Add each book as an anonymous object: shelf.addBook(new Book(...));"),
+        has('printTitlesBy("Jane Austen")', 'Print the titles by Jane Austen with printTitlesBy("Jane Austen").'),
+        has('printTitlesBy("J. R. R. Tolkien")', 'Print the titles by J. R. R. Tolkien with printTitlesBy("J. R. R. Tolkien").'),
+        has("countLongerThan(300)", "Count the books over 300 pages with countLongerThan(300)."),
+        has("countLongerThan(500)", "Count the books over 500 pages with countLongerThan(500).")]),
+    "answer": b64(BOOKSHELF_DEMO), "files": BOOKSHELF_FILES}
+assert E["p1-demo"]["cases"][0]["expected"] == ("Authors:\nFrank Herbert\nJane Austen\nJane Austen\nLouis Sachar\nToni Morrison\n"
+    "Austen titles:\nEmma\nPersuasion\nTolkien titles:\nOver 300 pages: 3\nOver 500 pages: 0\nBooks: 5")
+
+EXPENSE_DRIVER = driver("ExpenseCheck", """Expense expense = new Expense("Rent", "Housing", 900);
+System.out.println(expense.getDescription());
+System.out.println(expense.getCategory());
+System.out.println(expense.getAmount());""")
+E["p2-item"] = {"type": "code", "xp": 3, "minLines": 28, "maxLines": 40, "title": "Expense.java",
+    "starter": EXPENSE_STARTER,
+    "cases": [{"name": "Output of the checking program", "expected": run(EXPENSE, EXPENSE_DRIVER)}],
+    "check": "\n".join([
+        has("public Expense(String description, String category, int amount)", "Keep the constructor header Expense(String description, String category, int amount)."),
+        has("public int getAmount()", "Include public int getAmount().")]),
+    "answer": b64(EXPENSE), "files": EXPENSE_DRIVER}
+assert E["p2-item"]["cases"][0]["expected"] == "Rent\nHousing\n900"
+
+EXPENSE_LOG_DRIVER = driver("ExpenseLogCheck", """ExpenseLog empty = new ExpenseLog();
+System.out.println("Empty total: " + empty.total());
+System.out.println("Empty Food: " + empty.totalFor("Food"));
+System.out.println("Empty first over 0: " + empty.findFirstOver(0));
+ExpenseLog log = new ExpenseLog();
+log.addExpense(new Expense("Lunch", "Food", 15));
+log.addExpense(new Expense("Phone", "Bills", 50));
+log.addExpense(new Expense("Dinner", "Food", 30));
+log.addExpense(new Expense("Gym", "Health", 40));
+System.out.println("Total: " + log.total());
+System.out.println("Food: " + log.totalFor("Food"));
+System.out.println("Travel: " + log.totalFor("Travel"));
+System.out.println("First over 35: " + log.findFirstOver(35));
+System.out.println("First over 50: " + log.findFirstOver(50));""")
+E["p2-collection"] = {"type": "code", "xp": 6, "minLines": 44, "maxLines": 60, "title": "ExpenseLog.java",
+    "starter": EXPENSE_LOG_STARTER,
+    "cases": [{"name": "Output of the checking program", "expected": run(EXPENSE_LOG, EXPENSE_FILE + EXPENSE_LOG_DRIVER)}],
+    "check": "\n".join([
+        has("expenses.stream()", "Start the totals with expenses.stream()."),
+        has(".map(", "Map each expense to its amount."),
+        has(".reduce(0,", "Add the amounts with reduce(0, ...)."),
+        has(".getCategory().equals(category)", "Compare the categories with equals."),
+        has("while(", "Write findFirstOver with a while loop."),
+        has("return -1;", "Return -1 when no expense is larger.")]),
+    "answer": b64(EXPENSE_LOG), "files": EXPENSE_FILE + EXPENSE_LOG_DRIVER}
+assert E["p2-collection"]["cases"][0]["expected"] == ("Empty total: 0\nEmpty Food: 0\nEmpty first over 0: -1\nTotal: 135\nFood: 45\n"
+    "Travel: 0\nFirst over 35: 1\nFirst over 50: -1")
+
+E["p2-demo"] = {"type": "code", "xp": 4, "minLines": 16, "maxLines": 28, "title": "ExpenseLogDemo.java",
+    "starter": EXPENSE_LOG_DEMO_STARTER,
+    "cases": [{"name": "Program output", "expected": run(EXPENSE_LOG_DEMO, EXPENSE_LOG_FILES)}],
+    "check": "\n".join([
+        has("log.addExpense(new Expense(", "Add each expense as an anonymous object: log.addExpense(new Expense(...));"),
+        has('totalFor("Food")', 'Print the Food total with totalFor("Food").'),
+        has('totalFor("Pets")', 'Print the Pets total with totalFor("Pets").'),
+        has("findFirstOver(100)", "Search with findFirstOver(100)."),
+        has("findFirstOver(1000)", "Search with findFirstOver(1000).")]),
+    "answer": b64(EXPENSE_LOG_DEMO), "files": EXPENSE_LOG_FILES}
+assert E["p2-demo"]["cases"][0]["expected"] == ("Empty total: 0\nTotal: 1197\nFood: 97\nHousing: 900\nPets: 0\n"
+    "First over 100: 1\nFirst over 1000: -1")
+
 # ---------------------------------------------------------------- write
 data = {
     "id": "lecture-09",
     "course": "COMP 2001: Object-Oriented Programming",
     "title": "Lecture 9 Workbook",
-    "subtitle": "Chapter 5, Part 2: Filtering and transforming with streams",
+    "subtitle": "Chapter 5, Part 2: Stream Pipelines",
     "exercises": E,
 }
 out = pathlib.Path(__file__).with_name("exercises.json")

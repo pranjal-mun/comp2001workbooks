@@ -2,14 +2,21 @@
   "id": "lecture-09",
   "course": "COMP 2001: Object-Oriented Programming",
   "title": "Lecture 9 Workbook",
-  "subtitle": "Chapter 5, Part 2: Filtering and transforming with streams",
+  "subtitle": "Chapter 5, Part 2: Stream Pipelines",
   "exercises": {
+    "q26": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "QSBsYW1iZGEgbWF5IHJlYWQgYSBsb2NhbCB2YXJpYWJsZSBvZiB0aGUgbWV0aG9kIGFyb3VuZCBpdCwgYnV0IGl0IG1heSBub3QgYXNzaWduIGEgbmV3IHZhbHVlIHRvIGl0LCBhbmQgdGhpcyBsYW1iZGEgYXNzaWducyB0byB0b3RhbC4gZm9yRWFjaCByZXR1cm5zIG5vdGhpbmcgKGl0cyByZXR1cm4gdHlwZSBpcyB2b2lkKSwgc28gaXQgY2FuIG5ldmVyIGdpdmUgYmFjayBhIHRvdGFsIGFzIGEgdmFsdWUuIFdlIG5lZWQgYSB0ZXJtaW5hbCBvcGVyYXRpb24gdGhhdCByZXR1cm5zIGEgcmVzdWx0OiByZWR1Y2UsIGluIFNlY3Rpb24gNi4="
+    },
     "q1": {
       "type": "short",
       "xp": 2,
       "minChars": 20,
       "rows": 3,
-      "answer": "QSBzdHJlYW0gZG9lcyBub3QgbWFrZSBhIHN0b3JlZCBjb3B5IG9mIHRoZSBsaXN0LiBJdCBoYXMgbm8gZ2V0IG9wZXJhdGlvbiBvciBpbmRleC4gQWZ0ZXIgYSB0ZXJtaW5hbCBvcGVyYXRpb24sIHRoYXQgc3RyZWFtIGlzIGNvbnN1bWVkLiBDYWxsIHN0cmVhbSgpIG9uIHRoZSBvcmlnaW5hbCBsaXN0IGFnYWluIHRvIHByb2Nlc3MgaXQgYWdhaW4u"
+      "answer": "QSBzdHJlYW0gZG9lcyBub3QgbWFrZSBhIHN0b3JlZCBjb3B5IG9mIHRoZSBsaXN0LiBJdCBoYXMgbm8gZ2V0IG9wZXJhdGlvbiBvciBpbmRleC4gQWZ0ZXIgYSB0ZXJtaW5hbCBvcGVyYXRpb24sIHRoYXQgc3RyZWFtIGlzIHVzZWQgdXAuIENhbGwgc3RyZWFtKCkgb24gdGhlIG9yaWdpbmFsIGxpc3QgYWdhaW4gdG8gcHJvY2VzcyBpdCBhZ2Fpbi4="
     },
     "q2": {
       "type": "table",
@@ -213,7 +220,7 @@
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "UmV2ZXJzaW5nIHRoZSBmaWx0ZXJzIGdpdmVzIHRoZSBzYW1lIGZpbmFsIHRyYWNrcyBpbiB0aGUgc2FtZSBvcmRlciBiZWNhdXNlIHRoZXNlIHByZWRpY2F0ZXMgaGF2ZSBubyBzaWRlIGVmZmVjdHMuIE9ubHkgdGhlIGludGVybWVkaWF0ZSBzZXQgY2FuIGRpZmZlci4="
+      "answer": "UmV2ZXJzaW5nIHRoZSBmaWx0ZXJzIGdpdmVzIHRoZSBzYW1lIGZpbmFsIHRyYWNrcyBpbiB0aGUgc2FtZSBvcmRlciBiZWNhdXNlIGVhY2ggcHJlZGljYXRlIG9ubHkgcmVhZHMgdGhlIHRyYWNrIGFuZCBjaGFuZ2VzIG5vdGhpbmcuIE9ubHkgdGhlIHRyYWNrcyBiZXR3ZWVuIHRoZSB0d28gZmlsdGVycyBjYW4gZGlmZmVyLg=="
     },
     "q6": {
       "type": "code",
@@ -673,18 +680,12 @@
             "stream",
             "Stream",
             "a Stream",
+            "a new stream",
+            "new stream",
             "stream of the list's elements",
             "a stream of the list's elements",
             "a stream of tracks",
-            "stream of tracks",
-            "a stream, same type",
-            "stream, same type",
-            "a stream of the same type",
-            "stream, one value per input",
-            "a stream of new values",
-            "stream of new values",
-            "a new stream",
-            "new stream"
+            "stream of tracks"
           ],
           "show": "a stream of the list's elements",
           "placeholder": "produces",
@@ -706,18 +707,12 @@
             "stream",
             "Stream",
             "a Stream",
-            "stream of the list's elements",
-            "a stream of the list's elements",
-            "a stream of tracks",
-            "stream of tracks",
+            "a new stream",
+            "new stream",
             "a stream, same type",
             "stream, same type",
             "a stream of the same type",
-            "stream, one value per input",
-            "a stream of new values",
-            "stream of new values",
-            "a new stream",
-            "new stream"
+            "stream of the same type"
           ],
           "show": "a stream, same type, no more elements",
           "placeholder": "produces",
@@ -739,18 +734,12 @@
             "stream",
             "Stream",
             "a Stream",
-            "stream of the list's elements",
-            "a stream of the list's elements",
-            "a stream of tracks",
-            "stream of tracks",
-            "a stream, same type",
-            "stream, same type",
-            "a stream of the same type",
-            "stream, one value per input",
-            "a stream of new values",
-            "stream of new values",
             "a new stream",
-            "new stream"
+            "new stream",
+            "stream, one value per input",
+            "a stream, one value per input",
+            "a stream of new values",
+            "stream of new values"
           ],
           "show": "a stream, one value per input",
           "placeholder": "produces",
@@ -1253,7 +1242,7 @@
       "title": "CountDemo.java",
       "minLines": 23,
       "maxLines": 29,
-      "starter": "import java.util.ArrayList;\n\npublic class CountDemo\n{\n    public static void main(String[] args)\n    {\n        ArrayList<Track> tracks = new ArrayList<>();\n        tracks.add(new Track(\"Northern Sky\", \"Nick Drake\", 224));\n        tracks.add(new Track(\"Blue Train\", \"John Coltrane\", 643));\n        tracks.add(new Track(\"Teardrop\", \"Massive Attack\", 330));\n        tracks.add(new Track(\"Naima\", \"John Coltrane\", 265));\n        tracks.add(new Track(\"Angel\", \"Massive Attack\", 379));\n        tracks.stream()\n              .filter(t -> t.getArtist().equals(\"John Coltrane\"));\n\n        // Replace this statement with a pipeline that prints the Coltrane count.\n        tracks.stream().count()\n              .filter(t -> t.getArtist().equals(\"John Coltrane\"));\n    }\n}\n",
+      "starter": "import java.util.ArrayList;\n\npublic class CountDemo\n{\n    public static void main(String[] args)\n    {\n        ArrayList<Track> tracks = new ArrayList<>();\n        tracks.add(new Track(\"Northern Sky\", \"Nick Drake\", 224));\n        tracks.add(new Track(\"Blue Train\", \"John Coltrane\", 643));\n        tracks.add(new Track(\"Teardrop\", \"Massive Attack\", 330));\n        tracks.add(new Track(\"Naima\", \"John Coltrane\", 265));\n        tracks.add(new Track(\"Angel\", \"Massive Attack\", 379));\n        tracks.stream()\n              .filter(t -> t.getArtist().equals(\"John Coltrane\"));\n\n        // Replace this statement: store the Coltrane count in a variable, then print it.\n        tracks.stream().count()\n              .filter(t -> t.getArtist().equals(\"John Coltrane\"));\n    }\n}\n",
       "cases": [
         {
           "name": "Program output",
@@ -1274,7 +1263,7 @@
       "xp": 2,
       "minChars": 20,
       "rows": 3,
-      "answer": "VGhlIGZpcnN0IHN0YXRlbWVudCBoYXMgbm8gdGVybWluYWwgb3BlcmF0aW9uLCBzbyBpdHMgcHJlZGljYXRlIGRvZXMgbm90IHJ1bi4gSW4gdGhlIHNlY29uZCwgY291bnQgcmV0dXJucyBsb25nLCB3aGljaCBoYXMgbm8gZmlsdGVyIG1ldGhvZC4gQSBjb25zdW1lZCBzdHJlYW0gY2Fubm90IHJ1biBhZ2Fpbiwgc28gdGhlIHNhbWUgc3RyZWFtIGNhbm5vdCB0aGVuIGdpdmUgdGhlIHRvdGFsIGR1cmF0aW9uLiBFYWNoIG1ldGhvZCBpbiBRdWVzdGlvbnMgOSBhbmQgMTYgY2FsbHMgdHJhY2tzLnN0cmVhbSgpIHRvIG9idGFpbiBhIGZyZXNoIHN0cmVhbS4="
+      "answer": "VGhlIGZpcnN0IHN0YXRlbWVudCBoYXMgbm8gdGVybWluYWwgb3BlcmF0aW9uLCBzbyBpdHMgcHJlZGljYXRlIGRvZXMgbm90IHJ1bi4gSW4gdGhlIHNlY29uZCwgY291bnQgcmV0dXJucyBsb25nLCB3aGljaCBoYXMgbm8gZmlsdGVyIG1ldGhvZC4gQSB1c2VkLXVwIHN0cmVhbSBjYW5ub3QgcnVuIGFnYWluLCBzbyB0aGUgc2FtZSBzdHJlYW0gY2Fubm90IHRoZW4gZ2l2ZSB0aGUgdG90YWwgZHVyYXRpb24uIEVhY2ggbWV0aG9kIGluIFF1ZXN0aW9ucyA0LjQgYW5kIDYuNSBjYWxscyB0cmFja3Muc3RyZWFtKCkgdG8gb2J0YWluIGEgZnJlc2ggc3RyZWFtLg=="
     },
     "q21": {
       "type": "table",
@@ -1644,6 +1633,154 @@
       "minChars": 20,
       "rows": 3,
       "answer": "KGEpIFRoZSBzb3VyY2Ugc3RpbGwgaGFzIHNpemUgNS4gKGIpIE1hcCBzdXBwbGllcyBvbmUgb3V0cHV0IHBlciBpbnB1dDsgdXNlIGZpbHRlciBmb3Igc2VsZWN0aW9uLiAoYykgUmVkdWNlIGNhbiBhbHNvIGpvaW4gdGV4dCwgYW5kIHdpdGggbm8gZWxlbWVudHMgdGhpcyBmb3JtIHJldHVybnMgaXRzIGlkZW50aXR5LiAoZCkgY291bnQgcmV0dXJucyBsb25nLCBub3QgYSBzdHJlYW0sIHNvIGFueSBmaWx0ZXIgbXVzdCBjb21lIGJlZm9yZSBpdC4="
+    },
+    "p1-item": {
+      "type": "code",
+      "xp": 3,
+      "minLines": 28,
+      "maxLines": 40,
+      "title": "Book.java",
+      "starter": "public class Book\n{\n    private String title;\n    private String author;\n    private int pages;\n\n    public Book(String title, String author, int pages)\n    {\n        // Assign the three fields.\n    }\n\n    public String getTitle()\n    {\n    }\n\n    public String getAuthor()\n    {\n    }\n\n    public int getPages()\n    {\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Emma\nJane Austen\n474"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicBook(Stringtitle,Stringauthor,intpages)\"), \"Keep the constructor header Book(String title, String author, int pages).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetPages()\"), \"Include public int getPages().\");",
+      "answer": "cHVibGljIGNsYXNzIEJvb2sKewogICAgcHJpdmF0ZSBTdHJpbmcgdGl0bGU7CiAgICBwcml2YXRlIFN0cmluZyBhdXRob3I7CiAgICBwcml2YXRlIGludCBwYWdlczsKCiAgICBwdWJsaWMgQm9vayhTdHJpbmcgdGl0bGUsIFN0cmluZyBhdXRob3IsIGludCBwYWdlcykKICAgIHsKICAgICAgICB0aGlzLnRpdGxlID0gdGl0bGU7CiAgICAgICAgdGhpcy5hdXRob3IgPSBhdXRob3I7CiAgICAgICAgdGhpcy5wYWdlcyA9IHBhZ2VzOwogICAgfQoKICAgIHB1YmxpYyBTdHJpbmcgZ2V0VGl0bGUoKQogICAgewogICAgICAgIHJldHVybiB0aXRsZTsKICAgIH0KCiAgICBwdWJsaWMgU3RyaW5nIGdldEF1dGhvcigpCiAgICB7CiAgICAgICAgcmV0dXJuIGF1dGhvcjsKICAgIH0KCiAgICBwdWJsaWMgaW50IGdldFBhZ2VzKCkKICAgIHsKICAgICAgICByZXR1cm4gcGFnZXM7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "BookCheck.java",
+          "content": "public class BookCheck\n{\n    public static void main(String[] args)\n    {\n        Book book = new Book(\"Emma\", \"Jane Austen\", 474);\n        System.out.println(book.getTitle());\n        System.out.println(book.getAuthor());\n        System.out.println(book.getPages());\n    }\n}"
+        }
+      ]
+    },
+    "p1-collection": {
+      "type": "code",
+      "xp": 6,
+      "minLines": 42,
+      "maxLines": 58,
+      "title": "Bookshelf.java",
+      "starter": "import java.util.ArrayList;\n\npublic class Bookshelf\n{\n    private ArrayList<Book> books;\n\n    public Bookshelf()\n    {\n        books = new ArrayList<>();\n    }\n\n    public void addBook(Book book)\n    {\n    }\n\n    public int getNumberOfBooks()\n    {\n    }\n\n    public void printAuthors()\n    {\n        // map, then forEach.\n    }\n\n    public void printTitlesBy(String author)\n    {\n        // filter, map, then forEach.\n    }\n\n    public long countLongerThan(int pages)\n    {\n        // filter, then count.\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Empty shelf:\nLonger than 0: 0\nBooks: 0\nAuthors:\nLouis Sachar\nFrank Herbert\nLouis Sachar\nSachar titles:\nHoles\nSmall Steps\nLonger than 250: 2\nLonger than 412: 0\nBooks: 3"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"books.stream()\"), \"Start each pipeline with books.stream().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".map(\"), \"Use map to get the authors and the titles.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".filter(\"), \"Use filter to choose the books.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getAuthor().equals(author)\"), \"Compare the authors with equals.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".count()\"), \"Count with count().\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"for(\"), \"Use one pipeline in each method; do not write an explicit loop.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"while(\"), \"Use one pipeline in each method; do not write an explicit loop.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgQm9va3NoZWxmCnsKICAgIHByaXZhdGUgQXJyYXlMaXN0PEJvb2s+IGJvb2tzOwoKICAgIHB1YmxpYyBCb29rc2hlbGYoKQogICAgewogICAgICAgIGJvb2tzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICB9CgogICAgcHVibGljIHZvaWQgYWRkQm9vayhCb29rIGJvb2spCiAgICB7CiAgICAgICAgYm9va3MuYWRkKGJvb2spOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TnVtYmVyT2ZCb29rcygpCiAgICB7CiAgICAgICAgcmV0dXJuIGJvb2tzLnNpemUoKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludEF1dGhvcnMoKQogICAgewogICAgICAgIGJvb2tzLnN0cmVhbSgpCiAgICAgICAgICAgICAubWFwKGJvb2sgLT4gYm9vay5nZXRBdXRob3IoKSkKICAgICAgICAgICAgIC5mb3JFYWNoKGF1dGhvciAtPiBTeXN0ZW0ub3V0LnByaW50bG4oYXV0aG9yKSk7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRUaXRsZXNCeShTdHJpbmcgYXV0aG9yKQogICAgewogICAgICAgIGJvb2tzLnN0cmVhbSgpCiAgICAgICAgICAgICAuZmlsdGVyKGJvb2sgLT4gYm9vay5nZXRBdXRob3IoKS5lcXVhbHMoYXV0aG9yKSkKICAgICAgICAgICAgIC5tYXAoYm9vayAtPiBib29rLmdldFRpdGxlKCkpCiAgICAgICAgICAgICAuZm9yRWFjaCh0aXRsZSAtPiBTeXN0ZW0ub3V0LnByaW50bG4odGl0bGUpKTsKICAgIH0KCiAgICBwdWJsaWMgbG9uZyBjb3VudExvbmdlclRoYW4oaW50IHBhZ2VzKQogICAgewogICAgICAgIHJldHVybiBib29rcy5zdHJlYW0oKQogICAgICAgICAgICAgICAgICAgIC5maWx0ZXIoYm9vayAtPiBib29rLmdldFBhZ2VzKCkgPiBwYWdlcykKICAgICAgICAgICAgICAgICAgICAuY291bnQoKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Book.java",
+          "content": "public class Book\n{\n    private String title;\n    private String author;\n    private int pages;\n\n    public Book(String title, String author, int pages)\n    {\n        this.title = title;\n        this.author = author;\n        this.pages = pages;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public String getAuthor()\n    {\n        return author;\n    }\n\n    public int getPages()\n    {\n        return pages;\n    }\n}"
+        },
+        {
+          "name": "BookshelfCheck.java",
+          "content": "public class BookshelfCheck\n{\n    public static void main(String[] args)\n    {\n        Bookshelf empty = new Bookshelf();\n        System.out.println(\"Empty shelf:\");\n        empty.printAuthors();\n        empty.printTitlesBy(\"Louis Sachar\");\n        System.out.println(\"Longer than 0: \" + empty.countLongerThan(0));\n        System.out.println(\"Books: \" + empty.getNumberOfBooks());\n        Bookshelf shelf = new Bookshelf();\n        shelf.addBook(new Book(\"Holes\", \"Louis Sachar\", 233));\n        shelf.addBook(new Book(\"Dune\", \"Frank Herbert\", 412));\n        shelf.addBook(new Book(\"Small Steps\", \"Louis Sachar\", 257));\n        System.out.println(\"Authors:\");\n        shelf.printAuthors();\n        System.out.println(\"Sachar titles:\");\n        shelf.printTitlesBy(\"Louis Sachar\");\n        System.out.println(\"Longer than 250: \" + shelf.countLongerThan(250));\n        System.out.println(\"Longer than 412: \" + shelf.countLongerThan(412));\n        System.out.println(\"Books: \" + shelf.getNumberOfBooks());\n    }\n}"
+        }
+      ]
+    },
+    "p1-demo": {
+      "type": "code",
+      "xp": 4,
+      "minLines": 16,
+      "maxLines": 28,
+      "title": "BookshelfDemo.java",
+      "starter": "public class BookshelfDemo\n{\n    public static void main(String[] args)\n    {\n        Bookshelf shelf = new Bookshelf();\n        // 1. Add the five books in order.\n        // 2. Print \"Authors:\" and the authors.\n        // 3. Print \"Austen titles:\" and the titles by Jane Austen.\n        // 4. Print \"Tolkien titles:\" and the titles by J. R. R. Tolkien.\n        // 5. Print \"Over 300 pages: \" and \"Over 500 pages: \" with the counts.\n        // 6. Print \"Books: \" and the number of books.\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Authors:\nFrank Herbert\nJane Austen\nJane Austen\nLouis Sachar\nToni Morrison\nAusten titles:\nEmma\nPersuasion\nTolkien titles:\nOver 300 pages: 3\nOver 500 pages: 0\nBooks: 5"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"shelf.addBook(newBook(\"), \"Add each book as an anonymous object: shelf.addBook(new Book(...));\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"printTitlesBy(\\\"JaneAusten\\\")\"), \"Print the titles by Jane Austen with printTitlesBy(\\\"Jane Austen\\\").\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"printTitlesBy(\\\"J.R.R.Tolkien\\\")\"), \"Print the titles by J. R. R. Tolkien with printTitlesBy(\\\"J. R. R. Tolkien\\\").\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"countLongerThan(300)\"), \"Count the books over 300 pages with countLongerThan(300).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"countLongerThan(500)\"), \"Count the books over 500 pages with countLongerThan(500).\");",
+      "answer": "cHVibGljIGNsYXNzIEJvb2tzaGVsZkRlbW8KewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBCb29rc2hlbGYgc2hlbGYgPSBuZXcgQm9va3NoZWxmKCk7CiAgICAgICAgc2hlbGYuYWRkQm9vayhuZXcgQm9vaygiRHVuZSIsICJGcmFuayBIZXJiZXJ0IiwgNDEyKSk7CiAgICAgICAgc2hlbGYuYWRkQm9vayhuZXcgQm9vaygiRW1tYSIsICJKYW5lIEF1c3RlbiIsIDQ3NCkpOwogICAgICAgIHNoZWxmLmFkZEJvb2sobmV3IEJvb2soIlBlcnN1YXNpb24iLCAiSmFuZSBBdXN0ZW4iLCAyNDkpKTsKICAgICAgICBzaGVsZi5hZGRCb29rKG5ldyBCb29rKCJIb2xlcyIsICJMb3VpcyBTYWNoYXIiLCAyMzMpKTsKICAgICAgICBzaGVsZi5hZGRCb29rKG5ldyBCb29rKCJCZWxvdmVkIiwgIlRvbmkgTW9ycmlzb24iLCAzMjQpKTsKCiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJBdXRob3JzOiIpOwogICAgICAgIHNoZWxmLnByaW50QXV0aG9ycygpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQXVzdGVuIHRpdGxlczoiKTsKICAgICAgICBzaGVsZi5wcmludFRpdGxlc0J5KCJKYW5lIEF1c3RlbiIpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiVG9sa2llbiB0aXRsZXM6Iik7CiAgICAgICAgc2hlbGYucHJpbnRUaXRsZXNCeSgiSi4gUi4gUi4gVG9sa2llbiIpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiT3ZlciAzMDAgcGFnZXM6ICIgKyBzaGVsZi5jb3VudExvbmdlclRoYW4oMzAwKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJPdmVyIDUwMCBwYWdlczogIiArIHNoZWxmLmNvdW50TG9uZ2VyVGhhbig1MDApKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkJvb2tzOiAiICsgc2hlbGYuZ2V0TnVtYmVyT2ZCb29rcygpKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Book.java",
+          "content": "public class Book\n{\n    private String title;\n    private String author;\n    private int pages;\n\n    public Book(String title, String author, int pages)\n    {\n        this.title = title;\n        this.author = author;\n        this.pages = pages;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public String getAuthor()\n    {\n        return author;\n    }\n\n    public int getPages()\n    {\n        return pages;\n    }\n}"
+        },
+        {
+          "name": "Bookshelf.java",
+          "content": "import java.util.ArrayList;\n\npublic class Bookshelf\n{\n    private ArrayList<Book> books;\n\n    public Bookshelf()\n    {\n        books = new ArrayList<>();\n    }\n\n    public void addBook(Book book)\n    {\n        books.add(book);\n    }\n\n    public int getNumberOfBooks()\n    {\n        return books.size();\n    }\n\n    public void printAuthors()\n    {\n        books.stream()\n             .map(book -> book.getAuthor())\n             .forEach(author -> System.out.println(author));\n    }\n\n    public void printTitlesBy(String author)\n    {\n        books.stream()\n             .filter(book -> book.getAuthor().equals(author))\n             .map(book -> book.getTitle())\n             .forEach(title -> System.out.println(title));\n    }\n\n    public long countLongerThan(int pages)\n    {\n        return books.stream()\n                    .filter(book -> book.getPages() > pages)\n                    .count();\n    }\n}"
+        }
+      ]
+    },
+    "p2-item": {
+      "type": "code",
+      "xp": 3,
+      "minLines": 28,
+      "maxLines": 40,
+      "title": "Expense.java",
+      "starter": "public class Expense\n{\n    private String description;\n    private String category;\n    private int amount;\n\n    public Expense(String description, String category, int amount)\n    {\n        // Assign the three fields.\n    }\n\n    public String getDescription()\n    {\n    }\n\n    public String getCategory()\n    {\n    }\n\n    public int getAmount()\n    {\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Rent\nHousing\n900"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicExpense(Stringdescription,Stringcategory,intamount)\"), \"Keep the constructor header Expense(String description, String category, int amount).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintgetAmount()\"), \"Include public int getAmount().\");",
+      "answer": "cHVibGljIGNsYXNzIEV4cGVuc2UKewogICAgcHJpdmF0ZSBTdHJpbmcgZGVzY3JpcHRpb247CiAgICBwcml2YXRlIFN0cmluZyBjYXRlZ29yeTsKICAgIHByaXZhdGUgaW50IGFtb3VudDsKCiAgICBwdWJsaWMgRXhwZW5zZShTdHJpbmcgZGVzY3JpcHRpb24sIFN0cmluZyBjYXRlZ29yeSwgaW50IGFtb3VudCkKICAgIHsKICAgICAgICB0aGlzLmRlc2NyaXB0aW9uID0gZGVzY3JpcHRpb247CiAgICAgICAgdGhpcy5jYXRlZ29yeSA9IGNhdGVnb3J5OwogICAgICAgIHRoaXMuYW1vdW50ID0gYW1vdW50OwogICAgfQoKICAgIHB1YmxpYyBTdHJpbmcgZ2V0RGVzY3JpcHRpb24oKQogICAgewogICAgICAgIHJldHVybiBkZXNjcmlwdGlvbjsKICAgIH0KCiAgICBwdWJsaWMgU3RyaW5nIGdldENhdGVnb3J5KCkKICAgIHsKICAgICAgICByZXR1cm4gY2F0ZWdvcnk7CiAgICB9CgogICAgcHVibGljIGludCBnZXRBbW91bnQoKQogICAgewogICAgICAgIHJldHVybiBhbW91bnQ7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "ExpenseCheck.java",
+          "content": "public class ExpenseCheck\n{\n    public static void main(String[] args)\n    {\n        Expense expense = new Expense(\"Rent\", \"Housing\", 900);\n        System.out.println(expense.getDescription());\n        System.out.println(expense.getCategory());\n        System.out.println(expense.getAmount());\n    }\n}"
+        }
+      ]
+    },
+    "p2-collection": {
+      "type": "code",
+      "xp": 6,
+      "minLines": 44,
+      "maxLines": 60,
+      "title": "ExpenseLog.java",
+      "starter": "import java.util.ArrayList;\n\npublic class ExpenseLog\n{\n    private ArrayList<Expense> expenses;\n\n    public ExpenseLog()\n    {\n        expenses = new ArrayList<>();\n    }\n\n    public void addExpense(Expense expense)\n    {\n    }\n\n    public int total()\n    {\n        // map, then reduce from 0.\n    }\n\n    public int totalFor(String category)\n    {\n        // filter, map, then reduce from 0.\n    }\n\n    public int findFirstOver(int amount)\n    {\n        // while loop; return the index or -1.\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Empty total: 0\nEmpty Food: 0\nEmpty first over 0: -1\nTotal: 135\nFood: 45\nTravel: 0\nFirst over 35: 1\nFirst over 50: -1"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"expenses.stream()\"), \"Start the totals with expenses.stream().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".map(\"), \"Map each expense to its amount.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".reduce(0,\"), \"Add the amounts with reduce(0, ...).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".getCategory().equals(category)\"), \"Compare the categories with equals.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"while(\"), \"Write findFirstOver with a while loop.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"return-1;\"), \"Return -1 when no expense is larger.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgRXhwZW5zZUxvZwp7CiAgICBwcml2YXRlIEFycmF5TGlzdDxFeHBlbnNlPiBleHBlbnNlczsKCiAgICBwdWJsaWMgRXhwZW5zZUxvZygpCiAgICB7CiAgICAgICAgZXhwZW5zZXMgPSBuZXcgQXJyYXlMaXN0PD4oKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBhZGRFeHBlbnNlKEV4cGVuc2UgZXhwZW5zZSkKICAgIHsKICAgICAgICBleHBlbnNlcy5hZGQoZXhwZW5zZSk7CiAgICB9CgogICAgcHVibGljIGludCB0b3RhbCgpCiAgICB7CiAgICAgICAgcmV0dXJuIGV4cGVuc2VzLnN0cmVhbSgpCiAgICAgICAgICAgICAgICAgICAgICAgLm1hcChleHBlbnNlIC0+IGV4cGVuc2UuZ2V0QW1vdW50KCkpCiAgICAgICAgICAgICAgICAgICAgICAgLnJlZHVjZSgwLCAoc3VtLCBhbW91bnQpIC0+IHN1bSArIGFtb3VudCk7CiAgICB9CgogICAgcHVibGljIGludCB0b3RhbEZvcihTdHJpbmcgY2F0ZWdvcnkpCiAgICB7CiAgICAgICAgcmV0dXJuIGV4cGVuc2VzLnN0cmVhbSgpCiAgICAgICAgICAgICAgICAgICAgICAgLmZpbHRlcihleHBlbnNlIC0+IGV4cGVuc2UuZ2V0Q2F0ZWdvcnkoKS5lcXVhbHMoY2F0ZWdvcnkpKQogICAgICAgICAgICAgICAgICAgICAgIC5tYXAoZXhwZW5zZSAtPiBleHBlbnNlLmdldEFtb3VudCgpKQogICAgICAgICAgICAgICAgICAgICAgIC5yZWR1Y2UoMCwgKHN1bSwgYW1vdW50KSAtPiBzdW0gKyBhbW91bnQpOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZmluZEZpcnN0T3ZlcihpbnQgYW1vdW50KQogICAgewogICAgICAgIGludCBpbmRleCA9IDA7CiAgICAgICAgd2hpbGUoaW5kZXggPCBleHBlbnNlcy5zaXplKCkpIHsKICAgICAgICAgICAgaWYoZXhwZW5zZXMuZ2V0KGluZGV4KS5nZXRBbW91bnQoKSA+IGFtb3VudCkgewogICAgICAgICAgICAgICAgcmV0dXJuIGluZGV4OwogICAgICAgICAgICB9CiAgICAgICAgICAgIGluZGV4ID0gaW5kZXggKyAxOwogICAgICAgIH0KICAgICAgICByZXR1cm4gLTE7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Expense.java",
+          "content": "public class Expense\n{\n    private String description;\n    private String category;\n    private int amount;\n\n    public Expense(String description, String category, int amount)\n    {\n        this.description = description;\n        this.category = category;\n        this.amount = amount;\n    }\n\n    public String getDescription()\n    {\n        return description;\n    }\n\n    public String getCategory()\n    {\n        return category;\n    }\n\n    public int getAmount()\n    {\n        return amount;\n    }\n}"
+        },
+        {
+          "name": "ExpenseLogCheck.java",
+          "content": "public class ExpenseLogCheck\n{\n    public static void main(String[] args)\n    {\n        ExpenseLog empty = new ExpenseLog();\n        System.out.println(\"Empty total: \" + empty.total());\n        System.out.println(\"Empty Food: \" + empty.totalFor(\"Food\"));\n        System.out.println(\"Empty first over 0: \" + empty.findFirstOver(0));\n        ExpenseLog log = new ExpenseLog();\n        log.addExpense(new Expense(\"Lunch\", \"Food\", 15));\n        log.addExpense(new Expense(\"Phone\", \"Bills\", 50));\n        log.addExpense(new Expense(\"Dinner\", \"Food\", 30));\n        log.addExpense(new Expense(\"Gym\", \"Health\", 40));\n        System.out.println(\"Total: \" + log.total());\n        System.out.println(\"Food: \" + log.totalFor(\"Food\"));\n        System.out.println(\"Travel: \" + log.totalFor(\"Travel\"));\n        System.out.println(\"First over 35: \" + log.findFirstOver(35));\n        System.out.println(\"First over 50: \" + log.findFirstOver(50));\n    }\n}"
+        }
+      ]
+    },
+    "p2-demo": {
+      "type": "code",
+      "xp": 4,
+      "minLines": 16,
+      "maxLines": 28,
+      "title": "ExpenseLogDemo.java",
+      "starter": "public class ExpenseLogDemo\n{\n    public static void main(String[] args)\n    {\n        ExpenseLog log = new ExpenseLog();\n        // 1. Print \"Empty total: \" and the total of the empty log.\n        // 2. Add the five expenses in order.\n        // 3. Print \"Total: \" and the total.\n        // 4. Print \"Food: \", \"Housing: \" and \"Pets: \" with their totals.\n        // 5. Print \"First over 100: \" and \"First over 1000: \" with the indexes.\n    }\n}\n",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Empty total: 0\nTotal: 1197\nFood: 97\nHousing: 900\nPets: 0\nFirst over 100: 1\nFirst over 1000: -1"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"log.addExpense(newExpense(\"), \"Add each expense as an anonymous object: log.addExpense(new Expense(...));\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"totalFor(\\\"Food\\\")\"), \"Print the Food total with totalFor(\\\"Food\\\").\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"totalFor(\\\"Pets\\\")\"), \"Print the Pets total with totalFor(\\\"Pets\\\").\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"findFirstOver(100)\"), \"Search with findFirstOver(100).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"findFirstOver(1000)\"), \"Search with findFirstOver(1000).\");",
+      "answer": "cHVibGljIGNsYXNzIEV4cGVuc2VMb2dEZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgRXhwZW5zZUxvZyBsb2cgPSBuZXcgRXhwZW5zZUxvZygpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiRW1wdHkgdG90YWw6ICIgKyBsb2cudG90YWwoKSk7CgogICAgICAgIGxvZy5hZGRFeHBlbnNlKG5ldyBFeHBlbnNlKCJHcm9jZXJpZXMiLCAiRm9vZCIsIDg1KSk7CiAgICAgICAgbG9nLmFkZEV4cGVuc2UobmV3IEV4cGVuc2UoIlJlbnQiLCAiSG91c2luZyIsIDkwMCkpOwogICAgICAgIGxvZy5hZGRFeHBlbnNlKG5ldyBFeHBlbnNlKCJCdXMgcGFzcyIsICJUcmFuc3BvcnQiLCA2MCkpOwogICAgICAgIGxvZy5hZGRFeHBlbnNlKG5ldyBFeHBlbnNlKCJDYWZlIiwgIkZvb2QiLCAxMikpOwogICAgICAgIGxvZy5hZGRFeHBlbnNlKG5ldyBFeHBlbnNlKCJUZXh0Ym9vayIsICJTY2hvb2wiLCAxNDApKTsKCiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJUb3RhbDogIiArIGxvZy50b3RhbCgpKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkZvb2Q6ICIgKyBsb2cudG90YWxGb3IoIkZvb2QiKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJIb3VzaW5nOiAiICsgbG9nLnRvdGFsRm9yKCJIb3VzaW5nIikpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiUGV0czogIiArIGxvZy50b3RhbEZvcigiUGV0cyIpKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkZpcnN0IG92ZXIgMTAwOiAiICsgbG9nLmZpbmRGaXJzdE92ZXIoMTAwKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGaXJzdCBvdmVyIDEwMDA6ICIgKyBsb2cuZmluZEZpcnN0T3ZlcigxMDAwKSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Expense.java",
+          "content": "public class Expense\n{\n    private String description;\n    private String category;\n    private int amount;\n\n    public Expense(String description, String category, int amount)\n    {\n        this.description = description;\n        this.category = category;\n        this.amount = amount;\n    }\n\n    public String getDescription()\n    {\n        return description;\n    }\n\n    public String getCategory()\n    {\n        return category;\n    }\n\n    public int getAmount()\n    {\n        return amount;\n    }\n}"
+        },
+        {
+          "name": "ExpenseLog.java",
+          "content": "import java.util.ArrayList;\n\npublic class ExpenseLog\n{\n    private ArrayList<Expense> expenses;\n\n    public ExpenseLog()\n    {\n        expenses = new ArrayList<>();\n    }\n\n    public void addExpense(Expense expense)\n    {\n        expenses.add(expense);\n    }\n\n    public int total()\n    {\n        return expenses.stream()\n                       .map(expense -> expense.getAmount())\n                       .reduce(0, (sum, amount) -> sum + amount);\n    }\n\n    public int totalFor(String category)\n    {\n        return expenses.stream()\n                       .filter(expense -> expense.getCategory().equals(category))\n                       .map(expense -> expense.getAmount())\n                       .reduce(0, (sum, amount) -> sum + amount);\n    }\n\n    public int findFirstOver(int amount)\n    {\n        int index = 0;\n        while(index < expenses.size()) {\n            if(expenses.get(index).getAmount() > amount) {\n                return index;\n            }\n            index = index + 1;\n        }\n        return -1;\n    }\n}"
+        }
+      ]
     }
   }
 }
