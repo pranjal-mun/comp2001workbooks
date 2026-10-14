@@ -20,67 +20,197 @@
   <div>
     <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
     <h1>Lecture 10 Workbook</h1>
-    <div class="wb-subtitle">Chapter 6, Part 1: Learning and using library classes</div>
+    <div class="wb-subtitle">Chapter 6, Part 1: Learning and Using Library Classes</div>
     <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
   </div>
   <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
 </div>
 
-
 <section class="wb-outcomes">
   <h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
-  <p>Library classes provide operations we can reuse through their documented interfaces. <code>HelpBot</code> cleans a typed question with <code>String</code> methods, chooses one of four general replies with a retained <code>Random</code>, and stores ratings in an <code>ArrayList&lt;Integer&gt;</code>. Ratings 5, 3, and 4 give three entries, total 12, and whole-number average 4; ratings 0 and 6 are ignored. Its replies still ignore the question's meaning.</p>
-  <p>The complete class below runs with a supplied checking program. It cleans the messy submit question, checks an empty question, verifies that a chosen reply belongs to the four-entry list, and records the ratings. Checking membership gives repeatable output without fixing the normal application's random seed.</p>
-  <details><summary>HelpBot.java: complete example</summary>
-    <wb-example id="summary-example"></wb-example>
-  </details>
+  <p>This lecture uses three library classes inside one class of our own. <code>HelpBot</code> cleans a question with <code>String</code> methods, picks one of four general replies with a <code>Random</code> object, and keeps ratings in an <code>ArrayList&lt;Integer&gt;</code>. For the ratings 5, 3 and 4 it reports 3 ratings and an average of 4; the ratings 0 and 6 are ignored. Here is the finished class, with its comments. Its replies still ignore what the question says; Lecture 11 fixes that with a map.</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+<span class="wb-kw">import</span> java.util.Random;
+
+<span class="wb-cmt">/**
+ * Answers course questions with a general reply and keeps
+ * the ratings that users give.
+ * @author Pranjal Patra
+ * @version 1.0
+ */</span>
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">HelpBot</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">String</span>&gt; generalReplies;
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Integer</span>&gt; ratings;
+    <span class="wb-kw">private</span> <span class="wb-type">Random</span> randomGenerator;
+
+    <span class="wb-cmt">/**
+     * Create a help bot with its general replies and no ratings.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-fn">HelpBot</span>()
+    {
+        generalReplies = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        ratings = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        randomGenerator = <span class="wb-kw">new</span> <span class="wb-fn">Random</span>();
+        fillGeneralReplies();
+    }
+
+    <span class="wb-cmt">/**
+     * Answer one question.
+     * @param question The text typed by the user; must not be null.
+     * @return A general reply, or a prompt when nothing was typed.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">replyTo</span>(<span class="wb-type">String</span> question)
+    {
+        <span class="wb-type">String</span> cleaned = clean(question);
+        <span class="wb-kw">if</span>(cleaned.isEmpty()) {
+            <span class="wb-kw">return</span> <span class="wb-str">"Please type a question."</span>;
+        }
+        <span class="wb-kw">return</span> pickGeneralReply();
+    }
+
+    <span class="wb-cmt">/**
+     * Remove the spaces around a question and put it in lower case.
+     * @param question The typed text; must not be null.
+     * @return The cleaned text. The original string is unchanged.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">clean</span>(<span class="wb-type">String</span> question)
+    {
+        <span class="wb-kw">return</span> question.trim().toLowerCase();
+    }
+
+    <span class="wb-cmt">/**
+     * Choose one general reply at random. The call nextInt(bound)
+     * returns a value from 0 up to bound - 1, which is exactly the set
+     * of valid indices for a list of that size.
+     * @return One of the general replies.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">pickGeneralReply</span>()
+    {
+        <span class="wb-kw">int</span> index = randomGenerator.nextInt(generalReplies.size());
+        <span class="wb-kw">return</span> generalReplies.get(index);
+    }
+
+    <span class="wb-cmt">// Question 7.1 asks you to write the Javadoc comment for this method.</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addRating</span>(<span class="wb-kw">int</span> rating)
+    {
+        <span class="wb-kw">if</span>(rating &gt;= <span class="wb-num">1</span> &amp;&amp; rating &lt;= <span class="wb-num">5</span>) {
+            ratings.add(rating);
+        }
+    }
+
+    <span class="wb-cmt">/**
+     * Return the number of ratings recorded so far.
+     * @return The number of ratings.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfRatings</span>()
+    {
+        <span class="wb-kw">return</span> ratings.size();
+    }
+
+    <span class="wb-cmt">/**
+     * Work out the average of the recorded ratings. Each Integer in the
+     * list is unboxed into the int loop variable.
+     * @return The whole-number average, or 0 when no rating exists.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">averageRating</span>()
+    {
+        <span class="wb-kw">if</span>(ratings.isEmpty()) {
+            <span class="wb-kw">return</span> 0;
+        }
+        <span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
+        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> rating : ratings) {
+            total = total + rating;
+        }
+        <span class="wb-kw">return</span> total / ratings.size();
+    }
+
+    <span class="wb-cmt">/**
+     * Build the list of general replies. This method is private because
+     * it is a step in building a HelpBot, not an operation that other
+     * classes should call.
+     */</span>
+    <span class="wb-kw">private</span> <span class="wb-kw">void</span> <span class="wb-fn">fillGeneralReplies</span>()
+    {
+        generalReplies.add(<span class="wb-str">"Can you describe that in more detail?"</span>);
+        generalReplies.add(<span class="wb-str">"Have you checked the course web page?"</span>);
+        generalReplies.add(<span class="wb-str">"That question comes up often. Let us look at it together."</span>);
+        generalReplies.add(<span class="wb-str">"Please post that on the discussion board so others can see the answer."</span>);
+    }
+}</code></pre>
   <table>
     <thead><tr><th>term</th><th>meaning</th></tr></thead>
     <tbody>
-      <tr><td>library class and package</td><td>A library class supplies reusable behaviour. A package groups classes: <code>Random</code>'s qualified name is <code>java.util.Random</code>.</td></tr>
-      <tr><td>imports</td><td><code>import java.util.Random;</code> makes the short class name available; it copies no source code. <code>java.util.*</code> excludes subpackages. <code>java.lang</code>, including <code>String</code> and <code>Integer</code>, is imported automatically.</td></tr>
-      <tr><td>documentation and interface</td><td>Read the purpose, constructors, method headers, behaviour, and argument restrictions. The implementation contains the method bodies and private state; callers need not know those details.</td></tr>
-      <tr><td>method signature</td><td>The method name and parameter types form its signature, such as <code>startsWith(String)</code>. The return type and parameter names are not part of it.</td></tr>
-      <tr><td>generic placeholder and diamond</td><td>In <code>ArrayList&lt;E&gt;</code>, <code>E</code> stands for the chosen reference type. An <code>ArrayList&lt;String&gt;</code> returns a String from <code>get</code>; <code>new ArrayList&lt;&gt;()</code> infers the element type from the declaration.</td></tr>
-      <tr><td>String operations</td><td><code>trim()</code> removes surrounding spaces; <code>toLowerCase()</code> returns lowercase text. <code>contains</code> is case sensitive. <code>indexOf</code> returns -1 when text is absent; <code>substring(0, 3)</code> excludes position 3.</td></tr>
-      <tr><td>immutability and chaining</td><td>A String's characters cannot change. Use or store a call's returned value. <code>question.trim().toLowerCase()</code> cleans our non-null English text; assigning it changes a reference, not the original object.</td></tr>
-      <tr><td>Random and exclusive bound</td><td><code>nextInt(size)</code> returns 0 through <code>size - 1</code>, which are valid list indices. The bound must be positive. Retain one generator; a fixed seed and the same calls repeat its sequence.</td></tr>
-      <tr><td>wrappers and ratings</td><td>Use <code>Integer</code>, <code>Double</code>, <code>Boolean</code>, and <code>Character</code> as the wrappers for int, double, boolean, and char. Adding an int boxes it; reading an Integer into an int unboxes it. Integer division gives 9 / 2 = 4.</td></tr>
-      <tr><td>Javadoc and information hiding</td><td>Begin documentation with <code>/**</code>. Describe purpose, <code>@param</code>, and <code>@return</code>; class comments can add <code>@author</code> and <code>@version</code>. Keep fields and setup helpers private so callers use methods that protect valid state.</td></tr>
-      <tr><td>clinic search and random choice</td><td>Clean both names and return the first matching index, or -1. Keep exact search too. An empty random choice returns null before consuming a generated value. Selection includes checked-in appointments and leaves all appointments unchanged.</td></tr>
+      <tr><td>library class and package</td><td>A <strong>package</strong> is a named group of classes. <code>Random</code> is in <code>java.util</code>, so its qualified name is <code>java.util.Random</code>.</td></tr>
+      <tr><td>import</td><td><code>import java.util.Random;</code> lets the file use the short name. It copies no code. <code>java.util.*</code> does not reach into <code>java.util.function</code>, and <code>java.lang</code> is imported automatically.</td></tr>
+      <tr><td>interface and implementation</td><td>The interface is the public constructors and methods, with their headers and descriptions. The implementation is the fields, private helpers and method bodies. A caller needs only the interface.</td></tr>
+      <tr><td>signature</td><td>The method name and the parameter types, such as <code>startsWith(String)</code>. The return type and the parameter names are not part of it.</td></tr>
+      <tr><td>generic class</td><td>In <code>ArrayList&lt;E&gt;</code>, <code>E</code> stands for the element type we choose. For an <code>ArrayList&lt;String&gt;</code>, <code>get</code> returns a <code>String</code>.</td></tr>
+      <tr><td>immutable string</td><td>A <code>String</code> never changes. <code>trim()</code> and <code>toLowerCase()</code> return new strings, so keep the result: <code>word = word.trim();</code>.</td></tr>
+      <tr><td>empty string</td><td><code>""</code> is a real object with length 0, so <code>isEmpty()</code> can be called on it. <code>null</code> means there is no object.</td></tr>
+      <tr><td>nextInt(bound)</td><td>Returns 0 up to <code>bound - 1</code>. With <code>bound</code> equal to the list size, every result is a valid index. <code>nextInt(0)</code> is an error, so check for an empty list first.</td></tr>
+      <tr><td>seed</td><td><code>new Random(42)</code> gives the same numbers every run, which suits a demo. <code>new Random()</code> gives different numbers each run.</td></tr>
+      <tr><td>wrapper class</td><td><code>Integer</code> holds an <code>int</code> as an object, so ratings go in an <code>ArrayList&lt;Integer&gt;</code>. Adding an <code>int</code> boxes it; reading one into an <code>int</code> unboxes it.</td></tr>
+      <tr><td>Javadoc</td><td>A comment that starts with <code>/**</code>, just above a class or method, with <code>@param</code>, <code>@return</code>, <code>@author</code> and <code>@version</code> tags where they apply.</td></tr>
+      <tr><td>information hiding</td><td>Fields stay <code>private</code>, so other classes go through methods such as <code>addRating</code>, which check their arguments.</td></tr>
     </tbody>
   </table>
-  <p class="wb-meta">Press <strong>▶ Run</strong> in an editor to compile and run its code in your browser; the first run takes a few seconds while Java loads. Class exercises include a supplied checking program and any supporting classes. Printed code fragments illustrate declarations or calls in their surrounding class. Exercises award XP for correct answers, which can be spent to reveal model answers.</p>
+  <p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run on the page takes a few seconds while Java loads). Boxes that ask for part of a class come with the rest of that class and a small checking program on their classpath. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
 </section>
-
 
 <hr>
 
-
-<p>Use these questions with the slides or for revision. The clinic has two coding pauses: Part 9 at slide 19 and Part 10 at slide 35. Follow the code as it is written in class; you can finish or repeat it later. Write your answers with braces placed as in the lectures. By the end, you should be able to:</p>
+<p>This workbook holds the notes and the questions for Lecture 10. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. Sections 4 and 8 are the QEII Library coding parts that we do together in class; if you missed them, you can do them from the notes here. Section 10 has two complete programs to write after class. By the end, you should be able to:</p>
 <ul>
-  <li>find library classes and read their documented operations;</li>
-  <li>clean strings without changing the original text;</li>
-  <li>choose valid random indices and store ratings with wrappers;</li>
-  <li>document methods and keep a class's fields private.</li>
+  <li>find a library class, import it, and give its qualified name;</li>
+  <li>read a method header and say what the documentation tells you;</li>
+  <li>clean and search text with <code>String</code> methods, and explain why a <code>String</code> never changes;</li>
+  <li>use <code>Random</code> to choose a valid index of a list;</li>
+  <li>store <code>int</code> values in a list using the wrapper class <code>Integer</code>;</li>
+  <li>write Javadoc comments and keep fields private; and</li>
+  <li>write complete programs that use <code>String</code>, <code>Random</code> and <code>ArrayList&lt;Integer&gt;</code>.</li>
 </ul>
-<p><code>HelpBot</code> receives a non-null String question and returns a reply. Its private fields are <code>ArrayList&lt;String&gt; generalReplies</code>, <code>ArrayList&lt;Integer&gt; ratings</code>, and <code>Random randomGenerator</code>. The examples use simple English text. Each clinic task includes its starting class; complete starting files are <a href="#starting-project">below</a>.</p>
 
-<h2 id="libraries">1. Library classes and packages</h2>
+<h2 id="s1">1. Library</h2>
+<h3>The help desk bot</h3>
+<p>The example for Chapter 6 is a class called <code>HelpBot</code>. It answers questions at a course help desk. A question arrives as a <code>String</code> parameter, and the reply goes back as a <code>String</code>. There is no keyboard input and no window; a demo class calls the methods and prints what they return. The first version gives every question the same reply:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">replyTo</span>(<span class="wb-type">String</span> question)
+{
+    <span class="wb-kw">return</span> <span class="wb-str">"Can you describe that in more detail?"</span>;
+}</code></pre>
+<p>During this lecture the bot gets three improvements. It cleans up the question text, it chooses one of four general replies at random, and it keeps the ratings that users give its replies. All three use classes that we do not write ourselves. The examples in this workbook always use the same data:</p>
+<ul>
+  <li>the messy question <code>"   How do I SUBMIT my work?  "</code>, with three spaces in front and two at the end;</li>
+  <li>the four general replies listed in Section 5;</li>
+  <li>the ratings 5, 3 and 4, in that order.</li>
+</ul>
+<p>Questions passed to the bot are never <code>null</code>.</p>
 
-<p>A library class supplies behaviour we can reuse. We need its public operations and meaning, without needing its method bodies. A package groups related classes. A qualified name combines the package and class; an import makes a short name available and copies no source code. Java imports <code>java.lang</code> automatically.</p>
+<h3>Library classes</h3>
+<p>Java comes with a large <strong>class library</strong>: thousands of classes that someone else has written and tested. We have used several already. <code>String</code> holds text, <code>ArrayList</code> holds a list of objects, and <code>System</code> gives us <code>System.out.println</code>. None of us has read the source code of <code>ArrayList</code>. We could still use it, because we knew the names of its methods, what each one takes, what it returns, and what it does.</p>
+<p>That is the normal way to work. A good programmer knows a few important library classes by name and knows how to look up the rest. Using an existing class is usually better than writing our own version: it is already finished, and it has been tested by many other programs.</p>
+
+<h3>Packages and qualified names</h3>
+<p>The classes of the library are grouped into <strong>packages</strong>. A package is a named group of related classes. For example, <code>java.util</code> holds <code>ArrayList</code> and <code>Random</code>, and <code>java.lang</code> holds <code>String</code>, <code>Integer</code>, <code>System</code> and <code>Math</code>. Packages can contain other packages: <code>java.util.function</code> is a separate package inside <code>java.util</code>.</p>
+<p>The <strong>qualified name</strong> of a class is its package name, a dot, and the class name. The qualified name of <code>Random</code> is <code>java.util.Random</code>. Two classes in different packages may have the same short name, and the qualified name tells them apart.</p>
+
+<h3>Imports</h3>
+<p>An <code>import</code> statement goes at the top of the file, before the class. It lets the file use the short name of a class from another package:</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+<span class="wb-kw">import</span> java.util.Random;</code></pre>
+<p>Without the import we can still use the class, but every use must then be the qualified name, as in <code>new java.util.Random()</code>. The form <code>import java.util.*;</code> imports every class of <code>java.util</code>. It does not import the classes of the packages inside it, such as <code>java.util.function</code>. In this course we import one class per line, because the list at the top then shows exactly which classes the file uses.</p>
+<p>The classes of <code>java.lang</code> are imported automatically. That is why <code>String</code>, <code>Integer</code> and <code>System</code> never needed an import. An import only makes a name available. It does not copy any code into our file, and it does not make the program larger or slower.</p>
 
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: library reuse</div>
-  <p><strong>1.</strong> Name three library classes used in the slides and say what each does. What must you know before calling a library method?</p>
+  <div class="wb-block-title">Practice: library classes</div>
+  <p><strong>1.1</strong> Name three library classes you have used in this course and say in a few words what each one does. What do you need to know about a library method before you can call it?</p>
   <wb-short id="q1"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: qualified names and imports</div>
-  <p><strong>2.</strong> Complete the table. Use explicit imports only where needed.</p>
+  <p><strong>1.2</strong> Complete the table. Write &ldquo;none&rdquo; when no import is needed.</p>
   <wb-table id="q2">
-    <div class="wb-table-wrap"><table>
+    <table>
       <thead><tr><th>Class</th><th>Qualified name</th><th>Import needed for the short name</th></tr></thead>
       <tbody>
         <tr><td><code>Random</code></td><td data-blank="Random-name"></td><td data-blank="Random-import"></td></tr>
@@ -88,859 +218,736 @@
         <tr><td><code>String</code></td><td data-blank="String-name"></td><td data-blank="String-import"></td></tr>
         <tr><td><code>Integer</code></td><td data-blank="Integer-name"></td><td data-blank="Integer-import"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: wildcard imports</div>
-  <p><strong>3.</strong> A file uses <code>import java.util.*;</code>. Does this make <code>Random</code> available? Does it include types in <code>java.util.function</code>? Why does this course prefer explicit imports?</p>
+  <div class="wb-block-title">Practice: a wildcard import</div>
+  <p><strong>1.3</strong> A file starts with <code>import java.util.*;</code>. (a) Can the file use the short name <code>Random</code>? (b) Can it use the short name of a class from <code>java.util.function</code>? (c) Another file has no imports at all. Write one statement that creates a <code>Random</code> object in that file.</p>
+  <p>Answer (a) and (b):</p>
   <wb-short id="q3-why"></wb-short>
-<p>Write a qualified construction of a Random named <code>generator</code> without adding an import. The supplied print statement checks that it was created.</p>
+  <p>For (c), declare and create <code>generator</code> in the box below. The last line prints <code>true</code> once it exists.</p>
   <wb-exercise id="q3"></wb-exercise>
 </div>
 
-<h2 id="documentation">2. Documentation and generic types</h2>
+<h2 id="s2">2. Interfaces</h2>
+<h3>Reading documentation</h3>
+<p>Every class in the library has documentation, and it is the first place to look when we want to use the class. The documentation of <code>java.lang.String</code> gives:</p>
+<ul>
+  <li>the package and a description of what the class is for;</li>
+  <li>a summary of its constructors and methods;</li>
+  <li>for each method, its parameters and its return type;</li>
+  <li>a full description of each method, including any limits on the arguments and what happens when they are broken.</li>
+</ul>
+<p>The method name is often not enough. For example, <code>substring(int beginIndex, int endIndex)</code> returns part of a string, but the name does not say whether the character at <code>endIndex</code> is included. The description does: it is not.</p>
+<p>To open the documentation in BlueJ, choose Help, then Java Class Libraries. It opens in a web browser, where each class has its own page.</p>
 
-<p>Public class documentation describes its purpose, constructors, method headers, and behaviour. Detailed descriptions explain argument restrictions. The interface is what callers can use; the implementation is the code and private state behind it. For example, <code>substring(int beginIndex, int endIndex)</code> includes its beginning and excludes its end, a detail its name alone does not tell us.</p>
+<h3>Method headers</h3>
+<p>Each method in the documentation starts with its header:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">startsWith</span>(<span class="wb-type">String</span> prefix)</code></pre>
+<p>From left to right, a header has the <strong>access modifier</strong> (<code>public</code>: other classes may call it), the <strong>return type</strong> (<code>boolean</code>: it returns <code>true</code> or <code>false</code>), the <strong>method name</strong>, and the <strong>parameter list</strong> in parentheses. Here the list has one parameter, of type <code>String</code>.</p>
+<p>The method name and the parameter types together are the method's <strong>signature</strong>: <code>startsWith(String)</code>. The return type is not part of the signature, and neither is the parameter name. The name <code>prefix</code> only tells the reader what the value is for. When we call the method we can pass any <code>String</code> expression, whatever our own variable is called.</p>
+
+<h3>Interface and implementation</h3>
+<p>The public part of a class is its <strong>interface</strong>: the constructors and methods that other classes may use, with their headers and descriptions. The code that makes those methods work is the <strong>implementation</strong>: the fields, the private helper methods and the method bodies. The documentation shows the interface and hides the implementation.</p>
+<p>A caller only needs the interface. To get the first element of a list we call <code>get(0)</code>, and we never need to see how <code>get</code> finds it. This also protects us. The authors of <code>ArrayList</code> can change its implementation, and our code keeps working, as long as the interface stays the same.</p>
+<p>Java also has a keyword <code>interface</code>. That is a different idea, which we meet in a later chapter. In this chapter, &ldquo;interface&rdquo; means the public part of a class.</p>
+
+<h3>Generic classes</h3>
+<p>The documentation of <code>ArrayList</code> calls the class <code>ArrayList&lt;E&gt;</code>. The <code>E</code> is a placeholder for the element type that we supply when we use the class. It appears again in the method headers:</p>
+<table>
+  <thead><tr><th>In the documentation</th><th>For an <code>ArrayList&lt;String&gt;</code></th></tr></thead>
+  <tbody>
+      <tr><td><code>boolean add(E e)</code></td><td><code>boolean add(String e)</code></td></tr>
+      <tr><td><code>E get(int index)</code></td><td><code>String get(int index)</code></td></tr>
+      <tr><td><code>E remove(int index)</code></td><td><code>String remove(int index)</code></td></tr>
+  </tbody>
+</table>
+<p>A class that takes a type in angle brackets is called a <strong>generic</strong> or <strong>parameterized</strong> class. <code>E</code> is not a real class, and we never import it. When we write <code>new ArrayList&lt;&gt;()</code>, the empty angle brackets tell Java to use the element type from the declaration on the left.</p>
 
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: where to look</div>
-  <p><strong>4.</strong> Say whether public documentation or the implementation is the place to look.</p>
+  <div class="wb-block-title">Practice: documentation or implementation?</div>
+  <p><strong>2.1</strong> For each question, say whether the documentation answers it or whether you would need the implementation. Then explain why you can call <code>get(0)</code> without seeing its method body.</p>
   <wb-table id="q4">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Question</th><th>Place to look</th></tr></thead>
+    <table>
+      <thead><tr><th>question</th><th>documentation or implementation?</th></tr></thead>
       <tbody>
-        <tr><td>(a) What arguments does a constructor need?</td><td data-blank="a"></td></tr>
-        <tr><td>(b) Is substring's ending position included?</td><td data-blank="b"></td></tr>
-        <tr><td>(c) Which private field holds an ArrayList's storage?</td><td data-blank="c"></td></tr>
+        <tr><td>(a) Which arguments does the constructor of <code>Random</code> need?</td><td data-blank="a"></td></tr>
+        <tr><td>(b) Is the character at the end position included by <code>substring</code>?</td><td data-blank="b"></td></tr>
+        <tr><td>(c) Which private field does <code>ArrayList</code> use to store its elements?</td><td data-blank="c"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
-<p>Explain why you can use <code>get(0)</code> without seeing its method body.</p>
+  <p>Why can you call <code>get(0)</code> without seeing its method body?</p>
   <wb-short id="q4-why"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: read a method header</div>
-  <p><strong>5.</strong> Identify the access modifier, return type, method name, and parameter type. Write the signature. Must the caller's argument variable be named <code>prefix</code>?</p>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">startsWith</span>(<span class="wb-type">String</span> prefix)</code></pre>
+  <div class="wb-block-title">Practice: reading a header</div>
+  <p><strong>2.2</strong> Read this header from the documentation of <code>String</code>. Name its access modifier, return type, method name and parameter type, and write its signature. Must your argument be a variable called <code>str</code>?</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">indexOf</span>(<span class="wb-type">String</span> str)</code></pre>
   <wb-table id="q5">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Item</th><th>Answer</th></tr></thead>
+    <table>
+      <thead><tr><th>part</th><th>answer</th></tr></thead>
       <tbody>
-        <tr><td>Access modifier</td><td data-blank="access"></td></tr>
-        <tr><td>Return type</td><td data-blank="result"></td></tr>
-        <tr><td>Method name</td><td data-blank="name"></td></tr>
-        <tr><td>Parameter type</td><td data-blank="param"></td></tr>
-        <tr><td>Signature</td><td data-blank="signature"></td></tr>
-        <tr><td>Must the caller use the name prefix?</td><td data-blank="caller"></td></tr>
+        <tr><td>access modifier</td><td data-blank="access"></td></tr>
+        <tr><td>return type</td><td data-blank="result"></td></tr>
+        <tr><td>method name</td><td data-blank="name"></td></tr>
+        <tr><td>parameter type</td><td data-blank="param"></td></tr>
+        <tr><td>signature</td><td data-blank="signature"></td></tr>
+        <tr><td>must the argument be a variable called <code>str</code>?</td><td data-blank="caller"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
 </div>
-
-<p>Documentation writes <code>ArrayList&lt;E&gt;</code>. E is a type placeholder, not a class to import. Supplying String gives <code>ArrayList&lt;String&gt;</code>, whose get method returns a String.</p>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: substitute the element type</div>
-  <p><strong>6.</strong> Replace E in these headers for an <code>ArrayList&lt;String&gt;</code>. State the return type of get for an <code>ArrayList&lt;Integer&gt;</code>. What does the diamond let Java infer?</p>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">add</span>(<span class="wb-type">E</span> e)
-<span class="wb-kw">public</span> <span class="wb-type">E</span> <span class="wb-fn">get</span>(<span class="wb-kw">int</span> index)</code></pre>
+  <div class="wb-block-title">Practice: the placeholder <code>E</code></div>
+  <p><strong>2.3</strong> (a) Rewrite the headers <code>boolean add(E e)</code> and <code>E get(int index)</code> for an <code>ArrayList&lt;String&gt;</code>. (b) What type does <code>get</code> return for an <code>ArrayList&lt;Integer&gt;</code>?</p>
   <wb-table id="q6">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Item</th><th>Answer</th></tr></thead>
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
       <tbody>
-        <tr><td>add header with String</td><td data-blank="add"></td></tr>
-        <tr><td>get header with String</td><td data-blank="get"></td></tr>
-        <tr><td>get return type with Integer</td><td data-blank="integer"></td></tr>
+        <tr><td>(a) <code>add</code> for <code>ArrayList&lt;String&gt;</code></td><td data-blank="add"></td></tr>
+        <tr><td>(a) <code>get</code> for <code>ArrayList&lt;String&gt;</code></td><td data-blank="get"></td></tr>
+        <tr><td>(b) <code>get</code> returns, for <code>ArrayList&lt;Integer&gt;</code></td><td data-blank="integer"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
-  <wb-short id="q6-why"></wb-short>
-<details><summary>Run a complete generic-list example</summary>
-<wb-example id="generics-example"></wb-example>
-</details>
 </div>
 
-<h2 id="strings">3. Strings</h2>
+<h2 id="s3">3. Strings</h2>
+<h3>Cleaning text</h3>
+<p>People type questions with extra spaces and with capital letters in odd places. Before the bot looks at a question, it cleans the text with two <code>String</code> methods. <code>trim()</code> removes the spaces at the start and the end; the spaces between words stay. <code>toLowerCase()</code> changes every capital letter to a small one.</p>
+<table>
+  <thead><tr><th>Step</th><th>Text</th><th>Length</th></tr></thead>
+  <tbody>
+      <tr><td>typed</td><td><code>"   How do I SUBMIT my work?  "</code></td><td>29</td></tr>
+      <tr><td>after <code>trim()</code></td><td><code>"How do I SUBMIT my work?"</code></td><td>24</td></tr>
+      <tr><td>after <code>toLowerCase()</code></td><td><code>"how do i submit my work?"</code></td><td>24</td></tr>
+  </tbody>
+</table>
+<p><code>length()</code> counts every character, including the spaces. The trimmed text has 24 characters, and 4 of them are the spaces between the words. The typed question adds 3 spaces in front and 2 at the end, so its length is 29.</p>
 
-<p><code>trim()</code> removes surrounding spaces and leaves internal spaces alone. <code>toLowerCase()</code> returns lowercase text. A String is immutable: its characters cannot change. Keep a returned result or use it in another call.</p>
+<h3>Searching inside a string</h3>
+<p>These methods answer questions about a string. None of them changes it.</p>
+<table>
+  <thead><tr><th>Method</th><th>What it returns</th></tr></thead>
+  <tbody>
+      <tr><td><code>length()</code></td><td>the number of characters, as an <code>int</code></td></tr>
+      <tr><td><code>isEmpty()</code></td><td><code>true</code> when the length is 0</td></tr>
+      <tr><td><code>contains(s)</code></td><td><code>true</code> when <code>s</code> appears anywhere in the string</td></tr>
+      <tr><td><code>startsWith(s)</code>, <code>endsWith(s)</code></td><td><code>true</code> when the string begins, or ends, with <code>s</code></td></tr>
+      <tr><td><code>indexOf(s)</code></td><td>the position where <code>s</code> first starts, or <code>-1</code> if it is not there</td></tr>
+      <tr><td><code>substring(a, b)</code></td><td>a new string made of the characters from position <code>a</code> up to, but not including, position <code>b</code></td></tr>
+      <tr><td><code>equals(s)</code></td><td><code>true</code> when the two strings have the same characters</td></tr>
+  </tbody>
+</table>
+<p>All of these are case sensitive. On the typed question, <code>contains("submit")</code> is <code>false</code>, because the question says <code>SUBMIT</code>. On the cleaned question it is <code>true</code>, and <code>indexOf("submit")</code> is 9. Remember from Lecture 7 that strings are compared with <code>equals</code>, never with <code>==</code>.</p>
 
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: trace the messy question</div>
-  <p><strong>7.</strong> The text has exactly three leading spaces and two trailing spaces. Complete both columns. Include quotation marks so the surrounding spaces remain visible.</p>
-<pre><code><span class="wb-type">String</span> typed = <span class="wb-str">"   How do I SUBMIT my work?  "</span>;
+<h3>Positions and substrings</h3>
+<p>The characters of a string are numbered from 0, like the elements of a list. In <code>"how do i submit my work?"</code>, the <code>h</code> is at position 0 and the space after <code>how</code> is at position 3. <code>substring(0, 3)</code> includes position 0 and stops just before position 3, so it returns <code>"how"</code>, which has three characters. In general, <code>substring(a, b)</code> has <code>b - a</code> characters. A position below 0 or past the end of the string stops the program with an error.</p>
+
+<h3>Immutable strings</h3>
+<p>A <code>String</code> object is <strong>immutable</strong>: once it is created, its characters never change. A method such as <code>trim()</code> does not edit the string it is called on. It builds a new string and returns it.</p>
+<pre><code><span class="wb-type">String</span> word = <span class="wb-str">"  late  "</span>;
+word.trim();                        <span class="wb-cmt">// the new string is thrown away</span>
+System.out.println(word.length());  <span class="wb-cmt">// 8</span>
+
+word = word.trim();                 <span class="wb-cmt">// word now refers to the new string</span>
+System.out.println(word.length());  <span class="wb-cmt">// 4</span></code></pre>
+<p>The second line is a common mistake. It calls <code>trim()</code>, but nothing keeps the result, so <code>word</code> still refers to the string with spaces. The assignment fixes it: <code>word</code> now refers to the trimmed string. Notice what did change. The <em>variable</em> can be made to refer to another string; the string <em>object</em> itself never changes.</p>
+
+<h3>Chained calls</h3>
+<p>Because <code>trim()</code> returns a <code>String</code>, we can call another method on its result straight away. This is the same idea as the chained calls in Lecture 7, such as <code>track.getArtist().equals(artist)</code>.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">clean</span>(<span class="wb-type">String</span> question)
+{
+    <span class="wb-kw">return</span> question.trim().toLowerCase();
+}</code></pre>
+<p>For the messy question, <code>clean</code> returns <code>"how do i submit my work?"</code>. The calls run from left to right: first <code>trim</code>, then <code>toLowerCase</code> on the trimmed string.</p>
+
+<h3>Empty strings and line breaks</h3>
+<p>If someone sends only spaces, <code>clean</code> returns <code>""</code>, the <strong>empty string</strong>. It is a real <code>String</code> object with length 0. That is different from <code>null</code>, which means there is no object at all, so the bot can safely call <code>isEmpty()</code> on it:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">replyTo</span>(<span class="wb-type">String</span> question)
+{
+    <span class="wb-type">String</span> cleaned = clean(question);
+    <span class="wb-kw">if</span>(cleaned.isEmpty()) {
+        <span class="wb-kw">return</span> <span class="wb-str">"Please type a question."</span>;
+    }
+    <span class="wb-kw">return</span> <span class="wb-str">"Can you describe that in more detail?"</span>;
+}</code></pre>
+<p>A reply sometimes needs two lines. Inside a string literal, <code>\n</code> is a line break. A long string can be split over two lines of code with <code>+</code>, which joins the pieces into one string:</p>
+<pre><code><span class="wb-type">String</span> message = <span class="wb-str">"Please check the course page.\n"</span>
+    + <span class="wb-str">"Then post your question."</span>;
+System.out.println(message);</code></pre>
+<p>This prints <code>Please check the course page.</code> on one line and <code>Then post your question.</code> on the next. The line break in the source code does not matter; only the <code>\n</code> inside the string does.</p>
+
+<p>Questions 3.1 and 3.2 use a different messy question. It has two spaces in front and three at the end.</p>
+<pre><code><span class="wb-type">String</span> typed = <span class="wb-str">"  When is the TEST?   "</span>;
 <span class="wb-type">String</span> trimmed = typed.trim();
 <span class="wb-type">String</span> cleaned = trimmed.toLowerCase();</code></pre>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: cleaning a question</div>
+  <p><strong>3.1</strong> Complete the table. Show any spaces inside the quotation marks.</p>
   <wb-table id="q7">
-    <div class="wb-table-wrap"><table>
+    <table>
       <thead><tr><th>Variable</th><th>Text</th><th>Length</th></tr></thead>
       <tbody>
         <tr><td><code>typed</code></td><td data-blank="typed-text"></td><td data-blank="typed-length"></td></tr>
         <tr><td><code>trimmed</code></td><td data-blank="trimmed-text"></td><td data-blank="trimmed-length"></td></tr>
         <tr><td><code>cleaned</code></td><td data-blank="cleaned-text"></td><td data-blank="cleaned-length"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
-<details><summary>Predict first, then run the trace</summary>
-<wb-example id="strings-example"></wb-example>
-</details>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: results and return types</div>
-  <p><strong>8.</strong> Using the variables from Question 7, give each result and its return type. Explain why the first two rows differ.</p>
+  <div class="wb-block-title">Practice: string operations</div>
+  <p><strong>3.2</strong> Give the result and the return type of each expression. Then explain why the first two rows differ.</p>
   <wb-table id="q8">
-    <div class="wb-table-wrap"><table>
+    <table>
       <thead><tr><th>Expression</th><th>Result</th><th>Return type</th></tr></thead>
       <tbody>
-        <tr><td><code>typed.contains("submit")</code></td><td data-blank="0-result"></td><td data-blank="0-type"></td></tr>
-        <tr><td><code>cleaned.contains("submit")</code></td><td data-blank="1-result"></td><td data-blank="1-type"></td></tr>
-        <tr><td><code>cleaned.startsWith("how")</code></td><td data-blank="2-result"></td><td data-blank="2-type"></td></tr>
-        <tr><td><code>cleaned.endsWith("?")</code></td><td data-blank="3-result"></td><td data-blank="3-type"></td></tr>
-        <tr><td><code>cleaned.indexOf("submit")</code></td><td data-blank="4-result"></td><td data-blank="4-type"></td></tr>
-        <tr><td><code>cleaned.indexOf("absent")</code></td><td data-blank="5-result"></td><td data-blank="5-type"></td></tr>
-        <tr><td><code>cleaned.substring(0, 3)</code></td><td data-blank="6-result"></td><td data-blank="6-type"></td></tr>
-        <tr><td><code>cleaned.isEmpty()</code></td><td data-blank="7-result"></td><td data-blank="7-type"></td></tr>
+        <tr><td><code>typed.contains("test")</code></td><td data-blank="0-result"></td><td data-blank="0-type"></td></tr>
+        <tr><td><code>cleaned.contains("test")</code></td><td data-blank="1-result"></td><td data-blank="1-type"></td></tr>
+        <tr><td><code>cleaned.startsWith("when")</code></td><td data-blank="2-result"></td><td data-blank="2-type"></td></tr>
+        <tr><td><code>cleaned.indexOf("test")</code></td><td data-blank="3-result"></td><td data-blank="3-type"></td></tr>
+        <tr><td><code>cleaned.indexOf("exam")</code></td><td data-blank="4-result"></td><td data-blank="4-type"></td></tr>
+        <tr><td><code>cleaned.substring(0, 4)</code></td><td data-blank="5-result"></td><td data-blank="5-type"></td></tr>
+        <tr><td><code>cleaned.isEmpty()</code></td><td data-blank="6-result"></td><td data-blank="6-type"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
+  <p>Why do the first two rows differ?</p>
   <wb-short id="q8-why"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: variables and immutable objects</div>
-  <p><strong>9.</strong> Fill in each object's text and length. Can original later be reassigned? Does that change the characters in the object it first referred to?</p>
-<pre><code><span class="wb-type">String</span> original = <span class="wb-str">"  Ana  "</span>;
+  <div class="wb-block-title">Practice: an immutable object</div>
+  <p><strong>3.3</strong> Fill in the text and the length of each object. Then answer: can <code>original</code> later be given a different string? Would that change the characters of the object it refers to now?</p>
+<pre><code><span class="wb-type">String</span> original = <span class="wb-str">"  compile  "</span>;
 <span class="wb-type">String</span> cleaned = original.trim();</code></pre>
   <wb-table id="q9">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Reference to object</th><th>Object text</th><th>Length</th></tr></thead>
+    <table>
+      <thead><tr><th>Variable</th><th>Text of its object</th><th>Length</th></tr></thead>
       <tbody>
-        <tr><td><code>original</code> →</td><td data-blank="original-text"></td><td data-blank="original-length"></td></tr>
-        <tr><td><code>cleaned</code> →</td><td data-blank="cleaned-text"></td><td data-blank="cleaned-length"></td></tr>
+        <tr><td><code>original</code></td><td data-blank="original-text"></td><td data-blank="original-length"></td></tr>
+        <tr><td><code>cleaned</code></td><td data-blank="cleaned-text"></td><td data-blank="cleaned-length"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
+  <p>Can <code>original</code> be given a different string, and would that change the object it refers to now?</p>
   <wb-short id="q9-why"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: a discarded return value</div>
-  <p><strong>10.</strong> Predict the two lines printed. Repair the discarded call so both lines print 3. Explain what the assignment changes.</p>
-<pre><code><span class="wb-type">String</span> name = <span class="wb-str">"  Ana  "</span>;
+  <div class="wb-block-title">Practice: a thrown-away result</div>
+  <p><strong>3.4</strong> Predict the two numbers this code prints. Then change one line so that both numbers are 9.</p>
+<pre><code><span class="wb-type">String</span> name = <span class="wb-str">"  help desk  "</span>;
 name.trim();
 System.out.println(name.length());
 name = name.trim();
 System.out.println(name.length());</code></pre>
   <wb-table id="q10-output">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Output line</th><th>Value</th></tr></thead>
+    <table>
+      <thead><tr><th>line</th><th>printed</th></tr></thead>
       <tbody>
-        <tr><td>First</td><td data-blank="first"></td></tr>
-        <tr><td>Second</td><td data-blank="second"></td></tr>
+        <tr><td>first number</td><td data-blank="first"></td></tr>
+        <tr><td>second number</td><td data-blank="second"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
+  <p>Now change one line in the box so that both numbers are 9.</p>
   <wb-exercise id="q10"></wb-exercise>
+  <p>Why did the first call to <code>trim</code> have no effect?</p>
   <wb-short id="q10-why"></wb-short>
-<details><summary>Run the original program</summary>
-<wb-example id="discard-example"></wb-example>
-</details>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: chained calls and a newline</div>
-  <p><strong>11.</strong> (a) Write <code>String clean(String question)</code> using chained calls to remove surrounding spaces and convert to lower case. Assume the parameter is non-null.</p>
+  <div class="wb-block-title">Practice: a chained call and a two-line message</div>
+  <p><strong>3.5</strong> (a) Write <code>String tidy(String name)</code>, which returns the name without its surrounding spaces and in capital letters. Use one chained expression. For <code>"  ada lovelace "</code> it returns <code>"ADA LOVELACE"</code>. (b) Write one assignment, using <code>\n</code> and <code>+</code>, that makes <code>message</code> hold two lines: <code>Your question was received.</code> on the first and <code>A reply will follow.</code> on the second.</p>
+  <p>(a) The checking program calls <code>tidy</code> on <code>"  ada lovelace "</code> and on <code>"   "</code>. Its expected output is:</p>
+<pre class="wb-output">[ADA LOVELACE]
+[]</pre>
   <wb-exercise id="q11-clean"></wb-exercise>
-<p>(b) Write a String assignment using <code>\n</code> and concatenation that prints these two lines.</p>
-<pre class="wb-output">Please check the course page.
-Then post your question.
-</pre>
+  <p>(b) The program prints <code>message</code>. Its expected output is:</p>
+<pre class="wb-output">Your question was received.
+A reply will follow.</pre>
   <wb-exercise id="q11-message"></wb-exercise>
-<p>Explain why chaining works and what produces the output line break.</p>
+  <p>Why can <code>toUpperCase</code> follow <code>trim()</code> directly? Where must the <code>\n</code> go?</p>
   <wb-short id="q11-why"></wb-short>
 </div>
 
-<h2 id="part9">4. Coding pause 9: clinic search</h2>
-
-<p>This is Part 9, at slide 19. Continue the three-class project from Lecture 9 Part 8. Appointment stores a patient name, check-in status, and minutes; ClinicSchedule stores <code>ArrayList&lt;Appointment&gt; appointments</code>; ClinicDemo runs a fresh example. Keep all existing methods, including the exact-match <code>findPatientIndex</code>. Names and appointment references are non-null. Lowercase comparison uses the default locale for these simple English names.</p>
+<h2 id="s4">4. Library Part 1: Title search</h2>
+<h3>The QEII catalogue</h3>
+<p>We do this part together in class. Our coding problem for Chapter 6 is a small catalogue for the QEII Library, Memorial's main library. It has three classes:</p>
+<ul>
+  <li><code>Book</code> keeps a title, an author and a call number, all <code>String</code>s. Its constructor takes them in that order, and it has the getters <code>getTitle()</code>, <code>getAuthor()</code> and <code>getCallNumber()</code>.</li>
+  <li><code>Catalogue</code> keeps the books in an <code>ArrayList&lt;Book&gt;</code> named <code>books</code>. It has <code>addBook(Book book)</code>, which adds a book at the end, and <code>getCount()</code>, which returns the number of books.</li>
+  <li><code>LibraryDemo</code> has the <code>main</code> method.</li>
+</ul>
+<p>Every example uses these five books, added in this order. A call number tells you where a book sits on the shelves; it starts with letters for the subject (QA is computing, PS is Canadian literature, QB is astronomy).</p>
+<table>
+  <thead><tr><th>Index</th><th>Title</th><th>Author</th><th>Call number</th></tr></thead>
+  <tbody>
+      <tr><td>0</td><td>Objects First with Java</td><td>David Barnes</td><td>QA76.73 B37</td></tr>
+      <tr><td>1</td><td>Head First Java</td><td>Kathy Sierra</td><td>QA76.73 S54</td></tr>
+      <tr><td>2</td><td>The Colony of Unrequited Dreams</td><td>Wayne Johnston</td><td>PS8569 J64</td></tr>
+      <tr><td>3</td><td>The Navigator of New York</td><td>Wayne Johnston</td><td>PS8569 J65</td></tr>
+      <tr><td>4</td><td>A Brief History of Time</td><td>Stephen Hawking</td><td>QB981 H38</td></tr>
+  </tbody>
+</table>
+<h3>New in Part 1</h3>
+<p>Part 1 adds a title search, <code>void printMatches(String query)</code>, to <code>Catalogue</code>. A person types part of a title, maybe with extra spaces and maybe in capitals, and the method prints every book whose title contains it.</p>
+<ul>
+  <li>Clean the query once, before the loop, with <code>trim()</code> and <code>toLowerCase()</code>.</li>
+  <li>If the cleaned query is empty, print <code>Please type a word to search for.</code> and stop. (Every title contains the empty string, so without this check an empty search would print the whole catalogue.)</li>
+  <li>For each book, compare the cleaned query with the title in lower case, using <code>contains</code>. For a match, print the title, a space, and the call number in parentheses.</li>
+  <li>If no title matched, print <code>No titles match "</code>, the cleaned query, and <code>".</code></li>
+</ul>
+<p>The stored titles are never changed. The method only builds lower-case copies to compare.</p>
 
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Coding pause: clean both names</div>
-  <p><strong>12.</strong> Complete the new <code>findPatientIndexIgnoringCase(String name)</code> method. Use trim, toLowerCase, and equals on both names. Return the first matching index, or -1, including for an empty schedule. Complete the Javadoc parameter and return descriptions. Keep stored names and all existing methods; do not add another list.</p>
-  <wb-exercise id="q12"></wb-exercise>
-<p>Clean the request once before the loop. If a second Ana is added later, the first matching index must still be 0. A returned -1 must not be used as a list index.</p>
+  <div class="wb-block-title">Practice: write <code>printMatches</code></div>
+  <p><strong>4.1</strong> Write <code>printMatches</code> inside <code>Catalogue</code>. Use a for-each loop and a <code>boolean</code> variable that records whether anything matched.</p>
+  <p>The <code>Book</code> class is on the classpath of this box. The checking program searches an empty catalogue, then the five books, and finally prints the number of books. Its expected output is:</p>
+<pre class="wb-output">Empty catalogue:
+No titles match "java".
+Five books:
+Objects First with Java (QA76.73 B37)
+Head First Java (QA76.73 S54)
+The Colony of Unrequited Dreams (PS8569 J64)
+No titles match "python".
+Please type a word to search for.
+Books: 5</pre>
+  <wb-exercise id="q26"></wb-exercise>
 </div>
-
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: predict, then run the demo</div>
-  <p><strong>13.</strong> Use this replacement ClinicDemo. Predict all eleven output lines before running it. Check that printed names retain their original text.</p>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ClinicDemo</span>
-{
-    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
-    {
-        <span class="wb-type">ClinicSchedule</span> schedule = <span class="wb-kw">new</span> <span class="wb-fn">ClinicSchedule</span>();
-        System.out.println(<span class="wb-str">"Empty search: "</span>
-            + schedule.findPatientIndexIgnoringCase(<span class="wb-str">"Ana"</span>));
-
-        schedule.addAppointment(<span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Ana"</span>, <span class="wb-num">15</span>));
-        schedule.addAppointment(<span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Ben"</span>, <span class="wb-num">20</span>));
-        schedule.addAppointment(<span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Cara"</span>, <span class="wb-num">10</span>));
-
-        System.out.println(<span class="wb-str">"Exact ANA: "</span> + schedule.findPatientIndex(<span class="wb-str">"ANA"</span>));
-        System.out.println(<span class="wb-str">"Cleaned Ana: "</span>
-            + schedule.findPatientIndexIgnoringCase(<span class="wb-str">"  aNa  "</span>));
-        System.out.println(<span class="wb-str">"Cleaned Ben: "</span>
-            + schedule.findPatientIndexIgnoringCase(<span class="wb-str">"bEN"</span>));
-        System.out.println(<span class="wb-str">"Cleaned Cara: "</span>
-            + schedule.findPatientIndexIgnoringCase(<span class="wb-str">"  cara  "</span>));
-        System.out.println(<span class="wb-str">"Missing Dana: "</span>
-            + schedule.findPatientIndexIgnoringCase(<span class="wb-str">"  DANA  "</span>));
-        System.out.println(<span class="wb-str">"Stored names:"</span>);
-        schedule.printAllPatients();
-        System.out.println(<span class="wb-str">"Appointments: "</span> + schedule.getCount());
-    }
-}</code></pre>
-  <wb-table id="q13">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Line</th><th>Expected output</th></tr></thead>
+  <p><strong>4.2</strong> <code>LibraryDemo.main</code> adds the five books, prints <code>Books: </code> and the count, and then searches five times. Before each search it prints <code>Search for</code>, the query in quotation marks, and a colon. Write the titles each search prints, or the message.</p>
+  <wb-table id="q27">
+    <table>
+      <thead><tr><th>Query</th><th>What the search prints</th></tr></thead>
       <tbody>
-        <tr><td>1</td><td data-blank="0"></td></tr>
-        <tr><td>2</td><td data-blank="1"></td></tr>
-        <tr><td>3</td><td data-blank="2"></td></tr>
-        <tr><td>4</td><td data-blank="3"></td></tr>
-        <tr><td>5</td><td data-blank="4"></td></tr>
-        <tr><td>6</td><td data-blank="5"></td></tr>
-        <tr><td>7</td><td data-blank="6"></td></tr>
-        <tr><td>8</td><td data-blank="7"></td></tr>
-        <tr><td>9</td><td data-blank="8"></td></tr>
-        <tr><td>10</td><td data-blank="9"></td></tr>
-        <tr><td>11</td><td data-blank="10"></td></tr>
+        <tr><td><code>"  JAVA  "</code></td><td data-blank="java"></td></tr>
+        <tr><td><code>"first"</code></td><td data-blank="first"></td></tr>
+        <tr><td><code>"New York"</code></td><td data-blank="york"></td></tr>
+        <tr><td><code>"python"</code></td><td data-blank="python"></td></tr>
+        <tr><td><code>"   "</code></td><td data-blank="empty"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
-<details><summary>Run the Part 9 demonstration</summary>
-<wb-example id="part9-example"></wb-example>
-</details>
-<p>Explain the exact search result, missing and empty cases, and what happened to the list.</p>
-  <wb-short id="q13-why"></wb-short>
+  <p>Now write the demo. Finished <code>Book</code> and <code>Catalogue</code> classes are on the classpath of this box.</p>
+  <wb-exercise id="q27-demo"></wb-exercise>
 </div>
 
-<h2 id="random">5. Random replies</h2>
+<h2 id="s5">5. Random</h2>
+<h3>General replies</h3>
+<p>Back to the bot. Instead of one fixed reply, it keeps four general replies in an <code>ArrayList&lt;String&gt;</code> named <code>generalReplies</code>, always in this order. The constructor fills the list by calling a private helper, <code>fillGeneralReplies()</code>, and no method ever removes a reply.</p>
+<table>
+  <thead><tr><th>Index</th><th>Reply</th></tr></thead>
+  <tbody>
+      <tr><td>0</td><td>Can you describe that in more detail?</td></tr>
+      <tr><td>1</td><td>Have you checked the course web page?</td></tr>
+      <tr><td>2</td><td>That question comes up often. Let us look at it together.</td></tr>
+      <tr><td>3</td><td>Please post that on the discussion board so others can see the answer.</td></tr>
+  </tbody>
+</table>
+<p>To pick a reply we need a random index from 0 to 3. The class <code>java.util.Random</code> produces random numbers.</p>
 
-<p>The general reply list always contains these four strings in this order. The constructor fills it through the private helper <code>fillGeneralReplies()</code>; it never removes a reply.</p>
+<h3>Creating a generator</h3>
+<p><code>Random</code> is in <code>java.util</code>, so it needs an import. The bot creates one generator in its constructor and keeps it in a field:</p>
+<pre><code><span class="wb-kw">import</span> java.util.Random;           <span class="wb-cmt">// above the class</span>
 
-<table><thead><tr><th>Index</th><th>Reply</th></tr></thead><tbody><tr><td>0</td><td>Can you describe that in more detail?</td></tr><tr><td>1</td><td>Have you checked the course web page?</td></tr><tr><td>2</td><td>That question comes up often. Let us look at it together.</td></tr><tr><td>3</td><td>Please post that on the discussion board so others can see the answer.</td></tr></tbody></table>
+<span class="wb-kw">private</span> <span class="wb-type">Random</span> randomGenerator;    <span class="wb-cmt">// a field in HelpBot</span>
 
-<p>A retained generator produces a sequence of pseudo-random numbers. Construct it once. A fixed seed and the same calls repeat the sequence; the normal application setup uses <code>new Random()</code>.</p>
+randomGenerator = <span class="wb-kw">new</span> <span class="wb-fn">Random</span>();    <span class="wb-cmt">// in the HelpBot constructor</span></code></pre>
+<p>Every later call uses the same generator. Creating a new <code>Random</code> for each number is wasteful, and it is not what the class is designed for: one generator produces a whole sequence of numbers, one after another.</p>
+<p>The numbers are <strong>pseudo-random</strong>. A fixed rule produces them, starting from a value called the <strong>seed</strong>. <code>new Random()</code> picks a different seed each run, so the numbers look unpredictable. <code>new Random(42)</code> always starts from the seed 42, so the program prints the same numbers every time it runs. We use a fixed seed in demonstrations, so everyone sees the same output.</p>
+
+<h3>The bound of nextInt</h3>
+<table>
+  <thead><tr><th>Call</th><th>Possible results</th></tr></thead>
+  <tbody>
+      <tr><td><code>randomGenerator.nextInt()</code></td><td>any <code>int</code>, including negative ones</td></tr>
+      <tr><td><code>randomGenerator.nextInt(4)</code></td><td>0, 1, 2 or 3</td></tr>
+      <tr><td><code>1 + randomGenerator.nextInt(6)</code></td><td>1, 2, 3, 4, 5 or 6</td></tr>
+  </tbody>
+</table>
+<p><code>nextInt(bound)</code> returns a number from 0 up to <code>bound - 1</code>. The 0 is included; the bound itself is not. To get a number from 1 to <code>n</code> instead, add 1 to <code>nextInt(n)</code>, as the die roll in the table does. The bound must be positive: <code>nextInt(0)</code> stops the program with an <code>IllegalArgumentException</code>.</p>
+
+<h3>Random list indices</h3>
+<p>The results of <code>nextInt(list.size())</code> are 0 up to <code>size - 1</code>, which are exactly the valid indices of the list. So the index is always safe to pass to <code>get</code>, with one exception: for an empty list the bound is 0, and <code>nextInt(0)</code> fails. A method that might see an empty list must check for that before it calls <code>nextInt</code>.</p>
+<p>The bot's list always holds four replies, so its method needs no check:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">pickGeneralReply</span>()
+{
+    <span class="wb-kw">int</span> index = randomGenerator.nextInt(generalReplies.size());
+    <span class="wb-kw">return</span> generalReplies.get(index);
+}</code></pre>
+<p>Picking a reply does not remove it, so the same reply can come up twice in a row. For a question that is not empty, <code>replyTo</code> now ends with <code>return pickGeneralReply();</code> instead of the fixed reply.</p>
 
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: retain the generator</div>
-  <p><strong>14.</strong> Write the explicit import, private field, and constructor initialization for the retained generator. This small class isolates the same setup used inside HelpBot.</p>
+  <div class="wb-block-title">Practice: a generator field</div>
+  <p><strong>5.1</strong> A class <code>Coin</code> needs a <code>Random</code> field named <code>generator</code>. Write the import, the field declaration, and the statement that creates the generator, and say where each one goes. Why should the generator not be created inside the method that flips the coin?</p>
+  <p>The <code>flip</code> method is already written. Add the three missing pieces. The checking program flips the coin 100 times and checks that every result is <code>heads</code> or <code>tails</code>. Its expected output is:</p>
+<pre class="wb-output">All flips valid: true
+Saw heads: true
+Saw tails: true</pre>
   <wb-exercise id="q14"></wb-exercise>
-<p>Which statement belongs inside the constructor? Why not create a generator in every selection call?</p>
+  <p>Why should the generator not be created inside <code>flip</code>?</p>
   <wb-short id="q14-why"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: random ranges</div>
-  <p><strong>15.</strong> Complete the range table. If a call is invalid, say why. Write an expression for a die roll from 1 through 6.</p>
+  <div class="wb-block-title">Practice: bounds</div>
+  <p><strong>5.2</strong> Complete the table. If a call is an error, say so. Then write an expression for a random month number from 1 to 12.</p>
   <wb-table id="q15">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Call</th><th>Possible results or error</th></tr></thead>
+    <table>
+      <thead><tr><th>Call</th><th>Possible results, or the error</th></tr></thead>
       <tbody>
-        <tr><td><code>randomGenerator.nextInt()</code></td><td data-blank="any"></td></tr>
         <tr><td><code>randomGenerator.nextInt(4)</code></td><td data-blank="four"></td></tr>
         <tr><td><code>randomGenerator.nextInt(1)</code></td><td data-blank="one"></td></tr>
         <tr><td><code>randomGenerator.nextInt(0)</code></td><td data-blank="zero"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
-<p>The editor uses seed 42 to make this check repeatable. Your expression must allow all six die values.</p>
+  <p>Now replace the 0 in the box with an expression for a month from 1 to 12. The checking program runs your line many times and reports the smallest and largest month it saw. Its expected output is:</p>
+<pre class="wb-output">Smallest: 1
+Largest: 12</pre>
   <wb-exercise id="q15-die"></wb-exercise>
-<p>Explain the exclusive bound and why the zero-argument call is unsuitable for a list index.</p>
-  <wb-short id="q15-why"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: choose a general reply</div>
-  <p><strong>16.</strong> Write <code>String pickGeneralReply()</code> for HelpBot. Choose a valid index with the current list size, then return that entry. Keep the reply in the list.</p>
+  <div class="wb-block-title">Practice: <code>randomReply</code></div>
+  <p><strong>5.3</strong> Write <code>String randomReply(ArrayList&lt;String&gt; replies)</code>, which returns a random element of the list it is given, or <code>null</code> if the list is empty. Assume the class has the field <code>randomGenerator</code>. Why would <code>nextInt(replies.size() + 1)</code> be wrong?</p>
+  <p>The checking program calls your method on an empty list, then many times on a list of four replies. Its expected output is:</p>
+<pre class="wb-output">Empty list: null
+Always one of the four: true
+All four came up: true
+Still 4 replies</pre>
   <wb-exercise id="q16"></wb-exercise>
-<p>Why is <code>nextInt(generalReplies.size() + 1)</code> wrong? What extra case must selection handle if its list can be empty?</p>
+  <p>Why would <code>nextInt(replies.size() + 1)</code> be wrong?</p>
   <wb-short id="q16-why"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: finish replyTo</div>
-  <p><strong>17.</strong> Clean the question, return <code>"Please type a question."</code> if it is empty, and otherwise use <code>pickGeneralReply()</code>.</p>
+  <div class="wb-block-title">Practice: replies from <code>replyTo</code></div>
+  <p><strong>5.4</strong> The bot's <code>replyTo</code> now ends with <code>return pickGeneralReply();</code>. What does it return for <code>"   "</code>? What can it return for the messy submit question? Can you say in advance which reply that will be?</p>
+  <p>First finish <code>replyTo</code> in the box. The rest of <code>HelpBot</code> is already there. The checking program asks the two questions. Its expected output is:</p>
+<pre class="wb-output">Please type a question.
+One of the four general replies: true</pre>
   <wb-exercise id="q17"></wb-exercise>
-<p>Predict what happens for <code>"   "</code> and for the messy submit question. Can you name the exact random reply in advance?</p>
+  <p>Now answer the three questions.</p>
   <wb-short id="q17-why"></wb-short>
 </div>
 
-<h2 id="ratings">6. Ratings and wrapper classes</h2>
+<h2 id="s6">6. Ratings</h2>
+<h3>Primitive values and wrapper classes</h3>
+<p>After each reply, the user rates it from 1 to 5, and the bot keeps the ratings in a list. A rating is an <code>int</code>. But <code>int</code> is a <strong>primitive type</strong>: an <code>int</code> value is just a number, not an object. A collection such as <code>ArrayList</code> can only hold objects, so it cannot hold an <code>int</code> directly.</p>
+<p>For each primitive type, <code>java.lang</code> has a <strong>wrapper class</strong>. An object of a wrapper class holds one primitive value.</p>
+<table>
+  <thead><tr><th>Primitive type</th><th>Wrapper class</th></tr></thead>
+  <tbody>
+      <tr><td><code>int</code></td><td><code>Integer</code></td></tr>
+      <tr><td><code>double</code></td><td><code>Double</code></td></tr>
+      <tr><td><code>boolean</code></td><td><code>Boolean</code></td></tr>
+      <tr><td><code>char</code></td><td><code>Character</code></td></tr>
+  </tbody>
+</table>
+<p>The type in the angle brackets must be a class, so the ratings go in an <code>ArrayList&lt;Integer&gt;</code>. <code>ArrayList&lt;int&gt;</code> does not compile.</p>
 
-<p>An int is primitive, but a generic collection's element type must be a reference type. Use Integer for a list of ints. Java boxes an int when an object value is needed and unboxes an Integer when an int is needed; the numeric value stays the same.</p>
+<h3>Autoboxing and unboxing</h3>
+<pre><code><span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Integer</span>&gt; ratings = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+ratings.add(<span class="wb-num">5</span>);                 <span class="wb-cmt">// autoboxing</span>
+<span class="wb-kw">int</span> first = ratings.get(<span class="wb-num">0</span>);     <span class="wb-cmt">// unboxing</span></code></pre>
+<p><code>add</code> needs an <code>Integer</code>, but we pass the <code>int</code> 5. Java wraps the value in an <code>Integer</code> for us; this is called <strong>autoboxing</strong>. <code>get(0)</code> returns an <code>Integer</code>, but <code>first</code> is an <code>int</code>, so Java takes the value out again; this is <strong>unboxing</strong>. We write neither step, and the value never changes: <code>first</code> is 5. <code>Integer</code> and <code>int</code> are still different types. Only the <code>Integer</code> is an object.</p>
+
+<h3>Recording ratings</h3>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addRating</span>(<span class="wb-kw">int</span> rating)
+{
+    <span class="wb-kw">if</span>(rating &gt;= <span class="wb-num">1</span> &amp;&amp; rating &lt;= <span class="wb-num">5</span>) {
+        ratings.add(rating);
+    }
+}</code></pre>
+<p>After <code>addRating(5)</code>, <code>addRating(3)</code> and <code>addRating(4)</code>, the list holds three ratings. A rating outside 1 to 5 is ignored, so <code>addRating(0)</code> and <code>addRating(6)</code> add nothing. A second method, <code>numberOfRatings()</code>, returns <code>ratings.size()</code>; the list already knows its size, so no separate counter is needed.</p>
+
+<h3>Average rating</h3>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">averageRating</span>()
+{
+    <span class="wb-kw">if</span>(ratings.isEmpty()) {
+        <span class="wb-kw">return</span> 0;
+    }
+    <span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
+    <span class="wb-kw">for</span>(<span class="wb-kw">int</span> rating : ratings) {
+        total = total + rating;
+    }
+    <span class="wb-kw">return</span> total / ratings.size();
+}</code></pre>
+<p>The loop variable is an <code>int</code>, so each <code>Integer</code> in the list is unboxed as the loop reaches it. For the ratings 5, 3 and 4 the total grows to 5, then 8, then 12, and the average is 12 / 3 = 4. Both numbers are <code>int</code>s, so the division gives a whole number and drops any fraction. The empty check comes first because dividing by a size of 0 would stop the program.</p>
 
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: boxing and unboxing</div>
-  <p><strong>18.</strong> Name the wrapper for each primitive. Repair <code>ArrayList&lt;int&gt;</code>. Create an empty rating list, add 5, 3, and 4, and read its first entry into an int variable named first.</p>
-  <wb-table id="q18-types">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Primitive</th><th>Wrapper</th></tr></thead>
+  <p><strong>6.1</strong> For each marked line, say whether Java boxes a value, unboxes a value, or neither, and give the value of <code>last</code> and <code>sum</code>.</p>
+<pre><code><span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Integer</span>&gt; scores = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+scores.add(<span class="wb-num">7</span>);                     <span class="wb-cmt">// (a)</span>
+scores.add(<span class="wb-num">2</span>);                     <span class="wb-cmt">// (b)</span>
+<span class="wb-kw">int</span> last = scores.get(<span class="wb-num">1</span>);          <span class="wb-cmt">// (c)</span>
+<span class="wb-kw">int</span> sum = scores.get(<span class="wb-num">0</span>) + last;    <span class="wb-cmt">// (d)</span></code></pre>
+  <wb-table id="q18-box">
+    <table>
+      <thead><tr><th>line</th><th>answer</th></tr></thead>
       <tbody>
-        <tr><td><code>int</code></td><td data-blank="int"></td></tr>
-        <tr><td><code>double</code></td><td data-blank="double"></td></tr>
-        <tr><td><code>boolean</code></td><td data-blank="boolean"></td></tr>
-        <tr><td><code>char</code></td><td data-blank="char"></td></tr>
+        <tr><td>(a)</td><td data-blank="a"></td></tr>
+        <tr><td>(b)</td><td data-blank="b"></td></tr>
+        <tr><td>(c)</td><td data-blank="c"></td></tr>
+        <tr><td>(d)</td><td data-blank="d"></td></tr>
+        <tr><td>value of <code>last</code></td><td data-blank="last"></td></tr>
+        <tr><td>value of <code>sum</code></td><td data-blank="sum"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
-  <wb-exercise id="q18"></wb-exercise>
-<p>Mark the boxing and unboxing operations and state the value of first.</p>
+  <p>Why must the list be an <code>ArrayList&lt;Integer&gt;</code> and not an <code>ArrayList&lt;int&gt;</code>?</p>
   <wb-short id="q18-why"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: validate ratings</div>
-  <p><strong>19.</strong> Write <code>void addRating(int rating)</code> and <code>int numberOfRatings()</code>. Accept 1 to 5 inclusive; ignore all other values. Use the existing ratings field.</p>
+  <div class="wb-block-title">Practice: <code>addScore</code> and <code>numberOfScores</code></div>
+  <p><strong>6.2</strong> A quiz class keeps an <code>ArrayList&lt;Integer&gt;</code> field named <code>scores</code>. Write <code>void addScore(int score)</code>, which keeps only scores from 0 to 10, and <code>int numberOfScores()</code>. After the calls <code>addScore(7)</code>, <code>addScore(11)</code>, <code>addScore(0)</code>, <code>addScore(-1)</code> and <code>addScore(10)</code>, what does <code>numberOfScores()</code> return?</p>
+  <p>The checking program makes the five calls of the question on a new quiz, then tries the edge values 0 and 10 on another. Its expected output is:</p>
+<pre class="wb-output">New quiz: 0
+After the five calls: 3
+Edges kept: 2</pre>
   <wb-exercise id="q19"></wb-exercise>
-<p>After adding 5, 3, 4, 0, and 6, how many entries remain? Explain why no separate count field is needed.</p>
+  <p>What does <code>numberOfScores()</code> return after the five calls, and which scores are in the list?</p>
   <wb-short id="q19-why"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: an integer average</div>
-  <p><strong>20.</strong> Write <code>int averageRating()</code>. Return 0 for an empty list. Otherwise sum with a for-each loop and use integer division. Complete the trace for 5, 3, and 4.</p>
-  <wb-exercise id="q20"></wb-exercise>
+  <div class="wb-block-title">Practice: tracing <code>averageRating</code></div>
+  <p><strong>6.3</strong> A fresh bot receives the ratings 4, 5, 2 and 5. Complete the trace of <code>averageRating</code>. What does it return? What would it return for a list holding only 5 and 4, and why is that not 4.5?</p>
   <wb-table id="q20-trace">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Rating</th><th>Total after this rating</th><th>Count so far</th></tr></thead>
+    <table>
+      <thead><tr><th>Rating</th><th>Total after this rating</th></tr></thead>
       <tbody>
-        <tr><td>5</td><td data-blank="0-total"></td><td data-blank="0-count"></td></tr>
-        <tr><td>3</td><td data-blank="1-total"></td><td data-blank="1-count"></td></tr>
-        <tr><td>4</td><td data-blank="2-total"></td><td data-blank="2-count"></td></tr>
-        <tr><td>Average for the main trace</td><td data-blank="main"></td><td></td></tr>
-        <tr><td>Average for a separate fresh list: 5, 4</td><td data-blank="separate"></td><td></td></tr>
+        <tr><td>4</td><td data-blank="0-total"></td></tr>
+        <tr><td>5</td><td data-blank="1-total"></td></tr>
+        <tr><td>2</td><td data-blank="2-total"></td></tr>
+        <tr><td>5</td><td data-blank="3-total"></td></tr>
+        <tr><td><code>averageRating()</code> returns</td><td data-blank="main"></td></tr>
+        <tr><td>for only 5 and 4 it returns</td><td data-blank="separate"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
-<p>Explain the two averages, the unboxing in the loop, and the empty-list check.</p>
+  <p>Why is the second result not 4.5?</p>
   <wb-short id="q20-why"></wb-short>
 </div>
 
-<h2 id="javadoc">7. Writing documentation and hiding information</h2>
+<h2 id="s7">7. Documentation</h2>
+<h3>Javadoc comments</h3>
+<p>The library documentation is not written separately. It is made from special comments in the source code of each class, and we can document our own classes the same way. Another programmer, or we ourselves in three months, should be able to use the class from its documentation alone.</p>
+<p>A documentation comment, or <strong>Javadoc</strong> comment, starts with <code>/**</code> (two asterisks) and ends with <code>*/</code>. It goes just above the class or method it describes. An ordinary comment that starts with <code>/*</code> is ignored by the documentation tools. The class comment says what the class is for, and two <strong>tags</strong> give the author and the version:</p>
+<pre><code><span class="wb-cmt">/**
+ * Answers course questions with a general reply and keeps
+ * the ratings that users give.
+ * @author Pranjal Patra
+ * @version 1.0
+ */</span>
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">HelpBot</span></code></pre>
+<h3>Method comments</h3>
+<p>A method comment starts with a sentence that says what the method does. Then each parameter gets an <code>@param</code> tag, with the parameter name and a description, and the result gets an <code>@return</code> tag. A <code>void</code> method and a constructor have no <code>@return</code>.</p>
+<pre><code><span class="wb-cmt">/**
+ * Remove the spaces around a question and put it in lower case.
+ * @param question The typed text; must not be null.
+ * @return The cleaned text. The original string is unchanged.
+ */</span>
+<span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">clean</span>(<span class="wb-type">String</span> question)</code></pre>
+<p>A good comment says what a caller needs to know: what the method does, what it expects, and what it gives back. A comment that only repeats the method name, such as &ldquo;Cleans the question&rdquo;, adds nothing.</p>
 
-<p>A Javadoc comment begins with <code>/**</code> immediately before a declaration. A class comment describes purpose and may use <code>@author</code> and <code>@version</code>. A method comment describes behaviour, its parameters with <code>@param</code>, and its result with <code>@return</code>. Omit the return tag for void methods and constructors. Private helpers also need useful comments for source readers.</p>
+<h3>Information hiding</h3>
+<p>The ratings list is <code>private</code>, so other classes can only add to it through <code>addRating</code>. Every stored rating has therefore passed the check. If the list were <code>public</code>, another class could write <code>bot.ratings.add(99)</code>, and the average would be wrong.</p>
+<p>Keeping fields private is called <strong>information hiding</strong>. The public methods are the interface of <code>HelpBot</code>; the private fields and helpers, such as <code>fillGeneralReplies</code>, are its implementation. Because no other class can see the implementation, we can later change it, for example by storing the ratings in a different way, without changing any class that uses the bot. Private members still deserve comments, for the people who read and maintain the source.</p>
 
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: write Javadoc</div>
-  <p><strong>21.</strong> Document clean from Question 11. State its behaviour, non-null parameter assumption, and returned value. Add a short HelpBot class comment with author Pranjal Patra and version 1.0.</p>
-  <wb-exercise id="q21-method"></wb-exercise>
-  <wb-exercise id="q21-class"></wb-exercise>
-<p>Why is a comment beginning with <code>/*</code> insufficient?</p>
-  <wb-short id="q21-why"></wb-short>
-</div>
-
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: protect valid state</div>
-  <p><strong>22.</strong> If ratings were public, a caller could run <code>bot.ratings.add(99)</code>. Give the field declaration that prevents this access. How should callers record ratings instead? Should <code>fillGeneralReplies()</code> be public? Which details can later change without changing public method contracts?</p>
-  <wb-short id="q22"></wb-short>
-</div>
-
-<h2 id="part10">8. Coding pause 10: clinic random choice</h2>
-
-<p>This is Part 10, at slide 35. Continue Part 9, keeping both searches and all older methods. The clinic has no ratings list. Choose among all current appointments, including checked-in ones. Seed 42 makes this demonstration repeatable; a normal application can use <code>new Random()</code>.</p>
-
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Coding pause: a retained generator and an empty case</div>
-  <p><strong>23.</strong> Import Random, add a private retained generator, and initialize it with <code>new Random(42)</code> inside the existing ClinicSchedule constructor. Add <code>String randomPatientName()</code> with Javadoc. Return null if empty, before making a generator call. Otherwise use the current list size to choose a valid index and return that patient's stored name. Keep the list unchanged and do not construct a generator in this method.</p>
-  <wb-exercise id="q23"></wb-exercise>
-<p>Explain the empty check, valid indices, and whether repeated names are allowed.</p>
-  <wb-short id="q23-why"></wb-short>
-</div>
-
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: write the fresh demonstration</div>
-  <p><strong>24.</strong> Replace ClinicDemo.main. Print <code>Empty choice:</code> and the empty selection. Add Ana/15, Ben/20, and Cara/10 in that order; check in Ben. Print three selections with labels <code>Choice 1:</code>, <code>Choice 2:</code>, and <code>Choice 3:</code>, followed by <code>Appointments:</code> and <code>Waiting count:</code> with their counts. Predict all six lines before running.</p>
-  <wb-table id="q24">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Line</th><th>Expected output</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td data-blank="0"></td></tr>
-        <tr><td>2</td><td data-blank="1"></td></tr>
-        <tr><td>3</td><td data-blank="2"></td></tr>
-        <tr><td>4</td><td data-blank="3"></td></tr>
-        <tr><td>5</td><td data-blank="4"></td></tr>
-        <tr><td>6</td><td data-blank="5"></td></tr>
-      </tbody>
-    </table></div>
-  </wb-table>
-  <wb-exercise id="q24-demo"></wb-exercise>
-<p>Why can Ben still be selected? Why must a caller check for null before calling a String method on a result?</p>
-  <wb-short id="q24-why"></wb-short>
-</div>
-
-<h2 id="review">9. Review</h2>
-
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: check the boundaries</div>
-  <p><strong>25.</strong> Give the result or correction for each case.</p>
-<ol type="a">
-<li>A String call returns uppercase text, but its result is discarded. Has the original changed?</li>
-<li>A list has size 4. Can <code>nextInt(4)</code> return 4?</li>
-<li>A rating list is declared as <code>ArrayList&lt;int&gt;</code>.</li>
-<li>The cleaned clinic search returns -1. May the caller use it as an index?</li>
-<li>HelpBot cleans a submit question, then chooses a general reply. What limitation remains, and what will Lecture 11 add?</li>
-</ol>
-  <wb-short id="q25"></wb-short>
-</div>
-
-<p>Chapter 6 is on Term Test 2, not Term Test 1. The course outline has the test dates.</p>
-
-<h2 id="starting-project">10. Complete starting project</h2>
-
-<p>These are the three complete classes at the end of Lecture 9 Part 8. Use them before adding Part 9. All older methods are included. Copy each class into its named Java file; use only one version of ClinicDemo in a project. Open a file name to see its full source.</p>
-
-<details><summary><code>Appointment.java</code></summary>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Appointment</span>
-{
-    <span class="wb-kw">private</span> <span class="wb-type">String</span> patientName;
-    <span class="wb-kw">private</span> <span class="wb-kw">boolean</span> checkedIn;
-    <span class="wb-kw">private</span> <span class="wb-kw">int</span> minutes;
-
-    <span class="wb-kw">public</span> <span class="wb-fn">Appointment</span>(<span class="wb-type">String</span> patientName, <span class="wb-kw">int</span> minutes)
-    {
-        <span class="wb-kw">this</span>.patientName = patientName;
-        <span class="wb-kw">this</span>.minutes = minutes;
-        checkedIn = <span class="wb-kw">false</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getPatientName</span>()
-    {
-        <span class="wb-kw">return</span> patientName;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">hasCheckedIn</span>()
-    {
-        <span class="wb-kw">return</span> checkedIn;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">checkIn</span>()
-    {
-        checkedIn = <span class="wb-kw">true</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getMinutes</span>()
-    {
-        <span class="wb-kw">return</span> minutes;
-    }
-}</code></pre>
-</details>
-
-<details><summary><code>ClinicSchedule.java</code></summary>
-<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
-
-<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ClinicSchedule</span>
-{
-    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Appointment</span>&gt; appointments;
-
-    <span class="wb-kw">public</span> <span class="wb-fn">ClinicSchedule</span>()
-    {
-        appointments = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addAppointment</span>(<span class="wb-type">Appointment</span> appointment)
-    {
-        appointments.add(appointment);
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getCount</span>()
-    {
-        <span class="wb-kw">return</span> appointments.size();
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printPatientAt</span>(<span class="wb-kw">int</span> index)
-    {
-        <span class="wb-kw">if</span>(index &lt; <span class="wb-num">0</span> || index &gt;= appointments.size()) {
-            System.out.println(<span class="wb-str">"Invalid index"</span>);
-            <span class="wb-kw">return</span>;
-        }
-
-        System.out.println(appointments.get(index).getPatientName());
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">cancel</span>(<span class="wb-kw">int</span> index)
-    {
-        <span class="wb-kw">if</span>(index &lt; <span class="wb-num">0</span> || index &gt;= appointments.size()) {
-            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
-        }
-
-        <span class="wb-kw">if</span>(appointments.get(index).hasCheckedIn()) {
-            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
-        }
-
-        appointments.remove(index);
-        <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printWaitingPatients</span>()
-    {
-        <span class="wb-kw">boolean</span> found = <span class="wb-kw">false</span>;
-
-        <span class="wb-kw">for</span>(<span class="wb-type">Appointment</span> appointment : appointments) {
-            <span class="wb-kw">if</span>(!appointment.hasCheckedIn()) {
-                System.out.println(appointment.getPatientName());
-                found = <span class="wb-kw">true</span>;
-            }
-        }
-
-        <span class="wb-kw">if</span>(!found) {
-            System.out.println(<span class="wb-str">"No waiting patients"</span>);
-        }
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">findPatientIndex</span>(<span class="wb-type">String</span> name)
-    {
-        <span class="wb-kw">int</span> index = <span class="wb-num">0</span>;
-        <span class="wb-kw">boolean</span> found = <span class="wb-kw">false</span>;
-
-        <span class="wb-kw">while</span>(index &lt; appointments.size() &amp;&amp; !found) {
-            <span class="wb-type">Appointment</span> appointment = appointments.get(index);
-            <span class="wb-kw">if</span>(appointment.getPatientName().equals(name)) {
-                found = <span class="wb-kw">true</span>;
-            }
-            <span class="wb-kw">else</span> {
-                index++;
-            }
-        }
-
-        <span class="wb-kw">if</span>(found) {
-            <span class="wb-kw">return</span> index;
-        }
-        <span class="wb-kw">return</span> -<span class="wb-num">1</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printAllPatients</span>()
-    {
-        appointments.forEach(appointment -&gt; System.out.println(appointment.getPatientName()));
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">checkInAll</span>()
-    {
-        appointments.forEach(<span class="wb-type">Appointment</span>::checkIn);
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">removeCheckedIn</span>()
-    {
-        <span class="wb-kw">int</span> before = appointments.size();
-        appointments.removeIf(appointment -&gt; appointment.hasCheckedIn());
-        <span class="wb-kw">return</span> before - appointments.size();
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">cancelPatient</span>(<span class="wb-type">String</span> name)
-    {
-        <span class="wb-kw">return</span> appointments.removeIf(appointment -&gt; appointment.getPatientName().equals(name)
-            &amp;&amp; !appointment.hasCheckedIn());
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">long</span> <span class="wb-fn">countWaiting</span>()
-    {
-        <span class="wb-kw">return</span> appointments.stream()
-                           .filter(appointment -&gt; !appointment.hasCheckedIn())
-                           .count();
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printWaitingNames</span>()
-    {
-        appointments.stream()
-                    .filter(appointment -&gt; !appointment.hasCheckedIn())
-                    .map(appointment -&gt; appointment.getPatientName())
-                    .forEach(name -&gt; System.out.println(name));
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">totalWaitingMinutes</span>()
-    {
-        <span class="wb-kw">return</span> appointments.stream()
-                           .filter(appointment -&gt; !appointment.hasCheckedIn())
-                           .map(appointment -&gt; appointment.getMinutes())
-                           .reduce(<span class="wb-num">0</span>, (total, minutes) -&gt; total + minutes);
-    }
-}</code></pre>
-</details>
-
-<details><summary><code>ClinicDemo.java</code></summary>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ClinicDemo</span>
-{
-    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
-    {
-        <span class="wb-type">ClinicSchedule</span> schedule = <span class="wb-kw">new</span> <span class="wb-fn">ClinicSchedule</span>();
-        System.out.println(<span class="wb-str">"Empty waiting minutes: "</span> + schedule.totalWaitingMinutes());
-
-        <span class="wb-type">Appointment</span> ana = <span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Ana"</span>, <span class="wb-num">15</span>);
-        <span class="wb-type">Appointment</span> ben = <span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Ben"</span>, <span class="wb-num">20</span>);
-        <span class="wb-type">Appointment</span> cara = <span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Cara"</span>, <span class="wb-num">10</span>);
-        schedule.addAppointment(ana);
-        schedule.addAppointment(ben);
-        schedule.addAppointment(cara);
-        ben.checkIn();
-
-        System.out.println(<span class="wb-str">"Waiting names:"</span>);
-        schedule.printWaitingNames();
-        System.out.println(<span class="wb-str">"Waiting count: "</span> + schedule.countWaiting());
-        System.out.println(<span class="wb-str">"Waiting minutes: "</span> + schedule.totalWaitingMinutes());
-        System.out.println(<span class="wb-str">"Appointments: "</span> + schedule.getCount());
-
-        schedule.checkInAll();
-        System.out.println(<span class="wb-str">"After check-in: "</span> + schedule.totalWaitingMinutes());
-        System.out.println(<span class="wb-str">"Appointments: "</span> + schedule.getCount());
-    }
-}</code></pre>
-</details>
-
-<details><summary>Run the complete starting project</summary>
-<wb-example id="starting-example"></wb-example>
-</details>
-
-<h2 id="complete-part10">11. Complete Part 10 solution</h2>
-
-<p>Use these complete classes to finish or check the end coding task. They retain Part 9 and every older method. The generator is constructed once with seed 42. Open each file to see its source; predict the demonstration before running it.</p>
-
-<details><summary><code>Appointment.java</code></summary>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Appointment</span>
-{
-    <span class="wb-kw">private</span> <span class="wb-type">String</span> patientName;
-    <span class="wb-kw">private</span> <span class="wb-kw">boolean</span> checkedIn;
-    <span class="wb-kw">private</span> <span class="wb-kw">int</span> minutes;
-
-    <span class="wb-kw">public</span> <span class="wb-fn">Appointment</span>(<span class="wb-type">String</span> patientName, <span class="wb-kw">int</span> minutes)
-    {
-        <span class="wb-kw">this</span>.patientName = patientName;
-        <span class="wb-kw">this</span>.minutes = minutes;
-        checkedIn = <span class="wb-kw">false</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getPatientName</span>()
-    {
-        <span class="wb-kw">return</span> patientName;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">hasCheckedIn</span>()
-    {
-        <span class="wb-kw">return</span> checkedIn;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">checkIn</span>()
-    {
-        checkedIn = <span class="wb-kw">true</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getMinutes</span>()
-    {
-        <span class="wb-kw">return</span> minutes;
-    }
-}</code></pre>
-</details>
-
-<details><summary><code>ClinicSchedule.java</code></summary>
+<h3>The finished HelpBot</h3>
+<p>Every public method of the finished class appears in the notes above. What is left is the top of the class: the two imports, the three private fields, and the constructor that creates the lists and the generator and fills in the replies.</p>
 <pre><code><span class="wb-kw">import</span> java.util.ArrayList;
 <span class="wb-kw">import</span> java.util.Random;
 
-<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ClinicSchedule</span>
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">HelpBot</span>
 {
-    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Appointment</span>&gt; appointments;
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">String</span>&gt; generalReplies;
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Integer</span>&gt; ratings;
     <span class="wb-kw">private</span> <span class="wb-type">Random</span> randomGenerator;
 
-    <span class="wb-kw">public</span> <span class="wb-fn">ClinicSchedule</span>()
+    <span class="wb-kw">public</span> <span class="wb-fn">HelpBot</span>()
     {
-        appointments = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
-        randomGenerator = <span class="wb-kw">new</span> <span class="wb-fn">Random</span>(<span class="wb-num">42</span>);
+        generalReplies = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        ratings = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        randomGenerator = <span class="wb-kw">new</span> <span class="wb-fn">Random</span>();
+        fillGeneralReplies();
     }
 
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addAppointment</span>(<span class="wb-type">Appointment</span> appointment)
+    <span class="wb-cmt">// The methods from the notes above.</span>
+}</code></pre>
+<p>The public methods are <code>replyTo</code>, <code>clean</code>, <code>pickGeneralReply</code>, <code>addRating</code>, <code>numberOfRatings</code> and <code>averageRating</code>. The private helper <code>fillGeneralReplies</code> adds the four replies of Section 5 in order. A demo class can create a bot, ask it questions, record ratings and print the results. The whole class, with its comments, is in the summary at the top of this page.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: writing Javadoc</div>
+  <p><strong>7.1</strong> (a) Write a Javadoc comment for <code>addRating(int rating)</code>. Say which ratings are kept. (b) Write a class comment for <code>Book</code> from the library problem, with yourself as the author and version 1.0. (c) Why is a comment that starts with <code>/*</code> not enough?</p>
+  <p>(a) Add the comment above <code>addRating</code>. The checking program records 5, 9 and 3 and prints the count, which is 2.</p>
+  <wb-exercise id="q21-method"></wb-exercise>
+  <p>(b) Add the class comment above <code>public class Book</code>.</p>
+  <wb-exercise id="q21-class"></wb-exercise>
+  <p>(c) Why is a comment that starts with <code>/*</code> not enough?</p>
+  <wb-short id="q21-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: a public field</div>
+  <p><strong>7.2</strong> Suppose the <code>ratings</code> field were <code>public</code>. What could another class do that it cannot do now? How should other classes record a rating? Should <code>fillGeneralReplies</code> be public?</p>
+  <wb-short id="q22"></wb-short>
+</div>
+
+<h2 id="s8">8. Library Part 2: A random pick</h2>
+<h3>The catalogue so far</h3>
+<p>We do this part together in class, as the last part of the lecture. At the end of Part 1, <code>Book</code> is as Section 4 describes it: three private <code>String</code> fields, a constructor, and a getter for each field. <code>Catalogue</code> looks like this, with <code>printMatches</code> from Question 4.1. Part 2 keeps <code>Book</code> and these methods unchanged.</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Catalogue</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Book</span>&gt; books;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Catalogue</span>()
     {
-        appointments.add(appointment);
+        books = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addBook</span>(<span class="wb-type">Book</span> book)
+    {
+        books.add(book);
     }
 
     <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getCount</span>()
     {
-        <span class="wb-kw">return</span> appointments.size();
+        <span class="wb-kw">return</span> books.size();
     }
 
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printPatientAt</span>(<span class="wb-kw">int</span> index)
-    {
-        <span class="wb-kw">if</span>(index &lt; <span class="wb-num">0</span> || index &gt;= appointments.size()) {
-            System.out.println(<span class="wb-str">"Invalid index"</span>);
-            <span class="wb-kw">return</span>;
-        }
-
-        System.out.println(appointments.get(index).getPatientName());
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">cancel</span>(<span class="wb-kw">int</span> index)
-    {
-        <span class="wb-kw">if</span>(index &lt; <span class="wb-num">0</span> || index &gt;= appointments.size()) {
-            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
-        }
-
-        <span class="wb-kw">if</span>(appointments.get(index).hasCheckedIn()) {
-            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
-        }
-
-        appointments.remove(index);
-        <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printWaitingPatients</span>()
-    {
-        <span class="wb-kw">boolean</span> found = <span class="wb-kw">false</span>;
-
-        <span class="wb-kw">for</span>(<span class="wb-type">Appointment</span> appointment : appointments) {
-            <span class="wb-kw">if</span>(!appointment.hasCheckedIn()) {
-                System.out.println(appointment.getPatientName());
-                found = <span class="wb-kw">true</span>;
-            }
-        }
-
-        <span class="wb-kw">if</span>(!found) {
-            System.out.println(<span class="wb-str">"No waiting patients"</span>);
-        }
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">findPatientIndex</span>(<span class="wb-type">String</span> name)
-    {
-        <span class="wb-kw">int</span> index = <span class="wb-num">0</span>;
-        <span class="wb-kw">boolean</span> found = <span class="wb-kw">false</span>;
-
-        <span class="wb-kw">while</span>(index &lt; appointments.size() &amp;&amp; !found) {
-            <span class="wb-type">Appointment</span> appointment = appointments.get(index);
-            <span class="wb-kw">if</span>(appointment.getPatientName().equals(name)) {
-                found = <span class="wb-kw">true</span>;
-            }
-            <span class="wb-kw">else</span> {
-                index++;
-            }
-        }
-
-        <span class="wb-kw">if</span>(found) {
-            <span class="wb-kw">return</span> index;
-        }
-        <span class="wb-kw">return</span> -<span class="wb-num">1</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printAllPatients</span>()
-    {
-        appointments.forEach(appointment -&gt; System.out.println(appointment.getPatientName()));
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">checkInAll</span>()
-    {
-        appointments.forEach(<span class="wb-type">Appointment</span>::checkIn);
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">removeCheckedIn</span>()
-    {
-        <span class="wb-kw">int</span> before = appointments.size();
-        appointments.removeIf(appointment -&gt; appointment.hasCheckedIn());
-        <span class="wb-kw">return</span> before - appointments.size();
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">cancelPatient</span>(<span class="wb-type">String</span> name)
-    {
-        <span class="wb-kw">return</span> appointments.removeIf(appointment -&gt; appointment.getPatientName().equals(name)
-            &amp;&amp; !appointment.hasCheckedIn());
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">long</span> <span class="wb-fn">countWaiting</span>()
-    {
-        <span class="wb-kw">return</span> appointments.stream()
-                           .filter(appointment -&gt; !appointment.hasCheckedIn())
-                           .count();
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printWaitingNames</span>()
-    {
-        appointments.stream()
-                    .filter(appointment -&gt; !appointment.hasCheckedIn())
-                    .map(appointment -&gt; appointment.getPatientName())
-                    .forEach(name -&gt; System.out.println(name));
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">totalWaitingMinutes</span>()
-    {
-        <span class="wb-kw">return</span> appointments.stream()
-                           .filter(appointment -&gt; !appointment.hasCheckedIn())
-                           .map(appointment -&gt; appointment.getMinutes())
-                           .reduce(<span class="wb-num">0</span>, (total, minutes) -&gt; total + minutes);
-    }
-
-    <span class="wb-cmt">/**
-     * Find the first patient whose name matches after cleaning both names.
-     * Leading and trailing spaces and differences in case are ignored.
-     * @param name The name to search for; must not be null.
-     * @return The first matching index, or -1 if no name matches.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">findPatientIndexIgnoringCase</span>(<span class="wb-type">String</span> name)
-    {
-        <span class="wb-type">String</span> cleanedName = name.trim().toLowerCase();
-        <span class="wb-kw">int</span> index = <span class="wb-num">0</span>;
-
-        <span class="wb-kw">while</span>(index &lt; appointments.size()) {
-            <span class="wb-type">String</span> storedName = appointments.get(index).getPatientName();
-            <span class="wb-kw">if</span>(storedName.trim().toLowerCase().equals(cleanedName)) {
-                <span class="wb-kw">return</span> index;
-            }
-            index++;
-        }
-        <span class="wb-kw">return</span> -<span class="wb-num">1</span>;
-    }
-
-    <span class="wb-cmt">/**
-     * Choose a patient name from all current appointments at random.
-     * Checked-in appointments are included.
-     * @return A stored patient name, or null if the schedule is empty.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">randomPatientName</span>()
-    {
-        <span class="wb-kw">if</span>(appointments.isEmpty()) {
-            <span class="wb-kw">return</span> <span class="wb-kw">null</span>;
-        }
-        <span class="wb-kw">int</span> index = randomGenerator.nextInt(appointments.size());
-        <span class="wb-kw">return</span> appointments.get(index).getPatientName();
-    }
+    <span class="wb-cmt">// printMatches(String query), as in Question 4.1.</span>
 }</code></pre>
-</details>
+<h3>New in Part 2</h3>
+<p>Part 2 lets the catalogue suggest a book at random, and documents the class.</p>
+<ul>
+  <li>Import <code>Random</code> and add a private field <code>Random generator</code>. Create it once, in the constructor, with <code>new Random(42)</code>. The fixed seed makes the demo print the same picks every run.</li>
+  <li>Add <code>Book pickRandom()</code>. For an empty catalogue it returns <code>null</code> without calling <code>nextInt</code>. Otherwise it returns the book at the index <code>generator.nextInt(books.size())</code>. The book stays in the catalogue.</li>
+  <li>Write a Javadoc comment for the class and for each public method and the constructor, with <code>@param</code> and <code>@return</code> where they apply.</li>
+</ul>
+<p>A caller that might be using an empty catalogue must check the result of <code>pickRandom</code> for <code>null</code> before calling a method on it, because calling a method through <code>null</code> stops the program. A demo that has just added five books knows the result is never <code>null</code>. Joining <code>null</code> to a string with <code>+</code> is safe: it adds the text <code>null</code>, so <code>"Pick: " + null</code> is the string <code>Pick: null</code>.</p>
 
-<details><summary><code>ClinicDemo.java</code></summary>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ClinicDemo</span>
-{
-    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
-    {
-        <span class="wb-type">ClinicSchedule</span> schedule = <span class="wb-kw">new</span> <span class="wb-fn">ClinicSchedule</span>();
-        System.out.println(<span class="wb-str">"Empty choice: "</span> + schedule.randomPatientName());
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: write <code>pickRandom</code></div>
+  <p><strong>8.1</strong> Add the import, the field, the line in the constructor, and <code>pickRandom</code> with its Javadoc comment.</p>
+  <p>The Part 1 class is in the box, and <code>Book</code> is on its classpath. The checking program picks from an empty catalogue, then picks five times from the five books and checks that the count stays at 5. Its expected output is:</p>
+<pre class="wb-output">Empty: null
+Pick: Objects First with Java
+Pick: The Navigator of New York
+Pick: The Navigator of New York
+Pick: A Brief History of Time
+Pick: Objects First with Java
+Books: 5</pre>
+  <wb-exercise id="q28"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: predict, then run the demo</div>
+  <p><strong>8.2</strong> The new <code>LibraryDemo.main</code> first prints <code>Pick from an empty catalogue: </code> followed by the result of <code>pickRandom</code> on a new, empty catalogue. Then it adds the five books to a second catalogue, prints the titles of three picks as <code>Pick 1: </code>, <code>Pick 2: </code> and <code>Pick 3: </code>, and prints <code>Books: </code> and the count. (a) What does the first line print? (b) Without running the code, which titles could each pick be? (c) Why does the demo not call <code>getTitle()</code> on the result for the empty catalogue?</p>
+  <wb-table id="q29">
+    <table>
+      <thead><tr><th>question</th><th>answer</th></tr></thead>
+      <tbody>
+        <tr><td>(a) the first line prints</td><td data-blank="empty"></td></tr>
+        <tr><td>(b) titles each pick could be</td><td data-blank="could"></td></tr>
+        <tr><td>the last line prints</td><td data-blank="count"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>(c) Why not call <code>getTitle()</code> on the empty result?</p>
+  <wb-short id="q29-why"></wb-short>
+  <p>Now write the demo. Finished <code>Book</code> and <code>Catalogue</code> classes are on the classpath of this box. With the seed 42, the expected output is:</p>
+<pre class="wb-output">Pick from an empty catalogue: null
+Pick 1: Objects First with Java
+Pick 2: The Navigator of New York
+Pick 3: The Navigator of New York
+Books: 5</pre>
+  <wb-exercise id="q29-demo"></wb-exercise>
+</div>
 
-        <span class="wb-type">Appointment</span> ana = <span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Ana"</span>, <span class="wb-num">15</span>);
-        <span class="wb-type">Appointment</span> ben = <span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Ben"</span>, <span class="wb-num">20</span>);
-        <span class="wb-type">Appointment</span> cara = <span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Cara"</span>, <span class="wb-num">10</span>);
-        schedule.addAppointment(ana);
-        schedule.addAppointment(ben);
-        schedule.addAppointment(cara);
-        ben.checkIn();
+<h2 id="s9">9. Review</h2>
 
-        System.out.println(<span class="wb-str">"Choice 1: "</span> + schedule.randomPatientName());
-        System.out.println(<span class="wb-str">"Choice 2: "</span> + schedule.randomPatientName());
-        System.out.println(<span class="wb-str">"Choice 3: "</span> + schedule.randomPatientName());
-        System.out.println(<span class="wb-str">"Appointments: "</span> + schedule.getCount());
-        System.out.println(<span class="wb-str">"Waiting count: "</span> + schedule.countWaiting());
-    }
-}</code></pre>
-</details>
+<p>Chapter 6 is not on Term Test 1. It is part of Term Test 2.</p>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: results and corrections</div>
+  <p><strong>9.1</strong> Give the result or the correction for each statement.</p>
+  <ol type="a">
+    <li>&ldquo;<code>title.toUpperCase();</code> changes <code>title</code> to capitals.&rdquo;</li>
+    <li>&ldquo;A list has size 4, so <code>nextInt(4)</code> can return 4.&rdquo;</li>
+    <li>&ldquo;A list of ratings is declared as <code>ArrayList&lt;int&gt;</code>.&rdquo;</li>
+    <li>&ldquo;<code>printMatches("   ")</code> prints every book, because every title contains the query.&rdquo;</li>
+    <li>&ldquo;The bot now answers the question that was asked.&rdquo;</li>
+  </ol>
+  <wb-short id="q25"></wb-short>
+</div>
 
-<details><summary>Run the complete Part 10 solution</summary>
-<wb-example id="part10-example"></wb-example>
-</details>
+<h2 id="s10">10. Complete Java Programs</h2>
+<p>Write these two programs after class. Use additional paper or an IDE for the complete implementation. Each one uses the classes of this lecture in a new setting. Each box below starts from a skeleton: fill in the method bodies, then run. There is one box per class. When you reach a later class, finished copies of the earlier classes are on its classpath, so a mistake in one box does not stop the next.</p>
+
+<h3>10.1 Program A: Contact, ContactList and ContactDemo</h3>
+<ul>
+  <li><code>Contact</code> stores a name and an email address, with the constructor parameters in that order, and has <code>getName()</code> and <code>getEmail()</code>. It also has <code>String getInitials()</code>, which returns the first letter of the name followed by the first letter after the space. Every name has exactly one space, between two words.</li>
+  <li><code>ContactList</code> stores an <code>ArrayList&lt;Contact&gt;</code> named <code>contacts</code>. <code>addContact(String name, String email)</code> trims both strings, puts the email in lower case, and adds a new <code>Contact</code>. <code>printAll()</code> prints each contact as its initials, a space, the name, and the email in angle brackets. <code>printSearch(String text)</code> prints the name of every contact whose name contains the cleaned text, ignoring case, or <code>No contacts match</code>. <code>int countEmailsAt(String domain)</code> counts the emails that end with <code>@</code> followed by the domain.</li>
+  <li><code>ContactDemo</code> adds <code>"  Ada Lovelace "</code> with <code>"ADA@Example.com"</code>, <code>"Alan Turing"</code> with <code>" alan@mun.ca "</code>, and <code>"Grace Hopper"</code> with <code>"Grace@MUN.ca"</code>. It prints <code>All contacts:</code> and the contacts, then searches for <code>"  a"</code>, <code>"TUR"</code> and <code>"xyz"</code>, each after a heading, and finally prints the number of emails at <code>mun.ca</code>.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Contact</code></div>
+  <p>A checking program creates Ada Lovelace and Alan Turing and prints the getters and the initials.</p>
+  <wb-exercise id="p1-item"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>ContactList</code></div>
+  <p>A finished <code>Contact</code> is on the classpath of this box. The checking program tries an empty list, then two contacts with messy input.</p>
+  <wb-exercise id="p1-collection"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>ContactDemo</code></div>
+  <p>Finished <code>Contact</code> and <code>ContactList</code> classes are on the classpath of this box. Expected output:</p>
+<pre class="wb-output">All contacts:
+AL Ada Lovelace &lt;ada@example.com&gt;
+AT Alan Turing &lt;alan@mun.ca&gt;
+GH Grace Hopper &lt;grace@mun.ca&gt;
+Search "  a":
+Ada Lovelace
+Alan Turing
+Grace Hopper
+Search "TUR":
+Alan Turing
+Search "xyz":
+No contacts match
+At mun.ca: 2</pre>
+  <wb-exercise id="p1-demo"></wb-exercise>
+</div>
+
+<h3>10.2 Program B: Tip, TipJar and TipDemo</h3>
+<ul>
+  <li><code>Tip</code> stores the text of a study tip and its topic, with the constructor parameters in that order, and has <code>getText()</code> and <code>getTopic()</code>.</li>
+  <li><code>TipJar</code> stores an <code>ArrayList&lt;Tip&gt;</code> named <code>tips</code>, an <code>ArrayList&lt;Integer&gt;</code> named <code>ratings</code>, and a <code>Random</code> named <code>generator</code>, created in the constructor with <code>new Random(7)</code>. It has <code>addTip(Tip tip)</code>; <code>Tip pickTip()</code>, which returns a random tip or <code>null</code> for an empty jar; <code>addRating(int rating)</code>, which keeps only ratings from 1 to 5; <code>numberOfRatings()</code>; and <code>int averageRating()</code>, which returns the whole-number average, or 0 with no ratings.</li>
+  <li><code>TipDemo</code> prints the pick from an empty jar and the average with no ratings. Then it adds three tips, in this order: &ldquo;Read the first error message first.&rdquo; (compiling), &ldquo;Start the assignment the day it is posted.&rdquo; (planning) and &ldquo;Explain your code out loud to a friend.&rdquo; (debugging). It picks two tips and prints each as <code>Tip: </code>, the text, and the topic in parentheses. Finally it adds the ratings 4, 5, 2 and 9 and prints the number of ratings and the average.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Tip</code></div>
+  <p>A checking program creates one tip and prints its two getters.</p>
+  <wb-exercise id="p2-item"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>TipJar</code></div>
+  <p>A finished <code>Tip</code> is on the classpath of this box. The checking program tries an empty jar, then two tips and some ratings, including two outside 1 to 5.</p>
+  <wb-exercise id="p2-collection"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>TipDemo</code></div>
+  <p>Finished <code>Tip</code> and <code>TipJar</code> classes are on the classpath of this box. Expected output:</p>
+<pre class="wb-output">Empty jar: null
+Average with no ratings: 0
+Tip: Start the assignment the day it is posted. (planning)
+Tip: Explain your code out loud to a friend. (debugging)
+Ratings: 3
+Average: 3</pre>
+  <wb-exercise id="p2-demo"></wb-exercise>
+</div>
 
 </main>
 </body>

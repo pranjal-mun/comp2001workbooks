@@ -1,15 +1,45 @@
-"""Build Lecture 10 from the final printed workbook and clinic checkpoints.
+"""Build workbooks/lecture-10/exercises.json.
 
-Run this builder, then tools/check_workbook.py workbooks/lecture-10.
-Answers are extracted from the workbook, compiled with the site Java 8 runner,
-and compared with the fixed Chapter 6 outputs before writing the JSON.
-Adapted from the Lecture 9 exercise builder.
+Expected outputs are produced by actually compiling and running the code
+through the same runner the page uses, so the specs cannot drift from Java's
+real behaviour. Run from anywhere (needs `java` on the PATH):
+
+    python3 workbooks/lecture-10/build_exercises.py
+    python3 tools/check_workbook.py workbooks/lecture-10
+
+The questions follow the printed Lecture 10 workbook, numbered 1.1 to 9.1,
+and the model answers are the ones in the solutions edition. The ids keep the
+meaning they had on the first published page:
+
+    1.1 q1      1.2 q2      1.3 q3-why, q3
+    2.1 q4, q4-why          2.2 q5      2.3 q6
+    3.1 q7      3.2 q8, q8-why          3.3 q9, q9-why
+    3.4 q10-output, q10, q10-why        3.5 q11-clean, q11-message, q11-why
+    5.1 q14, q14-why        5.2 q15, q15-die
+    5.3 q16, q16-why        5.4 q17, q17-why
+    6.1 q18-box, q18-why    6.2 q19, q19-why        6.3 q20-trace, q20-why
+    7.1 q21-method, q21-class, q21-why  7.2 q22
+    9.1 q25
+
+New for the QEII Library parts: 4.1 q26, 4.2 q27 and q27-demo, 8.1 q28,
+8.2 q29, q29-why and q29-demo. The clinic ids q12, q13, q13-why, q23, q23-why,
+q24, q24-demo and q24-why are retired, as are q6-why, q15-why, q18, q18-types
+and q20 and the old runnable examples; none of them is reused. Section 10 has
+two complete programs, one box per class (ids p1-* and p2-*).
+
+A box that asks for part of a class starts from the rest of that class, and a
+small driver class on its classpath (the `files` list) calls the student's
+code and prints what comes back; the runner uses that main when the editor's
+class has none. The library and program classes are read from the lecture
+folder's code/ directory, so the page and the PDF use the same files.
 """
 import base64, json, re, sys, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 from check_workbook import run as run_java  # noqa: E402
+
+CODE_DIR = ROOT.parent / "output" / "L10_Chapter_6A_Library_Classes_v3" / "code"
 
 
 def b64(text):
@@ -44,8 +74,14 @@ def file(name, content):
 
 def driver(name, body):
     """A hidden class whose main method exercises the student's class."""
-    lines = "\n".join("        " + line for line in body.strip("\n").splitlines())
+    lines = "\n".join("        " + line if line else "" for line in body.strip("\n").splitlines())
     return [file(f"{name}.java", f"public class {name}\n{{\n    public static void main(String[] args)\n    {{\n{lines}\n    }}\n}}\n")]
+
+
+def demo(name, body, imports=""):
+    """A class whose main method holds `body`."""
+    lines = "\n".join("        " + line if line else "" for line in body.strip("\n").splitlines())
+    return f"{imports}{chr(10) if imports else ''}public class {name}\n{{\n    public static void main(String[] args)\n    {{\n{lines}\n    }}\n}}\n"
 
 
 def code_forms(*forms):
@@ -80,320 +116,809 @@ def box(starter, answer, extra=12):
     return {"minLines": n, "maxLines": n + extra}
 
 
+def code_box(eid, title, starter, answer, files, checks, xp=4, extra=12, name="Output of the checking program"):
+    """A code exercise whose expected output comes from running the model answer."""
+    E[eid] = {"type": "code", "xp": xp, "title": title, **box(starter, answer, extra),
+              "starter": starter.rstrip("\n"),
+              "cases": [{"name": name, "expected": run(answer, files)}],
+              "check": "\n".join(checks),
+              "answer": b64(answer), "files": list(files)}
+    return E[eid]["cases"][0]["expected"]
+
+
+def read(path):
+    return (CODE_DIR / path).read_text()
+
+
 SHORT = lambda answer, chars=20, rows=2, xp=2: {"type": "short", "xp": xp, "minChars": chars, "rows": rows, "answer": b64(answer)}  # noqa: E731
 CODE = {"caseSensitive": True, "width": "26rem"}
-LINE = {"placeholder": "output line", "caseSensitive": True, "width": "14rem"}
-BOOL = {"placeholder": "true / false"}
+TEXT = {"caseSensitive": True, "preserveWhitespace": True, "width": "18rem", "placeholder": "text"}
 NUM = {"placeholder": "number", "width": "7rem"}
 YESNO = {"placeholder": "yes / no"}
 NO = ["no", "No", "no."]
+TYPE = {"caseSensitive": True, "placeholder": "type", "width": "8rem"}
 E = {}
 
-COURSE = ROOT.parent
-PRINT = COURSE / 'output/L11_Chapter_6A_Library_Classes_v3'
-TEXT = (PRINT / 'L10_Chapter_6A_Workbook_Content.tex').read_text()
-JAVA = dict(re.findall(r'% JAVA: ([^\n]+)\n\\begin\{lstlisting\}\[style=java\]\n(.*?)\\end\{lstlisting\}', TEXT, re.S))
-OUTPUT = dict(re.findall(r'% OUTPUT: ([^\n]+)\n\\begin\{lstlisting\}\[style=output\]\n(.*?)\\end\{lstlisting\}', TEXT, re.S))
-CONTRACT = (PRINT / 'Chapter_6_contract.md').read_text()
-assert re.findall(r'% QUESTION (\d+)', TEXT) == [str(i) for i in range(1, 26)]
+REPLIES = ["Can you describe that in more detail?", "Have you checked the course web page?",
+           "That question comes up often. Let us look at it together.",
+           "Please post that on the discussion board so others can see the answer."]
+ONE_OF_FOUR = " || ".join(json.dumps(r) + ".equals(reply)" for r in REPLIES)
+
+# ---------------------------------------------------------------- classes
+BOOK = read("library/part1/Book.java")
+assert BOOK == read("library/part2/Book.java")
+CATALOGUE_1 = read("library/part1/Catalogue.java")
+DEMO_1 = read("library/part1/LibraryDemo.java")
+CATALOGUE_2 = read("library/part2/Catalogue.java")
+DEMO_2 = read("library/part2/LibraryDemo.java")
+BOOK_FILE = [file("Book.java", BOOK)]
+PART1_FILES = BOOK_FILE + [file("Catalogue.java", CATALOGUE_1)]
+PART2_FILES = BOOK_FILE + [file("Catalogue.java", CATALOGUE_2)]
+
+FIVE = [("Objects First with Java", "David Barnes", "QA76.73 B37"), ("Head First Java", "Kathy Sierra", "QA76.73 S54"),
+        ("The Colony of Unrequited Dreams", "Wayne Johnston", "PS8569 J64"), ("The Navigator of New York", "Wayne Johnston", "PS8569 J65"),
+        ("A Brief History of Time", "Stephen Hawking", "QB981 H38")]
 
 
-def project(label):
-    result = {}
-    for name in ['Appointment', 'ClinicSchedule', 'ClinicDemo']:
-        keys = sorted((key for key in JAVA if key.startswith(label + '-' + name + '-')),
-                      key=lambda key: int(key.rsplit('-', 1)[1]))
-        result[name + '.java'] = ''.join(JAVA[key] for key in keys)
-    return result
+def add_five(target):
+    return "".join(f'{target}.addBook(new Book("{t}", "{a}", "{n}"));\n' for t, a, n in FIVE)
 
 
-START = project('starting')
-PART10 = project('part10')
-PART9 = dict(START)
-PART9['ClinicSchedule.java'] = START['ClinicSchedule.java'].rstrip()[:-1] + '\n' + ''.join('    '+line if line.strip() else line for line in JAVA['q12-search'].splitlines(True)) + '}\n'
-PART9['ClinicDemo.java'] = JAVA['q13-demo']
-HELPBOT = (PRINT / 'code/final/HelpBot.java').read_text()
-REPLIES = [
-    'Can you describe that in more detail?',
-    'Have you checked the course web page?',
-    'That question comes up often. Let us look at it together.',
-    'Please post that on the discussion board so others can see the answer.'
-]
-assert all(reply in CONTRACT and reply in HELPBOT for reply in REPLIES)
-assert OUTPUT['q13-demo'] in CONTRACT and OUTPUT['q24-demo'] in CONTRACT
-# Compare every complete clinic class to the handout, not just its output.
-sections = re.split(r'\n## (?:Starting files|Part 9: Search with cleaned names|Part 10: Random patient choice)\n',
-                    (PRINT / 'Clinic appointments L10.md').read_text())[1:]
-for files, section in zip([START, PART9, PART10], sections):
-    assert files == dict(re.findall(r'#### (\w+\.java)\n\n```java\n(.*?)```', section, re.S))
+# The finished HelpBot without its comments, as the workbook builds it.
+HELPBOT = '''import java.util.ArrayList;
+import java.util.Random;
 
+public class HelpBot
+{
+    private ArrayList<String> generalReplies;
+    private ArrayList<Integer> ratings;
+    private Random randomGenerator;
 
-def demo(name, body, imports=''):
-    return imports + driver(name, body)[0]['content'] + '\n'
+    public HelpBot()
+    {
+        generalReplies = new ArrayList<>();
+        ratings = new ArrayList<>();
+        randomGenerator = new Random();
+        fillGeneralReplies();
+    }
 
+    public String replyTo(String question)
+    {
+        String cleaned = clean(question);
+        if(cleaned.isEmpty()) {
+            return "Please type a question.";
+        }
+        return pickGeneralReply();
+    }
 
-def cls(name, members, imports=''):
-    return imports + 'public class ' + name + '\n{\n' + members.rstrip('\n') + '\n}\n'
+    public String clean(String question)
+    {
+        return question.trim().toLowerCase();
+    }
 
+    public String pickGeneralReply()
+    {
+        int index = randomGenerator.nextInt(generalReplies.size());
+        return generalReplies.get(index);
+    }
 
-def context(files, omit):
-    return [file(name, content) for name, content in files.items() if name != omit]
+    public void addRating(int rating)
+    {
+        if(rating >= 1 && rating <= 5) {
+            ratings.add(rating);
+        }
+    }
 
+    public int numberOfRatings()
+    {
+        return ratings.size();
+    }
 
-def indent_members(source):
-    lines = source.splitlines(True)
-    start = next((i + 1 for i, line in enumerate(lines) if line.strip() == '{'), None)
-    if start is not None and start < len(lines) - 1:
-        first = next((line for line in lines[start:-1] if line.strip()), '')
-        if first and not first.startswith(' '):
-            lines[start:-1] = ['    ' + line if line.strip() else line for line in lines[start:-1]]
-    return ''.join(lines)
+    public int averageRating()
+    {
+        if(ratings.isEmpty()) {
+            return 0;
+        }
+        int total = 0;
+        for(int rating : ratings) {
+            total = total + rating;
+        }
+        return total / ratings.size();
+    }
 
+    private void fillGeneralReplies()
+    {
+''' + "".join(f"        generalReplies.add({json.dumps(r)});\n" for r in REPLIES) + '''    }
+}
+'''
 
-def add_code(eid, title, starter, answer, expected, files=(), check=()):
-    starter, answer = indent_members(starter), indent_members(answer)
-    actual = run(answer, files)
-    assert actual == expected.rstrip('\n'), (eid, expected, actual)
-    E[eid] = {'type': 'code', 'xp': 4, 'title': title,
-              'minLines': min(32, max(8, starter.count('\n') + 2)), 'maxLines': 38,
-              'starter': starter.rstrip('\n'), 'answer': b64(answer), 'files': list(files),
-              'cases': [{'name': 'Checking program', 'expected': expected.rstrip('\n')}],
-              'check': '\n'.join(check)}
+# ---------------------------------------------------------------- 1. Library
+E["q1"] = SHORT("For example, String holds text, ArrayList keeps an ordered list of objects, and System gives us System.out for printing. Before calling a method we need its name, the types of its parameters, its return type, what it does, and any limits on the arguments.", rows=3)
 
+PACKAGES = {"Random": "java.util", "ArrayList": "java.util", "String": "java.lang", "Integer": "java.lang"}
+NONE_IMPORT = ["none", "no import", "not needed", "no", "nothing"]
+q2 = {}
+for name, pkg in PACKAGES.items():
+    q2[f"{name}-name"] = {"accept": [f"{pkg}.{name}"], "show": f"{pkg}.{name}", "placeholder": "qualified name", **CODE, "width": "14rem"}
+    if pkg == "java.util":
+        q2[f"{name}-import"] = {"accept": code_forms(f"import {pkg}.{name};"), "show": f"import {pkg}.{name};", "placeholder": "import", **CODE, "width": "18rem"}
+    else:
+        q2[f"{name}-import"] = {"accept": NONE_IMPORT, "show": "none", "placeholder": "import", "width": "18rem"}
+E["q2"] = {"type": "table", "xp": 3, "blanks": q2}
 
-def example(eid, title, code, expected, files=()):
-    assert run(code, files) == expected.rstrip('\n'), eid
-    E[eid] = {'type': 'example', 'title': title, 'code': code.rstrip('\n'),
-              'output': expected.rstrip('\n'), 'files': list(files), 'maxLines': 32}
+E["q3-why"] = SHORT("(a) Yes, Random is in java.util. (b) No. java.util.function is a separate package, and the wildcard does not reach into it.", rows=2)
+Q3_STARTER = demo("QualifiedDemo", "// Create generator here, without an import.\n\nSystem.out.println(generator != null);")
+Q3_ANSWER = demo("QualifiedDemo", "java.util.Random generator = new java.util.Random();\nSystem.out.println(generator != null);")
+assert code_box("q3", "QualifiedDemo.java", Q3_STARTER, Q3_ANSWER, [], [
+    has("java.util.Random generator = new java.util.Random()", "Use the qualified name twice: java.util.Random generator = new java.util.Random();"),
+    lacks("import", "The file has no imports, so do not add one.")], xp=2, extra=4, name="Program output") == "true"
 
+# ---------------------------------------------------------------- 2. Interfaces
+DOC = {"accept": ["documentation", "the documentation", "docs", "interface", "public documentation"], "show": "documentation", "placeholder": "answer", "width": "13rem"}
+IMPL = {"accept": ["implementation", "the implementation", "private implementation"], "show": "implementation", "placeholder": "answer", "width": "13rem"}
+E["q4"] = {"type": "table", "xp": 2, "blanks": {"a": DOC, "b": DOC, "c": IMPL}}
+E["q4-why"] = SHORT("The documentation tells us that get(0) returns the first element of a list that is not empty, and that is all a caller needs to know. How get finds the element is part of the implementation.", rows=2)
 
-def blank(value, *others, kind='text', width='16rem', preserve_whitespace=False):
-    return {'accept': [str(value), *map(str, others)], 'show': str(value),
-            'caseSensitive': kind == 'code', 'placeholder': kind, 'width': width,
-            **({'preserveWhitespace': True} if preserve_whitespace else {})}
+E["q5"] = {"type": "table", "xp": 3, "blanks": {
+    "access": {"accept": ["public"], "show": "public", "placeholder": "modifier", **TYPE},
+    "result": {"accept": ["int"], "show": "int", **TYPE},
+    "name": {"accept": ["indexOf"], "show": "indexOf", "placeholder": "name", **TYPE, "width": "9rem"},
+    "param": {"accept": ["String"], "show": "String", **TYPE},
+    "signature": {"accept": ["indexOf(String)", "indexOf (String)"], "show": "indexOf(String)", "placeholder": "signature", **TYPE, "width": "12rem"},
+    "caller": {"accept": NO + ["no, any String expression", "No; any String expression"], "show": "no", **YESNO}}}
 
+E["q6"] = {"type": "table", "xp": 2, "blanks": {
+    "add": {"accept": code_forms("boolean add(String e)", "public boolean add(String e)"), "show": "boolean add(String e)", "placeholder": "header", **CODE, "width": "18rem"},
+    "get": {"accept": code_forms("String get(int index)", "public String get(int index)"), "show": "String get(int index)", "placeholder": "header", **CODE, "width": "18rem"},
+    "integer": {"accept": ["Integer"], "show": "Integer", **TYPE}}}
 
-def tab(eid, blanks):
-    E[eid] = {'type': 'table', 'xp': 3, 'blanks': blanks}
+# ---------------------------------------------------------------- 3. Strings
+TYPED = "  When is the TEST?   "
+SETUP = f'String typed = {json.dumps(TYPED)};\nString trimmed = typed.trim();\nString cleaned = trimmed.toLowerCase();\n'
+LENGTHS = run(demo("Lengths", SETUP + 'System.out.println("[" + typed + "] " + typed.length());\nSystem.out.println("[" + trimmed + "] " + trimmed.length());\nSystem.out.println("[" + cleaned + "] " + cleaned.length());'))
+assert LENGTHS == "[  When is the TEST?   ] 22\n[When is the TEST?] 17\n[when is the test?] 17"
+q7 = {}
+for line, var in zip(LENGTHS.split("\n"), ["typed", "trimmed", "cleaned"]):
+    text, length = re.match(r"\[(.*)\] (\d+)$", line).groups()
+    q7[f"{var}-text"] = {"accept": [f'"{text}"'], "show": f'"{text}"', **TEXT}
+    q7[f"{var}-length"] = {"accept": [length], **NUM}
+E["q7"] = {"type": "table", "xp": 3, "blanks": q7}
 
+EXPR = ['typed.contains("test")', 'cleaned.contains("test")', 'cleaned.startsWith("when")', 'cleaned.indexOf("test")',
+        'cleaned.indexOf("exam")', 'cleaned.substring(0, 4)', 'cleaned.isEmpty()']
+TYPES = ["boolean", "boolean", "boolean", "int", "int", "String", "boolean"]
+RESULTS = run(demo("Operations", SETUP + "".join(f"System.out.println({e});\n" for e in EXPR))).split("\n")
+assert RESULTS == ["false", "true", "true", "12", "-1", "when", "false"]
+q8 = {}
+for i, (value, kind) in enumerate(zip(RESULTS, TYPES)):
+    accept = [f'"{value}"', value] if kind == "String" else [value]
+    q8[f"{i}-result"] = {"accept": accept, "show": f'"{value}"' if kind == "String" else value, "placeholder": "result", **CODE, "width": "8rem"}
+    q8[f"{i}-type"] = {"accept": [kind], "show": kind, **TYPE}
+E["q8"] = {"type": "table", "xp": 4, "blanks": q8}
+E["q8-why"] = SHORT("contains is case sensitive. typed has TEST in capitals, so the small letters test are not in it; after toLowerCase they are.", rows=2)
 
-def method_class(key, members='', imports=''):
-    return cls('HelpBot', members + '\n' + JAVA[key], imports)
+IMMUTABLE = run(demo("Immutable", 'String original = "  compile  ";\nString cleaned = original.trim();\nSystem.out.println("[" + original + "] " + original.length());\nSystem.out.println("[" + cleaned + "] " + cleaned.length());'))
+assert IMMUTABLE == "[  compile  ] 11\n[compile] 7"
+E["q9"] = {"type": "table", "xp": 2, "blanks": {
+    "original-text": {"accept": ['"  compile  "'], "show": '"  compile  "', **TEXT},
+    "original-length": {"accept": ["11"], **NUM},
+    "cleaned-text": {"accept": ['"compile"', "compile"], "show": '"compile"', **TEXT},
+    "cleaned-length": {"accept": ["7"], **NUM}}}
+E["q9-why"] = SHORT("Yes, the variable original can be assigned another string. No: the first object keeps its 11 characters. Immutable describes the object, not the variable.", rows=2)
 
+DISCARD = 'String name = "  help desk  ";\nname.trim();\nSystem.out.println(name.length());\nname = name.trim();\nSystem.out.println(name.length());'
+assert run(demo("DiscardDemo", DISCARD)) == "13\n9"
+E["q10-output"] = {"type": "table", "xp": 2, "blanks": {"first": {"accept": ["13"], **NUM}, "second": {"accept": ["9"], **NUM}}}
+assert code_box("q10", "DiscardDemo.java", demo("DiscardDemo", DISCARD), demo("DiscardDemo", DISCARD.replace("name.trim();\nSystem", "name = name.trim();\nSystem", 1)), [], [
+    matches(r"(.*name=name\.trim\(\);){2}.*", "Keep the result of the first call too: name = name.trim();"),
+    lacks("name.length() - 4", "Fix the trim call; do not change the printed numbers.")], xp=2, extra=4, name="Program output") == "9\n9"
+E["q10-why"] = SHORT("The first call to trim builds the trimmed string, but nothing keeps it, so name still refers to the string with spaces. The space between help and desk stays, so the trimmed length is 9, not 8.", rows=2)
 
-E['q1'] = SHORT('ArrayList stores ordered elements, String supplies text operations, and Random generates pseudo-random numbers. Before calling a method, know its name, parameter types, return type, behaviour, and restrictions on its arguments.', rows=3)
-imports = {'Random':'java.util.Random', 'ArrayList':'java.util.ArrayList', 'String':'java.lang.String', 'Integer':'java.lang.Integer'}
-tab('q2', {**{name+'-name': blank(qualified, kind='code') for name, qualified in imports.items()},
-           **{name+'-import': blank('import '+qualified+';', 'import '+qualified, kind='code', width='23rem')
-              if name in ('Random','ArrayList') else blank('none', 'no import', 'not needed') for name,qualified in imports.items()}})
-E['q3-why'] = SHORT('The wildcard makes Random available from java.util but does not include java.util.function: subpackages are separate packages. Explicit imports show which classes the file uses.')
-add_code('q3', 'QualifiedDemo.java', demo('QualifiedDemo', '// Create a generator without an import.\nSystem.out.println(generator != null);'),
-         demo('QualifiedDemo', JAVA['q03-qualified'] + 'System.out.println(generator != null);'), 'true')
-tab('q4', {k:blank(v, 'public documentation' if v=='documentation' else 'private implementation') for k,v in [('a','documentation'),('b','documentation'),('c','implementation')]})
-E['q4-why'] = SHORT('The documented behaviour says get(0) returns the first element when the list is nonempty. Its private storage details do not affect how we make the call.')
-tab('q5', {'access':blank('public',kind='code'),'result':blank('boolean',kind='code'),'name':blank('startsWith',kind='code'),
-           'param':blank('String',kind='code'),'signature':blank('startsWith(String)', 'startsWith (String)',kind='code'),
-           'caller':blank('no','No; any suitable String expression')})
-tab('q6', {'add':blank('public boolean add(String e)',kind='code',width='25rem'),
-           'get':blank('public String get(int index)',kind='code',width='25rem'), 'integer':blank('Integer',kind='code')})
-E['q6-why'] = SHORT('The diamond lets Java infer the element type from the declaration: new ArrayList<>() here creates an ArrayList<String>. E is a type placeholder, not a class to import.')
-example('generics-example', 'GenericDemo.java', demo('GenericDemo', JAVA['q06-generics']+'System.out.println(first);',JAVA['q02-imports']), REPLIES[0])
-trace = JAVA['q07-trace']
-tab('q7', {**{k+'-text': blank('"'+v+'"',kind='code',width='26rem',preserve_whitespace=True) for k,v in [('typed','   How do I SUBMIT my work?  '),('trimmed','How do I SUBMIT my work?'),('cleaned','how do i submit my work?')]},
-           **{k+'-length': blank(v,kind='number',width='7rem') for k,v in [('typed',29),('trimmed',24),('cleaned',24)]}})
-example('strings-example','StringTrace.java',demo('StringTrace',trace + '\n' + '\n'.join('System.out.println("[" + '+k+' + "] " + '+k+'.length());' for k in ['typed','trimmed','cleaned'])),
-        '[   How do I SUBMIT my work?  ] 29\n[How do I SUBMIT my work?] 24\n[how do i submit my work?] 24')
-EXPRESSIONS = [('typed.contains("submit")','false','boolean'),('cleaned.contains("submit")','true','boolean'),
-               ('cleaned.startsWith("how")','true','boolean'),('cleaned.endsWith("?")','true','boolean'),
-               ('cleaned.indexOf("submit")','9','int'),('cleaned.indexOf("absent")','-1','int'),
-               ('cleaned.substring(0, 3)','"how"','String'),('cleaned.isEmpty()','false','boolean')]
-tab('q8', {**{str(i)+'-result':blank(v, *(['how'] if t=='String' else []), kind='code') for i,(_,v,t) in enumerate(EXPRESSIONS)},
-           **{str(i)+'-type':blank(t,kind='code',width='9rem') for i,(_,v,t) in enumerate(EXPRESSIONS)}})
-assert run(demo('OperationsDemo',trace+'\n'+'\n'.join('System.out.println('+e+');' for e,_,_ in EXPRESSIONS))) == '\n'.join(v.strip('"') for _,v,_ in EXPRESSIONS)
-E['q8-why'] = SHORT('Contains is case sensitive. The original contains uppercase SUBMIT, so lowercase submit is absent until conversion. Substring(0, 3) takes positions 0, 1, and 2; the end position is excluded.')
-tab('q9', {'original-text':blank('"  Ana  "',kind='code',preserve_whitespace=True),'original-length':blank(7,kind='number'),
-           'cleaned-text':blank('"Ana"','Ana',kind='code',preserve_whitespace=True),'cleaned-length':blank(3,kind='number')})
-E['q9-why'] = SHORT('The variable original can be reassigned to another String. This changes its reference, not the characters in the old object. Immutability describes the object, not whether a variable can hold a new reference.')
-tab('q10-output', {'first':blank(7,kind='number'),'second':blank(3,kind='number')})
-example('discard-example','DiscardDemo.java',demo('DiscardDemo',JAVA['q10-discard']), '7\n3')
-repaired = JAVA['q10-discard'].replace('name.trim();', 'name = name.trim();', 1)
-add_code('q10','DiscardDemo.java',demo('DiscardDemo',JAVA['q10-discard']),demo('DiscardDemo',repaired),'3\n3')
-E['q10-why'] = SHORT('Store the returned String with name = name.trim(). The assignment changes which String name refers to; it does not edit the original object.')
-clean_driver = driver('CleanCheck','HelpBot bot = new HelpBot();\nSystem.out.println(bot.clean("   How do I SUBMIT my work?  "));\nSystem.out.println("[" + bot.clean("   ") + "]");')
-add_code('q11-clean','HelpBot.java',cls('HelpBot','public String clean(String question)\n{\n    // Chain two String operations.\n    return question;\n}'),method_class('q11-clean'),'how do i submit my work?\n[]',clean_driver,
-         [has('.trim().toLowerCase()', 'Use chained trim() and toLowerCase() calls.')])
-add_code('q11-message','MessageDemo.java',demo('MessageDemo','// Create and print the two-line message.'),demo('MessageDemo',JAVA['q11-multiline']),OUTPUT['q11-message'])
-E['q11-why'] = SHORT('Trim returns a String, so toLowerCase can be called on that result. A newline escape in the value creates a new output line; a source line break alone does not.')
-
-search_stub = JAVA['q12-search'].replace('String cleanedName = name.trim().toLowerCase();','String cleanedName = name; // Clean the request.')
-search_stub = search_stub.replace('storedName.trim().toLowerCase().equals(cleanedName)','false /* compare the cleaned stored name */').replace('return index;', 'return -1; // Return the matching index.')
-search_stub = search_stub.replace('The name to search for; must not be null.', 'Describe the parameter and its assumption here.').replace('The first matching index, or -1 if no name matches.', 'Describe the result and missing case here.')
-search_starter = START['ClinicSchedule.java'].rstrip()[:-1] + '\n' + ''.join('    '+line if line.strip() else line for line in search_stub.splitlines(True)) + '}\n'
-# Same demonstration, followed by boundary and preservation checks.
-search_check_body = '''ClinicSchedule schedule = new ClinicSchedule();
-System.out.println(schedule.findPatientIndexIgnoringCase("Ana"));
-schedule.addAppointment(new Appointment("Ana", 15));
-schedule.addAppointment(new Appointment("Ben", 20));
-schedule.addAppointment(new Appointment("Cara", 10));
-schedule.addAppointment(new Appointment("  ANA  ", 15));
-System.out.println(schedule.findPatientIndexIgnoringCase("  aNa  "));
-System.out.println(schedule.findPatientIndexIgnoringCase("bEN"));
-System.out.println(schedule.findPatientIndexIgnoringCase("  cara  "));
-System.out.println(schedule.findPatientIndexIgnoringCase("  DANA  "));
-System.out.println(schedule.findPatientIndex("ANA"));
-System.out.println(schedule.findPatientIndex("  ANA  "));
-schedule.printAllPatients();
-System.out.println(schedule.getCount());
-System.out.println(schedule.totalWaitingMinutes());
-ClinicSchedule spaced = new ClinicSchedule();
-Appointment spacedAna = new Appointment("  ANA  ", 15);
-spaced.addAppointment(spacedAna);
-System.out.println(spaced.findPatientIndexIgnoringCase("ana"));
-System.out.println("[" + spacedAna.getPatientName() + "]");'''
-search_files = [file('Appointment.java',START['Appointment.java'])] + driver('SearchCheck', search_check_body)
-add_code('q12','ClinicSchedule.java',search_starter,PART9['ClinicSchedule.java'], '-1\n0\n1\n2\n-1\n-1\n3\nAna\nBen\nCara\n  ANA  \n4\n60\n0\n[  ANA  ]',search_files,
-         [has('@param name','Document the name parameter.'),has('@return','Document the result.'),has('.trim()', 'Trim both names.'),has('.toLowerCase()', 'Compare lowercase text.'),has('.equals(', 'Compare String contents with equals.')])
-# Numbered output predictions remain separate from the runnable demonstration.
-tab('q13', {str(i):blank(line,kind='code',width='27rem') for i,line in enumerate(OUTPUT['q13-demo'].rstrip('\n').splitlines())})
-example('part9-example','ClinicDemo.java',PART9['ClinicDemo.java'],OUTPUT['q13-demo'],context(PART9,'ClinicDemo.java'))
-E['q13-why'] = SHORT('The exact search for ANA returns -1. The cleaned searches return 0, 1, and 2; Dana is absent. The stored names and three-appointment list remain unchanged. Searching an empty schedule returns -1 without accessing an element.')
-
-retained_answer = cls('RetainedDemo', JAVA['q14-field'] + '\npublic RetainedDemo()\n{\n' + JAVA['q14-init'] + '}\npublic boolean hasGenerator()\n{\n    return randomGenerator != null;\n}', JAVA['q14-import'])
-retained_starter = retained_answer.replace(JAVA['q14-field'].strip(), '// Declare the private generator field here.').replace(JAVA['q14-init'].strip(),'// Initialize the retained generator here.').replace(JAVA['q14-import'].strip(),'// Import Random explicitly.')
-add_code('q14','RetainedDemo.java',retained_starter,retained_answer,'true',driver('RetainedCheck','System.out.println(new RetainedDemo().hasGenerator());'),[has('import java.util.Random;', 'Import Random explicitly.'),has('private Random randomGenerator;', 'Keep the retained generator private.'),has('new Random()', 'Use the normal application setup: new Random().')])
-E['q14-why'] = SHORT('The import goes above the class, the private field inside the class, and the initialization inside its constructor. Keeping one generator continues its sequence. Reconstructing it on every selection is unnecessary; repeatedly using the same seed restarts its sequence.')
-tab('q15', {'any':blank('any int, including negative values','any int','any integer'), 'four':blank('0, 1, 2, 3','0 1 2 3','0 through 3','0 to 3'),
-            'one':blank(0,kind='number'), 'zero':blank('IllegalArgumentException: bound must be positive','IllegalArgumentException','invalid; bound must be positive','bound must be positive')})
-die_body = 'Random randomGenerator = new Random(42);\n'+JAVA['q15-die']+'System.out.println(roll);'
-add_code('q15-die','DieDemo.java',demo('DieDemo','Random randomGenerator = new Random(42);\nint roll = 0; // Replace with a 1-through-6 expression.\nSystem.out.println(roll);',JAVA['q14-import']),demo('DieDemo',die_body,JAVA['q14-import']),'3',[ ],[has('nextInt(6)','Use an exclusive bound of 6 for six possibilities.')])
-E['q15-why'] = SHORT('NextInt(bound) includes 0 and excludes the bound. Adding 1 to nextInt(6) turns 0 through 5 into 1 through 6. NextInt() without a bound may return an invalid list index.')
-reply_members = 'private ArrayList<String> generalReplies;\nprivate Random randomGenerator;\npublic HelpBot()\n{\n    generalReplies = new ArrayList<>();\n    randomGenerator = new Random();\n'+''.join('    generalReplies.add('+json.dumps(reply)+');\n' for reply in REPLIES)+'}\n'
-reply_imports = JAVA['q02-imports']
-pick_check = driver('ReplyCheck', '''HelpBot bot = new HelpBot();
-boolean allValid = true;
-for(int i = 0; i < 1000; i++) {
-    String reply = bot.pickGeneralReply();
-    boolean valid = ''' + ' || '.join(json.dumps(reply)+'.equals(reply)' for reply in REPLIES)+''';
-    if(!valid) {
-        allValid = false;
+TIDY_ANSWER = '''public class NameFormatter
+{
+    public String tidy(String name)
+    {
+        return name.trim().toUpperCase();
     }
 }
-System.out.println(allValid);''')
-pick_answer = method_class('q16-pick',reply_members,reply_imports)
-add_code('q16','HelpBot.java',pick_answer.replace(JAVA['q16-pick'].strip(),'public String pickGeneralReply()\n{\n    // Choose and return one current entry.\n    return "";\n}'),pick_answer,'true',pick_check,[has('nextInt(generalReplies.size())','Use the current list size as the bound.'),lacks('generalReplies.remove(', 'Leave the selected reply in the list.')])
-E['q16-why'] = SHORT('With four entries, size() + 1 permits index 4, which is invalid. A possibly empty list needs a check before nextInt(0). HelpBot always has four replies; a selected reply stays available and can appear again.')
-reply_answer = method_class('q17-reply',reply_members+JAVA['q11-clean']+JAVA['q16-pick'],reply_imports)
-reply_driver = driver('QuestionCheck', '''HelpBot bot = new HelpBot();
+'''
+TIDY_STARTER = '''public class NameFormatter
+{
+    public String tidy(String name)
+    {
+        // One chained expression.
+        return name;
+    }
+}
+'''
+TIDY_DRIVER = driver("TidyCheck", 'NameFormatter formatter = new NameFormatter();\nSystem.out.println("[" + formatter.tidy("  ada lovelace ") + "]");\nSystem.out.println("[" + formatter.tidy("   ") + "]");')
+assert code_box("q11-clean", "NameFormatter.java", TIDY_STARTER, TIDY_ANSWER, TIDY_DRIVER, [
+    has(".trim().toUpperCase()", "Chain the two calls: return name.trim().toUpperCase();")], xp=3, extra=4) == "[ADA LOVELACE]\n[]"
+MESSAGE_ANSWER = demo("MessageDemo", 'String message = "Your question was received.\\n"\n    + "A reply will follow.";\nSystem.out.println(message);')
+MESSAGE_STARTER = demo("MessageDemo", "// Assign the two-line message here.\n\nSystem.out.println(message);")
+assert code_box("q11-message", "MessageDemo.java", MESSAGE_STARTER, MESSAGE_ANSWER, [], [
+    has("\\n", "Put the line break \\n inside the first string."),
+    lacks("println(\"A reply", "Build one message and print it once.")], xp=2, extra=4, name="Program output") == "Your question was received.\nA reply will follow."
+E["q11-why"] = SHORT("trim returns a String, so toUpperCase can be called on its result. The newline must be inside the first string; splitting the line of code does not start a new output line.", rows=2)
+
+# ---------------------------------------------------------------- 4. Library Part 1
+assert CATALOGUE_1.count("public void printMatches(String query)") == 1
+CATALOGUE_HEAD = CATALOGUE_1[:CATALOGUE_1.index("    public void printMatches")]
+Q26_STARTER = CATALOGUE_HEAD + "    public void printMatches(String query)\n    {\n        // Clean the query once; refuse an empty one; then a for-each loop and a found flag.\n\n\n\n\n\n\n\n\n\n    }\n}\n"
+Q26_DRIVER = driver("SearchCheck", '''Catalogue empty = new Catalogue();
+System.out.println("Empty catalogue:");
+empty.printMatches("java");
+Catalogue catalogue = new Catalogue();
+''' + add_five("catalogue") + '''System.out.println("Five books:");
+catalogue.printMatches("  JAVA  ");
+catalogue.printMatches("UNREQUITED");
+catalogue.printMatches(" Python");
+catalogue.printMatches("   ");
+System.out.println("Books: " + catalogue.getCount());''')
+Q26_OUT = code_box("q26", "Catalogue.java", Q26_STARTER, CATALOGUE_1, BOOK_FILE + Q26_DRIVER, [
+    has("public void printMatches(String query)", "Keep the header public void printMatches(String query)."),
+    has(".trim().toLowerCase()", "Clean the query with query.trim().toLowerCase()."),
+    has(".isEmpty()", "Refuse an empty query with isEmpty()."),
+    has("for(Book", "Visit the books with a for-each loop: for(Book book : books)."),
+    has(".getTitle().toLowerCase().contains(", "Compare the lower-case title with contains."),
+    has("boolean ", "Record whether anything matched in a boolean variable.")], xp=6)
+assert Q26_OUT == ('Empty catalogue:\nNo titles match "java".\nFive books:\nObjects First with Java (QA76.73 B37)\nHead First Java (QA76.73 S54)\n'
+                   'The Colony of Unrequited Dreams (PS8569 J64)\nNo titles match "python".\nPlease type a word to search for.\nBooks: 5')
+
+DEMO1_OUT = run(DEMO_1, PART1_FILES)
+assert DEMO1_OUT == ('Books: 5\nSearch for "  JAVA  ":\nObjects First with Java (QA76.73 B37)\nHead First Java (QA76.73 S54)\n'
+                     'Search for "first":\nObjects First with Java (QA76.73 B37)\nHead First Java (QA76.73 S54)\n'
+                     'Search for "New York":\nThe Navigator of New York (PS8569 J65)\nSearch for "python":\nNo titles match "python".\n'
+                     'Search for "   ":\nPlease type a word to search for.')
+JAVA_BOOKS = list_forms("Objects First with Java", "Head First Java") + list_forms("Objects First with Java (QA76.73 B37)", "Head First Java (QA76.73 S54)")
+SEARCH = {"placeholder": "what it prints", "width": "24rem"}
+E["q27"] = {"type": "table", "xp": 3, "blanks": {
+    "java": {"accept": JAVA_BOOKS, "show": "Objects First with Java (QA76.73 B37), Head First Java (QA76.73 S54)", **SEARCH},
+    "first": {"accept": JAVA_BOOKS + ["the same two books", "same two books", "the same two", "same as above"], "show": "the same two books", **SEARCH},
+    "york": {"accept": ["The Navigator of New York", "The Navigator of New York (PS8569 J65)"], "show": "The Navigator of New York (PS8569 J65)", **SEARCH},
+    "python": {"accept": ['No titles match "python".', 'No titles match "python"', "No titles match python."], "show": 'No titles match "python".', **SEARCH},
+    "empty": {"accept": ["Please type a word to search for.", "Please type a word to search for"], "show": "Please type a word to search for.", **SEARCH}}}
+Q27_STARTER = demo("LibraryDemo", 'Catalogue catalogue = new Catalogue();\n// Add the five books, print "Books: " and the count,\n// then the five searches, each after its "Search for" line.\n' + "\n" * 14)
+assert code_box("q27-demo", "LibraryDemo.java", Q27_STARTER, DEMO_1, PART1_FILES, [
+    has("catalogue.addBook(new Book(", "Add each book as an anonymous object: catalogue.addBook(new Book(...));"),
+    has('printMatches("  JAVA  ")', 'Search for "  JAVA  " with its spaces.'),
+    has('printMatches("   ")', 'End with the empty search printMatches("   ").'),
+    has(".getCount()", "Print the count with getCount().")], xp=4, extra=8, name="Program output") == DEMO1_OUT
+
+# ---------------------------------------------------------------- 5. Random
+COIN = '''import java.util.Random;
+
+public class Coin
+{
+    private Random generator;
+
+    public Coin()
+    {
+        generator = new Random();
+    }
+
+    public String flip()
+    {
+        if(generator.nextInt(2) == 0) {
+            return "heads";
+        }
+        return "tails";
+    }
+}
+'''
+COIN_STARTER = '''// 1. The import goes here.
+
+public class Coin
+{
+    // 2. The field goes here.
+
+    public Coin()
+    {
+        // 3. Create the generator here.
+    }
+
+    public String flip()
+    {
+        if(generator.nextInt(2) == 0) {
+            return "heads";
+        }
+        return "tails";
+    }
+}
+'''
+COIN_DRIVER = driver("CoinCheck", '''Coin coin = new Coin();
+boolean valid = true;
+boolean heads = false;
+boolean tails = false;
+for(int i = 0; i < 100; i++) {
+    String side = coin.flip();
+    if(side.equals("heads")) {
+        heads = true;
+    }
+    else if(side.equals("tails")) {
+        tails = true;
+    }
+    else {
+        valid = false;
+    }
+}
+System.out.println("All flips valid: " + valid);
+System.out.println("Saw heads: " + heads);
+System.out.println("Saw tails: " + tails);''')
+assert code_box("q14", "Coin.java", COIN_STARTER, COIN, COIN_DRIVER, [
+    has("import java.util.Random;", "Import the class above it: import java.util.Random;"),
+    has("private Random generator;", "Declare the field with the others: private Random generator;"),
+    matches(r".*publicCoin\(\)\{generator=newRandom\(\);\}.*", "Create the generator in the constructor: generator = new Random();"),
+    lacks("Random generator = new Random()", "Assign the field in the constructor; do not declare a new local variable.")], xp=3, extra=4) == "All flips valid: true\nSaw heads: true\nSaw tails: true"
+E["q14-why"] = SHORT("One generator should produce the whole sequence of flips. A new generator in every call is wasteful, and with a fixed seed it would restart the same sequence each time, giving the same flip again and again.", rows=2)
+
+ZERO = run_java(demo("ZeroBound", "System.out.println(new java.util.Random().nextInt(0));"), (), None, [])
+assert ZERO[0] != "ok" and "IllegalArgumentException" in ZERO[1] + ZERO[2], ZERO
+E["q15"] = {"type": "table", "xp": 3, "blanks": {
+    "four": {"accept": list_forms("0", "1", "2", "3") + ["0 to 3", "0 through 3", "0-3", "0, 1, 2 or 3", "0, 1, 2, or 3"], "show": "0, 1, 2, 3", "placeholder": "results", "width": "14rem"},
+    "one": {"accept": ["0", "only 0", "always 0", "just 0"], "show": "only 0", "placeholder": "results", "width": "14rem"},
+    "zero": {"accept": ["error", "an error", "IllegalArgumentException", "an IllegalArgumentException", "error: the bound must be positive",
+                        "an error: the bound must be positive", "the bound must be positive", "bound must be positive", "an error, the bound must be positive"],
+             "show": "an error: the bound must be positive", "placeholder": "results or error", "width": "20rem"}}}
+MONTHS = '''import java.util.Random;
+
+public class Months
+{
+    private Random randomGenerator;
+
+    public Months()
+    {
+        randomGenerator = new Random();
+    }
+
+    public int randomMonth()
+    {
+        int month = 1 + randomGenerator.nextInt(12);
+        return month;
+    }
+}
+'''
+MONTH_DRIVER = driver("MonthCheck", '''Months months = new Months();
+int smallest = 100;
+int largest = -100;
+for(int i = 0; i < 2000; i++) {
+    int month = months.randomMonth();
+    smallest = Math.min(smallest, month);
+    largest = Math.max(largest, month);
+}
+System.out.println("Smallest: " + smallest);
+System.out.println("Largest: " + largest);''')
+assert code_box("q15-die", "Months.java", MONTHS.replace("1 + randomGenerator.nextInt(12)", "0"), MONTHS, MONTH_DRIVER, [
+    has("nextInt(12)", "Twelve possible months need the bound 12: nextInt(12)."),
+    has("+", "Add 1 so the months run from 1 to 12, not 0 to 11.")], xp=2, extra=4) == "Smallest: 1\nLargest: 12"
+
+PICKER = '''import java.util.ArrayList;
+import java.util.Random;
+
+public class ReplyPicker
+{
+    private Random randomGenerator;
+
+    public ReplyPicker()
+    {
+        randomGenerator = new Random();
+    }
+
+    public String randomReply(ArrayList<String> replies)
+    {
+        if(replies.isEmpty()) {
+            return null;
+        }
+        int index = randomGenerator.nextInt(replies.size());
+        return replies.get(index);
+    }
+}
+'''
+PICKER_STARTER = PICKER[:PICKER.index("    public String randomReply")] + "    public String randomReply(ArrayList<String> replies)\n    {\n        // null for an empty list; otherwise a random valid index.\n\n\n\n\n\n    }\n}\n"
+PICKER_DRIVER = driver("PickerCheck", '''ReplyPicker picker = new ReplyPicker();
+System.out.println("Empty list: " + picker.randomReply(new java.util.ArrayList<String>()));
+java.util.ArrayList<String> replies = new java.util.ArrayList<>();
+''' + "".join(f"replies.add({json.dumps(r)});\n" for r in REPLIES) + '''boolean valid = true;
+java.util.ArrayList<String> seen = new java.util.ArrayList<>();
+for(int i = 0; i < 400; i++) {
+    String reply = picker.randomReply(replies);
+    if(!replies.contains(reply)) {
+        valid = false;
+    }
+    else if(!seen.contains(reply)) {
+        seen.add(reply);
+    }
+}
+System.out.println("Always one of the four: " + valid);
+System.out.println("All four came up: " + (seen.size() == 4));
+System.out.println("Still " + replies.size() + " replies");''')
+assert code_box("q16", "ReplyPicker.java", PICKER_STARTER, PICKER, PICKER_DRIVER, [
+    has("public String randomReply(ArrayList<String> replies)", "Keep the header public String randomReply(ArrayList<String> replies)."),
+    has("nextInt(replies.size())", "Use the list size as the bound: nextInt(replies.size())."),
+    lacks("replies.size() + 1", "The bound is the size itself; size() + 1 can give an index past the end."),
+    lacks(".remove(", "Leave the reply in the list.")], xp=4) == "Empty list: null\nAlways one of the four: true\nAll four came up: true\nStill 4 replies"
+E["q16-why"] = SHORT("With four replies, nextInt(5) can return 4, and get(4) is past the end of the list. The empty check comes first, so nextInt is never called with a bound of 0.", rows=2)
+
+REPLY_BODY = '''        String cleaned = clean(question);
+        if(cleaned.isEmpty()) {
+            return "Please type a question.";
+        }
+        return pickGeneralReply();
+'''
+assert REPLY_BODY in HELPBOT
+REPLY_STARTER = HELPBOT.replace(REPLY_BODY, "        // Clean the question; an empty one gets \"Please type a question.\";\n        // otherwise return a general reply.\n        return \"\";\n")
+REPLY_DRIVER = driver("ReplyCheck", f'''HelpBot bot = new HelpBot();
 System.out.println(bot.replyTo("   "));
 String reply = bot.replyTo("   How do I SUBMIT my work?  ");
-System.out.println('''+' || '.join(json.dumps(reply)+'.equals(reply)' for reply in REPLIES)+''');''')
-add_code('q17','HelpBot.java',reply_answer.replace(JAVA['q17-reply'].strip(),'public String replyTo(String question)\n{\n    // Clean, check for empty text, then choose a reply.\n    return "";\n}'),reply_answer,'Please type a question.\ntrue',reply_driver,[has('clean(question)','Reuse clean(question).'),has('pickGeneralReply()', 'Use the reply-selection method.')])
-E['q17-why'] = SHORT('Spaces clean to empty text, giving Please type a question. The messy submit question gets one of the four general replies. Its exact reply cannot be predicted without a seed and call history. This bot still ignores the question\'s meaning.')
+System.out.println("One of the four general replies: " + ({ONE_OF_FOUR}));''')
+assert code_box("q17", "HelpBot.java", REPLY_STARTER, HELPBOT, REPLY_DRIVER, [
+    has("clean(question)", "Reuse the clean method: clean(question)."),
+    has("isEmpty()", "Check the cleaned text with isEmpty()."),
+    has("return pickGeneralReply();", "End with return pickGeneralReply();")], xp=3, extra=6) == "Please type a question.\nOne of the four general replies: true"
+E["q17-why"] = SHORT("For \"   \" the cleaned text is empty, so it returns \"Please type a question.\" For the submit question it returns any one of the four general replies. We cannot say which, because the generator was created with new Random(), not with a fixed seed. The reply still ignores what the question asks.", rows=3)
 
-tab('q18-types', {name:blank(wrapper,kind='code') for name,wrapper in [('int','Integer'),('double','Double'),('boolean','Boolean'),('char','Character')]})
-add_code('q18','RatingsDemo.java',demo('RatingsDemo','// Create ratings, add 5, 3, 4, and read the first into int first.\nSystem.out.println(ratings.size());\nSystem.out.println(first);','import java.util.ArrayList;\n'),demo('RatingsDemo',JAVA['q18-boxing']+'System.out.println(ratings.size());\nSystem.out.println(first);','import java.util.ArrayList;\n'),'3\n5')
-E['q18-why'] = SHORT('Use ArrayList<Integer>, since a generic element type must be a reference type. Each add boxes an int into an Integer. Assigning get(0) to int first unboxes it; first is 5. The numeric value is unchanged, and this list has no null entries.')
-rating_members = 'private ArrayList<Integer> ratings = new ArrayList<>();\n'
-rating_import = 'import java.util.ArrayList;\n'
-rating_answer = method_class('q19-ratings',rating_members,rating_import)
-rating_driver = driver('RatingCheck','''HelpBot bot = new HelpBot();
-System.out.println(bot.numberOfRatings());
-bot.addRating(5);
-bot.addRating(3);
-bot.addRating(4);
-bot.addRating(0);
-bot.addRating(6);
-System.out.println(bot.numberOfRatings());
-bot.addRating(1);
-bot.addRating(2);
-System.out.println(bot.numberOfRatings());''')
-add_code('q19','HelpBot.java',method_class('q19-ratings',rating_members,rating_import).replace(JAVA['q19-ratings'].strip(),'public void addRating(int rating)\n{\n    // Accept only 1 through 5 inclusive.\n}\npublic int numberOfRatings()\n{\n    return 0;\n}'),rating_answer,'0\n3\n5',rating_driver)
-E['q19-why'] = SHORT('After 5, 3, 4, 0, and 6, only three entries remain: 5, 3, and 4. Both invalid ratings are ignored. Use ratings.size(), so there is no separate count field to keep synchronized.')
-average_answer = method_class('q20-average',rating_members+JAVA['q19-ratings'],rating_import)
-average_driver = driver('AverageCheck','''HelpBot bot = new HelpBot();
-System.out.println(bot.averageRating());
-bot.addRating(5);
-bot.addRating(3);
-bot.addRating(4);
-System.out.println(bot.numberOfRatings());
-System.out.println(bot.averageRating());
-HelpBot separate = new HelpBot();
-separate.addRating(5);
-separate.addRating(4);
-System.out.println(separate.averageRating());''')
-add_code('q20','HelpBot.java',average_answer.replace(JAVA['q20-average'].strip(),'public int averageRating()\n{\n    // Check for empty; sum with a for-each loop; divide by size.\n    return 0;\n}'),average_answer,'0\n3\n4\n4',average_driver,[matches(r'.*\bfor\(int\p{javaJavaIdentifierStart}\p{javaJavaIdentifierPart}*:ratings\).*', 'Use a for-each loop over the ratings.')])
-tab('q20-trace', {**{str(i)+'-total':blank(v,kind='number') for i,v in enumerate([5,8,12])},
-                 **{str(i)+'-count':blank(i+1,kind='number') for i in range(3)},'main':blank(4,kind='number'),'separate':blank(4,kind='number')})
-E['q20-why'] = SHORT('The total is 12 and the count is 3, so the average is 4. The separate list gives 9 / 2 = 4 with integer division. The loop unboxes each Integer into int. An empty check avoids division by zero.')
-documented = method_class('q21-methoddoc')
-add_code('q21-method','HelpBot.java',method_class('q11-clean'),documented,'how do i submit my work?\n[]',clean_driver,[has('/**','Begin the documentation comment with /**.'),has('@param question','Describe the question parameter and its non-null assumption.'),has('@return','Describe the returned cleaned text.')])
-add_code('q21-class','HelpBot.java',cls('HelpBot',''),JAVA['q21-classdoc'],'true',driver('ClassCheck','System.out.println(new HelpBot() != null);'),[has('/**','Use a Javadoc comment.'),has('@author Pranjal Patra','Include the stated author.'),has('@version 1.0','Include version 1.0.')])
-E['q21-why'] = SHORT('A plain /* block comment is not a Javadoc comment; Javadoc begins with /** before the declaration. Describe purpose and assumptions, rather than just restating the method name. Omit @return for void methods and constructors.')
-E['q22'] = SHORT(JAVA['q22-private'].strip()+'\nCallers record ratings through addRating, which checks the allowed range. The setup helper fillGeneralReplies should be private. Private storage and helper code can change while public method names, parameter types, return types, and promised behaviour stay the same.',rows=4)
+# ---------------------------------------------------------------- 6. Ratings
+BOXING = run(demo("Boxing", "ArrayList<Integer> scores = new ArrayList<>();\nscores.add(7);\nscores.add(2);\nint last = scores.get(1);\nint sum = scores.get(0) + last;\nSystem.out.println(last);\nSystem.out.println(sum);", "import java.util.ArrayList;\n"))
+assert BOXING == "2\n9"
+BOX = {"accept": ["boxes", "box", "boxing", "autoboxing", "autoboxes", "boxes the int", "boxes 7", "boxes 2"], "show": "boxes", "placeholder": "boxes / unboxes / neither", "width": "13rem"}
+UNBOX = {"accept": ["unboxes", "unbox", "unboxing", "unboxes the Integer"], "show": "unboxes", "placeholder": "boxes / unboxes / neither", "width": "13rem"}
+E["q18-box"] = {"type": "table", "xp": 3, "blanks": {"a": BOX, "b": BOX, "c": UNBOX, "d": UNBOX,
+                                                    "last": {"accept": ["2"], **NUM}, "sum": {"accept": ["9"], **NUM}}}
+E["q18-why"] = SHORT("The type in the angle brackets must be a class, and int is a primitive type. Integer is the wrapper class for int, so the list holds Integer objects and Java boxes and unboxes the values for us.", rows=2)
 
-random_starter = PART9['ClinicSchedule.java'].rstrip()[:-1] + '\n    public String randomPatientName()\n    {\n        // Handle empty before using one retained generator.\n        return null;\n    }\n}\n'
-random_driver = driver('RandomCheck','''ClinicSchedule schedule = new ClinicSchedule();
-System.out.println(schedule.randomPatientName());
-Appointment ben = new Appointment("Ben", 20);
-schedule.addAppointment(new Appointment("Ana", 15));
-schedule.addAppointment(ben);
-schedule.addAppointment(new Appointment("Cara", 10));
-ben.checkIn();
-System.out.println(schedule.randomPatientName());
-System.out.println(schedule.randomPatientName());
-System.out.println(schedule.randomPatientName());
-System.out.println(schedule.getCount());
-System.out.println(schedule.countWaiting());
-System.out.println(schedule.totalWaitingMinutes());
-System.out.println(schedule.findPatientIndex("ANA"));
-System.out.println(schedule.findPatientIndexIgnoringCase("  ANA  "));
-boolean selectedBen = false;
-for(int i = 0; i < 100; i++) {
-    if("Ben".equals(schedule.randomPatientName())) {
-        selectedBen = true;
+QUIZ = '''import java.util.ArrayList;
+
+public class Quiz
+{
+    private ArrayList<Integer> scores;
+
+    public Quiz()
+    {
+        scores = new ArrayList<>();
+    }
+
+    public void addScore(int score)
+    {
+        if(score >= 0 && score <= 10) {
+            scores.add(score);
+        }
+    }
+
+    public int numberOfScores()
+    {
+        return scores.size();
     }
 }
-System.out.println(selectedBen);
-schedule.checkInAll();
-System.out.println(schedule.countWaiting());
-schedule.removeCheckedIn();
-System.out.println(schedule.randomPatientName());''')
-add_code('q23','ClinicSchedule.java',random_starter,PART10['ClinicSchedule.java'], 'null\nCara\nAna\nAna\n3\n2\n25\n-1\n0\ntrue\n0\nnull',
-         [file('Appointment.java',PART10['Appointment.java'])]+random_driver,
-         [has('import java.util.Random;', 'Import Random explicitly.'),has('private Random randomGenerator;', 'Retain a private generator field.'),has('new Random(42)', 'Use seed 42 for this repeatable demonstration.'),has('nextInt(appointments.size())','Use the current appointment count as the bound.'),has('@return','Document the returned name and empty case.')])
-E['q23-why'] = SHORT('The empty check must run before nextInt, so an empty choice consumes no generated value. Three appointments have valid indices 0, 1, and 2. Repeated names are allowed. Selection does not cancel or check in an appointment. Seed 42 is for the demonstration; a normal application can use new Random().')
-part10_starter = demo('ClinicDemo','// Print the empty choice, add Ana/15, Ben/20, Cara/10, and check in Ben.\n// Print three choices, the appointment count, and waiting count.')
-add_code('q24-demo','ClinicDemo.java',part10_starter,PART10['ClinicDemo.java'],OUTPUT['q24-demo'],context(PART10,'ClinicDemo.java'))
-tab('q24', {str(i):blank(line,kind='code',width='25rem') for i,line in enumerate(OUTPUT['q24-demo'].rstrip('\n').splitlines())})
-E['q24-why'] = SHORT('The first three indices are 2, 0, and 0, producing Cara, Ana, Ana. Ben remains eligible because selection includes checked-in appointments. Three appointments remain and two are waiting. A caller must check for null before calling a String method, since null refers to no String object.')
-E['q25'] = SHORT('(a) The original String is unchanged; store or use the returned uppercase String. (b) NextInt(4) returns 0 through 3, never 4. (c) Use ArrayList<Integer>. (d) No: -1 signals a missing name and is not a valid index. (e) The reply ignores the question\'s meaning. Lecture 11 will use a map to connect a recognised keyword with its specific reply.',rows=5)
+'''
+QUIZ_STARTER = QUIZ[:QUIZ.index("    public void addScore")] + "    // Write addScore(int score) and numberOfScores() here.\n\n\n\n\n\n\n\n\n\n\n}\n"
+QUIZ_DRIVER = driver("QuizCheck", '''Quiz quiz = new Quiz();
+System.out.println("New quiz: " + quiz.numberOfScores());
+quiz.addScore(7);
+quiz.addScore(11);
+quiz.addScore(0);
+quiz.addScore(-1);
+quiz.addScore(10);
+System.out.println("After the five calls: " + quiz.numberOfScores());
+Quiz edges = new Quiz();
+edges.addScore(0);
+edges.addScore(10);
+System.out.println("Edges kept: " + edges.numberOfScores());''')
+assert code_box("q19", "Quiz.java", QUIZ_STARTER, QUIZ, QUIZ_DRIVER, [
+    has("public void addScore(int score)", "Include public void addScore(int score)."),
+    has("public int numberOfScores()", "Include public int numberOfScores()."),
+    has("scores.size()", "Return scores.size(); the list already knows how many it holds."),
+    lacks("count++", "No separate counter is needed.")], xp=4) == "New quiz: 0\nAfter the five calls: 3\nEdges kept: 2"
+E["q19-why"] = SHORT("It returns 3: the list holds 7, 0 and 10. 0 and 10 are inside the range, so they are kept; 11 and -1 are ignored.", rows=2)
 
-# Complete runnable projects, with each supporting class also shown on the page.
-example('starting-example','ClinicDemo.java',START['ClinicDemo.java'],OUTPUT['starting-demo'],context(START,'ClinicDemo.java'))
-example('part10-example','ClinicDemo.java',PART10['ClinicDemo.java'],OUTPUT['part10-demo'],context(PART10,'ClinicDemo.java'))
-help_driver = driver('HelpBotCheck','''HelpBot bot = new HelpBot();
-System.out.println(bot.clean("   How do I SUBMIT my work?  "));
-System.out.println(bot.replyTo("   "));
-System.out.println("General replies: " + bot.numberOfGeneralReplies());
-System.out.println("Known reply: " + bot.hasGeneralReply(bot.pickGeneralReply()));
-System.out.println("Empty average: " + bot.averageRating());
-bot.addRating(5);
-bot.addRating(3);
-bot.addRating(4);
-bot.addRating(0);
-bot.addRating(6);
-System.out.println("Ratings: " + bot.numberOfRatings());
-System.out.println("Average: " + bot.averageRating());''')
-example('summary-example','HelpBot.java',HELPBOT,'how do i submit my work?\nPlease type a question.\nGeneral replies: 4\nKnown reply: true\nEmpty average: 0\nRatings: 3\nAverage: 4',help_driver)
+TRACE = run(demo("Trace", "int total = 0;\nint[] ratings = {4, 5, 2, 5};\nfor(int rating : ratings) {\n    total = total + rating;\n    System.out.println(total);\n}\nSystem.out.println(total / 4);\nSystem.out.println((5 + 4) / 2);"))
+assert TRACE == "4\n9\n11\n16\n4\n4"
+TRACE = TRACE.split("\n")
+E["q20-trace"] = {"type": "table", "xp": 3, "blanks": {**{f"{i}-total": {"accept": [TRACE[i]], **NUM} for i in range(4)},
+                                                     "main": {"accept": [TRACE[4]], **NUM}, "separate": {"accept": [TRACE[5]], **NUM}}}
+E["q20-why"] = SHORT("16 / 4 = 4. For 5 and 4 it returns 9 / 2 = 4, because dividing one int by another gives a whole number and drops the 0.5.", rows=2)
 
-old_headers = re.findall(r'^    public [^\n]+\([^\n]*\)', START['ClinicSchedule.java'], re.M)
-for eid in ['q12', 'q23']:
-    E[eid]['check'] += '\n' + '\n'.join(has(header.strip(), 'Keep the existing clinic operation: ' + header.strip()) for header in old_headers)
+# ---------------------------------------------------------------- 7. Documentation
+ADD_RATING = "    public void addRating(int rating)\n"
+assert HELPBOT.count(ADD_RATING) == 1
+RATING_DOC = '''    /**
+     * Record a rating for a reply. Ratings outside 1 to 5 are ignored.
+     * @param rating The rating to record, from 1 to 5.
+     */
+'''
+DOC_DRIVER = driver("DocCheck", "HelpBot bot = new HelpBot();\nbot.addRating(5);\nbot.addRating(9);\nbot.addRating(3);\nSystem.out.println(\"Ratings: \" + bot.numberOfRatings());")
+assert code_box("q21-method", "HelpBot.java", HELPBOT.replace(ADD_RATING, "    // Write the Javadoc comment for addRating on the lines above its header.\n" + ADD_RATING),
+                HELPBOT.replace(ADD_RATING, RATING_DOC + ADD_RATING), DOC_DRIVER, [
+    matches(r".*/\*\*[^/]*@paramrating[^/]*\*/publicvoidaddRating\(intrating\).*", "Put a /** ... */ comment with an @param rating tag just above addRating."),
+    matches(r".*/\*\*[^/]*(1to5|1and5|1-5|1through5|onetofive)[^/]*\*/publicvoidaddRating.*", "Say which ratings are kept, for example \"Ratings outside 1 to 5 are ignored.\""),
+    lacks("@return", "addRating is void, so it has no @return tag.")], xp=3, extra=6) == "Ratings: 2"
+BOOK_DOC = '''/**
+ * A book in the library catalogue, with its title, author and
+ * call number.
+ * @author Pranjal Patra
+ * @version 1.0
+ */
+'''
+assert BOOK.startswith("public class Book")
+assert code_box("q21-class", "Book.java", "// Write the class comment on the lines above the class header.\n" + BOOK, BOOK_DOC + BOOK,
+                driver("BookCheck", 'Book book = new Book("Head First Java", "Kathy Sierra", "QA76.73 S54");\nSystem.out.println(book.getTitle() + " (" + book.getCallNumber() + ")");'), [
+    matches(r".*/\*\*.*@author.*@version1\.0.*\*/publicclassBook.*", "Put a /** ... */ comment with @author and @version 1.0 just above public class Book."),
+    lacks("@return", "A class comment has no @return tag.")], xp=3, extra=6) == "Head First Java (QA76.73 S54)"
+E["q21-why"] = SHORT("Only a comment that starts with /** is a documentation comment. A comment that starts with /* is ignored when the documentation is made. The method comment has no @return tag because addRating is void.", rows=2)
+E["q22"] = SHORT("It could add any number, such as bot.ratings.add(99), and skip the range check. Other classes should call addRating. No: fillGeneralReplies is a step in building a bot, not something other classes should call, so it stays private, and we can change it later without breaking them.", rows=4)
 
-DATA = {'id':'lecture-10','course':'COMP 2001','title':'Lecture 10 Workbook',
-        'subtitle':'Chapter 6, Part 1: Learning and using library classes','exercises':E}
-if __name__ == '__main__':
-    target = pathlib.Path(__file__).with_name('exercises.json')
-    target.write_text(json.dumps(DATA,indent=2)+'\n')
-    kinds = {kind:sum(spec['type']==kind for spec in E.values()) for kind in ['code','table','short','example']}
-    print(f'Wrote {target}: {sum(kinds[k] for k in ["code","table","short"])} exercises, {kinds["example"]} runnable examples.')
+# ---------------------------------------------------------------- 8. Library Part 2
+PICK_DRIVER = driver("PickCheck", '''Catalogue empty = new Catalogue();
+System.out.println("Empty: " + empty.pickRandom());
+Catalogue catalogue = new Catalogue();
+''' + add_five("catalogue") + '''for(int i = 0; i < 5; i++) {
+    System.out.println("Pick: " + catalogue.pickRandom().getTitle());
+}
+System.out.println("Books: " + catalogue.getCount());''')
+Q28_STARTER = CATALOGUE_1.replace("import java.util.ArrayList;\n", "import java.util.ArrayList;\n// Import Random here.\n").replace(
+    "    private ArrayList<Book> books;\n", "    private ArrayList<Book> books;\n    // The generator field goes here.\n").replace(
+    "        books = new ArrayList<>();\n", "        books = new ArrayList<>();\n        // Create the generator with the seed 42.\n").rstrip().rstrip("}") + "\n    // Write pickRandom() with its Javadoc comment here.\n\n\n\n\n\n\n\n\n\n\n}\n"
+Q28_OUT = code_box("q28", "Catalogue.java", Q28_STARTER, CATALOGUE_2, BOOK_FILE + PICK_DRIVER, [
+    has("import java.util.Random;", "Import the class: import java.util.Random;"),
+    has("private Random generator;", "Add the field private Random generator;"),
+    has("generator = new Random(42);", "Create the generator once, in the constructor: generator = new Random(42);"),
+    has("public Book pickRandom()", "Include public Book pickRandom()."),
+    matches(r".*publicBookpickRandom\(\)\{if\(books\.isEmpty\(\)\)\{returnnull;\}.*", "Return null for an empty catalogue before calling nextInt."),
+    has("generator.nextInt(books.size())", "Use the number of books as the bound: generator.nextInt(books.size())."),
+    matches(r".*/\*\*[^/]*@return[^/]*\*/publicBookpickRandom\(\).*", "Put a /** ... */ comment with an @return tag just above pickRandom."),
+    lacks(".remove(", "The picked book stays in the catalogue.")], xp=6)
+assert Q28_OUT == ("Empty: null\nPick: Objects First with Java\nPick: The Navigator of New York\nPick: The Navigator of New York\n"
+                   "Pick: A Brief History of Time\nPick: Objects First with Java\nBooks: 5"), Q28_OUT
+
+DEMO2_OUT = run(DEMO_2, PART2_FILES)
+assert DEMO2_OUT == ("Pick from an empty catalogue: null\nPick 1: Objects First with Java\nPick 2: The Navigator of New York\n"
+                     "Pick 3: The Navigator of New York\nBooks: 5")
+E["q29"] = {"type": "table", "xp": 2, "blanks": {
+    "empty": {"accept": ["Pick from an empty catalogue: null", "null"], "show": "Pick from an empty catalogue: null", "placeholder": "first line", "width": "20rem"},
+    "could": {"accept": ["any of the five", "any of the five titles", "any of the five books", "any title", "any book", "any of them", "all five",
+                         "any one of the five", "any of the 5", "any of 5"], "show": "any of the five titles, each time", "placeholder": "titles", "width": "20rem"},
+    "count": {"accept": ["Books: 5", "5"], "show": "Books: 5", "placeholder": "last line", "width": "10rem"}}}
+E["q29-why"] = SHORT("The result is null, and calling a method through null stops the program. A pick does not remove the book, so the same title can come up twice, as it does with the seed 42.", rows=2)
+Q29_STARTER = demo("LibraryDemo", 'Catalogue empty = new Catalogue();\n// Print the pick from the empty catalogue.\n\nCatalogue catalogue = new Catalogue();\n// Add the five books, print three picks, then "Books: " and the count.\n' + "\n" * 12)
+assert code_box("q29-demo", "LibraryDemo.java", Q29_STARTER, DEMO_2, PART2_FILES, [
+    has("empty.pickRandom()", "Print the pick from the empty catalogue: empty.pickRandom()."),
+    has("catalogue.addBook(new Book(", "Add each book as an anonymous object: catalogue.addBook(new Book(...));"),
+    matches(r".*pickRandom\(\).*pickRandom\(\).*pickRandom\(\).*pickRandom\(\).*", "Pick once from the empty catalogue and three times from the full one."),
+    has(".getCount()", "Print the count with getCount().")], xp=4, extra=8, name="Program output") == DEMO2_OUT
+
+# ---------------------------------------------------------------- 9. Review
+E["q25"] = SHORT("(a) No: the result is thrown away. Write title = title.toUpperCase(); (b) No: the results are 0 to 3. (c) Use ArrayList<Integer>. (d) No: the query is empty after cleaning, so it prints the request to type a word. (e) No: it chooses a general reply at random. Lecture 11 uses a map to connect a word such as submit to its own reply.", rows=5)
+
+# ---------------------------------------------------------------- 10. Complete Java Programs
+CONTACT, CONTACT_LIST, CONTACT_DEMO = read("programA/Contact.java"), read("programA/ContactList.java"), read("programA/ContactDemo.java")
+TIP, TIP_JAR, TIP_DEMO = read("programB/Tip.java"), read("programB/TipJar.java"), read("programB/TipDemo.java")
+
+CONTACT_STARTER = '''public class Contact
+{
+    private String name;
+    private String email;
+
+    public Contact(String name, String email)
+    {
+        // Assign the two fields.
+    }
+
+    public String getName()
+    {
+    }
+
+    public String getEmail()
+    {
+    }
+
+    public String getInitials()
+    {
+        // indexOf(" "), then two substrings.
+    }
+}
+'''
+CONTACT_LIST_STARTER = '''import java.util.ArrayList;
+
+public class ContactList
+{
+    private ArrayList<Contact> contacts;
+
+    public ContactList()
+    {
+        contacts = new ArrayList<>();
+    }
+
+    public void addContact(String name, String email)
+    {
+        // trim both; email in lower case.
+    }
+
+    public void printAll()
+    {
+        // initials, name, <email>.
+    }
+
+    public void printSearch(String text)
+    {
+        // clean once; contains; a found flag.
+    }
+
+    public int countEmailsAt(String domain)
+    {
+        // endsWith("@" + domain).
+    }
+}
+'''
+CONTACT_DEMO_STARTER = '''public class ContactDemo
+{
+    public static void main(String[] args)
+    {
+        ContactList list = new ContactList();
+        // 1. Add the three contacts.
+        // 2. Print "All contacts:" and call printAll.
+        // 3. Search for "  a", "TUR" and "xyz", each after a heading.
+        // 4. Print "At mun.ca: " and the count.
+    }
+}
+'''
+TIP_STARTER = '''public class Tip
+{
+    private String text;
+    private String topic;
+
+    public Tip(String text, String topic)
+    {
+        // Assign the two fields.
+    }
+
+    public String getText()
+    {
+    }
+
+    public String getTopic()
+    {
+    }
+}
+'''
+TIP_JAR_STARTER = '''import java.util.ArrayList;
+import java.util.Random;
+
+public class TipJar
+{
+    private ArrayList<Tip> tips;
+    private ArrayList<Integer> ratings;
+    private Random generator;
+
+    public TipJar()
+    {
+        // Two empty lists; new Random(7).
+    }
+
+    public void addTip(Tip tip)
+    {
+    }
+
+    public Tip pickTip()
+    {
+        // null if empty; else nextInt(tips.size()).
+    }
+
+    public void addRating(int rating)
+    {
+        // Keep 1 to 5 only.
+    }
+
+    public int numberOfRatings()
+    {
+    }
+
+    public int averageRating()
+    {
+        // 0 if empty; else a for-each total / size.
+    }
+}
+'''
+TIP_DEMO_STARTER = '''public class TipDemo
+{
+    public static void main(String[] args)
+    {
+        TipJar jar = new TipJar();
+        // 1. Print the empty pick and the average with no ratings.
+        // 2. Add the three tips in order.
+        // 3. Pick and print two tips.
+        // 4. Add the ratings 4, 5, 2, 9.
+        // 5. Print the number of ratings and the average.
+    }
+}
+'''
+
+CONTACT_FILE = [file("Contact.java", CONTACT)]
+CONTACT_FILES = CONTACT_FILE + [file("ContactList.java", CONTACT_LIST)]
+TIP_FILE = [file("Tip.java", TIP)]
+TIP_FILES = TIP_FILE + [file("TipJar.java", TIP_JAR)]
+
+assert code_box("p1-item", "Contact.java", CONTACT_STARTER, CONTACT, driver("ContactCheck", '''Contact ada = new Contact("Ada Lovelace", "ada@example.com");
+System.out.println(ada.getName());
+System.out.println(ada.getEmail());
+System.out.println(ada.getInitials());
+Contact alan = new Contact("Alan Turing", "alan@mun.ca");
+System.out.println(alan.getInitials());'''), [
+    has("public Contact(String name, String email)", "Keep the constructor header Contact(String name, String email)."),
+    has("indexOf(\" \")", "Find the space with indexOf(\" \")."),
+    has(".substring(", "Take the two letters with substring.")], xp=3) == "Ada Lovelace\nada@example.com\nAL\nAT"
+
+assert code_box("p1-collection", "ContactList.java", CONTACT_LIST_STARTER, CONTACT_LIST, CONTACT_FILE + driver("ContactListCheck", '''ContactList empty = new ContactList();
+System.out.println("Empty list:");
+empty.printAll();
+empty.printSearch("a");
+System.out.println("At mun.ca: " + empty.countEmailsAt("mun.ca"));
+ContactList list = new ContactList();
+list.addContact(" Mary Shelley  ", " Mary@MUN.CA");
+list.addContact("Percy Shelley", "percy@example.com ");
+System.out.println("Two contacts:");
+list.printAll();
+list.printSearch(" SHELLEY ");
+list.printSearch("mary");
+list.printSearch("byron");
+System.out.println("At mun.ca: " + list.countEmailsAt("mun.ca"));
+System.out.println("At example.com: " + list.countEmailsAt("example.com"));'''), [
+    has(".trim().toLowerCase()", "Clean the email and the search text with trim() and toLowerCase()."),
+    has(".contains(", "Search the names with contains."),
+    has(".endsWith(\"@\" + domain)", "Count with endsWith(\"@\" + domain).")], xp=6) == (
+    "Empty list:\nNo contacts match\nAt mun.ca: 0\nTwo contacts:\nMS Mary Shelley <mary@mun.ca>\nPS Percy Shelley <percy@example.com>\n"
+    "Mary Shelley\nPercy Shelley\nMary Shelley\nNo contacts match\nAt mun.ca: 1\nAt example.com: 1")
+
+assert code_box("p1-demo", "ContactDemo.java", CONTACT_DEMO_STARTER, CONTACT_DEMO, CONTACT_FILES, [
+    has('list.addContact("  Ada Lovelace "', 'Add "  Ada Lovelace " with its spaces.'),
+    has('printSearch("  a")', 'Search for "  a".'),
+    has('countEmailsAt("mun.ca")', 'Count the emails with countEmailsAt("mun.ca").')], xp=4, extra=10, name="Program output") == (
+    'All contacts:\nAL Ada Lovelace <ada@example.com>\nAT Alan Turing <alan@mun.ca>\nGH Grace Hopper <grace@mun.ca>\nSearch "  a":\n'
+    'Ada Lovelace\nAlan Turing\nGrace Hopper\nSearch "TUR":\nAlan Turing\nSearch "xyz":\nNo contacts match\nAt mun.ca: 2')
+
+assert code_box("p2-item", "Tip.java", TIP_STARTER, TIP, driver("TipCheck", '''Tip tip = new Tip("Sleep before a test.", "planning");
+System.out.println(tip.getText());
+System.out.println(tip.getTopic());'''), [
+    has("public Tip(String text, String topic)", "Keep the constructor header Tip(String text, String topic).")], xp=2) == "Sleep before a test.\nplanning"
+
+assert code_box("p2-collection", "TipJar.java", TIP_JAR_STARTER, TIP_JAR, TIP_FILE + driver("TipJarCheck", '''TipJar empty = new TipJar();
+System.out.println("Empty jar: " + empty.pickTip());
+System.out.println("Empty average: " + empty.averageRating());
+TipJar jar = new TipJar();
+jar.addTip(new Tip("Sleep before a test.", "planning"));
+jar.addTip(new Tip("Print the values.", "debugging"));
+boolean valid = true;
+for(int i = 0; i < 50; i++) {
+    Tip tip = jar.pickTip();
+    if(tip == null) {
+        valid = false;
+    }
+}
+System.out.println("Picks are tips: " + valid);
+jar.addRating(5);
+jar.addRating(0);
+jar.addRating(4);
+jar.addRating(6);
+System.out.println("Ratings: " + jar.numberOfRatings());
+System.out.println("Average: " + jar.averageRating());'''), [
+    has("new Random(7)", "Create the generator with new Random(7)."),
+    has("nextInt(tips.size())", "Use the number of tips as the bound: nextInt(tips.size())."),
+    has("rating >= 1 && rating <= 5", "Keep only the ratings from 1 to 5."),
+    has("ratings.isEmpty()", "Return 0 for no ratings before dividing.")], xp=6) == (
+    "Empty jar: null\nEmpty average: 0\nPicks are tips: true\nRatings: 2\nAverage: 4")
+
+assert code_box("p2-demo", "TipDemo.java", TIP_DEMO_STARTER, TIP_DEMO, TIP_FILES, [
+    has("jar.addTip(new Tip(", "Add each tip as an anonymous object: jar.addTip(new Tip(...));"),
+    has("jar.addRating(9)", "Add the rating 9 too; the jar ignores it.")], xp=4, extra=12, name="Program output") == (
+    "Empty jar: null\nAverage with no ratings: 0\nTip: Start the assignment the day it is posted. (planning)\n"
+    "Tip: Explain your code out loud to a friend. (debugging)\nRatings: 3\nAverage: 3")
+
+# ---------------------------------------------------------------- write
+data = {
+    "id": "lecture-10",
+    "course": "COMP 2001: Object-Oriented Programming",
+    "title": "Lecture 10 Workbook",
+    "subtitle": "Chapter 6, Part 1: Learning and Using Library Classes",
+    "exercises": E,
+}
+out = pathlib.Path(__file__).with_name("exercises.json")
+out.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+print(f"wrote {out} with {len(E)} specs")

@@ -20,68 +20,393 @@
   <div>
     <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
     <h1>Lecture 11 Workbook</h1>
-    <div class="wb-subtitle">Chapter 6, Part 2: Maps, sets, and class-level members</div>
+    <div class="wb-subtitle">Chapter 6, Part 2: Maps, Sets and Class Members</div>
     <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
   </div>
   <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
 </div>
 
-
 <section class="wb-outcomes">
   <h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
-  <p><code>HelpBot</code> now connects recognised keywords with replies in a <code>HashMap&lt;String, String&gt;</code>. It cleans a question, returns the first matching keyword's reply, and records the keyword in a count map and a topic set. The sequence submit, compile, submit, test gives counts 2, 1, and 1 and three distinct topics. Empty questions keep the same prompt; an unknown nonempty question still receives a random general reply. Matching uses substrings, and multiple matching keys have no promised priority.</p>
-  <p>The complete class below runs with a supplied demonstration. It checks named lookups, missing keys, repeated topics, ratings, and replacement of a reply. The random fallback is checked by membership in the four-entry general reply list, so its printed output is repeatable without giving the application a fixed seed.</p>
-  <details><summary><code>HelpBot.java</code>: complete example</summary>
-    <wb-example id="summary-example"></wb-example>
-  </details>
+  <p>This lecture gives <code>HelpBot</code> replies that depend on the question. A <code>HashMap</code> connects four keywords to their replies, a second map counts how many questions matched each keyword, and a <code>HashSet</code> records the topics asked. Constants name the rating limits, and a class variable counts the bots created. Here is the finished class, with its comments.</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+<span class="wb-kw">import</span> java.util.HashMap;
+<span class="wb-kw">import</span> java.util.HashSet;
+<span class="wb-kw">import</span> java.util.Random;
+
+<span class="wb-cmt">/**
+ * Answers course questions with a keyword reply or a general reply.
+ * It counts how often each keyword is asked, records the topics asked,
+ * and keeps the ratings that users give.
+ * @author Pranjal Patra
+ * @version 2.0
+ */</span>
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">HelpBot</span>
+{
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-kw">int</span> <span class="wb-type">MIN_RATING</span> = <span class="wb-num">1</span>;
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-kw">int</span> <span class="wb-type">MAX_RATING</span> = <span class="wb-num">5</span>;
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-type">String</span> <span class="wb-type">NO_QUESTION</span> = <span class="wb-str">"Please type a question."</span>;
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-type">String</span> <span class="wb-type">UNKNOWN_KEYWORD</span> = <span class="wb-str">"I do not have an answer for that yet."</span>;
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">int</span> botsCreated = <span class="wb-num">0</span>;
+
+    <span class="wb-kw">private</span> <span class="wb-type">HashMap</span>&lt;<span class="wb-type">String</span>, <span class="wb-type">String</span>&gt; replyMap;
+    <span class="wb-kw">private</span> <span class="wb-type">HashMap</span>&lt;<span class="wb-type">String</span>, <span class="wb-type">Integer</span>&gt; keywordCounts;
+    <span class="wb-kw">private</span> <span class="wb-type">HashSet</span>&lt;<span class="wb-type">String</span>&gt; topicsAsked;
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">String</span>&gt; generalReplies;
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Integer</span>&gt; ratings;
+    <span class="wb-kw">private</span> <span class="wb-type">Random</span> randomGenerator;
+
+    <span class="wb-cmt">/**
+     * Create a help bot with its replies, no recorded topics and no ratings.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-fn">HelpBot</span>()
+    {
+        generalReplies = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        ratings = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        randomGenerator = <span class="wb-kw">new</span> <span class="wb-fn">Random</span>();
+        fillGeneralReplies();
+        replyMap = <span class="wb-kw">new</span> <span class="wb-type">HashMap</span>&lt;&gt;();
+        keywordCounts = <span class="wb-kw">new</span> <span class="wb-type">HashMap</span>&lt;&gt;();
+        topicsAsked = <span class="wb-kw">new</span> <span class="wb-type">HashSet</span>&lt;&gt;();
+        fillReplyMap();
+        botsCreated++;
+    }
+
+    <span class="wb-cmt">/**
+     * Answer one question. A question that contains a keyword gets that
+     * keyword's reply, and the keyword is recorded.
+     * @param question The typed text; must not be null.
+     * @return A keyword reply, a general reply, or a prompt when nothing
+     *         was typed.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">replyTo</span>(<span class="wb-type">String</span> question)
+    {
+        <span class="wb-type">String</span> cleaned = clean(question);
+        <span class="wb-kw">if</span>(cleaned.isEmpty()) {
+            <span class="wb-kw">return</span> <span class="wb-type">NO_QUESTION</span>;
+        }
+        <span class="wb-kw">for</span>(<span class="wb-type">String</span> keyword : replyMap.keySet()) {
+            <span class="wb-kw">if</span>(cleaned.contains(keyword)) {
+                recordKeyword(keyword);
+                <span class="wb-kw">return</span> replyMap.get(keyword);
+            }
+        }
+        <span class="wb-kw">return</span> pickGeneralReply();
+    }
+
+    <span class="wb-cmt">/**
+     * Remove the spaces around a question and put it in lower case.
+     * @param question The typed text; must not be null.
+     * @return The cleaned text. The original string is unchanged.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">clean</span>(<span class="wb-type">String</span> question)
+    {
+        <span class="wb-kw">return</span> question.trim().toLowerCase();
+    }
+
+    <span class="wb-cmt">/**
+     * Choose one general reply at random.
+     * @return One of the general replies.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">pickGeneralReply</span>()
+    {
+        <span class="wb-kw">int</span> index = randomGenerator.nextInt(generalReplies.size());
+        <span class="wb-kw">return</span> generalReplies.get(index);
+    }
+
+    <span class="wb-cmt">/**
+     * Record a rating for a reply. Ratings outside MIN_RATING to
+     * MAX_RATING are ignored.
+     * @param rating The rating to record.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addRating</span>(<span class="wb-kw">int</span> rating)
+    {
+        <span class="wb-kw">if</span>(rating &gt;= <span class="wb-type">MIN_RATING</span> &amp;&amp; rating &lt;= <span class="wb-type">MAX_RATING</span>) {
+            ratings.add(rating);
+        }
+    }
+
+    <span class="wb-cmt">/**
+     * Return the number of ratings recorded so far.
+     * @return The number of ratings.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfRatings</span>()
+    {
+        <span class="wb-kw">return</span> ratings.size();
+    }
+
+    <span class="wb-cmt">/**
+     * Work out the whole-number average of the recorded ratings.
+     * @return The average, or 0 when there are no ratings.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">averageRating</span>()
+    {
+        <span class="wb-kw">if</span>(ratings.isEmpty()) {
+            <span class="wb-kw">return</span> 0;
+        }
+        <span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
+        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> rating : ratings) {
+            total = total + rating;
+        }
+        <span class="wb-kw">return</span> total / ratings.size();
+    }
+
+    <span class="wb-cmt">/**
+     * Look up the reply for one exact keyword. Nothing is recorded.
+     * @param keyword The keyword; must not be null.
+     * @return Its reply, or a message saying there is no answer yet.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">replyFor</span>(<span class="wb-type">String</span> keyword)
+    {
+        <span class="wb-kw">return</span> replyMap.getOrDefault(keyword, <span class="wb-type">UNKNOWN_KEYWORD</span>);
+    }
+
+    <span class="wb-cmt">/**
+     * Say whether a keyword has a stored reply.
+     * @param keyword The keyword; must not be null.
+     * @return true if the keyword has a reply.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">knows</span>(<span class="wb-type">String</span> keyword)
+    {
+        <span class="wb-kw">return</span> replyMap.containsKey(keyword);
+    }
+
+    <span class="wb-cmt">/**
+     * Add the reply for a keyword, or replace the reply it has.
+     * @param keyword A lower-case keyword; must not be null.
+     * @param reply The reply; must not be null.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">learn</span>(<span class="wb-type">String</span> keyword, <span class="wb-type">String</span> reply)
+    {
+        replyMap.put(keyword, reply);
+    }
+
+    <span class="wb-cmt">/**
+     * Return the number of keywords that have a reply.
+     * @return The number of entries in the reply map.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfKeywords</span>()
+    {
+        <span class="wb-kw">return</span> replyMap.size();
+    }
+
+    <span class="wb-cmt">/**
+     * Return how many questions matched a keyword.
+     * @param keyword The keyword; must not be null.
+     * @return Its count, or 0 if it has never matched.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">timesAsked</span>(<span class="wb-type">String</span> keyword)
+    {
+        <span class="wb-kw">return</span> keywordCounts.getOrDefault(keyword, <span class="wb-num">0</span>);
+    }
+
+    <span class="wb-cmt">/**
+     * Return the number of different keywords asked about.
+     * @return The number of topics recorded.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfTopicsAsked</span>()
+    {
+        <span class="wb-kw">return</span> topicsAsked.size();
+    }
+
+    <span class="wb-cmt">/**
+     * Say whether a keyword has been asked about.
+     * @param keyword The keyword; must not be null.
+     * @return true if a question has matched the keyword.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">hasBeenAsked</span>(<span class="wb-type">String</span> keyword)
+    {
+        <span class="wb-kw">return</span> topicsAsked.contains(keyword);
+    }
+
+    <span class="wb-cmt">/**
+     * Return the number of HelpBot objects created since the program started.
+     * @return The number of bots created.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfBots</span>()
+    {
+        <span class="wb-kw">return</span> botsCreated;
+    }
+
+    <span class="wb-cmt">/**
+     * Record a keyword that matched: add 1 to its count and add it to
+     * the set of topics.
+     * @param keyword The keyword that matched.
+     */</span>
+    <span class="wb-kw">private</span> <span class="wb-kw">void</span> <span class="wb-fn">recordKeyword</span>(<span class="wb-type">String</span> keyword)
+    {
+        <span class="wb-kw">int</span> count = keywordCounts.getOrDefault(keyword, <span class="wb-num">0</span>);
+        keywordCounts.put(keyword, count + <span class="wb-num">1</span>);
+        topicsAsked.add(keyword);
+    }
+
+    <span class="wb-cmt">/**
+     * Build the list of general replies.
+     */</span>
+    <span class="wb-kw">private</span> <span class="wb-kw">void</span> <span class="wb-fn">fillGeneralReplies</span>()
+    {
+        generalReplies.add(<span class="wb-str">"Can you describe that in more detail?"</span>);
+        generalReplies.add(<span class="wb-str">"Have you checked the course web page?"</span>);
+        generalReplies.add(<span class="wb-str">"That question comes up often. Let us look at it together."</span>);
+        generalReplies.add(<span class="wb-str">"Please post that on the discussion board so others can see the answer."</span>);
+    }
+
+    <span class="wb-cmt">/**
+     * Store the four keyword replies.
+     */</span>
+    <span class="wb-kw">private</span> <span class="wb-kw">void</span> <span class="wb-fn">fillReplyMap</span>()
+    {
+        replyMap.put(<span class="wb-str">"submit"</span>,
+            <span class="wb-str">"Upload your .java files to the assignment page before the deadline."</span>);
+        replyMap.put(<span class="wb-str">"compile"</span>,
+            <span class="wb-str">"Read the first error message and check the line just above it."</span>);
+        replyMap.put(<span class="wb-str">"late"</span>, <span class="wb-str">"Late work loses 10 percent per day."</span>);
+        replyMap.put(<span class="wb-str">"test"</span>, <span class="wb-str">"Term Test 2 covers Chapters 1 to 9 and 12 to 13, mostly 6 to 9 and 12 to 13."</span>);
+    }
+}</code></pre>
   <table>
     <thead><tr><th>term</th><th>meaning</th></tr></thead>
     <tbody>
-      <tr><td>map and type arguments</td><td>A map stores key/value entries. In <code>HashMap&lt;K, V&gt;</code>, K is the key type and V is the value type. <code>new HashMap&lt;&gt;()</code> infers the types from the declaration.</td></tr>
-      <tr><td>lookup and missing keys</td><td><code>get(key)</code> returns the value, or null for an absent key in these maps. <code>containsKey</code> checks membership; <code>getOrDefault(key, 0)</code> supplies 0 without inserting an entry. Check for null before calling an instance method on a missing result.</td></tr>
-      <tr><td>replacement and traversal</td><td><code>put</code> replaces an existing key's value without increasing size. A new key adds one entry. <code>keySet()</code> allows key traversal, but HashMap does not promise traversal order.</td></tr>
-      <tr><td>boxed counts</td><td>The count map stores Integers. Reading into an int unboxes a value; storing count + 1 boxes the new value. A repeated keyword raises its count.</td></tr>
-      <tr><td>set and duplicates</td><td>HashSet stores each distinct element at most once. A second addition of submit adds no duplicate. Use contains, add, remove, isEmpty, size, or a for-each loop; there is no indexed get or promised print order.</td></tr>
-      <tr><td>choosing collections</td><td>Use a list for ordered replies with possible duplicates, a set for distinct topics, and a map for a reply or count per key. General List, Set, and Map declarations describe these roles; their relationship to concrete classes is studied later.</td></tr>
-      <tr><td>fresh clinic snapshots</td><td>Count and name snapshots use all current appointments and exact stored names. Each call builds a separate collection from the schedule list. Cancellation changes the list; an old snapshot remains unchanged and a fresh one reflects cancellation.</td></tr>
-      <tr><td>static fields and lifetime counts</td><td>A static field belongs to the class and is shared by its objects. Each constructor increments the creation counter once. Cancellation lowers current schedule membership but not the lifetime creation count. BlueJ keeps class state until the JVM is reset.</td></tr>
-      <tr><td>final and constants</td><td>A final field cannot be reassigned after its permitted initialization. A final reference can still point to a mutable list. <code>static final</code> gives a shared constant, such as <code>DEFAULT_MINUTES = 15</code>. Keep mutable fields private.</td></tr>
-      <tr><td>class methods and main</td><td>Call a static method through the class name. It has no current object or this reference; instance state needs an explicit receiver. The launcher enters static main without constructing a demo object. The familiar <code>String[] args</code> header is startup boilerplate here; arrays are the next chapter's topic.</td></tr>
+      <tr><td>map</td><td>A <strong>map</strong> stores entries, each a <strong>key</strong> with a <strong>value</strong>. <code>HashMap&lt;String, String&gt;</code> has <code>String</code> keys and <code>String</code> values. Each key appears at most once.</td></tr>
+      <tr><td>put and get</td><td><code>put(key, value)</code> stores an entry, and replaces the value when the key is already there. <code>get(key)</code> returns the value, or <code>null</code> when the key has no entry.</td></tr>
+      <tr><td>missing keys</td><td><code>containsKey(key)</code> says whether the key has an entry. <code>getOrDefault(key, fallback)</code> returns the fallback for a missing key. Reading never adds an entry.</td></tr>
+      <tr><td>counting by key</td><td><code>int count = counts.getOrDefault(key, 0);</code> then <code>counts.put(key, count + 1);</code>. The first time a key is counted, its count becomes 1.</td></tr>
+      <tr><td>set</td><td>A <strong>set</strong> holds each element at most once. <code>add</code> returns <code>false</code> for an element that is already there. A <code>HashSet</code>, like a <code>HashMap</code>, keeps no order.</td></tr>
+      <tr><td>choosing a collection</td><td>A list for order and repeats, a set for distinct values, a map for a value attached to each key.</td></tr>
+      <tr><td>class variable</td><td>A <code>static</code> field is a <strong>class variable</strong>: one copy, kept by the class and shared by every object. <code>botsCreated</code> counts every bot created.</td></tr>
+      <tr><td>constant</td><td><code>public static final int MAX_RATING = 5;</code> A constant cannot change, so it can be public. Code outside the class writes <code>HelpBot.MAX_RATING</code>.</td></tr>
+      <tr><td>final field</td><td>A <code>final</code> instance field is set once, in the constructor, and never changed. For a field that refers to an object, <code>final</code> fixes the reference; the object can still change.</td></tr>
+      <tr><td>class method</td><td>A <code>static</code> method is called on the class, as in <code>HelpBot.numberOfBots()</code>. It has no <code>this</code>, so it can use an instance field only through an object it names.</td></tr>
+      <tr><td>main</td><td><code>public static void main(String[] args)</code> is a class method because Java calls it before any object exists.</td></tr>
     </tbody>
   </table>
-  <p class="wb-meta">Press <strong>▶ Run</strong> in an editor to compile and run its code in your browser; the first run takes a few seconds while Java loads. Class exercises include a supplied checking program and supporting classes. Printed code fragments illustrate declarations or calls in their surrounding class. Exercises award XP for correct answers, which can be spent to reveal model answers.</p>
+  <p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run on the page takes a few seconds while Java loads). Boxes that ask for part of a class come with the rest of that class and a small checking program on their classpath. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
 </section>
-
 
 <hr>
 
+<p>This workbook holds the notes and the questions for Lecture 11. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. Sections 4 and 8 are the QEII Library coding parts that we do together in class; if you missed them, you can do them from the notes here. Section 10 has two complete programs to write after class. By the end, you should be able to:</p>
+<ul>
+  <li>store and look up values by key in a <code>HashMap</code>, and handle a missing key;</li>
+  <li>count things with a map and the <code>getOrDefault</code> pattern;</li>
+  <li>keep distinct values in a <code>HashSet</code>;</li>
+  <li>choose a list, a set or a map for a job;</li>
+  <li>use <code>static</code> fields, constants and methods, and say how they differ from instance members;</li>
+  <li>explain what <code>final</code> does to a field and to a reference; and</li>
+  <li>explain why <code>main</code> is a class method.</li>
+</ul>
 
-<p>Use these questions with the slides or for revision. The clinic has two coding pauses: Part 11 at slide 19 and Part 12 at slide 36. Follow the code as it is written in class; you can finish or repeat it later. Write your answers with braces placed as in the lectures. By the end, you should be able to:</p>
-<ul><li>use maps for replies and counts, and sets for distinct topics;</li><li>build fresh snapshots from the clinic's current list;</li><li>distinguish shared class state from each object's state;</li><li>explain final fields, class methods, and the main method.</li></ul>
-<p>Names, questions, and stored appointments are non-null; clinic durations are positive. HelpBot keeps its four general replies and ratings from Lecture 10. It now also has a keyword reply map, a keyword count map, and a set of recorded topics. Examples are fragments inside HelpBot unless another context is named. Each question starts fresh unless it says to continue. The <a href="#starting-project">complete starting project</a> is included below.</p>
+<h2 id="s1">1. Maps</h2>
+<h3>The help desk bot</h3>
+<p>At the end of Lecture 10, <code>HelpBot</code> cleans a question with <code>trim</code> and <code>toLowerCase</code>, refuses an empty one, and picks one of four general replies at random. It also keeps ratings. Its replies never depend on the words in the question: a student who asks how to submit work gets the same kind of reply as a student who asks about the weather.</p>
+<p>In this lecture the bot learns four keywords. A question that contains a keyword gets that keyword's own reply. The bot also counts how often each keyword comes up and records which topics have been asked about. The examples always use the same four keywords and replies:</p>
+<table>
+  <thead><tr><th>Keyword</th><th>Reply</th></tr></thead>
+  <tbody>
+      <tr><td><code>submit</code></td><td>Upload your .java files to the assignment page before the deadline.</td></tr>
+      <tr><td><code>compile</code></td><td>Read the first error message and check the line just above it.</td></tr>
+      <tr><td><code>late</code></td><td>Late work loses 10 percent per day.</td></tr>
+      <tr><td><code>test</code></td><td>Term Test 2 covers Chapters 1 to 9 and 12 to 13, mostly 6 to 9 and 12 to 13.</td></tr>
+  </tbody>
+</table>
+<p>Questions passed to the bot are never <code>null</code>. Unless a question says otherwise, each one starts with a new bot.</p>
 
-<h2 id="maps">1. Maps</h2>
+<h3>Keys and values</h3>
+<p>A <strong>map</strong> is a collection of entries. Each entry pairs a <strong>key</strong> with a <strong>value</strong>. We give the map a key and it gives back the value stored with that key. A phone's contact list is a map: we look up a name and get a phone number. In <code>HelpBot</code>, the key is a keyword such as <code>"submit"</code> and the value is the reply.</p>
+<p>In a list we find an element by its position. In a map we find a value by its key, and we never need to know where the entry is kept. Each key appears at most once in a map.</p>
 
-<p>A map stores key/value entries. A keyword is a key; its reply is the value. Lookup uses the key rather than a list position.</p>
+<h3>Creating a map</h3>
+<p>The class we use is <code>java.util.HashMap</code>. It has two type parameters: <code>HashMap&lt;K, V&gt;</code> stores keys of type <code>K</code> and values of type <code>V</code>. In <code>HelpBot</code> both are <code>String</code>:</p>
+<pre><code><span class="wb-kw">import</span> java.util.HashMap;
+
+<span class="wb-cmt">// A field of HelpBot:</span>
+<span class="wb-kw">private</span> <span class="wb-type">HashMap</span>&lt;<span class="wb-type">String</span>, <span class="wb-type">String</span>&gt; replyMap;
+
+<span class="wb-cmt">// In the constructor:</span>
+replyMap = <span class="wb-kw">new</span> <span class="wb-type">HashMap</span>&lt;&gt;();</code></pre>
+<p>The two types do not have to match. As with <code>ArrayList</code>, a type argument must be a class, so a map whose values are whole numbers uses the wrapper class <code>Integer</code>. The diamond <code>&lt;&gt;</code> takes its types from the declaration.</p>
+
+<h3>Storing and reading an entry</h3>
+<p>Three methods do most of the work:</p>
+<ul>
+  <li><code>put(key, value)</code> stores an entry;</li>
+  <li><code>get(key)</code> returns the value stored with the key;</li>
+  <li><code>size()</code> returns the number of entries.</li>
+</ul>
+<p>The constructor calls a private helper, <code>fillReplyMap</code>, that makes four <code>put</code> calls, one for each row of the table above. After that, <code>replyMap.size()</code> is 4, and <code>HelpBot</code>'s method <code>numberOfKeywords()</code> returns <code>replyMap.size()</code>. The length of a reply makes no difference: each key and its value are one entry.</p>
+<p>Because a key can appear only once, <code>put</code> with a key that is already in the map replaces that key's value. The size stays the same. <code>HelpBot</code> has a method that does this:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">learn</span>(<span class="wb-type">String</span> keyword, <span class="wb-type">String</span> reply)
+{
+    replyMap.put(keyword, reply);
+}</code></pre>
+<p>After <code>bot.learn("submit", "Use the upload page.")</code>, the key <code>submit</code> has the new reply and the map still has 4 entries. A call with a new keyword adds an entry.</p>
+
+<h3>Missing keys</h3>
+<p>When no entry has the key, <code>get</code> returns <code>null</code>. Printing <code>null</code> is harmless, but calling a method through it stops the program with a <code>NullPointerException</code>:</p>
+<pre><code><span class="wb-type">String</span> reply = replyMap.get(<span class="wb-str">"room"</span>);
+<span class="wb-kw">if</span>(reply != <span class="wb-kw">null</span>) {
+    System.out.println(reply.length());
+}
+<span class="wb-kw">else</span> {
+    System.out.println(<span class="wb-str">"Unknown keyword"</span>);
+}</code></pre>
+<p>This prints <code>Unknown keyword</code>. The same exception happens when Java has to unbox a <code>null</code> <code>Integer</code> into an <code>int</code>. Two more methods help with missing keys. <code>containsKey(key)</code> returns <code>true</code> if the key has an entry. <code>getOrDefault(key, fallback)</code> returns the stored value, or <code>fallback</code> when the key has none. Reading a map, with any of these methods, never adds an entry.</p>
+<p><code>HelpBot</code> uses both:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">knows</span>(<span class="wb-type">String</span> keyword)
+{
+    <span class="wb-kw">return</span> replyMap.containsKey(keyword);
+}
+
+<span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">replyFor</span>(<span class="wb-type">String</span> keyword)
+{
+    <span class="wb-kw">return</span> replyMap.getOrDefault(keyword, <span class="wb-type">UNKNOWN_KEYWORD</span>);
+}</code></pre>
+<p><code>UNKNOWN_KEYWORD</code> is a constant holding <code>"I do not have an answer for that yet."</code>. Section 6 explains constants.</p>
+
+<h3>Visiting the keys</h3>
+<p><code>keySet()</code> returns the keys, and a for-each loop visits each one once:</p>
+<pre><code><span class="wb-kw">for</span>(<span class="wb-type">String</span> keyword : replyMap.keySet()) {
+    System.out.println(keyword);
+}</code></pre>
+<p>A <code>HashMap</code> does not keep its entries in the order they were added, and it does not sort them. The loop visits <code>submit</code>, <code>compile</code>, <code>late</code> and <code>test</code> in some order, and a program that uses a <code>HashMap</code> should give the right answer whatever that order is.</p>
+
+<h3>Matching a question</h3>
+<p>Now <code>replyTo</code> can look for a keyword inside the cleaned question:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">replyTo</span>(<span class="wb-type">String</span> question)
+{
+    <span class="wb-type">String</span> cleaned = clean(question);
+    <span class="wb-kw">if</span>(cleaned.isEmpty()) {
+        <span class="wb-kw">return</span> <span class="wb-type">NO_QUESTION</span>;
+    }
+    <span class="wb-kw">for</span>(<span class="wb-type">String</span> keyword : replyMap.keySet()) {
+        <span class="wb-kw">if</span>(cleaned.contains(keyword)) {
+            recordKeyword(keyword);
+            <span class="wb-kw">return</span> replyMap.get(keyword);
+        }
+    }
+    <span class="wb-kw">return</span> pickGeneralReply();
+}</code></pre>
+<p><code>NO_QUESTION</code> is the constant <code>"Please type a question."</code>. The loop returns at the first keyword the question contains, after a call to <code>recordKeyword</code>, which Sections 2 and 3 write. A question with no keyword gets a general reply. Cleaning matters here: <code>"How do I SUBMIT my work?"</code> matches because its cleaned text contains <code>submit</code>.</p>
+<p>The bot only looks for text inside text. <code>"Is it too late to ask?"</code> contains <code>late</code>, so it gets the reply about late work, whatever the student meant.</p>
 
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: map setup</div>
-  <p><strong>1.</strong> Write the explicit import, private field declaration, and constructor initialization for <code>replyMap</code>. Its keys and values are Strings. What does each type argument in <code>HashMap&lt;K, V&gt;</code> mean?</p>
-<p>This small <code>MapSetup</code> class isolates the field and constructor setup. Place each statement in its correct location.</p>
+  <div class="wb-block-title">Practice: a map of course sizes</div>
+  <p><strong>1.1</strong> A class keeps the number of students in each course, with course codes such as <code>"COMP2001"</code> as keys. Write the import, the private field <code>enrolment</code>, and the line in the constructor that creates the map. Why can the value type not be <code>int</code>?</p>
+  <p>The rest of <code>CourseList</code> is written for you. The checking program enrols 120 students in COMP2001 and asks for COMP2001 and for COMP3754, which has no entry. Its expected output is:</p>
+<pre class="wb-output">COMP2001: 120
+COMP3754: 0</pre>
   <wb-exercise id="q1"></wb-exercise>
-<p>Explain your reasoning.</p>  <wb-short id="q1-why"></wb-short>
+  <p>Why can the value type not be <code>int</code>?</p>
+  <wb-short id="q1-why"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: entries and values</div>
-  <p><strong>2.</strong> Identify one key and its value below. How many entries does this initial map have? Does a long reply count as more than one entry?</p>
-<table><thead><tr><th>Key</th><th>Exact reply</th></tr></thead><tbody><tr><td><code>submit</code></td><td>Upload your .java files to the assignment page before the deadline.</td></tr><tr><td><code>compile</code></td><td>Read the first error message and check the line just above it.</td></tr><tr><td><code>late</code></td><td>Late work loses 10 percent per day.</td></tr><tr><td><code>test</code></td><td>Term Test 2 covers Chapters 1 to 9 and 12 to 13, mostly 6 to 9 and 12 to 13.</td></tr></tbody></table>
+  <div class="wb-block-title">Practice: keys and values</div>
+  <p><strong>1.2</strong> In the reply map, what are the key type and the value type? Could the map have two entries with the key <code>submit</code>? Could two different keys have the same reply?</p>
   <wb-short id="q2"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: missing-key reads</div>
-  <p><strong>3.</strong> Use the initial four-entry map. Predict every printed line. Does either missing-key read insert an entry?</p>
+  <div class="wb-block-title">Practice: reading the map</div>
+  <p><strong>1.3</strong> Write the five lines this code prints, using the four-entry reply map. Then explain why the fourth line is safe to run, when calling <code>reply.length()</code> on the same result is not.</p>
 <pre><code>System.out.println(replyMap.get(<span class="wb-str">"test"</span>));
 System.out.println(replyMap.size());
 System.out.println(replyMap.containsKey(<span class="wb-str">"room"</span>));
@@ -89,8 +414,8 @@ System.out.println(replyMap.get(<span class="wb-str">"room"</span>));
 System.out.println(replyMap.getOrDefault(<span class="wb-str">"room"</span>,
     <span class="wb-str">"I do not have an answer for that yet."</span>));</code></pre>
   <wb-table id="q3-output">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Line</th><th>Expected output</th></tr></thead>
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
       <tbody>
         <tr><td>1</td><td data-blank="0"></td></tr>
         <tr><td>2</td><td data-blank="1"></td></tr>
@@ -98,99 +423,182 @@ System.out.println(replyMap.getOrDefault(<span class="wb-str">"room"</span>,
         <tr><td>4</td><td data-blank="3"></td></tr>
         <tr><td>5</td><td data-blank="4"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
-<p>Explain your reasoning.</p>  <wb-short id="q3-why"></wb-short>
+  <p>Why is the fourth line safe?</p>
+  <wb-short id="q3-why"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: a null check</div>
-  <p><strong>4.</strong> This code compiles, but fails when run with the initial map. Explain why. Rewrite it to print the reply's length when present, or <code>Unknown keyword</code> when absent.</p>
-<pre><code><span class="wb-type">String</span> reply = replyMap.get(<span class="wb-str">"room"</span>);
+  <div class="wb-block-title">Practice: check before you call</div>
+  <p><strong>1.4</strong> This code compiles, but it stops with an error when the key is missing. Rewrite it so that it prints the length of the reply when the key has one, and <code>Unknown keyword</code> otherwise. Use <code>containsKey</code>.</p>
+<pre><code><span class="wb-type">String</span> reply = replyMap.get(keyword);
 System.out.println(reply.length());</code></pre>
-<p>Complete <code>printReplyLength(String keyword)</code> in the supplied <code>LookupDemo</code> class. Look up the supplied <code>keyword</code>. The checking program tries absent <code>room</code>, then present <code>test</code>; print <code>Unknown keyword</code>, then <code>48</code>.</p>
+  <p>The box holds a small class with the four-entry reply map, and the broken code is in its method <code>printLength</code>. The checking program calls <code>printLength("test")</code> and then <code>printLength("room")</code>. Its expected output is:</p>
+<pre class="wb-output">76
+Unknown keyword</pre>
   <wb-exercise id="q4"></wb-exercise>
-<p>Explain your reasoning.</p>  <wb-short id="q4-why"></wb-short>
+  <p>Why did the first version stop for a missing key?</p>
+  <wb-short id="q4-why"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: replacing a value</div>
-  <p><strong>5.</strong> A separate demo has a fresh <code>HelpBot bot</code>. Predict the output. Explain replacement. What would happen to the map size if learn used a previously absent key instead?</p>
-<pre><code>bot.learn(<span class="wb-str">"submit"</span>, <span class="wb-str">"Use the upload page."</span>);
+  <div class="wb-block-title">Practice: learning a keyword</div>
+  <p><strong>1.5</strong> What does this code print? Why did the second <code>learn</code> call not change the number of keywords?</p>
+<pre><code><span class="wb-type">HelpBot</span> bot = <span class="wb-kw">new</span> <span class="wb-fn">HelpBot</span>();
+bot.learn(<span class="wb-str">"room"</span>, <span class="wb-str">"Ask at the front desk."</span>);
+bot.learn(<span class="wb-str">"submit"</span>, <span class="wb-str">"Use the upload page."</span>);
 System.out.println(bot.numberOfKeywords());
-System.out.println(bot.replyFor(<span class="wb-str">"submit"</span>));</code></pre>
+System.out.println(bot.replyFor(<span class="wb-str">"room"</span>));</code></pre>
   <wb-table id="q5-output">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Line</th><th>Expected output</th></tr></thead>
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
       <tbody>
         <tr><td>1</td><td data-blank="0"></td></tr>
         <tr><td>2</td><td data-blank="1"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
-<p>Explain your reasoning.</p>  <wb-short id="q5-why"></wb-short>
+  <p>Why did the second call not change the number of keywords?</p>
+  <wb-short id="q5-why"></wb-short>
 </div>
-
-<h2 id="matching">2. Matching and counting</h2>
-
-<p>HelpBot cleans a question, checks for an empty result, then visits <code>replyMap.keySet()</code>. The first recognised substring gives a mapped reply and is recorded. Otherwise it chooses a general reply. HashMap does not promise a traversal order. Each traced question below has at most one recognised keyword.</p>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: reply routes</div>
-  <p><strong>6.</strong> A separate demo has a fresh <code>HelpBot bot</code>. Classify the reply route for each question: mapped reply, empty-question prompt, or random general reply. For the messy question, give the original and cleaned lengths and the cleaned index of submit. Why is an exact random reply not predictable here?</p>
-<pre><code><span class="wb-type">String</span> typed = <span class="wb-str">"   How do I SUBMIT my work?  "</span>;
-<span class="wb-type">String</span> cleaned = typed.trim().toLowerCase();
-bot.replyTo(typed);
-bot.replyTo(<span class="wb-str">"When is the test?"</span>);
-bot.replyTo(<span class="wb-str">"Where is the room?"</span>);
-bot.replyTo(<span class="wb-str">"   "</span>);</code></pre>
+  <div class="wb-block-title">Practice: which reply?</div>
+  <p><strong>1.6</strong> For each question, say which reply <code>replyTo</code> gives: a keyword reply (name the keyword), the prompt to type a question, or a general reply.</p>
+  <ol type="a">
+    <li><code>"Can I relate this to Lecture 9?"</code></li>
+    <li><code>"  "</code></li>
+    <li><code>"How do I hand in my work?"</code></li>
+    <li><code>"Where do I submit a test?"</code> Why can we not tell from the code which reply this one gets?</li>
+  </ol>
   <wb-short id="q6"></wb-short>
 </div>
 
+<h2 id="s2">2. Counts</h2>
+<h3>Counts by keyword</h3>
+<p>The help desk would like to know which topics come up most often. The bot keeps a second map, from each keyword to the number of questions that matched it:</p>
+<pre><code><span class="wb-cmt">// A field of HelpBot:</span>
+<span class="wb-kw">private</span> <span class="wb-type">HashMap</span>&lt;<span class="wb-type">String</span>, <span class="wb-type">Integer</span>&gt; keywordCounts;
+
+<span class="wb-cmt">// In the constructor:</span>
+keywordCounts = <span class="wb-kw">new</span> <span class="wb-type">HashMap</span>&lt;&gt;();</code></pre>
+<p>The value type is <code>Integer</code>, the wrapper class from Lecture 10. This map starts empty, even though the reply map has four entries. A keyword gets an entry here the first time a question matches it.</p>
+
+<h3>Updating a count</h3>
+<p>Adding 1 to a count takes two lines:</p>
+<pre><code><span class="wb-kw">int</span> count = keywordCounts.getOrDefault(keyword, <span class="wb-num">0</span>);
+keywordCounts.put(keyword, count + <span class="wb-num">1</span>);</code></pre>
+<p>The first line reads the current count. For a keyword with no entry yet, <code>getOrDefault</code> returns 0, so the first match counts as 1. The <code>Integer</code> stored in the map is unboxed into the <code>int</code> variable <code>count</code>. The second line stores the new count: <code>count + 1</code> is boxed into an <code>Integer</code>, and <code>put</code> replaces the old value.</p>
+<p>Changing <code>count</code> alone would not change the map, because <code>count</code> is a local copy of the number. The <code>put</code> is what stores it. These two lines are a pattern worth remembering: they count anything by key, and the library problem uses them in Section 4.</p>
+
+<h3>Reading a count</h3>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">timesAsked</span>(<span class="wb-type">String</span> keyword)
+{
+    <span class="wb-kw">return</span> keywordCounts.getOrDefault(keyword, <span class="wb-num">0</span>);
+}</code></pre>
+<p>A keyword that has never matched has no entry, and <code>timesAsked</code> returns 0 for it. Suppose a new bot gets four questions that match <code>submit</code>, <code>compile</code>, <code>submit</code> and then <code>test</code>:</p>
+<table>
+  <thead><tr><th>Question matches</th><th>Count after it</th><th>Entries in the count map</th></tr></thead>
+  <tbody>
+      <tr><td><code>submit</code></td><td>submit becomes 1</td><td>1</td></tr>
+      <tr><td><code>compile</code></td><td>compile becomes 1</td><td>2</td></tr>
+      <tr><td><code>submit</code></td><td>submit becomes 2</td><td>2</td></tr>
+      <tr><td><code>test</code></td><td>test becomes 1</td><td>3</td></tr>
+  </tbody>
+</table>
+<p>Afterwards <code>timesAsked("submit")</code> is 2, the counts for <code>compile</code> and <code>test</code> are 1, <code>timesAsked("late")</code> is 0, and the count map has three entries.</p>
+
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: repeated keywords</div>
-  <p><strong>7.</strong> A fresh bot receives submit, compile, submit, then test. The diagram shows the recognised events in time order. Fill in the final counts and number of distinct topics. If another submit question follows, which values change?</p>
-<p aria-label="Recognised events in time order"><code>submit</code> → <code>compile</code> → <code>submit</code> → <code>test</code></p>
+  <div class="wb-block-title">Practice: counting questions</div>
+  <p><strong>2.1</strong> A new bot answers <code>"Is my work late?"</code>, <code>"Why will it not compile?"</code>, <code>"How late is too late?"</code> and <code>"Can I hand it in late?"</code>. Fill in the table. Then say which values change if one more question about <code>late</code> arrives.</p>
   <wb-table id="q7">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Operation</th><th>Final value</th></tr></thead>
+    <table>
+      <thead><tr><th>Expression</th><th>Value</th></tr></thead>
       <tbody>
-        <tr><td><code>timesAsked("submit")</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>timesAsked("late")</code></td><td data-blank="0"></td></tr>
         <tr><td><code>timesAsked("compile")</code></td><td data-blank="1"></td></tr>
         <tr><td><code>timesAsked("test")</code></td><td data-blank="2"></td></tr>
-        <tr><td><code>timesAsked("late")</code></td><td data-blank="3"></td></tr>
-        <tr><td><code>numberOfTopicsAsked()</code></td><td data-blank="4"></td></tr>
+        <tr><td><code>timesAsked("submit")</code></td><td data-blank="3"></td></tr>
+        <tr><td><code>keywordCounts.size()</code></td><td data-blank="4"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
-<p>Explain your reasoning.</p>  <wb-short id="q7-why"></wb-short>
+  <p>Which values change after one more question about <code>late</code>?</p>
+  <wb-short id="q7-why"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: record one recognised keyword</div>
-  <p><strong>8.</strong> Write the private <code>recordKeyword(String keyword)</code> helper. Use the existing keywordCounts map and topicsAsked set. Read a missing count as 0, put back count + 1, and add the keyword to the set. Where do boxing and unboxing happen?</p>
-<p>The focused <code>KeywordRecorder</code> class supplies the same maps and set. Complete its private helper; keep the supplied public checking operations.</p>
+  <div class="wb-block-title">Practice: write <code>recordKeyword</code></div>
+  <p><strong>2.2</strong> Write the private method <code>recordKeyword(String keyword)</code> so that it adds 1 to the keyword's count in <code>keywordCounts</code>. Then answer: a student writes <code>keywordCounts.get(keyword) + 1</code> instead of using <code>getOrDefault</code>. What happens the first time a keyword is recorded?</p>
+  <p>The box holds a small class with only the count map. Its public method <code>ask</code> calls <code>recordKeyword</code>. The checking program asks <code>late</code>, <code>compile</code> and <code>late</code>. Its expected output is:</p>
+<pre class="wb-output">late: 2
+compile: 1
+test: 0
+Keywords counted: 2</pre>
   <wb-exercise id="q8"></wb-exercise>
-<p>Explain your reasoning.</p>  <wb-short id="q8-why"></wb-short>
+  <p>What happens with <code>get(keyword) + 1</code> the first time?</p>
+  <wb-short id="q8-why"></wb-short>
 </div>
 
-<h2 id="sets">3. Sets</h2>
+<h2 id="s3">3. Sets</h2>
+<h3>Distinct topics</h3>
+<p>The bot also records which topics have been asked about, without caring how often. A <strong>set</strong> is a collection that holds each element at most once. The class we use is <code>java.util.HashSet</code>:</p>
+<pre><code><span class="wb-kw">import</span> java.util.HashSet;
 
-<p>A set stores each distinct element at most once. HashSet has membership operations but no indexed get and no promised traversal order.</p>
+<span class="wb-cmt">// A field of HelpBot:</span>
+<span class="wb-kw">private</span> <span class="wb-type">HashSet</span>&lt;<span class="wb-type">String</span>&gt; topicsAsked;
+
+<span class="wb-cmt">// In the constructor:</span>
+topicsAsked = <span class="wb-kw">new</span> <span class="wb-type">HashSet</span>&lt;&gt;();</code></pre>
+<h3>Set operations</h3>
+<ul>
+  <li><code>add(element)</code> adds the element and returns <code>true</code>. If the element is already there, nothing changes and <code>add</code> returns <code>false</code>.</li>
+  <li><code>contains(element)</code> returns <code>true</code> if the element is in the set.</li>
+  <li><code>remove(element)</code> removes the element and returns <code>true</code>, or returns <code>false</code> if it was not there.</li>
+  <li><code>size()</code> returns the number of elements, and <code>isEmpty()</code> returns <code>true</code> when there are none.</li>
+</ul>
+<p>A set has no <code>get(index)</code>, because its elements have no positions. A for-each loop visits every element, and like a <code>HashMap</code>, a <code>HashSet</code> keeps no order. Two copies of an element are the same element if <code>equals</code> says they are, so <code>"submit"</code> is added once however many <code>String</code> objects hold that text.</p>
+
+<h3>Lists and sets</h3>
+<p>Add <code>submit</code>, <code>compile</code> and <code>submit</code> to an <code>ArrayList&lt;String&gt;</code> and to a <code>HashSet&lt;String&gt;</code>:</p>
+<table>
+  <thead><tr><th>Collection</th><th>Holds</th><th>Size</th></tr></thead>
+  <tbody>
+      <tr><td><code>ArrayList&lt;String&gt;</code></td><td>submit at index 0, compile at index 1, submit at index 2</td><td>3</td></tr>
+      <tr><td><code>HashSet&lt;String&gt;</code></td><td>submit and compile, in no order</td><td>2</td></tr>
+  </tbody>
+</table>
+<p>The list keeps both copies of <code>submit</code>, each at its own index. The set keeps one, and its elements could be shown in either order.</p>
+
+<h3>Recording topics</h3>
+<p>The finished private helper updates the count and the set:</p>
+<pre><code><span class="wb-kw">private</span> <span class="wb-kw">void</span> <span class="wb-fn">recordKeyword</span>(<span class="wb-type">String</span> keyword)
+{
+    <span class="wb-kw">int</span> count = keywordCounts.getOrDefault(keyword, <span class="wb-num">0</span>);
+    keywordCounts.put(keyword, count + <span class="wb-num">1</span>);
+    topicsAsked.add(keyword);
+}</code></pre>
+<p>Two public methods report on the set:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfTopicsAsked</span>()
+{
+    <span class="wb-kw">return</span> topicsAsked.size();
+}
+
+<span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">hasBeenAsked</span>(<span class="wb-type">String</span> keyword)
+{
+    <span class="wb-kw">return</span> topicsAsked.contains(keyword);
+}</code></pre>
+<p>After the questions <code>submit</code>, <code>compile</code>, <code>submit</code>, <code>test</code>, the set holds three topics, <code>hasBeenAsked("submit")</code> is true and <code>hasBeenAsked("late")</code> is false. Another <code>submit</code> question adds 1 to its count and leaves the set as it is.</p>
 
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: duplicate additions</div>
-  <p><strong>9.</strong> A demo imports ArrayList and HashSet. Compare the sizes and contents after these additions. Which collection preserves both occurrences of submit? Can you predict a HashSet print order?</p>
+  <div class="wb-block-title">Practice: a list and a set</div>
+  <p><strong>3.1</strong> After these lines, what are the sizes of <code>list</code> and <code>set</code>? Which of the two can tell you how many times <code>late</code> was added? Can you predict the order in which a for-each loop prints the set?</p>
 <pre><code><span class="wb-type">ArrayList</span>&lt;<span class="wb-type">String</span>&gt; list = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
 <span class="wb-type">HashSet</span>&lt;<span class="wb-type">String</span>&gt; set = <span class="wb-kw">new</span> <span class="wb-type">HashSet</span>&lt;&gt;();
-list.add(<span class="wb-str">"submit"</span>); list.add(<span class="wb-str">"compile"</span>); list.add(<span class="wb-str">"submit"</span>);
-set.add(<span class="wb-str">"submit"</span>); set.add(<span class="wb-str">"compile"</span>); set.add(<span class="wb-str">"submit"</span>);</code></pre>
+list.add(<span class="wb-str">"late"</span>); list.add(<span class="wb-str">"test"</span>); list.add(<span class="wb-str">"late"</span>); list.add(<span class="wb-str">"late"</span>);
+set.add(<span class="wb-str">"late"</span>); set.add(<span class="wb-str">"test"</span>); set.add(<span class="wb-str">"late"</span>); set.add(<span class="wb-str">"late"</span>);</code></pre>
   <wb-short id="q9"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: set operations and traversal</div>
-  <p><strong>10.</strong> A demo imports HashSet. Predict each output line. How would you visit every remaining topic?</p>
+  <div class="wb-block-title">Practice: set results</div>
+  <p><strong>3.2</strong> Write the six lines this code prints. Then write a for-each loop that prints every element still in <code>topics</code>, and say what it prints.</p>
 <pre><code><span class="wb-type">HashSet</span>&lt;<span class="wb-type">String</span>&gt; topics = <span class="wb-kw">new</span> <span class="wb-type">HashSet</span>&lt;&gt;();
 System.out.println(topics.isEmpty());
 System.out.println(topics.add(<span class="wb-str">"submit"</span>));
@@ -199,8 +607,8 @@ System.out.println(topics.contains(<span class="wb-str">"compile"</span>));
 System.out.println(topics.remove(<span class="wb-str">"late"</span>));
 System.out.println(topics.size());</code></pre>
   <wb-table id="q10-output">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Line</th><th>Expected output</th></tr></thead>
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
       <tbody>
         <tr><td>1</td><td data-blank="0"></td></tr>
         <tr><td>2</td><td data-blank="1"></td></tr>
@@ -209,82 +617,214 @@ System.out.println(topics.size());</code></pre>
         <tr><td>5</td><td data-blank="4"></td></tr>
         <tr><td>6</td><td data-blank="5"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
-<p>Keep the six supplied print calls, then add a for-each loop to print every remaining topic. You may choose the loop variable name.</p>
+  <p>Explain the second and fifth lines.</p>
+  <wb-short id="q10-why"></wb-short>
+  <p>Now add the loop at the end of <code>main</code> and run it. The output is the six lines, then the elements of the set.</p>
   <wb-exercise id="q10-loop"></wb-exercise>
-<p>Explain your reasoning.</p>  <wb-short id="q10-why"></wb-short>
 </div>
 
-<h2 id="part11">4. Coding pause 11: clinic snapshots</h2>
+<h2 id="s4">4. Library Part 3: Subjects and authors</h2>
+<h3>The catalogue so far</h3>
+<p>We do this part together in class. It continues the QEII Library catalogue from Lecture 10. At the end of Part 2, <code>Book</code> keeps a title, an author and a call number, with a getter for each, and <code>Catalogue</code> looks like this:</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+<span class="wb-kw">import</span> java.util.Random;
 
-<p>Continue Lecture 10 Part 10, keeping every existing method. The complete starting project is <a href="#starting-project">below</a>. ClinicSchedule's <code>ArrayList&lt;Appointment&gt; appointments</code> remains the sole current list. Appointment supplies getPatientName, hasCheckedIn, checkIn, and getMinutes. Snapshots include checked-in and waiting appointments.</p>
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Catalogue</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Book</span>&gt; books;
+    <span class="wb-kw">private</span> <span class="wb-type">Random</span> generator;
 
-<p>Each editor below starts from Part 10 and asks for just one new method. Combine both completed methods and their imports in one ClinicSchedule to finish Part 11. The checking programs use empty schedules, repeated names, a checked-in appointment, and the exact stored name <code>"  ANA  "</code>; these checks extend the demonstration without changing its fixed data.</p>
+    <span class="wb-kw">public</span> <span class="wb-fn">Catalogue</span>()
+    {
+        books = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        generator = <span class="wb-kw">new</span> <span class="wb-fn">Random</span>(<span class="wb-num">42</span>);
+    }
+
+    <span class="wb-cmt">// addBook(Book book), getCount(), printMatches(String query)</span>
+    <span class="wb-cmt">// and pickRandom(), each with its Javadoc comment.</span>
+}</code></pre>
+<p>Every example uses the same five books, added in this order:</p>
+<table>
+  <thead><tr><th>Index</th><th>Title</th><th>Author</th><th>Call number</th></tr></thead>
+  <tbody>
+      <tr><td>0</td><td>Objects First with Java</td><td>David Barnes</td><td><code>QA76.73 B37</code></td></tr>
+      <tr><td>1</td><td>Head First Java</td><td>Kathy Sierra</td><td><code>QA76.73 S54</code></td></tr>
+      <tr><td>2</td><td>The Colony of Unrequited Dreams</td><td>Wayne Johnston</td><td><code>PS8569 J64</code></td></tr>
+      <tr><td>3</td><td>The Navigator of New York</td><td>Wayne Johnston</td><td><code>PS8569 J65</code></td></tr>
+      <tr><td>4</td><td>A Brief History of Time</td><td>Stephen Hawking</td><td><code>QB981 H38</code></td></tr>
+  </tbody>
+</table>
+<p>The first two letters of a call number give the subject: QA is computing, PS is Canadian literature and QB is astronomy.</p>
+
+<h3>New in Part 3</h3>
+<p>Part 3 lets the catalogue report on its subjects and authors. Everything from Part 2 stays.</p>
+<ul>
+  <li>In <code>Book</code>, add <code>String getSubjectCode()</code>, which returns <code>callNumber.substring(0, 2)</code>.</li>
+  <li>In <code>Catalogue</code>, import <code>HashMap</code> and <code>HashSet</code>.</li>
+  <li>Add <code>HashMap&lt;String, Integer&gt; countBySubject()</code>. It creates a new map, visits the books, adds 1 to the count for each book's subject code with the pattern from Section 2, and returns the map.</li>
+  <li>Add <code>HashSet&lt;String&gt; getAuthors()</code>, which creates a new set, adds each book's author, and returns the set.</li>
+</ul>
+<p>Each method builds a new collection every time it is called, from the books in the list at that moment. The catalogue keeps no extra fields.</p>
 
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Coding pause: counts by exact name</div>
-  <p><strong>11.</strong> Add the explicit HashMap import and write documented <code>countAppointmentsByName()</code>, returning <code>HashMap&lt;String, Integer&gt;</code>. Count each exact stored name in a fresh map. Do not change stored names or add a collection field.</p>
-  <wb-exercise id="q11"></wb-exercise>
-<p>Explain your reasoning.</p>  <wb-short id="q11-why"></wb-short>
+  <div class="wb-block-title">Practice: write <code>getSubjectCode</code> and <code>countBySubject</code></div>
+  <p><strong>4.1</strong> Write <code>getSubjectCode</code> in <code>Book</code> and <code>countBySubject</code> in <code>Catalogue</code>.</p>
+  <p>Start with <code>getSubjectCode</code>. The checking program prints the subject code of each of the five books:</p>
+<pre class="wb-output">QA
+QA
+PS
+PS
+QB</pre>
+  <wb-exercise id="q26-subject"></wb-exercise>
+  <p>Now <code>countBySubject</code>. A finished <code>Book</code> is on the classpath of this box. The checking program counts an empty catalogue, then the five books. Its expected output is:</p>
+<pre class="wb-output">Empty: 0
+Subjects: 3
+QA: 2
+PS: 2
+QB: 1
+Books: 5</pre>
+  <wb-exercise id="q26"></wb-exercise>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Coding pause: distinct exact names</div>
-  <p><strong>12.</strong> Add the explicit HashSet import and write documented <code>uniquePatientNames()</code>, returning <code>HashSet&lt;String&gt;</code>. Build a fresh set from exact stored names. What does it return on an empty schedule? Why not use the cleaned-name search for this task?</p>
-  <wb-exercise id="q12"></wb-exercise>
-<p>Explain your reasoning.</p>  <wb-short id="q12-why"></wb-short>
-</div>
+  <div class="wb-block-title">Practice: write <code>getAuthors</code>, then predict the demo</div>
+  <p><strong>4.2</strong> Write <code>getAuthors</code>. Then predict the nine lines that the Part 3 demo prints.</p>
+  <p>A finished <code>Book</code> is on the classpath of this box. The checking program adds the five books and asks about three authors. Its expected output is:</p>
+<pre class="wb-output">Authors: 4
+Wayne Johnston? true
+Kathy Sierra? true
+Margaret Atwood? false
+Books: 5</pre>
+  <wb-exercise id="q27"></wb-exercise>
+  <p>After adding the five books, the Part 3 demo runs these lines. Write the nine lines it prints.</p>
+<pre><code><span class="wb-type">HashMap</span>&lt;<span class="wb-type">String</span>, <span class="wb-type">Integer</span>&gt; counts = catalogue.countBySubject();
+System.out.println(<span class="wb-str">"Subjects: "</span> + counts.size());
+System.out.println(<span class="wb-str">"QA books: "</span> + counts.get(<span class="wb-str">"QA"</span>));
+System.out.println(<span class="wb-str">"PS books: "</span> + counts.get(<span class="wb-str">"PS"</span>));
+System.out.println(<span class="wb-str">"QB books: "</span> + counts.get(<span class="wb-str">"QB"</span>));
+System.out.println(<span class="wb-str">"PR books: "</span> + counts.getOrDefault(<span class="wb-str">"PR"</span>, <span class="wb-num">0</span>));
 
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: predict the snapshots</div>
-  <p><strong>13.</strong> Use a fresh schedule with Ana/15, Ben/20, Cara/10, and another Ana/15, all unchecked. Save its count map and name set. Fill in the named reads below. The two empty reads happen before adding appointments.</p>
-  <wb-table id="q13">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Read</th><th>Result</th></tr></thead>
+<span class="wb-type">HashSet</span>&lt;<span class="wb-type">String</span>&gt; authors = catalogue.getAuthors();
+System.out.println(<span class="wb-str">"Books: "</span> + catalogue.getCount());
+System.out.println(<span class="wb-str">"Authors: "</span> + authors.size());
+System.out.println(<span class="wb-str">"Wayne Johnston? "</span> + authors.contains(<span class="wb-str">"Wayne Johnston"</span>));
+System.out.println(<span class="wb-str">"Margaret Atwood? "</span> + authors.contains(<span class="wb-str">"Margaret Atwood"</span>));</code></pre>
+  <wb-table id="q27-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
       <tbody>
-        <tr><td>Empty counts</td><td data-blank="0"></td></tr>
-        <tr><td>Empty names</td><td data-blank="1"></td></tr>
-        <tr><td>Ana count</td><td data-blank="2"></td></tr>
-        <tr><td>Ben count</td><td data-blank="3"></td></tr>
-        <tr><td>Cara count</td><td data-blank="4"></td></tr>
-        <tr><td>Dana via get</td><td data-blank="5"></td></tr>
-        <tr><td>Dana via getOrDefault, default 0</td><td data-blank="6"></td></tr>
-        <tr><td>Different names</td><td data-blank="7"></td></tr>
-        <tr><td>Count entries</td><td data-blank="8"></td></tr>
-        <tr><td>Has Ana</td><td data-blank="9"></td></tr>
-        <tr><td>Has Dana</td><td data-blank="10"></td></tr>
-        <tr><td>Appointments</td><td data-blank="11"></td></tr>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+        <tr><td>4</td><td data-blank="3"></td></tr>
+        <tr><td>5</td><td data-blank="4"></td></tr>
+        <tr><td>6</td><td data-blank="5"></td></tr>
+        <tr><td>7</td><td data-blank="6"></td></tr>
+        <tr><td>8</td><td data-blank="7"></td></tr>
+        <tr><td>9</td><td data-blank="8"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
-<p>Explain your reasoning.</p>  <wb-short id="q13-why"></wb-short>
 </div>
 
+<h2 id="s5">5. Collections</h2>
+<h3>Choosing a collection</h3>
+<p>We now have three collection classes. Each one answers a different question:</p>
+<ul>
+  <li><code>ArrayList</code> keeps elements in order, with repeats, and finds them by index. Use it when order or repeats matter.</li>
+  <li><code>HashSet</code> keeps each element once, in no order. Use it when the question is &ldquo;is this one of them?&rdquo; or &ldquo;how many different ones?&rdquo;.</li>
+  <li><code>HashMap</code> finds a value from a key. Use it when each item has something attached to it, such as a reply or a count.</li>
+</ul>
+<p><code>HelpBot</code> uses all three. Its general replies and its ratings are lists, because a reply is picked by a random index and a rating of 5 given twice counts twice. The topics asked form a set, because only the distinct topics matter. The replies and the counts are maps, because each is looked up by its keyword. The catalogue does the same: its books are a list, its authors a set, and its counts by subject a map.</p>
+<p>A value type can itself be a collection. A map from each keyword to the list of questions that matched it would be a <code>HashMap&lt;String, ArrayList&lt;String&gt;&gt;</code>. We do not need one in this course, but you may see such types in the Java library documentation.</p>
+
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: cancellation and old snapshots</div>
-  <p><strong>14.</strong> Continue Question 13. Cancel the unchecked Ben using <code>cancelPatient("Ben")</code>. Predict the success result, the old map's Ben count, a fresh map's Ben count with default 0, a fresh name set's size, and the current appointment count. Explain why old snapshots stay unchanged.</p>
-  <wb-short id="q14"></wb-short>
-</div>
-
-<h2 id="collections">5. Collections and class fields</h2>
-
-<p>Choose a collection from the operations the problem needs. The clinic keeps its list for appointment order; its maps and sets are fresh snapshots.</p>
-
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: choosing a collection</div>
-  <p><strong>15.</strong> Choose ArrayList, HashSet, or HashMap for each job: ordered general replies with possible duplicates; distinct recognised topics; a reply per keyword; an appointment count per exact name. What do the more general declarations below say?</p>
-<pre><code><span class="wb-type">List</span>&lt;<span class="wb-type">String</span>&gt; replies = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
-<span class="wb-type">Set</span>&lt;<span class="wb-type">String</span>&gt; topics = <span class="wb-kw">new</span> <span class="wb-type">HashSet</span>&lt;&gt;();
-<span class="wb-type">Map</span>&lt;<span class="wb-type">String</span>, <span class="wb-type">Integer</span>&gt; counts = <span class="wb-kw">new</span> <span class="wb-type">HashMap</span>&lt;&gt;();</code></pre>
+  <div class="wb-block-title">Practice: field declarations</div>
+  <p><strong>5.1</strong> The help desk wants to keep four pieces of information. For each one, write the field declaration: the collection class with its type arguments and a field name.</p>
+  <ol type="a">
+    <li>every question asked, in the order asked, with repeats;</li>
+    <li>the student numbers of the students who have used the bot;</li>
+    <li>the number of questions each student number has asked;</li>
+    <li>the reply given for each keyword.</li>
+  </ol>
   <wb-short id="q15"></wb-short>
-<p><strong>Awareness note.</strong> A map value can itself be a collection. The following type can associate one name with several Strings. This is a type-reading example only; no nested-collection algorithm is required.</p>
-<pre><code><span class="wb-type">HashMap</span>&lt;<span class="wb-type">String</span>, <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">String</span>&gt;&gt; repliesByName = <span class="wb-kw">new</span> <span class="wb-type">HashMap</span>&lt;&gt;();</code></pre>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: list, set or map?</div>
+  <p><strong>5.2</strong> For each job in the library, write list, set or map, and give a reason in a few words.</p>
+  <wb-table id="q30">
+    <table>
+      <thead><tr><th>Job</th><th>Collection</th></tr></thead>
+      <tbody>
+        <tr><td>the books on one shelf, in shelf order</td><td data-blank="shelf"></td></tr>
+        <tr><td>the authors in the catalogue</td><td data-blank="authors"></td></tr>
+        <tr><td>the number of books in each subject</td><td data-blank="subjects"></td></tr>
+        <tr><td>the books borrowed today, in the order borrowed</td><td data-blank="borrowed"></td></tr>
+        <tr><td>the title stored with each call number</td><td data-blank="titles"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Give a reason for each choice, in a few words.</p>
+  <wb-short id="q30-why"></wb-short>
 </div>
 
+<h2 id="s6">6. Fields</h2>
+<h3>Class variables</h3>
+<p>Each <code>HelpBot</code> object has its own reply map, its own counts and its own ratings. These are <strong>instance variables</strong>: every object gets its own copy. Sometimes we want one value for the whole class, such as the number of bots created so far. A field declared <code>static</code> is a <strong>class variable</strong>. There is one copy of it, kept by the class, and every object shares it:</p>
+<pre><code><span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">int</span> botsCreated = <span class="wb-num">0</span>;</code></pre>
+<p>The initial value is given in the declaration. A constructor runs once for each new object, so it is the wrong place to set a shared value to 0. Java sets the class variable once, before the class is first used.</p>
+
+<h3>Constructor updates</h3>
+<p>The constructor adds 1 each time a bot is created:</p>
+<pre><code><span class="wb-cmt">// The last line of the HelpBot constructor:</span>
+botsCreated++;</code></pre>
+<p>After three <code>new HelpBot()</code> calls, <code>botsCreated</code> is 3. If a variable that refers to a bot is later set to <code>null</code>, the count stays 3: it counts the bots created, not the bots in use.</p>
+<table>
+  <thead><tr><th>Kept by</th><th>Variable</th><th>Copies</th></tr></thead>
+  <tbody>
+      <tr><td>the <code>HelpBot</code> class</td><td><code>botsCreated</code> (3 after three bots)</td><td>one, shared by all the bots</td></tr>
+      <tr><td>each object <code>a</code>, <code>b</code>, <code>c</code></td><td><code>replyMap</code>, <code>keywordCounts</code>, ...</td><td>one per object</td></tr>
+  </tbody>
+</table>
+<p>A class variable is usually private, like any other field. When it is private, the class gives a method to read it, as Section 7 shows.</p>
+
+<h3>Class constants</h3>
+<p>A <strong>constant</strong> is a class variable whose value can never change. It is declared <code>static final</code>:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-kw">int</span> <span class="wb-type">MIN_RATING</span> = <span class="wb-num">1</span>;
+<span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-kw">int</span> <span class="wb-type">MAX_RATING</span> = <span class="wb-num">5</span>;</code></pre>
+<p><code>final</code> means the value cannot be changed after it is set, and <code>static</code> means the class keeps one copy. By convention a constant's name is in capital letters, with a <code>_</code> between words. Because nothing can change a constant, it is safe to make it <code>public</code>. Code outside the class uses the class name: <code>HelpBot.MAX_RATING</code> is 5.</p>
+<p><code>NO_QUESTION</code> and <code>UNKNOWN_KEYWORD</code> are private constants: the messages are used only inside <code>HelpBot</code>.</p>
+
+<h3>Using named constants</h3>
+<p>Lecture 10's <code>addRating</code> compared the rating with the numbers 1 and 5. With constants, the test says what the numbers mean:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addRating</span>(<span class="wb-kw">int</span> rating)
+{
+    <span class="wb-kw">if</span>(rating &gt;= <span class="wb-type">MIN_RATING</span> &amp;&amp; rating &lt;= <span class="wb-type">MAX_RATING</span>) {
+        ratings.add(rating);
+    }
+}</code></pre>
+<p>A number written straight into the code, like the 5, is sometimes called a magic number: a reader has to guess what it means, and a change has to find every copy. If the scale became 1 to 10, only the declaration of <code>MAX_RATING</code> would change.</p>
+
+<h3>Final instance fields</h3>
+<p><code>final</code> also works on an instance field. Each object still has its own copy, but the constructor sets it once and nothing can change it after that. In the catalogue, a book's call number never changes, so Part 4 makes it final:</p>
+<pre><code><span class="wb-kw">private</span> <span class="wb-kw">final</span> <span class="wb-type">String</span> callNumber;</code></pre>
+<p>A final field must be assigned exactly once in each constructor. A setter such as <code>setCallNumber</code> would not compile, and neither would a constructor that forgot to assign the field.</p>
+
+<h3>Final references</h3>
+<p>For a field that refers to an object, <code>final</code> fixes the reference, not the object. A <code>final</code> list field always refers to the same <code>ArrayList</code>, but that list can still grow and shrink:</p>
+<table>
+  <thead><tr><th>Line, for <code>private final ArrayList&lt;Integer&gt; ratings</code></th><th>Compiles?</th></tr></thead>
+  <tbody>
+      <tr><td><code>ratings.add(3);</code></td><td>yes: the list changes, the field does not</td></tr>
+      <tr><td><code>ratings = new ArrayList&lt;&gt;();</code></td><td>no: it points the field at a different list</td></tr>
+  </tbody>
+</table>
+<p>The <code>final</code> keyword stops the field from being pointed at a different list. The methods of the list still work as before.</p>
+
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: shared and per-object state</div>
-  <p><strong>16.</strong> Run this separate demo in a fresh JVM. Predict its four lines and give the class-counter value after all three constructions. Which state is shared? Why is this a creation count rather than a live-object count?</p>
+  <div class="wb-block-title">Practice: one count for the class</div>
+  <p><strong>6.1</strong> This is the start of a new program, so no bot has been created yet. Write the four lines it prints. Then explain why the last line is 0, and say what <code>numberOfBots()</code> would return after the extra line <code>b = null;</code>.</p>
 <pre><code>System.out.println(<span class="wb-type">HelpBot</span>.numberOfBots());
 <span class="wb-type">HelpBot</span> a = <span class="wb-kw">new</span> <span class="wb-fn">HelpBot</span>();
 <span class="wb-type">HelpBot</span> b = <span class="wb-kw">new</span> <span class="wb-fn">HelpBot</span>();
@@ -293,962 +833,284 @@ a.replyTo(<span class="wb-str">"submit"</span>);
 System.out.println(<span class="wb-type">HelpBot</span>.numberOfBots());
 System.out.println(a.timesAsked(<span class="wb-str">"submit"</span>));
 System.out.println(b.timesAsked(<span class="wb-str">"submit"</span>));</code></pre>
-<div class="wb-block"><div class="wb-block-title">Shared class state</div><p><code>HelpBot.botsCreated</code> belongs to the class. Give its value after all three constructions in your explanation.</p><table><thead><tr><th>Object</th><th>Its own state</th></tr></thead><tbody><tr><td>bot a</td><td>own maps and ratings</td></tr><tr><td>bot b</td><td>own maps and ratings</td></tr><tr><td>bot c</td><td>own maps and ratings</td></tr></tbody></table></div>
   <wb-table id="q16-output">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Line</th><th>Expected output</th></tr></thead>
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
       <tbody>
         <tr><td>1</td><td data-blank="0"></td></tr>
         <tr><td>2</td><td data-blank="1"></td></tr>
         <tr><td>3</td><td data-blank="2"></td></tr>
         <tr><td>4</td><td data-blank="3"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
-<p>Explain your reasoning.</p>  <wb-short id="q16-why"></wb-short>
+  <p>Why is the last line 0, and what would <code>numberOfBots()</code> return after <code>b = null;</code>?</p>
+  <wb-short id="q16-why"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: rating constants</div>
-  <p><strong>17.</strong> Write the public static final rating constants, 1 and 5, then rewrite addRating to use them. For ratings 5, 3, 4, 0, 6 in a fresh bot, give the accepted count, sum, and integer average. Why keep ratings private?</p>
-<p>Complete the constants and addRating in the supplied HelpBot. The checking program prints the accepted count and integer average. Include the sum and the reason for private ratings in your explanation.</p>
+  <div class="wb-block-title">Practice: the rating constants</div>
+  <p><strong>6.2</strong> Write the two rating constants and the version of <code>addRating</code> that uses them. Then say what has to change if the ratings run from 1 to 10.</p>
+  <p>The box holds the whole <code>HelpBot</code>, with <code>addRating</code> still using the numbers 1 and 5. The checking program prints the scale and gives the ratings 5, 0, 1 and 6. Its expected output is:</p>
+<pre class="wb-output">Scale: 1 to 5
+Ratings: 2</pre>
   <wb-exercise id="q17"></wb-exercise>
-<p>Explain your reasoning.</p>  <wb-short id="q17-why"></wb-short>
+  <p>What has to change for a scale of 1 to 10?</p>
+  <wb-short id="q17-why"></wb-short>
 </div>
-
-<h2 id="final">6. Final fields and class methods</h2>
-
-<p>Final prevents assigning a new value to a variable after its permitted initialization. It does not make an instance field shared and does not make a referenced collection immutable.</p>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: fixed duration per appointment</div>
-  <p><strong>18.</strong> Write the final minutes field and retain Appointment's existing two-parameter constructor assignments. At this point, isolate final duration; add the creation counter in Part 12. Give the durations of Ana/15, Ben/20, and Cara/10. Can the constructor assign the field? Can a later setter assign it?</p>
+  <div class="wb-block-title">Practice: a final call number</div>
+  <p><strong>6.3</strong> In Part 4, <code>callNumber</code> in <code>Book</code> is <code>private final String callNumber;</code>. For each piece of code, say whether it compiles. Assume it is inside <code>Book</code>.</p>
+  <ol type="a">
+    <li><code>this.callNumber = callNumber;</code> as the only assignment in the constructor</li>
+    <li><code>public void setCallNumber(String number) { callNumber = number; }</code></li>
+    <li>a constructor that assigns <code>title</code> and <code>author</code> but not <code>callNumber</code></li>
+    <li><code>return callNumber.substring(0, 2);</code> in <code>getSubjectCode</code></li>
+  </ol>
+  <wb-short id="q18-why"></wb-short>
+  <p>Try it. The <code>Book</code> in the box has a <code>setCallNumber</code> method. Make <code>callNumber</code> final, then fix the compile error. The checking program creates <i>Head First Java</i> and prints its call number and subject code:</p>
+<pre class="wb-output">QA76.73 S54
+QA</pre>
   <wb-exercise id="q18"></wb-exercise>
-<p>Explain your reasoning.</p>  <wb-short id="q18-why"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: a final reference</div>
-  <p><strong>19.</strong> Explain why these two lines compile and what the list contains. Would the separately proposed reassignment compile? Does making a reference final remove the need to keep a collection field private?</p>
-<pre><code><span class="wb-kw">final</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">String</span>&gt; topics = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
-topics.add(<span class="wb-str">"submit"</span>);</code></pre>
-<p>The proposed next line is deliberately invalid:</p>
-<pre><code>topics = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();</code></pre>
+  <div class="wb-block-title">Practice: a final list</div>
+  <p><strong>6.4</strong> A student changes the ratings field to <code>private final ArrayList&lt;Integer&gt; ratings;</code>. Does <code>addRating</code> still compile and work? What kind of statement would <code>final</code> now stop? Give an example.</p>
   <wb-short id="q19"></wb-short>
 </div>
 
+<h2 id="s7">7. Methods</h2>
+<h3>Class methods</h3>
+<p>A method declared <code>static</code> is a <strong>class method</strong>. It belongs to the class, so we call it with the class name and no object:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfBots</span>()
+{
+    <span class="wb-kw">return</span> botsCreated;
+}</code></pre>
+<p><code>HelpBot.numberOfBots()</code> works before any bot exists, when it returns 0. The library has class methods too: <code>Math.min(3, 7)</code> returns 3, and we never create a <code>Math</code> object. A class method suits a job that needs no particular object.</p>
+
+<h3>Instance access from class methods</h3>
+<p>A class method runs without an object, so it has no <code>this</code>. It cannot use an instance variable or call an instance method on its own. This version does not compile:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfKeywords</span>()
+{
+    <span class="wb-kw">return</span> replyMap.size();
+}</code></pre>
+<p>The compiler in BlueJ reports <code>non-static variable replyMap cannot be referenced from a static context</code>. The code boxes on this page use a different compiler, which words it as <code>Cannot make a static reference to the non-static field replyMap</code>. The question neither can answer is &ldquo;which bot's <code>replyMap</code>?&rdquo; The other direction is fine: an instance method or a constructor can use a class variable, as the <code>HelpBot</code> constructor does with <code>botsCreated</code>.</p>
+
+<h3>Objects in class methods</h3>
+<p>A class method can use an object that it is given or that it creates. Then it says which object it means:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">int</span> <span class="wb-fn">keywordsKnown</span>(<span class="wb-type">HelpBot</span> bot)
+{
+    <span class="wb-kw">return</span> bot.numberOfKeywords();
+}</code></pre>
+<p><code>HelpBot.keywordsKnown(new HelpBot())</code> returns 4.</p>
+
+<h3>The main method</h3>
+<p>Every demo class we have written has this method:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)</code></pre>
+<p>Java starts a program by calling <code>main</code> before any object exists, so it must be a class method. That is why a demo's <code>main</code> begins by creating the objects it needs, then calls their methods. <code>String[]</code> is an array of strings, which Lecture 12 explains. In BlueJ we call <code>main</code> from the class's menu, the same way as any class method.</p>
+
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: a class getter</div>
-  <p><strong>20.</strong> Write the public static numberOfBots getter for the private static botsCreated field. Then predict these calls before any bot is constructed in a fresh JVM. Is a Math object needed?</p>
+  <div class="wb-block-title">Practice: write <code>numberOfBots</code></div>
+  <p><strong>7.1</strong> Write the method <code>numberOfBots</code> in <code>HelpBot</code>. At the start of a new program, what do these two lines print? Why do they need no object?</p>
 <pre><code>System.out.println(<span class="wb-type">HelpBot</span>.numberOfBots());
-System.out.println(<span class="wb-type">Math</span>.max(<span class="wb-num">3</span>, <span class="wb-num">7</span>));</code></pre>
+System.out.println(<span class="wb-type">Math</span>.min(<span class="wb-num">3</span>, <span class="wb-num">7</span>));</code></pre>
   <wb-table id="q20-output">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Line</th><th>Expected output</th></tr></thead>
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
       <tbody>
         <tr><td>1</td><td data-blank="0"></td></tr>
         <tr><td>2</td><td data-blank="1"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
-<p>This focused HelpBot keeps just the shared counter. Add its getter.</p>
+  <p>Why do they need no object?</p>
+  <wb-short id="q20-why"></wb-short>
+  <p>Now write the method. The checking program prints the count before and after creating two bots:</p>
+<pre class="wb-output">Before: 0
+After two: 2</pre>
   <wb-exercise id="q20"></wb-exercise>
-<p>Explain your reasoning.</p>  <wb-short id="q20-why"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: an explicit receiver</div>
-  <p><strong>21.</strong> This proposed HelpBot method does not compile. Explain the missing receiver. In a separate demo class, write a static helper with a HelpBot parameter that uses its public numberOfGeneralReplies method.</p>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfReplies</span>()
-{
-    <span class="wb-kw">return</span> generalReplies.size();
-}</code></pre>
-<p>The printed method is deliberately invalid. Write the corrected helper inside the separate ReceiverDemo class; the supplied HelpBot remains unchanged.</p>
+  <div class="wb-block-title">Practice: a class method that is given a bot</div>
+  <p><strong>7.2</strong> Write a class method <code>ratingsKept(HelpBot bot)</code> in <code>HelpBot</code> that returns the number of ratings the given bot has kept. For a bot given the ratings 5, 0 and 4, what does it return? Then explain why the <code>static</code> version of <code>numberOfKeywords</code> above does not compile.</p>
+  <p>The checking program gives one bot the ratings 5, 0 and 4, and then asks about a new bot. Its expected output is:</p>
+<pre class="wb-output">Kept: 2
+New bot: 0</pre>
   <wb-exercise id="q21"></wb-exercise>
-<p>Explain your reasoning.</p>  <wb-short id="q21-why"></wb-short>
+  <p>What does it return for the ratings 5, 0 and 4, and why does the <code>static</code> <code>numberOfKeywords</code> not compile?</p>
+  <wb-short id="q21-why"></wb-short>
 </div>
-
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: the main method</div>
-  <p><strong>22.</strong> Predict the exact output in a fresh JVM. Explain why the launcher does not first construct a HelpBotDemo object. Identify the class call and the instance call inside main.</p>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">HelpBotDemo</span>
-{
-    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
-    {
-        <span class="wb-type">HelpBot</span> bot = <span class="wb-kw">new</span> <span class="wb-fn">HelpBot</span>();
-        System.out.println(<span class="wb-type">HelpBot</span>.numberOfBots());
-        System.out.println(bot.replyTo(<span class="wb-str">"When is the test?"</span>));
-    }
-}</code></pre>
+  <div class="wb-block-title">Practice: class or instance?</div>
+  <p><strong>7.3</strong> At the start of a new program, what does this code print? Which call is to a class method, and which to an instance method?</p>
+<pre><code><span class="wb-type">HelpBot</span> first = <span class="wb-kw">new</span> <span class="wb-fn">HelpBot</span>();
+<span class="wb-type">HelpBot</span> second = <span class="wb-kw">new</span> <span class="wb-fn">HelpBot</span>();
+System.out.println(<span class="wb-type">HelpBot</span>.numberOfBots());
+System.out.println(second.replyTo(<span class="wb-str">"Is it too LATE?"</span>));</code></pre>
   <wb-table id="q22-output">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Line</th><th>Expected output</th></tr></thead>
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
       <tbody>
         <tr><td>1</td><td data-blank="0"></td></tr>
         <tr><td>2</td><td data-blank="1"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
-<p>Explain your reasoning.</p>  <wb-short id="q22-why"></wb-short>
-<details><summary>Run the main demonstration</summary>
-<wb-example id="main-example"></wb-example>
-</details>
+  <p>Which call is to a class method, and which to an instance method?</p>
+  <wb-short id="q22-why"></wb-short>
 </div>
 
-<h2 id="part12">7. Coding pause 12: appointment creation count</h2>
-
-<p>Keep all Part 11 code. Appointment keeps its existing two-parameter constructor and every instance operation. ClinicSchedule stays unchanged. The shared count records construction, not current schedule membership.</p>
+<h2 id="s8">8. Library Part 4: Counting books</h2>
+<h3>New in Part 4</h3>
+<p>We do this part together in class. The catalogue keeps everything from Part 3 and adds the class members from Sections 6 and 7:</p>
+<ul>
+  <li>In <code>Book</code>, add <code>private static int booksCreated = 0;</code> and make the constructor add 1 to it.</li>
+  <li>Add <code>public static int getBooksCreated()</code>, which returns the count.</li>
+  <li>Make <code>callNumber</code> final: <code>private final String callNumber;</code>.</li>
+  <li>In <code>Catalogue</code>, add the constant <code>public static final String LIBRARY_NAME = "QEII Library";</code>.</li>
+</ul>
+<p>The demo prints the library name and the count before any book exists, adds the five books to <code>catalogue</code>, and then adds one donated book, <i>Random Passage</i> by Bernice Morgan, call number <code>PS8576 M67</code>, to a second catalogue named <code>donations</code>.</p>
+<pre><code>System.out.println(<span class="wb-type">Catalogue</span>.LIBRARY_NAME);
+System.out.println(<span class="wb-str">"Books created: "</span> + <span class="wb-type">Book</span>.getBooksCreated());
+<span class="wb-cmt">// Create catalogue and add the five books, then print</span>
+<span class="wb-cmt">// "Books created: " and "In the catalogue: " with getCount().</span>
+<span class="wb-cmt">// Create donations and add Random Passage, then print</span>
+<span class="wb-cmt">// "Books created: " and "In the donations: " with getCount().</span></code></pre>
+<p>Each catalogue counts only its own books. The class variable counts every <code>Book</code> object created, whichever catalogue it went into.</p>
+<p>If you run the demo twice in BlueJ without compiling, the count carries on from the first run, because the class keeps its class variables. Choose Tools, then Reset Java Virtual Machine, or compile again, to start from 0.</p>
 
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Coding pause: lifetime creation count</div>
-  <p><strong>23.</strong> Add public static final DEFAULT_MINUTES = 15, a private static appointmentsCreated counter starting at 0, and a documented public static numberOfAppointmentsCreated getter. Make minutes final and increment the counter once in the existing constructor. Write the changed fields, constructor, and getter. Do not add a setter or another constructor.</p>
-<p>The supplied supporting classes run the Part 12 demonstration with your Appointment. Keep its old methods, and document the new class getter.</p>
-  <wb-exercise id="q23"></wb-exercise>
-<p>Explain your reasoning.</p>  <wb-short id="q23-why"></wb-short>
-</div>
-
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: predict creation and membership counts</div>
-  <p><strong>24.</strong> Predict the supplied Part 12 demonstration. Begin in a fresh JVM. Print the before-count and default, construct Ana/default, Ben/20, Cara/10, then cancel unchecked Ana. Construct and add another Ana/default. Fill the exact output values. Would a second main call in the same JVM necessarily start at 0?</p>
-  <wb-table id="q24">
-    <div class="wb-table-wrap"><table>
-      <thead><tr><th>Printed label</th><th>Value</th></tr></thead>
+  <div class="wb-block-title">Practice: the Part 4 changes</div>
+  <p><strong>8.1</strong> Write the Part 4 changes to <code>Book</code>: the class variable, the final field, the constructor and <code>getBooksCreated</code>. Write the constant in <code>Catalogue</code>.</p>
+  <p>The box holds the Part 3 <code>Book</code>. The checking program prints the count, creates two books, prints the count again, and prints the second book's call number and subject code. Its expected output is:</p>
+<pre class="wb-output">Before: 0
+After two: 2
+PS8576 M67 PS</pre>
+  <wb-exercise id="q28"></wb-exercise>
+  <p>Write the declaration of the constant in <code>Catalogue</code>.</p>
+  <wb-table id="q28-constant">
+    <table>
+      <thead><tr><th>In <code>Catalogue</code></th><th>Declaration</th></tr></thead>
       <tbody>
-        <tr><td>Created before</td><td data-blank="0"></td></tr>
-        <tr><td>Default minutes</td><td data-blank="1"></td></tr>
-        <tr><td>Created after base</td><td data-blank="2"></td></tr>
-        <tr><td>Appointments</td><td data-blank="3"></td></tr>
-        <tr><td>Cancelled Ana</td><td data-blank="4"></td></tr>
-        <tr><td>Appointments after cancellation</td><td data-blank="5"></td></tr>
-        <tr><td>Created after cancellation</td><td data-blank="6"></td></tr>
-        <tr><td>Created after another Ana</td><td data-blank="7"></td></tr>
-        <tr><td>Appointments after another Ana</td><td data-blank="8"></td></tr>
-        <tr><td>Current Ana count</td><td data-blank="9"></td></tr>
+        <tr><td>the library name</td><td data-blank="constant"></td></tr>
       </tbody>
-    </table></div>
+    </table>
   </wb-table>
-<p>Explain your reasoning.</p>  <wb-short id="q24-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: predict the Part 4 demo</div>
+  <p><strong>8.2</strong> Predict the six lines the Part 4 demo prints, in a new program.</p>
+  <wb-table id="q31">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+        <tr><td>4</td><td data-blank="3"></td></tr>
+        <tr><td>5</td><td data-blank="4"></td></tr>
+        <tr><td>6</td><td data-blank="5"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: what a class method can use</div>
+  <p><strong>8.3</strong> A student tries each line below as the body of the class method <code>getBooksCreated</code> in <code>Book</code>. Say whether each one compiles. Then explain the rule behind your answers.</p>
+  <wb-table id="q29">
+    <table>
+      <thead><tr><th>Body</th><th>Compiles?</th></tr></thead>
+      <tbody>
+        <tr><td><code>return booksCreated;</code></td><td data-blank="count"></td></tr>
+        <tr><td><code>return title.length();</code></td><td data-blank="title"></td></tr>
+        <tr><td><code>Book b = new Book("A", "B", "QA1"); return b.getTitle().length();</code></td><td data-blank="create"></td></tr>
+        <tr><td><code>return this.callNumber.length();</code></td><td data-blank="this"></td></tr>
+        <tr><td><code>return Catalogue.LIBRARY_NAME.length();</code></td><td data-blank="constant"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>What is the rule behind your answers?</p>
+  <wb-short id="q29-why"></wb-short>
 </div>
 
-<h2 id="review">8. Review</h2>
+<h2 id="s9">9. Review</h2>
 
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice: explain the choices</div>
-  <p><strong>25.</strong> Explain each choice in one sentence: a missing count uses getOrDefault; the clinic builds snapshots instead of caching counts; a static method needs a receiver for instance state; final references can point to mutable lists. Which term test includes Chapter 6?</p>
+  <div class="wb-block-title">Practice: corrections</div>
+  <p><strong>9.1</strong> Correct each statement.</p>
+  <ol type="a">
+    <li>&ldquo;Calling <code>get</code> with a key that is not in the map adds an entry for it.&rdquo;</li>
+    <li>&ldquo;A <code>HashSet</code> keeps its elements in the order they were added.&rdquo;</li>
+    <li>&ldquo;<code>static</code> means the value cannot change.&rdquo;</li>
+    <li>&ldquo;A <code>final</code> <code>ArrayList</code> field cannot have elements added to it.&rdquo;</li>
+    <li>&ldquo;A <code>static</code> method can never use an object.&rdquo;</li>
+  </ol>
   <wb-short id="q25"></wb-short>
 </div>
 
-<p>Chapter 6 is on Term Test 2, not Term Test 1. The course outline has the test dates.</p>
-
-<h2 id="starting-project">9. Complete starting project</h2>
-
-<p>These are the complete ending classes from Lecture 10 Part 10. Use them before Part 11. All older methods are included. Copy each class into its named Java file; keep one ClinicDemo version per project. The retained Random uses seed 42 for the previous demonstration. Open a file name to see its full source.</p>
-
-<details><summary><code>Appointment.java</code></summary>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Appointment</span>
-{
-    <span class="wb-kw">private</span> <span class="wb-type">String</span> patientName;
-    <span class="wb-kw">private</span> <span class="wb-kw">boolean</span> checkedIn;
-    <span class="wb-kw">private</span> <span class="wb-kw">int</span> minutes;
-
-    <span class="wb-kw">public</span> <span class="wb-fn">Appointment</span>(<span class="wb-type">String</span> patientName, <span class="wb-kw">int</span> minutes)
-    {
-        <span class="wb-kw">this</span>.patientName = patientName;
-        <span class="wb-kw">this</span>.minutes = minutes;
-        checkedIn = <span class="wb-kw">false</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getPatientName</span>()
-    {
-        <span class="wb-kw">return</span> patientName;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">hasCheckedIn</span>()
-    {
-        <span class="wb-kw">return</span> checkedIn;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">checkIn</span>()
-    {
-        checkedIn = <span class="wb-kw">true</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getMinutes</span>()
-    {
-        <span class="wb-kw">return</span> minutes;
-    }
-}</code></pre>
-</details>
-
-<details><summary><code>ClinicSchedule.java</code></summary>
-<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
-<span class="wb-kw">import</span> java.util.Random;
-
-<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ClinicSchedule</span>
-{
-    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Appointment</span>&gt; appointments;
-    <span class="wb-kw">private</span> <span class="wb-type">Random</span> randomGenerator;
-
-    <span class="wb-kw">public</span> <span class="wb-fn">ClinicSchedule</span>()
-    {
-        appointments = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
-        randomGenerator = <span class="wb-kw">new</span> <span class="wb-fn">Random</span>(<span class="wb-num">42</span>);
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addAppointment</span>(<span class="wb-type">Appointment</span> appointment)
-    {
-        appointments.add(appointment);
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getCount</span>()
-    {
-        <span class="wb-kw">return</span> appointments.size();
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printPatientAt</span>(<span class="wb-kw">int</span> index)
-    {
-        <span class="wb-kw">if</span>(index &lt; <span class="wb-num">0</span> || index &gt;= appointments.size()) {
-            System.out.println(<span class="wb-str">"Invalid index"</span>);
-            <span class="wb-kw">return</span>;
-        }
-
-        System.out.println(appointments.get(index).getPatientName());
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">cancel</span>(<span class="wb-kw">int</span> index)
-    {
-        <span class="wb-kw">if</span>(index &lt; <span class="wb-num">0</span> || index &gt;= appointments.size()) {
-            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
-        }
-
-        <span class="wb-kw">if</span>(appointments.get(index).hasCheckedIn()) {
-            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
-        }
-
-        appointments.remove(index);
-        <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printWaitingPatients</span>()
-    {
-        <span class="wb-kw">boolean</span> found = <span class="wb-kw">false</span>;
-
-        <span class="wb-kw">for</span>(<span class="wb-type">Appointment</span> appointment : appointments) {
-            <span class="wb-kw">if</span>(!appointment.hasCheckedIn()) {
-                System.out.println(appointment.getPatientName());
-                found = <span class="wb-kw">true</span>;
-            }
-        }
-
-        <span class="wb-kw">if</span>(!found) {
-            System.out.println(<span class="wb-str">"No waiting patients"</span>);
-        }
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">findPatientIndex</span>(<span class="wb-type">String</span> name)
-    {
-        <span class="wb-kw">int</span> index = <span class="wb-num">0</span>;
-        <span class="wb-kw">boolean</span> found = <span class="wb-kw">false</span>;
-
-        <span class="wb-kw">while</span>(index &lt; appointments.size() &amp;&amp; !found) {
-            <span class="wb-type">Appointment</span> appointment = appointments.get(index);
-            <span class="wb-kw">if</span>(appointment.getPatientName().equals(name)) {
-                found = <span class="wb-kw">true</span>;
-            }
-            <span class="wb-kw">else</span> {
-                index++;
-            }
-        }
-
-        <span class="wb-kw">if</span>(found) {
-            <span class="wb-kw">return</span> index;
-        }
-        <span class="wb-kw">return</span> -<span class="wb-num">1</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printAllPatients</span>()
-    {
-        appointments.forEach(appointment -&gt; System.out.println(appointment.getPatientName()));
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">checkInAll</span>()
-    {
-        appointments.forEach(<span class="wb-type">Appointment</span>::checkIn);
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">removeCheckedIn</span>()
-    {
-        <span class="wb-kw">int</span> before = appointments.size();
-        appointments.removeIf(appointment -&gt; appointment.hasCheckedIn());
-        <span class="wb-kw">return</span> before - appointments.size();
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">cancelPatient</span>(<span class="wb-type">String</span> name)
-    {
-        <span class="wb-kw">return</span> appointments.removeIf(appointment -&gt; appointment.getPatientName().equals(name)
-            &amp;&amp; !appointment.hasCheckedIn());
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">long</span> <span class="wb-fn">countWaiting</span>()
-    {
-        <span class="wb-kw">return</span> appointments.stream()
-                           .filter(appointment -&gt; !appointment.hasCheckedIn())
-                           .count();
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printWaitingNames</span>()
-    {
-        appointments.stream()
-                    .filter(appointment -&gt; !appointment.hasCheckedIn())
-                    .map(appointment -&gt; appointment.getPatientName())
-                    .forEach(name -&gt; System.out.println(name));
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">totalWaitingMinutes</span>()
-    {
-        <span class="wb-kw">return</span> appointments.stream()
-                           .filter(appointment -&gt; !appointment.hasCheckedIn())
-                           .map(appointment -&gt; appointment.getMinutes())
-                           .reduce(<span class="wb-num">0</span>, (total, minutes) -&gt; total + minutes);
-    }
-
-    <span class="wb-cmt">/**
-     * Find the first patient whose name matches after cleaning both names.
-     * Leading and trailing spaces and differences in case are ignored.
-     * @param name The name to search for; must not be null.
-     * @return The first matching index, or -1 if no name matches.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">findPatientIndexIgnoringCase</span>(<span class="wb-type">String</span> name)
-    {
-        <span class="wb-type">String</span> cleanedName = name.trim().toLowerCase();
-        <span class="wb-kw">int</span> index = <span class="wb-num">0</span>;
-
-        <span class="wb-kw">while</span>(index &lt; appointments.size()) {
-            <span class="wb-type">String</span> storedName = appointments.get(index).getPatientName();
-            <span class="wb-kw">if</span>(storedName.trim().toLowerCase().equals(cleanedName)) {
-                <span class="wb-kw">return</span> index;
-            }
-            index++;
-        }
-        <span class="wb-kw">return</span> -<span class="wb-num">1</span>;
-    }
-
-    <span class="wb-cmt">/**
-     * Choose a patient name from all current appointments at random.
-     * Checked-in appointments are included.
-     * @return A stored patient name, or null if the schedule is empty.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">randomPatientName</span>()
-    {
-        <span class="wb-kw">if</span>(appointments.isEmpty()) {
-            <span class="wb-kw">return</span> <span class="wb-kw">null</span>;
-        }
-        <span class="wb-kw">int</span> index = randomGenerator.nextInt(appointments.size());
-        <span class="wb-kw">return</span> appointments.get(index).getPatientName();
-    }
-}</code></pre>
-</details>
-
-<details><summary><code>ClinicDemo.java</code></summary>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ClinicDemo</span>
-{
-    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
-    {
-        <span class="wb-type">ClinicSchedule</span> schedule = <span class="wb-kw">new</span> <span class="wb-fn">ClinicSchedule</span>();
-        System.out.println(<span class="wb-str">"Empty choice: "</span> + schedule.randomPatientName());
-
-        <span class="wb-type">Appointment</span> ana = <span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Ana"</span>, <span class="wb-num">15</span>);
-        <span class="wb-type">Appointment</span> ben = <span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Ben"</span>, <span class="wb-num">20</span>);
-        <span class="wb-type">Appointment</span> cara = <span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Cara"</span>, <span class="wb-num">10</span>);
-        schedule.addAppointment(ana);
-        schedule.addAppointment(ben);
-        schedule.addAppointment(cara);
-        ben.checkIn();
-
-        System.out.println(<span class="wb-str">"Choice 1: "</span> + schedule.randomPatientName());
-        System.out.println(<span class="wb-str">"Choice 2: "</span> + schedule.randomPatientName());
-        System.out.println(<span class="wb-str">"Choice 3: "</span> + schedule.randomPatientName());
-        System.out.println(<span class="wb-str">"Appointments: "</span> + schedule.getCount());
-        System.out.println(<span class="wb-str">"Waiting count: "</span> + schedule.countWaiting());
-    }
-}</code></pre>
-</details>
-
-<details><summary>Run the complete project</summary>
-<wb-example id="starting-example"></wb-example>
-</details>
-
-<h2 id="complete-part11">10. Complete Part 11 solution</h2>
-
-<p>Use the starting Appointment and add the two snapshot methods and imports to ClinicSchedule. This replacement ClinicDemo demonstrates the named reads from Question 13 and cancellation from Question 14. All four appointments start unchecked. Predict the output before running.</p>
-
-<details><summary><code>Appointment.java</code></summary>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Appointment</span>
-{
-    <span class="wb-kw">private</span> <span class="wb-type">String</span> patientName;
-    <span class="wb-kw">private</span> <span class="wb-kw">boolean</span> checkedIn;
-    <span class="wb-kw">private</span> <span class="wb-kw">int</span> minutes;
-
-    <span class="wb-kw">public</span> <span class="wb-fn">Appointment</span>(<span class="wb-type">String</span> patientName, <span class="wb-kw">int</span> minutes)
-    {
-        <span class="wb-kw">this</span>.patientName = patientName;
-        <span class="wb-kw">this</span>.minutes = minutes;
-        checkedIn = <span class="wb-kw">false</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getPatientName</span>()
-    {
-        <span class="wb-kw">return</span> patientName;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">hasCheckedIn</span>()
-    {
-        <span class="wb-kw">return</span> checkedIn;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">checkIn</span>()
-    {
-        checkedIn = <span class="wb-kw">true</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getMinutes</span>()
-    {
-        <span class="wb-kw">return</span> minutes;
-    }
-}</code></pre>
-</details>
-
-<details><summary><code>ClinicSchedule.java</code></summary>
-<pre><code><span class="wb-kw">import</span> java.util.HashMap;
-<span class="wb-kw">import</span> java.util.HashSet;
-<span class="wb-kw">import</span> java.util.ArrayList;
-<span class="wb-kw">import</span> java.util.Random;
-
-<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ClinicSchedule</span>
-{
-    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Appointment</span>&gt; appointments;
-    <span class="wb-kw">private</span> <span class="wb-type">Random</span> randomGenerator;
-
-    <span class="wb-kw">public</span> <span class="wb-fn">ClinicSchedule</span>()
-    {
-        appointments = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
-        randomGenerator = <span class="wb-kw">new</span> <span class="wb-fn">Random</span>(<span class="wb-num">42</span>);
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addAppointment</span>(<span class="wb-type">Appointment</span> appointment)
-    {
-        appointments.add(appointment);
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getCount</span>()
-    {
-        <span class="wb-kw">return</span> appointments.size();
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printPatientAt</span>(<span class="wb-kw">int</span> index)
-    {
-        <span class="wb-kw">if</span>(index &lt; <span class="wb-num">0</span> || index &gt;= appointments.size()) {
-            System.out.println(<span class="wb-str">"Invalid index"</span>);
-            <span class="wb-kw">return</span>;
-        }
-
-        System.out.println(appointments.get(index).getPatientName());
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">cancel</span>(<span class="wb-kw">int</span> index)
-    {
-        <span class="wb-kw">if</span>(index &lt; <span class="wb-num">0</span> || index &gt;= appointments.size()) {
-            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
-        }
-
-        <span class="wb-kw">if</span>(appointments.get(index).hasCheckedIn()) {
-            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
-        }
-
-        appointments.remove(index);
-        <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printWaitingPatients</span>()
-    {
-        <span class="wb-kw">boolean</span> found = <span class="wb-kw">false</span>;
-
-        <span class="wb-kw">for</span>(<span class="wb-type">Appointment</span> appointment : appointments) {
-            <span class="wb-kw">if</span>(!appointment.hasCheckedIn()) {
-                System.out.println(appointment.getPatientName());
-                found = <span class="wb-kw">true</span>;
-            }
-        }
-
-        <span class="wb-kw">if</span>(!found) {
-            System.out.println(<span class="wb-str">"No waiting patients"</span>);
-        }
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">findPatientIndex</span>(<span class="wb-type">String</span> name)
-    {
-        <span class="wb-kw">int</span> index = <span class="wb-num">0</span>;
-        <span class="wb-kw">boolean</span> found = <span class="wb-kw">false</span>;
-
-        <span class="wb-kw">while</span>(index &lt; appointments.size() &amp;&amp; !found) {
-            <span class="wb-type">Appointment</span> appointment = appointments.get(index);
-            <span class="wb-kw">if</span>(appointment.getPatientName().equals(name)) {
-                found = <span class="wb-kw">true</span>;
-            }
-            <span class="wb-kw">else</span> {
-                index++;
-            }
-        }
-
-        <span class="wb-kw">if</span>(found) {
-            <span class="wb-kw">return</span> index;
-        }
-        <span class="wb-kw">return</span> -<span class="wb-num">1</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printAllPatients</span>()
-    {
-        appointments.forEach(appointment -&gt; System.out.println(appointment.getPatientName()));
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">checkInAll</span>()
-    {
-        appointments.forEach(<span class="wb-type">Appointment</span>::checkIn);
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">removeCheckedIn</span>()
-    {
-        <span class="wb-kw">int</span> before = appointments.size();
-        appointments.removeIf(appointment -&gt; appointment.hasCheckedIn());
-        <span class="wb-kw">return</span> before - appointments.size();
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">cancelPatient</span>(<span class="wb-type">String</span> name)
-    {
-        <span class="wb-kw">return</span> appointments.removeIf(appointment -&gt; appointment.getPatientName().equals(name)
-            &amp;&amp; !appointment.hasCheckedIn());
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">long</span> <span class="wb-fn">countWaiting</span>()
-    {
-        <span class="wb-kw">return</span> appointments.stream()
-                           .filter(appointment -&gt; !appointment.hasCheckedIn())
-                           .count();
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printWaitingNames</span>()
-    {
-        appointments.stream()
-                    .filter(appointment -&gt; !appointment.hasCheckedIn())
-                    .map(appointment -&gt; appointment.getPatientName())
-                    .forEach(name -&gt; System.out.println(name));
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">totalWaitingMinutes</span>()
-    {
-        <span class="wb-kw">return</span> appointments.stream()
-                           .filter(appointment -&gt; !appointment.hasCheckedIn())
-                           .map(appointment -&gt; appointment.getMinutes())
-                           .reduce(<span class="wb-num">0</span>, (total, minutes) -&gt; total + minutes);
-    }
-
-    <span class="wb-cmt">/**
-     * Find the first patient whose name matches after cleaning both names.
-     * Leading and trailing spaces and differences in case are ignored.
-     * @param name The name to search for; must not be null.
-     * @return The first matching index, or -1 if no name matches.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">findPatientIndexIgnoringCase</span>(<span class="wb-type">String</span> name)
-    {
-        <span class="wb-type">String</span> cleanedName = name.trim().toLowerCase();
-        <span class="wb-kw">int</span> index = <span class="wb-num">0</span>;
-
-        <span class="wb-kw">while</span>(index &lt; appointments.size()) {
-            <span class="wb-type">String</span> storedName = appointments.get(index).getPatientName();
-            <span class="wb-kw">if</span>(storedName.trim().toLowerCase().equals(cleanedName)) {
-                <span class="wb-kw">return</span> index;
-            }
-            index++;
-        }
-        <span class="wb-kw">return</span> -<span class="wb-num">1</span>;
-    }
-
-    <span class="wb-cmt">/**
-     * Choose a patient name from all current appointments at random.
-     * Checked-in appointments are included.
-     * @return A stored patient name, or null if the schedule is empty.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">randomPatientName</span>()
-    {
-        <span class="wb-kw">if</span>(appointments.isEmpty()) {
-            <span class="wb-kw">return</span> <span class="wb-kw">null</span>;
-        }
-        <span class="wb-kw">int</span> index = randomGenerator.nextInt(appointments.size());
-        <span class="wb-kw">return</span> appointments.get(index).getPatientName();
-    }
-
-    <span class="wb-cmt">/**
-     * Count appointments for each exact stored patient name.
-     * Checked-in appointments are included.
-     * @return A fresh count map; later schedule changes do not update it.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-type">HashMap</span>&lt;<span class="wb-type">String</span>, <span class="wb-type">Integer</span>&gt; <span class="wb-fn">countAppointmentsByName</span>()
-    {
-        <span class="wb-type">HashMap</span>&lt;<span class="wb-type">String</span>, <span class="wb-type">Integer</span>&gt; counts = <span class="wb-kw">new</span> <span class="wb-type">HashMap</span>&lt;&gt;();
-        <span class="wb-kw">for</span>(<span class="wb-type">Appointment</span> appointment : appointments) {
-            <span class="wb-type">String</span> name = appointment.getPatientName();
-            <span class="wb-kw">int</span> count = counts.getOrDefault(name, <span class="wb-num">0</span>);
-            counts.put(name, count + <span class="wb-num">1</span>);
-        }
-        <span class="wb-kw">return</span> counts;
-    }
-    <span class="wb-cmt">/**
-     * Collect the exact stored patient names without duplicates.
-     * Checked-in appointments are included.
-     * @return A fresh set; later schedule changes do not update it.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-type">HashSet</span>&lt;<span class="wb-type">String</span>&gt; <span class="wb-fn">uniquePatientNames</span>()
-    {
-        <span class="wb-type">HashSet</span>&lt;<span class="wb-type">String</span>&gt; names = <span class="wb-kw">new</span> <span class="wb-type">HashSet</span>&lt;&gt;();
-        <span class="wb-kw">for</span>(<span class="wb-type">Appointment</span> appointment : appointments) {
-            names.add(appointment.getPatientName());
-        }
-        <span class="wb-kw">return</span> names;
-    }
-}</code></pre>
-</details>
-
-<details><summary><code>ClinicDemo.java</code></summary>
-<pre><code><span class="wb-kw">import</span> java.util.HashMap;
-<span class="wb-kw">import</span> java.util.HashSet;
-
-<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ClinicDemo</span>
-{
-    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
-    {
-        <span class="wb-type">ClinicSchedule</span> schedule = <span class="wb-kw">new</span> <span class="wb-fn">ClinicSchedule</span>();
-        System.out.println(<span class="wb-str">"Empty counts: "</span> + schedule.countAppointmentsByName().size());
-        System.out.println(<span class="wb-str">"Empty names: "</span> + schedule.uniquePatientNames().size());
-
-        schedule.addAppointment(<span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Ana"</span>, <span class="wb-num">15</span>));
-        schedule.addAppointment(<span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Ben"</span>, <span class="wb-num">20</span>));
-        schedule.addAppointment(<span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Cara"</span>, <span class="wb-num">10</span>));
-        schedule.addAppointment(<span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Ana"</span>, <span class="wb-num">15</span>));
-
-        <span class="wb-type">HashMap</span>&lt;<span class="wb-type">String</span>, <span class="wb-type">Integer</span>&gt; counts = schedule.countAppointmentsByName();
-        <span class="wb-type">HashSet</span>&lt;<span class="wb-type">String</span>&gt; names = schedule.uniquePatientNames();
-        System.out.println(<span class="wb-str">"Ana: "</span> + counts.get(<span class="wb-str">"Ana"</span>));
-        System.out.println(<span class="wb-str">"Ben: "</span> + counts.get(<span class="wb-str">"Ben"</span>));
-        System.out.println(<span class="wb-str">"Cara: "</span> + counts.get(<span class="wb-str">"Cara"</span>));
-        System.out.println(<span class="wb-str">"Dana lookup: "</span> + counts.get(<span class="wb-str">"Dana"</span>));
-        System.out.println(<span class="wb-str">"Dana count: "</span> + counts.getOrDefault(<span class="wb-str">"Dana"</span>, <span class="wb-num">0</span>));
-        System.out.println(<span class="wb-str">"Different names: "</span> + names.size());
-        System.out.println(<span class="wb-str">"Count entries: "</span> + counts.size());
-        System.out.println(<span class="wb-str">"Has Ana: "</span> + names.contains(<span class="wb-str">"Ana"</span>));
-        System.out.println(<span class="wb-str">"Has Dana: "</span> + names.contains(<span class="wb-str">"Dana"</span>));
-        System.out.println(<span class="wb-str">"Appointments: "</span> + schedule.getCount());
-
-        System.out.println(<span class="wb-str">"Cancelled Ben: "</span> + schedule.cancelPatient(<span class="wb-str">"Ben"</span>));
-        System.out.println(<span class="wb-str">"Old Ben count: "</span> + counts.get(<span class="wb-str">"Ben"</span>));
-        System.out.println(<span class="wb-str">"Current Ben count: "</span>
-            + schedule.countAppointmentsByName().getOrDefault(<span class="wb-str">"Ben"</span>, <span class="wb-num">0</span>));
-        System.out.println(<span class="wb-str">"Current names: "</span> + schedule.uniquePatientNames().size());
-        System.out.println(<span class="wb-str">"Appointments: "</span> + schedule.getCount());
-    }
-}</code></pre>
-</details>
-
-<details><summary>Run the complete project</summary>
-<wb-example id="part11-example"></wb-example>
-</details>
-
-<h2 id="complete-part12">11. Complete Part 12 solution</h2>
-
-<p>These are all three ending classes, including every earlier clinic method. ClinicSchedule is unchanged from Part 11. Reset the JVM before comparing absolute creation counts, or use the before-count. Open each file to see its full source.</p>
-
-<details><summary><code>Appointment.java</code></summary>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Appointment</span>
-{
-    <span class="wb-cmt">/** The default duration used by demonstrations. */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-kw">int</span> <span class="wb-type">DEFAULT_MINUTES</span> = <span class="wb-num">15</span>;
-    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">int</span> appointmentsCreated = <span class="wb-num">0</span>;
-
-    <span class="wb-kw">private</span> <span class="wb-type">String</span> patientName;
-    <span class="wb-kw">private</span> <span class="wb-kw">boolean</span> checkedIn;
-    <span class="wb-kw">private</span> <span class="wb-kw">final</span> <span class="wb-kw">int</span> minutes;
-
-    <span class="wb-kw">public</span> <span class="wb-fn">Appointment</span>(<span class="wb-type">String</span> patientName, <span class="wb-kw">int</span> minutes)
-    {
-        <span class="wb-kw">this</span>.patientName = patientName;
-        <span class="wb-kw">this</span>.minutes = minutes;
-        checkedIn = <span class="wb-kw">false</span>;
-        appointmentsCreated++;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getPatientName</span>()
-    {
-        <span class="wb-kw">return</span> patientName;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">hasCheckedIn</span>()
-    {
-        <span class="wb-kw">return</span> checkedIn;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">checkIn</span>()
-    {
-        checkedIn = <span class="wb-kw">true</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getMinutes</span>()
-    {
-        <span class="wb-kw">return</span> minutes;
-    }
-
-    <span class="wb-cmt">/**
-     * Report how many appointments have been constructed in this JVM.
-     * Cancellation does not reduce the count.
-     * @return The lifetime number of appointments created.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfAppointmentsCreated</span>()
-    {
-        <span class="wb-kw">return</span> appointmentsCreated;
-    }
-}</code></pre>
-</details>
-
-<details><summary><code>ClinicSchedule.java</code></summary>
-<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
-<span class="wb-kw">import</span> java.util.HashMap;
-<span class="wb-kw">import</span> java.util.HashSet;
-<span class="wb-kw">import</span> java.util.Random;
-
-<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ClinicSchedule</span>
-{
-    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Appointment</span>&gt; appointments;
-    <span class="wb-kw">private</span> <span class="wb-type">Random</span> randomGenerator;
-
-    <span class="wb-kw">public</span> <span class="wb-fn">ClinicSchedule</span>()
-    {
-        appointments = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
-        randomGenerator = <span class="wb-kw">new</span> <span class="wb-fn">Random</span>(<span class="wb-num">42</span>);
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addAppointment</span>(<span class="wb-type">Appointment</span> appointment)
-    {
-        appointments.add(appointment);
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getCount</span>()
-    {
-        <span class="wb-kw">return</span> appointments.size();
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printPatientAt</span>(<span class="wb-kw">int</span> index)
-    {
-        <span class="wb-kw">if</span>(index &lt; <span class="wb-num">0</span> || index &gt;= appointments.size()) {
-            System.out.println(<span class="wb-str">"Invalid index"</span>);
-            <span class="wb-kw">return</span>;
-        }
-
-        System.out.println(appointments.get(index).getPatientName());
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">cancel</span>(<span class="wb-kw">int</span> index)
-    {
-        <span class="wb-kw">if</span>(index &lt; <span class="wb-num">0</span> || index &gt;= appointments.size()) {
-            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
-        }
-
-        <span class="wb-kw">if</span>(appointments.get(index).hasCheckedIn()) {
-            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
-        }
-
-        appointments.remove(index);
-        <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printWaitingPatients</span>()
-    {
-        <span class="wb-kw">boolean</span> found = <span class="wb-kw">false</span>;
-
-        <span class="wb-kw">for</span>(<span class="wb-type">Appointment</span> appointment : appointments) {
-            <span class="wb-kw">if</span>(!appointment.hasCheckedIn()) {
-                System.out.println(appointment.getPatientName());
-                found = <span class="wb-kw">true</span>;
-            }
-        }
-
-        <span class="wb-kw">if</span>(!found) {
-            System.out.println(<span class="wb-str">"No waiting patients"</span>);
-        }
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">findPatientIndex</span>(<span class="wb-type">String</span> name)
-    {
-        <span class="wb-kw">int</span> index = <span class="wb-num">0</span>;
-        <span class="wb-kw">boolean</span> found = <span class="wb-kw">false</span>;
-
-        <span class="wb-kw">while</span>(index &lt; appointments.size() &amp;&amp; !found) {
-            <span class="wb-type">Appointment</span> appointment = appointments.get(index);
-            <span class="wb-kw">if</span>(appointment.getPatientName().equals(name)) {
-                found = <span class="wb-kw">true</span>;
-            }
-            <span class="wb-kw">else</span> {
-                index++;
-            }
-        }
-
-        <span class="wb-kw">if</span>(found) {
-            <span class="wb-kw">return</span> index;
-        }
-        <span class="wb-kw">return</span> -<span class="wb-num">1</span>;
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printAllPatients</span>()
-    {
-        appointments.forEach(appointment -&gt; System.out.println(appointment.getPatientName()));
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">checkInAll</span>()
-    {
-        appointments.forEach(<span class="wb-type">Appointment</span>::checkIn);
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">removeCheckedIn</span>()
-    {
-        <span class="wb-kw">int</span> before = appointments.size();
-        appointments.removeIf(appointment -&gt; appointment.hasCheckedIn());
-        <span class="wb-kw">return</span> before - appointments.size();
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">cancelPatient</span>(<span class="wb-type">String</span> name)
-    {
-        <span class="wb-kw">return</span> appointments.removeIf(appointment -&gt; appointment.getPatientName().equals(name)
-            &amp;&amp; !appointment.hasCheckedIn());
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">long</span> <span class="wb-fn">countWaiting</span>()
-    {
-        <span class="wb-kw">return</span> appointments.stream()
-                           .filter(appointment -&gt; !appointment.hasCheckedIn())
-                           .count();
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printWaitingNames</span>()
-    {
-        appointments.stream()
-                    .filter(appointment -&gt; !appointment.hasCheckedIn())
-                    .map(appointment -&gt; appointment.getPatientName())
-                    .forEach(name -&gt; System.out.println(name));
-    }
-
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">totalWaitingMinutes</span>()
-    {
-        <span class="wb-kw">return</span> appointments.stream()
-                           .filter(appointment -&gt; !appointment.hasCheckedIn())
-                           .map(appointment -&gt; appointment.getMinutes())
-                           .reduce(<span class="wb-num">0</span>, (total, minutes) -&gt; total + minutes);
-    }
-
-    <span class="wb-cmt">/**
-     * Find the first patient whose name matches after cleaning both names.
-     * Leading and trailing spaces and differences in case are ignored.
-     * @param name The name to search for; must not be null.
-     * @return The first matching index, or -1 if no name matches.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">findPatientIndexIgnoringCase</span>(<span class="wb-type">String</span> name)
-    {
-        <span class="wb-type">String</span> cleanedName = name.trim().toLowerCase();
-        <span class="wb-kw">int</span> index = <span class="wb-num">0</span>;
-
-        <span class="wb-kw">while</span>(index &lt; appointments.size()) {
-            <span class="wb-type">String</span> storedName = appointments.get(index).getPatientName();
-            <span class="wb-kw">if</span>(storedName.trim().toLowerCase().equals(cleanedName)) {
-                <span class="wb-kw">return</span> index;
-            }
-            index++;
-        }
-        <span class="wb-kw">return</span> -<span class="wb-num">1</span>;
-    }
-
-    <span class="wb-cmt">/**
-     * Choose a patient name from all current appointments at random.
-     * Checked-in appointments are included.
-     * @return A stored patient name, or null if the schedule is empty.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">randomPatientName</span>()
-    {
-        <span class="wb-kw">if</span>(appointments.isEmpty()) {
-            <span class="wb-kw">return</span> <span class="wb-kw">null</span>;
-        }
-        <span class="wb-kw">int</span> index = randomGenerator.nextInt(appointments.size());
-        <span class="wb-kw">return</span> appointments.get(index).getPatientName();
-    }
-
-    <span class="wb-cmt">/**
-     * Count appointments for each exact stored patient name.
-     * Checked-in appointments are included.
-     * @return A fresh count map; later schedule changes do not update it.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-type">HashMap</span>&lt;<span class="wb-type">String</span>, <span class="wb-type">Integer</span>&gt; <span class="wb-fn">countAppointmentsByName</span>()
-    {
-        <span class="wb-type">HashMap</span>&lt;<span class="wb-type">String</span>, <span class="wb-type">Integer</span>&gt; counts = <span class="wb-kw">new</span> <span class="wb-type">HashMap</span>&lt;&gt;();
-        <span class="wb-kw">for</span>(<span class="wb-type">Appointment</span> appointment : appointments) {
-            <span class="wb-type">String</span> name = appointment.getPatientName();
-            <span class="wb-kw">int</span> count = counts.getOrDefault(name, <span class="wb-num">0</span>);
-            counts.put(name, count + <span class="wb-num">1</span>);
-        }
-        <span class="wb-kw">return</span> counts;
-    }
-
-    <span class="wb-cmt">/**
-     * Collect the exact stored patient names without duplicates.
-     * Checked-in appointments are included.
-     * @return A fresh set; later schedule changes do not update it.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-type">HashSet</span>&lt;<span class="wb-type">String</span>&gt; <span class="wb-fn">uniquePatientNames</span>()
-    {
-        <span class="wb-type">HashSet</span>&lt;<span class="wb-type">String</span>&gt; names = <span class="wb-kw">new</span> <span class="wb-type">HashSet</span>&lt;&gt;();
-        <span class="wb-kw">for</span>(<span class="wb-type">Appointment</span> appointment : appointments) {
-            names.add(appointment.getPatientName());
-        }
-        <span class="wb-kw">return</span> names;
-    }
-}</code></pre>
-</details>
-
-<details><summary><code>ClinicDemo.java</code></summary>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ClinicDemo</span>
-{
-    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
-    {
-        System.out.println(<span class="wb-str">"Created before: "</span> + <span class="wb-type">Appointment</span>.numberOfAppointmentsCreated());
-        System.out.println(<span class="wb-str">"Default minutes: "</span> + <span class="wb-type">Appointment</span>.DEFAULT_MINUTES);
-        <span class="wb-type">ClinicSchedule</span> schedule = <span class="wb-kw">new</span> <span class="wb-fn">ClinicSchedule</span>();
-        schedule.addAppointment(<span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Ana"</span>, <span class="wb-type">Appointment</span>.DEFAULT_MINUTES));
-        schedule.addAppointment(<span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Ben"</span>, <span class="wb-num">20</span>));
-        schedule.addAppointment(<span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Cara"</span>, <span class="wb-num">10</span>));
-        System.out.println(<span class="wb-str">"Created after base: "</span> + <span class="wb-type">Appointment</span>.numberOfAppointmentsCreated());
-        System.out.println(<span class="wb-str">"Appointments: "</span> + schedule.getCount());
-
-        System.out.println(<span class="wb-str">"Cancelled Ana: "</span> + schedule.cancelPatient(<span class="wb-str">"Ana"</span>));
-        System.out.println(<span class="wb-str">"Appointments after cancellation: "</span> + schedule.getCount());
-        System.out.println(<span class="wb-str">"Created after cancellation: "</span>
-            + <span class="wb-type">Appointment</span>.numberOfAppointmentsCreated());
-
-        schedule.addAppointment(<span class="wb-kw">new</span> <span class="wb-fn">Appointment</span>(<span class="wb-str">"Ana"</span>, <span class="wb-type">Appointment</span>.DEFAULT_MINUTES));
-        System.out.println(<span class="wb-str">"Created after another Ana: "</span>
-            + <span class="wb-type">Appointment</span>.numberOfAppointmentsCreated());
-        System.out.println(<span class="wb-str">"Appointments after another Ana: "</span> + schedule.getCount());
-        System.out.println(<span class="wb-str">"Current Ana count: "</span> + schedule.countAppointmentsByName().get(<span class="wb-str">"Ana"</span>));
-    }
-}</code></pre>
-</details>
-
-<details><summary>Run the complete project</summary>
-<wb-example id="part12-example"></wb-example>
-</details>
+<h2 id="s10">10. Complete Java Programs</h2>
+<p>Write these two programs after class. Use additional paper or an IDE for the complete implementation. Each one uses the ideas of this lecture in a new setting. Each box below starts from a skeleton: fill in the method bodies, then run. There is one box per class. When you reach a later class, finished copies of the earlier classes are on its classpath, so a mistake in one box does not stop the next.</p>
+
+<h3>10.1 Program A: Order, OrderLog and OrderDemo</h3>
+<ul>
+  <li><code>Order</code> stores a customer name and a drink, with the constructor parameters in that order, and has <code>getCustomer()</code> and <code>getDrink()</code>.</li>
+  <li><code>OrderLog</code> stores an <code>ArrayList&lt;Order&gt;</code> named <code>orders</code>. <code>addOrder(String customer, String drink)</code> trims both strings, puts the drink in lower case, and adds a new <code>Order</code>. <code>getCount()</code> returns the number of orders. <code>HashMap&lt;String, Integer&gt; countByDrink()</code> returns a new map from each drink to its number of orders. <code>HashSet&lt;String&gt; getCustomers()</code> returns a new set of the customer names.</li>
+  <li><code>OrderDemo</code> adds six orders: Ana <code>"Latte"</code>, Ben <code>"tea"</code>, Ana <code>" LATTE "</code>, Cara <code>"mocha"</code>, Ben <code>"latte"</code> and Dev <code>"Tea"</code>. It prints the number of orders and of drinks, the counts for latte, tea and mocha, the count for espresso with <code>getOrDefault</code>, the number of customers, and whether Ana and Eve are customers.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Order</code></div>
+  <p>A checking program creates one order and prints its two getters.</p>
+  <wb-exercise id="p1-item"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>OrderLog</code></div>
+  <p>A finished <code>Order</code> is on the classpath of this box. The checking program tries an empty log, then three orders with messy input.</p>
+  <wb-exercise id="p1-collection"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>OrderDemo</code></div>
+  <p>Finished <code>Order</code> and <code>OrderLog</code> classes are on the classpath of this box. Expected output:</p>
+<pre class="wb-output">Orders: 6
+Drinks: 3
+latte: 3
+tea: 2
+mocha: 1
+espresso: 0
+Customers: 4
+Ana? true
+Eve? false</pre>
+  <wb-exercise id="p1-demo"></wb-exercise>
+</div>
+
+<h3>10.2 Program B: Ticket, TicketBooth and TicketDemo</h3>
+<ul>
+  <li><code>Ticket</code> has a class variable <code>nextNumber</code>, starting at 1, and two final instance fields: the ticket's <code>number</code> and its <code>event</code>. The constructor takes the event, gives the ticket the next number, and adds 1 to <code>nextNumber</code>. It has <code>getNumber()</code>, <code>getEvent()</code> and a class method <code>ticketsIssued()</code> that returns the number of tickets made so far.</li>
+  <li><code>TicketBooth</code> has the constant <code>PRICE</code>, which is 12, and an <code>ArrayList&lt;Ticket&gt;</code> named <code>sold</code>. <code>Ticket sell(String event)</code> makes a ticket, adds it to the list and returns it. The class method <code>int priceFor(int count)</code> returns the price of that many tickets, and <code>getTakings()</code> returns the price of the tickets this booth has sold.</li>
+  <li><code>TicketDemo</code> prints the price, the price for 3 tickets and the number issued, before any booth exists. Then it creates the booths <code>front</code> and <code>side</code>, sells Jazz night at the front, Folk night at the side and Jazz night at the front, and prints each ticket's number and event. Finally it prints the number issued and each booth's takings.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Ticket</code></div>
+  <p>A checking program prints the number issued, creates two tickets, prints each one, and prints the number issued again.</p>
+  <wb-exercise id="p2-item"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>TicketBooth</code></div>
+  <p>A finished <code>Ticket</code> is on the classpath of this box. The checking program prices 0 and 5 tickets, then sells two tickets from one booth.</p>
+  <wb-exercise id="p2-collection"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>TicketDemo</code></div>
+  <p>Finished <code>Ticket</code> and <code>TicketBooth</code> classes are on the classpath of this box. Expected output:</p>
+<pre class="wb-output">Price: 12
+Price for 3: 36
+Issued: 0
+1 Jazz night
+2 Folk night
+3 Jazz night
+Issued: 3
+Front booth: 24
+Side booth: 12</pre>
+  <wb-exercise id="p2-demo"></wb-exercise>
+</div>
 
 </main>
 </body>
