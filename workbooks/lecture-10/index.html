@@ -8,6 +8,13 @@
   <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
   <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
   <link rel="stylesheet" href="../../runtime/workbook.css">
+  <style>
+    .wb-shot { margin: 1rem 0 1.2rem; }
+    .wb-shot img { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; border: 1px solid var(--rule); border-radius: 6px; background: #fff; }
+    .wb-shot figcaption { font-family: var(--font-sans); font-size: 0.85rem; color: var(--ink-quiet); text-align: center; margin-top: 0.4rem; }
+    .wb-shot-narrow img { max-width: 240px; }
+    .wb-outcomes h3 { margin-top: 1.4rem; }
+  </style>
   <script type="module">
     import { initWorkbook } from "../../runtime/workbook.js";
     initWorkbook({ id: "lecture-10", specs: "./exercises.json" });
@@ -26,141 +33,9 @@
   <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
 </div>
 
-<section class="wb-outcomes">
-  <h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
-  <p>This lecture uses three library classes inside one class of our own. <code>HelpBot</code> cleans a question with <code>String</code> methods, picks one of four general replies with a <code>Random</code> object, and keeps ratings in an <code>ArrayList&lt;Integer&gt;</code>. For the ratings 5, 3 and 4 it reports 3 ratings and an average of 4; the ratings 0 and 6 are ignored. Here is the finished class, with its comments. Its replies still ignore what the question says; Lecture 11 fixes that with a map.</p>
-<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
-<span class="wb-kw">import</span> java.util.Random;
-
-<span class="wb-cmt">/**
- * Answers course questions with a general reply and keeps
- * the ratings that users give.
- * @author Pranjal Patra
- * @version 1.0
- */</span>
-<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">HelpBot</span>
-{
-    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">String</span>&gt; generalReplies;
-    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Integer</span>&gt; ratings;
-    <span class="wb-kw">private</span> <span class="wb-type">Random</span> randomGenerator;
-
-    <span class="wb-cmt">/**
-     * Create a help bot with its general replies and no ratings.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-fn">HelpBot</span>()
-    {
-        generalReplies = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
-        ratings = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
-        randomGenerator = <span class="wb-kw">new</span> <span class="wb-fn">Random</span>();
-        fillGeneralReplies();
-    }
-
-    <span class="wb-cmt">/**
-     * Answer one question.
-     * @param question The text typed by the user; must not be null.
-     * @return A general reply, or a prompt when nothing was typed.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">replyTo</span>(<span class="wb-type">String</span> question)
-    {
-        <span class="wb-type">String</span> cleaned = clean(question);
-        <span class="wb-kw">if</span>(cleaned.isEmpty()) {
-            <span class="wb-kw">return</span> <span class="wb-str">"Please type a question."</span>;
-        }
-        <span class="wb-kw">return</span> pickGeneralReply();
-    }
-
-    <span class="wb-cmt">/**
-     * Remove the spaces around a question and put it in lower case.
-     * @param question The typed text; must not be null.
-     * @return The cleaned text. The original string is unchanged.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">clean</span>(<span class="wb-type">String</span> question)
-    {
-        <span class="wb-kw">return</span> question.trim().toLowerCase();
-    }
-
-    <span class="wb-cmt">/**
-     * Choose one general reply at random. The call nextInt(bound)
-     * returns a value from 0 up to bound - 1, which is exactly the set
-     * of valid indices for a list of that size.
-     * @return One of the general replies.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">pickGeneralReply</span>()
-    {
-        <span class="wb-kw">int</span> index = randomGenerator.nextInt(generalReplies.size());
-        <span class="wb-kw">return</span> generalReplies.get(index);
-    }
-
-    <span class="wb-cmt">// Question 7.1 asks you to write the Javadoc comment for this method.</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addRating</span>(<span class="wb-kw">int</span> rating)
-    {
-        <span class="wb-kw">if</span>(rating &gt;= <span class="wb-num">1</span> &amp;&amp; rating &lt;= <span class="wb-num">5</span>) {
-            ratings.add(rating);
-        }
-    }
-
-    <span class="wb-cmt">/**
-     * Return the number of ratings recorded so far.
-     * @return The number of ratings.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfRatings</span>()
-    {
-        <span class="wb-kw">return</span> ratings.size();
-    }
-
-    <span class="wb-cmt">/**
-     * Work out the average of the recorded ratings. Each Integer in the
-     * list is unboxed into the int loop variable.
-     * @return The whole-number average, or 0 when no rating exists.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">averageRating</span>()
-    {
-        <span class="wb-kw">if</span>(ratings.isEmpty()) {
-            <span class="wb-kw">return</span> 0;
-        }
-        <span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
-        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> rating : ratings) {
-            total = total + rating;
-        }
-        <span class="wb-kw">return</span> total / ratings.size();
-    }
-
-    <span class="wb-cmt">/**
-     * Build the list of general replies. This method is private because
-     * it is a step in building a HelpBot, not an operation that other
-     * classes should call.
-     */</span>
-    <span class="wb-kw">private</span> <span class="wb-kw">void</span> <span class="wb-fn">fillGeneralReplies</span>()
-    {
-        generalReplies.add(<span class="wb-str">"Can you describe that in more detail?"</span>);
-        generalReplies.add(<span class="wb-str">"Have you checked the course web page?"</span>);
-        generalReplies.add(<span class="wb-str">"That question comes up often. Let us look at it together."</span>);
-        generalReplies.add(<span class="wb-str">"Please post that on the discussion board so others can see the answer."</span>);
-    }
-}</code></pre>
-  <table>
-    <thead><tr><th>term</th><th>meaning</th></tr></thead>
-    <tbody>
-      <tr><td>library class and package</td><td>A <strong>package</strong> is a named group of classes. <code>Random</code> is in <code>java.util</code>, so its qualified name is <code>java.util.Random</code>.</td></tr>
-      <tr><td>import</td><td><code>import java.util.Random;</code> lets the file use the short name. It copies no code. <code>java.util.*</code> does not reach into <code>java.util.function</code>, and <code>java.lang</code> is imported automatically.</td></tr>
-      <tr><td>interface and implementation</td><td>The interface is the public constructors and methods, with their headers and descriptions. The implementation is the fields, private helpers and method bodies. A caller needs only the interface.</td></tr>
-      <tr><td>signature</td><td>The method name and the parameter types, such as <code>startsWith(String)</code>. The return type and the parameter names are not part of it.</td></tr>
-      <tr><td>generic class</td><td>In <code>ArrayList&lt;E&gt;</code>, <code>E</code> stands for the element type we choose. For an <code>ArrayList&lt;String&gt;</code>, <code>get</code> returns a <code>String</code>.</td></tr>
-      <tr><td>immutable string</td><td>A <code>String</code> never changes. <code>trim()</code> and <code>toLowerCase()</code> return new strings, so keep the result: <code>word = word.trim();</code>.</td></tr>
-      <tr><td>empty string</td><td><code>""</code> is a real object with length 0, so <code>isEmpty()</code> can be called on it. <code>null</code> means there is no object.</td></tr>
-      <tr><td>nextInt(bound)</td><td>Returns 0 up to <code>bound - 1</code>. With <code>bound</code> equal to the list size, every result is a valid index. <code>nextInt(0)</code> is an error, so check for an empty list first.</td></tr>
-      <tr><td>seed</td><td><code>new Random(42)</code> gives the same numbers every run, which suits a demo. <code>new Random()</code> gives different numbers each run.</td></tr>
-      <tr><td>wrapper class</td><td><code>Integer</code> holds an <code>int</code> as an object, so ratings go in an <code>ArrayList&lt;Integer&gt;</code>. Adding an <code>int</code> boxes it; reading one into an <code>int</code> unboxes it.</td></tr>
-      <tr><td>Javadoc</td><td>A comment that starts with <code>/**</code>, just above a class or method, with <code>@param</code>, <code>@return</code>, <code>@author</code> and <code>@version</code> tags where they apply.</td></tr>
-      <tr><td>information hiding</td><td>Fields stay <code>private</code>, so other classes go through methods such as <code>addRating</code>, which check their arguments.</td></tr>
-    </tbody>
-  </table>
   <p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run on the page takes a few seconds while Java loads). Boxes that ask for part of a class come with the rest of that class and a small checking program on their classpath. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
-</section>
 
-<hr>
-
-<p>This workbook holds the notes and the questions for Lecture 10. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. Sections 4 and 8 are the QEII Library coding parts that we do together in class; if you missed them, you can do them from the notes here. Section 10 has two complete programs to write after class. By the end, you should be able to:</p>
+<p>This workbook holds the notes and the questions for Lecture 10. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. Sections 4 and 8 are the QEII Library coding parts that we do together in class; if you missed them, you can do them from the notes here. Section 10 has two complete programs to write after class, and the lecture summary at the end is a short review for tests. By the end, you should be able to:</p>
 <ul>
   <li>find a library class, import it, and give its qualified name;</li>
   <li>read a method header and say what the documentation tells you;</li>
@@ -777,7 +652,7 @@ Edges kept: 2</pre>
 
     <span class="wb-cmt">// The methods from the notes above.</span>
 }</code></pre>
-<p>The public methods are <code>replyTo</code>, <code>clean</code>, <code>pickGeneralReply</code>, <code>addRating</code>, <code>numberOfRatings</code> and <code>averageRating</code>. The private helper <code>fillGeneralReplies</code> adds the four replies of Section 5 in order. A demo class can create a bot, ask it questions, record ratings and print the results. The whole class, with its comments, is in the summary at the top of this page.</p>
+<p>The public methods are <code>replyTo</code>, <code>clean</code>, <code>pickGeneralReply</code>, <code>addRating</code>, <code>numberOfRatings</code> and <code>averageRating</code>. The private helper <code>fillGeneralReplies</code> adds the four replies of Section 5 in order. A demo class can create a bot, ask it questions, record ratings and print the results. The whole class, with its comments, is in the lecture summary at the end of this page.</p>
 
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: writing Javadoc</div>
@@ -948,6 +823,178 @@ Ratings: 3
 Average: 3</pre>
   <wb-exercise id="p2-demo"></wb-exercise>
 </div>
+<hr>
+
+<section class="wb-outcomes wb-review">
+  <h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+  <p>A short review of the whole lecture. Our example is <code>HelpBot</code>, which cleans a question with <code>String</code> methods, picks a general reply with <code>Random</code>, and keeps ratings in an <code>ArrayList&lt;Integer&gt;</code>.</p>
+
+  <h3>Library classes and imports</h3>
+  <p>The Java <strong>class library</strong> is a large set of finished, tested classes, grouped into <strong>packages</strong>. <code>ArrayList</code> and <code>Random</code> are in <code>java.util</code>, so the <strong>qualified name</strong> of <code>Random</code> is <code>java.util.Random</code>. <code>import java.util.Random;</code> lets a file use the short name; it copies no code. <code>java.lang</code>, which holds <code>String</code> and <code>Integer</code>, is imported automatically. <code>import java.util.*;</code> does not reach into <code>java.util.function</code>.</p>
+
+  <h3>Reading documentation</h3>
+  <p>In BlueJ, Help, then Java Class Libraries, opens the documentation. Each class page gives the package, a description, a summary of the constructors and methods, and the details of each method.</p>
+  <figure class="wb-shot wb-shot-narrow">
+    <img src="img/bluej_help_menu.png" alt="BlueJ's Help menu with Java Class Libraries highlighted" loading="lazy">
+    <figcaption>BlueJ's Help menu.</figcaption>
+  </figure>
+  <figure class="wb-shot">
+    <img src="img/string_class.png" alt="The top of the documentation page for the class String" loading="lazy">
+    <figcaption>The top of the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html">String page</a>.</figcaption>
+  </figure>
+  <p>The details answer what a method name cannot. <code>substring(0, 3)</code> stops before position 3, because <code>endIndex</code> is exclusive.</p>
+  <figure class="wb-shot">
+    <img src="img/string_substring.png" alt="The documentation of substring with two int parameters" loading="lazy">
+    <figcaption>The details of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#substring(int,int)">substring</a>.</figcaption>
+  </figure>
+  <p>In the header <code>public boolean startsWith(String prefix)</code>, <code>boolean</code> is the return type. The <strong>signature</strong> is the name and the parameter types, <code>startsWith(String)</code>. The public constructors and methods are a class's <strong>interface</strong>; the fields and method bodies are its <strong>implementation</strong>, which callers never need to see. In <code>ArrayList&lt;E&gt;</code>, <code>E</code> is a placeholder for the element type, so for an <code>ArrayList&lt;String&gt;</code>, <code>get</code> returns a <code>String</code>. Such a class is <strong>generic</strong>.</p>
+  <figure class="wb-shot">
+    <img src="img/arraylist_methods.png" alt="Two rows of the ArrayList method summary, for add and get" loading="lazy">
+    <figcaption>Two rows of the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html">ArrayList page</a>.</figcaption>
+  </figure>
+
+  <h3>Strings</h3>
+  <p><code>question.trim().toLowerCase()</code> removes the outer spaces and then lowers the case of the string that <code>trim()</code> returned. On <code>"how do i submit my work?"</code>, <code>length()</code> is 24 and <code>indexOf("submit")</code> is 9; <code>indexOf</code> gives <code>-1</code> when the text is missing, and these methods are case sensitive. A <code>String</code> is <strong>immutable</strong>: <code>word.trim();</code> alone throws the new string away, and <code>word = word.trim();</code> keeps it. A question of only spaces cleans to <code>""</code>, the <strong>empty string</strong>, a real object of length 0, so <code>isEmpty()</code> works on it. <code>null</code> means no object at all.</p>
+
+  <h3>Random</h3>
+  <p>The bot creates one <code>Random</code> in its constructor and keeps it in a field. <code>new Random(42)</code> uses the <strong>seed</strong> 42 and gives the same numbers every run.</p>
+  <figure class="wb-shot">
+    <img src="img/random_constructors.png" alt="The two constructors of Random" loading="lazy">
+    <figcaption>The constructors on the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Random.html">Random page</a>.</figcaption>
+  </figure>
+  <figure class="wb-shot">
+    <img src="img/random_nextint.png" alt="The two nextInt methods of Random" loading="lazy">
+    <figcaption>Two of its methods.</figcaption>
+  </figure>
+  <p><code>nextInt(bound)</code> returns 0 up to <code>bound - 1</code>, so <code>nextInt(4)</code> gives 0, 1, 2 or 3. With a list's size as the bound, every result is a valid index, which is how <code>pickGeneralReply</code> chooses a reply. <code>nextInt(0)</code> is an error, so check for an empty list first.</p>
+
+  <h3>Ratings</h3>
+  <p>A list holds objects, so ratings go in an <code>ArrayList&lt;Integer&gt;</code>. <code>Integer</code> is the <strong>wrapper class</strong> for <code>int</code>. Adding an <code>int</code> boxes it (<strong>autoboxing</strong>) and reading it into an <code>int</code> unboxes it. <code>addRating</code> keeps only ratings from 1 to 5, so after 5, 3, 4, 0 and 6 there are three ratings, and <code>averageRating</code> returns 12 / 3 = 4. It returns 0 for no ratings, so it never divides by zero.</p>
+
+  <h3>Javadoc and information hiding</h3>
+  <p>A <strong>Javadoc</strong> comment starts with <code>/**</code> above a class or method, with <code>@param</code> and <code>@return</code> for methods and <code>@author</code> and <code>@version</code> for the class. BlueJ's editor shows it as a documentation page when the menu at the top right is switched to Documentation.</p>
+  <figure class="wb-shot">
+    <img src="img/bluej_documentation.png" alt="BlueJ's documentation view of the Catalogue class" loading="lazy">
+    <figcaption>BlueJ's Documentation view of <code>Catalogue</code> after Part 2.</figcaption>
+  </figure>
+  <p>Because the ratings list is <code>private</code>, other classes must go through <code>addRating</code> and its check. This is <strong>information hiding</strong>.</p>
+
+  <h3>The QEII Library catalogue</h3>
+  <p>Part 1: <code>Catalogue</code> keeps an <code>ArrayList&lt;Book&gt;</code> with <code>addBook</code>, <code>getCount</code> and <code>printMatches</code>, a cleaned, lower-case title search. Part 2 adds a <code>Random</code> field seeded with 42, <code>pickRandom</code>, which returns <code>null</code> for an empty catalogue, and Javadoc comments.</p>
+
+  <h3>The finished HelpBot</h3>
+  <p>The whole class, with its comments. Its replies still ignore what the question says; Lecture 11 fixes that with a map.</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+<span class="wb-kw">import</span> java.util.Random;
+
+<span class="wb-cmt">/**
+ * Answers course questions with a general reply and keeps
+ * the ratings that users give.
+ * @author Pranjal Patra
+ * @version 1.0
+ */</span>
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">HelpBot</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">String</span>&gt; generalReplies;
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Integer</span>&gt; ratings;
+    <span class="wb-kw">private</span> <span class="wb-type">Random</span> randomGenerator;
+
+    <span class="wb-cmt">/**
+     * Create a help bot with its general replies and no ratings.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-fn">HelpBot</span>()
+    {
+        generalReplies = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        ratings = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        randomGenerator = <span class="wb-kw">new</span> <span class="wb-fn">Random</span>();
+        fillGeneralReplies();
+    }
+
+    <span class="wb-cmt">/**
+     * Answer one question.
+     * @param question The text typed by the user; must not be null.
+     * @return A general reply, or a prompt when nothing was typed.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">replyTo</span>(<span class="wb-type">String</span> question)
+    {
+        <span class="wb-type">String</span> cleaned = clean(question);
+        <span class="wb-kw">if</span>(cleaned.isEmpty()) {
+            <span class="wb-kw">return</span> <span class="wb-str">"Please type a question."</span>;
+        }
+        <span class="wb-kw">return</span> pickGeneralReply();
+    }
+
+    <span class="wb-cmt">/**
+     * Remove the spaces around a question and put it in lower case.
+     * @param question The typed text; must not be null.
+     * @return The cleaned text. The original string is unchanged.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">clean</span>(<span class="wb-type">String</span> question)
+    {
+        <span class="wb-kw">return</span> question.trim().toLowerCase();
+    }
+
+    <span class="wb-cmt">/**
+     * Choose one general reply at random. The call nextInt(bound)
+     * returns a value from 0 up to bound - 1, which is exactly the set
+     * of valid indices for a list of that size.
+     * @return One of the general replies.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">pickGeneralReply</span>()
+    {
+        <span class="wb-kw">int</span> index = randomGenerator.nextInt(generalReplies.size());
+        <span class="wb-kw">return</span> generalReplies.get(index);
+    }
+
+    <span class="wb-cmt">// Question 7.1 asks you to write the Javadoc comment for this method.</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addRating</span>(<span class="wb-kw">int</span> rating)
+    {
+        <span class="wb-kw">if</span>(rating &gt;= <span class="wb-num">1</span> &amp;&amp; rating &lt;= <span class="wb-num">5</span>) {
+            ratings.add(rating);
+        }
+    }
+
+    <span class="wb-cmt">/**
+     * Return the number of ratings recorded so far.
+     * @return The number of ratings.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfRatings</span>()
+    {
+        <span class="wb-kw">return</span> ratings.size();
+    }
+
+    <span class="wb-cmt">/**
+     * Work out the average of the recorded ratings. Each Integer in the
+     * list is unboxed into the int loop variable.
+     * @return The whole-number average, or 0 when no rating exists.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">averageRating</span>()
+    {
+        <span class="wb-kw">if</span>(ratings.isEmpty()) {
+            <span class="wb-kw">return</span> 0;
+        }
+        <span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
+        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> rating : ratings) {
+            total = total + rating;
+        }
+        <span class="wb-kw">return</span> total / ratings.size();
+    }
+
+    <span class="wb-cmt">/**
+     * Build the list of general replies. This method is private because
+     * it is a step in building a HelpBot, not an operation that other
+     * classes should call.
+     */</span>
+    <span class="wb-kw">private</span> <span class="wb-kw">void</span> <span class="wb-fn">fillGeneralReplies</span>()
+    {
+        generalReplies.add(<span class="wb-str">"Can you describe that in more detail?"</span>);
+        generalReplies.add(<span class="wb-str">"Have you checked the course web page?"</span>);
+        generalReplies.add(<span class="wb-str">"That question comes up often. Let us look at it together."</span>);
+        generalReplies.add(<span class="wb-str">"Please post that on the discussion board so others can see the answer."</span>);
+    }
+}</code></pre>
+</section>
+
 
 </main>
 </body>
