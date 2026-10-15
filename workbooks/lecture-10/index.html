@@ -827,13 +827,22 @@ Average: 3</pre>
 
 <section class="wb-outcomes wb-review">
   <h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
-  <p>A short review of the whole lecture. Our example is <code>HelpBot</code>, which cleans a question with <code>String</code> methods, picks a general reply with <code>Random</code>, and keeps ratings in an <code>ArrayList&lt;Integer&gt;</code>.</p>
+  <p>A short review of the whole lecture. The example is <code>HelpBot</code>: it cleans a question with <code>String</code> methods, picks a reply with <code>Random</code>, and keeps ratings in an <code>ArrayList&lt;Integer&gt;</code>.</p>
 
   <h3>Library classes and imports</h3>
-  <p>The Java <strong>class library</strong> is a large set of finished, tested classes, grouped into <strong>packages</strong>. <code>ArrayList</code> and <code>Random</code> are in <code>java.util</code>, so the <strong>qualified name</strong> of <code>Random</code> is <code>java.util.Random</code>. <code>import java.util.Random;</code> lets a file use the short name; it copies no code. <code>java.lang</code>, which holds <code>String</code> and <code>Integer</code>, is imported automatically. <code>import java.util.*;</code> does not reach into <code>java.util.function</code>.</p>
+  <ul>
+    <li>The <strong>class library</strong> is a large set of finished, tested classes, grouped into <strong>packages</strong>.</li>
+    <li><code>ArrayList</code> and <code>Random</code> are in <code>java.util</code>. The <strong>qualified name</strong> is <code>java.util.Random</code>.</li>
+    <li><code>import java.util.Random;</code> lets us write the short name. It <strong>copies no code</strong>.</li>
+    <li><code>java.lang</code> (<code>String</code>, <code>Integer</code>, <code>System</code>) is <strong>imported automatically</strong>.</li>
+    <li><code>import java.util.*;</code> does <strong>not</strong> reach into <code>java.util.function</code>.</li>
+  </ul>
 
   <h3>Reading documentation</h3>
-  <p>In BlueJ, Help, then Java Class Libraries, opens the documentation. Each class page gives the package, a description, a summary of the constructors and methods, and the details of each method.</p>
+  <ul>
+    <li>In BlueJ: <strong>Help, then Java Class Libraries</strong>.</li>
+    <li>Each class page gives the package, a description, a <strong>summary</strong> of constructors and methods, and the <strong>details</strong> of each method.</li>
+  </ul>
   <figure class="wb-shot wb-shot-narrow">
     <img src="img/bluej_help_menu.png" alt="BlueJ's Help menu with Java Class Libraries highlighted" loading="lazy">
     <figcaption>BlueJ's Help menu.</figcaption>
@@ -842,22 +851,38 @@ Average: 3</pre>
     <img src="img/string_class.png" alt="The top of the documentation page for the class String" loading="lazy">
     <figcaption>The top of the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html">String page</a>.</figcaption>
   </figure>
-  <p>The details answer what a method name cannot. <code>substring(0, 3)</code> stops before position 3, because <code>endIndex</code> is exclusive.</p>
+  <ul>
+    <li>The details answer what a name cannot: <code>substring(0, 3)</code> <strong>stops before position 3</strong>, because <code>endIndex</code> is exclusive.</li>
+  </ul>
   <figure class="wb-shot">
     <img src="img/string_substring.png" alt="The documentation of substring with two int parameters" loading="lazy">
     <figcaption>The details of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#substring(int,int)">substring</a>.</figcaption>
   </figure>
-  <p>In the header <code>public boolean startsWith(String prefix)</code>, <code>boolean</code> is the return type. The <strong>signature</strong> is the name and the parameter types, <code>startsWith(String)</code>. The public constructors and methods are a class's <strong>interface</strong>; the fields and method bodies are its <strong>implementation</strong>, which callers never need to see. In <code>ArrayList&lt;E&gt;</code>, <code>E</code> is a placeholder for the element type, so for an <code>ArrayList&lt;String&gt;</code>, <code>get</code> returns a <code>String</code>. Such a class is <strong>generic</strong>.</p>
+  <ul>
+    <li>Header <code>public boolean startsWith(String prefix)</code>: <code>boolean</code> is the <strong>return type</strong>, <code>String prefix</code> is one <strong>parameter</strong>.</li>
+    <li><strong>Signature</strong> = name + parameter types: <code>startsWith(String)</code>. No return type, no parameter names.</li>
+    <li><strong>Interface</strong> = public constructors and methods. <strong>Implementation</strong> = fields and method bodies, which callers never need.</li>
+    <li><strong>Generic</strong> class: in <code>ArrayList&lt;E&gt;</code>, <code>E</code> is the element type we choose. For <code>ArrayList&lt;String&gt;</code>, <code>get</code> returns a <code>String</code>.</li>
+  </ul>
   <figure class="wb-shot">
     <img src="img/arraylist_methods.png" alt="Two rows of the ArrayList method summary, for add and get" loading="lazy">
     <figcaption>Two rows of the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html">ArrayList page</a>.</figcaption>
   </figure>
 
   <h3>Strings</h3>
-  <p><code>question.trim().toLowerCase()</code> removes the outer spaces and then lowers the case of the string that <code>trim()</code> returned. On <code>"how do i submit my work?"</code>, <code>length()</code> is 24 and <code>indexOf("submit")</code> is 9; <code>indexOf</code> gives <code>-1</code> when the text is missing, and these methods are case sensitive. A <code>String</code> is <strong>immutable</strong>: <code>word.trim();</code> alone throws the new string away, and <code>word = word.trim();</code> keeps it. A question of only spaces cleans to <code>""</code>, the <strong>empty string</strong>, a real object of length 0, so <code>isEmpty()</code> works on it. <code>null</code> means no object at all.</p>
+  <ul>
+    <li><code>question.trim().toLowerCase()</code>: <code>trim</code> removes the <strong>outer spaces</strong> only, then <code>toLowerCase</code> runs on the returned string.</li>
+    <li>On <code>"how do i submit my work?"</code>: <code>length()</code> is <strong>24</strong>, <code>indexOf("submit")</code> is <strong>9</strong>. <code>indexOf</code> gives <strong>-1</strong> when the text is missing.</li>
+    <li>These methods are <strong>case sensitive</strong>. Positions <strong>start at 0</strong>.</li>
+    <li>A <code>String</code> is <strong>immutable</strong>. <code>word.trim();</code> alone throws the result away; <code>word = word.trim();</code> keeps it.</li>
+    <li>Only spaces cleans to <code>""</code>, the <strong>empty string</strong>: a real object of length 0. <code>null</code> means <strong>no object</strong>.</li>
+  </ul>
 
   <h3>Random</h3>
-  <p>The bot creates one <code>Random</code> in its constructor and keeps it in a field. <code>new Random(42)</code> uses the <strong>seed</strong> 42 and gives the same numbers every run.</p>
+  <ul>
+    <li>Create <strong>one</strong> <code>Random</code> in the constructor and keep it in a field.</li>
+    <li><code>new Random(42)</code>: the <strong>seed</strong> 42 gives the same numbers every run.</li>
+  </ul>
   <figure class="wb-shot">
     <img src="img/random_constructors.png" alt="The two constructors of Random" loading="lazy">
     <figcaption>The constructors on the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Random.html">Random page</a>.</figcaption>
@@ -866,24 +891,42 @@ Average: 3</pre>
     <img src="img/random_nextint.png" alt="The two nextInt methods of Random" loading="lazy">
     <figcaption>Two of its methods.</figcaption>
   </figure>
-  <p><code>nextInt(bound)</code> returns 0 up to <code>bound - 1</code>, so <code>nextInt(4)</code> gives 0, 1, 2 or 3. With a list's size as the bound, every result is a valid index, which is how <code>pickGeneralReply</code> chooses a reply. <code>nextInt(0)</code> is an error, so check for an empty list first.</p>
+  <ul>
+    <li><code>nextInt(bound)</code> returns <strong>0 up to bound - 1</strong>. <code>nextInt(4)</code> gives 0, 1, 2 or 3.</li>
+    <li><code>nextInt(list.size())</code> is always a <strong>valid index</strong>. That is how <code>pickGeneralReply</code> works.</li>
+    <li><code>nextInt(0)</code> is an <strong>error</strong>: check for an empty list first.</li>
+  </ul>
 
   <h3>Ratings</h3>
-  <p>A list holds objects, so ratings go in an <code>ArrayList&lt;Integer&gt;</code>. <code>Integer</code> is the <strong>wrapper class</strong> for <code>int</code>. Adding an <code>int</code> boxes it (<strong>autoboxing</strong>) and reading it into an <code>int</code> unboxes it. <code>addRating</code> keeps only ratings from 1 to 5, so after 5, 3, 4, 0 and 6 there are three ratings, and <code>averageRating</code> returns 12 / 3 = 4. It returns 0 for no ratings, so it never divides by zero.</p>
+  <ul>
+    <li>A list holds objects, so use the <strong>wrapper class</strong> <code>Integer</code>: <code>ArrayList&lt;Integer&gt;</code>. <code>ArrayList&lt;int&gt;</code> does not compile.</li>
+    <li>Adding an <code>int</code> boxes it (<strong>autoboxing</strong>); reading into an <code>int</code> <strong>unboxes</strong> it.</li>
+    <li><code>addRating</code> keeps only <strong>1 to 5</strong>. After 5, 3, 4, 0 and 6: <strong>3 ratings</strong>, average <strong>12 / 3 = 4</strong>.</li>
+    <li><code>averageRating</code> returns <strong>0 for no ratings</strong>, so it never divides by zero.</li>
+  </ul>
 
   <h3>Javadoc and information hiding</h3>
-  <p>A <strong>Javadoc</strong> comment starts with <code>/**</code> above a class or method, with <code>@param</code> and <code>@return</code> for methods and <code>@author</code> and <code>@version</code> for the class. BlueJ's editor shows it as a documentation page when the menu at the top right is switched to Documentation.</p>
+  <ul>
+    <li><strong>Javadoc</strong> starts with <code>/**</code>, just above a class or method.</li>
+    <li>Methods: <code>@param</code>, <code>@return</code>. Class: <code>@author</code>, <code>@version</code>.</li>
+    <li>BlueJ editor: switch the top-right menu to <strong>Documentation</strong> to see it as a page.</li>
+  </ul>
   <figure class="wb-shot">
     <img src="img/bluej_documentation.png" alt="BlueJ's documentation view of the Catalogue class" loading="lazy">
     <figcaption>BlueJ's Documentation view of <code>Catalogue</code> after Part 2.</figcaption>
   </figure>
-  <p>Because the ratings list is <code>private</code>, other classes must go through <code>addRating</code> and its check. This is <strong>information hiding</strong>.</p>
+  <ul>
+    <li><strong>Information hiding</strong>: the ratings list is <code>private</code>, so every rating goes through <code>addRating</code> and its check.</li>
+  </ul>
 
   <h3>The QEII Library catalogue</h3>
-  <p>Part 1: <code>Catalogue</code> keeps an <code>ArrayList&lt;Book&gt;</code> with <code>addBook</code>, <code>getCount</code> and <code>printMatches</code>, a cleaned, lower-case title search. Part 2 adds a <code>Random</code> field seeded with 42, <code>pickRandom</code>, which returns <code>null</code> for an empty catalogue, and Javadoc comments.</p>
+  <ul>
+    <li><strong>Part 1</strong>: <code>Catalogue</code> keeps an <code>ArrayList&lt;Book&gt;</code> with <code>addBook</code>, <code>getCount</code> and <code>printMatches</code>, a cleaned, lower-case title search.</li>
+    <li><strong>Part 2</strong>: a <code>Random</code> field seeded with 42, <code>pickRandom</code> (returns <code>null</code> for an empty catalogue), and Javadoc comments.</li>
+  </ul>
 
   <h3>The finished HelpBot</h3>
-  <p>The whole class, with its comments. Its replies still ignore what the question says; Lecture 11 fixes that with a map.</p>
+  <p>The whole class, with its comments. Its replies still ignore the question; Lecture 11 fixes that with a map.</p>
 <pre><code><span class="wb-kw">import</span> java.util.ArrayList;
 <span class="wb-kw">import</span> java.util.Random;
 
