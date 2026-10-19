@@ -8,6 +8,13 @@
   <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
   <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
   <link rel="stylesheet" href="../../runtime/workbook.css">
+  <style>
+    .wb-shot { margin: 1rem 0 1.2rem; }
+    .wb-shot img { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; border: 1px solid var(--rule); border-radius: 6px; background: #fff; }
+    .wb-shot figcaption { font-family: var(--font-sans); font-size: 0.85rem; color: var(--ink-quiet); text-align: center; margin-top: 0.4rem; }
+    .wb-shot-narrow img { max-width: 240px; }
+    .wb-outcomes h3 { margin-top: 1.4rem; }
+  </style>
   <script type="module">
     import { initWorkbook } from "../../runtime/workbook.js";
     initWorkbook({ id: "lecture-11", specs: "./exercises.json" });
@@ -26,266 +33,9 @@
   <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
 </div>
 
-<section class="wb-outcomes">
-  <h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
-  <p>This lecture gives <code>HelpBot</code> replies that depend on the question. A <code>HashMap</code> connects four keywords to their replies, a second map counts how many questions matched each keyword, and a <code>HashSet</code> records the topics asked. Constants name the rating limits, and a class variable counts the bots created. Here is the finished class, with its comments.</p>
-<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
-<span class="wb-kw">import</span> java.util.HashMap;
-<span class="wb-kw">import</span> java.util.HashSet;
-<span class="wb-kw">import</span> java.util.Random;
-
-<span class="wb-cmt">/**
- * Answers course questions with a keyword reply or a general reply.
- * It counts how often each keyword is asked, records the topics asked,
- * and keeps the ratings that users give.
- * @author Pranjal Patra
- * @version 2.0
- */</span>
-<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">HelpBot</span>
-{
-    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-kw">int</span> <span class="wb-type">MIN_RATING</span> = <span class="wb-num">1</span>;
-    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-kw">int</span> <span class="wb-type">MAX_RATING</span> = <span class="wb-num">5</span>;
-    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-type">String</span> <span class="wb-type">NO_QUESTION</span> = <span class="wb-str">"Please type a question."</span>;
-    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-type">String</span> <span class="wb-type">UNKNOWN_KEYWORD</span> = <span class="wb-str">"I do not have an answer for that yet."</span>;
-    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">int</span> botsCreated = <span class="wb-num">0</span>;
-
-    <span class="wb-kw">private</span> <span class="wb-type">HashMap</span>&lt;<span class="wb-type">String</span>, <span class="wb-type">String</span>&gt; replyMap;
-    <span class="wb-kw">private</span> <span class="wb-type">HashMap</span>&lt;<span class="wb-type">String</span>, <span class="wb-type">Integer</span>&gt; keywordCounts;
-    <span class="wb-kw">private</span> <span class="wb-type">HashSet</span>&lt;<span class="wb-type">String</span>&gt; topicsAsked;
-    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">String</span>&gt; generalReplies;
-    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Integer</span>&gt; ratings;
-    <span class="wb-kw">private</span> <span class="wb-type">Random</span> randomGenerator;
-
-    <span class="wb-cmt">/**
-     * Create a help bot with its replies, no recorded topics and no ratings.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-fn">HelpBot</span>()
-    {
-        generalReplies = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
-        ratings = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
-        randomGenerator = <span class="wb-kw">new</span> <span class="wb-fn">Random</span>();
-        fillGeneralReplies();
-        replyMap = <span class="wb-kw">new</span> <span class="wb-type">HashMap</span>&lt;&gt;();
-        keywordCounts = <span class="wb-kw">new</span> <span class="wb-type">HashMap</span>&lt;&gt;();
-        topicsAsked = <span class="wb-kw">new</span> <span class="wb-type">HashSet</span>&lt;&gt;();
-        fillReplyMap();
-        botsCreated++;
-    }
-
-    <span class="wb-cmt">/**
-     * Answer one question. A question that contains a keyword gets that
-     * keyword's reply, and the keyword is recorded.
-     * @param question The typed text; must not be null.
-     * @return A keyword reply, a general reply, or a prompt when nothing
-     *         was typed.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">replyTo</span>(<span class="wb-type">String</span> question)
-    {
-        <span class="wb-type">String</span> cleaned = clean(question);
-        <span class="wb-kw">if</span>(cleaned.isEmpty()) {
-            <span class="wb-kw">return</span> <span class="wb-type">NO_QUESTION</span>;
-        }
-        <span class="wb-kw">for</span>(<span class="wb-type">String</span> keyword : replyMap.keySet()) {
-            <span class="wb-kw">if</span>(cleaned.contains(keyword)) {
-                recordKeyword(keyword);
-                <span class="wb-kw">return</span> replyMap.get(keyword);
-            }
-        }
-        <span class="wb-kw">return</span> pickGeneralReply();
-    }
-
-    <span class="wb-cmt">/**
-     * Remove the spaces around a question and put it in lower case.
-     * @param question The typed text; must not be null.
-     * @return The cleaned text. The original string is unchanged.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">clean</span>(<span class="wb-type">String</span> question)
-    {
-        <span class="wb-kw">return</span> question.trim().toLowerCase();
-    }
-
-    <span class="wb-cmt">/**
-     * Choose one general reply at random.
-     * @return One of the general replies.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">pickGeneralReply</span>()
-    {
-        <span class="wb-kw">int</span> index = randomGenerator.nextInt(generalReplies.size());
-        <span class="wb-kw">return</span> generalReplies.get(index);
-    }
-
-    <span class="wb-cmt">/**
-     * Record a rating for a reply. Ratings outside MIN_RATING to
-     * MAX_RATING are ignored.
-     * @param rating The rating to record.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addRating</span>(<span class="wb-kw">int</span> rating)
-    {
-        <span class="wb-kw">if</span>(rating &gt;= <span class="wb-type">MIN_RATING</span> &amp;&amp; rating &lt;= <span class="wb-type">MAX_RATING</span>) {
-            ratings.add(rating);
-        }
-    }
-
-    <span class="wb-cmt">/**
-     * Return the number of ratings recorded so far.
-     * @return The number of ratings.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfRatings</span>()
-    {
-        <span class="wb-kw">return</span> ratings.size();
-    }
-
-    <span class="wb-cmt">/**
-     * Work out the whole-number average of the recorded ratings.
-     * @return The average, or 0 when there are no ratings.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">averageRating</span>()
-    {
-        <span class="wb-kw">if</span>(ratings.isEmpty()) {
-            <span class="wb-kw">return</span> 0;
-        }
-        <span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
-        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> rating : ratings) {
-            total = total + rating;
-        }
-        <span class="wb-kw">return</span> total / ratings.size();
-    }
-
-    <span class="wb-cmt">/**
-     * Look up the reply for one exact keyword. Nothing is recorded.
-     * @param keyword The keyword; must not be null.
-     * @return Its reply, or a message saying there is no answer yet.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">replyFor</span>(<span class="wb-type">String</span> keyword)
-    {
-        <span class="wb-kw">return</span> replyMap.getOrDefault(keyword, <span class="wb-type">UNKNOWN_KEYWORD</span>);
-    }
-
-    <span class="wb-cmt">/**
-     * Say whether a keyword has a stored reply.
-     * @param keyword The keyword; must not be null.
-     * @return true if the keyword has a reply.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">knows</span>(<span class="wb-type">String</span> keyword)
-    {
-        <span class="wb-kw">return</span> replyMap.containsKey(keyword);
-    }
-
-    <span class="wb-cmt">/**
-     * Add the reply for a keyword, or replace the reply it has.
-     * @param keyword A lower-case keyword; must not be null.
-     * @param reply The reply; must not be null.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">learn</span>(<span class="wb-type">String</span> keyword, <span class="wb-type">String</span> reply)
-    {
-        replyMap.put(keyword, reply);
-    }
-
-    <span class="wb-cmt">/**
-     * Return the number of keywords that have a reply.
-     * @return The number of entries in the reply map.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfKeywords</span>()
-    {
-        <span class="wb-kw">return</span> replyMap.size();
-    }
-
-    <span class="wb-cmt">/**
-     * Return how many questions matched a keyword.
-     * @param keyword The keyword; must not be null.
-     * @return Its count, or 0 if it has never matched.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">timesAsked</span>(<span class="wb-type">String</span> keyword)
-    {
-        <span class="wb-kw">return</span> keywordCounts.getOrDefault(keyword, <span class="wb-num">0</span>);
-    }
-
-    <span class="wb-cmt">/**
-     * Return the number of different keywords asked about.
-     * @return The number of topics recorded.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfTopicsAsked</span>()
-    {
-        <span class="wb-kw">return</span> topicsAsked.size();
-    }
-
-    <span class="wb-cmt">/**
-     * Say whether a keyword has been asked about.
-     * @param keyword The keyword; must not be null.
-     * @return true if a question has matched the keyword.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">hasBeenAsked</span>(<span class="wb-type">String</span> keyword)
-    {
-        <span class="wb-kw">return</span> topicsAsked.contains(keyword);
-    }
-
-    <span class="wb-cmt">/**
-     * Return the number of HelpBot objects created since the program started.
-     * @return The number of bots created.
-     */</span>
-    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfBots</span>()
-    {
-        <span class="wb-kw">return</span> botsCreated;
-    }
-
-    <span class="wb-cmt">/**
-     * Record a keyword that matched: add 1 to its count and add it to
-     * the set of topics.
-     * @param keyword The keyword that matched.
-     */</span>
-    <span class="wb-kw">private</span> <span class="wb-kw">void</span> <span class="wb-fn">recordKeyword</span>(<span class="wb-type">String</span> keyword)
-    {
-        <span class="wb-kw">int</span> count = keywordCounts.getOrDefault(keyword, <span class="wb-num">0</span>);
-        keywordCounts.put(keyword, count + <span class="wb-num">1</span>);
-        topicsAsked.add(keyword);
-    }
-
-    <span class="wb-cmt">/**
-     * Build the list of general replies.
-     */</span>
-    <span class="wb-kw">private</span> <span class="wb-kw">void</span> <span class="wb-fn">fillGeneralReplies</span>()
-    {
-        generalReplies.add(<span class="wb-str">"Can you describe that in more detail?"</span>);
-        generalReplies.add(<span class="wb-str">"Have you checked the course web page?"</span>);
-        generalReplies.add(<span class="wb-str">"That question comes up often. Let us look at it together."</span>);
-        generalReplies.add(<span class="wb-str">"Please post that on the discussion board so others can see the answer."</span>);
-    }
-
-    <span class="wb-cmt">/**
-     * Store the four keyword replies.
-     */</span>
-    <span class="wb-kw">private</span> <span class="wb-kw">void</span> <span class="wb-fn">fillReplyMap</span>()
-    {
-        replyMap.put(<span class="wb-str">"submit"</span>,
-            <span class="wb-str">"Upload your .java files to the assignment page before the deadline."</span>);
-        replyMap.put(<span class="wb-str">"compile"</span>,
-            <span class="wb-str">"Read the first error message and check the line just above it."</span>);
-        replyMap.put(<span class="wb-str">"late"</span>, <span class="wb-str">"Late work loses 10 percent per day."</span>);
-        replyMap.put(<span class="wb-str">"test"</span>, <span class="wb-str">"Term Test 2 covers Chapters 1 to 9 and 12 to 13, mostly 6 to 9 and 12 to 13."</span>);
-    }
-}</code></pre>
-  <table>
-    <thead><tr><th>term</th><th>meaning</th></tr></thead>
-    <tbody>
-      <tr><td>map</td><td>A <strong>map</strong> stores entries, each a <strong>key</strong> with a <strong>value</strong>. <code>HashMap&lt;String, String&gt;</code> has <code>String</code> keys and <code>String</code> values. Each key appears at most once.</td></tr>
-      <tr><td>put and get</td><td><code>put(key, value)</code> stores an entry, and replaces the value when the key is already there. <code>get(key)</code> returns the value, or <code>null</code> when the key has no entry.</td></tr>
-      <tr><td>missing keys</td><td><code>containsKey(key)</code> says whether the key has an entry. <code>getOrDefault(key, fallback)</code> returns the fallback for a missing key. Reading never adds an entry.</td></tr>
-      <tr><td>counting by key</td><td><code>int count = counts.getOrDefault(key, 0);</code> then <code>counts.put(key, count + 1);</code>. The first time a key is counted, its count becomes 1.</td></tr>
-      <tr><td>set</td><td>A <strong>set</strong> holds each element at most once. <code>add</code> returns <code>false</code> for an element that is already there. A <code>HashSet</code>, like a <code>HashMap</code>, keeps no order.</td></tr>
-      <tr><td>choosing a collection</td><td>A list for order and repeats, a set for distinct values, a map for a value attached to each key.</td></tr>
-      <tr><td>class variable</td><td>A <code>static</code> field is a <strong>class variable</strong>: one copy, kept by the class and shared by every object. <code>botsCreated</code> counts every bot created.</td></tr>
-      <tr><td>constant</td><td><code>public static final int MAX_RATING = 5;</code> A constant cannot change, so it can be public. Code outside the class writes <code>HelpBot.MAX_RATING</code>.</td></tr>
-      <tr><td>final field</td><td>A <code>final</code> instance field is set once, in the constructor, and never changed. For a field that refers to an object, <code>final</code> fixes the reference; the object can still change.</td></tr>
-      <tr><td>class method</td><td>A <code>static</code> method is called on the class, as in <code>HelpBot.numberOfBots()</code>. It has no <code>this</code>, so it can use an instance field only through an object it names.</td></tr>
-      <tr><td>main</td><td><code>public static void main(String[] args)</code> is a class method because Java calls it before any object exists.</td></tr>
-    </tbody>
-  </table>
   <p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run on the page takes a few seconds while Java loads). Boxes that ask for part of a class come with the rest of that class and a small checking program on their classpath. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
-</section>
 
-<hr>
-
-<p>This workbook holds the notes and the questions for Lecture 11. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. Sections 4 and 8 are the QEII Library coding parts that we do together in class; if you missed them, you can do them from the notes here. Section 10 has two complete programs to write after class. By the end, you should be able to:</p>
+<p>This workbook holds the notes and the questions for Lecture 11. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. Sections 4 and 8 are the QEII Library coding parts, for you to do at home as practice. Section 10 has two complete programs to write after class, and the lecture summary at the end is a short review for tests. By the end, you should be able to:</p>
 <ul>
   <li>store and look up values by key in a <code>HashMap</code>, and handle a missing key;</li>
   <li>count things with a map and the <code>getOrDefault</code> pattern;</li>
@@ -627,7 +377,7 @@ System.out.println(topics.size());</code></pre>
 
 <h2 id="s4">4. Library Part 3: Subjects and authors</h2>
 <h3>The catalogue so far</h3>
-<p>We do this part together in class. It continues the QEII Library catalogue from Lecture 10. At the end of Part 2, <code>Book</code> keeps a title, an author and a call number, with a getter for each, and <code>Catalogue</code> looks like this:</p>
+<p>This part is practice to do at home. It continues the QEII Library catalogue from Lecture 10. At the end of Part 2, <code>Book</code> keeps a title, an author and a call number, with a getter for each, and <code>Catalogue</code> looks like this:</p>
 <pre><code><span class="wb-kw">import</span> java.util.ArrayList;
 <span class="wb-kw">import</span> java.util.Random;
 
@@ -961,7 +711,7 @@ System.out.println(second.replyTo(<span class="wb-str">"Is it too LATE?"</span>)
 
 <h2 id="s8">8. Library Part 4: Counting books</h2>
 <h3>New in Part 4</h3>
-<p>We do this part together in class. The catalogue keeps everything from Part 3 and adds the class members from Sections 6 and 7:</p>
+<p>This part is practice to do at home. The catalogue keeps everything from Part 3 and adds the class members from Sections 6 and 7:</p>
 <ul>
   <li>In <code>Book</code>, add <code>private static int booksCreated = 0;</code> and make the constructor add 1 to it.</li>
   <li>Add <code>public static int getBooksCreated()</code>, which returns the count.</li>
@@ -1111,6 +861,344 @@ Front booth: 24
 Side booth: 12</pre>
   <wb-exercise id="p2-demo"></wb-exercise>
 </div>
+<hr>
+
+<section class="wb-outcomes wb-review">
+  <h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+  <p>A short review of the whole lecture. <code>HelpBot</code> now replies by keyword with a <code>HashMap</code>, counts keywords with a second map, records topics in a <code>HashSet</code>, and uses <code>static</code> and <code>final</code> for shared and fixed values.</p>
+
+  <h3>Maps</h3>
+  <ul>
+    <li>A <strong>map</strong> stores entries. Each entry pairs a <strong>key</strong> with a <strong>value</strong>. We look a value up <strong>by its key</strong>, not by position.</li>
+    <li>Each key appears <strong>at most once</strong>.</li>
+    <li><code>HashMap&lt;K, V&gt;</code>: <code>K</code> is the key type, <code>V</code> the value type. Import <code>java.util.HashMap</code>.</li>
+  </ul>
+  <figure class="wb-shot">
+    <img src="img/map_entry.png" alt="A key, submit, looked up to give its value, the submit reply" loading="lazy">
+    <figcaption>One entry of the reply map.</figcaption>
+  </figure>
+  <ul>
+    <li><code>put(key, value)</code> stores an entry. With a key that is already there, it <strong>replaces</strong> the value; the size stays the same.</li>
+    <li><code>get(key)</code> returns the value, or <strong><code>null</code> for a missing key</strong>. Check for <code>null</code> before calling a method on the result, or you get a <code>NullPointerException</code>.</li>
+    <li><code>containsKey(key)</code> says whether the key has an entry. <code>getOrDefault(key, fallback)</code> returns the fallback for a missing key.</li>
+    <li>Reading a missing key <strong>adds nothing</strong> to the map.</li>
+  </ul>
+  <figure class="wb-shot">
+    <img src="img/hashmap_methods.png" alt="Rows of the HashMap method summary, from containsKey to put" loading="lazy">
+    <figcaption>Part of the method summary on the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/HashMap.html">HashMap page</a>. <code>getOrDefault</code> is further down, under the methods from <code>Map</code>.</figcaption>
+  </figure>
+
+  <h3>Matching a question</h3>
+  <ul>
+    <li><code>for(String keyword : replyMap.keySet())</code> visits every key once.</li>
+    <li>A <code>HashMap</code> keeps <strong>no order</strong>: not the order added, not sorted. Code should work for any order.</li>
+    <li><code>replyTo</code> cleans the question, then returns the reply for the <strong>first keyword the question contains</strong>. No keyword: a random general reply. It matches text only, so <code>"Is it too late?"</code> gets the late-work reply.</li>
+  </ul>
+
+  <h3>Counting with a map</h3>
+  <ul>
+    <li><code>HashMap&lt;String, Integer&gt;</code>: the value type is <strong><code>Integer</code></strong>, because a type argument cannot be <code>int</code>.</li>
+    <li>The counting pattern:<br><code>int count = counts.getOrDefault(key, 0);</code><br><code>counts.put(key, count + 1);</code></li>
+    <li>The <strong><code>put</code> stores the new count</strong>. Adding 1 to <code>count</code> alone leaves the map unchanged.</li>
+    <li>Questions matching <code>submit</code>, <code>compile</code>, <code>submit</code>, <code>test</code> give counts <strong>2, 1, 1</strong>. <code>late</code> has no entry, so its count reads as 0.</li>
+  </ul>
+
+  <h3>Sets</h3>
+  <ul>
+    <li>A <strong>set</strong> holds each element <strong>at most once</strong>. Adding one that is already there changes nothing.</li>
+    <li>A <code>HashSet</code> has <strong>no <code>get(index)</code></strong> and no order. Use <code>add</code>, <code>contains</code>, <code>remove</code>, <code>size</code>, <code>isEmpty</code> and for-each.</li>
+  </ul>
+  <figure class="wb-shot">
+    <img src="img/list_vs_set.png" alt="submit, compile, submit added to an ArrayList gives size 3; added to a HashSet gives size 2" loading="lazy">
+    <figcaption>The same three adds to a list and to a set.</figcaption>
+  </figure>
+  <figure class="wb-shot">
+    <img src="img/hashset_methods.png" alt="Rows of the HashSet method summary, from add to size" loading="lazy">
+    <figcaption>Part of the method summary on the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/HashSet.html">HashSet page</a>.</figcaption>
+  </figure>
+
+  <h3>Choosing a collection</h3>
+  <ul>
+    <li><strong><code>ArrayList</code></strong>: what is at this position? Keeps order and duplicates.</li>
+    <li><strong><code>HashSet</code></strong>: is this element there? Each element once.</li>
+    <li><strong><code>HashMap</code></strong>: what goes with this key? Each key once, one value each.</li>
+    <li>You will also see <code>List</code>, <code>Set</code> and <code>Map</code> on the left of a declaration. Each needs its own import.</li>
+  </ul>
+
+  <h3>Class variables and constants</h3>
+  <ul>
+    <li>A <code>static</code> field is a <strong>class variable</strong>: <strong>one copy, shared</strong> by every object, there before any object exists.</li>
+    <li><code>botsCreated++</code> in the constructor counts every bot made.</li>
+  </ul>
+  <figure class="wb-shot">
+    <img src="img/shared_counter.png" alt="Three bots, each with its own maps, set and ratings, all pointing to the one botsCreated counter in the HelpBot class" loading="lazy">
+    <figcaption>Instance fields per bot; one class variable.</figcaption>
+  </figure>
+  <ul>
+    <li><code>public static final int MAX_RATING = 5;</code> is a <strong>constant</strong>: <code>static</code> for one copy, <code>final</code> so it never changes. Names in <code>CAPITALS_WITH_UNDERSCORES</code>.</li>
+    <li>A public constant is <strong>safe</strong>, because nobody can change it. Other classes write <code>HelpBot.MAX_RATING</code>.</li>
+    <li><code>static</code> and <code>final</code> are <strong>separate</strong>: a class variable can still change.</li>
+  </ul>
+
+  <h3>Final fields</h3>
+  <ul>
+    <li>A <code>final</code> instance field gets its value <strong>once</strong>, in the constructor. A later assignment (a setter) <strong>does not compile</strong>.</li>
+    <li>For a reference, <code>final</code> fixes <strong>which object</strong>, not its contents: <code>ratings.add(3)</code> still works. Keep collection fields <code>private</code>.</li>
+  </ul>
+
+  <h3>Class methods and main</h3>
+  <ul>
+    <li>A <code>static</code> method is a <strong>class method</strong>, called on the class: <code>HelpBot.numberOfBots()</code>, <code>Math.max(3, 7)</code>.</li>
+    <li>It has <strong>no <code>this</code></strong>, so it cannot use an instance field like <code>replyMap</code> on its own: <code>non-static variable replyMap cannot be referenced from a static context</code>.</li>
+    <li>It can use an object it <strong>names</strong>, such as a parameter <code>bot</code>: <code>bot.numberOfKeywords()</code>.</li>
+    <li><code>main</code> is static so Java can <strong>start the program without creating an object</strong>.</li>
+  </ul>
+
+  <h3>The QEII Library catalogue</h3>
+  <ul>
+    <li><strong>Part 3</strong> (practice at home): <code>getSubjectCode()</code> with <code>substring(0, 2)</code>, <code>countBySubject()</code> returning a <code>HashMap&lt;String, Integer&gt;</code>, and <code>getAuthors()</code> returning a <code>HashSet&lt;String&gt;</code>.</li>
+    <li><strong>Part 4</strong> (practice at home): a final call number, a <code>static</code> counter of books created, and the constant <code>LIBRARY_NAME</code>.</li>
+  </ul>
+
+  <h3>The finished HelpBot</h3>
+  <p>The whole class, with its comments:</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+<span class="wb-kw">import</span> java.util.HashMap;
+<span class="wb-kw">import</span> java.util.HashSet;
+<span class="wb-kw">import</span> java.util.Random;
+
+<span class="wb-cmt">/**
+ * Answers course questions with a keyword reply or a general reply.
+ * It counts how often each keyword is asked, records the topics asked,
+ * and keeps the ratings that users give.
+ * @author Pranjal Patra
+ * @version 2.0
+ */</span>
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">HelpBot</span>
+{
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-kw">int</span> <span class="wb-type">MIN_RATING</span> = <span class="wb-num">1</span>;
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-kw">int</span> <span class="wb-type">MAX_RATING</span> = <span class="wb-num">5</span>;
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-type">String</span> <span class="wb-type">NO_QUESTION</span> = <span class="wb-str">"Please type a question."</span>;
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-type">String</span> <span class="wb-type">UNKNOWN_KEYWORD</span> = <span class="wb-str">"I do not have an answer for that yet."</span>;
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">int</span> botsCreated = <span class="wb-num">0</span>;
+
+    <span class="wb-kw">private</span> <span class="wb-type">HashMap</span>&lt;<span class="wb-type">String</span>, <span class="wb-type">String</span>&gt; replyMap;
+    <span class="wb-kw">private</span> <span class="wb-type">HashMap</span>&lt;<span class="wb-type">String</span>, <span class="wb-type">Integer</span>&gt; keywordCounts;
+    <span class="wb-kw">private</span> <span class="wb-type">HashSet</span>&lt;<span class="wb-type">String</span>&gt; topicsAsked;
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">String</span>&gt; generalReplies;
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Integer</span>&gt; ratings;
+    <span class="wb-kw">private</span> <span class="wb-type">Random</span> randomGenerator;
+
+    <span class="wb-cmt">/**
+     * Create a help bot with its replies, no recorded topics and no ratings.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-fn">HelpBot</span>()
+    {
+        generalReplies = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        ratings = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        randomGenerator = <span class="wb-kw">new</span> <span class="wb-fn">Random</span>();
+        fillGeneralReplies();
+        replyMap = <span class="wb-kw">new</span> <span class="wb-type">HashMap</span>&lt;&gt;();
+        keywordCounts = <span class="wb-kw">new</span> <span class="wb-type">HashMap</span>&lt;&gt;();
+        topicsAsked = <span class="wb-kw">new</span> <span class="wb-type">HashSet</span>&lt;&gt;();
+        fillReplyMap();
+        botsCreated++;
+    }
+
+    <span class="wb-cmt">/**
+     * Answer one question. A question that contains a keyword gets that
+     * keyword's reply, and the keyword is recorded.
+     * @param question The typed text; must not be null.
+     * @return A keyword reply, a general reply, or a prompt when nothing
+     *         was typed.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">replyTo</span>(<span class="wb-type">String</span> question)
+    {
+        <span class="wb-type">String</span> cleaned = clean(question);
+        <span class="wb-kw">if</span>(cleaned.isEmpty()) {
+            <span class="wb-kw">return</span> <span class="wb-type">NO_QUESTION</span>;
+        }
+        <span class="wb-kw">for</span>(<span class="wb-type">String</span> keyword : replyMap.keySet()) {
+            <span class="wb-kw">if</span>(cleaned.contains(keyword)) {
+                recordKeyword(keyword);
+                <span class="wb-kw">return</span> replyMap.get(keyword);
+            }
+        }
+        <span class="wb-kw">return</span> pickGeneralReply();
+    }
+
+    <span class="wb-cmt">/**
+     * Remove the spaces around a question and put it in lower case.
+     * @param question The typed text; must not be null.
+     * @return The cleaned text. The original string is unchanged.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">clean</span>(<span class="wb-type">String</span> question)
+    {
+        <span class="wb-kw">return</span> question.trim().toLowerCase();
+    }
+
+    <span class="wb-cmt">/**
+     * Choose one general reply at random.
+     * @return One of the general replies.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">pickGeneralReply</span>()
+    {
+        <span class="wb-kw">int</span> index = randomGenerator.nextInt(generalReplies.size());
+        <span class="wb-kw">return</span> generalReplies.get(index);
+    }
+
+    <span class="wb-cmt">/**
+     * Record a rating for a reply. Ratings outside MIN_RATING to
+     * MAX_RATING are ignored.
+     * @param rating The rating to record.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addRating</span>(<span class="wb-kw">int</span> rating)
+    {
+        <span class="wb-kw">if</span>(rating &gt;= <span class="wb-type">MIN_RATING</span> &amp;&amp; rating &lt;= <span class="wb-type">MAX_RATING</span>) {
+            ratings.add(rating);
+        }
+    }
+
+    <span class="wb-cmt">/**
+     * Return the number of ratings recorded so far.
+     * @return The number of ratings.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfRatings</span>()
+    {
+        <span class="wb-kw">return</span> ratings.size();
+    }
+
+    <span class="wb-cmt">/**
+     * Work out the whole-number average of the recorded ratings.
+     * @return The average, or 0 when there are no ratings.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">averageRating</span>()
+    {
+        <span class="wb-kw">if</span>(ratings.isEmpty()) {
+            <span class="wb-kw">return</span> 0;
+        }
+        <span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
+        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> rating : ratings) {
+            total = total + rating;
+        }
+        <span class="wb-kw">return</span> total / ratings.size();
+    }
+
+    <span class="wb-cmt">/**
+     * Look up the reply for one exact keyword. Nothing is recorded.
+     * @param keyword The keyword; must not be null.
+     * @return Its reply, or a message saying there is no answer yet.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">replyFor</span>(<span class="wb-type">String</span> keyword)
+    {
+        <span class="wb-kw">return</span> replyMap.getOrDefault(keyword, <span class="wb-type">UNKNOWN_KEYWORD</span>);
+    }
+
+    <span class="wb-cmt">/**
+     * Say whether a keyword has a stored reply.
+     * @param keyword The keyword; must not be null.
+     * @return true if the keyword has a reply.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">knows</span>(<span class="wb-type">String</span> keyword)
+    {
+        <span class="wb-kw">return</span> replyMap.containsKey(keyword);
+    }
+
+    <span class="wb-cmt">/**
+     * Add the reply for a keyword, or replace the reply it has.
+     * @param keyword A lower-case keyword; must not be null.
+     * @param reply The reply; must not be null.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">learn</span>(<span class="wb-type">String</span> keyword, <span class="wb-type">String</span> reply)
+    {
+        replyMap.put(keyword, reply);
+    }
+
+    <span class="wb-cmt">/**
+     * Return the number of keywords that have a reply.
+     * @return The number of entries in the reply map.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfKeywords</span>()
+    {
+        <span class="wb-kw">return</span> replyMap.size();
+    }
+
+    <span class="wb-cmt">/**
+     * Return how many questions matched a keyword.
+     * @param keyword The keyword; must not be null.
+     * @return Its count, or 0 if it has never matched.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">timesAsked</span>(<span class="wb-type">String</span> keyword)
+    {
+        <span class="wb-kw">return</span> keywordCounts.getOrDefault(keyword, <span class="wb-num">0</span>);
+    }
+
+    <span class="wb-cmt">/**
+     * Return the number of different keywords asked about.
+     * @return The number of topics recorded.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfTopicsAsked</span>()
+    {
+        <span class="wb-kw">return</span> topicsAsked.size();
+    }
+
+    <span class="wb-cmt">/**
+     * Say whether a keyword has been asked about.
+     * @param keyword The keyword; must not be null.
+     * @return true if a question has matched the keyword.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">hasBeenAsked</span>(<span class="wb-type">String</span> keyword)
+    {
+        <span class="wb-kw">return</span> topicsAsked.contains(keyword);
+    }
+
+    <span class="wb-cmt">/**
+     * Return the number of HelpBot objects created since the program started.
+     * @return The number of bots created.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">int</span> <span class="wb-fn">numberOfBots</span>()
+    {
+        <span class="wb-kw">return</span> botsCreated;
+    }
+
+    <span class="wb-cmt">/**
+     * Record a keyword that matched: add 1 to its count and add it to
+     * the set of topics.
+     * @param keyword The keyword that matched.
+     */</span>
+    <span class="wb-kw">private</span> <span class="wb-kw">void</span> <span class="wb-fn">recordKeyword</span>(<span class="wb-type">String</span> keyword)
+    {
+        <span class="wb-kw">int</span> count = keywordCounts.getOrDefault(keyword, <span class="wb-num">0</span>);
+        keywordCounts.put(keyword, count + <span class="wb-num">1</span>);
+        topicsAsked.add(keyword);
+    }
+
+    <span class="wb-cmt">/**
+     * Build the list of general replies.
+     */</span>
+    <span class="wb-kw">private</span> <span class="wb-kw">void</span> <span class="wb-fn">fillGeneralReplies</span>()
+    {
+        generalReplies.add(<span class="wb-str">"Can you describe that in more detail?"</span>);
+        generalReplies.add(<span class="wb-str">"Have you checked the course web page?"</span>);
+        generalReplies.add(<span class="wb-str">"That question comes up often. Let us look at it together."</span>);
+        generalReplies.add(<span class="wb-str">"Please post that on the discussion board so others can see the answer."</span>);
+    }
+
+    <span class="wb-cmt">/**
+     * Store the four keyword replies.
+     */</span>
+    <span class="wb-kw">private</span> <span class="wb-kw">void</span> <span class="wb-fn">fillReplyMap</span>()
+    {
+        replyMap.put(<span class="wb-str">"submit"</span>,
+            <span class="wb-str">"Upload your .java files to the assignment page before the deadline."</span>);
+        replyMap.put(<span class="wb-str">"compile"</span>,
+            <span class="wb-str">"Read the first error message and check the line just above it."</span>);
+        replyMap.put(<span class="wb-str">"late"</span>, <span class="wb-str">"Late work loses 10 percent per day."</span>);
+        replyMap.put(<span class="wb-str">"test"</span>, <span class="wb-str">"Term Test 2 covers Chapters 1 to 9 and 12 to 13, mostly 6 to 9 and 12 to 13."</span>);
+    }
+}</code></pre>
+</section>
+
 
 </main>
 </body>
