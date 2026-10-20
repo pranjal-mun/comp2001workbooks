@@ -15,6 +15,7 @@ import { runCases, matchAnswer } from "./grader.js";
 import { buildProject, relocateMessages, errorLine, usesInput, tutorSource } from "./java.js";
 import { xp } from "./xp.js";
 import { isInstructor } from "./instructor.js";
+import { answersAreFree } from "./schedule.js";
 
 let context = null;
 
@@ -124,6 +125,7 @@ function confirmReveal(id, cost) {
   const { progress } = context;
   if (progress.get(id).revealed) return true;
   if (isInstructor()) return progress.reveal(id, 0);
+  if (answersAreFree()) cost = 0;
   if (cost > 0 && !xp.canAfford(cost)) {
     toast(`You need ${cost} XP to see this answer (you have ${xp.balance}).`, "warn");
     return false;
@@ -427,7 +429,7 @@ class ExerciseElement extends RunnableElement {
     this.statusPill.textContent = record.passed ? "✓ Correct" : "";
     this.statusPill.className = "wb-status-pill" + (record.passed ? " is-good" : "");
     const cost = record.revealed ? 0 : this.spec.xp ?? 5;
-    this.revealButton.textContent = record.revealed ? "Answer shown" : isInstructor() ? "Show answer" : `Show answer (−${cost} XP)`;
+    this.revealButton.textContent = record.revealed ? "Answer shown" : isInstructor() ? "Show answer" : answersAreFree() ? "Show answer (free before the test)" : `Show answer (−${cost} XP)`;
     this.revealButton.disabled = Boolean(record.revealed);
   }
 
@@ -604,7 +606,7 @@ class TableElement extends WorkbookElement {
     this.statusPill.textContent = record.passed ? "✓ All correct" : "";
     this.statusPill.className = "wb-status-pill" + (record.passed ? " is-good" : "");
     const cost = this.remainingCost;
-    this.revealButton.textContent = record.revealed ? "Answers shown" : isInstructor() ? "Show answers" : `Show answers (−${cost} XP)`;
+    this.revealButton.textContent = record.revealed ? "Answers shown" : isInstructor() ? "Show answers" : answersAreFree() ? "Show answers (free before the test)" : `Show answers (−${cost} XP)`;
     this.revealButton.disabled = Boolean(record.revealed);
   }
 
@@ -731,7 +733,7 @@ class ShortElement extends WorkbookElement {
     this.compareButton.hidden = Boolean(record.compared || record.revealed);
     this.hint.textContent = record.compared || record.revealed ? "" : ready ? "" : `Write at least ${this.minChars} characters, then compare.`;
     this.revealButton.hidden = Boolean(record.compared || record.revealed);
-    this.revealButton.textContent = isInstructor() ? "Show answer" : `Skip and show answer (−${this.amount} XP)`;
+    this.revealButton.textContent = isInstructor() ? "Show answer" : answersAreFree() ? "Skip and show answer (free before the test)" : `Skip and show answer (−${this.amount} XP)`;
     this.selfCheck.hidden = !(record.compared && !record.passed && !record.revealed);
   }
 

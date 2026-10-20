@@ -53,6 +53,18 @@ export const KEY_DATES = [
   { name: "Final examination", when: "Dec 10 to 18", note: "Registrar-scheduled" },
 ];
 
+// Before a test, model answers can be shown without spending XP. Set the end
+// of the free window (local time) here, or null to turn it off. After the
+// end time the usual XP prices come back by themselves.
+export const FREE_ANSWERS_UNTIL = { date: "2026-10-21", hour: 9, minute: 0 };
+
+/** True while model answers are free for everyone. */
+export function answersAreFree(now = new Date()) {
+  if (!FREE_ANSWERS_UNTIL) return false;
+  const [y, m, d] = FREE_ANSWERS_UNTIL.date.split("-").map(Number);
+  return now < new Date(y, m - 1, d, FREE_ANSWERS_UNTIL.hour, FREE_ANSWERS_UNTIL.minute);
+}
+
 export const workbookId = (n) => `lecture-${String(n).padStart(2, "0")}`;
 
 export function lecture(n) {
