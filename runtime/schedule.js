@@ -33,7 +33,7 @@ export const LECTURES = [
   { n: 9, unit: 2, date: "2026-10-08", title: "Chapter 5, Part 2: Filtering and transforming with streams", built: true },
   { n: 10, unit: 3, date: "2026-10-15", title: "Chapter 6, Part 1: Learning and using library classes", built: true },
   { n: 11, unit: 3, date: "2026-10-20", title: "Chapter 6, Part 2: Maps, sets, and class-level members", built: true },
-  { n: 12, unit: 3, date: "2026-10-22", title: "Chapter 7, Part 1: Fixed-size collections and the <code>for</code> loop", built: false },
+  { n: 12, unit: 3, date: "2026-10-22", title: "Chapter 7, Part 1: Fixed-size collections and the <code>for</code> loop", built: true },
   { n: 13, unit: 3, date: "2026-10-27", title: "Chapter 7, Part 2: Arrays of objects, grids, and representation choices", built: false },
   { n: 14, unit: 3, date: "2026-10-29", title: "Chapter 8: Designing classes that are easy to change", built: false },
   { n: 15, unit: 3, date: "2026-11-03", title: "Chapter 9: Testing, debugging, and well-behaved objects", built: false },

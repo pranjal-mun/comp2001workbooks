@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 2001 – Lecture 12 Workbook</title>
+  <link rel="icon" href="../../runtime/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
+  <link rel="stylesheet" href="../../runtime/workbook.css">
+  <style>
+    .wb-shot { margin: 1rem 0 1.2rem; }
+    .wb-shot img { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; border: 1px solid var(--rule); border-radius: 6px; background: #fff; }
+    .wb-shot figcaption { font-family: var(--font-sans); font-size: 0.85rem; color: var(--ink-quiet); text-align: center; margin-top: 0.4rem; }
+    .wb-shot-narrow img { max-width: 300px; }
+    .wb-outcomes h3 { margin-top: 1.4rem; }
+    .wb-array td { text-align: center; min-width: 2.4rem; }
+  </style>
+  <script type="module">
+    import { initWorkbook } from "../../runtime/workbook.js";
+    initWorkbook({ id: "lecture-12", specs: "./exercises.json" });
+  </script>
+</head>
+<body>
+<main>
+
+<div class="wb-title-block">
+  <div>
+    <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
+    <h1>Lecture 12 Workbook</h1>
+    <div class="wb-subtitle">Chapter 7, Part 1: Arrays and the for Loop</div>
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
+  </div>
+  <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+</div>
+
+  <p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run on the page takes a few seconds while Java loads). Boxes that ask for part of a class come with the rest of that class and a small checking program on their classpath. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
+
+<p>This workbook holds the notes and the questions for Lecture 12. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. Sections 4 and 8 are a coding problem in two parts, a row of theatre seats, to do at home as practice; the notes there say everything the classes need. Section 10 has two complete programs to write after class, and the lecture summary at the end is a short review for tests. By the end, you should be able to:</p>
+<ul>
+  <li>say when an array suits a job better than an <code>ArrayList</code>;</li>
+  <li>declare and create an array, and give the default values of its elements;</li>
+  <li>read and change elements by index, use <code>length</code>, and avoid an index out of bounds;</li>
+  <li>write a <code>for</code> loop, and rewrite it as a <code>while</code> loop;</li>
+  <li>total, count and find the largest element of an array with a for-each or a <code>for</code> loop, and choose between them; and</li>
+  <li>write complete programs that keep a fixed number of values in an array.</li>
+</ul>
+
+<h2 id="s1">1. Fixed size</h2>
+<h3>A week of study</h3>
+<p>Lecture 11 ended with the library's visitor counts, one number for each day of the week. A week always has seven days, so that collection never grows or shrinks. A student's study log has the same shape. Suppose a student writes down how many minutes they study each day. Every example in this workbook uses this week:</p>
+<table>
+  <thead><tr><th>Day</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr></thead>
+  <tbody>
+      <tr><td>Minutes</td><td>45</td><td>0</td><td>90</td><td>30</td><td>0</td><td>120</td><td>60</td></tr>
+  </tbody>
+</table>
+<p>The student studied on five days, 345 minutes in all, and Saturday was the busiest day. On Tuesday and Friday nothing was recorded.</p>
+
+<h3>Arrays</h3>
+<p>We could keep these numbers in an <code>ArrayList&lt;Integer&gt;</code>, but a list is built to grow, and this one never will. Java has a simpler collection for a fixed number of values: the <strong>array</strong>. An array holds a fixed number of values of one type. Each value is an <strong>element</strong>, and each element has an <strong>index</strong>, starting at 0.</p>
+<figure class="wb-shot">
+  <img src="img/array_week.png" alt="Seven boxes holding 45, 0, 90, 30, 0, 120 and 60, with the days Mon to Sun above them and the indices 0 to 6 below" loading="lazy">
+  <figcaption>The array <code>minutes</code> for our week.</figcaption>
+</figure>
+<p>Day 0 is Monday and day 6 is Sunday. The size is chosen when the array is created, and it never changes. An array has no <code>add</code> or <code>remove</code>: a week of seven days stays seven days, and each day's value can only be changed.</p>
+
+<h3>Primitive and object elements</h3>
+<p>An <code>ArrayList</code> holds only objects, so a list of numbers holds <code>Integer</code> objects (Lecture 10). An array can hold primitive values such as <code>int</code> or <code>boolean</code> directly:</p>
+<pre><code><span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Integer</span>&gt; list = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;(); <span class="wb-cmt">// holds Integer objects</span>
+<span class="wb-kw">int</span>[] minutes = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[<span class="wb-num">7</span>];                 <span class="wb-cmt">// holds int values</span></code></pre>
+<p>An array can also hold objects. <code>String[]</code> is an array of strings. Arrays of objects of our own classes come in Lecture 13.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: array or list?</div>
+  <p><strong>1.1</strong> For each job, would you use an array or an <code>ArrayList</code>? Give a reason.</p>
+  <ol type="a">
+    <li>The temperature at each hour of one day.</li>
+    <li>The names of students who join a course's waiting list during the term.</li>
+    <li>The marks for the five assignments of a course.</li>
+  </ol>
+  <wb-short id="q1"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: element types</div>
+  <p><strong>1.2</strong> Which of these declarations compile? For any that does not, say why.</p>
+  <wb-table id="q2">
+    <table>
+      <thead><tr><th>Declaration</th><th>Compiles?</th></tr></thead>
+      <tbody>
+        <tr><td><code>ArrayList&lt;int&gt; a;</code></td><td data-blank="a"></td></tr>
+        <tr><td><code>ArrayList&lt;Integer&gt; b;</code></td><td data-blank="b"></td></tr>
+        <tr><td><code>int[] c;</code></td><td data-blank="c"></td></tr>
+        <tr><td><code>Integer[] d;</code></td><td data-blank="d"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Why does the one that fails not compile?</p>
+  <wb-short id="q2-why"></wb-short>
+</div>
+
+<h2 id="s2">2. Creation</h2>
+<h3>Declaration and creation</h3>
+<p>An array variable is declared with square brackets after the type, and the array itself is created with <code>new</code>:</p>
+<pre><code><span class="wb-kw">int</span>[] minutes;           <span class="wb-cmt">// declares an array variable</span>
+minutes = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[<span class="wb-num">7</span>];    <span class="wb-cmt">// creates an array of 7 ints</span></code></pre>
+<p><code>int[]</code> is the type &ldquo;array of <code>int</code>&rdquo;. <code>int</code> is the <strong>base type</strong>, the type of every element. <code>new int[7]</code> creates the array. The size goes in square brackets, and there is no constructor call with round brackets. The size can be any <code>int</code> expression, such as a parameter, but once the array exists its size is fixed.</p>
+<p>In a class, the field is declared and the constructor creates the array, as <code>WeekLog</code> does:</p>
+<pre><code><span class="wb-kw">private</span> <span class="wb-kw">int</span>[] minutes;
+
+<span class="wb-kw">public</span> <span class="wb-fn">WeekLog</span>()
+{
+    minutes = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[<span class="wb-num">7</span>];
+}</code></pre>
+<h3>An array reference</h3>
+<p>An array is an object. The variable <code>minutes</code> holds a reference to it, as a variable of a class type does. A declaration alone creates no array:</p>
+<pre><code><span class="wb-kw">int</span>[] minutes;
+minutes[<span class="wb-num">0</span>] = <span class="wb-num">45</span>;</code></pre>
+<p>For a local variable, the compiler reports <code>variable minutes might not have been initialized</code>. A field that is never given an array holds <code>null</code>, and <code>minutes[0]</code> then stops the program with a <code>NullPointerException</code>. That is why the <code>WeekLog</code> constructor creates the array.</p>
+
+<h3>Default values</h3>
+<p>A new array is not empty. Every element starts with a default value: numbers start at 0, <code>boolean</code> elements at <code>false</code>, and object elements, such as the elements of a <code>String[]</code>, at <code>null</code>. A new study log is already seven zeros, so a day that is never recorded stays 0.</p>
+
+<h3>Array literals</h3>
+<p>When we know the values in advance, an <strong>array literal</strong> creates and fills the array in one step:</p>
+<pre><code><span class="wb-kw">int</span>[] sample = {<span class="wb-num">45</span>, <span class="wb-num">0</span>, <span class="wb-num">90</span>, <span class="wb-num">30</span>, <span class="wb-num">0</span>, <span class="wb-num">120</span>, <span class="wb-num">60</span>};
+System.out.println(sample.length);</code></pre>
+<p>The values go in braces, separated by commas. Java counts them to choose the size, so this array has 7 elements and the code prints 7. This short form works only in the declaration of the variable. Later, a new set of values needs <code>new</code>, as in <code>sample = new int[] {1, 2, 3};</code>.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: creating arrays</div>
+  <p><strong>2.1</strong> Write one line for each.</p>
+  <wb-table id="q3">
+    <table>
+      <thead><tr><th>Task</th><th>Line</th></tr></thead>
+      <tbody>
+        <tr><td>(a) A local variable <code>rainfall</code> that refers to a new array of 12 <code>double</code> values.</td><td data-blank="a"></td></tr>
+        <tr><td>(b) The line in a constructor that gives the field <code>names</code>, of type <code>String[]</code>, a new array of 4 strings.</td><td data-blank="b"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: three mistakes</div>
+  <p><strong>2.2</strong> Each line has a mistake, and none of them compiles. Say what is wrong and write the line correctly.</p>
+<pre><code><span class="wb-kw">int</span>[] a = <span class="wb-kw">new</span> <span class="wb-kw">int</span>(<span class="wb-num">7</span>);
+<span class="wb-kw">int</span>[] b = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[];
+<span class="wb-kw">int</span>[] c;  c = {<span class="wb-num">1</span>, <span class="wb-num">2</span>, <span class="wb-num">3</span>};</code></pre>
+  <wb-short id="q4"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: default values</div>
+  <p><strong>2.3</strong> What does each <code>println</code> print? What happens at the last line?</p>
+<pre><code><span class="wb-kw">int</span>[] counts = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[<span class="wb-num">3</span>];
+<span class="wb-kw">boolean</span>[] open = <span class="wb-kw">new</span> <span class="wb-kw">boolean</span>[<span class="wb-num">2</span>];
+<span class="wb-type">String</span>[] names = <span class="wb-kw">new</span> <span class="wb-type">String</span>[<span class="wb-num">2</span>];
+System.out.println(counts[<span class="wb-num">2</span>]);
+System.out.println(open[<span class="wb-num">1</span>]);
+System.out.println(names[<span class="wb-num">0</span>]);
+System.out.println(names[<span class="wb-num">0</span>].length());</code></pre>
+  <wb-table id="q5-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>What happens at the last line?</p>
+  <wb-short id="q5-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: days in each month</div>
+  <p><strong>2.4</strong> Write an array literal <code>monthDays</code> that holds the number of days in each month of a year that is not a leap year, January first. Then give the values of <code>monthDays.length</code>, <code>monthDays[1]</code> and <code>monthDays[monthDays.length - 1]</code>.</p>
+  <wb-table id="q6-literal">
+    <table>
+      <thead><tr><th></th><th>Your line</th></tr></thead>
+      <tbody>
+        <tr><td>the literal</td><td data-blank="literal"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <wb-table id="q6">
+    <table>
+      <thead><tr><th>Expression</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td><code>monthDays.length</code></td><td data-blank="length"></td></tr>
+        <tr><td><code>monthDays[1]</code></td><td data-blank="feb"></td></tr>
+        <tr><td><code>monthDays[monthDays.length - 1]</code></td><td data-blank="last"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+
+<h2 id="s3">3. Positions</h2>
+<h3>Indexing and bounds</h3>
+<p>We read or change one element by putting its index in square brackets: <code>minutes[2]</code> is Wednesday's 90. For an array of length 7, the valid indices are 0 to 6. An index of 7 or &minus;1 still compiles, because the compiler does not know which values the index will have. When the line runs, Java checks the index and stops the program with an <code>ArrayIndexOutOfBoundsException</code>.</p>
+<figure class="wb-shot">
+  <img src="img/array_bounds.png" alt="The seven elements with indices 0 to 6; minutes[5] points to 120, and minutes[7] is no such element" loading="lazy">
+  <figcaption>Valid indices are 0 to 6.</figcaption>
+</figure>
+<h3>An element as a variable</h3>
+<p>Each element can be used wherever a variable of the base type can, on either side of <code>=</code>:</p>
+<pre><code><span class="wb-kw">int</span>[] minutes = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[<span class="wb-num">7</span>];
+minutes[<span class="wb-num">2</span>] = <span class="wb-num">90</span>;
+minutes[<span class="wb-num">5</span>] = <span class="wb-num">100</span>;
+minutes[<span class="wb-num">5</span>] += <span class="wb-num">20</span>;
+System.out.println(minutes[<span class="wb-num">2</span>] + minutes[<span class="wb-num">5</span>]);</code></pre>
+<p>Element 5 becomes 100 and then 120, so the code prints 210. The other five elements are still 0.</p>
+
+<h3>Checking a day number</h3>
+<p><code>WeekLog</code>'s <code>record</code> method stores the minutes for one day. It checks the day number first, so a bad one cannot stop the program:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">record</span>(<span class="wb-kw">int</span> day, <span class="wb-kw">int</span> mins)
+{
+    <span class="wb-kw">if</span>(day &gt;= <span class="wb-num">0</span> &amp;&amp; day &lt; minutes.length) {
+        minutes[day] = mins;
+    }
+    <span class="wb-kw">else</span> {
+        System.out.println(<span class="wb-str">"No such day: "</span> + day);
+    }
+}</code></pre>
+<p><code>record(5, 120)</code> stores 120 as element 5. <code>record(7, 15)</code> prints <code>No such day: 7</code> and changes nothing. Recording a day a second time replaces its old value.</p>
+
+<h3>Array length</h3>
+<p><code>minutes.length</code> is the number of elements. It is a <strong>field</strong> of the array, so it has no round brackets, and it can never change. The test in <code>record</code> uses it, so the method would still be right if the array had a different size. Three kinds of collection give their size in three ways:</p>
+<table>
+  <thead><tr><th>Type</th><th>Number of items</th><th>Example</th></tr></thead>
+  <tbody>
+      <tr><td><code>String</code></td><td>a method, <code>length()</code></td><td><code>name.length()</code></td></tr>
+      <tr><td><code>ArrayList</code></td><td>a method, <code>size()</code></td><td><code>list.size()</code></td></tr>
+      <tr><td>array</td><td>a field, <code>length</code></td><td><code>minutes.length</code></td></tr>
+  </tbody>
+</table>
+<p>Writing <code>minutes.length()</code> does not compile: the compiler reports <code>cannot find symbol</code>, because an array has no method <code>length()</code>.</p>
+
+<h3>Day names</h3>
+<p>A second array, of strings, holds the name of each day:</p>
+<pre><code><span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-type">String</span>[] <span class="wb-type">DAY_NAMES</span> = {<span class="wb-str">"Monday"</span>, <span class="wb-str">"Tuesday"</span>,
+    <span class="wb-str">"Wednesday"</span>, <span class="wb-str">"Thursday"</span>, <span class="wb-str">"Friday"</span>, <span class="wb-str">"Saturday"</span>, <span class="wb-str">"Sunday"</span>};</code></pre>
+<p><code>DAY_NAMES</code> is a <strong>lookup table</strong>: one index finds the name in one array and the minutes in the other. <code>DAY_NAMES[2]</code> is <code>"Wednesday"</code> and <code>minutes[2]</code> is 90. It is a class constant, as in Lecture 11: every <code>WeekLog</code> shares one copy. A class method gives other classes the name of a day:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-type">String</span> <span class="wb-fn">dayName</span>(<span class="wb-kw">int</span> day)
+{
+    <span class="wb-kw">return</span> <span class="wb-type">DAY_NAMES</span>[day];
+}</code></pre>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: indices of a day's readings</div>
+  <p><strong>3.1</strong> A field <code>readings</code> refers to <code>new int[24]</code>. What are the first and last valid indices? Write the last index as an expression that uses <code>length</code>.</p>
+  <wb-table id="q7">
+    <table>
+      <thead><tr><th></th><th>Answer</th></tr></thead>
+      <tbody>
+        <tr><td>first valid index</td><td data-blank="first"></td></tr>
+        <tr><td>last valid index</td><td data-blank="last"></td></tr>
+        <tr><td>last index, using <code>length</code></td><td data-blank="expr"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: in bounds?</div>
+  <p><strong>3.2</strong> After <code>int[] a = new int[5];</code>, which of these compile? Which of them stop the program when they run?</p>
+  <wb-table id="q8">
+    <table>
+      <thead><tr><th>Access</th><th>Compiles?</th><th>Stops the program?</th></tr></thead>
+      <tbody>
+        <tr><td><code>a[0]</code></td><td data-blank="c0"></td><td data-blank="s0"></td></tr>
+        <tr><td><code>a[5]</code></td><td data-blank="c1"></td><td data-blank="s1"></td></tr>
+        <tr><td><code>a[a.length - 1]</code></td><td data-blank="c2"></td><td data-blank="s2"></td></tr>
+        <tr><td><code>a[-1]</code></td><td data-blank="c3"></td><td data-blank="s3"></td></tr>
+        <tr><td><code>a[a.length]</code></td><td data-blank="c4"></td><td data-blank="s4"></td></tr>
+        <tr><td><code>a[2 + 2]</code></td><td data-blank="c5"></td><td data-blank="s5"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: trace the elements</div>
+  <p><strong>3.3</strong> Write the four elements of <code>a</code> after this code runs.</p>
+<pre><code><span class="wb-kw">int</span>[] a = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[<span class="wb-num">4</span>];
+a[<span class="wb-num">1</span>] = <span class="wb-num">3</span>;
+a[<span class="wb-num">2</span>] = a[<span class="wb-num">1</span>] * <span class="wb-num">2</span>;
+a[<span class="wb-num">3</span>] += a[<span class="wb-num">2</span>];
+a[<span class="wb-num">0</span>] = a[<span class="wb-num">3</span>] - a[<span class="wb-num">1</span>];</code></pre>
+  <wb-table id="q9">
+    <table>
+      <thead><tr><th>Index</th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead>
+      <tbody>
+        <tr><td><code>a</code></td><td data-blank="0"></td><td data-blank="1"></td><td data-blank="2"></td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: length, length() or size()</div>
+  <p><strong>3.4</strong> <code>name</code> is a <code>String</code>, <code>list</code> is an <code>ArrayList&lt;String&gt;</code> and <code>minutes</code> is an <code>int[]</code>. Which of these compile? Correct the others.</p>
+  <wb-table id="q10">
+    <table>
+      <thead><tr><th>Expression</th><th>Compiles?</th><th>Correct form</th></tr></thead>
+      <tbody>
+        <tr><td><code>minutes.size()</code></td><td data-blank="c0"></td><td data-blank="f0"></td></tr>
+        <tr><td><code>name.length</code></td><td data-blank="c1"></td><td data-blank="f1"></td></tr>
+        <tr><td><code>minutes.length</code></td><td data-blank="c2"></td><td data-blank="f2"></td></tr>
+        <tr><td><code>list.length()</code></td><td data-blank="c3"></td><td data-blank="f3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: day names</div>
+  <p><strong>3.5</strong> What does <code>WeekLog.dayName(5)</code> return? What happens with <code>WeekLog.dayName(7)</code>?</p>
+  <wb-table id="q11">
+    <table>
+      <thead><tr><th>Call</th><th>Returns</th></tr></thead>
+      <tbody>
+        <tr><td><code>WeekLog.dayName(5)</code></td><td data-blank="five"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>What happens with <code>dayName(7)</code>?</p>
+  <wb-short id="q11-why"></wb-short>
+</div>
+
+<h2 id="s4">4. Seats Part 1: A row of seats</h2>
+<h3>The problem</h3>
+<p>This part is practice for after class. A theatre sells seats in rows. Write a class <code>SeatRow</code> for one row, and a class <code>SeatDemo</code> that tries it out. Seat 0 is at the aisle.</p>
+<ul>
+  <li>A field <code>private boolean[] booked</code>. The constructor <code>SeatRow(int size)</code> creates it with <code>size</code> elements, so every seat starts free (<code>false</code>).</li>
+  <li><code>int getSize()</code> returns the number of seats.</li>
+  <li><code>boolean isBooked(int seat)</code> says whether one seat is booked. It may assume the seat exists.</li>
+  <li><code>boolean book(int seat)</code> returns <code>false</code> for a seat that does not exist or is already booked. Otherwise it books the seat and returns <code>true</code>.</li>
+  <li><code>SeatDemo.main</code> makes a row of 10 seats and prints its size. It books seat 3, books seat 3 again, tries seat 10, then prints whether seats 3 and 4 are booked.</li>
+</ul>
+<p>The row needs no counter of booked seats: the array already holds one <code>true</code> or <code>false</code> for every seat.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: the row and its size</div>
+  <p><strong>4.1</strong> Write the class header, the field, the constructor and <code>getSize</code>.</p>
+  <p>The checking program makes rows of 10 and 0 seats and prints each size. Its expected output is:</p>
+<pre class="wb-output">10
+0</pre>
+  <wb-exercise id="q12"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: booking a seat</div>
+  <p><strong>4.2</strong> Write <code>isBooked</code> and <code>book</code>. Then predict the six lines this demo prints.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">SeatDemo</span>
+{
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
+    {
+        <span class="wb-type">SeatRow</span> row = <span class="wb-kw">new</span> <span class="wb-fn">SeatRow</span>(<span class="wb-num">10</span>);
+        System.out.println(<span class="wb-str">"Seats: "</span> + row.getSize());
+        System.out.println(<span class="wb-str">"Book 3: "</span> + row.book(<span class="wb-num">3</span>));
+        System.out.println(<span class="wb-str">"Book 3 again: "</span> + row.book(<span class="wb-num">3</span>));
+        System.out.println(<span class="wb-str">"Book 10: "</span> + row.book(<span class="wb-num">10</span>));
+        System.out.println(<span class="wb-str">"Seat 3 booked: "</span> + row.isBooked(<span class="wb-num">3</span>));
+        System.out.println(<span class="wb-str">"Seat 4 booked: "</span> + row.isBooked(<span class="wb-num">4</span>));
+    }
+}</code></pre>
+  <wb-table id="q13-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+        <tr><td>4</td><td data-blank="3"></td></tr>
+        <tr><td>5</td><td data-blank="4"></td></tr>
+        <tr><td>6</td><td data-blank="5"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>The box holds <code>SeatRow</code> with the field, the constructor and <code>getSize</code> written. Its checking program tries seats &minus;1, 0, 0 again, 4 and 5 in a row of 5, then asks whether seats 0 and 1 are booked. Expected output:</p>
+<pre class="wb-output">Book -1: false
+Book 0: true
+Book 0 again: false
+Book 4: true
+Book 5: false
+Seat 0 booked: true
+Seat 1 booked: false</pre>
+  <wb-exercise id="q13"></wb-exercise>
+</div>
+
+<h2 id="s5">5. For loops</h2>
+<h3>The for loop</h3>
+<p>To visit every element, we count through the indices. The <strong>for loop</strong> puts the counting in one line:</p>
+<pre><code><span class="wb-kw">for</span>(<span class="wb-kw">int</span> day = <span class="wb-num">0</span>; day &lt; minutes.length; day++) {
+    System.out.println(<span class="wb-type">DAY_NAMES</span>[day] + <span class="wb-str">": "</span> + minutes[day]);
+}</code></pre>
+<p>The header has three parts, separated by semicolons:</p>
+<ul>
+  <li>the <strong>initialization</strong>, <code>int day = 0</code>, runs once, before anything else;</li>
+  <li>the <strong>condition</strong>, <code>day &lt; minutes.length</code>, is tested before each pass, and the loop ends as soon as it is false;</li>
+  <li>the <strong>update</strong>, <code>day++</code>, runs after each pass.</li>
+</ul>
+<p>A pass of the body is one run of the statements in braces.</p>
+
+<h3>The while form</h3>
+<p>The same loop, written with <code>while</code> as in Lecture 7:</p>
+<pre><code><span class="wb-kw">int</span> day = <span class="wb-num">0</span>;
+<span class="wb-kw">while</span>(day &lt; minutes.length) {
+    System.out.println(<span class="wb-type">DAY_NAMES</span>[day] + <span class="wb-str">": "</span> + minutes[day]);
+    day++;
+}</code></pre>
+<p>Both loops do the same steps in the same order. The <code>for</code> loop keeps the start, the test and the update together, so the update is hard to forget. A variable declared in the <code>for</code> header exists only inside the loop; after the loop, <code>day</code> is no longer known. In the <code>while</code> form, <code>day</code> is still there after the loop, holding 7.</p>
+
+<h3>Loop control flow</h3>
+<figure class="wb-shot">
+  <img src="img/loop_flow.png" alt="Flowchart: day = 0, then the test day < minutes.length; true leads to print one day and day++, then back to the test; false leads to after the loop" loading="lazy">
+  <figcaption>The order of the steps in a <code>for</code> loop.</figcaption>
+</figure>
+<p>The condition is tested before every pass, including the first. When <code>day</code> reaches 7, the test is false and the loop ends, so the body runs for days 0 to 6 only. If the condition is false at the start, the body never runs.</p>
+
+<h3>Off by one</h3>
+<p>This loop has <code>&lt;=</code> where it needs <code>&lt;</code>:</p>
+<pre><code><span class="wb-kw">int</span>[] minutes = {<span class="wb-num">45</span>, <span class="wb-num">0</span>, <span class="wb-num">90</span>, <span class="wb-num">30</span>, <span class="wb-num">0</span>, <span class="wb-num">120</span>, <span class="wb-num">60</span>};
+<span class="wb-kw">for</span>(<span class="wb-kw">int</span> day = <span class="wb-num">0</span>; day &lt;= minutes.length; day++) {
+    System.out.println(minutes[day]);
+}</code></pre>
+<p>It compiles and prints all seven values. Then <code>day</code> becomes 7, the test <code>7 &lt;= 7</code> is true, and <code>minutes[7]</code> throws an <code>ArrayIndexOutOfBoundsException</code>. The last valid index is <code>length - 1</code>, so the standard loop over an array <code>a</code> is <code>for(int i = 0; i &lt; a.length; i++)</code>: start at 0 and test with <code>&lt;</code>.</p>
+
+<h3>Counting down</h3>
+<p>A <code>for</code> loop can count in any direction, and by any step. This one visits the week backwards:</p>
+<pre><code><span class="wb-kw">for</span>(<span class="wb-kw">int</span> day = minutes.length - <span class="wb-num">1</span>; day &gt;= <span class="wb-num">0</span>; day--) {
+    System.out.print(minutes[day] + <span class="wb-str">" "</span>);
+}</code></pre>
+<p>It starts at the last index, 6, and prints <code>60 120 0 30 90 0 45</code>. The loop ends when <code>day</code> becomes &minus;1. An update such as <code>day += 2</code> visits every second element.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: the parts of a header</div>
+  <p><strong>5.1</strong> In the header below, <code>row</code> is a <code>SeatRow</code> of 10 seats. Name the three parts. What is <code>seat</code> on the first pass and on the last pass, and how many times does the body run?</p>
+<pre><code><span class="wb-kw">for</span>(<span class="wb-kw">int</span> seat = row.getSize() - <span class="wb-num">1</span>; seat &gt;= <span class="wb-num">0</span>; seat--)</code></pre>
+  <wb-table id="q14">
+    <table>
+      <thead><tr><th>Part</th><th>Answer</th></tr></thead>
+      <tbody>
+        <tr><td>initialization</td><td data-blank="init"></td></tr>
+        <tr><td>condition</td><td data-blank="cond"></td></tr>
+        <tr><td>update</td><td data-blank="upd"></td></tr>
+        <tr><td><code>seat</code> on the first pass</td><td data-blank="first"></td></tr>
+        <tr><td><code>seat</code> on the last pass</td><td data-blank="last"></td></tr>
+        <tr><td>number of passes</td><td data-blank="passes"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: for to while</div>
+  <p><strong>5.2</strong> What does this loop print? Rewrite it as a <code>while</code> loop that prints the same.</p>
+<pre><code><span class="wb-kw">for</span>(<span class="wb-kw">int</span> i = <span class="wb-num">1</span>; i &lt;= <span class="wb-num">5</span>; i++) {
+    System.out.print(i * i + <span class="wb-str">" "</span>);
+}</code></pre>
+  <wb-table id="q15-output">
+    <table>
+      <thead><tr><th></th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>the loop prints</td><td data-blank="0"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Replace the <code>for</code> loop in the box with a <code>while</code> loop that prints the same.</p>
+  <wb-exercise id="q15"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: two mistakes</div>
+  <p><strong>5.3</strong> This code should add up the seven elements of <code>minutes</code>. It has two mistakes. What happens when it runs? Correct the header.</p>
+<pre><code><span class="wb-kw">int</span> sum = <span class="wb-num">0</span>;
+<span class="wb-kw">for</span>(<span class="wb-kw">int</span> day = <span class="wb-num">1</span>; day &lt;= minutes.length; day++) {
+    sum += minutes[day];
+}</code></pre>
+  <wb-short id="q16"></wb-short>
+  <wb-table id="q16-header">
+    <table>
+      <thead><tr><th></th><th>Corrected header</th></tr></thead>
+      <tbody>
+        <tr><td>header</td><td data-blank="header"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: trace a loop</div>
+  <p><strong>5.4</strong> Trace this loop over our week. Fill in <code>i</code> and <code>sum</code> at the end of each pass, then say why the loop stops.</p>
+<pre><code><span class="wb-kw">int</span> sum = <span class="wb-num">0</span>;
+<span class="wb-kw">for</span>(<span class="wb-kw">int</span> i = <span class="wb-num">0</span>; i &lt; <span class="wb-num">6</span>; i += <span class="wb-num">2</span>) {
+    sum += minutes[i];
+}</code></pre>
+  <wb-table id="q17">
+    <table>
+      <thead><tr><th>Pass</th><th>1</th><th>2</th><th>3</th></tr></thead>
+      <tbody>
+        <tr><td><code>i</code></td><td data-blank="i0"></td><td data-blank="i1"></td><td data-blank="i2"></td></tr>
+        <tr><td><code>sum</code></td><td data-blank="s0"></td><td data-blank="s1"></td><td data-blank="s2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Why does the loop stop?</p>
+  <wb-short id="q17-why"></wb-short>
+</div>
+
+<h2 id="s6">6. Reports</h2>
+<h3>Printing every day</h3>
+<p><code>printWeek</code> prints each day's name and minutes:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printWeek</span>()
+{
+    <span class="wb-kw">for</span>(<span class="wb-kw">int</span> day = <span class="wb-num">0</span>; day &lt; minutes.length; day++) {
+        System.out.println(<span class="wb-type">DAY_NAMES</span>[day] + <span class="wb-str">": "</span> + minutes[day]);
+    }
+}</code></pre>
+<p>For our week it prints seven lines, from <code>Monday: 45</code> to <code>Sunday: 60</code>. The loop uses <code>day</code> twice, to find the name and the minutes, so it needs the index.</p>
+
+<h3>Total minutes</h3>
+<p>Arrays work in a for-each loop, as lists do:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">total</span>()
+{
+    <span class="wb-kw">int</span> sum = <span class="wb-num">0</span>;
+    <span class="wb-kw">for</span>(<span class="wb-kw">int</span> mins : minutes) {
+        sum += mins;
+    }
+    <span class="wb-kw">return</span> sum;
+}</code></pre>
+<p><code>mins</code> takes each element's value in turn, from index 0 to 6. The total does not need to know which day is which, so a for-each loop is enough. For our week it returns 345.</p>
+
+<h3>Days studied</h3>
+<p>Counting is the same loop with a test inside:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">daysStudied</span>()
+{
+    <span class="wb-kw">int</span> count = <span class="wb-num">0</span>;
+    <span class="wb-kw">for</span>(<span class="wb-kw">int</span> mins : minutes) {
+        <span class="wb-kw">if</span>(mins &gt; <span class="wb-num">0</span>) {
+            count++;
+        }
+    }
+    <span class="wb-kw">return</span> count;
+}</code></pre>
+<p>A day with 0 minutes is a day with no study, so it is not counted. For our week the method returns 5: Tuesday and Friday are left out. The table traces both loops; each column is one pass.</p>
+<table>
+  <thead><tr><th><code>mins</code></th><th>45</th><th>0</th><th>90</th><th>30</th><th>0</th><th>120</th><th>60</th></tr></thead>
+  <tbody>
+      <tr><td><code>sum</code></td><td>45</td><td>45</td><td>135</td><td>165</td><td>165</td><td>285</td><td>345</td></tr>
+      <tr><td><code>count</code></td><td>1</td><td>1</td><td>2</td><td>3</td><td>3</td><td>4</td><td>5</td></tr>
+  </tbody>
+</table>
+<p><code>sum</code> grows by every value. <code>count</code> grows only when the value is more than 0, so the two zero days leave it unchanged.</p>
+
+<h3>For-each limits</h3>
+<p>The for-each variable holds a copy of the element. Changing it does not change the array:</p>
+<pre><code><span class="wb-kw">int</span>[] minutes = {<span class="wb-num">45</span>, <span class="wb-num">0</span>, <span class="wb-num">90</span>, <span class="wb-num">30</span>, <span class="wb-num">0</span>, <span class="wb-num">120</span>, <span class="wb-num">60</span>};
+<span class="wb-kw">for</span>(<span class="wb-kw">int</span> mins : minutes) {
+    mins = mins * <span class="wb-num">2</span>;
+}
+System.out.println(minutes[<span class="wb-num">0</span>]);</code></pre>
+<p>This prints 45. To change the elements, use an index: <code>minutes[day] = minutes[day] * 2</code> inside a <code>for</code> loop. A for-each loop also has no index, so it cannot say which day a value belongs to.</p>
+
+<h3>The busiest day</h3>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">busiestDay</span>()
+{
+    <span class="wb-kw">int</span> best = <span class="wb-num">0</span>;
+    <span class="wb-kw">for</span>(<span class="wb-kw">int</span> day = <span class="wb-num">1</span>; day &lt; minutes.length; day++) {
+        <span class="wb-kw">if</span>(minutes[day] &gt; minutes[best]) {
+            best = day;
+        }
+    }
+    <span class="wb-kw">return</span> best;
+}</code></pre>
+<p>The method returns a day number, not minutes, so it needs the index. Day 0 is the best so far before the loop starts, so the loop begins at day 1. Because the test is <code>&gt;</code>, the first of two equal days stays the best. For our week, <code>best</code> becomes 2 at Wednesday (90 beats 45) and 5 at Saturday (120 beats 90). Thursday, Friday and Sunday do not beat the best so far, so the method returns 5.</p>
+
+<h3>Zero days</h3>
+<p>Suppose we change <code>&gt;</code> to <code>&lt;</code> to find the quietest day. The method returns 1, Tuesday, with 0 minutes. The code does what it says, but this is probably not the answer we wanted. A 0 in this array means &ldquo;no study that day&rdquo;, not &ldquo;a short study session&rdquo;. The array cannot tell us whether the student rested or forgot to record the day. To find the quietest day with some study, the loop must skip the zeros. Start with no best day (&minus;1), ignore days with 0 minutes, and keep the smallest of the rest. For our week that is day 3, Thursday, with 30 minutes.</p>
+
+<h3>Choosing a loop</h3>
+<table>
+  <thead><tr><th>Loop</th><th>Use it when</th><th>Examples</th></tr></thead>
+  <tbody>
+      <tr><td>for-each</td><td>every element is visited and its position does not matter</td><td><code>total</code>, <code>daysStudied</code></td></tr>
+      <tr><td><code>for</code></td><td>the index is needed: two arrays, a changed element, a position as the answer, or another order</td><td><code>printWeek</code>, <code>busiestDay</code>, counting down</td></tr>
+      <tr><td><code>while</code></td><td>the number of passes is not known in advance</td><td>a search that stops at the first match (Lecture 7)</td></tr>
+  </tbody>
+</table>
+<p>Any of the three can be rewritten as another. Choose the one that says most plainly what the loop is for.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: days over a limit</div>
+  <p><strong>6.1</strong> Write a <code>WeekLog</code> method <code>int daysOver(int limit)</code> that returns the number of days with more than <code>limit</code> minutes. What does it return for our week with <code>limit</code> 60? With <code>limit</code> 0?</p>
+  <wb-table id="q18-values">
+    <table>
+      <thead><tr><th>Call</th><th>Returns</th></tr></thead>
+      <tbody>
+        <tr><td><code>daysOver(60)</code></td><td data-blank="sixty"></td></tr>
+        <tr><td><code>daysOver(0)</code></td><td data-blank="zero"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>The box holds the rest of <code>WeekLog</code>. Its checking program records our week and prints <code>daysOver</code> for 60, 0 and 200, then for a new log. Expected output:</p>
+<pre class="wb-output">2
+5
+0
+0</pre>
+  <wb-exercise id="q18"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: changing a copy</div>
+  <p><strong>6.2</strong> <code>minutes</code> holds our week. What do the two <code>println</code> lines print?</p>
+<pre><code><span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
+<span class="wb-kw">for</span>(<span class="wb-kw">int</span> mins : minutes) {
+    mins += <span class="wb-num">10</span>;
+    total += mins;
+}
+System.out.println(total);
+System.out.println(minutes[<span class="wb-num">1</span>]);</code></pre>
+  <wb-table id="q19-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Why is <code>minutes[1]</code> unchanged?</p>
+  <wb-short id="q19-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: trace another week</div>
+  <p><strong>6.3</strong> Another week has the minutes <code>{30, 60, 60, 0, 90, 90, 10}</code>. Trace <code>busiestDay</code>: write <code>best</code> after each pass. What does it return? What would it return if the test were <code>&gt;=</code>?</p>
+  <wb-table id="q20">
+    <table>
+      <thead><tr><th><code>day</code></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead>
+      <tbody>
+        <tr><td><code>best</code></td><td data-blank="b1"></td><td data-blank="b2"></td><td data-blank="b3"></td><td data-blank="b4"></td><td data-blank="b5"></td><td data-blank="b6"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <wb-table id="q20-result">
+    <table>
+      <thead><tr><th></th><th>Returns</th></tr></thead>
+      <tbody>
+        <tr><td>with <code>&gt;</code></td><td data-blank="gt"></td></tr>
+        <tr><td>with <code>&gt;=</code></td><td data-blank="ge"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Why is the call <code>WeekLog.dayName(week.busiestDay())</code> always safe?</p>
+  <wb-short id="q20-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: the quietest day with study</div>
+  <p><strong>6.4</strong> Write <code>int quietestStudiedDay()</code>. It returns the day with the fewest minutes among the days with more than 0, or &minus;1 when no day has any study. What does it return for our week, and for a new <code>WeekLog</code>?</p>
+  <wb-table id="q21-values">
+    <table>
+      <thead><tr><th>Log</th><th>Returns</th></tr></thead>
+      <tbody>
+        <tr><td>our week</td><td data-blank="week"></td></tr>
+        <tr><td>a new <code>WeekLog</code></td><td data-blank="empty"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>The box holds the rest of <code>WeekLog</code>. Its checking program tries our week, a new log, and a week whose only study is 50 minutes on Wednesday and on Friday. Expected output:</p>
+<pre class="wb-output">3
+-1
+2</pre>
+  <wb-exercise id="q21"></wb-exercise>
+</div>
+
+<h2 id="s7">7. One week</h2>
+<h3>Final arrays</h3>
+<p>This section puts <code>WeekLog</code> together. Its constant <code>DAY_NAMES</code> is <code>final</code>, so it always refers to the same array. As with the final list in Lecture 11, the elements can still change. Inside a <code>WeekLog</code> method, the line <code>DAY_NAMES[0] = "Mon";</code> compiles, and it changes the name of day 0 for every <code>WeekLog</code>. Only <code>DAY_NAMES = new String[7];</code> is refused. That is why the array is <code>private</code>: only <code>WeekLog</code>'s own methods can reach it, and none of them change it.</p>
+
+<h3>Arrays and lists</h3>
+<table>
+  <thead><tr><th></th><th>Array</th><th><code>ArrayList</code></th></tr></thead>
+  <tbody>
+      <tr><td>Size</td><td>fixed when created</td><td>grows and shrinks</td></tr>
+      <tr><td>Elements</td><td>primitives or objects</td><td>objects only</td></tr>
+      <tr><td>Read one</td><td><code>minutes[5]</code></td><td><code>list.get(5)</code></td></tr>
+      <tr><td>Change one</td><td><code>minutes[5] = 120</code></td><td><code>list.set(5, 120)</code></td></tr>
+      <tr><td>Number of items</td><td><code>minutes.length</code></td><td><code>list.size()</code></td></tr>
+      <tr><td>Add or remove</td><td>not possible</td><td><code>add</code>, <code>remove</code></td></tr>
+  </tbody>
+</table>
+<p>An array suits a collection whose size is known when it is created and never changes: the days of a week, the hours of a day, the seats in a row. When items come and go, a list is the better choice.</p>
+
+<h3>The complete class</h3>
+<p>Here is all of <code>WeekLog</code>, with its Javadoc comments left out to save space:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">WeekLog</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-type">String</span>[] <span class="wb-type">DAY_NAMES</span> = {<span class="wb-str">"Monday"</span>, <span class="wb-str">"Tuesday"</span>,
+        <span class="wb-str">"Wednesday"</span>, <span class="wb-str">"Thursday"</span>, <span class="wb-str">"Friday"</span>, <span class="wb-str">"Saturday"</span>, <span class="wb-str">"Sunday"</span>};
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span>[] minutes;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">WeekLog</span>()
+    {
+        minutes = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[<span class="wb-num">7</span>];
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">record</span>(<span class="wb-kw">int</span> day, <span class="wb-kw">int</span> mins)
+    {
+        <span class="wb-kw">if</span>(day &gt;= <span class="wb-num">0</span> &amp;&amp; day &lt; minutes.length) {
+            minutes[day] = mins;
+        }
+        <span class="wb-kw">else</span> {
+            System.out.println(<span class="wb-str">"No such day: "</span> + day);
+        }
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getMinutes</span>(<span class="wb-kw">int</span> day)
+    {
+        <span class="wb-kw">return</span> minutes[day];
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-type">String</span> <span class="wb-fn">dayName</span>(<span class="wb-kw">int</span> day)
+    {
+        <span class="wb-kw">return</span> <span class="wb-type">DAY_NAMES</span>[day];
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printWeek</span>()
+    {
+        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> day = <span class="wb-num">0</span>; day &lt; minutes.length; day++) {
+            System.out.println(<span class="wb-type">DAY_NAMES</span>[day] + <span class="wb-str">": "</span> + minutes[day]);
+        }
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">total</span>()
+    {
+        <span class="wb-kw">int</span> sum = <span class="wb-num">0</span>;
+        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> mins : minutes) {
+            sum += mins;
+        }
+        <span class="wb-kw">return</span> sum;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">daysStudied</span>()
+    {
+        <span class="wb-kw">int</span> count = <span class="wb-num">0</span>;
+        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> mins : minutes) {
+            <span class="wb-kw">if</span>(mins &gt; <span class="wb-num">0</span>) {
+                count++;
+            }
+        }
+        <span class="wb-kw">return</span> count;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">busiestDay</span>()
+    {
+        <span class="wb-kw">int</span> best = <span class="wb-num">0</span>;
+        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> day = <span class="wb-num">1</span>; day &lt; minutes.length; day++) {
+            <span class="wb-kw">if</span>(minutes[day] &gt; minutes[best]) {
+                best = day;
+            }
+        }
+        <span class="wb-kw">return</span> best;
+    }
+}</code></pre>
+<h3>Recording the week</h3>
+<p><code>WeekLogDemo</code> records our week and prints the reports. Days 1 and 4 are never recorded, and day 7 does not exist. Its output is below the code; press Run to run it yourself.</p>
+  <wb-example id="weeklog-demo"></wb-example>
+<p><code>record(7, 15)</code> is refused before anything else is printed. Tuesday and Friday print 0, the default value, because they were never recorded. The total and the count come from for-each loops. The busiest day needs the index, so it uses a <code>for</code> loop. <code>dayName</code> is a class method, so the demo calls it on the class, <code>WeekLog.dayName(best)</code>.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: a second demo</div>
+  <p><strong>7.1</strong> Predict everything this second demo prints.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">SecondWeekDemo</span>
+{
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
+    {
+        <span class="wb-type">WeekLog</span> week = <span class="wb-kw">new</span> <span class="wb-fn">WeekLog</span>();
+        week.record(<span class="wb-num">1</span>, <span class="wb-num">30</span>);
+        week.record(<span class="wb-num">1</span>, <span class="wb-num">60</span>);
+        week.record(<span class="wb-num">4</span>, <span class="wb-num">60</span>);
+        week.record(-<span class="wb-num">1</span>, <span class="wb-num">20</span>);
+        week.record(<span class="wb-num">6</span>, <span class="wb-num">15</span>);
+        week.printWeek();
+        System.out.println(<span class="wb-str">"Total: "</span> + week.total());
+        System.out.println(<span class="wb-str">"Days studied: "</span> + week.daysStudied());
+        <span class="wb-kw">int</span> best = week.busiestDay();
+        System.out.println(<span class="wb-str">"Busiest: "</span> + <span class="wb-type">WeekLog</span>.dayName(best)
+            + <span class="wb-str">" ("</span> + week.getMinutes(best) + <span class="wb-str">")"</span>);
+    }
+}</code></pre>
+  <wb-table id="q22-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+        <tr><td>4</td><td data-blank="3"></td></tr>
+        <tr><td>5</td><td data-blank="4"></td></tr>
+        <tr><td>6</td><td data-blank="5"></td></tr>
+        <tr><td>7</td><td data-blank="6"></td></tr>
+        <tr><td>8</td><td data-blank="7"></td></tr>
+        <tr><td>9</td><td data-blank="8"></td></tr>
+        <tr><td>10</td><td data-blank="9"></td></tr>
+        <tr><td>11</td><td data-blank="10"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: choosing a loop</div>
+  <p><strong>7.2</strong> Which loop would you use for each job: for-each, <code>for</code> or <code>while</code>? Give a reason.</p>
+  <wb-table id="q23">
+    <table>
+      <thead><tr><th>Job</th><th>Loop</th></tr></thead>
+      <tbody>
+        <tr><td>(a) The average of the 24 readings in a day's temperature array.</td><td data-blank="a"></td></tr>
+        <tr><td>(b) Print the numbers of the free seats in a <code>SeatRow</code>.</td><td data-blank="b"></td></tr>
+        <tr><td>(c) Set every element of an <code>int[]</code> to 1.</td><td data-blank="c"></td></tr>
+        <tr><td>(d) Double a number, starting at 1, until it is more than 1000.</td><td data-blank="d"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Give a reason for each choice.</p>
+  <wb-short id="q23-why"></wb-short>
+</div>
+
+<h2 id="s8">8. Seats Part 2: Free seats</h2>
+<h3>The problem</h3>
+<p>This part extends <code>SeatRow</code> from Section 4, as the last part of the practice. Everything from Part 1 stays.</p>
+<ul>
+  <li><code>int countFree()</code> returns the number of seats that are not booked. Use a for-each loop.</li>
+  <li><code>int firstFree()</code> returns the lowest free seat number, the one nearest the aisle, or &minus;1 when the row is full. Use a <code>for</code> loop.</li>
+  <li>A new <code>SeatDemo.main</code> makes a row of 10 seats and prints the free count. It books seats 0, 1 and 3 and prints the free count and the first free seat. Then it books every seat with a <code>for</code> loop and prints both again. Each line is printed as <code>Free: 10</code> or <code>First free: 2</code>.</li>
+</ul>
+<p><code>firstFree</code> may return from inside the loop as soon as it finds a free seat. If the loop ends without finding one, the row is full.</p>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: counting free seats</div>
+  <p><strong>8.1</strong> Write <code>countFree</code>. Why does a for-each loop fit here?</p>
+  <p>The box holds the Part 1 <code>SeatRow</code>. Its checking program counts the free seats in a new row of 4, books two seats, and counts again. Expected output:</p>
+<pre class="wb-output">4
+2</pre>
+  <wb-exercise id="q24"></wb-exercise>
+  <p>Why does a for-each loop fit here?</p>
+  <wb-short id="q24-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: the first free seat</div>
+  <p><strong>8.2</strong> Write <code>firstFree</code> and the new demo. Predict the five lines the demo prints.</p>
+  <wb-table id="q25-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+        <tr><td>4</td><td data-blank="3"></td></tr>
+        <tr><td>5</td><td data-blank="4"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>The box holds <code>SeatRow</code> with <code>countFree</code> written. Its checking program tries a new row of 3, the row with seat 0 booked, and the full row. Expected output:</p>
+<pre class="wb-output">0
+1
+-1</pre>
+  <wb-exercise id="q25"></wb-exercise>
+  <p>Now write the new <code>SeatDemo</code> and run it to check your prediction. Finished <code>SeatRow</code> is on its classpath.</p>
+  <wb-exercise id="q25-demo"></wb-exercise>
+</div>
+
+<h2 id="s9">9. Review</h2>
+
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: corrections</div>
+  <p><strong>9.1</strong> Correct each statement.</p>
+  <ol type="a">
+    <li>&ldquo;An array of 7 <code>int</code>s has the indices 1 to 7.&rdquo;</li>
+    <li>&ldquo;<code>new int[7]</code> creates an array with nothing in it.&rdquo;</li>
+    <li>&ldquo;<code>minutes.length()</code> gives the number of elements.&rdquo;</li>
+    <li>&ldquo;Changing the for-each variable changes the element.&rdquo;</li>
+    <li>&ldquo;The elements of a <code>final</code> array cannot change.&rdquo;</li>
+  </ol>
+  <wb-short id="q26"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: four weeks</div>
+  <p><strong>9.2</strong> Four students each keep a <code>WeekLog</code>. Write the lines that create the four logs and print the total minutes of all four. What would you have to change for a group of 40 students?</p>
+  <wb-short id="q27"></wb-short>
+</div>
+
+<h2 id="s10">10. Complete Java Programs</h2>
+<p>Write these two programs after class. Use additional paper or an IDE for the complete implementation. Each one uses the ideas of this lecture in a new setting. Each box below starts from a skeleton: fill in the method bodies, then run. There is one box per class. In the demo's box, a finished copy of the first class is on its classpath, so a mistake in one box does not stop the next.</p>
+
+<h3>10.1 Program A: TemperatureLog and TemperatureDemo</h3>
+<ul>
+  <li><code>TemperatureLog</code> has a public class constant <code>HOURS</code>, 24, and a private field <code>int[] readings</code> that the constructor creates with <code>HOURS</code> elements. Hour 0 is midnight.</li>
+  <li><code>boolean record(int hour, int degrees)</code> returns <code>false</code> for an hour outside 0 to 23. Otherwise it stores the reading and returns <code>true</code>.</li>
+  <li><code>int average()</code> returns the sum of the readings divided by the number of readings, with integer division.</li>
+  <li><code>int warmestHour()</code> returns the hour with the highest reading; the earliest such hour wins a tie. <code>int hoursBelowZero()</code> returns the number of readings less than 0.</li>
+  <li><code>TemperatureDemo</code> stores the day's 24 readings in an array literal and records each one with a <code>for</code> loop. It tries to record 5 degrees at hour 24 and prints the result, then prints the average, the warmest hour and the hours below zero.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>TemperatureLog</code></div>
+  <p>A checking program tries a log with every reading 0, then a short day with a tie for the warmest hour and a bad hour.</p>
+  <wb-exercise id="p1-log"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>TemperatureDemo</code></div>
+  <p>A finished <code>TemperatureLog</code> is on the classpath of this box. Expected output:</p>
+<pre class="wb-output">Bad hour stored: false
+Average: 4
+Warmest hour: 14
+Hours below zero: 2</pre>
+  <wb-exercise id="p1-demo"></wb-exercise>
+</div>
+
+<h3>10.2 Program B: GolfCard and GolfDemo</h3>
+<ul>
+  <li><code>GolfCard</code> keeps one player's strokes for a round of nine holes. Hole 0 is the first hole. It has a private class constant <code>int[] PAR</code>, the array literal <code>{4, 3, 5, 4, 4, 3, 4, 5, 4}</code>, which gives the expected number of strokes for each hole.</li>
+  <li>Fields <code>String player</code> and <code>int[] strokes</code>. The constructor takes the player's name and creates <code>strokes</code> with <code>PAR.length</code> elements. <code>getPlayer()</code> returns the name.</li>
+  <li><code>void record(int hole, int count)</code> stores the strokes for a hole and ignores a hole outside 0 to 8. <code>int total()</code> returns the sum of the strokes.</li>
+  <li><code>int holesUnderPar()</code> returns the number of holes whose strokes are less than that hole's par. It uses <code>PAR</code> and <code>strokes</code> together, with one index.</li>
+  <li><code>int bestHole()</code> returns the hole where strokes minus par is smallest; the first such hole wins a tie.</li>
+  <li><code>GolfDemo</code> makes a card for Maya, stores her round <code>{5, 3, 4, 4, 6, 2, 4, 5, 5}</code> in an array literal and records it with a <code>for</code> loop, then records 3 strokes for hole 9, which is ignored. It prints the player, the total, the holes under par and the best hole.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>GolfCard</code></div>
+  <p>A checking program tries an empty card, then a card with par on every hole except two.</p>
+  <wb-exercise id="p2-card"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>GolfDemo</code></div>
+  <p>A finished <code>GolfCard</code> is on the classpath of this box. Expected output:</p>
+<pre class="wb-output">Player: Maya
+Total: 38
+Holes under par: 2
+Best hole: 2</pre>
+  <wb-exercise id="p2-demo"></wb-exercise>
+</div>
+<hr>
+
+<section class="wb-outcomes wb-review">
+  <h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+  <p>A short review of the whole lecture. <code>WeekLog</code> keeps a student's study minutes for one week in an <code>int[]</code> of seven elements, names the days with a second array, and reports on the week with <code>for</code> and for-each loops.</p>
+
+  <h3>Arrays</h3>
+  <ul>
+    <li>An <strong>array</strong> holds a <strong>fixed number</strong> of values of one type. Each value is an <strong>element</strong>, and each element has an <strong>index, starting at 0</strong>.</li>
+    <li>The size is chosen when the array is created and <strong>never changes</strong>. There is no <code>add</code> or <code>remove</code>.</li>
+    <li>An array can hold <strong>primitives directly</strong> (<code>int[]</code>, <code>boolean[]</code>) or objects (<code>String[]</code>). An <code>ArrayList</code> holds objects only, so it needs <code>Integer</code>.</li>
+    <li>Use an array when the number of items is known when it is created: the days of a week, the hours of a day, the seats in a row. Use a list when items come and go.</li>
+  </ul>
+
+  <h3>Creating an array</h3>
+  <ul>
+    <li>Declare: <code>int[] minutes;</code> Create: <code>minutes = new int[7];</code> The size goes in <strong>square brackets</strong>.</li>
+    <li>An array is an object, and the variable holds a <strong>reference</strong>. A declaration alone creates no array.</li>
+    <li>New elements get <strong>default values</strong>: <strong>0</strong> for numbers, <strong><code>false</code></strong> for <code>boolean</code>, <strong><code>null</code></strong> for objects.</li>
+    <li>An <strong>array literal</strong> creates and fills an array in one step: <code>int[] sample = {45, 0, 90};</code> Java counts the values for the size. It works only in a declaration; later, use <code>new int[] {1, 2, 3}</code>.</li>
+  </ul>
+
+  <h3>Indexing</h3>
+  <ul>
+    <li><code>minutes[5]</code> reads or changes one element. An element works like a variable: <code>minutes[5] = 120;</code>, <code>minutes[5] += 20;</code></li>
+    <li>For length 7 the valid indices are <strong>0 to 6</strong>. A bad index compiles, but when it runs Java stops the program with an <strong><code>ArrayIndexOutOfBoundsException</code></strong>.</li>
+    <li><code>minutes.length</code> is a <strong>field</strong>, with no round brackets. Compare <code>name.length()</code> for a <code>String</code> and <code>list.size()</code> for an <code>ArrayList</code>.</li>
+    <li>Check an index that comes from outside before using it: <code>if(day &gt;= 0 &amp;&amp; day &lt; minutes.length)</code>.</li>
+    <li>A <strong>lookup table</strong> such as <code>DAY_NAMES</code> uses the same index as another array: <code>DAY_NAMES[2]</code> is <code>"Wednesday"</code>, <code>minutes[2]</code> is 90.</li>
+  </ul>
+
+  <h3>The for loop</h3>
+  <ul>
+    <li>The header has three parts: the <strong>initialization</strong> runs once, the <strong>condition</strong> is tested before each pass, and the <strong>update</strong> runs after each pass.</li>
+  </ul>
+  <figure class="wb-shot">
+    <img src="img/for_parts.png" alt="The loop for(int day = 0; day &lt; minutes.length; day++) with its three parts: int day = 0 runs once, first; day &lt; minutes.length is tested before each pass; day++ runs after each pass" loading="lazy">
+    <figcaption>The three parts of a <code>for</code> header.</figcaption>
+  </figure>
+  <ul>
+    <li>Any <code>for</code> loop can be written as a <code>while</code> loop with the same steps. A variable declared in the header exists <strong>only inside the loop</strong>.</li>
+    <li>The standard loop over an array: <strong><code>for(int i = 0; i &lt; a.length; i++)</code></strong>. Start at 0 and test with <strong><code>&lt;</code></strong>. With <code>&lt;=</code> the last pass reads <code>a[a.length]</code> and throws.</li>
+    <li>A loop can count down (<code>i--</code>) or by steps (<code>i += 2</code>).</li>
+  </ul>
+
+  <h3>Reports</h3>
+  <ul>
+    <li><strong>Total:</strong> <code>sum += mins;</code> in a for-each loop. <strong>Count:</strong> <code>count++</code> inside an <code>if</code>.</li>
+    <li>The for-each variable holds a <strong>copy</strong>. Changing it does not change the array. To change elements, use an index.</li>
+    <li><strong>Largest:</strong> keep the <strong>index</strong> of the best so far, start it at 0, and loop from 1. With <code>&gt;</code>, the first of two equal values wins.</li>
+  </ul>
+  <figure class="wb-shot">
+    <img src="img/busiest_trace.png" alt="best is 0 with 45 minutes; at day 2 best becomes 2 with 90 minutes; at day 5 best becomes 5 with 120 minutes" loading="lazy">
+    <figcaption><code>busiestDay</code> on our week returns 5, Saturday.</figcaption>
+  </figure>
+  <ul>
+    <li>A <strong>0 can mean "no data"</strong>. To find the quietest day with some study, start with no best day (&minus;1) and skip the zeros.</li>
+  </ul>
+
+  <h3>Choosing a loop</h3>
+  <ul>
+    <li><strong>for-each</strong>: every element, position does not matter (<code>total</code>, <code>daysStudied</code>).</li>
+    <li><strong><code>for</code></strong>: the index is needed: two arrays, a changed element, a position as the answer, another order (<code>printWeek</code>, <code>busiestDay</code>).</li>
+    <li><strong><code>while</code></strong>: the number of passes is not known in advance.</li>
+  </ul>
+
+  <h3>Final arrays</h3>
+  <ul>
+    <li><code>final</code> fixes the <strong>reference</strong>, not the elements. <code>DAY_NAMES[0] = "Mon";</code> compiles; <code>DAY_NAMES = new String[7];</code> does not. Keep such an array <code>private</code>.</li>
+  </ul>
+
+  <h3>Looking ahead</h3>
+  <ul>
+    <li>Four students need four <code>WeekLog</code> variables, and nothing ties them into one collection. Lecture 13 puts <strong>objects in an array</strong>, and then builds <strong>grids</strong>: a whole theatre of seat rows.</li>
+  </ul>
+</section>
+
+
+</main>
+</body>
+</html>

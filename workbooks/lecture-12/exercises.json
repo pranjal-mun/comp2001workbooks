@@ -1,0 +1,1417 @@
+{
+  "id": "lecture-12",
+  "course": "COMP 2001: Object-Oriented Programming",
+  "title": "Lecture 12 Workbook",
+  "subtitle": "Chapter 7, Part 1: Arrays and the for Loop",
+  "exercises": {
+    "q1": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "KGEpIEFuIGFycmF5IG9mIDI0OiBhIGRheSBhbHdheXMgaGFzIDI0IGhvdXJzLiAoYikgQW4gQXJyYXlMaXN0OiBzdHVkZW50cyBqb2luIGFuZCBsZWF2ZSwgc28gdGhlIG51bWJlciBjaGFuZ2VzLiAoYykgQW4gYXJyYXkgb2YgNTogdGhlIG51bWJlciBvZiBhc3NpZ25tZW50cyBpcyBrbm93biB3aGVuIHRoZSBjb3Vyc2Ugc3RhcnRzIGFuZCBkb2VzIG5vdCBjaGFuZ2Uu"
+    },
+    "q2": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "a": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "does not compile",
+            "it does not compile"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "b": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "c": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "d": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        }
+      }
+    },
+    "q2-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "QSB0eXBlIGFyZ3VtZW50IG9mIEFycmF5TGlzdCBtdXN0IGJlIGEgY2xhc3MsIGFuZCBpbnQgaXMgYSBwcmltaXRpdmUgdHlwZS4gQW4gYXJyYXkgY2FuIGhhdmUgYSBwcmltaXRpdmUgYmFzZSB0eXBlLCBhcyBpbiBpbnRbXSwgb3IgYSBjbGFzcywgYXMgaW4gSW50ZWdlcltdLg=="
+    },
+    "q3": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "a": {
+          "accept": [
+            "double[] rainfall = new double[12];",
+            "double[]rainfall=new double[12];",
+            "double[] rainfall = new double[12]",
+            "double[]rainfall=new double[12]"
+          ],
+          "show": "double[] rainfall = new double[12];",
+          "caseSensitive": true,
+          "width": "26rem"
+        },
+        "b": {
+          "accept": [
+            "names = new String[4];",
+            "names=new String[4];",
+            "names = new String[4]",
+            "names=new String[4]",
+            "this.names = new String[4];",
+            "this.names=new String[4];",
+            "this.names = new String[4]",
+            "this.names=new String[4]"
+          ],
+          "show": "names = new String[4];",
+          "caseSensitive": true,
+          "width": "26rem"
+        }
+      }
+    },
+    "q4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "VGhlIHNpemUgZ29lcyBpbiBzcXVhcmUgYnJhY2tldHM6IG5ldyBpbnRbN10uIEEgbmV3IGFycmF5IG5lZWRzIGEgc2l6ZTogbmV3IGludFs1XSwgZm9yIGV4YW1wbGUuIFRoZSBzaG9ydCBsaXRlcmFsIGZvcm0gd29ya3Mgb25seSBpbiBhIGRlY2xhcmF0aW9uOiBpbnRbXSBjID0gezEsIDIsIDN9OyBvciBjID0gbmV3IGludFtdIHsxLCAyLCAzfTs="
+    },
+    "q5-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "0"
+          ],
+          "show": "0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "8rem"
+        },
+        "1": {
+          "accept": [
+            "false"
+          ],
+          "show": "false",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "8rem"
+        },
+        "2": {
+          "accept": [
+            "null"
+          ],
+          "show": "null",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "8rem"
+        }
+      }
+    },
+    "q5-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "MCwgZmFsc2UgYW5kIG51bGwgYXJlIHRoZSBkZWZhdWx0IHZhbHVlcy4gVGhlIGxhc3QgbGluZSBjYWxscyBsZW5ndGgoKSB0aHJvdWdoIG51bGwsIHNvIHRoZSBwcm9ncmFtIHN0b3BzIHdpdGggYSBOdWxsUG9pbnRlckV4Y2VwdGlvbi4="
+    },
+    "q6-literal": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "literal": {
+          "accept": [
+            "int[] monthDays = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};",
+            "int[]monthDays={31,28,31,30,31,30,31,31,30,31,30,31};",
+            "int[] monthDays = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}",
+            "int[]monthDays={31,28,31,30,31,30,31,31,30,31,30,31}",
+            "int[] monthDays = {31,28,31,30,31,30,31,31,30,31,30,31};",
+            "int[] monthDays = {31,28,31,30,31,30,31,31,30,31,30,31}"
+          ],
+          "show": "int[] monthDays = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};",
+          "caseSensitive": true,
+          "width": "34rem"
+        }
+      }
+    },
+    "q6": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "length": {
+          "accept": [
+            "12"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "feb": {
+          "accept": [
+            "28"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "last": {
+          "accept": [
+            "31"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q7": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "first": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "last": {
+          "accept": [
+            "23"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "expr": {
+          "accept": [
+            "readings.length - 1",
+            "readings.length-1"
+          ],
+          "show": "readings.length - 1",
+          "caseSensitive": true,
+          "width": "14rem"
+        }
+      }
+    },
+    "q8": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "c0": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "s0": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "runs",
+            "it runs"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "c1": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "s1": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "throws",
+            "it throws"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "c2": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "s2": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "runs",
+            "it runs"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "c3": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "s3": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "throws",
+            "it throws"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "c4": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "s4": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "throws",
+            "it throws"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "c5": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "s5": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "runs",
+            "it runs"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        }
+      }
+    },
+    "q9": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "1": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "2": {
+          "accept": [
+            "6"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "3": {
+          "accept": [
+            "6"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q10": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "c0": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "does not compile",
+            "it does not compile"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "f0": {
+          "accept": [
+            "minutes.length"
+          ],
+          "show": "minutes.length",
+          "caseSensitive": true,
+          "width": "12rem"
+        },
+        "c1": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "does not compile",
+            "it does not compile"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "f1": {
+          "accept": [
+            "name.length()"
+          ],
+          "show": "name.length()",
+          "caseSensitive": true,
+          "width": "12rem"
+        },
+        "c2": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "f2": {
+          "accept": [
+            "minutes.length",
+            "correct",
+            "already correct",
+            "no change",
+            "-"
+          ],
+          "show": "minutes.length",
+          "caseSensitive": true,
+          "width": "12rem"
+        },
+        "c3": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "does not compile",
+            "it does not compile"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "f3": {
+          "accept": [
+            "list.size()"
+          ],
+          "show": "list.size()",
+          "caseSensitive": true,
+          "width": "12rem"
+        }
+      }
+    },
+    "q11": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "five": {
+          "accept": [
+            "\"Saturday\"",
+            "Saturday"
+          ],
+          "show": "\"Saturday\"",
+          "caseSensitive": true,
+          "width": "10rem"
+        }
+      }
+    },
+    "q11-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "ZGF5TmFtZSBkb2VzIG5vdCBjaGVjayBpdHMgcGFyYW1ldGVyLCBzbyBEQVlfTkFNRVNbN10gdGhyb3dzIGFuIEFycmF5SW5kZXhPdXRPZkJvdW5kc0V4Y2VwdGlvbi4="
+    },
+    "q12": {
+      "type": "code",
+      "xp": 3,
+      "title": "SeatRow.java",
+      "minLines": 17,
+      "maxLines": 21,
+      "starter": "public class SeatRow\n{\n    // The field goes here.\n\n    public SeatRow(int size)\n    {\n        // Create the array, one element for each seat.\n    }\n\n    public int getSize()\n    {\n        // The number of seats.\n        return 0;\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "10\n0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateboolean[]booked;\"), \"Declare the field private boolean[] booked;\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"booked=newboolean[size];\"), \"Create the array in the constructor: booked = new boolean[size];\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"returnbooked.length;\"), \"getSize returns booked.length.\");",
+      "answer": "cHVibGljIGNsYXNzIFNlYXRSb3cKewogICAgcHJpdmF0ZSBib29sZWFuW10gYm9va2VkOwoKICAgIHB1YmxpYyBTZWF0Um93KGludCBzaXplKQogICAgewogICAgICAgIGJvb2tlZCA9IG5ldyBib29sZWFuW3NpemVdOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0U2l6ZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIGJvb2tlZC5sZW5ndGg7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "SizeCheck.java",
+          "content": "public class SizeCheck\n{\n    public static void main(String[] args)\n    {\n        System.out.println(new SeatRow(10).getSize());\n        System.out.println(new SeatRow(0).getSize());\n    }\n}"
+        }
+      ]
+    },
+    "q13-output": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "0": {
+          "accept": [
+            "Seats: 10",
+            "\"Seats: 10\""
+          ],
+          "show": "Seats: 10",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        },
+        "1": {
+          "accept": [
+            "Book 3: true",
+            "\"Book 3: true\""
+          ],
+          "show": "Book 3: true",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        },
+        "2": {
+          "accept": [
+            "Book 3 again: false",
+            "\"Book 3 again: false\""
+          ],
+          "show": "Book 3 again: false",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        },
+        "3": {
+          "accept": [
+            "Book 10: false",
+            "\"Book 10: false\""
+          ],
+          "show": "Book 10: false",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        },
+        "4": {
+          "accept": [
+            "Seat 3 booked: true",
+            "\"Seat 3 booked: true\""
+          ],
+          "show": "Seat 3 booked: true",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        },
+        "5": {
+          "accept": [
+            "Seat 4 booked: false",
+            "\"Seat 4 booked: false\""
+          ],
+          "show": "Seat 4 booked: false",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        }
+      }
+    },
+    "q13": {
+      "type": "code",
+      "xp": 5,
+      "title": "SeatRow.java",
+      "minLines": 33,
+      "maxLines": 45,
+      "starter": "public class SeatRow\n{\n    private boolean[] booked;\n\n    public SeatRow(int size)\n    {\n        booked = new boolean[size];\n    }\n\n    public int getSize()\n    {\n        return booked.length;\n    }\n\n    // Write isBooked and book here.\n\n\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Book -1: false\nBook 0: true\nBook 0 again: false\nBook 4: true\nBook 5: false\nSeat 0 booked: true\nSeat 1 booked: false"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleanisBooked(intseat)\"), \"Include public boolean isBooked(int seat).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleanbook(intseat)\"), \"Include public boolean book(int seat).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"booked[seat]=true;\"), \"Book the seat with booked[seat] = true;\");",
+      "answer": "cHVibGljIGNsYXNzIFNlYXRSb3cKewogICAgcHJpdmF0ZSBib29sZWFuW10gYm9va2VkOwoKICAgIHB1YmxpYyBTZWF0Um93KGludCBzaXplKQogICAgewogICAgICAgIGJvb2tlZCA9IG5ldyBib29sZWFuW3NpemVdOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0U2l6ZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIGJvb2tlZC5sZW5ndGg7CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gaXNCb29rZWQoaW50IHNlYXQpCiAgICB7CiAgICAgICAgcmV0dXJuIGJvb2tlZFtzZWF0XTsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBib29rKGludCBzZWF0KQogICAgewogICAgICAgIGlmKHNlYXQgPCAwIHx8IHNlYXQgPj0gYm9va2VkLmxlbmd0aCkgewogICAgICAgICAgICByZXR1cm4gZmFsc2U7CiAgICAgICAgfQogICAgICAgIGlmKGJvb2tlZFtzZWF0XSkgewogICAgICAgICAgICByZXR1cm4gZmFsc2U7CiAgICAgICAgfQogICAgICAgIGJvb2tlZFtzZWF0XSA9IHRydWU7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "BookCheck.java",
+          "content": "public class BookCheck\n{\n    public static void main(String[] args)\n    {\n        SeatRow row = new SeatRow(5);\n        System.out.println(\"Book -1: \" + row.book(-1));\n        System.out.println(\"Book 0: \" + row.book(0));\n        System.out.println(\"Book 0 again: \" + row.book(0));\n        System.out.println(\"Book 4: \" + row.book(4));\n        System.out.println(\"Book 5: \" + row.book(5));\n        System.out.println(\"Seat 0 booked: \" + row.isBooked(0));\n        System.out.println(\"Seat 1 booked: \" + row.isBooked(1));\n    }\n}"
+        }
+      ]
+    },
+    "q14": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "init": {
+          "accept": [
+            "int seat = row.getSize() - 1",
+            "int seat=row.getSize()-1"
+          ],
+          "show": "int seat = row.getSize() - 1",
+          "caseSensitive": true,
+          "width": "18rem"
+        },
+        "cond": {
+          "accept": [
+            "seat >= 0",
+            "seat>=0"
+          ],
+          "show": "seat >= 0",
+          "caseSensitive": true,
+          "width": "10rem"
+        },
+        "upd": {
+          "accept": [
+            "seat--",
+            "seat -= 1",
+            "seat-=1",
+            "seat = seat - 1",
+            "seat=seat-1",
+            "--seat"
+          ],
+          "show": "seat--",
+          "caseSensitive": true,
+          "width": "10rem"
+        },
+        "first": {
+          "accept": [
+            "9"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "last": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "passes": {
+          "accept": [
+            "10"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q15-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "1 4 9 16 25",
+            "1 4 9 16 25 ",
+            "1, 4, 9, 16, 25"
+          ],
+          "show": "1 4 9 16 25",
+          "placeholder": "printed",
+          "width": "14rem"
+        }
+      }
+    },
+    "q15": {
+      "type": "code",
+      "xp": 3,
+      "title": "Squares.java",
+      "minLines": 13,
+      "maxLines": 17,
+      "starter": "public class Squares\n{\n    public static void main(String[] args)\n    {\n        for(int i = 1; i <= 5; i++) {\n            System.out.print(i * i + \" \");\n        }\n    }\n}",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "1 4 9 16 25 "
+        }
+      ],
+      "check": "require(!source.replaceAll(\"\\\\s+\", \"\").contains(\"for(\"), \"Rewrite the loop with while; no for is left.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"while(\"), \"Use a while loop.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"i++\"), \"Update i inside the body, as the last statement.\");",
+      "answer": "cHVibGljIGNsYXNzIFNxdWFyZXMKewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBpbnQgaSA9IDE7CiAgICAgICAgd2hpbGUoaSA8PSA1KSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnQoaSAqIGkgKyAiICIpOwogICAgICAgICAgICBpKys7CiAgICAgICAgfQogICAgfQp9",
+      "files": []
+    },
+    "q16": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "SXQgc3RhcnRzIGF0IGRheSAxLCBzbyBNb25kYXkncyA0NSBpcyBuZXZlciBhZGRlZCwgYW5kIHRoZSB0ZXN0IDw9IGxldHMgZGF5IHJlYWNoIDcsIHNvIG1pbnV0ZXNbN10gdGhyb3dzIGFuIEFycmF5SW5kZXhPdXRPZkJvdW5kc0V4Y2VwdGlvbiBhZnRlciBkYXlzIDEgdG8gNiBoYXZlIGJlZW4gYWRkZWQu"
+    },
+    "q16-header": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "header": {
+          "accept": [
+            "for(int day = 0; day < minutes.length; day++)",
+            "for(int day=0;day<minutes.length;day++)",
+            "for (int day = 0; day < minutes.length; day++)",
+            "for(int day = 0; day < minutes.length; day++) {",
+            "for(int day=0;day<minutes.length;day++){",
+            "for (int day = 0; day < minutes.length; day++) {"
+          ],
+          "show": "for(int day = 0; day < minutes.length; day++)",
+          "caseSensitive": true,
+          "width": "30rem"
+        }
+      }
+    },
+    "q17": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "i0": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "i1": {
+          "accept": [
+            "2"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "i2": {
+          "accept": [
+            "4"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "s0": {
+          "accept": [
+            "45"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "s1": {
+          "accept": [
+            "135"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "s2": {
+          "accept": [
+            "135"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q17-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "QWZ0ZXIgdGhlIHRoaXJkIHBhc3MsIGkgYmVjb21lcyA2IGFuZCA2IDwgNiBpcyBmYWxzZS4gRGF5cyAwLCAyIGFuZCA0IHdlcmUgYWRkZWQ6IDQ1ICsgOTAgKyAwID0gMTM1Lg=="
+    },
+    "q18": {
+      "type": "code",
+      "xp": 4,
+      "title": "WeekLog.java",
+      "minLines": 82,
+      "maxLines": 90,
+      "starter": "public class WeekLog\n{\n    private static final String[] DAY_NAMES = {\"Monday\", \"Tuesday\", \"Wednesday\",\n        \"Thursday\", \"Friday\", \"Saturday\", \"Sunday\"};\n    private int[] minutes;\n\n    public WeekLog()\n    {\n        minutes = new int[7];\n    }\n\n    public void record(int day, int mins)\n    {\n        if(day >= 0 && day < minutes.length) {\n            minutes[day] = mins;\n        }\n        else {\n            System.out.println(\"No such day: \" + day);\n        }\n    }\n\n    public int getMinutes(int day)\n    {\n        return minutes[day];\n    }\n\n    public static String dayName(int day)\n    {\n        return DAY_NAMES[day];\n    }\n\n    public void printWeek()\n    {\n        for(int day = 0; day < minutes.length; day++) {\n            System.out.println(DAY_NAMES[day] + \": \" + minutes[day]);\n        }\n    }\n\n    public int total()\n    {\n        int sum = 0;\n        for(int mins : minutes) {\n            sum += mins;\n        }\n        return sum;\n    }\n\n    public int daysStudied()\n    {\n        int count = 0;\n        for(int mins : minutes) {\n            if(mins > 0) {\n                count++;\n            }\n        }\n        return count;\n    }\n\n    public int busiestDay()\n    {\n        int best = 0;\n        for(int day = 1; day < minutes.length; day++) {\n            if(minutes[day] > minutes[best]) {\n                best = day;\n            }\n        }\n        return best;\n    }\n\n    // Write daysOver(int limit) here.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "2\n5\n0\n0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintdaysOver(intlimit)\"), \"Include public int daysOver(int limit).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\">limit\"), \"Count the days with more than limit minutes: mins > limit.\");",
+      "answer": "cHVibGljIGNsYXNzIFdlZWtMb2cKewogICAgcHJpdmF0ZSBzdGF0aWMgZmluYWwgU3RyaW5nW10gREFZX05BTUVTID0geyJNb25kYXkiLCAiVHVlc2RheSIsICJXZWRuZXNkYXkiLAogICAgICAgICJUaHVyc2RheSIsICJGcmlkYXkiLCAiU2F0dXJkYXkiLCAiU3VuZGF5In07CiAgICBwcml2YXRlIGludFtdIG1pbnV0ZXM7CgogICAgcHVibGljIFdlZWtMb2coKQogICAgewogICAgICAgIG1pbnV0ZXMgPSBuZXcgaW50WzddOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHJlY29yZChpbnQgZGF5LCBpbnQgbWlucykKICAgIHsKICAgICAgICBpZihkYXkgPj0gMCAmJiBkYXkgPCBtaW51dGVzLmxlbmd0aCkgewogICAgICAgICAgICBtaW51dGVzW2RheV0gPSBtaW5zOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJObyBzdWNoIGRheTogIiArIGRheSk7CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TWludXRlcyhpbnQgZGF5KQogICAgewogICAgICAgIHJldHVybiBtaW51dGVzW2RheV07CiAgICB9CgogICAgcHVibGljIHN0YXRpYyBTdHJpbmcgZGF5TmFtZShpbnQgZGF5KQogICAgewogICAgICAgIHJldHVybiBEQVlfTkFNRVNbZGF5XTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludFdlZWsoKQogICAgewogICAgICAgIGZvcihpbnQgZGF5ID0gMDsgZGF5IDwgbWludXRlcy5sZW5ndGg7IGRheSsrKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihEQVlfTkFNRVNbZGF5XSArICI6ICIgKyBtaW51dGVzW2RheV0pOwogICAgICAgIH0KICAgIH0KCiAgICBwdWJsaWMgaW50IHRvdGFsKCkKICAgIHsKICAgICAgICBpbnQgc3VtID0gMDsKICAgICAgICBmb3IoaW50IG1pbnMgOiBtaW51dGVzKSB7CiAgICAgICAgICAgIHN1bSArPSBtaW5zOwogICAgICAgIH0KICAgICAgICByZXR1cm4gc3VtOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZGF5c1N0dWRpZWQoKQogICAgewogICAgICAgIGludCBjb3VudCA9IDA7CiAgICAgICAgZm9yKGludCBtaW5zIDogbWludXRlcykgewogICAgICAgICAgICBpZihtaW5zID4gMCkgewogICAgICAgICAgICAgICAgY291bnQrKzsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICByZXR1cm4gY291bnQ7CiAgICB9CgogICAgcHVibGljIGludCBidXNpZXN0RGF5KCkKICAgIHsKICAgICAgICBpbnQgYmVzdCA9IDA7CiAgICAgICAgZm9yKGludCBkYXkgPSAxOyBkYXkgPCBtaW51dGVzLmxlbmd0aDsgZGF5KyspIHsKICAgICAgICAgICAgaWYobWludXRlc1tkYXldID4gbWludXRlc1tiZXN0XSkgewogICAgICAgICAgICAgICAgYmVzdCA9IGRheTsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICByZXR1cm4gYmVzdDsKICAgIH0KCiAgICBwdWJsaWMgaW50IGRheXNPdmVyKGludCBsaW1pdCkKICAgIHsKICAgICAgICBpbnQgY291bnQgPSAwOwogICAgICAgIGZvcihpbnQgbWlucyA6IG1pbnV0ZXMpIHsKICAgICAgICAgICAgaWYobWlucyA+IGxpbWl0KSB7CiAgICAgICAgICAgICAgICBjb3VudCsrOwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgICAgIHJldHVybiBjb3VudDsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "OverCheck.java",
+          "content": "public class OverCheck\n{\n    public static void main(String[] args)\n    {\n        WeekLog week = new WeekLog();\n        week.record(0, 45);\n        week.record(2, 90);\n        week.record(3, 30);\n        week.record(5, 120);\n        week.record(6, 60);\n        System.out.println(week.daysOver(60));\n        System.out.println(week.daysOver(0));\n        System.out.println(week.daysOver(200));\n        System.out.println(new WeekLog().daysOver(0));\n    }\n}"
+        }
+      ]
+    },
+    "q18-values": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "sixty": {
+          "accept": [
+            "2"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "zero": {
+          "accept": [
+            "5"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q19-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "415"
+          ],
+          "show": "415",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "8rem"
+        },
+        "1": {
+          "accept": [
+            "0"
+          ],
+          "show": "0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "8rem"
+        }
+      }
+    },
+    "q19-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "bWlucyBob2xkcyBhIGNvcHkgb2YgZWFjaCBlbGVtZW50LiBFYWNoIGNvcHkgaXMgMTAgbW9yZSB0aGFuIGl0cyBlbGVtZW50LCBzbyB0aGUgdG90YWwgaXMgMzQ1ICsgNzAsIGJ1dCB0aGUgYXJyYXkgaXRzZWxmIGRvZXMgbm90IGNoYW5nZSwgc28gVHVlc2RheSBpcyBzdGlsbCAwLg=="
+    },
+    "q20": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "b1": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "b2": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "b3": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "b4": {
+          "accept": [
+            "4"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "b5": {
+          "accept": [
+            "4"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "b6": {
+          "accept": [
+            "4"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q20-result": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "gt": {
+          "accept": [
+            "4"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "ge": {
+          "accept": [
+            "5"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q20-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "YnVzaWVzdERheSBhbHdheXMgcmV0dXJucyBhIGRheSBmcm9tIDAgdG8gNiwgc28gZGF5TmFtZSBuZXZlciBnZXRzIGEgYmFkIGluZGV4Lg=="
+    },
+    "q21": {
+      "type": "code",
+      "xp": 5,
+      "title": "WeekLog.java",
+      "minLines": 84,
+      "maxLines": 92,
+      "starter": "public class WeekLog\n{\n    private static final String[] DAY_NAMES = {\"Monday\", \"Tuesday\", \"Wednesday\",\n        \"Thursday\", \"Friday\", \"Saturday\", \"Sunday\"};\n    private int[] minutes;\n\n    public WeekLog()\n    {\n        minutes = new int[7];\n    }\n\n    public void record(int day, int mins)\n    {\n        if(day >= 0 && day < minutes.length) {\n            minutes[day] = mins;\n        }\n        else {\n            System.out.println(\"No such day: \" + day);\n        }\n    }\n\n    public int getMinutes(int day)\n    {\n        return minutes[day];\n    }\n\n    public static String dayName(int day)\n    {\n        return DAY_NAMES[day];\n    }\n\n    public void printWeek()\n    {\n        for(int day = 0; day < minutes.length; day++) {\n            System.out.println(DAY_NAMES[day] + \": \" + minutes[day]);\n        }\n    }\n\n    public int total()\n    {\n        int sum = 0;\n        for(int mins : minutes) {\n            sum += mins;\n        }\n        return sum;\n    }\n\n    public int daysStudied()\n    {\n        int count = 0;\n        for(int mins : minutes) {\n            if(mins > 0) {\n                count++;\n            }\n        }\n        return count;\n    }\n\n    public int busiestDay()\n    {\n        int best = 0;\n        for(int day = 1; day < minutes.length; day++) {\n            if(minutes[day] > minutes[best]) {\n                best = day;\n            }\n        }\n        return best;\n    }\n\n    // Write quietestStudiedDay() here.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "3\n-1\n2"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintquietestStudiedDay()\"), \"Include public int quietestStudiedDay().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"-1\"), \"Start with no best day, -1, and return it when no day has any study.\");",
+      "answer": "cHVibGljIGNsYXNzIFdlZWtMb2cKewogICAgcHJpdmF0ZSBzdGF0aWMgZmluYWwgU3RyaW5nW10gREFZX05BTUVTID0geyJNb25kYXkiLCAiVHVlc2RheSIsICJXZWRuZXNkYXkiLAogICAgICAgICJUaHVyc2RheSIsICJGcmlkYXkiLCAiU2F0dXJkYXkiLCAiU3VuZGF5In07CiAgICBwcml2YXRlIGludFtdIG1pbnV0ZXM7CgogICAgcHVibGljIFdlZWtMb2coKQogICAgewogICAgICAgIG1pbnV0ZXMgPSBuZXcgaW50WzddOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHJlY29yZChpbnQgZGF5LCBpbnQgbWlucykKICAgIHsKICAgICAgICBpZihkYXkgPj0gMCAmJiBkYXkgPCBtaW51dGVzLmxlbmd0aCkgewogICAgICAgICAgICBtaW51dGVzW2RheV0gPSBtaW5zOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJObyBzdWNoIGRheTogIiArIGRheSk7CiAgICAgICAgfQogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TWludXRlcyhpbnQgZGF5KQogICAgewogICAgICAgIHJldHVybiBtaW51dGVzW2RheV07CiAgICB9CgogICAgcHVibGljIHN0YXRpYyBTdHJpbmcgZGF5TmFtZShpbnQgZGF5KQogICAgewogICAgICAgIHJldHVybiBEQVlfTkFNRVNbZGF5XTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludFdlZWsoKQogICAgewogICAgICAgIGZvcihpbnQgZGF5ID0gMDsgZGF5IDwgbWludXRlcy5sZW5ndGg7IGRheSsrKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihEQVlfTkFNRVNbZGF5XSArICI6ICIgKyBtaW51dGVzW2RheV0pOwogICAgICAgIH0KICAgIH0KCiAgICBwdWJsaWMgaW50IHRvdGFsKCkKICAgIHsKICAgICAgICBpbnQgc3VtID0gMDsKICAgICAgICBmb3IoaW50IG1pbnMgOiBtaW51dGVzKSB7CiAgICAgICAgICAgIHN1bSArPSBtaW5zOwogICAgICAgIH0KICAgICAgICByZXR1cm4gc3VtOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZGF5c1N0dWRpZWQoKQogICAgewogICAgICAgIGludCBjb3VudCA9IDA7CiAgICAgICAgZm9yKGludCBtaW5zIDogbWludXRlcykgewogICAgICAgICAgICBpZihtaW5zID4gMCkgewogICAgICAgICAgICAgICAgY291bnQrKzsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICByZXR1cm4gY291bnQ7CiAgICB9CgogICAgcHVibGljIGludCBidXNpZXN0RGF5KCkKICAgIHsKICAgICAgICBpbnQgYmVzdCA9IDA7CiAgICAgICAgZm9yKGludCBkYXkgPSAxOyBkYXkgPCBtaW51dGVzLmxlbmd0aDsgZGF5KyspIHsKICAgICAgICAgICAgaWYobWludXRlc1tkYXldID4gbWludXRlc1tiZXN0XSkgewogICAgICAgICAgICAgICAgYmVzdCA9IGRheTsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICByZXR1cm4gYmVzdDsKICAgIH0KCiAgICBwdWJsaWMgaW50IHF1aWV0ZXN0U3R1ZGllZERheSgpCiAgICB7CiAgICAgICAgaW50IGJlc3QgPSAtMTsKICAgICAgICBmb3IoaW50IGRheSA9IDA7IGRheSA8IG1pbnV0ZXMubGVuZ3RoOyBkYXkrKykgewogICAgICAgICAgICBpZihtaW51dGVzW2RheV0gPiAwKSB7CiAgICAgICAgICAgICAgICBpZihiZXN0ID09IC0xIHx8IG1pbnV0ZXNbZGF5XSA8IG1pbnV0ZXNbYmVzdF0pIHsKICAgICAgICAgICAgICAgICAgICBiZXN0ID0gZGF5OwogICAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CiAgICAgICAgfQogICAgICAgIHJldHVybiBiZXN0OwogICAgfQp9",
+      "files": [
+        {
+          "name": "QuietCheck.java",
+          "content": "public class QuietCheck\n{\n    public static void main(String[] args)\n    {\n        WeekLog week = new WeekLog();\n        week.record(0, 45);\n        week.record(2, 90);\n        week.record(3, 30);\n        week.record(5, 120);\n        week.record(6, 60);\n        System.out.println(week.quietestStudiedDay());\n        System.out.println(new WeekLog().quietestStudiedDay());\n        WeekLog two = new WeekLog();\n        two.record(2, 50);\n        two.record(4, 50);\n        System.out.println(two.quietestStudiedDay());\n    }\n}"
+        }
+      ]
+    },
+    "q21-values": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "week": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "empty": {
+          "accept": [
+            "-1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "weeklog-demo": {
+      "type": "example",
+      "title": "WeekLogDemo.java",
+      "code": "public class WeekLogDemo\n{\n    public static void main(String[] args)\n    {\n        WeekLog week = new WeekLog();\n        week.record(0, 45);\n        week.record(2, 90);\n        week.record(3, 30);\n        week.record(5, 120);\n        week.record(6, 60);\n        week.record(7, 15);\n        week.printWeek();\n        System.out.println(\"Total: \" + week.total());\n        System.out.println(\"Days studied: \" + week.daysStudied());\n        int best = week.busiestDay();\n        System.out.println(\"Busiest: \" + WeekLog.dayName(best) + \" (\" + week.getMinutes(best) + \")\");\n    }\n}",
+      "output": "No such day: 7\nMonday: 45\nTuesday: 0\nWednesday: 90\nThursday: 30\nFriday: 0\nSaturday: 120\nSunday: 60\nTotal: 345\nDays studied: 5\nBusiest: Saturday (120)",
+      "files": [
+        {
+          "name": "WeekLog.java",
+          "content": "public class WeekLog\n{\n    private static final String[] DAY_NAMES = {\"Monday\", \"Tuesday\", \"Wednesday\",\n        \"Thursday\", \"Friday\", \"Saturday\", \"Sunday\"};\n    private int[] minutes;\n\n    public WeekLog()\n    {\n        minutes = new int[7];\n    }\n\n    public void record(int day, int mins)\n    {\n        if(day >= 0 && day < minutes.length) {\n            minutes[day] = mins;\n        }\n        else {\n            System.out.println(\"No such day: \" + day);\n        }\n    }\n\n    public int getMinutes(int day)\n    {\n        return minutes[day];\n    }\n\n    public static String dayName(int day)\n    {\n        return DAY_NAMES[day];\n    }\n\n    public void printWeek()\n    {\n        for(int day = 0; day < minutes.length; day++) {\n            System.out.println(DAY_NAMES[day] + \": \" + minutes[day]);\n        }\n    }\n\n    public int total()\n    {\n        int sum = 0;\n        for(int mins : minutes) {\n            sum += mins;\n        }\n        return sum;\n    }\n\n    public int daysStudied()\n    {\n        int count = 0;\n        for(int mins : minutes) {\n            if(mins > 0) {\n                count++;\n            }\n        }\n        return count;\n    }\n\n    public int busiestDay()\n    {\n        int best = 0;\n        for(int day = 1; day < minutes.length; day++) {\n            if(minutes[day] > minutes[best]) {\n                best = day;\n            }\n        }\n        return best;\n    }\n}"
+        }
+      ],
+      "maxLines": 30
+    },
+    "q22-output": {
+      "type": "table",
+      "xp": 4,
+      "blanks": {
+        "0": {
+          "accept": [
+            "No such day: -1",
+            "\"No such day: -1\""
+          ],
+          "show": "No such day: -1",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        },
+        "1": {
+          "accept": [
+            "Monday: 0",
+            "\"Monday: 0\""
+          ],
+          "show": "Monday: 0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        },
+        "2": {
+          "accept": [
+            "Tuesday: 60",
+            "\"Tuesday: 60\""
+          ],
+          "show": "Tuesday: 60",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        },
+        "3": {
+          "accept": [
+            "Wednesday: 0",
+            "\"Wednesday: 0\""
+          ],
+          "show": "Wednesday: 0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        },
+        "4": {
+          "accept": [
+            "Thursday: 0",
+            "\"Thursday: 0\""
+          ],
+          "show": "Thursday: 0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        },
+        "5": {
+          "accept": [
+            "Friday: 60",
+            "\"Friday: 60\""
+          ],
+          "show": "Friday: 60",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        },
+        "6": {
+          "accept": [
+            "Saturday: 0",
+            "\"Saturday: 0\""
+          ],
+          "show": "Saturday: 0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        },
+        "7": {
+          "accept": [
+            "Sunday: 15",
+            "\"Sunday: 15\""
+          ],
+          "show": "Sunday: 15",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        },
+        "8": {
+          "accept": [
+            "Total: 135",
+            "\"Total: 135\""
+          ],
+          "show": "Total: 135",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        },
+        "9": {
+          "accept": [
+            "Days studied: 3",
+            "\"Days studied: 3\""
+          ],
+          "show": "Days studied: 3",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        },
+        "10": {
+          "accept": [
+            "Busiest: Tuesday (60)",
+            "\"Busiest: Tuesday (60)\""
+          ],
+          "show": "Busiest: Tuesday (60)",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "16rem"
+        }
+      }
+    },
+    "q23": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "a": {
+          "accept": [
+            "for-each",
+            "For-each",
+            "for each",
+            "For each",
+            "foreach",
+            "enhanced for"
+          ],
+          "show": "for-each",
+          "placeholder": "loop",
+          "width": "9rem"
+        },
+        "b": {
+          "accept": [
+            "for",
+            "For",
+            "for loop",
+            "a for loop"
+          ],
+          "show": "for",
+          "placeholder": "loop",
+          "width": "9rem"
+        },
+        "c": {
+          "accept": [
+            "for",
+            "For",
+            "for loop",
+            "a for loop"
+          ],
+          "show": "for",
+          "placeholder": "loop",
+          "width": "9rem"
+        },
+        "d": {
+          "accept": [
+            "while",
+            "While",
+            "while loop",
+            "a while loop"
+          ],
+          "show": "while",
+          "placeholder": "loop",
+          "width": "9rem"
+        }
+      }
+    },
+    "q23-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "KGEpIGZvci1lYWNoOiBldmVyeSByZWFkaW5nIGlzIGFkZGVkIGFuZCBpdHMgaG91ciBkb2VzIG5vdCBtYXR0ZXIuIChiKSBmb3I6IHRoZSBzZWF0IG51bWJlciBpcyBwcmludGVkLCBzbyB0aGUgaW5kZXggaXMgbmVlZGVkLiAoYykgZm9yOiBjaGFuZ2luZyBhbiBlbGVtZW50IG5lZWRzIGl0cyBpbmRleC4gKGQpIHdoaWxlOiB0aGUgbG9vcCBydW5zIHVudGlsIGEgY29uZGl0aW9uIG9uIHRoZSBudW1iZXIgaXMgZmFsc2U7IGl0IGRvZXMgbm90IGNvdW50IHRocm91Z2ggYW4gYXJyYXksIGFuZCB0aGUgbnVtYmVyIG9mIHBhc3NlcyBpcyBub3Qgb2J2aW91cyB3aGVuIHRoZSBsb29wIHN0YXJ0cy4="
+    },
+    "q24": {
+      "type": "code",
+      "xp": 4,
+      "title": "SeatRow.java",
+      "minLines": 44,
+      "maxLines": 52,
+      "starter": "public class SeatRow\n{\n    private boolean[] booked;\n\n    public SeatRow(int size)\n    {\n        booked = new boolean[size];\n    }\n\n    public int getSize()\n    {\n        return booked.length;\n    }\n\n    public boolean isBooked(int seat)\n    {\n        return booked[seat];\n    }\n\n    public boolean book(int seat)\n    {\n        if(seat < 0 || seat >= booked.length) {\n            return false;\n        }\n        if(booked[seat]) {\n            return false;\n        }\n        booked[seat] = true;\n        return true;\n    }\n\n    // Write countFree() here, with a for-each loop.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "4\n2"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintcountFree()\"), \"Include public int countFree().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*for\\\\(boolean\\\\w+:booked\\\\).*\"), \"Visit the seats with a for-each loop: for(boolean taken : booked).\");",
+      "answer": "cHVibGljIGNsYXNzIFNlYXRSb3cKewogICAgcHJpdmF0ZSBib29sZWFuW10gYm9va2VkOwoKICAgIHB1YmxpYyBTZWF0Um93KGludCBzaXplKQogICAgewogICAgICAgIGJvb2tlZCA9IG5ldyBib29sZWFuW3NpemVdOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0U2l6ZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIGJvb2tlZC5sZW5ndGg7CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gaXNCb29rZWQoaW50IHNlYXQpCiAgICB7CiAgICAgICAgcmV0dXJuIGJvb2tlZFtzZWF0XTsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBib29rKGludCBzZWF0KQogICAgewogICAgICAgIGlmKHNlYXQgPCAwIHx8IHNlYXQgPj0gYm9va2VkLmxlbmd0aCkgewogICAgICAgICAgICByZXR1cm4gZmFsc2U7CiAgICAgICAgfQogICAgICAgIGlmKGJvb2tlZFtzZWF0XSkgewogICAgICAgICAgICByZXR1cm4gZmFsc2U7CiAgICAgICAgfQogICAgICAgIGJvb2tlZFtzZWF0XSA9IHRydWU7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIGludCBjb3VudEZyZWUoKQogICAgewogICAgICAgIGludCBmcmVlID0gMDsKICAgICAgICBmb3IoYm9vbGVhbiB0YWtlbiA6IGJvb2tlZCkgewogICAgICAgICAgICBpZighdGFrZW4pIHsKICAgICAgICAgICAgICAgIGZyZWUrKzsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICByZXR1cm4gZnJlZTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "FreeCheck.java",
+          "content": "public class FreeCheck\n{\n    public static void main(String[] args)\n    {\n        SeatRow row = new SeatRow(4);\n        System.out.println(row.countFree());\n        row.book(1);\n        row.book(3);\n        System.out.println(row.countFree());\n    }\n}"
+        }
+      ]
+    },
+    "q24-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "RXZlcnkgc2VhdCBpcyBjaGVja2VkLCBhbmQgdGhlIGFuc3dlciBpcyBhIGNvdW50LCBzbyB0aGUgc2VhdCBudW1iZXJzIGFyZSBub3QgbmVlZGVkLg=="
+    },
+    "q25-output": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "0": {
+          "accept": [
+            "Free: 10",
+            "\"Free: 10\""
+          ],
+          "show": "Free: 10",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "14rem"
+        },
+        "1": {
+          "accept": [
+            "Free: 7",
+            "\"Free: 7\""
+          ],
+          "show": "Free: 7",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "14rem"
+        },
+        "2": {
+          "accept": [
+            "First free: 2",
+            "\"First free: 2\""
+          ],
+          "show": "First free: 2",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "14rem"
+        },
+        "3": {
+          "accept": [
+            "Free: 0",
+            "\"Free: 0\""
+          ],
+          "show": "Free: 0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "14rem"
+        },
+        "4": {
+          "accept": [
+            "First free: -1",
+            "\"First free: -1\""
+          ],
+          "show": "First free: -1",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "14rem"
+        }
+      }
+    },
+    "q25": {
+      "type": "code",
+      "xp": 4,
+      "title": "SeatRow.java",
+      "minLines": 54,
+      "maxLines": 62,
+      "starter": "public class SeatRow\n{\n    private boolean[] booked;\n\n    public SeatRow(int size)\n    {\n        booked = new boolean[size];\n    }\n\n    public int getSize()\n    {\n        return booked.length;\n    }\n\n    public boolean isBooked(int seat)\n    {\n        return booked[seat];\n    }\n\n    public boolean book(int seat)\n    {\n        if(seat < 0 || seat >= booked.length) {\n            return false;\n        }\n        if(booked[seat]) {\n            return false;\n        }\n        booked[seat] = true;\n        return true;\n    }\n\n    public int countFree()\n    {\n        int free = 0;\n        for(boolean taken : booked) {\n            if(!taken) {\n                free++;\n            }\n        }\n        return free;\n    }\n\n    // Write firstFree() here, with a for loop.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "0\n1\n-1"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicintfirstFree()\"), \"Include public int firstFree().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"for(int\"), \"Visit the seats by number with a for loop.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"return-1;\"), \"Return -1 after the loop, when no seat is free.\");",
+      "answer": "cHVibGljIGNsYXNzIFNlYXRSb3cKewogICAgcHJpdmF0ZSBib29sZWFuW10gYm9va2VkOwoKICAgIHB1YmxpYyBTZWF0Um93KGludCBzaXplKQogICAgewogICAgICAgIGJvb2tlZCA9IG5ldyBib29sZWFuW3NpemVdOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0U2l6ZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIGJvb2tlZC5sZW5ndGg7CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gaXNCb29rZWQoaW50IHNlYXQpCiAgICB7CiAgICAgICAgcmV0dXJuIGJvb2tlZFtzZWF0XTsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBib29rKGludCBzZWF0KQogICAgewogICAgICAgIGlmKHNlYXQgPCAwIHx8IHNlYXQgPj0gYm9va2VkLmxlbmd0aCkgewogICAgICAgICAgICByZXR1cm4gZmFsc2U7CiAgICAgICAgfQogICAgICAgIGlmKGJvb2tlZFtzZWF0XSkgewogICAgICAgICAgICByZXR1cm4gZmFsc2U7CiAgICAgICAgfQogICAgICAgIGJvb2tlZFtzZWF0XSA9IHRydWU7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIGludCBjb3VudEZyZWUoKQogICAgewogICAgICAgIGludCBmcmVlID0gMDsKICAgICAgICBmb3IoYm9vbGVhbiB0YWtlbiA6IGJvb2tlZCkgewogICAgICAgICAgICBpZighdGFrZW4pIHsKICAgICAgICAgICAgICAgIGZyZWUrKzsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICByZXR1cm4gZnJlZTsKICAgIH0KCiAgICBwdWJsaWMgaW50IGZpcnN0RnJlZSgpCiAgICB7CiAgICAgICAgZm9yKGludCBzZWF0ID0gMDsgc2VhdCA8IGJvb2tlZC5sZW5ndGg7IHNlYXQrKykgewogICAgICAgICAgICBpZighYm9va2VkW3NlYXRdKSB7CiAgICAgICAgICAgICAgICByZXR1cm4gc2VhdDsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICByZXR1cm4gLTE7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "FirstCheck.java",
+          "content": "public class FirstCheck\n{\n    public static void main(String[] args)\n    {\n        SeatRow row = new SeatRow(3);\n        System.out.println(row.firstFree());\n        row.book(0);\n        System.out.println(row.firstFree());\n        row.book(1);\n        row.book(2);\n        System.out.println(row.firstFree());\n    }\n}"
+        }
+      ]
+    },
+    "q25-demo": {
+      "type": "code",
+      "xp": 3,
+      "title": "SeatDemo.java",
+      "minLines": 20,
+      "maxLines": 28,
+      "starter": "public class SeatDemo\n{\n    public static void main(String[] args)\n    {\n        SeatRow row = new SeatRow(10);\n        // 1. Print the free count, as \"Free: 10\".\n        // 2. Book seats 0, 1 and 3; print the free count and the first free seat, as \"First free: 2\".\n        // 3. Book every seat with a for loop; print both again.\n    }\n}",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Free: 10\nFree: 7\nFirst free: 2\nFree: 0\nFirst free: -1"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"row.countFree()\"), \"Print the free count with row.countFree().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"row.firstFree()\"), \"Print the first free seat with row.firstFree().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"for(int\"), \"Book every seat with a for loop.\");",
+      "answer": "cHVibGljIGNsYXNzIFNlYXREZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgU2VhdFJvdyByb3cgPSBuZXcgU2VhdFJvdygxMCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGcmVlOiAiICsgcm93LmNvdW50RnJlZSgpKTsKICAgICAgICByb3cuYm9vaygwKTsKICAgICAgICByb3cuYm9vaygxKTsKICAgICAgICByb3cuYm9vaygzKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkZyZWU6ICIgKyByb3cuY291bnRGcmVlKCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiRmlyc3QgZnJlZTogIiArIHJvdy5maXJzdEZyZWUoKSk7CiAgICAgICAgZm9yKGludCBzZWF0ID0gMDsgc2VhdCA8IHJvdy5nZXRTaXplKCk7IHNlYXQrKykgewogICAgICAgICAgICByb3cuYm9vayhzZWF0KTsKICAgICAgICB9CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGcmVlOiAiICsgcm93LmNvdW50RnJlZSgpKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkZpcnN0IGZyZWU6ICIgKyByb3cuZmlyc3RGcmVlKCkpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "SeatRow.java",
+          "content": "public class SeatRow\n{\n    private boolean[] booked;\n\n    public SeatRow(int size)\n    {\n        booked = new boolean[size];\n    }\n\n    public int getSize()\n    {\n        return booked.length;\n    }\n\n    public boolean isBooked(int seat)\n    {\n        return booked[seat];\n    }\n\n    public boolean book(int seat)\n    {\n        if(seat < 0 || seat >= booked.length) {\n            return false;\n        }\n        if(booked[seat]) {\n            return false;\n        }\n        booked[seat] = true;\n        return true;\n    }\n\n    public int countFree()\n    {\n        int free = 0;\n        for(boolean taken : booked) {\n            if(!taken) {\n                free++;\n            }\n        }\n        return free;\n    }\n\n    public int firstFree()\n    {\n        for(int seat = 0; seat < booked.length; seat++) {\n            if(!booked[seat]) {\n                return seat;\n            }\n        }\n        return -1;\n    }\n}"
+        }
+      ]
+    },
+    "q26": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 5,
+      "answer": "KGEpIFRoZSBpbmRpY2VzIGFyZSAwIHRvIDYuIChiKSBJdCBob2xkcyBzZXZlbiB6ZXJvcywgdGhlIGRlZmF1bHQgdmFsdWUgb2YgaW50LiAoYykgbGVuZ3RoIGlzIGEgZmllbGQ6IG1pbnV0ZXMubGVuZ3RoLCB3aXRoIG5vIHJvdW5kIGJyYWNrZXRzLiAoZCkgVGhlIHZhcmlhYmxlIGhvbGRzIGEgY29weTsgY2hhbmdpbmcgYW4gZWxlbWVudCBuZWVkcyBhbiBpbmRleC4gKGUpIGZpbmFsIGZpeGVzIHRoZSByZWZlcmVuY2U7IHRoZSBlbGVtZW50cyBjYW4gc3RpbGwgY2hhbmdlLg=="
+    },
+    "q27": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 5,
+      "answer": "V2Vla0xvZyBhZGEgPSBuZXcgV2Vla0xvZygpOwpXZWVrTG9nIGJvID0gbmV3IFdlZWtMb2coKTsKV2Vla0xvZyBjaGVuID0gbmV3IFdlZWtMb2coKTsKV2Vla0xvZyBkZXYgPSBuZXcgV2Vla0xvZygpOwpTeXN0ZW0ub3V0LnByaW50bG4oYWRhLnRvdGFsKCkgKyBiby50b3RhbCgpICsgY2hlbi50b3RhbCgpICsgZGV2LnRvdGFsKCkpOwpGb3IgNDAgc3R1ZGVudHM6IDQwIHZhcmlhYmxlcyBhbmQgYSBzdW0gb2YgNDAgY2FsbHMuIE5vdGhpbmcgdGllcyB0aGUgbG9ncyBpbnRvIG9uZSBjb2xsZWN0aW9uIHRoYXQgYSBsb29wIGNvdWxkIHZpc2l0LiBMZWN0dXJlIDEzIGRvZXMgdGhhdCB3aXRoIGFuIGFycmF5IHdob3NlIGVsZW1lbnRzIGFyZSBXZWVrTG9nIG9iamVjdHMu"
+    },
+    "p1-log": {
+      "type": "code",
+      "xp": 6,
+      "title": "TemperatureLog.java",
+      "minLines": 52,
+      "maxLines": 64,
+      "starter": "public class TemperatureLog\n{\n    public static final int HOURS = 24;\n    private int[] readings;\n\n    public TemperatureLog()\n    {\n        // Create the array with HOURS elements.\n    }\n\n    public boolean record(int hour, int degrees)\n    {\n        // Refuse a bad hour; otherwise store.\n        return false;\n    }\n\n    public int average()\n    {\n        // for-each: add up, then divide.\n        return 0;\n    }\n\n    public int warmestHour()\n    {\n        // for: keep the index of the best.\n        return 0;\n    }\n\n    public int hoursBelowZero()\n    {\n        // for-each: count readings below 0.\n        return 0;\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Hours: 24\nAverage: 0\nWarmest: 0\nBelow zero: 0\ntrue\ntrue\ntrue\ntrue\nfalse\nfalse\nAverage: 0\nWarmest: 3\nBelow zero: 2"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"newint[HOURS]\"), \"Create the array with the constant: new int[HOURS].\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"readings.length\"), \"Use readings.length in the range test and the average.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"for(int\"), \"warmestHour needs the hour, so it uses a for loop.\");",
+      "answer": "cHVibGljIGNsYXNzIFRlbXBlcmF0dXJlTG9nCnsKICAgIHB1YmxpYyBzdGF0aWMgZmluYWwgaW50IEhPVVJTID0gMjQ7CiAgICBwcml2YXRlIGludFtdIHJlYWRpbmdzOwoKICAgIHB1YmxpYyBUZW1wZXJhdHVyZUxvZygpCiAgICB7CiAgICAgICAgcmVhZGluZ3MgPSBuZXcgaW50W0hPVVJTXTsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiByZWNvcmQoaW50IGhvdXIsIGludCBkZWdyZWVzKQogICAgewogICAgICAgIGlmKGhvdXIgPCAwIHx8IGhvdXIgPj0gcmVhZGluZ3MubGVuZ3RoKSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9CiAgICAgICAgcmVhZGluZ3NbaG91cl0gPSBkZWdyZWVzOwogICAgICAgIHJldHVybiB0cnVlOwogICAgfQoKICAgIHB1YmxpYyBpbnQgYXZlcmFnZSgpCiAgICB7CiAgICAgICAgaW50IHN1bSA9IDA7CiAgICAgICAgZm9yKGludCBkZWdyZWVzIDogcmVhZGluZ3MpIHsKICAgICAgICAgICAgc3VtICs9IGRlZ3JlZXM7CiAgICAgICAgfQogICAgICAgIHJldHVybiBzdW0gLyByZWFkaW5ncy5sZW5ndGg7CiAgICB9CgogICAgcHVibGljIGludCB3YXJtZXN0SG91cigpCiAgICB7CiAgICAgICAgaW50IGJlc3QgPSAwOwogICAgICAgIGZvcihpbnQgaG91ciA9IDE7IGhvdXIgPCByZWFkaW5ncy5sZW5ndGg7IGhvdXIrKykgewogICAgICAgICAgICBpZihyZWFkaW5nc1tob3VyXSA+IHJlYWRpbmdzW2Jlc3RdKSB7CiAgICAgICAgICAgICAgICBiZXN0ID0gaG91cjsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICByZXR1cm4gYmVzdDsKICAgIH0KCiAgICBwdWJsaWMgaW50IGhvdXJzQmVsb3daZXJvKCkKICAgIHsKICAgICAgICBpbnQgY291bnQgPSAwOwogICAgICAgIGZvcihpbnQgZGVncmVlcyA6IHJlYWRpbmdzKSB7CiAgICAgICAgICAgIGlmKGRlZ3JlZXMgPCAwKSB7CiAgICAgICAgICAgICAgICBjb3VudCsrOwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgICAgIHJldHVybiBjb3VudDsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "LogCheck.java",
+          "content": "public class LogCheck\n{\n    public static void main(String[] args)\n    {\n        System.out.println(\"Hours: \" + TemperatureLog.HOURS);\n        TemperatureLog flat = new TemperatureLog();\n        System.out.println(\"Average: \" + flat.average());\n        System.out.println(\"Warmest: \" + flat.warmestHour());\n        System.out.println(\"Below zero: \" + flat.hoursBelowZero());\n        TemperatureLog day = new TemperatureLog();\n        System.out.println(day.record(0, -4));\n        System.out.println(day.record(3, 6));\n        System.out.println(day.record(7, 6));\n        System.out.println(day.record(23, -2));\n        System.out.println(day.record(-1, 9));\n        System.out.println(day.record(24, 9));\n        System.out.println(\"Average: \" + day.average());\n        System.out.println(\"Warmest: \" + day.warmestHour());\n        System.out.println(\"Below zero: \" + day.hoursBelowZero());\n    }\n}"
+        }
+      ]
+    },
+    "p1-demo": {
+      "type": "code",
+      "xp": 4,
+      "title": "TemperatureDemo.java",
+      "minLines": 18,
+      "maxLines": 26,
+      "starter": "public class TemperatureDemo\n{\n    public static void main(String[] args)\n    {\n        int[] day = {2, 1, 1, 0, 0, -1, -1, 0, 2, 4, 6, 8,\n                     10, 11, 12, 12, 11, 9, 7, 5, 4, 3, 3, 2};\n        TemperatureLog log = new TemperatureLog();\n        // 1. Record each reading with a for loop.\n        // 2. Try hour 24 and print the result.\n        // 3. Print the average, the warmest hour\n        //    and the hours below zero.\n    }\n}",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Bad hour stored: false\nAverage: 4\nWarmest hour: 14\nHours below zero: 2"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"log.record(hour,day[hour])\"), \"Record each reading: log.record(hour, day[hour]) inside a for loop.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"log.record(24,5)\"), \"Try the bad hour with log.record(24, 5).\");",
+      "answer": "cHVibGljIGNsYXNzIFRlbXBlcmF0dXJlRGVtbwp7CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKQogICAgewogICAgICAgIGludFtdIGRheSA9IHsyLCAxLCAxLCAwLCAwLCAtMSwgLTEsIDAsIDIsIDQsIDYsIDgsCiAgICAgICAgICAgICAgICAgICAgIDEwLCAxMSwgMTIsIDEyLCAxMSwgOSwgNywgNSwgNCwgMywgMywgMn07CiAgICAgICAgVGVtcGVyYXR1cmVMb2cgbG9nID0gbmV3IFRlbXBlcmF0dXJlTG9nKCk7CiAgICAgICAgZm9yKGludCBob3VyID0gMDsgaG91ciA8IGRheS5sZW5ndGg7IGhvdXIrKykgewogICAgICAgICAgICBsb2cucmVjb3JkKGhvdXIsIGRheVtob3VyXSk7CiAgICAgICAgfQogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQmFkIGhvdXIgc3RvcmVkOiAiICsgbG9nLnJlY29yZCgyNCwgNSkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQXZlcmFnZTogIiArIGxvZy5hdmVyYWdlKCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiV2FybWVzdCBob3VyOiAiICsgbG9nLndhcm1lc3RIb3VyKCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiSG91cnMgYmVsb3cgemVybzogIiArIGxvZy5ob3Vyc0JlbG93WmVybygpKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "TemperatureLog.java",
+          "content": "public class TemperatureLog\n{\n    public static final int HOURS = 24;\n    private int[] readings;\n\n    public TemperatureLog()\n    {\n        readings = new int[HOURS];\n    }\n\n    public boolean record(int hour, int degrees)\n    {\n        if(hour < 0 || hour >= readings.length) {\n            return false;\n        }\n        readings[hour] = degrees;\n        return true;\n    }\n\n    public int average()\n    {\n        int sum = 0;\n        for(int degrees : readings) {\n            sum += degrees;\n        }\n        return sum / readings.length;\n    }\n\n    public int warmestHour()\n    {\n        int best = 0;\n        for(int hour = 1; hour < readings.length; hour++) {\n            if(readings[hour] > readings[best]) {\n                best = hour;\n            }\n        }\n        return best;\n    }\n\n    public int hoursBelowZero()\n    {\n        int count = 0;\n        for(int degrees : readings) {\n            if(degrees < 0) {\n                count++;\n            }\n        }\n        return count;\n    }\n}"
+        }
+      ]
+    },
+    "p2-card": {
+      "type": "code",
+      "xp": 6,
+      "title": "GolfCard.java",
+      "minLines": 57,
+      "maxLines": 69,
+      "starter": "public class GolfCard\n{\n    private static final int[] PAR = {4, 3, 5, 4, 4, 3, 4, 5, 4};\n    private String player;\n    private int[] strokes;\n\n    public GolfCard(String player)\n    {\n        // Store the name; create strokes.\n    }\n\n    public String getPlayer()\n    {\n        return \"\";\n    }\n\n    public void record(int hole, int count)\n    {\n        // Ignore a bad hole; otherwise store.\n    }\n\n    public int total()\n    {\n        // for-each: add up the strokes.\n        return 0;\n    }\n\n    public int holesUnderPar()\n    {\n        // for: compare strokes[hole] with PAR[hole].\n        return 0;\n    }\n\n    public int bestHole()\n    {\n        // for: smallest strokes minus par.\n        return 0;\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Sam 0\nTotal: 37\nUnder par: 1\nBest hole: 1"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"newint[PAR.length]\"), \"Create strokes with PAR.length elements.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"PAR[hole]\"), \"Compare each hole with its own par, PAR[hole].\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"for(int\"), \"holesUnderPar and bestHole need the hole number, so they use a for loop.\");",
+      "answer": "cHVibGljIGNsYXNzIEdvbGZDYXJkCnsKICAgIHByaXZhdGUgc3RhdGljIGZpbmFsIGludFtdIFBBUiA9IHs0LCAzLCA1LCA0LCA0LCAzLCA0LCA1LCA0fTsKICAgIHByaXZhdGUgU3RyaW5nIHBsYXllcjsKICAgIHByaXZhdGUgaW50W10gc3Ryb2tlczsKCiAgICBwdWJsaWMgR29sZkNhcmQoU3RyaW5nIHBsYXllcikKICAgIHsKICAgICAgICB0aGlzLnBsYXllciA9IHBsYXllcjsKICAgICAgICBzdHJva2VzID0gbmV3IGludFtQQVIubGVuZ3RoXTsKICAgIH0KCiAgICBwdWJsaWMgU3RyaW5nIGdldFBsYXllcigpCiAgICB7CiAgICAgICAgcmV0dXJuIHBsYXllcjsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCByZWNvcmQoaW50IGhvbGUsIGludCBjb3VudCkKICAgIHsKICAgICAgICBpZihob2xlID49IDAgJiYgaG9sZSA8IHN0cm9rZXMubGVuZ3RoKSB7CiAgICAgICAgICAgIHN0cm9rZXNbaG9sZV0gPSBjb3VudDsKICAgICAgICB9CiAgICB9CgogICAgcHVibGljIGludCB0b3RhbCgpCiAgICB7CiAgICAgICAgaW50IHN1bSA9IDA7CiAgICAgICAgZm9yKGludCBjb3VudCA6IHN0cm9rZXMpIHsKICAgICAgICAgICAgc3VtICs9IGNvdW50OwogICAgICAgIH0KICAgICAgICByZXR1cm4gc3VtOwogICAgfQoKICAgIHB1YmxpYyBpbnQgaG9sZXNVbmRlclBhcigpCiAgICB7CiAgICAgICAgaW50IGNvdW50ID0gMDsKICAgICAgICBmb3IoaW50IGhvbGUgPSAwOyBob2xlIDwgc3Ryb2tlcy5sZW5ndGg7IGhvbGUrKykgewogICAgICAgICAgICBpZihzdHJva2VzW2hvbGVdIDwgUEFSW2hvbGVdKSB7CiAgICAgICAgICAgICAgICBjb3VudCsrOwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgICAgIHJldHVybiBjb3VudDsKICAgIH0KCiAgICBwdWJsaWMgaW50IGJlc3RIb2xlKCkKICAgIHsKICAgICAgICBpbnQgYmVzdCA9IDA7CiAgICAgICAgZm9yKGludCBob2xlID0gMTsgaG9sZSA8IHN0cm9rZXMubGVuZ3RoOyBob2xlKyspIHsKICAgICAgICAgICAgaWYoc3Ryb2tlc1tob2xlXSAtIFBBUltob2xlXSA8IHN0cm9rZXNbYmVzdF0gLSBQQVJbYmVzdF0pIHsKICAgICAgICAgICAgICAgIGJlc3QgPSBob2xlOwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgICAgIHJldHVybiBiZXN0OwogICAgfQp9",
+      "files": [
+        {
+          "name": "CardCheck.java",
+          "content": "public class CardCheck\n{\n    public static void main(String[] args)\n    {\n        GolfCard empty = new GolfCard(\"Sam\");\n        System.out.println(empty.getPlayer() + \" \" + empty.total());\n        GolfCard card = new GolfCard(\"Lee\");\n        int[] par = {4, 3, 5, 4, 4, 3, 4, 5, 4};\n        for(int hole = 0; hole < par.length; hole++) {\n            card.record(hole, par[hole]);\n        }\n        card.record(1, 2);\n        card.record(6, 6);\n        card.record(-1, 1);\n        card.record(9, 1);\n        System.out.println(\"Total: \" + card.total());\n        System.out.println(\"Under par: \" + card.holesUnderPar());\n        System.out.println(\"Best hole: \" + card.bestHole());\n    }\n}"
+        }
+      ]
+    },
+    "p2-demo": {
+      "type": "code",
+      "xp": 4,
+      "title": "GolfDemo.java",
+      "minLines": 18,
+      "maxLines": 26,
+      "starter": "public class GolfDemo\n{\n    public static void main(String[] args)\n    {\n        GolfCard card = new GolfCard(\"Maya\");\n        int[] round = {5, 3, 4, 4, 6, 2, 4, 5, 5};\n        // 1. Record each hole with a for loop.\n        // 2. Record 3 strokes for hole 9.\n        // 3. Print the player, the total, the\n        //    holes under par and the best hole.\n    }\n}",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Player: Maya\nTotal: 38\nHoles under par: 2\nBest hole: 2"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"card.record(hole,round[hole])\"), \"Record each hole: card.record(hole, round[hole]) inside a for loop.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"card.record(9,3)\"), \"Record 3 strokes for hole 9: card.record(9, 3).\");",
+      "answer": "cHVibGljIGNsYXNzIEdvbGZEZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgR29sZkNhcmQgY2FyZCA9IG5ldyBHb2xmQ2FyZCgiTWF5YSIpOwogICAgICAgIGludFtdIHJvdW5kID0gezUsIDMsIDQsIDQsIDYsIDIsIDQsIDUsIDV9OwogICAgICAgIGZvcihpbnQgaG9sZSA9IDA7IGhvbGUgPCByb3VuZC5sZW5ndGg7IGhvbGUrKykgewogICAgICAgICAgICBjYXJkLnJlY29yZChob2xlLCByb3VuZFtob2xlXSk7CiAgICAgICAgfQogICAgICAgIGNhcmQucmVjb3JkKDksIDMpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiUGxheWVyOiAiICsgY2FyZC5nZXRQbGF5ZXIoKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJUb3RhbDogIiArIGNhcmQudG90YWwoKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJIb2xlcyB1bmRlciBwYXI6ICIgKyBjYXJkLmhvbGVzVW5kZXJQYXIoKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJCZXN0IGhvbGU6ICIgKyBjYXJkLmJlc3RIb2xlKCkpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "GolfCard.java",
+          "content": "public class GolfCard\n{\n    private static final int[] PAR = {4, 3, 5, 4, 4, 3, 4, 5, 4};\n    private String player;\n    private int[] strokes;\n\n    public GolfCard(String player)\n    {\n        this.player = player;\n        strokes = new int[PAR.length];\n    }\n\n    public String getPlayer()\n    {\n        return player;\n    }\n\n    public void record(int hole, int count)\n    {\n        if(hole >= 0 && hole < strokes.length) {\n            strokes[hole] = count;\n        }\n    }\n\n    public int total()\n    {\n        int sum = 0;\n        for(int count : strokes) {\n            sum += count;\n        }\n        return sum;\n    }\n\n    public int holesUnderPar()\n    {\n        int count = 0;\n        for(int hole = 0; hole < strokes.length; hole++) {\n            if(strokes[hole] < PAR[hole]) {\n                count++;\n            }\n        }\n        return count;\n    }\n\n    public int bestHole()\n    {\n        int best = 0;\n        for(int hole = 1; hole < strokes.length; hole++) {\n            if(strokes[hole] - PAR[hole] < strokes[best] - PAR[best]) {\n                best = hole;\n            }\n        }\n        return best;\n    }\n}"
+        }
+      ]
+    }
+  }
+}
