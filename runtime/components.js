@@ -216,14 +216,15 @@ class RunnableElement extends WorkbookElement {
         const project = this.project;
         const result = await runInteractive({
           files: project.files, entry: project.entry, console: this.console, signal: this.abort.signal,
-          formatError: (text) => relocateMessages(text, project.studentFile, project.offset),
+          formatError: (text) => relocateMessages(text, project.studentFile, project.offset, project.files),
         });
+        const shown = relocateMessages(result.stderr, project.studentFile, project.offset, project.files);
         if (result.status === "compile-error") {
           this.consoleTitle.textContent = "Compiler errors";
-          const line = errorLine(result.stderr, project.studentFile, project.offset);
+          const line = errorLine(shown, project.studentFile);
           if (line) this.editor.markErrorLine(line);
         } else if (result.status === "error") {
-          const line = errorLine(result.stderr, project.studentFile, project.offset);
+          const line = errorLine(shown, project.studentFile);
           if (line) this.editor.markErrorLine(line);
         } else if (this.console.isEmpty) {
           this.console.note("(The program finished without printing anything.)");

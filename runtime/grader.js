@@ -58,7 +58,7 @@ export async function runCases(spec, source, files = []) {
       const check = [spec.check, testCase.check].filter(Boolean).join("\n\n") || null;
       const result = await runner.run({ files: project.files, entry: project.entry, inputs: outcome.inputs, echoInput: false, check });
       outcome.stdout = result.stdout;
-      outcome.stderr = relocateMessages(result.stderr, project.studentFile, project.offset);
+      outcome.stderr = relocateMessages(result.stderr, project.studentFile, project.offset, project.files);
       outcome.studentFile = project.studentFile;
       outcome.offset = project.offset;
       if (result.status === "need-input") {
@@ -93,8 +93,85 @@ export function normalizeAnswer(text, { caseSensitive = false, preserveWhitespac
 }
 
 /** True if `answer` matches any of the accepted forms. */
-export function matchAnswer(answer, accepted, options) {
+export function matchAnswer(answer, accepted, options = {}) {
   const given = normalizeAnswer(answer, options);
   if (!given) return false;
-  return accepted.some((form) => normalizeAnswer(form, options) === given);
+  if (accepted.some((form) => normalizeAnswer(form, options) === given)) return true;
+  // A code answer may differ from every listed form only in layout:
+  // spacing, an extra semicolon, the lambda parameter's name, a flipped
+  // comparison, or the order of the two sides of &&.
+  if (options.preserveWhitespace) return false;
+  return accepted.some((form) => looksLikeCode(form) && codeKey(answer, form, options) === codeKey(form, form, options));
+}
+
+const CODE_HINT = /[;{}\[\]]|->|::|&&|\|\||\+\+|--|[<>=!]=|\w\(/;
+const TOKEN = /"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|[A-Za-z_$][\w$]*|\d+(?:\.\d+)?|->|::|\+\+|--|&&|\|\||[<>=!+\-*\/%]=|\S/g;
+const FLIP = { ">": "<", ">=": "<=" };
+
+function looksLikeCode(form) {
+  return CODE_HINT.test(String(form));
+}
+
+/** A layout-free key for a code answer, compared with the key of `form`. */
+function codeKey(text, form, { caseSensitive = false } = {}) {
+  let tokens = String(text ?? "").match(TOKEN) ?? [];
+  if (tokens.at(-1) === ";" && !String(form).trim().endsWith(";")) tokens = tokens.slice(0, -1);
+  if (!caseSensitive) tokens = tokens.map((t) => (t.startsWith('"') || t.startsWith("'") ? t : t.toLowerCase()));
+  tokens = renameLambdaParameters(tokens);
+  const parts = splitTopLevel(tokens, "&&").map(canonicalComparison);
+  if (parts.length > 1 && !splitTopLevel(tokens, "||").slice(1).length) parts.sort();
+  return parts.join(" && ");
+}
+
+/** `t -> t.x()` and `track -> track.x()` both become `$0 -> $0 . x ( )`. Brackets around the parameters stay. */
+function renameLambdaParameters(tokens) {
+  let names = [];
+  let rest = null;
+  let bracketed = false;
+  if (tokens[1] === "->" && /^[A-Za-z_$]/.test(tokens[0])) {
+    names = [tokens[0]];
+    rest = tokens.slice(2);
+  } else if (tokens[0] === "(") {
+    const close = tokens.indexOf(")");
+    const inside = tokens.slice(1, close);
+    if (close > 0 && tokens[close + 1] === "->" && inside.every((t, i) => (i % 2 ? t === "," : /^[A-Za-z_$]/.test(t)))) {
+      names = inside.filter((t, i) => i % 2 === 0);
+      rest = tokens.slice(close + 2);
+      bracketed = true;
+    }
+  }
+  if (!rest) return tokens;
+  const renamed = rest.map((t, i) => (names.includes(t) && rest[i - 1] !== "." ? `$${names.indexOf(t)}` : t));
+  const params = names.map((_, i) => `$${i}`).join(" , ").split(" ");
+  return [...(bracketed ? ["(", ...params, ")"] : params), "->", ...renamed];
+}
+
+/** Split at `op` outside brackets; returns token lists. */
+function splitTopLevel(tokens, op) {
+  const parts = [[]];
+  let depth = 0;
+  for (const t of tokens) {
+    if ("([{".includes(t)) depth++;
+    if (")]}".includes(t)) depth--;
+    if (t === op && depth === 0) parts.push([]);
+    else parts.at(-1).push(t);
+  }
+  return parts;
+}
+
+/** `a > b` becomes `b < a`, so both ways of writing a comparison agree. */
+function canonicalComparison(tokens) {
+  let depth = 0;
+  let at = -1;
+  for (let i = 0; i < tokens.length; i++) {
+    const t = tokens[i];
+    if ("([{".includes(t)) depth++;
+    if (")]}".includes(t)) depth--;
+    if (depth === 0 && ["<", ">", "<=", ">="].includes(t)) {
+      if (at >= 0) return tokens.join(" ");
+      at = i;
+    }
+  }
+  if (at <= 0 || !(tokens[at] in FLIP)) return tokens.join(" ");
+  return [...tokens.slice(at + 1), FLIP[tokens[at]], ...tokens.slice(0, at)].join(" ");
 }
