@@ -48,7 +48,7 @@
 
 <h2 id="s1">1. Fixed size</h2>
 <h3>A week of study</h3>
-<p>Lecture 11 ended with the library's visitor counts, one number for each day of the week. A week always has seven days, so that collection never grows or shrinks. A student's study log has the same shape. Suppose a student writes down how many minutes they study each day. Every example in this workbook uses this week:</p>
+<p>Some collections never change size. A week always has seven days, so one number for each day is always seven numbers. Suppose a student writes down how many minutes they study each day. Every example in this workbook uses this week:</p>
 <table>
   <thead><tr><th>Day</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr></thead>
   <tbody>
@@ -69,7 +69,11 @@
 <p>An <code>ArrayList</code> holds only objects, so a list of numbers holds <code>Integer</code> objects (Lecture 10). An array can hold primitive values such as <code>int</code> or <code>boolean</code> directly:</p>
 <pre><code><span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Integer</span>&gt; list = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;(); <span class="wb-cmt">// holds Integer objects</span>
 <span class="wb-kw">int</span>[] minutes = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[<span class="wb-num">7</span>];                 <span class="wb-cmt">// holds int values</span></code></pre>
-<p>An array can also hold objects. <code>String[]</code> is an array of strings. Arrays of objects of our own classes come in Lecture 13.</p>
+<p>Here is how the two store the same three numbers:</p>
+<figure class="wb-shot">
+  <img src="img/primitive_object.png" alt="The array minutes holds 45, 0 and 90 in its slots. Each slot of list holds a dot with an arrow to a separate Integer object: Integer 45, Integer 0 and Integer 90" loading="lazy" style="max-width: 520px">
+</figure>
+<p>The array's slots hold the numbers themselves. Each slot of the list holds a reference to a separate <code>Integer</code> object. An array can also hold objects: <code>String[]</code> is an array of strings, and each of its slots holds a reference to a <code>String</code>. Arrays of objects of our own classes come in Lecture 13.</p>
 
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: array or list?</div>
@@ -103,8 +107,9 @@
 <h3>Declaration and creation</h3>
 <p>An array variable is declared with square brackets after the type, and the array itself is created with <code>new</code>:</p>
 <pre><code><span class="wb-kw">int</span>[] minutes;           <span class="wb-cmt">// declares an array variable</span>
-minutes = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[<span class="wb-num">7</span>];    <span class="wb-cmt">// creates an array of 7 ints</span></code></pre>
-<p><code>int[]</code> is the type &ldquo;array of <code>int</code>&rdquo;. <code>int</code> is the <strong>base type</strong>, the type of every element. <code>new int[7]</code> creates the array. The size goes in square brackets, and there is no constructor call with round brackets. The size can be any <code>int</code> expression, such as a parameter, but once the array exists its size is fixed.</p>
+minutes = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[<span class="wb-num">7</span>];    <span class="wb-cmt">// creates an array of 7 ints</span>
+<span class="wb-kw">int</span>[] a = {<span class="wb-num">45</span>, <span class="wb-num">90</span>};      <span class="wb-cmt">// declares, creates and fills</span></code></pre>
+<p><code>int[]</code> is the type &ldquo;array of <code>int</code>&rdquo;. <code>int</code> is the <strong>base type</strong>, the type of every element. <code>new int[7]</code> creates the array. The size goes in square brackets, and there is no constructor call with round brackets. The size can be any <code>int</code> expression, such as a parameter, but once the array exists its size is fixed. When the values are known, braces create the array and fill it in one step: <code>a</code> has 2 elements, 45 and 90. Array literals, later in this section, give the details.</p>
 <p>In a class, the field is declared and the constructor creates the array, as <code>WeekLog</code> does:</p>
 <pre><code><span class="wb-kw">private</span> <span class="wb-kw">int</span>[] minutes;
 
@@ -112,14 +117,63 @@ minutes = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[<span cl
 {
     minutes = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[<span class="wb-num">7</span>];
 }</code></pre>
+<h3>Two kinds of type</h3>
+<p>Every type in Java is a <strong>primitive type</strong> or a <strong>reference type</strong>. There are exactly eight primitive types. Every other type is a reference type: every class, including <code>String</code> and the classes we write, and every array type.</p>
+<figure class="wb-shot">
+  <img src="img/type_tree.png" alt="Java types split into primitive types, exactly 8: byte, short, int, long, float, double, char, boolean, with default 0, 0.0 or false; and reference types: every class such as String, WeekLog, ArrayList of Integer and Integer, and every array type such as int[] and String[], with default null" loading="lazy" style="max-width: 600px">
+</figure>
+<p>The defaults are for fields and array elements: 0 or 0.0 for the number types, <code>false</code> for <code>boolean</code>, the character with code 0 for <code>char</code>, and <code>null</code> for every reference type. A local variable has no default. The compiler refuses to use it before it is given a value.</p>
+
+<h3>Values and references</h3>
+<p>The two kinds of type are stored differently:</p>
+<pre><code><span class="wb-kw">int</span> count = <span class="wb-num">7</span>;
+<span class="wb-type">WeekLog</span> week = <span class="wb-kw">new</span> <span class="wb-fn">WeekLog</span>();</code></pre>
+<figure class="wb-shot">
+  <img src="img/value_reference.png" alt="The variable count holds 7. The variable week holds a dot with an arrow, labelled a reference, to an object : WeekLog" loading="lazy" style="max-width: 320px">
+</figure>
+<p>A primitive variable is a named place in memory that holds the value itself: <code>count</code> holds 7. <code>new</code> creates the object and gives back a <strong>reference</strong> to it, which <code>week</code> holds. Think of a reference as the object&rsquo;s address; Java never shows the address itself.</p>
+<p>The compiler checks the type of a reference: <code>week</code> can refer only to a <code>WeekLog</code>, or be <code>null</code>. <code>week = "Monday";</code> does not compile; the compiler reports <code>incompatible types: String cannot be converted to WeekLog</code>. And <code>==</code> on two references asks whether they refer to the same object, not whether two objects hold the same values.</p>
+
 <h3>An array reference</h3>
-<p>An array is an object. The variable <code>minutes</code> holds a reference to it, as a variable of a class type does. A declaration alone creates no array:</p>
+<p>An array is an object. The field <code>minutes</code> holds a reference to it, as a field of a class type does. A UML <strong>object diagram</strong> shows the objects of a program at one moment:</p>
+<figure class="wb-shot">
+  <img src="img/object_diagram.png" alt="Object diagram: the box week : WeekLog, underlined, has an arrow labelled minutes to a box : int[] with length = 7, holding seven zeros" loading="lazy" style="max-width: 600px">
+</figure>
+<p>Each box is an object, named <code>name : Class</code> and underlined; the array has no name of its own. The arrow is a reference, labelled with the field that holds it. A declaration alone creates no array:</p>
 <pre><code><span class="wb-kw">int</span>[] minutes;
 minutes[<span class="wb-num">0</span>] = <span class="wb-num">45</span>;</code></pre>
 <p>For a local variable, the compiler reports <code>variable minutes might not have been initialized</code>. A field that is never given an array holds <code>null</code>, and <code>minutes[0]</code> then stops the program with a <code>NullPointerException</code>. That is why the <code>WeekLog</code> constructor creates the array.</p>
 
+<h3>Array assignment</h3>
+<p>Because an array variable holds a reference, assigning it to another variable copies the reference, not the array:</p>
+<pre><code><span class="wb-kw">int</span>[] minutes = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[<span class="wb-num">7</span>];
+<span class="wb-kw">int</span>[] copy = minutes;
+copy[<span class="wb-num">0</span>] = <span class="wb-num">99</span>;
+System.out.println(minutes[<span class="wb-num">0</span>]);</code></pre>
+<figure class="wb-shot">
+  <img src="img/array_assignment.png" alt="The variables minutes and copy both have an arrow to the same int array, whose element 0 is 99" loading="lazy" style="max-width: 330px">
+</figure>
+<p>This prints 99. There are two variables but only one array, so a change through either name is seen through both. To get a second, separate array, create a new one and copy the elements across (Lecture 13).</p>
+
+<h3>Passing to a method</h3>
+<p>The same holds when an array is passed to a method. In <code>main</code>:</p>
+<pre><code><span class="wb-kw">int</span> n = <span class="wb-num">45</span>;
+<span class="wb-kw">int</span>[] a = {<span class="wb-num">45</span>, <span class="wb-num">90</span>};
+reset(n, a);
+System.out.println(n + <span class="wb-str">" "</span> + a[<span class="wb-num">0</span>]);</code></pre>
+<p>The method <code>reset</code>:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">reset</span>(<span class="wb-kw">int</span> num, <span class="wb-kw">int</span>[] arr)
+{
+    num = <span class="wb-num">0</span>;
+    arr[<span class="wb-num">0</span>] = <span class="wb-num">0</span>;
+}</code></pre>
+<figure class="wb-shot">
+  <img src="img/pass_copy.png" alt="In main, n holds 45 and a refers to the array 0, 90. In reset, num holds 0 and arr refers to the same array" loading="lazy" style="max-width: 270px">
+</figure>
+<p>This prints <code>45 0</code>. Java always passes a <strong>copy</strong> of each argument&rsquo;s value. <code>num</code> gets a copy of 45, so <code>num = 0</code> leaves <code>n</code> alone. <code>arr</code> gets a copy of the reference, so it refers to the same array, and <code>arr[0] = 0</code> is seen in <code>main</code>. The method cannot make <code>a</code> refer to a different array: a line <code>arr = new int[2];</code> in <code>reset</code> would change only <code>arr</code>.</p>
+
 <h3>Default values</h3>
-<p>A new array is not empty. Every element starts with a default value: numbers start at 0, <code>boolean</code> elements at <code>false</code>, and object elements, such as the elements of a <code>String[]</code>, at <code>null</code>. A new study log is already seven zeros, so a day that is never recorded stays 0.</p>
+<p>A new array is not empty. Every element starts with the default value of its type: numbers start at 0, <code>boolean</code> elements at <code>false</code>, and object elements, such as the elements of a <code>String[]</code>, at <code>null</code>. A new study log is already seven zeros, so a day that is never recorded stays 0.</p>
 
 <h3>Array literals</h3>
 <p>When we know the values in advance, an <strong>array literal</strong> creates and fills the array in one step:</p>
@@ -192,6 +246,25 @@ System.out.println(names[<span class="wb-num">0</span>].length());</code></pre>
       </tbody>
     </table>
   </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: two names</div>
+  <p><strong>2.5</strong> What does this code print? Which array does each variable refer to after the fourth line, and what does that array hold?</p>
+<pre><code><span class="wb-kw">int</span>[] a = {<span class="wb-num">1</span>, <span class="wb-num">2</span>, <span class="wb-num">3</span>};
+<span class="wb-kw">int</span>[] b = a;
+b[<span class="wb-num">1</span>] = <span class="wb-num">20</span>;
+a = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[<span class="wb-num">3</span>];
+System.out.println(b[<span class="wb-num">1</span>] + <span class="wb-str">" "</span> + a[<span class="wb-num">1</span>]);</code></pre>
+  <wb-table id="q2-5-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+  <p>Which array does each variable refer to after the fourth line?</p>
+  <wb-short id="q2-5-why"></wb-short>
 </div>
 
 <h2 id="s3">3. Positions</h2>
@@ -324,9 +397,14 @@ a[<span class="wb-num">0</span>] = a[<span class="wb-num">3</span>] - a[<span cl
 
 <h2 id="s4">4. Seats Part 1: A row of seats</h2>
 <h3>The problem</h3>
-<p>This part is practice for after class. A theatre sells seats in rows. Write a class <code>SeatRow</code> for one row, and a class <code>SeatDemo</code> that tries it out. Seat 0 is at the aisle.</p>
+<p>This part is practice for after class. A theatre sells seats in rows. Write a class <code>SeatRow</code> for one row, and a class <code>SeatDemo</code> that tries it out. Seat 0 is at the aisle. The picture below is a <strong>UML class diagram</strong> of <code>SeatRow</code>.</p>
+<figure class="wb-shot">
+  <img src="img/seatrow_class.png" alt="Class diagram of SeatRow: the field - booked : boolean[], and the methods + SeatRow(size : int), + getSize() : int, + isBooked(seat : int) : boolean and + book(seat : int) : boolean" loading="lazy" style="max-width: 300px">
+</figure>
+<p>A class diagram has three parts: the class name, its fields and its methods. <code>-</code> marks a private member and <code>+</code> a public one. Each name is followed by a colon and its type, so <code>- booked : boolean[]</code> is the field <code>private boolean[] booked</code>. For a method, the type after the brackets is the type it returns: <code>+ isBooked(seat : int) : boolean</code> is <code>public boolean isBooked(int seat)</code>.</p>
+<p>What each member does:</p>
 <ul>
-  <li>A field <code>private boolean[] booked</code>. The constructor <code>SeatRow(int size)</code> creates it with <code>size</code> elements, so every seat starts free (<code>false</code>).</li>
+  <li>The constructor creates <code>booked</code> with <code>size</code> elements, so every seat starts free (<code>false</code>).</li>
   <li><code>int getSize()</code> returns the number of seats.</li>
   <li><code>boolean isBooked(int seat)</code> says whether one seat is booked. It may assume the seat exists.</li>
   <li><code>boolean book(int seat)</code> returns <code>false</code> for a seat that does not exist or is already booked. Otherwise it books the seat and returns <code>true</code>.</li>
@@ -381,6 +459,19 @@ Seat 0 booked: true
 Seat 1 booked: false</pre>
   <wb-exercise id="q13"></wb-exercise>
 </div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: from diagram to Java</div>
+  <p><strong>4.3</strong> A class diagram of a <code>Theatre</code> class has these two lines. Write each one as a line of Java.</p>
+  <wb-table id="q4-3">
+    <table>
+      <thead><tr><th>Diagram</th><th>Java</th></tr></thead>
+      <tbody>
+        <tr><td><code>- price : double</code></td><td data-blank="a"></td></tr>
+        <tr><td><code>+ countBooked(from : int, to : int) : int</code></td><td data-blank="b"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
 
 <h2 id="s5">5. For loops</h2>
 <h3>The for loop</h3>
@@ -407,7 +498,7 @@ Seat 1 booked: false</pre>
 
 <h3>Loop control flow</h3>
 <figure class="wb-shot">
-  <img src="img/loop_flow.png" alt="Flowchart: day = 0, then the test day < minutes.length; true leads to print one day and day++, then back to the test; false leads to after the loop" loading="lazy">
+  <img src="img/loop_flow.png" alt="Flowchart: day = 0, then the test day < minutes.length; true leads to print one day and day++, then back to the test; false leads to the end of the loop" loading="lazy" style="max-width: 330px">
   <figcaption>The order of the steps in a <code>for</code> loop.</figcaption>
 </figure>
 <p>The condition is tested before every pass, including the first. When <code>day</code> reaches 7, the test is false and the loop ends, so the body runs for days 0 to 6 only. If the condition is false at the start, the body never runs.</p>
@@ -665,7 +756,11 @@ System.out.println(minutes[<span class="wb-num">1</span>]);</code></pre>
 
 <h2 id="s7">7. One week</h2>
 <h3>Final arrays</h3>
-<p>This section puts <code>WeekLog</code> together. Its constant <code>DAY_NAMES</code> is <code>final</code>, so it always refers to the same array. As with the final list in Lecture 11, the elements can still change. Inside a <code>WeekLog</code> method, the line <code>DAY_NAMES[0] = "Mon";</code> compiles, and it changes the name of day 0 for every <code>WeekLog</code>. Only <code>DAY_NAMES = new String[7];</code> is refused. That is why the array is <code>private</code>: only <code>WeekLog</code>'s own methods can reach it, and none of them change it.</p>
+<p>This section puts <code>WeekLog</code> together. Its constant <code>DAY_NAMES</code> is <code>final</code>, so it always refers to the same array. As with the final list in Lecture 11, the elements can still change. Inside a <code>WeekLog</code> method, the line <code>DAY_NAMES[0] = "Mon";</code> compiles, and it changes the name of day 0 for every <code>WeekLog</code>:</p>
+<figure class="wb-shot">
+  <img src="img/final_array.png" alt="WeekLog has an arrow labelled DAY_NAMES and {readOnly} to a String array of length 7; element 0 now holds Mon and was Monday, then Tuesday, Wednesday and more" loading="lazy" style="max-width: 620px">
+</figure>
+<p><code>{readOnly}</code> is UML for <code>final</code>. It fixes the arrow, not what is in the box: only <code>DAY_NAMES = new String[7];</code> is refused. That is why the array is <code>private</code>: only <code>WeekLog</code>'s own methods can reach it, and none of them change it.</p>
 
 <h3>Arrays and lists</h3>
 <table>
@@ -679,7 +774,18 @@ System.out.println(minutes[<span class="wb-num">1</span>]);</code></pre>
       <tr><td>Add or remove</td><td>not possible</td><td><code>add</code>, <code>remove</code></td></tr>
   </tbody>
 </table>
-<p>An array suits a collection whose size is known when it is created and never changes: the days of a week, the hours of a day, the seats in a row. When items come and go, a list is the better choice.</p>
+<p>An <code>ArrayList</code> keeps its elements in an array with spare room. Its <strong>size</strong> is the number of elements; its <strong>capacity</strong> is the length of that array. When the array is full, <code>add</code> makes an array about half as big again, copies every element across, and drops the old one:</p>
+<figure class="wb-shot">
+  <img src="img/list_growth.png" alt="A full array a b c d, size 4 and capacity 4; an arrow labelled copy, then add leads to a new array a b c d e with one empty slot, size 5 and capacity 6" loading="lazy" style="max-width: 480px">
+</figure>
+<p>The list does this for us, which is why it can grow. An array suits a collection whose size is known when it is created and never changes: the days of a week, the hours of a day, the seats in a row. When items come and go, a list is the better choice.</p>
+
+<h3>WeekLog as a class diagram</h3>
+<figure class="wb-shot">
+  <img src="img/weeklog_class.png" alt="Class diagram: WeekLogDemo has a dashed arrow to WeekLog. WeekLog has the fields DAY_NAMES : String[] {readOnly}, underlined, and minutes : int[], and the methods WeekLog(), dayName(day : int) : String, underlined, record, getMinutes, printWeek, total, daysStudied and busiestDay" loading="lazy" style="max-width: 440px">
+</figure>
+<p>The class diagram shows all of <code>WeekLog</code> before the code. <strong>Underlined</strong> members are static: <code>DAY_NAMES</code> is a class constant and <code>dayName</code> is a class method, so the demo calls it as <code>WeekLog.dayName(best)</code>. <code>{readOnly}</code> is UML for <code>final</code>, and <code>void</code> means the method returns nothing.</p>
+<p>The dashed arrow means <strong>uses</strong>: <code>WeekLogDemo</code> calls <code>WeekLog</code>'s methods. BlueJ's main window draws the same boxes and dashed arrows, without the fields and methods.</p>
 
 <h3>The complete class</h3>
 <p>Here is all of <code>WeekLog</code>, with its Javadoc comments left out to save space:</p>
@@ -756,6 +862,10 @@ System.out.println(minutes[<span class="wb-num">1</span>]);</code></pre>
 <p><code>WeekLogDemo</code> records our week and prints the reports. Days 1 and 4 are never recorded, and day 7 does not exist. Its output is below the code; press Run to run it yourself.</p>
   <wb-example id="weeklog-demo"></wb-example>
 <p><code>record(7, 15)</code> is refused before anything else is printed. Tuesday and Friday print 0, the default value, because they were never recorded. The total and the count come from for-each loops. The busiest day needs the index, so it uses a <code>for</code> loop. <code>dayName</code> is a class method, so the demo calls it on the class, <code>WeekLog.dayName(best)</code>.</p>
+<figure class="wb-shot">
+  <img src="img/weeklog_sequence.png" alt="Sequence diagram: WeekLogDemo creates week:WeekLog, then calls record(0, 45), four more record calls, record(7, 15), which prints No such day: 7, printWeek(), total() returning 345, daysStudied() returning 5, busiestDay() returning 5, dayName(5) on the class WeekLog returning Saturday, and getMinutes(5) returning 120" loading="lazy" style="max-width: 440px">
+</figure>
+<p>This <strong>UML sequence diagram</strong> shows the same run as calls. Each object or class has a box at the top and a dotted <strong>lifeline</strong> below it, and time runs down the page. A solid arrow is a call, and a dashed arrow brings back the value the call returns. The bars show how long each call runs. <code>week:WeekLog</code> is the object <code>week</code> of class <code>WeekLog</code>; <code>WeekLog</code> alone is the class, which receives the static call <code>dayName(5)</code>. The diagram leaves out four of the six <code>record</code> calls.</p>
 
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice: a second demo</div>
@@ -814,15 +924,28 @@ System.out.println(minutes[<span class="wb-num">1</span>]);</code></pre>
   <p>Give a reason for each choice.</p>
   <wb-short id="q23-why"></wb-short>
 </div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice: reading the diagrams</div>
+  <p><strong>7.3</strong> Which members of <code>WeekLog</code> are static, and how does the class diagram show it? In the sequence diagram, why does the arrow for <code>dayName(5)</code> go to <code>WeekLog</code> and not to <code>week</code>?</p>
+  <wb-short id="q7-3"></wb-short>
+</div>
 
 <h2 id="s8">8. Seats Part 2: Free seats</h2>
 <h3>The problem</h3>
-<p>This part extends <code>SeatRow</code> from Section 4, as the last part of the practice. Everything from Part 1 stays.</p>
+<p>This part extends <code>SeatRow</code> from Section 4, as the last part of the practice. Everything from Part 1 stays, and the class gets two new methods:</p>
 <ul>
   <li><code>int countFree()</code> returns the number of seats that are not booked. Use a for-each loop.</li>
   <li><code>int firstFree()</code> returns the lowest free seat number, the one nearest the aisle, or &minus;1 when the row is full. Use a <code>for</code> loop.</li>
   <li>A new <code>SeatDemo.main</code> makes a row of 10 seats and prints the free count. It books seats 0, 1 and 3 and prints the free count and the first free seat. Then it books every seat with a <code>for</code> loop and prints both again. Each line is printed as <code>Free: 10</code> or <code>First free: 2</code>.</li>
 </ul>
+<p>The class diagram below shows the two new methods in bold. The sequence diagram after it shows the calls the new demo makes, in order.</p>
+<figure class="wb-shot">
+  <img src="img/seatrow2_class.png" alt="Class diagram of SeatRow with the Part 1 members and, in bold, + countFree() : int and + firstFree() : int" loading="lazy" style="max-width: 300px">
+</figure>
+<figure class="wb-shot">
+  <img src="img/seat_sequence.png" alt="Sequence diagram: SeatDemo creates row:SeatRow, then calls countFree(), book(0), book(1), book(3), countFree() and firstFree(); a loop box with the condition seat < row.getSize() holds book(seat); then countFree() and firstFree() again" loading="lazy" style="max-width: 560px">
+</figure>
+<p>In the sequence diagram the returned values are left out for you to work out. The <strong>loop</strong> box is the <code>for</code> loop that books every seat; the condition in square brackets beside it is the loop's test.</p>
 <p><code>firstFree</code> may return from inside the loop as soon as it finds a free seat. If the loop ends without finding one, the row is full.</p>
 
 <div class="wb-checkpoint">

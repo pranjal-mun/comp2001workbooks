@@ -8,19 +8,20 @@ real behaviour. Run from anywhere (needs `java` on the PATH):
     python3 tools/check_workbook.py workbooks/lecture-12
 
 The questions follow the printed Lecture 12 workbook, numbered 1.1 to 9.2,
-and the model answers are the ones in the solutions edition. This is the
-first published version of the page, so every id is new:
+and the model answers are the ones in the solutions edition. The page was
+first published with the ids below; questions added later get new ids, so
+the old ones keep their meaning:
 
     1.1 q1                  1.2 q2, q2-why
     2.1 q3                  2.2 q4          2.3 q5-output, q5-why
-    2.4 q6-literal, q6
+    2.4 q6-literal, q6      2.5 q2-5-output, q2-5-why (added Oct 22)
     3.1 q7      3.2 q8      3.3 q9          3.4 q10     3.5 q11, q11-why
-    4.1 q12                 4.2 q13-output, q13
+    4.1 q12                 4.2 q13-output, q13      4.3 q4-3 (added Oct 22)
     5.1 q14                 5.2 q15-output, q15
     5.3 q16, q16-header     5.4 q17, q17-why
     6.1 q18-values, q18     6.2 q19-output, q19-why
     6.3 q20, q20-result, q20-why 6.4 q21-values, q21
-    7.1 q22-output          7.2 q23, q23-why
+    7.1 q22-output          7.2 q23, q23-why         7.3 q7-3 (added Oct 22)
     8.1 q24, q24-why        8.2 q25-output, q25, q25-demo
     9.1 q26                 9.2 q27
 
@@ -217,6 +218,10 @@ Q6 = run(demo("Months", MONTHS + "\nSystem.out.println(monthDays.length);\nSyste
 assert Q6 == "12\n28\n31", Q6
 E["q6-literal"] = {"type": "table", "xp": 2, "blanks": {"literal": {"accept": code_forms(MONTHS, MONTHS.replace(", ", ",")), "show": MONTHS, **CODE, "width": "34rem"}}}
 E["q6"] = {"type": "table", "xp": 3, "blanks": {k: num(v) for k, v in zip(("length", "feb", "last"), Q6.split("\n"))}}
+Q2_5 = run(demo("TwoNames", 'int[] a = {1, 2, 3};\nint[] b = a;\nb[1] = 20;\na = new int[3];\nSystem.out.println(b[1] + " " + a[1]);'))
+assert Q2_5 == "20 0", Q2_5
+lines_table("q2-5-output", Q2_5, width="8rem")
+E["q2-5-why"] = SHORT("b = a copies the reference, so b[1] = 20 changes the one array, which is now 1, 20, 3. Then a is given a new array of three zeros; b still refers to the first array.", rows=2)
 
 # ---------------------------------------------------------------- 3. Positions
 Q7 = run(demo("Readings", "int[] readings = new int[24];\nSystem.out.println(0);\nSystem.out.println(readings.length - 1);"))
@@ -308,6 +313,11 @@ System.out.println("Seat 1 booked: " + row.isBooked(1));'''), [
     has("booked[seat] = true;", "Book the seat with booked[seat] = true;")], xp=5) == (
     "Book -1: false\nBook 0: true\nBook 0 again: false\nBook 4: true\nBook 5: false\nSeat 0 booked: true\nSeat 1 booked: false")
 
+assert compiles("public class Theatre\n{\n    private double price;\n\n    public int countBooked(int from, int to)\n    {\n        return to - from;\n    }\n}\n")
+E["q4-3"] = {"type": "table", "xp": 2, "blanks": {
+    "a": {"accept": code_forms("private double price;"), "show": "private double price;", **CODE},
+    "b": {"accept": code_forms("public int countBooked(int from, int to)", semicolon=False), "show": "public int countBooked(int from, int to)", **CODE}}}
+
 # ---------------------------------------------------------------- 5. For loops
 Q14 = run(demo("Passes", "SeatRow row = new SeatRow(10);\nint passes = 0;\nfor(int seat = row.getSize() - 1; seat >= 0; seat--) {\n    System.out.println(seat);\n    passes++;\n}\nSystem.out.println(passes);"), [file("SeatRow.java", SEATS_1)]).split("\n")
 assert (Q14[0], Q14[-2], Q14[-1]) == ("9", "0", "10"), Q14
@@ -388,6 +398,8 @@ FOR = {"accept": ["for", "For", "for loop", "a for loop"], "show": "for", "place
 WHILE = {"accept": ["while", "While", "while loop", "a while loop"], "show": "while", "placeholder": "loop", "width": "9rem"}
 E["q23"] = {"type": "table", "xp": 1, "blanks": {"a": FOREACH, "b": FOR, "c": FOR, "d": WHILE}}
 E["q23-why"] = SHORT("(a) for-each: every reading is added and its hour does not matter. (b) for: the seat number is printed, so the index is needed. (c) for: changing an element needs its index. (d) while: the loop runs until a condition on the number is false; it does not count through an array, and the number of passes is not obvious when the loop starts.", rows=3)
+
+E["q7-3"] = SHORT("DAY_NAMES and dayName are static; the class diagram underlines them. dayName is a class method, so the demo calls it on the class, WeekLog.dayName(best), not on the object week.", rows=3)
 
 # ---------------------------------------------------------------- 8. Seats Part 2
 COUNT_FREE = SEATS_2[SEATS_2.index("    public int countFree()"):SEATS_2.index("    public int firstFree()")].rstrip("\n") + "\n"

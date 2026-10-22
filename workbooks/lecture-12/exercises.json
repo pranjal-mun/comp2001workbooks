@@ -197,6 +197,29 @@
         }
       }
     },
+    "q2-5-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "20 0",
+            "\"20 0\""
+          ],
+          "show": "20 0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "8rem"
+        }
+      }
+    },
+    "q2-5-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "YiA9IGEgY29waWVzIHRoZSByZWZlcmVuY2UsIHNvIGJbMV0gPSAyMCBjaGFuZ2VzIHRoZSBvbmUgYXJyYXksIHdoaWNoIGlzIG5vdyAxLCAyMCwgMy4gVGhlbiBhIGlzIGdpdmVuIGEgbmV3IGFycmF5IG9mIHRocmVlIHplcm9zOyBiIHN0aWxsIHJlZmVycyB0byB0aGUgZmlyc3QgYXJyYXku"
+    },
     "q7": {
       "type": "table",
       "xp": 2,
@@ -631,6 +654,30 @@
           "content": "public class BookCheck\n{\n    public static void main(String[] args)\n    {\n        SeatRow row = new SeatRow(5);\n        System.out.println(\"Book -1: \" + row.book(-1));\n        System.out.println(\"Book 0: \" + row.book(0));\n        System.out.println(\"Book 0 again: \" + row.book(0));\n        System.out.println(\"Book 4: \" + row.book(4));\n        System.out.println(\"Book 5: \" + row.book(5));\n        System.out.println(\"Seat 0 booked: \" + row.isBooked(0));\n        System.out.println(\"Seat 1 booked: \" + row.isBooked(1));\n    }\n}"
         }
       ]
+    },
+    "q4-3": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "a": {
+          "accept": [
+            "private double price;",
+            "private double price"
+          ],
+          "show": "private double price;",
+          "caseSensitive": true,
+          "width": "26rem"
+        },
+        "b": {
+          "accept": [
+            "public int countBooked(int from, int to)",
+            "public int countBooked(int from,int to)"
+          ],
+          "show": "public int countBooked(int from, int to)",
+          "caseSensitive": true,
+          "width": "26rem"
+        }
+      }
     },
     "q14": {
       "type": "table",
@@ -1181,6 +1228,13 @@
       "minChars": 20,
       "rows": 3,
       "answer": "KGEpIGZvci1lYWNoOiBldmVyeSByZWFkaW5nIGlzIGFkZGVkIGFuZCBpdHMgaG91ciBkb2VzIG5vdCBtYXR0ZXIuIChiKSBmb3I6IHRoZSBzZWF0IG51bWJlciBpcyBwcmludGVkLCBzbyB0aGUgaW5kZXggaXMgbmVlZGVkLiAoYykgZm9yOiBjaGFuZ2luZyBhbiBlbGVtZW50IG5lZWRzIGl0cyBpbmRleC4gKGQpIHdoaWxlOiB0aGUgbG9vcCBydW5zIHVudGlsIGEgY29uZGl0aW9uIG9uIHRoZSBudW1iZXIgaXMgZmFsc2U7IGl0IGRvZXMgbm90IGNvdW50IHRocm91Z2ggYW4gYXJyYXksIGFuZCB0aGUgbnVtYmVyIG9mIHBhc3NlcyBpcyBub3Qgb2J2aW91cyB3aGVuIHRoZSBsb29wIHN0YXJ0cy4="
+    },
+    "q7-3": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "REFZX05BTUVTIGFuZCBkYXlOYW1lIGFyZSBzdGF0aWM7IHRoZSBjbGFzcyBkaWFncmFtIHVuZGVybGluZXMgdGhlbS4gZGF5TmFtZSBpcyBhIGNsYXNzIG1ldGhvZCwgc28gdGhlIGRlbW8gY2FsbHMgaXQgb24gdGhlIGNsYXNzLCBXZWVrTG9nLmRheU5hbWUoYmVzdCksIG5vdCBvbiB0aGUgb2JqZWN0IHdlZWsu"
     },
     "q24": {
       "type": "code",
