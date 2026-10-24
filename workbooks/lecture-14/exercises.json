@@ -1,0 +1,796 @@
+{
+  "id": "lecture-14",
+  "course": "COMP 2001: Object-Oriented Programming",
+  "title": "Lecture 14 Workbook",
+  "subtitle": "Chapter 8: Designing Classes",
+  "exercises": {
+    "q1": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "lines": {
+          "accept": [
+            "2"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "classes": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q1-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VHdvIGxpbmVzIGluIG9uZSBjbGFzcywgS2lvc2s6IHRoZSB2YWx1ZSBvZiBDT0ZGRUVfUFJJQ0UgYW5kIHRoZSBsaXRlcmFsIHByaWNlIHByaW50ZWQgZm9yIGNvZmZlZS4gQ2hhbmdpbmcgb25seSBvbmUgbGVhdmVzIHRoZSByZXBvcnRzIGluY29uc2lzdGVudC4="
+    },
+    "q2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Rm9yIGV4YW1wbGUsIGFkZCBhIHByb2R1Y3QgYW5kIGNvdW50IHRoZSBsaW5lcyBhbmQgY2xhc3NlcyB0aGF0IG5lZWQgZWRpdHMuIFRoZW4gY2hlY2sgaXRzIHJlY2VpcHQgYW5kIHRvdGFsLiBFcXVhbCBvdXRwdXQgZm9yIHRoZSBvbGQgb3JkZXIgZ2l2ZXMgbm8gZXZpZGVuY2UgYWJvdXQgdGhlIGNvc3Qgb2YgYWRkaW5nIGEgcHJvZHVjdC4="
+    },
+    "q3-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "300"
+          ],
+          "show": "300",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "Delivery 250",
+            "\"Delivery 250\""
+          ],
+          "show": "Delivery 250",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q3-output-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "SXQgcHJpbnRzIDMwMCwgdGhlbiBEZWxpdmVyeSAyNTAuIFRoZSBhbW91bnQgcmV0dXJuZWQgYnkgZ2V0Q2hhcmdlIGRpc2FncmVlcyB3aXRoIHRoZSBhbW91bnQgaW4gdGhlIGxhYmVsLiBCb3RoIG1ldGhvZHMgYXJlIGluZGl2aWR1YWxseSBsZWdhbCBKYXZhLg=="
+    },
+    "q4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "U3RvcmUgb25lIGNoYXJnZSBmaWVsZC4gUmV0dXJuIHRoYXQgdmFsdWUgZnJvbSBnZXRDaGFyZ2UsIGFuZCBidWlsZCB0aGUgbGFiZWwgYnkgam9pbmluZyBEZWxpdmVyeSAgd2l0aCB0aGUgc2FtZSBmaWVsZC4gQSBjaGFuZ2UgdG8gdGhlIGNoYXJnZSB0aGVuIHVwZGF0ZXMgYm90aCByZXN1bHRzLg=="
+    },
+    "q5": {
+      "type": "code",
+      "xp": 4,
+      "title": "Reports.java",
+      "minLines": 19,
+      "maxLines": 31,
+      "starter": "public class Reports\n{\n    public void printReceipt()\n    {\n        System.out.println(\"Thank you\");\n        System.out.println(\"Please visit again\");\n    }\n\n    public void printSummary()\n    {\n        System.out.println(\"Thank you\");\n        System.out.println(\"Please visit again\");\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Thank you\nPlease visit again\nThank you\nPlease visit again"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatevoidprintFooter()\"), \"Extract a private printFooter method.\");\nrequire(source.split(\"Thank you\", -1).length == 2, \"Keep the thank-you text in one place.\");\nrequire(source.split(\"Please visit again\", -1).length == 2, \"Keep the invitation text in one place.\");",
+      "answer": "cHVibGljIGNsYXNzIFJlcG9ydHMKewogICAgcHJpdmF0ZSB2b2lkIHByaW50Rm9vdGVyKCkKICAgIHsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlRoYW5rIHlvdSIpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiUGxlYXNlIHZpc2l0IGFnYWluIik7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRSZWNlaXB0KCkKICAgIHsKICAgICAgICBwcmludEZvb3RlcigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIHByaW50U3VtbWFyeSgpCiAgICB7CiAgICAgICAgcHJpbnRGb290ZXIoKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "ReportCheck.java",
+          "content": "public class ReportCheck\n{\n    public static void main(String[] args)\n    {\n        Reports reports = new Reports();\n        reports.printReceipt();\n        reports.printSummary();\n    }\n}"
+        }
+      ]
+    },
+    "q6": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VXNlIGdldFRvdGFsIHRvIHJldHVybiB0aGUgbnVtYmVyIGFuZCBwcmludFJlY2VpcHQgdG8gcHJvZHVjZSBvdXRwdXQuIFRoZSByZWNlaXB0IG1ldGhvZCBjYW4gY2FsbCBnZXRUb3RhbC4gRWFjaCBuYW1lIHRoZW4gZGVzY3JpYmVzIGl0cyB3aG9sZSBqb2Iu"
+    },
+    "q7": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Tm8uIFRoZSB0aHJlZSBjYWxscyBhcmUgc3RlcHMgaW4gb25lIGxvZ2ljYWwgdGFzazogcHJvZHVjaW5nIGEgcmVjZWlwdC4gRWFjaCBoZWxwZXIgaGFuZGxlcyBhIHNtYWxsZXIgcGFydCBvZiB0aGF0IHRhc2suIE1ldGhvZCBjb2hlc2lvbiBjb25jZXJucyBhIGNsZWFyIHB1cnBvc2UsIG5vdCB0aGUgbnVtYmVyIG9mIGhlbHBlciBjYWxscy4="
+    },
+    "q8-book": {
+      "type": "code",
+      "xp": 6,
+      "title": "Book.java",
+      "minLines": 42,
+      "maxLines": 54,
+      "starter": "public class Book\n{\n    public String title;\n    public int dueDay;\n    public boolean returned;\n\n    public Book(String title, int dueDay)\n    {\n        this.title = title;\n        this.dueDay = dueDay;\n        returned = false;\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Dune\n10\nfalse\n0\n0\n2\n2\ntrue\n0\n0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateStringtitle;\"), \"Make the title field private.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintdueDay;\"), \"Make the due-day field private.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatebooleanreturned;\"), \"Make the returned field private.\");",
+      "answer": "cHVibGljIGNsYXNzIEJvb2sKewogICAgcHJpdmF0ZSBTdHJpbmcgdGl0bGU7CiAgICBwcml2YXRlIGludCBkdWVEYXk7CiAgICBwcml2YXRlIGJvb2xlYW4gcmV0dXJuZWQ7CgogICAgcHVibGljIEJvb2soU3RyaW5nIHRpdGxlLCBpbnQgZHVlRGF5KQogICAgewogICAgICAgIHRoaXMudGl0bGUgPSB0aXRsZTsKICAgICAgICB0aGlzLmR1ZURheSA9IGR1ZURheTsKICAgICAgICByZXR1cm5lZCA9IGZhbHNlOwogICAgfQogICAgcHVibGljIFN0cmluZyBnZXRUaXRsZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIHRpdGxlOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0RHVlRGF5KCkKICAgIHsKICAgICAgICByZXR1cm4gZHVlRGF5OwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGlzUmV0dXJuZWQoKQogICAgewogICAgICAgIHJldHVybiByZXR1cm5lZDsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCByZXR1cm5Cb29rKCkKICAgIHsKICAgICAgICByZXR1cm5lZCA9IHRydWU7CiAgICB9CgogICAgcHVibGljIGludCBkYXlzTGF0ZShpbnQgdG9kYXkpCiAgICB7CiAgICAgICAgaWYocmV0dXJuZWQgfHwgdG9kYXkgPD0gZHVlRGF5KSB7CiAgICAgICAgICAgIHJldHVybiAwOwogICAgICAgIH0KICAgICAgICByZXR1cm4gdG9kYXkgLSBkdWVEYXk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "BookCheck.java",
+          "content": "public class BookCheck\n{\n    public static void main(String[] args)\n    {\n        Book book = new Book(\"Dune\", 10);\n        System.out.println(book.getTitle());\n        System.out.println(book.getDueDay());\n        System.out.println(book.isReturned());\n        System.out.println(book.daysLate(9));\n        System.out.println(book.daysLate(10));\n        System.out.println(book.daysLate(12));\n        System.out.println(book.daysLate(12));\n        book.returnBook();\n        System.out.println(book.isReturned());\n        System.out.println(book.daysLate(12));\n        book.returnBook();\n        System.out.println(book.daysLate(20));\n    }\n}"
+        }
+      ]
+    },
+    "q8-desk": {
+      "type": "code",
+      "xp": 6,
+      "title": "LoanDesk.java",
+      "minLines": 44,
+      "maxLines": 56,
+      "starter": "import java.util.ArrayList;\n\npublic class LoanDesk\n{\n    private ArrayList<Book> books;\n\n    public LoanDesk()\n    {\n        books = new ArrayList<>();\n    }\n\n    public void addBook(Book book)\n    {\n        books.add(book);\n    }\n\n    public void printOverdue(int today)\n    {\n        for(Book book : books) {\n            if(!book.returned && today > book.dueDay) {\n                int days = today - book.dueDay;\n                int fine = days * 25;\n                System.out.println(book.title + \": \" + days\n                    + \" days late, fine \" + fine);\n            }\n        }\n    }\n\n    public void printTotal(int today)\n    {\n        int total = 0;\n        for(Book book : books) {\n            if(!book.returned && today > book.dueDay) {\n                total = total + (today - book.dueDay) * 25;\n            }\n        }\n        System.out.println(\"Total fines: \" + total);\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Total fines: 0\nDune: 2 days late, fine 50\nHoles: 9 days late, fine 225\nTotal fines: 275\nTotal fines: 275\nHoles: 9 days late, fine 225\nTotal fines: 225"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatestaticfinalintFINE_PER_DAY=25;\"), \"Keep the 25-cent rate in one private static final constant.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintfineFor(Bookbook,inttoday)\"), \"Add the private fineFor helper.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"book.returned\"), \"Ask Book for its lateness instead of reading its fields.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"book.dueDay\"), \"Ask Book for its lateness instead of reading its fields.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"book.title\"), \"Ask Book for its title instead of reading its fields.\");\nrequire(source.split(\"\\\\b25\\\\b\", -1).length == 2, \"Keep the daily rate in one place.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").split(\"fineFor\\\\(\", -1).length >= 4, \"Use fineFor for both reports.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgTG9hbkRlc2sKewogICAgcHJpdmF0ZSBzdGF0aWMgZmluYWwgaW50IEZJTkVfUEVSX0RBWSA9IDI1OwogICAgcHJpdmF0ZSBBcnJheUxpc3Q8Qm9vaz4gYm9va3M7CgogICAgcHVibGljIExvYW5EZXNrKCkKICAgIHsKICAgICAgICBib29rcyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZEJvb2soQm9vayBib29rKQogICAgewogICAgICAgIGJvb2tzLmFkZChib29rKTsKICAgIH0KCiAgICBwcml2YXRlIGludCBmaW5lRm9yKEJvb2sgYm9vaywgaW50IHRvZGF5KQogICAgewogICAgICAgIHJldHVybiBib29rLmRheXNMYXRlKHRvZGF5KSAqIEZJTkVfUEVSX0RBWTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludE92ZXJkdWUoaW50IHRvZGF5KQogICAgewogICAgICAgIGZvcihCb29rIGJvb2sgOiBib29rcykgewogICAgICAgICAgICBpZihib29rLmRheXNMYXRlKHRvZGF5KSA+IDApIHsKICAgICAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihib29rLmdldFRpdGxlKCkgKyAiOiAiCiAgICAgICAgICAgICAgICAgICAgKyBib29rLmRheXNMYXRlKHRvZGF5KSArICIgZGF5cyBsYXRlLCBmaW5lICIKICAgICAgICAgICAgICAgICAgICArIGZpbmVGb3IoYm9vaywgdG9kYXkpKTsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludFRvdGFsKGludCB0b2RheSkKICAgIHsKICAgICAgICBpbnQgdG90YWwgPSAwOwogICAgICAgIGZvcihCb29rIGJvb2sgOiBib29rcykgewogICAgICAgICAgICB0b3RhbCA9IHRvdGFsICsgZmluZUZvcihib29rLCB0b2RheSk7CiAgICAgICAgfQogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiVG90YWwgZmluZXM6ICIgKyB0b3RhbCk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Book.java",
+          "content": "public class Book\n{\n    private String title;\n    private int dueDay;\n    private boolean returned;\n\n    public Book(String title, int dueDay)\n    {\n        this.title = title;\n        this.dueDay = dueDay;\n        returned = false;\n    }\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public int getDueDay()\n    {\n        return dueDay;\n    }\n\n    public boolean isReturned()\n    {\n        return returned;\n    }\n\n    public void returnBook()\n    {\n        returned = true;\n    }\n\n    public int daysLate(int today)\n    {\n        if(returned || today <= dueDay) {\n            return 0;\n        }\n        return today - dueDay;\n    }\n}"
+        },
+        {
+          "name": "DeskCheck.java",
+          "content": "public class DeskCheck\n{\n    public static void main(String[] args)\n    {\n        LoanDesk empty = new LoanDesk();\n        empty.printOverdue(12);\n        empty.printTotal(12);\n        LoanDesk desk = new LoanDesk();\n        Book dune = new Book(\"Dune\", 10);\n        desk.addBook(dune);\n        desk.addBook(new Book(\"Emma\", 14));\n        desk.addBook(new Book(\"Holes\", 3));\n        desk.addBook(new Book(\"Due today\", 12));\n        Book returned = new Book(\"Returned\", 1);\n        returned.returnBook();\n        desk.addBook(returned);\n        desk.printOverdue(12);\n        desk.printTotal(12);\n        desk.printTotal(12);\n        dune.returnBook();\n        desk.printOverdue(12);\n        desk.printTotal(12);\n    }\n}"
+        }
+      ]
+    },
+    "q8-demo": {
+      "type": "code",
+      "xp": 3,
+      "title": "LoanDemo.java",
+      "minLines": 14,
+      "maxLines": 26,
+      "starter": "public class LoanDemo\n{\n    public static void main(String[] args)\n    {\n        // Create the three books and print the overdue report and total.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Dune: 2 days late, fine 50\nHoles: 9 days late, fine 225\nTotal fines: 275"
+        }
+      ],
+      "check": "",
+      "answer": "cHVibGljIGNsYXNzIExvYW5EZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgTG9hbkRlc2sgZGVzayA9IG5ldyBMb2FuRGVzaygpOwogICAgICAgIGRlc2suYWRkQm9vayhuZXcgQm9vaygiRHVuZSIsIDEwKSk7CiAgICAgICAgZGVzay5hZGRCb29rKG5ldyBCb29rKCJFbW1hIiwgMTQpKTsKICAgICAgICBkZXNrLmFkZEJvb2sobmV3IEJvb2soIkhvbGVzIiwgMykpOwogICAgICAgIGRlc2sucHJpbnRPdmVyZHVlKDEyKTsKICAgICAgICBkZXNrLnByaW50VG90YWwoMTIpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Book.java",
+          "content": "public class Book\n{\n    private String title;\n    private int dueDay;\n    private boolean returned;\n\n    public Book(String title, int dueDay)\n    {\n        this.title = title;\n        this.dueDay = dueDay;\n        returned = false;\n    }\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public int getDueDay()\n    {\n        return dueDay;\n    }\n\n    public boolean isReturned()\n    {\n        return returned;\n    }\n\n    public void returnBook()\n    {\n        returned = true;\n    }\n\n    public int daysLate(int today)\n    {\n        if(returned || today <= dueDay) {\n            return 0;\n        }\n        return today - dueDay;\n    }\n}"
+        },
+        {
+          "name": "LoanDesk.java",
+          "content": "import java.util.ArrayList;\n\npublic class LoanDesk\n{\n    private static final int FINE_PER_DAY = 25;\n    private ArrayList<Book> books;\n\n    public LoanDesk()\n    {\n        books = new ArrayList<>();\n    }\n\n    public void addBook(Book book)\n    {\n        books.add(book);\n    }\n\n    private int fineFor(Book book, int today)\n    {\n        return book.daysLate(today) * FINE_PER_DAY;\n    }\n\n    public void printOverdue(int today)\n    {\n        for(Book book : books) {\n            if(book.daysLate(today) > 0) {\n                System.out.println(book.getTitle() + \": \"\n                    + book.daysLate(today) + \" days late, fine \"\n                    + fineFor(book, today));\n            }\n        }\n    }\n\n    public void printTotal(int today)\n    {\n        int total = 0;\n        for(Book book : books) {\n            total = total + fineFor(book, today);\n        }\n        System.out.println(\"Total fines: \" + total);\n    }\n}"
+        }
+      ]
+    },
+    "q9-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "0"
+          ],
+          "show": "0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "2"
+          ],
+          "show": "2",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "2": {
+          "accept": [
+            "0"
+          ],
+          "show": "0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q9-output-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "MCwgMiwgMCwgb24gc2VwYXJhdGUgbGluZXMuIE9uIGRheSAxMCB0aGUgYm9vayBpcyBkdWUgYnV0IG5vdCBsYXRlLiBSZXR1cm5pbmcgaXQgY2xlYXJzIGl0cyBjdXJyZW50IGxhdGVuZXNzIGZvciBmaW5lIGNhbGN1bGF0aW9ucy4="
+    },
+    "q10": {
+      "type": "code",
+      "xp": 2,
+      "title": "PhoneCaller.java",
+      "minLines": 10,
+      "maxLines": 22,
+      "starter": "public class PhoneCaller\n{\n    public static void main(String[] args)\n    {\n        Order order = new Order(\"Ada Lim\", \"555-0101\");\n        // Print the phone using its public query.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "555-0101"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"order.getCustomerPhone()\"), \"Ask for the phone with getCustomerPhone().\");",
+      "answer": "cHVibGljIGNsYXNzIFBob25lQ2FsbGVyCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgT3JkZXIgb3JkZXIgPSBuZXcgT3JkZXIoIkFkYSBMaW0iLCAiNTU1LTAxMDEiKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4ob3JkZXIuZ2V0Q3VzdG9tZXJQaG9uZSgpKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Order.java",
+          "content": "public class Order\n{\n    private boolean hasCoffee;\n    private boolean hasTea;\n    private boolean hasMuffin;\n    private String customerName;\n    private String customerPhone;\n\n    public Order(String customerName, String customerPhone)\n    {\n        this.customerName = customerName;\n        this.customerPhone = customerPhone;\n        hasCoffee = false;\n        hasTea = false;\n        hasMuffin = false;\n    }\n\n    public void addCoffee()\n    {\n        hasCoffee = true;\n    }\n\n    public void addTea()\n    {\n        hasTea = true;\n    }\n\n    public void addMuffin()\n    {\n        hasMuffin = true;\n    }\n\n    public boolean hasCoffee()\n    {\n        return hasCoffee;\n    }\n\n    public boolean hasTea()\n    {\n        return hasTea;\n    }\n\n    public boolean hasMuffin()\n    {\n        return hasMuffin;\n    }\n\n    public String getCustomerName()\n    {\n        return customerName;\n    }\n\n    public String getCustomerPhone()\n    {\n        return customerPhone;\n    }\n}"
+        }
+      ]
+    },
+    "q11": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "RHVwbGljYXRpb24gYW5kIGltcGxpY2l0IGNvdXBsaW5nIHJlbWFpbi4gUHJpdmF0ZSBhY2Nlc3MgY29udHJvbHMgd2hvIGNhbiByZWFkIGZpZWxkczsgaXQgZG9lcyBub3QgbWFrZSB0d28gY29waWVzIG9mIGEgcHJpY2UgYWdyZWUuIEJvdGggY29waWVzIHN0aWxsIG5lZWQgdGhlIHNhbWUgY2hhbmdlLg=="
+    },
+    "q12": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Tm8sIGlmIHRoZSBtZXRob2Qga2VlcHMgaXRzIHNpZ25hdHVyZSBhbmQgbWVhbmluZy4gVGhlIGNhbGxlciBkZXBlbmRzIG9uIHRoZSBxdWVyeSByYXRoZXIgdGhhbiB0aGUgZmllbGQgcmVwcmVzZW50YXRpb24uIEEgY2hhbmdlIHRvIHRoZSBwdWJsaWMgY29udHJhY3QgY291bGQgc3RpbGwgcmVxdWlyZSBjYWxsZXIgY2hhbmdlcy4="
+    },
+    "q13": {
+      "type": "code",
+      "xp": 4,
+      "title": "Order.java",
+      "minLines": 64,
+      "maxLines": 76,
+      "starter": "public class Order\n{\n    private boolean hasCoffee;\n    private boolean hasTea;\n    private boolean hasMuffin;\n    private String customerName;\n    private String customerPhone;\n\n    public Order(String customerName, String customerPhone)\n    {\n        this.customerName = customerName;\n        this.customerPhone = customerPhone;\n        hasCoffee = false;\n        hasTea = false;\n        hasMuffin = false;\n    }\n\n    public void addCoffee()\n    {\n        hasCoffee = true;\n    }\n\n    public void addTea()\n    {\n        hasTea = true;\n    }\n\n    public void addMuffin()\n    {\n        hasMuffin = true;\n    }\n\n    public boolean hasCoffee()\n    {\n        return hasCoffee;\n    }\n\n    public boolean hasTea()\n    {\n        return hasTea;\n    }\n\n    public boolean hasMuffin()\n    {\n        return hasMuffin;\n    }\n\n    public String getCustomerName()\n    {\n        return customerName;\n    }\n\n    public String getCustomerPhone()\n    {\n        return customerPhone;\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "false\ntrue\ntrue\ntrue\nfalse\ntrue"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicbooleanhasAnyItem()\"), \"Add hasAnyItem to Order, which stores the choices.\");",
+      "answer": "cHVibGljIGNsYXNzIE9yZGVyCnsKICAgIHByaXZhdGUgYm9vbGVhbiBoYXNDb2ZmZWU7CiAgICBwcml2YXRlIGJvb2xlYW4gaGFzVGVhOwogICAgcHJpdmF0ZSBib29sZWFuIGhhc011ZmZpbjsKICAgIHByaXZhdGUgU3RyaW5nIGN1c3RvbWVyTmFtZTsKICAgIHByaXZhdGUgU3RyaW5nIGN1c3RvbWVyUGhvbmU7CgogICAgcHVibGljIE9yZGVyKFN0cmluZyBjdXN0b21lck5hbWUsIFN0cmluZyBjdXN0b21lclBob25lKQogICAgewogICAgICAgIHRoaXMuY3VzdG9tZXJOYW1lID0gY3VzdG9tZXJOYW1lOwogICAgICAgIHRoaXMuY3VzdG9tZXJQaG9uZSA9IGN1c3RvbWVyUGhvbmU7CiAgICAgICAgaGFzQ29mZmVlID0gZmFsc2U7CiAgICAgICAgaGFzVGVhID0gZmFsc2U7CiAgICAgICAgaGFzTXVmZmluID0gZmFsc2U7CiAgICB9CgogICAgcHVibGljIHZvaWQgYWRkQ29mZmVlKCkKICAgIHsKICAgICAgICBoYXNDb2ZmZWUgPSB0cnVlOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZFRlYSgpCiAgICB7CiAgICAgICAgaGFzVGVhID0gdHJ1ZTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBhZGRNdWZmaW4oKQogICAgewogICAgICAgIGhhc011ZmZpbiA9IHRydWU7CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gaGFzQ29mZmVlKCkKICAgIHsKICAgICAgICByZXR1cm4gaGFzQ29mZmVlOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGhhc1RlYSgpCiAgICB7CiAgICAgICAgcmV0dXJuIGhhc1RlYTsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBoYXNNdWZmaW4oKQogICAgewogICAgICAgIHJldHVybiBoYXNNdWZmaW47CiAgICB9CgogICAgcHVibGljIFN0cmluZyBnZXRDdXN0b21lck5hbWUoKQogICAgewogICAgICAgIHJldHVybiBjdXN0b21lck5hbWU7CiAgICB9CgogICAgcHVibGljIFN0cmluZyBnZXRDdXN0b21lclBob25lKCkKICAgIHsKICAgICAgICByZXR1cm4gY3VzdG9tZXJQaG9uZTsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBoYXNBbnlJdGVtKCkKICAgIHsKICAgICAgICByZXR1cm4gaGFzQ29mZmVlIHx8IGhhc1RlYSB8fCBoYXNNdWZmaW47CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "AnyItemCheck.java",
+          "content": "public class AnyItemCheck\n{\n    public static void main(String[] args)\n    {\n        Order empty = new Order(\"Ada\", \"1\");\n        System.out.println(empty.hasAnyItem());\n        Order coffee = new Order(\"Bo\", \"2\");\n        coffee.addCoffee();\n        System.out.println(coffee.hasAnyItem());\n        Order tea = new Order(\"Chen\", \"3\");\n        tea.addTea();\n        System.out.println(tea.hasAnyItem());\n        Order muffin = new Order(\"Dev\", \"4\");\n        muffin.addMuffin();\n        System.out.println(muffin.hasAnyItem());\n        System.out.println(empty.hasAnyItem());\n        System.out.println(coffee.hasAnyItem());\n    }\n}"
+        }
+      ]
+    },
+    "q13-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "SXQgYmVsb25ncyBpbiBPcmRlciwgd2hpY2ggaG9sZHMgdGhlIGNob2ljZXMu"
+    },
+    "q14": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "SXQgc2hvdWxkIGFzayB0aGUgb3JkZXIgZm9yIGdldFJlY2VpcHQoKSBhbmQgc2F2ZSB0aGUgcmV0dXJuZWQgU3RyaW5nLiBCb3RoIGNhbGxlcnMgdGhlbiB1c2UgdGhlIHNhbWUgZm9ybWF0dGluZyByZXNwb25zaWJpbGl0eSBpbiBPcmRlci4="
+    },
+    "q15-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "Order for Ada Lim",
+            "\"Order for Ada Lim\""
+          ],
+          "show": "Order for Ada Lim",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "Phone 555-0101",
+            "\"Phone 555-0101\""
+          ],
+          "show": "Phone 555-0101",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "2": {
+          "accept": [
+            "Total 0",
+            "\"Total 0\""
+          ],
+          "show": "Total 0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "3": {
+          "accept": [
+            "250"
+          ],
+          "show": "250",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q15-output-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "SXQgcHJpbnRzIE9yZGVyIGZvciBBZGEgTGltLCBQaG9uZSA1NTUtMDEwMSwgVG90YWwgMCwgdGhlbiAyNTAsIGVhY2ggb24gaXRzIG93biBsaW5lLiBUaGUgc3RvcmVkIHJlY2VpcHQgd2FzIGJ1aWx0IGJlZm9yZSB0aGUgY29mZmVlIHdhcyBhZGRlZC4="
+    },
+    "q16": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Rm9yIGV4YW1wbGUsIFRlYWNoZXIgaG9sZHMgbmFtZSBhbmQgZW1haWwuIExlc3NvbiBob2xkcyBhIHRlYWNoZXIgcmVmZXJlbmNlLCByb29tIGFuZCBzdGFydCB0aW1lLiBDb250YWN0IGRldGFpbHMgYmVsb25nIHRvIHRoZSB0ZWFjaGVyOyBzY2hlZHVsaW5nIGRldGFpbHMgYmVsb25nIHRvIHRoZSBsZXNzb24u"
+    },
+    "q17-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "500"
+          ],
+          "show": "500",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "500"
+          ],
+          "show": "500",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q17-output-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "NTAwLCB0aGVuIDUwMC4gVHdvIGVudHJpZXMgY291bnQgdGhlIGNvZmZlZSBwcmljZSB0d2ljZS4gVGhlIHRlYSBpcyBhZGRlZCBvbmx5IHRvIHRoZSBvcmlnaW5hbCBpbnB1dCBsaXN0LCBub3QgdGhlIG9yZGVyJ3Mgc2VwYXJhdGUgbGlzdC4="
+    },
+    "q18": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 25,
+      "rows": 5,
+      "answer": "RHJhdyB0d28gc2VwYXJhdGUgbGlzdCBlbnRyaWVzLiBCb3RoIGFycm93cyBlbmQgYXQgdGhlIHNhbWUgQ29mZmVlIE1lbnVJdGVtIG9iamVjdC4gQm90aCBlbnRyaWVzIHJlZmVyIHRvIHRoZSBzYW1lIGNvZmZlZSBvYmplY3QuIFRoZSBsb29wIHZpc2l0cyBldmVyeSBsaXN0IGVudHJ5LCBzbyBpdCBhZGRzIHRoZSBwcmljZSB0d2ljZS4="
+    },
+    "q19": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Rmlyc3QgZXh0cmFjdCB0aGUgaGVhZGVyIGFuZCBjb21wYXJlIHRoZSB1bmNoYW5nZWQgcmVjZWlwdCBhbmQgc3VtbWFyeS4gVGhlbiBjaGFuZ2UgdGhlIHByaWNlIGFuZCBjaGVjayB0aGUgbmV3IHJlY2VpcHQgYW5kIHRvdGFsLiBFYWNoIHN0ZXAgaGFzIGl0cyBvd24gZXhwZWN0ZWQgcmVzdWx0LCBzbyBhIGZhaWx1cmUgaGFzIGZld2VyIHBvc3NpYmxlIGNhdXNlcy4="
+    },
+    "q20": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIHByaXZhdGUgcmVuYW1lIGlzIHJlZmFjdG9yaW5nIGJlY2F1c2Ugb2JzZXJ2YWJsZSBiZWhhdmlvdXIgaXMgdW5jaGFuZ2VkLiBSZW1vdmluZyBhIHJlY2VpcHQgbGluZSBjaGFuZ2VzIG9ic2VydmFibGUgb3V0cHV0LCBzbyB0aGF0IHNlY29uZCBlZGl0IGNoYW5nZXMgYmVoYXZpb3VyLg=="
+    },
+    "q21-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "525"
+          ],
+          "show": "525",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "700"
+          ],
+          "show": "700",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q21-output-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "NTI1LCB0aGVuIDcwMC4gVGhlIHRvdGFsIGxvb3AgYWRkcyB0ZWEgYW5kIGEgbXVmZmluLCB0aGVuIGluY2x1ZGVzIHRoZSBjb29raWUgYWZ0ZXIgaXQgaXMgYWRkZWQgdG8gdGhlIG9yZGVyLg=="
+    },
+    "q22-book": {
+      "type": "code",
+      "xp": 5,
+      "title": "Book.java",
+      "minLines": 46,
+      "maxLines": 58,
+      "starter": "public class Book\n{\n    private String title;\n    private int dueDay;\n    private boolean returned;\n\n    public Book(String title, int dueDay)\n    {\n        this.title = title;\n        this.dueDay = dueDay;\n        returned = false;\n    }\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public int getDueDay()\n    {\n        return dueDay;\n    }\n\n    public boolean isReturned()\n    {\n        return returned;\n    }\n\n    public void returnBook()\n    {\n        returned = true;\n    }\n\n    public int daysLate(int today)\n    {\n        if(returned || today <= dueDay) {\n            return 0;\n        }\n        return today - dueDay;\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Dune\n10\nfalse\n0\n0\n2\n2\ntrue\n0\n0\nEmma: 0 days late\nEmma: 0 days late\nEmma: 2 days late\nEmma: 0 days late\nEmma: 0 days late"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateStringtitle;\"), \"Make the title field private.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintdueDay;\"), \"Make the due-day field private.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatebooleanreturned;\"), \"Make the returned field private.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"FINE_PER_DAY\"), \"Keep the fine policy out of Book.\");",
+      "answer": "cHVibGljIGNsYXNzIEJvb2sKewogICAgcHJpdmF0ZSBTdHJpbmcgdGl0bGU7CiAgICBwcml2YXRlIGludCBkdWVEYXk7CiAgICBwcml2YXRlIGJvb2xlYW4gcmV0dXJuZWQ7CgogICAgcHVibGljIEJvb2soU3RyaW5nIHRpdGxlLCBpbnQgZHVlRGF5KQogICAgewogICAgICAgIHRoaXMudGl0bGUgPSB0aXRsZTsKICAgICAgICB0aGlzLmR1ZURheSA9IGR1ZURheTsKICAgICAgICByZXR1cm5lZCA9IGZhbHNlOwogICAgfQogICAgcHVibGljIFN0cmluZyBnZXRUaXRsZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIHRpdGxlOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0RHVlRGF5KCkKICAgIHsKICAgICAgICByZXR1cm4gZHVlRGF5OwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGlzUmV0dXJuZWQoKQogICAgewogICAgICAgIHJldHVybiByZXR1cm5lZDsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCByZXR1cm5Cb29rKCkKICAgIHsKICAgICAgICByZXR1cm5lZCA9IHRydWU7CiAgICB9CgogICAgcHVibGljIGludCBkYXlzTGF0ZShpbnQgdG9kYXkpCiAgICB7CiAgICAgICAgaWYocmV0dXJuZWQgfHwgdG9kYXkgPD0gZHVlRGF5KSB7CiAgICAgICAgICAgIHJldHVybiAwOwogICAgICAgIH0KICAgICAgICByZXR1cm4gdG9kYXkgLSBkdWVEYXk7CiAgICB9CiAgICBwdWJsaWMgU3RyaW5nIGdldExpbmUoaW50IHRvZGF5KQogICAgewogICAgICAgIHJldHVybiB0aXRsZSArICI6ICIgKyBkYXlzTGF0ZSh0b2RheSkgKyAiIGRheXMgbGF0ZSI7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "BookLineCheck.java",
+          "content": "public class BookLineCheck\n{\n    public static void main(String[] args)\n    {\n        Book book = new Book(\"Dune\", 10);\n        System.out.println(book.getTitle());\n        System.out.println(book.getDueDay());\n        System.out.println(book.isReturned());\n        System.out.println(book.daysLate(9));\n        System.out.println(book.daysLate(10));\n        System.out.println(book.daysLate(12));\n        System.out.println(book.daysLate(12));\n        book.returnBook();\n        System.out.println(book.isReturned());\n        System.out.println(book.daysLate(12));\n        book.returnBook();\n        System.out.println(book.daysLate(20));\n        Book emma = new Book(\"Emma\", 14);\n        System.out.println(emma.getLine(12));\n        System.out.println(emma.getLine(14));\n        System.out.println(emma.getLine(16));\n        emma.returnBook();\n        System.out.println(emma.getLine(16));\n        System.out.println(emma.getLine(16));\n    }\n}"
+        }
+      ]
+    },
+    "q22-desk": {
+      "type": "code",
+      "xp": 6,
+      "title": "LoanDesk.java",
+      "minLines": 48,
+      "maxLines": 60,
+      "starter": "import java.util.ArrayList;\n\npublic class LoanDesk\n{\n    private static final int FINE_PER_DAY = 25;\n    private ArrayList<Book> books;\n\n    public LoanDesk()\n    {\n        books = new ArrayList<>();\n    }\n\n    public void addBook(Book book)\n    {\n        books.add(book);\n    }\n\n    private int fineFor(Book book, int today)\n    {\n        return book.daysLate(today) * FINE_PER_DAY;\n    }\n\n    public void printOverdue(int today)\n    {\n        for(Book book : books) {\n            if(book.daysLate(today) > 0) {\n                System.out.println(book.getTitle() + \": \"\n                    + book.daysLate(today) + \" days late, fine \"\n                    + fineFor(book, today));\n            }\n        }\n    }\n\n    public void printTotal(int today)\n    {\n        int total = 0;\n        for(Book book : books) {\n            total = total + fineFor(book, today);\n        }\n        System.out.println(\"Total fines: \" + total);\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Total fines: 0\nDune: 2 days late, fine 50\nHoles: 9 days late, fine 225\nTotal fines: 275\nTotal fines: 275\nHoles: 9 days late, fine 225\nTotal fines: 225\nEmpty query: 0\nQuery: 225\nQuery again: 225\nEarlier: 0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatestaticfinalintFINE_PER_DAY=25;\"), \"Keep the 25-cent rate in one private static final constant.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintfineFor(Bookbook,inttoday)\"), \"Add the private fineFor helper.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"book.returned\"), \"Ask Book for its lateness instead of reading its fields.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"book.dueDay\"), \"Ask Book for its lateness instead of reading its fields.\");\nrequire(!source.replaceAll(\"\\\\s+\", \"\").contains(\"book.title\"), \"Ask Book for its title instead of reading its fields.\");\nrequire(source.split(\"\\\\b25\\\\b\", -1).length == 2, \"Keep the daily rate in one place.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").split(\"fineFor\\\\(\", -1).length >= 4, \"Use fineFor for both reports.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"book.getLine(today)\"), \"Use the text returned by Book.getLine(today).\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"totalFines(today)\"), \"Use totalFines in the total printing method.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgTG9hbkRlc2sKewogICAgcHJpdmF0ZSBzdGF0aWMgZmluYWwgaW50IEZJTkVfUEVSX0RBWSA9IDI1OwogICAgcHJpdmF0ZSBBcnJheUxpc3Q8Qm9vaz4gYm9va3M7CgogICAgcHVibGljIExvYW5EZXNrKCkKICAgIHsKICAgICAgICBib29rcyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZEJvb2soQm9vayBib29rKQogICAgewogICAgICAgIGJvb2tzLmFkZChib29rKTsKICAgIH0KCiAgICBwcml2YXRlIGludCBmaW5lRm9yKEJvb2sgYm9vaywgaW50IHRvZGF5KQogICAgewogICAgICAgIHJldHVybiBib29rLmRheXNMYXRlKHRvZGF5KSAqIEZJTkVfUEVSX0RBWTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludE92ZXJkdWUoaW50IHRvZGF5KQogICAgewogICAgICAgIGZvcihCb29rIGJvb2sgOiBib29rcykgewogICAgICAgICAgICBpZihib29rLmRheXNMYXRlKHRvZGF5KSA+IDApIHsKICAgICAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihib29rLmdldExpbmUodG9kYXkpICsgIiwgZmluZSAiCiAgICAgICAgICAgICAgICAgICAgKyBmaW5lRm9yKGJvb2ssIHRvZGF5KSk7CiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICB9CgogICAgcHVibGljIGludCB0b3RhbEZpbmVzKGludCB0b2RheSkKICAgIHsKICAgICAgICBpbnQgdG90YWwgPSAwOwogICAgICAgIGZvcihCb29rIGJvb2sgOiBib29rcykgewogICAgICAgICAgICB0b3RhbCA9IHRvdGFsICsgZmluZUZvcihib29rLCB0b2RheSk7CiAgICAgICAgfQogICAgICAgIHJldHVybiB0b3RhbDsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludFRvdGFsKGludCB0b2RheSkKICAgIHsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlRvdGFsIGZpbmVzOiAiICsgdG90YWxGaW5lcyh0b2RheSkpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Book.java",
+          "content": "public class Book\n{\n    private String title;\n    private int dueDay;\n    private boolean returned;\n\n    public Book(String title, int dueDay)\n    {\n        this.title = title;\n        this.dueDay = dueDay;\n        returned = false;\n    }\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public int getDueDay()\n    {\n        return dueDay;\n    }\n\n    public boolean isReturned()\n    {\n        return returned;\n    }\n\n    public void returnBook()\n    {\n        returned = true;\n    }\n\n    public int daysLate(int today)\n    {\n        if(returned || today <= dueDay) {\n            return 0;\n        }\n        return today - dueDay;\n    }\n    public String getLine(int today)\n    {\n        return title + \": \" + daysLate(today) + \" days late\";\n    }\n}"
+        },
+        {
+          "name": "DeskTotalCheck.java",
+          "content": "public class DeskTotalCheck\n{\n    public static void main(String[] args)\n    {\n        LoanDesk empty = new LoanDesk();\n        empty.printOverdue(12);\n        empty.printTotal(12);\n        LoanDesk desk = new LoanDesk();\n        Book dune = new Book(\"Dune\", 10);\n        desk.addBook(dune);\n        desk.addBook(new Book(\"Emma\", 14));\n        desk.addBook(new Book(\"Holes\", 3));\n        desk.addBook(new Book(\"Due today\", 12));\n        Book returned = new Book(\"Returned\", 1);\n        returned.returnBook();\n        desk.addBook(returned);\n        desk.printOverdue(12);\n        desk.printTotal(12);\n        desk.printTotal(12);\n        dune.returnBook();\n        desk.printOverdue(12);\n        desk.printTotal(12);\n        System.out.println(\"Empty query: \" + empty.totalFines(12));\n        System.out.println(\"Query: \" + desk.totalFines(12));\n        System.out.println(\"Query again: \" + desk.totalFines(12));\n        System.out.println(\"Earlier: \" + desk.totalFines(2));\n    }\n}"
+        }
+      ]
+    },
+    "q22-demo": {
+      "type": "code",
+      "xp": 3,
+      "title": "LoanDemo.java",
+      "minLines": 14,
+      "maxLines": 26,
+      "starter": "public class LoanDemo\n{\n    public static void main(String[] args)\n    {\n        // Keep the three books and the two report calls.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Dune: 2 days late, fine 50\nHoles: 9 days late, fine 225\nTotal fines: 275"
+        }
+      ],
+      "check": "",
+      "answer": "cHVibGljIGNsYXNzIExvYW5EZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgTG9hbkRlc2sgZGVzayA9IG5ldyBMb2FuRGVzaygpOwogICAgICAgIGRlc2suYWRkQm9vayhuZXcgQm9vaygiRHVuZSIsIDEwKSk7CiAgICAgICAgZGVzay5hZGRCb29rKG5ldyBCb29rKCJFbW1hIiwgMTQpKTsKICAgICAgICBkZXNrLmFkZEJvb2sobmV3IEJvb2soIkhvbGVzIiwgMykpOwogICAgICAgIGRlc2sucHJpbnRPdmVyZHVlKDEyKTsKICAgICAgICBkZXNrLnByaW50VG90YWwoMTIpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Book.java",
+          "content": "public class Book\n{\n    private String title;\n    private int dueDay;\n    private boolean returned;\n\n    public Book(String title, int dueDay)\n    {\n        this.title = title;\n        this.dueDay = dueDay;\n        returned = false;\n    }\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public int getDueDay()\n    {\n        return dueDay;\n    }\n\n    public boolean isReturned()\n    {\n        return returned;\n    }\n\n    public void returnBook()\n    {\n        returned = true;\n    }\n\n    public int daysLate(int today)\n    {\n        if(returned || today <= dueDay) {\n            return 0;\n        }\n        return today - dueDay;\n    }\n    public String getLine(int today)\n    {\n        return title + \": \" + daysLate(today) + \" days late\";\n    }\n}"
+        },
+        {
+          "name": "LoanDesk.java",
+          "content": "import java.util.ArrayList;\n\npublic class LoanDesk\n{\n    private static final int FINE_PER_DAY = 25;\n    private ArrayList<Book> books;\n\n    public LoanDesk()\n    {\n        books = new ArrayList<>();\n    }\n\n    public void addBook(Book book)\n    {\n        books.add(book);\n    }\n\n    private int fineFor(Book book, int today)\n    {\n        return book.daysLate(today) * FINE_PER_DAY;\n    }\n\n    public void printOverdue(int today)\n    {\n        for(Book book : books) {\n            if(book.daysLate(today) > 0) {\n                System.out.println(book.getLine(today) + \", fine \"\n                    + fineFor(book, today));\n            }\n        }\n    }\n\n    public int totalFines(int today)\n    {\n        int total = 0;\n        for(Book book : books) {\n            total = total + fineFor(book, today);\n        }\n        return total;\n    }\n\n    public void printTotal(int today)\n    {\n        System.out.println(\"Total fines: \" + totalFines(today));\n    }\n}"
+        }
+      ]
+    },
+    "q22-rate": {
+      "type": "code",
+      "xp": 2,
+      "title": "LoanDesk.java",
+      "minLines": 48,
+      "maxLines": 60,
+      "starter": "import java.util.ArrayList;\n\npublic class LoanDesk\n{\n    private static final int FINE_PER_DAY = 25;\n    private ArrayList<Book> books;\n\n    public LoanDesk()\n    {\n        books = new ArrayList<>();\n    }\n\n    public void addBook(Book book)\n    {\n        books.add(book);\n    }\n\n    private int fineFor(Book book, int today)\n    {\n        return book.daysLate(today) * FINE_PER_DAY;\n    }\n\n    public void printOverdue(int today)\n    {\n        for(Book book : books) {\n            if(book.daysLate(today) > 0) {\n                System.out.println(book.getLine(today) + \", fine \"\n                    + fineFor(book, today));\n            }\n        }\n    }\n\n    public int totalFines(int today)\n    {\n        int total = 0;\n        for(Book book : books) {\n            total = total + fineFor(book, today);\n        }\n        return total;\n    }\n\n    public void printTotal(int today)\n    {\n        System.out.println(\"Total fines: \" + totalFines(today));\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "0\nDune: 2 days late, fine 60\nHoles: 9 days late, fine 270\nTotal fines: 330\n330\n330"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatestaticfinalintFINE_PER_DAY=30;\"), \"Change the one daily-rate constant to 30.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgTG9hbkRlc2sKewogICAgcHJpdmF0ZSBzdGF0aWMgZmluYWwgaW50IEZJTkVfUEVSX0RBWSA9IDMwOwogICAgcHJpdmF0ZSBBcnJheUxpc3Q8Qm9vaz4gYm9va3M7CgogICAgcHVibGljIExvYW5EZXNrKCkKICAgIHsKICAgICAgICBib29rcyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGFkZEJvb2soQm9vayBib29rKQogICAgewogICAgICAgIGJvb2tzLmFkZChib29rKTsKICAgIH0KCiAgICBwcml2YXRlIGludCBmaW5lRm9yKEJvb2sgYm9vaywgaW50IHRvZGF5KQogICAgewogICAgICAgIHJldHVybiBib29rLmRheXNMYXRlKHRvZGF5KSAqIEZJTkVfUEVSX0RBWTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludE92ZXJkdWUoaW50IHRvZGF5KQogICAgewogICAgICAgIGZvcihCb29rIGJvb2sgOiBib29rcykgewogICAgICAgICAgICBpZihib29rLmRheXNMYXRlKHRvZGF5KSA+IDApIHsKICAgICAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihib29rLmdldExpbmUodG9kYXkpICsgIiwgZmluZSAiCiAgICAgICAgICAgICAgICAgICAgKyBmaW5lRm9yKGJvb2ssIHRvZGF5KSk7CiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICB9CgogICAgcHVibGljIGludCB0b3RhbEZpbmVzKGludCB0b2RheSkKICAgIHsKICAgICAgICBpbnQgdG90YWwgPSAwOwogICAgICAgIGZvcihCb29rIGJvb2sgOiBib29rcykgewogICAgICAgICAgICB0b3RhbCA9IHRvdGFsICsgZmluZUZvcihib29rLCB0b2RheSk7CiAgICAgICAgfQogICAgICAgIHJldHVybiB0b3RhbDsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBwcmludFRvdGFsKGludCB0b2RheSkKICAgIHsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlRvdGFsIGZpbmVzOiAiICsgdG90YWxGaW5lcyh0b2RheSkpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Book.java",
+          "content": "public class Book\n{\n    private String title;\n    private int dueDay;\n    private boolean returned;\n\n    public Book(String title, int dueDay)\n    {\n        this.title = title;\n        this.dueDay = dueDay;\n        returned = false;\n    }\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public int getDueDay()\n    {\n        return dueDay;\n    }\n\n    public boolean isReturned()\n    {\n        return returned;\n    }\n\n    public void returnBook()\n    {\n        returned = true;\n    }\n\n    public int daysLate(int today)\n    {\n        if(returned || today <= dueDay) {\n            return 0;\n        }\n        return today - dueDay;\n    }\n    public String getLine(int today)\n    {\n        return title + \": \" + daysLate(today) + \" days late\";\n    }\n}"
+        },
+        {
+          "name": "RateCheck.java",
+          "content": "public class RateCheck\n{\n    public static void main(String[] args)\n    {\n        LoanDesk empty = new LoanDesk();\n        System.out.println(empty.totalFines(12));\n        LoanDesk desk = new LoanDesk();\n        desk.addBook(new Book(\"Dune\", 10));\n        desk.addBook(new Book(\"Emma\", 14));\n        desk.addBook(new Book(\"Holes\", 3));\n        desk.printOverdue(12);\n        desk.printTotal(12);\n        System.out.println(desk.totalFines(12));\n        System.out.println(desk.totalFines(12));\n    }\n}"
+        }
+      ]
+    },
+    "q23-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "Emma: 0 days late",
+            "\"Emma: 0 days late\""
+          ],
+          "show": "Emma: 0 days late",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q23-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "SXQgcmV0dXJucyBFbW1hOiAwIGRheXMgbGF0ZS4gVGhlIGRlc2sgZmlsdGVycyBvdXQgYm9va3Mgd2hvc2UgZGF5cyBsYXRlIGFyZSAwLiBCdWlsZGluZyBhIGxpbmUgYW5kIGRlY2lkaW5nIHdoZXRoZXIgdG8gaW5jbHVkZSBpdCBpbiBhbiBvdmVyZHVlIHJlcG9ydCBhcmUgc2VwYXJhdGUgam9icy4="
+    },
+    "q24": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Tm8uIFRoZSBjYWxsZXIgc3RpbGwgZGVwZW5kcyBvbiBtYW55IGRldGFpbHMuIE1vdmUgcmVwb3J0IGNhbGN1bGF0aW9ucyB0aGF0IG5lZWQgdGhlIGNsYXNzJ3MgZGF0YSBpbnRvIHRoYXQgY2xhc3MgYW5kIHJldHVybiBhIHVzZWZ1bCByZXN1bHQuIEEgc21hbGxlciBpbnRlcmZhY2UgY2FuIHJlZHVjZSB0aG9zZSBkZXBlbmRlbmNpZXMu"
+    },
+    "q25": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Rm9yIGV4YW1wbGUsIGFuIGVtcHR5IG9yZGVyIHNob3VsZCB0b3RhbCAwLCBhbmQgYW4gb3JkZXIgd2l0aCBvbmx5IHRlYSBzaG91bGQgdG90YWwgMjAwLiBDaGVjayB0aGUgcmVjZWlwdCBhbmQgc3VtbWFyeSBhcyB3ZWxsIGFzIHRoZSBudW1iZXIuIFRoZXNlIGNhc2VzIGV4ZXJjaXNlIG5vIHNlbGVjdGVkIGJyYW5jaGVzIGFuZCBhIGRpZmZlcmVudCBzZWxlY3RlZCBicmFuY2gu"
+    },
+    "q26": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Tm8uIEFuIGFycmF5IG9mIGxlbmd0aCBzZXZlbiBleHByZXNzZXMgdGhlIGZpeGVkIG51bWJlciBvZiB2YWx1ZXMgZGlyZWN0bHkuIFRoZSBjYWZlIHVzZXMgYSBsaXN0IGJlY2F1c2UgYW4gb3JkZXIgY2FuIGhhdmUgYSB2YXJpYWJsZSBudW1iZXIgb2YgZW50cmllcy4gQ2hvb3NlIHRoZSBjb25zdHJ1Y3QgdGhhdCBleHByZXNzZXMgdGhlIGRhdGEu"
+    },
+    "p1-item": {
+      "type": "code",
+      "xp": 4,
+      "title": "Song.java",
+      "minLines": 26,
+      "maxLines": 38,
+      "starter": "public class Song\n{\n    // Add private fields, the constructor and the two queries.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "180\nHarbour 180 s\n0\nSilence 0 s\nHarbour 180 s"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateStringtitle;\"), \"Keep the song title private.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintlengthInSeconds;\"), \"Keep the song length private.\");",
+      "answer": "LyoqIE9uZSBzb25nLCB3aXRoIGl0cyBsZW5ndGggaW4gd2hvbGUgc2Vjb25kcy4gKi8KcHVibGljIGNsYXNzIFNvbmcKewogICAgcHJpdmF0ZSBTdHJpbmcgdGl0bGU7CiAgICBwcml2YXRlIGludCBsZW5ndGhJblNlY29uZHM7CgogICAgLyoqIFVzZSBhIG5vbi1udWxsIHRpdGxlIGFuZCBhIG5vbi1uZWdhdGl2ZSBsZW5ndGguICovCiAgICBwdWJsaWMgU29uZyhTdHJpbmcgdGl0bGUsIGludCBsZW5ndGhJblNlY29uZHMpCiAgICB7CiAgICAgICAgdGhpcy50aXRsZSA9IHRpdGxlOwogICAgICAgIHRoaXMubGVuZ3RoSW5TZWNvbmRzID0gbGVuZ3RoSW5TZWNvbmRzOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TGVuZ3RoSW5TZWNvbmRzKCkKICAgIHsKICAgICAgICByZXR1cm4gbGVuZ3RoSW5TZWNvbmRzOwogICAgfQoKICAgIC8qKiBSZXR1cm4gdGV4dCBzbyB0aGUgY2FsbGVyIGNhbiBjaG9vc2Ugd2hlcmUgaXQgZ29lcy4gKi8KICAgIHB1YmxpYyBTdHJpbmcgZ2V0TGluZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIHRpdGxlICsgIiAiICsgbGVuZ3RoSW5TZWNvbmRzICsgIiBzIjsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "SongCheck.java",
+          "content": "public class SongCheck\n{\n    public static void main(String[] args)\n    {\n        Song harbour = new Song(\"Harbour\", 180);\n        Song silence = new Song(\"Silence\", 0);\n        System.out.println(harbour.getLengthInSeconds());\n        System.out.println(harbour.getLine());\n        System.out.println(silence.getLengthInSeconds());\n        System.out.println(silence.getLine());\n        System.out.println(harbour.getLine());\n    }\n}"
+        }
+      ]
+    },
+    "p1-collection": {
+      "type": "code",
+      "xp": 6,
+      "title": "Playlist.java",
+      "minLines": 41,
+      "maxLines": 53,
+      "starter": "import java.util.ArrayList;\n\npublic class Playlist\n{\n    // Add the private fields, constructor and three methods.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "0\nPlaylist Practice\nTotal 0 s\n360\nPlaylist Practice\nHarbour 180 s\nSilence 0 s\nHarbour 180 s\nTotal 360 s\nPlaylist Practice\nHarbour 180 s\nSilence 0 s\nHarbour 180 s\nTotal 360 s"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateArrayList<Song>songs;\"), \"Keep the songs in a private ArrayList.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"song.getLengthInSeconds()\"), \"Ask each song for its length.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgovKiogQSBuYW1lZCBjb2xsZWN0aW9uIG9mIHNvbmdzLiAqLwpwdWJsaWMgY2xhc3MgUGxheWxpc3QKewogICAgcHJpdmF0ZSBTdHJpbmcgbmFtZTsKICAgIHByaXZhdGUgQXJyYXlMaXN0PFNvbmc+IHNvbmdzOwoKICAgIHB1YmxpYyBQbGF5bGlzdChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICB0aGlzLm5hbWUgPSBuYW1lOwogICAgICAgIHNvbmdzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICB9CgogICAgLyoqIEFkZCBhIG5vbi1udWxsIHNvbmcuIFJlcGVhdGVkIHNvbmdzIGFyZSBhbGxvd2VkLiAqLwogICAgcHVibGljIHZvaWQgYWRkU29uZyhTb25nIHNvbmcpCiAgICB7CiAgICAgICAgc29uZ3MuYWRkKHNvbmcpOwogICAgfQoKICAgIC8qKiBBc2sgZWFjaCBzb25nIGZvciBpdHMgbGVuZ3RoLiAqLwogICAgcHVibGljIGludCBnZXRUb3RhbFNlY29uZHMoKQogICAgewogICAgICAgIGludCB0b3RhbCA9IDA7CiAgICAgICAgZm9yKFNvbmcgc29uZyA6IHNvbmdzKSB7CiAgICAgICAgICAgIHRvdGFsID0gdG90YWwgKyBzb25nLmdldExlbmd0aEluU2Vjb25kcygpOwogICAgICAgIH0KICAgICAgICByZXR1cm4gdG90YWw7CiAgICB9CgogICAgcHVibGljIFN0cmluZyBnZXRSZXBvcnQoKQogICAgewogICAgICAgIFN0cmluZyByZXBvcnQgPSAiUGxheWxpc3QgIiArIG5hbWUgKyAiXG4iOwogICAgICAgIGZvcihTb25nIHNvbmcgOiBzb25ncykgewogICAgICAgICAgICByZXBvcnQgPSByZXBvcnQgKyBzb25nLmdldExpbmUoKSArICJcbiI7CiAgICAgICAgfQogICAgICAgIHJldHVybiByZXBvcnQgKyAiVG90YWwgIiArIGdldFRvdGFsU2Vjb25kcygpICsgIiBzIjsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Song.java",
+          "content": "/** One song, with its length in whole seconds. */\npublic class Song\n{\n    private String title;\n    private int lengthInSeconds;\n\n    /** Use a non-null title and a non-negative length. */\n    public Song(String title, int lengthInSeconds)\n    {\n        this.title = title;\n        this.lengthInSeconds = lengthInSeconds;\n    }\n\n    public int getLengthInSeconds()\n    {\n        return lengthInSeconds;\n    }\n\n    /** Return text so the caller can choose where it goes. */\n    public String getLine()\n    {\n        return title + \" \" + lengthInSeconds + \" s\";\n    }\n}"
+        },
+        {
+          "name": "PlaylistCheck.java",
+          "content": "public class PlaylistCheck\n{\n    public static void main(String[] args)\n    {\n        Playlist list = new Playlist(\"Practice\");\n        System.out.println(list.getTotalSeconds());\n        System.out.println(list.getReport());\n        Song harbour = new Song(\"Harbour\", 180);\n        list.addSong(harbour);\n        list.addSong(new Song(\"Silence\", 0));\n        list.addSong(harbour);\n        System.out.println(list.getTotalSeconds());\n        System.out.println(list.getReport());\n        System.out.println(list.getReport());\n    }\n}"
+        }
+      ]
+    },
+    "p1-demo": {
+      "type": "code",
+      "xp": 3,
+      "title": "PlaylistDemo.java",
+      "minLines": 14,
+      "maxLines": 26,
+      "starter": "public class PlaylistDemo\n{\n    public static void main(String[] args)\n    {\n        // Create Morning, add the three songs and print its report.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Playlist Morning\nHarbour 180 s\nRain 210 s\nHome 150 s\nTotal 540 s"
+        }
+      ],
+      "check": "",
+      "answer": "LyoqIFJ1biB0aGUgcGxheWxpc3QgcmVwb3J0LiAqLwpwdWJsaWMgY2xhc3MgUGxheWxpc3REZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgUGxheWxpc3QgbGlzdCA9IG5ldyBQbGF5bGlzdCgiTW9ybmluZyIpOwogICAgICAgIGxpc3QuYWRkU29uZyhuZXcgU29uZygiSGFyYm91ciIsIDE4MCkpOwogICAgICAgIGxpc3QuYWRkU29uZyhuZXcgU29uZygiUmFpbiIsIDIxMCkpOwogICAgICAgIGxpc3QuYWRkU29uZyhuZXcgU29uZygiSG9tZSIsIDE1MCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihsaXN0LmdldFJlcG9ydCgpKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Song.java",
+          "content": "/** One song, with its length in whole seconds. */\npublic class Song\n{\n    private String title;\n    private int lengthInSeconds;\n\n    /** Use a non-null title and a non-negative length. */\n    public Song(String title, int lengthInSeconds)\n    {\n        this.title = title;\n        this.lengthInSeconds = lengthInSeconds;\n    }\n\n    public int getLengthInSeconds()\n    {\n        return lengthInSeconds;\n    }\n\n    /** Return text so the caller can choose where it goes. */\n    public String getLine()\n    {\n        return title + \" \" + lengthInSeconds + \" s\";\n    }\n}"
+        },
+        {
+          "name": "Playlist.java",
+          "content": "import java.util.ArrayList;\n\n/** A named collection of songs. */\npublic class Playlist\n{\n    private String name;\n    private ArrayList<Song> songs;\n\n    public Playlist(String name)\n    {\n        this.name = name;\n        songs = new ArrayList<>();\n    }\n\n    /** Add a non-null song. Repeated songs are allowed. */\n    public void addSong(Song song)\n    {\n        songs.add(song);\n    }\n\n    /** Ask each song for its length. */\n    public int getTotalSeconds()\n    {\n        int total = 0;\n        for(Song song : songs) {\n            total = total + song.getLengthInSeconds();\n        }\n        return total;\n    }\n\n    public String getReport()\n    {\n        String report = \"Playlist \" + name + \"\\n\";\n        for(Song song : songs) {\n            report = report + song.getLine() + \"\\n\";\n        }\n        return report + \"Total \" + getTotalSeconds() + \" s\";\n    }\n}"
+        }
+      ]
+    },
+    "q27": {
+      "type": "code",
+      "xp": 4,
+      "title": "Playlist.java",
+      "minLines": 53,
+      "maxLines": 65,
+      "starter": "import java.util.ArrayList;\n\n/** A named collection of songs. */\npublic class Playlist\n{\n    private String name;\n    private ArrayList<Song> songs;\n\n    public Playlist(String name)\n    {\n        this.name = name;\n        songs = new ArrayList<>();\n    }\n\n    /** Add a non-null song. Repeated songs are allowed. */\n    public void addSong(Song song)\n    {\n        songs.add(song);\n    }\n\n    /** Ask each song for its length. */\n    public int getTotalSeconds()\n    {\n        int total = 0;\n        for(Song song : songs) {\n            total = total + song.getLengthInSeconds();\n        }\n        return total;\n    }\n\n    public String getReport()\n    {\n        String report = \"Playlist \" + name + \"\\n\";\n        for(Song song : songs) {\n            report = report + song.getLine() + \"\\n\";\n        }\n        return report + \"Total \" + getTotalSeconds() + \" s\";\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "0\n1\n0\n3\n3\n3\n720"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"song.getLengthInSeconds()\"), \"Ask each song for its length.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgovKiogQSBuYW1lZCBjb2xsZWN0aW9uIG9mIHNvbmdzLiAqLwpwdWJsaWMgY2xhc3MgUGxheWxpc3QKewogICAgcHJpdmF0ZSBTdHJpbmcgbmFtZTsKICAgIHByaXZhdGUgQXJyYXlMaXN0PFNvbmc+IHNvbmdzOwoKICAgIHB1YmxpYyBQbGF5bGlzdChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICB0aGlzLm5hbWUgPSBuYW1lOwogICAgICAgIHNvbmdzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICB9CgogICAgLyoqIEFkZCBhIG5vbi1udWxsIHNvbmcuIFJlcGVhdGVkIHNvbmdzIGFyZSBhbGxvd2VkLiAqLwogICAgcHVibGljIHZvaWQgYWRkU29uZyhTb25nIHNvbmcpCiAgICB7CiAgICAgICAgc29uZ3MuYWRkKHNvbmcpOwogICAgfQoKICAgIC8qKiBBc2sgZWFjaCBzb25nIGZvciBpdHMgbGVuZ3RoLiAqLwogICAgcHVibGljIGludCBnZXRUb3RhbFNlY29uZHMoKQogICAgewogICAgICAgIGludCB0b3RhbCA9IDA7CiAgICAgICAgZm9yKFNvbmcgc29uZyA6IHNvbmdzKSB7CiAgICAgICAgICAgIHRvdGFsID0gdG90YWwgKyBzb25nLmdldExlbmd0aEluU2Vjb25kcygpOwogICAgICAgIH0KICAgICAgICByZXR1cm4gdG90YWw7CiAgICB9CgogICAgcHVibGljIFN0cmluZyBnZXRSZXBvcnQoKQogICAgewogICAgICAgIFN0cmluZyByZXBvcnQgPSAiUGxheWxpc3QgIiArIG5hbWUgKyAiXG4iOwogICAgICAgIGZvcihTb25nIHNvbmcgOiBzb25ncykgewogICAgICAgICAgICByZXBvcnQgPSByZXBvcnQgKyBzb25nLmdldExpbmUoKSArICJcbiI7CiAgICAgICAgfQogICAgICAgIHJldHVybiByZXBvcnQgKyAiVG90YWwgIiArIGdldFRvdGFsU2Vjb25kcygpICsgIiBzIjsKICAgIH0KCiAgICAvLyBBZGQgdGhpcyBtZXRob2QgaW5zaWRlIFBsYXlsaXN0LgogICAgcHVibGljIGludCBjb3VudExvbmdlclRoYW4oaW50IHNlY29uZHMpCiAgICB7CiAgICAgICAgaW50IGNvdW50ID0gMDsKICAgICAgICBmb3IoU29uZyBzb25nIDogc29uZ3MpIHsKICAgICAgICAgICAgaWYoc29uZy5nZXRMZW5ndGhJblNlY29uZHMoKSA+IHNlY29uZHMpIHsKICAgICAgICAgICAgICAgIGNvdW50Kys7CiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICAgICAgcmV0dXJuIGNvdW50OwogICAgfQp9",
+      "files": [
+        {
+          "name": "Song.java",
+          "content": "/** One song, with its length in whole seconds. */\npublic class Song\n{\n    private String title;\n    private int lengthInSeconds;\n\n    /** Use a non-null title and a non-negative length. */\n    public Song(String title, int lengthInSeconds)\n    {\n        this.title = title;\n        this.lengthInSeconds = lengthInSeconds;\n    }\n\n    public int getLengthInSeconds()\n    {\n        return lengthInSeconds;\n    }\n\n    /** Return text so the caller can choose where it goes. */\n    public String getLine()\n    {\n        return title + \" \" + lengthInSeconds + \" s\";\n    }\n}"
+        },
+        {
+          "name": "LongerCheck.java",
+          "content": "public class LongerCheck\n{\n    public static void main(String[] args)\n    {\n        Playlist empty = new Playlist(\"Empty\");\n        System.out.println(empty.countLongerThan(180));\n        Playlist list = new Playlist(\"Morning\");\n        Song harbour = new Song(\"Harbour\", 180);\n        list.addSong(harbour);\n        list.addSong(new Song(\"Rain\", 210));\n        list.addSong(new Song(\"Home\", 150));\n        System.out.println(list.countLongerThan(180));\n        System.out.println(list.countLongerThan(210));\n        System.out.println(list.countLongerThan(0));\n        list.addSong(harbour);\n        System.out.println(list.countLongerThan(179));\n        System.out.println(list.countLongerThan(179));\n        System.out.println(list.getTotalSeconds());\n    }\n}"
+        }
+      ]
+    },
+    "p2-item": {
+      "type": "code",
+      "xp": 4,
+      "title": "Ticket.java",
+      "minLines": 25,
+      "maxLines": 37,
+      "starter": "public class Ticket\n{\n    // Add the private fields, constructor and getters.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Ada\n0\nBo\n1\n0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateStringname;\"), \"Keep the customer name private.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintpriceCode;\"), \"Keep the price code private.\");",
+      "answer": "LyoqIEEgdGlja2V0IHJlY29yZHMgYSBuYW1lIGFuZCBhbiBpbmRleCBpbiB0aGUgcHJpY2UgdGFibGUuICovCnB1YmxpYyBjbGFzcyBUaWNrZXQKewogICAgcHJpdmF0ZSBTdHJpbmcgbmFtZTsKICAgIHByaXZhdGUgaW50IHByaWNlQ29kZTsKCiAgICAvKiogVXNlIGEgbm9uLW51bGwgbmFtZTsgY29kZSAwIGlzIGFkdWx0LCBjb2RlIDEgaXMgc3R1ZGVudC4gKi8KICAgIHB1YmxpYyBUaWNrZXQoU3RyaW5nIG5hbWUsIGludCBwcmljZUNvZGUpCiAgICB7CiAgICAgICAgdGhpcy5uYW1lID0gbmFtZTsKICAgICAgICB0aGlzLnByaWNlQ29kZSA9IHByaWNlQ29kZTsKICAgIH0KCiAgICBwdWJsaWMgU3RyaW5nIGdldE5hbWUoKQogICAgewogICAgICAgIHJldHVybiBuYW1lOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0UHJpY2VDb2RlKCkKICAgIHsKICAgICAgICByZXR1cm4gcHJpY2VDb2RlOwogICAgfQp9",
+      "files": [
+        {
+          "name": "TicketCheck.java",
+          "content": "public class TicketCheck\n{\n    public static void main(String[] args)\n    {\n        Ticket adult = new Ticket(\"Ada\", 0);\n        Ticket student = new Ticket(\"Bo\", 1);\n        System.out.println(adult.getName());\n        System.out.println(adult.getPriceCode());\n        System.out.println(student.getName());\n        System.out.println(student.getPriceCode());\n        System.out.println(adult.getPriceCode());\n    }\n}"
+        }
+      ]
+    },
+    "p2-collection": {
+      "type": "code",
+      "xp": 6,
+      "title": "TicketOffice.java",
+      "minLines": 45,
+      "maxLines": 57,
+      "starter": "import java.util.ArrayList;\n\npublic class TicketOffice\n{\n    // Add the one price table, private list, constructor and four methods.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "0\nTickets\nTotal 0\n3200\nTickets\nBo 800\nAda 1200\nChen 1200\nTotal 3200\nTickets\nBo 800\nAda 1200\nChen 1200\nTotal 3200"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatestaticfinalint[]PRICES={1200,800};\"), \"Keep the prices in one private static final table.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateintpriceFor(Ticketticket)\"), \"Use one private priceFor helper.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privateArrayList<Ticket>tickets;\"), \"Keep the tickets in a private ArrayList.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgovKiogT25lIHRhYmxlIHN1cHBsaWVzIHRoZSBwcmljZXMgZm9yIGJvdGggcmVwb3J0IGFuZCB0b3RhbC4gKi8KcHVibGljIGNsYXNzIFRpY2tldE9mZmljZQp7CiAgICBwcml2YXRlIHN0YXRpYyBmaW5hbCBpbnRbXSBQUklDRVMgPSB7MTIwMCwgODAwfTsKICAgIHByaXZhdGUgQXJyYXlMaXN0PFRpY2tldD4gdGlja2V0czsKCiAgICBwdWJsaWMgVGlja2V0T2ZmaWNlKCkKICAgIHsKICAgICAgICB0aWNrZXRzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICB9CgogICAgLyoqIEFkZCBhIG5vbi1udWxsIHRpY2tldCB3aXRoIGEgdmFsaWQgcHJpY2UgY29kZS4gKi8KICAgIHB1YmxpYyB2b2lkIGFkZFRpY2tldChUaWNrZXQgdGlja2V0KQogICAgewogICAgICAgIHRpY2tldHMuYWRkKHRpY2tldCk7CiAgICB9CgogICAgcHJpdmF0ZSBpbnQgcHJpY2VGb3IoVGlja2V0IHRpY2tldCkKICAgIHsKICAgICAgICByZXR1cm4gUFJJQ0VTW3RpY2tldC5nZXRQcmljZUNvZGUoKV07CiAgICB9CgogICAgcHVibGljIGludCBnZXRUb3RhbCgpCiAgICB7CiAgICAgICAgaW50IHRvdGFsID0gMDsKICAgICAgICBmb3IoVGlja2V0IHRpY2tldCA6IHRpY2tldHMpIHsKICAgICAgICAgICAgdG90YWwgPSB0b3RhbCArIHByaWNlRm9yKHRpY2tldCk7CiAgICAgICAgfQogICAgICAgIHJldHVybiB0b3RhbDsKICAgIH0KCiAgICBwdWJsaWMgU3RyaW5nIGdldFJlcG9ydCgpCiAgICB7CiAgICAgICAgU3RyaW5nIHJlcG9ydCA9ICJUaWNrZXRzXG4iOwogICAgICAgIGZvcihUaWNrZXQgdGlja2V0IDogdGlja2V0cykgewogICAgICAgICAgICByZXBvcnQgPSByZXBvcnQgKyB0aWNrZXQuZ2V0TmFtZSgpICsgIiAiCiAgICAgICAgICAgICAgICArIHByaWNlRm9yKHRpY2tldCkgKyAiXG4iOwogICAgICAgIH0KICAgICAgICByZXR1cm4gcmVwb3J0ICsgIlRvdGFsICIgKyBnZXRUb3RhbCgpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Ticket.java",
+          "content": "/** A ticket records a name and an index in the price table. */\npublic class Ticket\n{\n    private String name;\n    private int priceCode;\n\n    /** Use a non-null name; code 0 is adult, code 1 is student. */\n    public Ticket(String name, int priceCode)\n    {\n        this.name = name;\n        this.priceCode = priceCode;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public int getPriceCode()\n    {\n        return priceCode;\n    }\n}"
+        },
+        {
+          "name": "OfficeCheck.java",
+          "content": "public class OfficeCheck\n{\n    public static void main(String[] args)\n    {\n        TicketOffice office = new TicketOffice();\n        System.out.println(office.getTotal());\n        System.out.println(office.getReport());\n        office.addTicket(new Ticket(\"Bo\", 1));\n        office.addTicket(new Ticket(\"Ada\", 0));\n        office.addTicket(new Ticket(\"Chen\", 0));\n        System.out.println(office.getTotal());\n        System.out.println(office.getReport());\n        System.out.println(office.getReport());\n    }\n}"
+        }
+      ]
+    },
+    "p2-demo": {
+      "type": "code",
+      "xp": 3,
+      "title": "TicketOfficeDemo.java",
+      "minLines": 14,
+      "maxLines": 26,
+      "starter": "public class TicketOfficeDemo\n{\n    public static void main(String[] args)\n    {\n        // Add Ada, Bo and Chen with their price codes, then print the report.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Tickets\nAda 1200\nBo 800\nChen 1200\nTotal 3200"
+        }
+      ],
+      "check": "",
+      "answer": "LyoqIFJ1biB0aGUgdGlja2V0IHJlcG9ydC4gQWxsIGFtb3VudHMgYXJlIGluIGNlbnRzLiAqLwpwdWJsaWMgY2xhc3MgVGlja2V0T2ZmaWNlRGVtbwp7CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKQogICAgewogICAgICAgIFRpY2tldE9mZmljZSBvZmZpY2UgPSBuZXcgVGlja2V0T2ZmaWNlKCk7CiAgICAgICAgb2ZmaWNlLmFkZFRpY2tldChuZXcgVGlja2V0KCJBZGEiLCAwKSk7CiAgICAgICAgb2ZmaWNlLmFkZFRpY2tldChuZXcgVGlja2V0KCJCbyIsIDEpKTsKICAgICAgICBvZmZpY2UuYWRkVGlja2V0KG5ldyBUaWNrZXQoIkNoZW4iLCAwKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKG9mZmljZS5nZXRSZXBvcnQoKSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Ticket.java",
+          "content": "/** A ticket records a name and an index in the price table. */\npublic class Ticket\n{\n    private String name;\n    private int priceCode;\n\n    /** Use a non-null name; code 0 is adult, code 1 is student. */\n    public Ticket(String name, int priceCode)\n    {\n        this.name = name;\n        this.priceCode = priceCode;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public int getPriceCode()\n    {\n        return priceCode;\n    }\n}"
+        },
+        {
+          "name": "TicketOffice.java",
+          "content": "import java.util.ArrayList;\n\n/** One table supplies the prices for both report and total. */\npublic class TicketOffice\n{\n    private static final int[] PRICES = {1200, 800};\n    private ArrayList<Ticket> tickets;\n\n    public TicketOffice()\n    {\n        tickets = new ArrayList<>();\n    }\n\n    /** Add a non-null ticket with a valid price code. */\n    public void addTicket(Ticket ticket)\n    {\n        tickets.add(ticket);\n    }\n\n    private int priceFor(Ticket ticket)\n    {\n        return PRICES[ticket.getPriceCode()];\n    }\n\n    public int getTotal()\n    {\n        int total = 0;\n        for(Ticket ticket : tickets) {\n            total = total + priceFor(ticket);\n        }\n        return total;\n    }\n\n    public String getReport()\n    {\n        String report = \"Tickets\\n\";\n        for(Ticket ticket : tickets) {\n            report = report + ticket.getName() + \" \"\n                + priceFor(ticket) + \"\\n\";\n        }\n        return report + \"Total \" + getTotal();\n    }\n}"
+        }
+      ]
+    },
+    "q28": {
+      "type": "code",
+      "xp": 3,
+      "title": "TicketOffice.java",
+      "minLines": 45,
+      "maxLines": 57,
+      "starter": "import java.util.ArrayList;\n\n/** One table supplies the prices for both report and total. */\npublic class TicketOffice\n{\n    private static final int[] PRICES = {1200, 800};\n    private ArrayList<Ticket> tickets;\n\n    public TicketOffice()\n    {\n        tickets = new ArrayList<>();\n    }\n\n    /** Add a non-null ticket with a valid price code. */\n    public void addTicket(Ticket ticket)\n    {\n        tickets.add(ticket);\n    }\n\n    private int priceFor(Ticket ticket)\n    {\n        return PRICES[ticket.getPriceCode()];\n    }\n\n    public int getTotal()\n    {\n        int total = 0;\n        for(Ticket ticket : tickets) {\n            total = total + priceFor(ticket);\n        }\n        return total;\n    }\n\n    public String getReport()\n    {\n        String report = \"Tickets\\n\";\n        for(Ticket ticket : tickets) {\n            report = report + ticket.getName() + \" \"\n                + priceFor(ticket) + \"\\n\";\n        }\n        return report + \"Total \" + getTotal();\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "0\nTickets\nTotal 0\n3800\nTickets\nBo 800\nAda 1500\nChen 1500\nTotal 3800\nTickets\nBo 800\nAda 1500\nChen 1500\nTotal 3800"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatestaticfinalint[]PRICES={1500,800};\"), \"Change the adult price in the one table to 1500.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgovKiogT25lIHRhYmxlIHN1cHBsaWVzIHRoZSBwcmljZXMgZm9yIGJvdGggcmVwb3J0IGFuZCB0b3RhbC4gKi8KcHVibGljIGNsYXNzIFRpY2tldE9mZmljZQp7CiAgICBwcml2YXRlIHN0YXRpYyBmaW5hbCBpbnRbXSBQUklDRVMgPSB7MTUwMCwgODAwfTsKICAgIHByaXZhdGUgQXJyYXlMaXN0PFRpY2tldD4gdGlja2V0czsKCiAgICBwdWJsaWMgVGlja2V0T2ZmaWNlKCkKICAgIHsKICAgICAgICB0aWNrZXRzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICB9CgogICAgLyoqIEFkZCBhIG5vbi1udWxsIHRpY2tldCB3aXRoIGEgdmFsaWQgcHJpY2UgY29kZS4gKi8KICAgIHB1YmxpYyB2b2lkIGFkZFRpY2tldChUaWNrZXQgdGlja2V0KQogICAgewogICAgICAgIHRpY2tldHMuYWRkKHRpY2tldCk7CiAgICB9CgogICAgcHJpdmF0ZSBpbnQgcHJpY2VGb3IoVGlja2V0IHRpY2tldCkKICAgIHsKICAgICAgICByZXR1cm4gUFJJQ0VTW3RpY2tldC5nZXRQcmljZUNvZGUoKV07CiAgICB9CgogICAgcHVibGljIGludCBnZXRUb3RhbCgpCiAgICB7CiAgICAgICAgaW50IHRvdGFsID0gMDsKICAgICAgICBmb3IoVGlja2V0IHRpY2tldCA6IHRpY2tldHMpIHsKICAgICAgICAgICAgdG90YWwgPSB0b3RhbCArIHByaWNlRm9yKHRpY2tldCk7CiAgICAgICAgfQogICAgICAgIHJldHVybiB0b3RhbDsKICAgIH0KCiAgICBwdWJsaWMgU3RyaW5nIGdldFJlcG9ydCgpCiAgICB7CiAgICAgICAgU3RyaW5nIHJlcG9ydCA9ICJUaWNrZXRzXG4iOwogICAgICAgIGZvcihUaWNrZXQgdGlja2V0IDogdGlja2V0cykgewogICAgICAgICAgICByZXBvcnQgPSByZXBvcnQgKyB0aWNrZXQuZ2V0TmFtZSgpICsgIiAiCiAgICAgICAgICAgICAgICArIHByaWNlRm9yKHRpY2tldCkgKyAiXG4iOwogICAgICAgIH0KICAgICAgICByZXR1cm4gcmVwb3J0ICsgIlRvdGFsICIgKyBnZXRUb3RhbCgpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Ticket.java",
+          "content": "/** A ticket records a name and an index in the price table. */\npublic class Ticket\n{\n    private String name;\n    private int priceCode;\n\n    /** Use a non-null name; code 0 is adult, code 1 is student. */\n    public Ticket(String name, int priceCode)\n    {\n        this.name = name;\n        this.priceCode = priceCode;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public int getPriceCode()\n    {\n        return priceCode;\n    }\n}"
+        },
+        {
+          "name": "PriceCheck.java",
+          "content": "public class PriceCheck\n{\n    public static void main(String[] args)\n    {\n        TicketOffice office = new TicketOffice();\n        System.out.println(office.getTotal());\n        System.out.println(office.getReport());\n        office.addTicket(new Ticket(\"Bo\", 1));\n        office.addTicket(new Ticket(\"Ada\", 0));\n        office.addTicket(new Ticket(\"Chen\", 0));\n        System.out.println(office.getTotal());\n        System.out.println(office.getReport());\n        System.out.println(office.getReport());\n    }\n}"
+        }
+      ]
+    },
+    "q28-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Qm90aCBtZXRob2RzIGNhbGwgcHJpY2VGb3IsIHdoaWNoIHJlYWRzIHRoZSBzYW1lIHRhYmxlLiBUaGVyZSBpcyBubyBzZWNvbmQgcHJpY2UgbGl0ZXJhbCB0byB1cGRhdGUu"
+    }
+  }
+}
