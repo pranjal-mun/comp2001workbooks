@@ -1,0 +1,1184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 2001 – Lecture 13 Workbook</title>
+  <link rel="icon" href="../../runtime/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
+  <link rel="stylesheet" href="../../runtime/workbook.css">
+  <style>
+    .wb-shot { margin: 1rem 0 1.2rem; }
+    .wb-shot img { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; border: 1px solid var(--rule); border-radius: 6px; background: #fff; }
+    .wb-shot figcaption { font-family: var(--font-sans); font-size: 0.85rem; color: var(--ink-quiet); text-align: center; margin-top: 0.4rem; }
+    .wb-shot-narrow img { max-width: 300px; }
+    .wb-outcomes h3 { margin-top: 1.4rem; }
+    .wb-array td { text-align: center; min-width: 2.4rem; }
+  </style>
+  <script type="module">
+    import { initWorkbook } from "../../runtime/workbook.js";
+    initWorkbook({ id: "lecture-13", specs: "./exercises.json" });
+  </script>
+</head>
+<body>
+<main>
+
+<div class="wb-title-block">
+  <div>
+    <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
+    <h1>Lecture 13 Workbook</h1>
+    <div class="wb-subtitle">Chapter 7, Part 2: Arrays of Objects and Grids</div>
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
+  </div>
+  <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+</div>
+
+<p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run takes a few seconds while Java loads). Boxes that ask for part of a class include the rest of that class and a checking program. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
+<p>This workbook holds the notes and the questions for Lecture 13. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. Sections 2 and 9 continue the theatre seats problem in two parts, to do at home as practice. Section 11 has two complete programs to read, run and extend after class. By the end, you should be able to:</p>
+<ul>
+<li>create an array of objects and check a slot before using its reference;</li>
+<li>copy an array and explain which objects a reference copy still shares;</li>
+<li>store a grid as an array of rows and read a cell with two indexes;</li>
+<li>use nested loops for row totals, column totals and ragged rows;</li>
+<li>choose between an array and an <code>ArrayList</code>, and use the <code>Arrays</code> class for common array operations; and</li>
+<li>write complete programs that use object arrays and grids.</li>
+</ul>
+<h2 id="s1">1. Object arrays</h2>
+<h3>Four students</h3>
+<p>Ada, Bo, Chen and Dev study together. Each has a week of study minutes. We want one collection that a loop can visit, so we can print the names and compare the weeks. Each <code>Student</code> holds a name. A <code>StudyGroup</code> keeps the students together and stores a row of minutes for each one.</p>
+<p>An <strong>object array</strong> holds references to objects. Its base type can be a class we write, such as <code>Student</code>. This class has a getter to read the name and a setter to change it:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Student</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> name;
+    <span class="wb-kw">public</span> <span class="wb-fn">Student</span>(<span class="wb-type">String</span> name)
+    {
+        <span class="wb-kw">this</span>.name = name;
+    }
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getName</span>()
+    {
+        <span class="wb-kw">return</span> name;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">setName</span>(<span class="wb-type">String</span> name)
+    {
+        <span class="wb-kw">this</span>.name = name;
+    }
+}</code></pre>
+<h3>Null slots</h3>
+<p><code>Student[] members = new Student[4];</code> creates one array with four reference slots. It creates no students. Every slot starts at <code>null</code>. A <strong>null slot</strong> has no object to call a method on. Reading that slot is allowed, but calling <code>getName()</code> through it throws <code>NullPointerException</code>.</p>
+<p>Create a student for each position before using every element:</p>
+<pre><code><span class="wb-type">Student</span>[] members = <span class="wb-kw">new</span> <span class="wb-type">Student</span>[<span class="wb-num">4</span>];
+members[<span class="wb-num">0</span>] = <span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Ada"</span>);
+members[<span class="wb-num">1</span>] = <span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Bo"</span>);
+members[<span class="wb-num">2</span>] = <span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Chen"</span>);
+members[<span class="wb-num">3</span>] = <span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Dev"</span>);</code></pre>
+<figure class="wb-shot">
+  <img src="img/object_slots.png" alt="Four array slots refer to Ada, Bo, Chen and Dev in separate Student objects." loading="lazy" style="max-width: 540px">
+</figure>
+<p>The array and the four students are separate objects. Each arrow starts in a slot and ends at the student that slot refers to. Several slots can also refer to the same student; changing that student's name is then visible through each of those slots.</p>
+<h3>Traversal</h3>
+<p>A for-each loop copies each reference into its loop variable. The loop can call the getter directly when all slots are filled. If null means an empty place, check it before calling the getter:</p>
+<pre><code><span class="wb-kw">for</span>(<span class="wb-type">Student</span> member : members) {
+    <span class="wb-kw">if</span>(member != <span class="wb-kw">null</span>) {
+        System.out.println(member.getName());
+    }
+}</code></pre>
+<p>For the four filled slots, this prints Ada, Bo, Chen and Dev on separate lines. The test also lets the same loop work when some slots are null. An indexed <code>for</code> loop is needed when a position must be used again, for example to find a student's row of minutes. When all references are known, an array literal creates and fills the array in one step:</p>
+<pre><code><span class="wb-type">Student</span>[] members = {<span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Ada"</span>), <span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Bo"</span>),
+    <span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Chen"</span>), <span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Dev"</span>)};</code></pre>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.1</div>
+  <p><strong>1.1</strong> What is printed before this program stops, and why does it stop?</p>
+
+<pre><code><span class="wb-type">Student</span>[] group = <span class="wb-kw">new</span> <span class="wb-type">Student</span>[<span class="wb-num">3</span>];
+group[<span class="wb-num">0</span>] = <span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Ada"</span>);
+System.out.println(group[<span class="wb-num">0</span>].getName());
+System.out.println(group[<span class="wb-num">1</span>] == <span class="wb-kw">null</span>);
+System.out.println(group[<span class="wb-num">2</span>].getName());</code></pre>
+  <wb-table id="q1-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q1-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.2</div>
+  <p><strong>1.2</strong> Write a loop to print every non-null student's name from this array. Do not print a line for a null slot.</p>
+
+<pre><code><span class="wb-type">Student</span>[] group = {<span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Ada"</span>), <span class="wb-kw">null</span>, <span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Bo"</span>)};</code></pre>
+<p>The box includes <code>Student</code>. Complete the loop in <code>main</code>.</p>  <wb-exercise id="q2"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.3</div>
+  <p><strong>1.3</strong> What does this print? Explain which object is changed.</p>
+
+<pre><code><span class="wb-type">Student</span> ada = <span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Ada"</span>);
+<span class="wb-type">Student</span>[] pair = {ada, ada};
+pair[<span class="wb-num">1</span>].setName(<span class="wb-str">"Ada Lee"</span>);
+System.out.println(pair[<span class="wb-num">0</span>].getName());</code></pre>
+  <wb-table id="q3-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q3-output-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.4</div>
+  <p><strong>1.4</strong> Write one declaration with an array literal that creates students named Rae and Ivo, in that order. Call the array <code>pair</code>.</p>
+
+  <wb-table id="q4">
+    <table>
+      <thead><tr><th>Declaration</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="line"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<h2 id="s2">2. Seats Part 1: A theatre</h2>
+<h3>The problem</h3>
+<p>This part is practice for after class. A <code>SeatRow</code> already represents one row of seats. Write <code>Theatre</code> to hold an array of rows, and <code>TheatreDemo</code> to try it. Row and seat indexes start at 0. Both constructor sizes must be non-negative; zero rows or zero seats are allowed.</p>
+<figure class="wb-shot">
+  <img src="img/theatre_class.png" alt="Theatre has a private SeatRow array and a constructor, book and countBooked." loading="lazy" style="max-width: 480px">
+</figure>
+<p>The minus sign marks the private field. The plus signs mark public members. The constructor first creates the array, then a separate <code>SeatRow</code> for every slot. Creating only <code>new SeatRow[rowCount]</code> leaves null slots.</p>
+<p>Use the existing row methods:</p>
+<table>
+  <thead><tr><th>Method</th><th>Meaning</th></tr></thead>
+  <tbody>
+      <tr><td><code>getSize()</code></td><td>Returns the number of seats.</td></tr>
+      <tr><td><code>isBooked(seat)</code></td><td>Reads a valid seat; true means booked.</td></tr>
+      <tr><td><code>book(seat)</code></td><td>Returns false for an invalid or already booked seat; otherwise books it.</td></tr>
+      <tr><td><code>countFree()</code></td><td>Returns the number of free seats.</td></tr>
+      <tr><td><code>firstFree()</code></td><td>Returns the lowest free seat index, or -1 if full.</td></tr>
+  </tbody>
+</table>
+<p><code>Theatre.book</code> checks the row before using <code>rows[row]</code>, then lets <code>SeatRow.book</code> check the seat. It returns false for either invalid index or an already booked seat. Otherwise it books the seat and returns true. <code>countBooked</code> adds each row's size minus its free count. It needs no second counter stored as a field.</p>
+<p>The demo creates <code>new Theatre(3, 5)</code>, prints its booked count, then books (0, 1), repeats (0, 1), tries (3, 0), books (1, 4), and tries (2, 5). Print each booking result and the final booked count, using the labels below.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.1</div>
+  <p><strong>2.1</strong> Write <code>Theatre</code> and <code>TheatreDemo</code> to meet this description. Use the existing <code>SeatRow</code>. Use additional paper or an IDE for the complete implementation.</p>
+
+<p><strong>Expected output</strong></p>
+<pre class="wb-output">Booked: 0
+Book (0, 1): true
+Book (0, 1) again: false
+Book (3, 0): false
+Book (1, 4): true
+Book (2, 5): false
+Booked: 2</pre>
+<p>A finished <code>SeatRow</code> is available in both boxes. The first checking program tries zero rows, zero seats, separate row objects, invalid indexes and repeated bookings.</p>  <wb-exercise id="q5"></wb-exercise><p>A finished <code>Theatre</code> is available for the demo box.</p>  <wb-exercise id="q5-demo"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.2</div>
+  <p><strong>2.2</strong> Predict the four output lines for this smaller theatre.</p>
+
+<pre><code><span class="wb-type">Theatre</span> theatre = <span class="wb-kw">new</span> <span class="wb-fn">Theatre</span>(<span class="wb-num">2</span>, <span class="wb-num">3</span>);
+System.out.println(theatre.book(<span class="wb-num">1</span>, <span class="wb-num">2</span>));
+System.out.println(theatre.book(<span class="wb-num">1</span>, <span class="wb-num">2</span>));
+System.out.println(theatre.book(<span class="wb-num">2</span>, <span class="wb-num">0</span>));
+System.out.println(theatre.countBooked());</code></pre>
+  <wb-table id="q6-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+        <tr><td>4</td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q6-output-why"></wb-short>
+</div>
+<h2 id="s3">3. Copying</h2>
+<h3>A separate array</h3>
+<p>Assigning an array variable copies its reference. With <code>copy = original</code>, both names refer to one array. To keep independent <code>int</code> values, create a second array and copy the elements across:</p>
+<pre><code><span class="wb-kw">int</span>[] original = {<span class="wb-num">45</span>, <span class="wb-num">0</span>, <span class="wb-num">90</span>};
+<span class="wb-kw">int</span>[] copy = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[original.length];
+<span class="wb-kw">for</span>(<span class="wb-kw">int</span> i = <span class="wb-num">0</span>; i &lt; original.length; i++) {
+    copy[i] = original[i];
+}
+copy[<span class="wb-num">0</span>] = <span class="wb-num">99</span>;</code></pre>
+<figure class="wb-shot">
+  <img src="img/copy_values.png" alt="Separate arrays hold 45, 0, 90 and 99, 0, 90." loading="lazy" style="max-width: 480px">
+</figure>
+<p>The loop copies the three values. Changing <code>copy[0]</code> leaves <code>original[0]</code> at 45.</p>
+<h3>Copying with Arrays</h3>
+<p>The library class <code>Arrays</code> has static methods for arrays. Put <code>import java.util.Arrays;</code> before the class declaration. Inside a method, <code>Arrays.copyOf</code> creates a new array of the requested length:</p>
+<pre><code><span class="wb-kw">int</span>[] original = {<span class="wb-num">45</span>, <span class="wb-num">0</span>, <span class="wb-num">90</span>};
+<span class="wb-kw">int</span>[] longer = <span class="wb-type">Arrays</span>.copyOf(original, <span class="wb-num">5</span>);
+<span class="wb-kw">int</span>[] shorter = <span class="wb-type">Arrays</span>.copyOf(original, <span class="wb-num">2</span>);</code></pre>
+<p><code>longer</code> contains <code>[45, 0, 90, 0, 0]</code>; the extra int slots get 0. <code>shorter</code> contains <code>[45, 0]</code>; the last value does not fit. The original array remains length 3. Assigning the returned reference back to the original variable makes that variable refer to a different array; it does not change the old array's length.</p>
+<h3>Identity and contents</h3>
+<p>For arrays, <code>==</code> tests whether two references refer to the same array. <code>Arrays.equals</code> compares the elements of two one-dimensional arrays in order. Separate arrays can have equal contents:</p>
+<pre><code><span class="wb-kw">int</span>[] a = {<span class="wb-num">45</span>, <span class="wb-num">0</span>, <span class="wb-num">90</span>};
+<span class="wb-kw">int</span>[] b = <span class="wb-type">Arrays</span>.copyOf(a, a.length);
+System.out.println(a == b);              <span class="wb-cmt">// false</span>
+System.out.println(<span class="wb-type">Arrays</span>.equals(a, b)); <span class="wb-cmt">// true</span></code></pre>
+<p>For object arrays, <code>Arrays.equals</code> uses the elements' <code>equals</code> methods and handles null slots. Two arrays of different lengths cannot have equal contents, even if their first elements match.</p>
+<h3>Copying references</h3>
+<p>A <strong>shallow copy</strong> creates a new array and copies its references. It creates no new students. Extra slots in a longer reference array start null:</p>
+<pre><code><span class="wb-type">Student</span>[] members = {<span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Ada"</span>)};
+<span class="wb-type">Student</span>[] copy = <span class="wb-type">Arrays</span>.copyOf(members, <span class="wb-num">3</span>);
+copy[<span class="wb-num">0</span>].setName(<span class="wb-str">"Ada Lee"</span>);
+System.out.println(members[<span class="wb-num">0</span>].getName()); <span class="wb-cmt">// Ada Lee</span></code></pre>
+<figure class="wb-shot">
+  <img src="img/copy_references.png" alt="members and copy share one Student named Ada Lee; the two extra slots are null." loading="lazy" style="max-width: 480px">
+</figure>
+<p>Both first slots can reach the same student, so a setter call through either array changes the name seen through both. Replacing <code>copy[0]</code> with a new student changes that slot only. <code>members[0]</code> still refers to Ada Lee.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.1</div>
+  <p><strong>3.1</strong> What does this print? Explain why the two values differ.</p>
+
+<pre><code><span class="wb-kw">int</span>[] original = {<span class="wb-num">8</span>, <span class="wb-num">4</span>, <span class="wb-num">6</span>};
+<span class="wb-kw">int</span>[] copy = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[original.length];
+<span class="wb-kw">for</span>(<span class="wb-kw">int</span> i = <span class="wb-num">0</span>; i &lt; original.length; i++) {
+    copy[i] = original[i];
+}
+copy[<span class="wb-num">1</span>] = <span class="wb-num">9</span>;
+System.out.println(original[<span class="wb-num">1</span>] + <span class="wb-str">" "</span> + copy[<span class="wb-num">1</span>]);</code></pre>
+  <wb-table id="q7-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q7-output-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.2</div>
+  <p><strong>3.2</strong> Predict all three output lines. Describe which student each first slot refers to at the end.</p>
+
+<pre><code><span class="wb-type">Student</span>[] members = {<span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Rae"</span>)};
+<span class="wb-type">Student</span>[] more = <span class="wb-type">Arrays</span>.copyOf(members, <span class="wb-num">3</span>);
+more[<span class="wb-num">0</span>].setName(<span class="wb-str">"Rae Tan"</span>);
+more[<span class="wb-num">0</span>] = <span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Ivo"</span>);
+System.out.println(members[<span class="wb-num">0</span>].getName());
+System.out.println(more[<span class="wb-num">0</span>].getName());
+System.out.println(more[<span class="wb-num">2</span>]);</code></pre>
+  <wb-table id="q8-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q8-output-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.3</div>
+  <p><strong>3.3</strong> An array <code>members</code> contains one student. Write one line that makes a new array <code>five</code> with the same first reference and room for four more. What do the new slots contain?</p>
+
+  <wb-table id="q9">
+    <table>
+      <thead><tr><th>Declaration</th><th>New slots contain</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="line"></td><td data-blank="extra"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<h2 id="s4">4. Grids</h2>
+<h3>A row per student</h3>
+<p>A <strong>grid</strong> has rows and columns. Our group has four students and seven days, so each row is one student's week and each column is one day for the whole group. Day indexes run from 0 to 6.</p>
+<figure class="wb-shot">
+  <img src="img/study_grid.png" alt="Four rows of study minutes for Ada, Bo, Chen and Dev; columns are day indexes 0 to 6." loading="lazy" style="max-width: 540px">
+</figure>
+<p>Ada's row is the week used for one student's study log. We now need the type <code>int[][]</code>, pronounced "array of arrays of int".</p>
+<h3>Creation and cells</h3>
+<p><code>new int[4][7]</code> creates an outer array of four rows and a separate <code>int[7]</code> for each row. Every int starts at 0. The first index chooses a row, and the second chooses a cell inside that row:</p>
+<pre><code><span class="wb-kw">int</span>[][] minutes = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[<span class="wb-num">4</span>][<span class="wb-num">7</span>];
+minutes[<span class="wb-num">0</span>][<span class="wb-num">5</span>] = <span class="wb-num">120</span>;
+<span class="wb-kw">int</span>[] week = minutes[<span class="wb-num">0</span>];
+System.out.println(week[<span class="wb-num">5</span>]); <span class="wb-cmt">// 120</span></code></pre>
+<p><code>week</code> refers to the existing row; it does not copy it. A two-dimensional array is an array whose elements are row references:</p>
+<figure class="wb-shot">
+  <img src="img/row_references.png" alt="The outer minutes array has four references to separate seven-element rows of zeros." loading="lazy" style="max-width: 520px">
+</figure>
+<p>With <code>new int[4][]</code>, only the outer array is created. Its row slots start null. Each row needs an array before a cell can be read or changed. For example, <code>minutes[0] = new int[7];</code> can create one missing row.</p>
+<h3>Parallel arrays</h3>
+<p><strong>Parallel arrays</strong> use the same index for related data. In <code>StudyGroup</code>, <code>members[row]</code> is the student whose week is <code>minutes[row]</code>. The constructor creates both arrays in the same order. The getters require valid indexes: row 0 to 3 and day 0 to 6.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">StudyGroup</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">Student</span>[] members;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span>[][] minutes;
+    <span class="wb-kw">public</span> <span class="wb-fn">StudyGroup</span>()
+    {
+        members = <span class="wb-kw">new</span> <span class="wb-type">Student</span>[] {<span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Ada"</span>), <span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Bo"</span>),
+            <span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Chen"</span>), <span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Dev"</span>)};
+        minutes = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[][] {
+            {<span class="wb-num">45</span>, <span class="wb-num">0</span>, <span class="wb-num">90</span>, <span class="wb-num">30</span>, <span class="wb-num">0</span>, <span class="wb-num">120</span>, <span class="wb-num">60</span>},
+            {<span class="wb-num">60</span>, <span class="wb-num">60</span>, <span class="wb-num">60</span>, <span class="wb-num">60</span>, <span class="wb-num">60</span>, <span class="wb-num">0</span>, <span class="wb-num">0</span>},
+            {<span class="wb-num">0</span>, <span class="wb-num">30</span>, <span class="wb-num">30</span>, <span class="wb-num">30</span>, <span class="wb-num">30</span>, <span class="wb-num">30</span>, <span class="wb-num">90</span>},
+            {<span class="wb-num">120</span>, <span class="wb-num">0</span>, <span class="wb-num">0</span>, <span class="wb-num">0</span>, <span class="wb-num">0</span>, <span class="wb-num">150</span>, <span class="wb-num">30</span>}
+        };
+    }
+    <span class="wb-kw">public</span> <span class="wb-type">Student</span> <span class="wb-fn">getMember</span>(<span class="wb-kw">int</span> row)
+    {
+        <span class="wb-kw">return</span> members[row];
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getMinutes</span>(<span class="wb-kw">int</span> row, <span class="wb-kw">int</span> day)
+    {
+        <span class="wb-kw">return</span> minutes[row][day];
+    }
+}</code></pre>
+<p><code>getMember</code> returns a student reference; <code>getMinutes</code> returns one int. Keep the row index the same when using them together. Calling <code>group.getMember(0).getName()</code> reads Ada's name; calling <code>group.getMinutes(0, 5)</code> reads her 120 minutes for day 5.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.1</div>
+  <p><strong>4.1</strong> The last line throws <code>NullPointerException</code>. Add one line before it so row 1 has four cells and the assignment can run.</p>
+
+<pre><code><span class="wb-kw">int</span>[][] grid = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[<span class="wb-num">3</span>][];
+grid[<span class="wb-num">1</span>][<span class="wb-num">2</span>] = <span class="wb-num">9</span>;</code></pre>
+<p>Complete the row creation in the box. The checking lines print its length and the stored value.</p>  <wb-exercise id="q10"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.2</div>
+  <p><strong>4.2</strong> Predict both output lines.</p>
+
+<pre><code><span class="wb-kw">int</span>[][] grid = {{<span class="wb-num">2</span>, <span class="wb-num">5</span>, <span class="wb-num">8</span>}, {<span class="wb-num">3</span>, <span class="wb-num">6</span>, <span class="wb-num">9</span>}};
+grid[<span class="wb-num">1</span>][<span class="wb-num">0</span>] = grid[<span class="wb-num">0</span>][<span class="wb-num">2</span>];
+System.out.println(grid[<span class="wb-num">1</span>][<span class="wb-num">0</span>]);
+System.out.println(grid.length + <span class="wb-str">" "</span> + grid[<span class="wb-num">1</span>].length);</code></pre>
+  <wb-table id="q11-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.3</div>
+  <p><strong>4.3</strong> Given <code>StudyGroup group = new StudyGroup();</code>, write one print statement that displays Chen's name and minutes for day 6 as <code>Chen: 90</code>. Use the two getters.</p>
+
+<p>The finished <code>Student</code> and <code>StudyGroup</code> classes are available.</p>  <wb-exercise id="q12"></wb-exercise>
+</div>
+<h2 id="s5">5. Nested loops</h2>
+<h3>Row totals</h3>
+<p>A <strong>row total</strong> keeps the row fixed and visits every column. This method belongs inside <code>StudyGroup</code>, after the getters:</p>
+<pre><code><span class="wb-cmt">// Part of StudyGroup.</span>
+<span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">totalForStudent</span>(<span class="wb-kw">int</span> row)
+{
+    <span class="wb-kw">int</span> sum = <span class="wb-num">0</span>;
+    <span class="wb-kw">for</span>(<span class="wb-kw">int</span> day = <span class="wb-num">0</span>; day &lt; minutes[row].length; day++) {
+        sum += minutes[row][day];
+    }
+    <span class="wb-kw">return</span> sum;
+}</code></pre>
+<p>The method returns 345, 300, 240 and 300 for rows 0 to 3. Each call starts its own sum at 0. Ada's running sums show what happens as the day index moves:</p>
+<figure class="wb-shot">
+  <img src="img/row_sums.png" alt="Ada has minutes 45, 0, 90, 30, 0, 120, 60 and running sums 45, 45, 135, 165, 165, 285, 345." loading="lazy" style="max-width: 540px">
+</figure>
+<p>The demo can loop over students and call this method for every row. The sum for Bo starts at 0 again, so it does not include Ada's minutes.</p>
+<h3>Column totals</h3>
+<p>A <strong>column total</strong> keeps the column fixed and visits every row. The day argument stays fixed while the row index changes:</p>
+<pre><code><span class="wb-cmt">// Part of StudyGroup.</span>
+<span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">totalForDay</span>(<span class="wb-kw">int</span> day)
+{
+    <span class="wb-kw">int</span> sum = <span class="wb-num">0</span>;
+    <span class="wb-kw">for</span>(<span class="wb-kw">int</span> row = <span class="wb-num">0</span>; row &lt; minutes.length; row++) {
+        sum += minutes[row][day];
+    }
+    <span class="wb-kw">return</span> sum;
+}</code></pre>
+<p>For day 5, the method adds 120, 0, 30 and 150, giving 300. The seven day totals are 225, 90, 180, 120, 90, 300 and 180. All four rows in this group have seven cells, so every valid day index exists in every row.</p>
+<h3>Rows and columns</h3>
+<p>A <strong>nested loop</strong> is a loop inside another loop. The outer loop chooses a row, then the inner loop visits that row's cells. The inner loop starts again at column 0 for every row:</p>
+<pre><code><span class="wb-kw">for</span>(<span class="wb-kw">int</span> row = <span class="wb-num">0</span>; row &lt; grid.length; row++) {
+    <span class="wb-kw">for</span>(<span class="wb-kw">int</span> col = <span class="wb-num">0</span>; col &lt; grid[row].length; col++) {
+        System.out.println(grid[row][col]);
+    }
+}</code></pre>
+<p><code>grid.length</code> counts the rows. <code>grid[row].length</code> counts the cells in the current row. The inner loop must use that row's length, rather than the number of rows. In a four-by-seven grid, its body runs 28 times.</p>
+<figure class="wb-shot">
+  <img src="img/grid_bounds.png" alt="A rectangular grid has four rows and seven columns." loading="lazy" style="max-width: 380px">
+</figure>
+<h3>The busiest student</h3>
+<p>The best-so-far pattern can compare row totals. This method returns a row index; the demo uses that index with <code>getMember</code>:</p>
+<pre><code><span class="wb-cmt">// Part of StudyGroup.</span>
+<span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">busiestStudent</span>()
+{
+    <span class="wb-kw">int</span> best = <span class="wb-num">0</span>;
+    <span class="wb-kw">for</span>(<span class="wb-kw">int</span> row = <span class="wb-num">1</span>; row &lt; minutes.length; row++) {
+        <span class="wb-kw">if</span>(totalForStudent(row) &gt; <span class="wb-fn">totalForStudent</span>(best)) {
+            best = row;
+        }
+    }
+    <span class="wb-kw">return</span> best;
+}</code></pre>
+<p>Ada has the largest total, 345, so the result is 0. Bo and Dev tie at 300. The strict <code>&gt;</code> test keeps the earlier row if the largest totals tie. Row 0 is a valid starting choice because this group always has four rows.</p>
+<h3>Bounds</h3>
+<p>Both indexes must be valid. In a four-by-seven grid, <code>grid[4][0]</code> has no row 4, and <code>grid[0][7]</code> has no column 7. Each expression compiles, but throws <code>ArrayIndexOutOfBoundsException</code> when evaluated. If the first exception stops the program, later expressions are not reached. A null row causes <code>NullPointerException</code> when its length or a cell is accessed; it is a different problem from an invalid index.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.1</div>
+  <p><strong>5.1</strong> Fill in the running sum after each cell. The sum starts once, before both loops, so it continues from one row into the next.</p>
+
+<pre><code><span class="wb-kw">int</span>[][] values = {{<span class="wb-num">2</span>, <span class="wb-num">4</span>}, {<span class="wb-num">1</span>, <span class="wb-num">3</span>}};
+<span class="wb-kw">int</span> sum = <span class="wb-num">0</span>;
+<span class="wb-kw">for</span>(<span class="wb-kw">int</span> row = <span class="wb-num">0</span>; row &lt; values.length; row++) {
+    <span class="wb-kw">for</span>(<span class="wb-kw">int</span> col = <span class="wb-num">0</span>; col &lt; values[row].length; col++) {
+        sum += values[row][col];
+    }
+}</code></pre>
+<figure class="wb-shot">
+  <img src="img/running_sum.png" alt="Four empty boxes for the running sum at cells (0, 0), (0, 1), (1, 0), (1, 1)." loading="lazy" style="max-width: 480px">
+</figure>
+  <wb-table id="q13">
+    <table>
+      <thead><tr><th>Cell</th><th>Sum after</th></tr></thead>
+      <tbody>
+        <tr><td>(0, 0)</td><td data-blank="0"></td></tr>
+        <tr><td>(0, 1)</td><td data-blank="1"></td></tr>
+        <tr><td>(1, 0)</td><td data-blank="2"></td></tr>
+        <tr><td>(1, 1)</td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q13-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.2</div>
+  <p><strong>5.2</strong> Add a <code>StudyGroup</code> method <code>int studentsOver(int day, int limit)</code>. It returns how many students recorded more than <code>limit</code> minutes on that day. Assume the day index is valid.</p>
+
+<p>Add the method to the class. The checking program tries a limit equal to a value, a limit above every value, a negative limit and a second call.</p>  <wb-exercise id="q14"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.3</div>
+  <p><strong>5.3</strong> This loop prints only four cells. Rewrite the inner loop's condition so it visits every cell.</p>
+
+<pre><code><span class="wb-kw">int</span>[][] marks = {{<span class="wb-num">1</span>, <span class="wb-num">2</span>, <span class="wb-num">3</span>}, {<span class="wb-num">4</span>, <span class="wb-num">5</span>, <span class="wb-num">6</span>}};
+<span class="wb-kw">for</span>(<span class="wb-kw">int</span> row = <span class="wb-num">0</span>; row &lt; marks.length; row++) {
+    <span class="wb-kw">for</span>(<span class="wb-kw">int</span> col = <span class="wb-num">0</span>; col &lt; marks.length; col++) {
+        System.out.println(marks[row][col]);
+    }
+}</code></pre>
+  <wb-table id="q15">
+    <table>
+      <thead><tr><th>Inner condition</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="condition"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.4</div>
+  <p><strong>5.4</strong> What row index is printed? What index would be printed if <code>&gt;</code> became <code>&gt;=</code>?</p>
+
+<pre><code><span class="wb-kw">int</span>[] totals = {<span class="wb-num">200</span>, <span class="wb-num">200</span>, <span class="wb-num">150</span>};
+<span class="wb-kw">int</span> best = <span class="wb-num">0</span>;
+<span class="wb-kw">for</span>(<span class="wb-kw">int</span> row = <span class="wb-num">1</span>; row &lt; totals.length; row++) {
+    <span class="wb-kw">if</span>(totals[row] &gt; totals[best]) {
+        best = row;
+    }
+}
+System.out.println(best);</code></pre>
+  <wb-table id="q16">
+    <table>
+      <thead><tr><th>With &gt;</th><th>With &gt;=</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="strict"></td><td data-blank="equal"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q16-why"></wb-short>
+</div>
+<h2 id="s6">6. Ragged rows</h2>
+<h3>Different row lengths</h3>
+<p>A <strong>ragged array</strong> has rows of different lengths. For example, a row might hold study sessions rather than one value for every day. The row index still identifies a student, but a column no longer means one shared day.</p>
+<pre><code><span class="wb-kw">int</span>[][] sessions = {
+    {<span class="wb-num">45</span>, <span class="wb-num">90</span>},
+    {},
+    {<span class="wb-num">30</span>, <span class="wb-num">60</span>, <span class="wb-num">120</span>}
+};</code></pre>
+<figure class="wb-shot">
+  <img src="img/ragged_rows.png" alt="Rows of lengths 2, 0 and 3 contain 45, 90; no values; and 30, 60, 120." loading="lazy" style="max-width: 520px">
+</figure>
+<p>The outer braces create the array of rows. Each inner pair creates a row, including the empty array of length 0. An empty row exists and has a length; a null row has no array and cannot supply a length or a cell.</p>
+<h3>Traversal</h3>
+<p>Use <code>sessions[row].length</code> in the inner loop. That loop runs zero times for the empty row, then starts at column 0 again for the next row. For the literal above, the values visited are 45, 90, 30, 60 and 120. A bound such as <code>sessions[0].length</code> describes only row 0. Applying it to every row can miss cells in long rows or exceed the bounds of short rows.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.1</div>
+  <p><strong>6.1</strong> Write the output in order. Explain what the empty row contributes.</p>
+
+<pre><code><span class="wb-kw">int</span>[][] sessions = {{<span class="wb-num">10</span>}, {}, {<span class="wb-num">20</span>, <span class="wb-num">30</span>, <span class="wb-num">40</span>}};
+<span class="wb-kw">for</span>(<span class="wb-kw">int</span> row = <span class="wb-num">0</span>; row &lt; sessions.length; row++) {
+    <span class="wb-kw">for</span>(<span class="wb-kw">int</span> col = <span class="wb-num">0</span>; col &lt; sessions[row].length; col++) {
+        System.out.println(sessions[row][col]);
+    }
+}</code></pre>
+  <wb-table id="q17-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+        <tr><td>4</td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q17-output-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.2</div>
+  <p><strong>6.2</strong> Create <code>int[][] rows</code> with three non-null row arrays of lengths 2, 0 and 5. Every cell must start at 0.</p>
+
+<p>Create the rows before the checking loop. It prints every row length and every cell.</p>  <wb-exercise id="q18"></wb-exercise>
+</div>
+<h2 id="s7">7. Arrays class</h2>
+<h3>Printing arrays</h3>
+<p>Import <code>java.util.Arrays</code> and call its methods through the class name. Printing an array directly does not list its contents. <code>Arrays.toString</code> formats a one-dimensional array, while <code>Arrays.deepToString</code> also visits nested rows:</p>
+<pre><code><span class="wb-kw">import</span> java.util.Arrays;
+
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ArrayPrintingDemo</span>
+{
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
+    {
+        <span class="wb-kw">int</span>[] week = {<span class="wb-num">45</span>, <span class="wb-num">0</span>, <span class="wb-num">90</span>};
+        <span class="wb-kw">int</span>[][] sessions = {{<span class="wb-num">45</span>, <span class="wb-num">90</span>}, {}, {<span class="wb-num">30</span>, <span class="wb-num">60</span>, <span class="wb-num">120</span>}};
+        System.out.println(<span class="wb-type">Arrays</span>.toString(week));
+        System.out.println(<span class="wb-type">Arrays</span>.deepToString(sessions));
+    }
+}</code></pre>
+<pre class="wb-output">[45, 0, 90]
+[[45, 90], [], [30, 60, 120]]</pre>
+<p>These methods return strings; the two <code>println</code> calls print them. Use a loop instead when a report needs labels or a student's name beside each value.</p>
+<h3>Sorting and filling</h3>
+<p>For an <code>int[]</code>, <code>Arrays.sort</code> puts the supplied values in increasing order. <code>Arrays.fill</code> changes every element to the supplied value:</p>
+<pre><code><span class="wb-kw">int</span>[] values = {<span class="wb-num">90</span>, <span class="wb-num">45</span>, <span class="wb-num">0</span>};
+<span class="wb-type">Arrays</span>.sort(values);
+System.out.println(<span class="wb-type">Arrays</span>.toString(values)); <span class="wb-cmt">// [0, 45, 90]</span>
+<span class="wb-type">Arrays</span>.fill(values, <span class="wb-num">30</span>);
+System.out.println(<span class="wb-type">Arrays</span>.toString(values)); <span class="wb-cmt">// [30, 30, 30]</span></code></pre>
+<p>Do not sort a week's minutes to find the largest value: the order tells us which day each value belongs to. Search without changing the order, or sort a copy. For a reference array, <code>fill</code> stores the same supplied reference in every slot. It does not make a new object for every slot.</p>
+<h3>Comparison</h3>
+<p><code>Arrays.equals</code> compares one-dimensional contents. When the elements are row arrays, separately created rows need not be the same objects even when their values match. Use <code>Arrays.deepEquals</code> to compare the values inside those rows. The printing and comparison methods leave their arrays unchanged.</p>
+<table>
+  <thead><tr><th>Method</th><th>Effect</th></tr></thead>
+  <tbody>
+      <tr><td><code>copyOf(a, n)</code></td><td>Returns a new array of length n, copying what fits.</td></tr>
+      <tr><td><code>equals(a, b)</code></td><td>Compares one-dimensional elements in order.</td></tr>
+      <tr><td><code>deepEquals(a, b)</code></td><td>Also compares contents inside nested rows.</td></tr>
+      <tr><td><code>toString(a)</code></td><td>Returns a string showing one-dimensional contents.</td></tr>
+      <tr><td><code>deepToString(a)</code></td><td>Also includes contents inside nested rows.</td></tr>
+      <tr><td><code>sort(a)</code></td><td>Changes the supplied array's order.</td></tr>
+      <tr><td><code>fill(a, value)</code></td><td>Changes every element in the supplied array.</td></tr>
+  </tbody>
+</table>
+<p>Call these methods through <code>Arrays</code>. <code>copyOf</code> returns a new array. Sorting and filling change the array you supply.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.1</div>
+  <p><strong>7.1</strong> Predict all three output lines. Which array is changed by sorting and filling?</p>
+
+<pre><code><span class="wb-kw">int</span>[] a = {<span class="wb-num">9</span>, <span class="wb-num">3</span>, <span class="wb-num">6</span>};
+<span class="wb-kw">int</span>[] b = <span class="wb-type">Arrays</span>.copyOf(a, a.length);
+<span class="wb-type">Arrays</span>.sort(b);
+System.out.println(<span class="wb-type">Arrays</span>.toString(a));
+System.out.println(<span class="wb-type">Arrays</span>.toString(b));
+<span class="wb-type">Arrays</span>.fill(b, <span class="wb-num">0</span>);
+System.out.println(<span class="wb-type">Arrays</span>.toString(b));</code></pre>
+  <wb-table id="q19-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q19-output-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.2</div>
+  <p><strong>7.2</strong> Predict the three boolean results. Explain why the first two differ.</p>
+
+<pre><code><span class="wb-kw">int</span>[][] x = {{<span class="wb-num">1</span>, <span class="wb-num">2</span>}, {<span class="wb-num">3</span>}};
+<span class="wb-kw">int</span>[][] y = {{<span class="wb-num">1</span>, <span class="wb-num">2</span>}, {<span class="wb-num">3</span>}};
+System.out.println(<span class="wb-type">Arrays</span>.equals(x, y));
+System.out.println(<span class="wb-type">Arrays</span>.deepEquals(x, y));
+y[<span class="wb-num">1</span>][<span class="wb-num">0</span>] = <span class="wb-num">4</span>;
+System.out.println(<span class="wb-type">Arrays</span>.deepEquals(x, y));</code></pre>
+  <wb-table id="q20-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q20-output-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.3</div>
+  <p><strong>7.3</strong> What does this print, and how many Student objects are created by this code?</p>
+
+<pre><code><span class="wb-type">Student</span>[] guests = <span class="wb-kw">new</span> <span class="wb-type">Student</span>[<span class="wb-num">2</span>];
+<span class="wb-type">Arrays</span>.fill(guests, <span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Guest"</span>));
+guests[<span class="wb-num">0</span>].setName(<span class="wb-str">"Rae"</span>);
+System.out.println(guests[<span class="wb-num">1</span>].getName());</code></pre>
+  <wb-table id="q21-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q21-output-why"></wb-short>
+</div>
+<h2 id="s8">8. Choosing</h2>
+<h3>Array or ArrayList</h3>
+<p>Use an array for a fixed set of positions, such as seven daily values or five seats in one row. Use an <code>ArrayList</code> when items join and leave; it manages changes in size for you.</p>
+<figure class="wb-shot">
+  <img src="img/array_or_list.png" alt="An array has a fixed number of slots; ArrayList allows items to be added or removed." loading="lazy" style="max-width: 540px">
+</figure>
+<p>Arrays can hold primitive values directly. An <code>ArrayList</code> stores object references, so numbers need a wrapper such as <code>Integer</code>. An array's length stays fixed even if a variable later refers to a new, larger array. Copying is something the program must request explicitly.</p>
+<h3>The group report</h3>
+<p>The complete demo calls the row and column totals, then finds the busiest day. It starts with day 0 and uses a strict comparison, so the first largest day would win a tie. The four-by-seven dimensions are fixed in this example:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">StudyGroupDemo</span>
+{
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
+    {
+        <span class="wb-type">StudyGroup</span> group = <span class="wb-kw">new</span> <span class="wb-fn">StudyGroup</span>();
+        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> row = <span class="wb-num">0</span>; row &lt; <span class="wb-num">4</span>; row++) {
+            System.out.println(group.getMember(row).getName()
+                + <span class="wb-str">": "</span> + group.totalForStudent(row));
+        }
+        <span class="wb-kw">int</span> bestDay = <span class="wb-num">0</span>;
+        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> day = <span class="wb-num">0</span>; day &lt; <span class="wb-num">7</span>; day++) {
+            System.out.println(<span class="wb-str">"Day "</span> + day + <span class="wb-str">": "</span> + group.totalForDay(day));
+            <span class="wb-kw">if</span>(group.totalForDay(day) &gt; group.totalForDay(bestDay)) {
+                bestDay = day;
+            }
+        }
+        System.out.println(<span class="wb-str">"Busiest student: "</span>
+            + group.getMember(group.busiestStudent()).getName());
+        System.out.println(<span class="wb-str">"Busiest day: "</span> + bestDay
+            + <span class="wb-str">" ("</span> + group.totalForDay(bestDay) + <span class="wb-str">")"</span>);
+    }
+}</code></pre>
+<pre class="wb-output">Ada: 345
+Bo: 300
+Chen: 240
+Dev: 300
+Day 0: 225
+Day 1: 90
+Day 2: 180
+Day 3: 120
+Day 4: 90
+Day 5: 300
+Day 6: 180
+Busiest student: Ada
+Busiest day: 5 (300)</pre>
+<h3>Another design</h3>
+<p>The parallel arrays connect a student and a week only by row position. Reordering <code>members</code> without moving the matching rows of <code>minutes</code> can attach a name to the wrong week, even though the code still compiles. Another design gives each <code>Student</code> a <code>WeekLog</code> field. One <code>Student[]</code> then holds the group, and moving a student keeps their week with them.</p>
+<figure class="wb-shot">
+  <img src="img/student_week.png" alt="Proposed design: a Student array refers to a Student, which refers to its WeekLog." loading="lazy" style="max-width: 440px">
+</figure>
+<p>This is a proposed design, not a change to the running example. Lecture 14 starts Chapter 8: designing classes that are easy to change.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.1</div>
+  <p><strong>8.1</strong> Choose an array or an <code>ArrayList</code> for each job, and give a reason.</p>
+
+<ol type="a">
+<li>A reading for each of 100 fixed sensor positions.</li>
+<li>The names of visitors as they arrive and leave.</li>
+<li>Seven daily values for each of four students.</li>
+</ol>
+  <wb-short id="q22"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.2</div>
+  <p><strong>8.2</strong> What is printed, and whose study value has been placed beside that name?</p>
+
+<pre><code><span class="wb-type">Student</span>[] people = {<span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Bo"</span>), <span class="wb-kw">new</span> <span class="wb-fn">Student</span>(<span class="wb-str">"Ada"</span>)};
+<span class="wb-kw">int</span>[][] minutes = {{<span class="wb-num">60</span>}, {<span class="wb-num">45</span>}};
+<span class="wb-type">Student</span> temp = people[<span class="wb-num">0</span>];
+people[<span class="wb-num">0</span>] = people[<span class="wb-num">1</span>];
+people[<span class="wb-num">1</span>] = temp;
+System.out.println(people[<span class="wb-num">0</span>].getName() + <span class="wb-str">": "</span> + minutes[<span class="wb-num">0</span>][<span class="wb-num">0</span>]);</code></pre>
+  <wb-table id="q23-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q23-output-why"></wb-short>
+</div>
+<h2 id="s9">9. Seats Part 2: The seat map</h2>
+<h3>The problem</h3>
+<p>This part is practice for after class. Keep every field and method from Part 1, and add <code>printSeatMap</code> and <code>bestRow</code> to <code>Theatre</code>. <code>SeatRow</code> already has every method needed.</p>
+<ul>
+<li><code>void printSeatMap()</code> prints one line per row. Start with <code>Row r: </code>, using the row index for r, then print X for each booked seat and . for each free seat. Use no spaces between symbols.</li>
+<li>The outer loop chooses a row; the inner loop uses that row's <code>getSize()</code> and <code>isBooked(seat)</code>. Use <code>print</code> for a symbol and <code>println()</code> after the row to end its line.</li>
+<li><code>int bestRow()</code> returns the row with the most free seats. Keep the first row in a tie. Return -1 if there are no rows.</li>
+</ul>
+<p>With at least one row, a full theatre still has a best row: all free counts tie at 0, so row 0 wins. The same applies when rows have zero seats. The method returns a row index and leaves the bookings unchanged. A map with no rows prints no lines.</p>
+<p>Extend the existing demo after its last booked count: call <code>printSeatMap()</code>, then print <code>Best row: </code> followed by <code>bestRow()</code>. The complete output is:</p>
+<pre class="wb-output">Booked: 0
+Book (0, 1): true
+Book (0, 1) again: false
+Book (3, 0): false
+Book (1, 4): true
+Book (2, 5): false
+Booked: 2
+Row 0: .X...
+Row 1: ....X
+Row 2: .....
+Best row: 2</pre>
+<figure class="wb-shot">
+  <img src="img/seat_map.png" alt="Three rows of five seats. Row 0 seat 1 and row 1 seat 4 are booked; row 2 has five free seats." loading="lazy" style="max-width: 480px">
+</figure>
+<p>The free counts are 4, 4 and 5. There are 2 booked seats, and row 2 has the most free seats.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 9.1</div>
+  <p><strong>9.1</strong> Write <code>printSeatMap()</code> and the extended <code>TheatreDemo</code>. Use additional paper or an IDE for the complete implementation.</p>
+
+<p>Add <code>printSeatMap</code> to the Part 1 class. The checking program tries no rows, rows with no seats, an empty map, bookings in different rows and a second print.</p>  <wb-exercise id="q24"></wb-exercise><p>Extend the demo in the second box. A finished Part 2 <code>Theatre</code> is available there.</p>  <wb-exercise id="q24-demo"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 9.2</div>
+  <p><strong>9.2</strong> Write <code>bestRow()</code>. It must also handle a theatre with no rows and keep the first row when counts tie. Use additional paper or an IDE for the complete implementation.</p>
+
+<p>The checking program tries no rows, no seats, a tie, a partly booked theatre and a full theatre. It also checks a second call and the booked count.</p>  <wb-exercise id="q25"></wb-exercise>
+</div>
+<h2 id="s10">10. Review</h2>
+<h3>References and indexes</h3>
+<p>An array has a fixed number of slots, but a slot can hold a new value or reference. Copying and assignment have different effects on which container is shared. For a grid, check the row reference and use that row's own bounds. A reporting loop should change its counters and totals without changing the data it reports.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 10.1</div>
+  <p><strong>10.1</strong> Correct each statement.</p>
+
+<ol type="a">
+<li>"<code>new Student[2]</code> creates two students."</li>
+<li>"Copying a <code>Student[]</code> with <code>Arrays.copyOf</code> creates new students."</li>
+<li>"Every row of an <code>int[][]</code> must have the same length."</li>
+</ol>
+  <wb-short id="q26"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 10.2</div>
+  <p><strong>10.2</strong> Add <code>int groupTotal()</code> to <code>StudyGroup</code>. Use <code>totalForStudent</code> to return the total minutes for all students.</p>
+
+<p>Add the method to the class. The checking program calls it twice.</p>  <wb-exercise id="q27"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 10.3</div>
+  <p><strong>10.3</strong> Treat each <code>println</code> independently, starting from this grid. For each, state its value or the exception it throws.</p>
+
+<pre><code><span class="wb-kw">int</span>[][] cells = {{<span class="wb-num">1</span>, <span class="wb-num">2</span>}, <span class="wb-kw">null</span>, {<span class="wb-num">3</span>}};
+System.out.println(cells[<span class="wb-num">1</span>][<span class="wb-num">0</span>]);
+System.out.println(cells[<span class="wb-num">0</span>][<span class="wb-num">2</span>]);
+System.out.println(cells[<span class="wb-num">2</span>][<span class="wb-num">0</span>]);</code></pre>
+  <wb-table id="q28">
+    <table>
+      <thead><tr><th>Expression</th><th>Value or exception</th></tr></thead>
+      <tbody>
+        <tr><td><code>cells[1][0]</code></td><td data-blank="null"></td></tr>
+        <tr><td><code>cells[0][2]</code></td><td data-blank="bounds"></td></tr>
+        <tr><td><code>cells[2][0]</code></td><td data-blank="value"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q28-why"></wb-short>
+</div>
+<h2 id="s11">11. Complete Java Programs</h2>
+<p>Read and run these two complete programs after class, then write the extension asked for at the end of each. Use additional paper or an IDE for the complete implementation. Compare your demo's output with the expected output before changing a class.</p>
+<p>In each box, complete one class. Finished copies of the other classes are available.</p>
+<h3>11.1 Program A: Car and ParkingLot</h3>
+<ul>
+<li><code>Car</code> has a private <code>String registration</code> field. Its constructor takes the registration string. The method <code>getRegistration()</code> returns it.</li>
+<li><code>ParkingLot(int size)</code> creates its private <code>Car[] spaces</code>. Size must be non-negative. Null means that a space is free.</li>
+<li><code>boolean park(int space, Car car)</code> refuses an invalid index, a null car, or an occupied space. Otherwise it stores the reference and returns true.</li>
+<li><code>boolean leave(int space)</code> returns false for an invalid or empty space. Otherwise it clears that slot to null and returns true.</li>
+<li><code>countFree()</code> counts null slots. <code>printSpaces()</code> prints each index followed by its registration or <code>free</code>.</li>
+<li>The demo makes four spaces, tries two cars in space 1, tries invalid space 4, parks in space 3, then clears space 1. It prints the returns, counts and final spaces in that order.</li>
+</ul>
+<pre><code><span class="wb-cmt">/** A car identified by its registration. */</span>
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Car</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> registration;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Car</span>(<span class="wb-type">String</span> registration)
+    {
+        <span class="wb-kw">this</span>.registration = registration;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getRegistration</span>()
+    {
+        <span class="wb-kw">return</span> registration;
+    }
+}</code></pre>
+<pre><code><span class="wb-cmt">/** Fixed parking spaces. A null slot is free. */</span>
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ParkingLot</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">Car</span>[] spaces;
+
+    <span class="wb-cmt">/** Size must be non-negative. */</span>
+    <span class="wb-kw">public</span> <span class="wb-fn">ParkingLot</span>(<span class="wb-kw">int</span> size)
+    {
+        spaces = <span class="wb-kw">new</span> <span class="wb-type">Car</span>[size];
+    }
+
+    <span class="wb-cmt">/** Park a non-null car in a valid free space. */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">park</span>(<span class="wb-kw">int</span> space, <span class="wb-type">Car</span> car)
+    {
+        <span class="wb-kw">if</span>(space &lt; <span class="wb-num">0</span> || space &gt;= spaces.length
+            || car == <span class="wb-kw">null</span>) {
+            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
+        }
+        <span class="wb-kw">if</span>(spaces[space] != <span class="wb-kw">null</span>) {
+            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
+        }
+        spaces[space] = car;
+        <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
+    }
+
+    <span class="wb-cmt">/** Remove a car from a valid occupied space. */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">leave</span>(<span class="wb-kw">int</span> space)
+    {
+        <span class="wb-kw">if</span>(space &lt; <span class="wb-num">0</span> || space &gt;= spaces.length
+            || spaces[space] == <span class="wb-kw">null</span>) {
+            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
+        }
+        spaces[space] = <span class="wb-kw">null</span>;
+        <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">countFree</span>()
+    {
+        <span class="wb-kw">int</span> count = <span class="wb-num">0</span>;
+        <span class="wb-kw">for</span>(<span class="wb-type">Car</span> car : spaces) {
+            <span class="wb-kw">if</span>(car == <span class="wb-kw">null</span>) {
+                count++;
+            }
+        }
+        <span class="wb-kw">return</span> count;
+    }
+
+    <span class="wb-cmt">/** Print occupied and free spaces. */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printSpaces</span>()
+    {
+        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> space = <span class="wb-num">0</span>; space &lt; spaces.length;
+            space++) {
+            <span class="wb-kw">if</span>(spaces[space] == <span class="wb-kw">null</span>) {
+                System.out.println(space + <span class="wb-str">": free"</span>);
+            }
+            <span class="wb-kw">else</span> {
+                System.out.println(space + <span class="wb-str">": "</span>
+                    + spaces[space].getRegistration());
+            }
+        }
+    }
+}</code></pre>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ParkingLotDemo</span>
+{
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
+    {
+        <span class="wb-type">ParkingLot</span> lot = <span class="wb-kw">new</span> <span class="wb-fn">ParkingLot</span>(<span class="wb-num">4</span>);
+        System.out.println(<span class="wb-str">"Free: "</span>
+            + lot.countFree());
+        System.out.println(<span class="wb-str">"Park 1: "</span>
+            + lot.park(<span class="wb-num">1</span>, <span class="wb-kw">new</span> <span class="wb-fn">Car</span>(<span class="wb-str">"ABC 123"</span>)));
+        System.out.println(<span class="wb-str">"Park 1 again: "</span>
+            + lot.park(<span class="wb-num">1</span>, <span class="wb-kw">new</span> <span class="wb-fn">Car</span>(<span class="wb-str">"DEF 456"</span>)));
+        System.out.println(<span class="wb-str">"Park 4: "</span>
+            + lot.park(<span class="wb-num">4</span>, <span class="wb-kw">new</span> <span class="wb-fn">Car</span>(<span class="wb-str">"GHI 789"</span>)));
+        System.out.println(<span class="wb-str">"Park 3: "</span>
+            + lot.park(<span class="wb-num">3</span>, <span class="wb-kw">new</span> <span class="wb-fn">Car</span>(<span class="wb-str">"JKL 012"</span>)));
+        System.out.println(<span class="wb-str">"Leave 1: "</span> + lot.leave(<span class="wb-num">1</span>));
+        System.out.println(<span class="wb-str">"Free: "</span>
+            + lot.countFree());
+        lot.printSpaces();
+    }
+}</code></pre>
+<p><strong>Expected output</strong></p>
+<pre class="wb-output">Free: 4
+Park 1: true
+Park 1 again: false
+Park 4: false
+Park 3: true
+Leave 1: true
+Free: 3
+0: free
+1: free
+2: free
+3: JKL 012</pre>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Car</code></div>
+<p>The checking program reads the stored values from separate objects.</p>
+  <wb-exercise id="p1-item"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>ParkingLot</code></div>
+<p>The checking program tries a lot with no spaces, null cars, invalid indexes, an occupied space, leaving an empty space and leaving twice. It checks counts and prints every space.</p>
+  <wb-exercise id="p1-collection"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>ParkingLotDemo</code></div>
+<p>Finished copies of the other two classes are available. Match the expected demo output above.</p>
+  <wb-exercise id="p1-demo"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 11.1</div>
+  <p><strong>11.1</strong> Add <code>int firstFree()</code> to <code>ParkingLot</code>. Return the lowest free space index, or -1 when every space is occupied. Use additional paper or an IDE for the complete implementation.</p>
+<p>The extension check tries no spaces, two free spaces, the last free space, a full lot and a space freed by <code>leave</code>.</p>
+  <wb-exercise id="q29"></wb-exercise>
+</div>
+<h3>11.2 Program B: Course and Gradebook</h3>
+<ul>
+<li><code>Course(String title, int assessmentCount)</code> stores both values in private fields. Assessment count must be positive. Its getters are <code>getTitle()</code> and <code>getAssessmentCount()</code>.</li>
+<li><code>Gradebook(Course course, int studentCount)</code> stores the course reference and creates its private <code>int[][] marks</code>: one row per student and one column per assessment. The course must be non-null, and student count must be positive.</li>
+<li><code>record(int student, int assessment, int mark)</code> returns false for either invalid index or a mark outside 0 to 100. Otherwise it stores the mark and returns true. <code>getCourseTitle()</code> reads the course's title.</li>
+<li><code>studentAverage(int student)</code> divides that row's sum by its length. <code>assessmentAverage(int assessment)</code> divides that column's sum by the number of rows. Both return <code>double</code> and require valid indexes. The cast to double before division keeps the fractional part.</li>
+<li>The demo records all 16 values in the four-by-four literal. It then tries student 4, prints the course title, and prints every row average and every column average.</li>
+</ul>
+<p>An unrecorded mark starts at 0 and counts in an average. It does not mean "missing" to this class, so the demo records every mark before reporting. The positive sizes avoid division by zero. For example, 325 divided by 4 is 81 with integer division, but <code>(double) 325 / 4</code> is 81.25.</p>
+<pre><code><span class="wb-cmt">/** A course with fixed assessments. */</span>
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Course</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> title;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> assessmentCount;
+
+    <span class="wb-cmt">/** Assessment count must be positive. */</span>
+    <span class="wb-kw">public</span> <span class="wb-fn">Course</span>(<span class="wb-type">String</span> title,
+        <span class="wb-kw">int</span> assessmentCount)
+    {
+        <span class="wb-kw">this</span>.title = title;
+        <span class="wb-kw">this</span>.assessmentCount = assessmentCount;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getTitle</span>()
+    {
+        <span class="wb-kw">return</span> title;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getAssessmentCount</span>()
+    {
+        <span class="wb-kw">return</span> assessmentCount;
+    }
+}</code></pre>
+<pre><code><span class="wb-cmt">/** Rows are students; columns are assessments. */</span>
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Gradebook</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">Course</span> course;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span>[][] marks;
+
+    <span class="wb-cmt">/** Positive count; non-null course. */</span>
+    <span class="wb-kw">public</span> <span class="wb-fn">Gradebook</span>(<span class="wb-type">Course</span> course,
+        <span class="wb-kw">int</span> studentCount)
+    {
+        <span class="wb-kw">this</span>.course = course;
+        <span class="wb-kw">int</span> assessments =
+            course.getAssessmentCount();
+        marks = <span class="wb-kw">new</span> <span class="wb-kw">int</span>[studentCount][assessments];
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getCourseTitle</span>()
+    {
+        <span class="wb-kw">return</span> course.getTitle();
+    }
+
+    <span class="wb-cmt">/** Refuse invalid indexes or marks. */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">record</span>(<span class="wb-kw">int</span> student,
+        <span class="wb-kw">int</span> assessment,
+        <span class="wb-kw">int</span> mark)
+    {
+        <span class="wb-kw">if</span>(student &lt; <span class="wb-num">0</span> || student &gt;= marks.length) {
+            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
+        }
+        <span class="wb-kw">if</span>(assessment &lt; <span class="wb-num">0</span>
+            || assessment &gt;= marks[student].length
+            || mark &lt; <span class="wb-num">0</span> || mark &gt; <span class="wb-num">100</span>) {
+            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
+        }
+        marks[student][assessment] = mark;
+        <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
+    }
+
+    <span class="wb-cmt">/** Average for a valid student. */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">double</span> <span class="wb-fn">studentAverage</span>(<span class="wb-kw">int</span> student)
+    {
+        <span class="wb-kw">int</span> sum = <span class="wb-num">0</span>;
+        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> mark : marks[student]) {
+            sum += mark;
+        }
+        <span class="wb-kw">return</span> (<span class="wb-kw">double</span>) sum
+            / marks[student].length;
+    }
+
+    <span class="wb-cmt">/** Average for a valid assessment. */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">double</span> <span class="wb-fn">assessmentAverage</span>(
+        <span class="wb-kw">int</span> assessment)
+    {
+        <span class="wb-kw">int</span> sum = <span class="wb-num">0</span>;
+        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> row = <span class="wb-num">0</span>; row &lt; marks.length; row++) {
+            sum += marks[row][assessment];
+        }
+        <span class="wb-kw">return</span> (<span class="wb-kw">double</span>) sum / marks.length;
+    }
+}</code></pre>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">GradebookDemo</span>
+{
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
+    {
+        <span class="wb-type">Course</span> course = <span class="wb-kw">new</span> <span class="wb-fn">Course</span>(<span class="wb-str">"COMP 2001"</span>, <span class="wb-num">4</span>);
+        <span class="wb-type">Gradebook</span> book = <span class="wb-kw">new</span> <span class="wb-fn">Gradebook</span>(course, <span class="wb-num">4</span>);
+        <span class="wb-kw">int</span>[][] results = {
+            {<span class="wb-num">70</span>, <span class="wb-num">80</span>, <span class="wb-num">90</span>, <span class="wb-num">85</span>}, {<span class="wb-num">60</span>, <span class="wb-num">75</span>, <span class="wb-num">81</span>, <span class="wb-num">72</span>},
+            {<span class="wb-num">90</span>, <span class="wb-num">85</span>, <span class="wb-num">95</span>, <span class="wb-num">94</span>}, {<span class="wb-num">80</span>, <span class="wb-num">76</span>, <span class="wb-num">94</span>, <span class="wb-num">82</span>}
+        };
+        <span class="wb-cmt">// Record all marks before averaging.</span>
+        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> row = <span class="wb-num">0</span>; row &lt; results.length;
+            row++) {
+            <span class="wb-kw">for</span>(<span class="wb-kw">int</span> col = <span class="wb-num">0</span>;
+                col &lt; results[row].length; col++) {
+                book.record(row, col,
+                    results[row][col]);
+            }
+        }
+        System.out.println(<span class="wb-str">"Bad student stored: "</span>
+            + book.record(<span class="wb-num">4</span>, <span class="wb-num">0</span>, <span class="wb-num">50</span>));
+        System.out.println(<span class="wb-str">"Course: "</span>
+            + book.getCourseTitle());
+        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> row = <span class="wb-num">0</span>; row &lt; results.length;
+            row++) {
+            System.out.println(<span class="wb-str">"Student "</span> + row + <span class="wb-str">": "</span>
+                + book.studentAverage(row));
+        }
+        <span class="wb-kw">for</span>(<span class="wb-kw">int</span> col = <span class="wb-num">0</span>;
+            col &lt; course.getAssessmentCount();
+            col++) {
+            System.out.println(<span class="wb-str">"Assessment "</span>
+                + col + <span class="wb-str">": "</span>
+                + book.assessmentAverage(col));
+        }
+    }
+}</code></pre>
+<p><strong>Expected output</strong></p>
+<pre class="wb-output">Bad student stored: false
+Course: COMP 2001
+Student 0: 81.25
+Student 1: 72.0
+Student 2: 91.0
+Student 3: 83.0
+Assessment 0: 75.0
+Assessment 1: 79.0
+Assessment 2: 90.0
+Assessment 3: 83.25</pre>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Course</code></div>
+<p>The checking program reads the stored values from separate objects.</p>
+  <wb-exercise id="p2-item"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Gradebook</code></div>
+<p>The checking program tries initial zeros, both invalid indexes, marks below 0 and above 100, the values 0 and 100, decimal averages, a replaced mark and a one-cell grid.</p>
+  <wb-exercise id="p2-collection"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>GradebookDemo</code></div>
+<p>Finished copies of the other two classes are available. Match the expected demo output above.</p>
+  <wb-exercise id="p2-demo"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 11.2</div>
+  <p><strong>11.2</strong> Add <code>double overallAverage()</code> to <code>Gradebook</code>. Count every mark once, then divide the total by the number of cells. Keep the fractional part. Use additional paper or an IDE for the complete implementation.</p>
+<p>The extension check tries initial zeros, a filled grid with a decimal average and a second call.</p>
+  <wb-exercise id="q30"></wb-exercise>
+</div>
+<hr>
+<section class="wb-outcomes wb-review">
+  <h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+  <p><code>StudyGroup</code> keeps four students in a <code>Student[]</code> and their study minutes in an <code>int[][]</code>. Each student has one row of seven daily values. The same row index connects a student's name to that student's week.</p>
+
+  <h3>Object arrays</h3>
+  <ul>
+    <li>An <strong>object array</strong> holds references to objects. <code>new Student[4]</code> creates one array with four slots. It creates no students. Every slot starts at <strong><code>null</code></strong>.</li>
+    <li>Create a student for each slot before calling a method through it. A <strong>null slot</strong> has no object to call a method on. The slot can be read or compared to null, but <code>members[0].getName()</code> throws <code>NullPointerException</code> if that slot is null.</li>
+    <li>A <strong>for-each loop</strong> copies each reference into its loop variable. It can call methods on the referenced object. When null means an empty place, test the reference before calling a method. Use an indexed loop when the position is needed again.</li>
+  </ul>
+
+  <h3>Copying</h3>
+  <ul>
+    <li><strong>Assignment</strong> copies an array reference. After <code>copy = original</code>, both variables refer to one array. A loop that copies primitive values into a new array gives two separate arrays.</li>
+    <li><strong><code>Arrays.copyOf(a, n)</code></strong> returns a new array of length <code>n</code>. It copies what fits, drops values beyond the new length, and fills extra slots with defaults: 0 for <code>int[]</code> and null for reference arrays. The old array's length stays fixed.</li>
+    <li>A <strong>shallow copy</strong> creates a new array and copies its references. The students are shared. Changing a shared student's name is visible through both arrays. Replacing one copied slot leaves the original slot alone.</li>
+    <li>For arrays, <strong><code>==</code></strong> tests whether two references refer to the same array. <strong><code>Arrays.equals</code></strong> compares one-dimensional elements in order. For object arrays it uses the elements' <code>equals</code> methods and handles null slots.</li>
+  </ul>
+
+  <h3>Grids</h3>
+  <ul>
+    <li>A <strong>grid</strong> has rows and columns. A two-dimensional Java array is an <strong>array of row references</strong>. <code>new int[4][7]</code> creates an outer array and four separate seven-element rows. Every int starts at 0.</li>
+    <li>The <strong>first index</strong> chooses a row; the second chooses a cell in that row. <code>minutes[2][6]</code> is Chen's 90 minutes for day 6. Assigning <code>int[] week = minutes[0];</code> shares that row.</li>
+    <li><code>new int[4][]</code> creates only the outer array. Its row slots start null. Create each row before reading its length or using a cell. Even with a valid row index, a null row has no cells to use.</li>
+  </ul>
+  <figure class="wb-shot">
+    <img src="img/slide_rows.png" alt="The minutes array refers to four separate rows, each containing seven zeros" loading="lazy" style="max-width: 560px">
+    <figcaption>A rectangular grid after creation, before study minutes are stored.</figcaption>
+  </figure>
+
+  <h3>Totals and nested loops</h3>
+  <ul>
+    <li>A <strong>row total</strong> keeps the row fixed and visits every column. A <strong>column total</strong> keeps the column fixed and visits every row. Each call starts a fresh sum. The student totals are 345, 300, 240 and 300; all students together recorded 1185 minutes.</li>
+    <li>A <strong>nested loop</strong> is a loop inside another loop. After the outer loop chooses a row, the inner loop visits its cells, starting at column 0. Use <code>grid.length</code> for the row count and <code>grid[row].length</code> for that row's cell count.</li>
+    <li>The <strong>best-so-far index</strong> identifies the largest total. Start at a valid row, then compare the other rows. A strict <code>&gt;</code> keeps the first row in a tie. Ada is the busiest student; day 5 has the largest column total, 300.</li>
+  </ul>
+
+  <h3>Ragged rows and bounds</h3>
+  <ul>
+    <li>A <strong>ragged array</strong> has rows of different lengths. Use the current row's length in the inner loop. An empty row has length 0 and contributes no values. A null row has no array.</li>
+    <li>Both indexes need valid bounds. An invalid index throws <strong><code>ArrayIndexOutOfBoundsException</code></strong>. Access through a null row throws <code>NullPointerException</code>. These expressions can compile and still fail when evaluated.</li>
+  </ul>
+  <figure class="wb-shot">
+    <img src="img/slide_ragged.png" alt="A ragged array has rows of different lengths, with a separate reference for each row" loading="lazy" style="max-width: 560px">
+    <figcaption>Each row has its own length.</figcaption>
+  </figure>
+
+  <h3>The Arrays class</h3>
+  <ul>
+    <li>Import <code>java.util.Arrays</code> and call its <strong>static methods</strong> through the class name. <code>toString</code> formats one-dimensional contents; <code>deepToString</code> also includes nested rows. Printing an array directly does not list its contents.</li>
+    <li><strong><code>sort</code></strong> changes an int array into increasing order. <strong><code>fill</code></strong> changes every element to the supplied value. For reference arrays, fill stores the same reference in every slot. It creates no separate objects for those slots.</li>
+    <li><strong><code>deepEquals</code></strong> compares contents inside nested rows. <code>equals</code> on separately created row arrays can be false even when those rows contain the same values. Printing and comparison leave the arrays unchanged.</li>
+  </ul>
+
+  <h3>Choosing a collection</h3>
+  <ul>
+    <li>Use an <strong>array</strong> for a fixed set of positions. Use an <strong><code>ArrayList</code></strong> when items join and leave. Arrays can hold primitive values directly; an ArrayList stores object references, so numbers need wrappers such as <code>Integer</code>.</li>
+    <li><strong>Parallel arrays</strong> use the same index for related data. Moving students without their matching rows attaches names to the wrong weeks. Giving each Student a WeekLog field would keep the week with its student when the group is reordered.</li>
+  </ul>
+
+  <h3>Theatre seats</h3>
+  <ul>
+    <li><strong><code>Theatre</code></strong> holds a <code>SeatRow[]</code>. The constructor creates every row separately. Its <code>book</code> method checks the row, then lets SeatRow check the seat. Repeated or invalid bookings return false.</li>
+    <li><strong><code>printSeatMap</code></strong> uses nested loops: X means booked and . means free. <strong><code>bestRow</code></strong> returns the first row with the most free seats, or -1 for no rows. When there is at least one row and every row is full, their free counts tie at 0, so row 0 wins.</li>
+  </ul>
+  <figure class="wb-shot">
+    <img src="img/slide_seats.png" alt="The theatre demo books two seats, prints three rows and reports best row 2" loading="lazy" style="max-width: 560px">
+    <figcaption>The three rows have 4, 4 and 5 free seats.</figcaption>
+  </figure>
+</section>
+
+</main>
+</body>
+</html>

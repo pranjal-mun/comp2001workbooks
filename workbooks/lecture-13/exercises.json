@@ -1,0 +1,1024 @@
+{
+  "id": "lecture-13",
+  "course": "COMP 2001: Object-Oriented Programming",
+  "title": "Lecture 13 Workbook",
+  "subtitle": "Chapter 7, Part 2: Arrays of Objects and Grids",
+  "exercises": {
+    "q1-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "Ada",
+            "\"Ada\""
+          ],
+          "show": "Ada",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "true"
+          ],
+          "show": "true",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q1-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "SXQgcHJpbnRzIEFkYSwgdGhlbiB0cnVlLiBUaGUgbGFzdCBsaW5lIHRocm93cyBOdWxsUG9pbnRlckV4Y2VwdGlvbjogc2xvdCAyIGV4aXN0cyBidXQgaXMgc3RpbGwgbnVsbC4="
+    },
+    "q2": {
+      "type": "code",
+      "xp": 4,
+      "title": "PrintNames.java",
+      "minLines": 14,
+      "maxLines": 26,
+      "starter": "public class PrintNames\n{\n    public static void main(String[] args)\n    {\n        Student[] group = {new Student(\"Ada\"), null, new Student(\"Bo\")};\n        // Print the non-null names.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Ada\nBo"
+        }
+      ],
+      "check": "",
+      "answer": "cHVibGljIGNsYXNzIFByaW50TmFtZXMKewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBTdHVkZW50W10gZ3JvdXAgPSB7bmV3IFN0dWRlbnQoIkFkYSIpLCBudWxsLCBuZXcgU3R1ZGVudCgiQm8iKX07CiAgICAgICAgZm9yKFN0dWRlbnQgc3R1ZGVudCA6IGdyb3VwKSB7CiAgICAgICAgICAgIGlmKHN0dWRlbnQgIT0gbnVsbCkgewogICAgICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKHN0dWRlbnQuZ2V0TmFtZSgpKTsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Student.java",
+          "content": "/** One student in a study group. */\npublic class Student\n{\n    private String name;\n\n    public Student(String name)\n    {\n        this.name = name;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public void setName(String name)\n    {\n        this.name = name;\n    }\n}"
+        }
+      ]
+    },
+    "q3-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "Ada Lee",
+            "\"Ada Lee\""
+          ],
+          "show": "Ada Lee",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q3-output-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "QWRhIExlZS4gQm90aCBzbG90cyByZWZlciB0byB0aGUgc2FtZSBzdHVkZW50LiBUaGUgc2V0dGVyIGNoYW5nZXMgdGhhdCBvbmUgb2JqZWN0Lg=="
+    },
+    "q4": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "line": {
+          "accept": [
+            "Student[] pair = {new Student(\"Rae\"), new Student(\"Ivo\")};",
+            "Student[]pair={new Student(\"Rae\"),new Student(\"Ivo\")};",
+            "Student[] pair = {new Student(\"Rae\"), new Student(\"Ivo\")}",
+            "Student[]pair={new Student(\"Rae\"),new Student(\"Ivo\")}"
+          ],
+          "show": "Student[] pair = {new Student(\"Rae\"), new Student(\"Ivo\")};",
+          "caseSensitive": true,
+          "width": "100%"
+        }
+      }
+    },
+    "q5": {
+      "type": "code",
+      "xp": 6,
+      "title": "Theatre.java",
+      "minLines": 32,
+      "maxLines": 44,
+      "starter": "public class Theatre\n{\n    // Add the field, constructor, book and countBooked.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Empty: 0\nEmpty book: false\nZero seats: false\nInitial: 0\nFirst: true\nRepeat: false\nOther row: true\nBad row: false\nPast row: false\nBad seat: false\nPast seat: false\nCount: 2\nCount again: 2"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"SeatRow[]rows\"), \"Store the rows in a SeatRow array.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"newSeatRow(seatsPerRow)\"), \"Create a separate SeatRow for each slot.\");",
+      "answer": "LyoqIEEgdGhlYXRyZSBtYWRlIG9mIHJvd3Mgb2Ygc2VhdHMuIFNpemVzIG11c3QgYmUgbm9uLW5lZ2F0aXZlLiAqLwpwdWJsaWMgY2xhc3MgVGhlYXRyZQp7CiAgICBwcml2YXRlIFNlYXRSb3dbXSByb3dzOwoKICAgIHB1YmxpYyBUaGVhdHJlKGludCByb3dDb3VudCwgaW50IHNlYXRzUGVyUm93KQogICAgewogICAgICAgIHJvd3MgPSBuZXcgU2VhdFJvd1tyb3dDb3VudF07CiAgICAgICAgZm9yKGludCByb3cgPSAwOyByb3cgPCByb3dzLmxlbmd0aDsgcm93KyspIHsKICAgICAgICAgICAgcm93c1tyb3ddID0gbmV3IFNlYXRSb3coc2VhdHNQZXJSb3cpOwogICAgICAgIH0KICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBib29rKGludCByb3csIGludCBzZWF0KQogICAgewogICAgICAgIGlmKHJvdyA8IDAgfHwgcm93ID49IHJvd3MubGVuZ3RoKSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIHJvd3Nbcm93XS5ib29rKHNlYXQpOwogICAgfQoKICAgIHB1YmxpYyBpbnQgY291bnRCb29rZWQoKQogICAgewogICAgICAgIGludCBjb3VudCA9IDA7CiAgICAgICAgZm9yKFNlYXRSb3cgcm93IDogcm93cykgewogICAgICAgICAgICBjb3VudCArPSByb3cuZ2V0U2l6ZSgpIC0gcm93LmNvdW50RnJlZSgpOwogICAgICAgIH0KICAgICAgICByZXR1cm4gY291bnQ7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "SeatRow.java",
+          "content": "/**\n * One row of seats in a theatre. Seat 0 is at the aisle.\n * @author Pranjal Patra\n * @version 1.0\n */\npublic class SeatRow\n{\n    private boolean[] booked;\n\n    /**\n     * Create a row of seats, all free.\n     * @param size The number of seats in the row.\n     */\n    public SeatRow(int size)\n    {\n        booked = new boolean[size];\n    }\n\n    /**\n     * Return the number of seats in the row.\n     * @return The row's size.\n     */\n    public int getSize()\n    {\n        return booked.length;\n    }\n\n    /**\n     * Say whether a seat is booked.\n     * @param seat The seat number, from 0 to the size minus 1.\n     * @return true if the seat is booked.\n     */\n    public boolean isBooked(int seat)\n    {\n        return booked[seat];\n    }\n\n    /**\n     * Book a seat, if it exists and is free.\n     * @param seat The seat number.\n     * @return true if the seat was booked, false if it does not exist\n     *         or is already booked.\n     */\n    public boolean book(int seat)\n    {\n        if(seat < 0 || seat >= booked.length) {\n            return false;\n        }\n        if(booked[seat]) {\n            return false;\n        }\n        booked[seat] = true;\n        return true;\n    }\n\n    /**\n     * Return the number of free seats.\n     * @return How many seats are not booked.\n     */\n    public int countFree()\n    {\n        int free = 0;\n        for(boolean taken : booked) {\n            if(!taken) {\n                free++;\n            }\n        }\n        return free;\n    }\n\n    /**\n     * Return the free seat nearest the aisle.\n     * @return The lowest free seat number, or -1 if the row is full.\n     */\n    public int firstFree()\n    {\n        for(int seat = 0; seat < booked.length; seat++) {\n            if(!booked[seat]) {\n                return seat;\n            }\n        }\n        return -1;\n    }\n}"
+        },
+        {
+          "name": "TheatreCheck.java",
+          "content": "public class TheatreCheck\n{\n    public static void main(String[] args)\n    {\n        Theatre empty = new Theatre(0, 3);\n        System.out.println(\"Empty: \" + empty.countBooked());\n        System.out.println(\"Empty book: \" + empty.book(0, 0));\n        Theatre zero = new Theatre(2, 0);\n        System.out.println(\"Zero seats: \" + zero.book(0, 0));\n        Theatre t = new Theatre(2, 2);\n        System.out.println(\"Initial: \" + t.countBooked());\n        System.out.println(\"First: \" + t.book(0, 0));\n        System.out.println(\"Repeat: \" + t.book(0, 0));\n        System.out.println(\"Other row: \" + t.book(1, 0));\n        System.out.println(\"Bad row: \" + t.book(-1, 0));\n        System.out.println(\"Past row: \" + t.book(2, 0));\n        System.out.println(\"Bad seat: \" + t.book(0, -1));\n        System.out.println(\"Past seat: \" + t.book(0, 2));\n        System.out.println(\"Count: \" + t.countBooked());\n        System.out.println(\"Count again: \" + t.countBooked());\n    }\n}"
+        }
+      ]
+    },
+    "q5-demo": {
+      "type": "code",
+      "xp": 4,
+      "title": "TheatreDemo.java",
+      "minLines": 16,
+      "maxLines": 28,
+      "starter": "public class TheatreDemo\n{\n    public static void main(String[] args)\n    {\n        // Create the theatre, try the bookings and print the results.\n    }\n}",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Booked: 0\nBook (0, 1): true\nBook (0, 1) again: false\nBook (3, 0): false\nBook (1, 4): true\nBook (2, 5): false\nBooked: 2"
+        }
+      ],
+      "check": "",
+      "answer": "cHVibGljIGNsYXNzIFRoZWF0cmVEZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgVGhlYXRyZSB0aGVhdHJlID0gbmV3IFRoZWF0cmUoMywgNSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJCb29rZWQ6ICIgKyB0aGVhdHJlLmNvdW50Qm9va2VkKCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQm9vayAoMCwgMSk6ICIgKyB0aGVhdHJlLmJvb2soMCwgMSkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQm9vayAoMCwgMSkgYWdhaW46ICIgKyB0aGVhdHJlLmJvb2soMCwgMSkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQm9vayAoMywgMCk6ICIgKyB0aGVhdHJlLmJvb2soMywgMCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQm9vayAoMSwgNCk6ICIgKyB0aGVhdHJlLmJvb2soMSwgNCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQm9vayAoMiwgNSk6ICIgKyB0aGVhdHJlLmJvb2soMiwgNSkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQm9va2VkOiAiICsgdGhlYXRyZS5jb3VudEJvb2tlZCgpKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "SeatRow.java",
+          "content": "/**\n * One row of seats in a theatre. Seat 0 is at the aisle.\n * @author Pranjal Patra\n * @version 1.0\n */\npublic class SeatRow\n{\n    private boolean[] booked;\n\n    /**\n     * Create a row of seats, all free.\n     * @param size The number of seats in the row.\n     */\n    public SeatRow(int size)\n    {\n        booked = new boolean[size];\n    }\n\n    /**\n     * Return the number of seats in the row.\n     * @return The row's size.\n     */\n    public int getSize()\n    {\n        return booked.length;\n    }\n\n    /**\n     * Say whether a seat is booked.\n     * @param seat The seat number, from 0 to the size minus 1.\n     * @return true if the seat is booked.\n     */\n    public boolean isBooked(int seat)\n    {\n        return booked[seat];\n    }\n\n    /**\n     * Book a seat, if it exists and is free.\n     * @param seat The seat number.\n     * @return true if the seat was booked, false if it does not exist\n     *         or is already booked.\n     */\n    public boolean book(int seat)\n    {\n        if(seat < 0 || seat >= booked.length) {\n            return false;\n        }\n        if(booked[seat]) {\n            return false;\n        }\n        booked[seat] = true;\n        return true;\n    }\n\n    /**\n     * Return the number of free seats.\n     * @return How many seats are not booked.\n     */\n    public int countFree()\n    {\n        int free = 0;\n        for(boolean taken : booked) {\n            if(!taken) {\n                free++;\n            }\n        }\n        return free;\n    }\n\n    /**\n     * Return the free seat nearest the aisle.\n     * @return The lowest free seat number, or -1 if the row is full.\n     */\n    public int firstFree()\n    {\n        for(int seat = 0; seat < booked.length; seat++) {\n            if(!booked[seat]) {\n                return seat;\n            }\n        }\n        return -1;\n    }\n}"
+        },
+        {
+          "name": "Theatre.java",
+          "content": "/** A theatre made of rows of seats. Sizes must be non-negative. */\npublic class Theatre\n{\n    private SeatRow[] rows;\n\n    public Theatre(int rowCount, int seatsPerRow)\n    {\n        rows = new SeatRow[rowCount];\n        for(int row = 0; row < rows.length; row++) {\n            rows[row] = new SeatRow(seatsPerRow);\n        }\n    }\n\n    public boolean book(int row, int seat)\n    {\n        if(row < 0 || row >= rows.length) {\n            return false;\n        }\n        return rows[row].book(seat);\n    }\n\n    public int countBooked()\n    {\n        int count = 0;\n        for(SeatRow row : rows) {\n            count += row.getSize() - row.countFree();\n        }\n        return count;\n    }\n}"
+        }
+      ]
+    },
+    "q6-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "true"
+          ],
+          "show": "true",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "false"
+          ],
+          "show": "false",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "2": {
+          "accept": [
+            "false"
+          ],
+          "show": "false",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "3": {
+          "accept": [
+            "1"
+          ],
+          "show": "1",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q6-output-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "dHJ1ZSwgZmFsc2UsIGZhbHNlLCAxLCBvbiBzZXBhcmF0ZSBsaW5lcy4gVGhlIGZpcnN0IGJvb2tpbmcgc3VjY2VlZHM7IHRoZSBzZWNvbmQgcmVwZWF0cyBpdDsgcm93IDIgZG9lcyBub3QgZXhpc3Qu"
+    },
+    "q7-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "4 9",
+            "\"4 9\""
+          ],
+          "show": "4 9",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q7-output-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "NCA5LiBUaGUgbG9vcCBjb3BpZXMgdmFsdWVzIGludG8gYSBzZXBhcmF0ZSBhcnJheS4gQ2hhbmdpbmcgdGhlIGNvcHkgZG9lcyBub3QgY2hhbmdlIHRoZSBvcmlnaW5hbC4="
+    },
+    "q8-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "Rae Tan",
+            "\"Rae Tan\""
+          ],
+          "show": "Rae Tan",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "Ivo",
+            "\"Ivo\""
+          ],
+          "show": "Ivo",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "2": {
+          "accept": [
+            "null"
+          ],
+          "show": "null",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q8-output-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "UmFlIFRhbiwgSXZvLCBudWxsLCBvbiBzZXBhcmF0ZSBsaW5lcy4gVGhlIGZpcnN0IHNldHRlciBjaGFuZ2VzIHRoZSBzaGFyZWQgc3R1ZGVudC4gUmVwbGFjaW5nIHRoZSBjb3BpZWQgc2xvdCB0aGVuIGxlYXZlcyB0aGUgb3JpZ2luYWwgc2xvdCByZWZlcnJpbmcgdG8gUmFlIFRhbi4="
+    },
+    "q9": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "line": {
+          "accept": [
+            "Student[] five = Arrays.copyOf(members, 5);",
+            "Student[]five=Arrays.copyOf(members,5);",
+            "Student[] five = Arrays.copyOf(members, 5)",
+            "Student[]five=Arrays.copyOf(members,5)"
+          ],
+          "show": "Student[] five = Arrays.copyOf(members, 5);",
+          "caseSensitive": true,
+          "width": "100%"
+        },
+        "extra": {
+          "accept": [
+            "null",
+            "four nulls",
+            "all null",
+            "4 nulls"
+          ],
+          "show": "null",
+          "caseSensitive": true,
+          "width": "26rem"
+        }
+      }
+    },
+    "q10": {
+      "type": "code",
+      "xp": 4,
+      "title": "CreateRow.java",
+      "minLines": 13,
+      "maxLines": 25,
+      "starter": "public class CreateRow\n{\n    public static void main(String[] args)\n    {\n        int[][] grid = new int[3][];\n        // Create row 1 here.\n        grid[1][2] = 9;\n        System.out.println(grid[1].length);\n        System.out.println(grid[1][2]);\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "4\n9"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"newint[4]\"), \"Create row 1 with four int cells.\");",
+      "answer": "cHVibGljIGNsYXNzIENyZWF0ZVJvdwp7CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKQogICAgewogICAgICAgIGludFtdW10gZ3JpZCA9IG5ldyBpbnRbM11bXTsKICAgICAgICBncmlkWzFdID0gbmV3IGludFs0XTsKICAgICAgICBncmlkWzFdWzJdID0gOTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oZ3JpZFsxXS5sZW5ndGgpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihncmlkWzFdWzJdKTsKICAgIH0KfQ==",
+      "files": []
+    },
+    "q11-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "8"
+          ],
+          "show": "8",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "2 3",
+            "\"2 3\""
+          ],
+          "show": "2 3",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q12": {
+      "type": "code",
+      "xp": 4,
+      "title": "ChenMinutes.java",
+      "minLines": 11,
+      "maxLines": 23,
+      "starter": "public class ChenMinutes\n{\n    public static void main(String[] args)\n    {\n        StudyGroup group = new StudyGroup();\n        // Print Chen's name and minutes for day 6.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Chen: 90"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"group.getMember(2)\"), \"Use getMember(2) for Chen.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"group.getMinutes(2,6)\"), \"Read Chen's minutes with getMinutes(2, 6).\");",
+      "answer": "cHVibGljIGNsYXNzIENoZW5NaW51dGVzCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgU3R1ZHlHcm91cCBncm91cCA9IG5ldyBTdHVkeUdyb3VwKCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGdyb3VwLmdldE1lbWJlcigyKS5nZXROYW1lKCkKICAgICAgICAgICAgKyAiOiAiICsgZ3JvdXAuZ2V0TWludXRlcygyLCA2KSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Student.java",
+          "content": "/** One student in a study group. */\npublic class Student\n{\n    private String name;\n\n    public Student(String name)\n    {\n        this.name = name;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public void setName(String name)\n    {\n        this.name = name;\n    }\n}"
+        },
+        {
+          "name": "StudyGroup.java",
+          "content": "/** Four students and their study minutes for seven days.\n * Row arguments are 0 to 3; day arguments are 0 to 6.\n */\npublic class StudyGroup\n{\n    private Student[] members;\n    private int[][] minutes;\n\n    public StudyGroup()\n    {\n        members = new Student[] {new Student(\"Ada\"), new Student(\"Bo\"),\n            new Student(\"Chen\"), new Student(\"Dev\")};\n        minutes = new int[][] {\n            {45, 0, 90, 30, 0, 120, 60},\n            {60, 60, 60, 60, 60, 0, 0},\n            {0, 30, 30, 30, 30, 30, 90},\n            {120, 0, 0, 0, 0, 150, 30}\n        };\n    }\n\n    public Student getMember(int row)\n    {\n        return members[row];\n    }\n\n    public int getMinutes(int row, int day)\n    {\n        return minutes[row][day];\n    }\n\n    public int totalForStudent(int row)\n    {\n        int sum = 0;\n        for(int day = 0; day < minutes[row].length; day++) {\n            sum += minutes[row][day];\n        }\n        return sum;\n    }\n\n    public int totalForDay(int day)\n    {\n        int sum = 0;\n        for(int row = 0; row < minutes.length; row++) {\n            sum += minutes[row][day];\n        }\n        return sum;\n    }\n\n    /** Return the first row with the largest total. */\n    public int busiestStudent()\n    {\n        int best = 0;\n        for(int row = 1; row < minutes.length; row++) {\n            if(totalForStudent(row) > totalForStudent(best)) {\n                best = row;\n            }\n        }\n        return best;\n    }\n}"
+        }
+      ]
+    },
+    "q13": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "2"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "1": {
+          "accept": [
+            "6"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "2": {
+          "accept": [
+            "7"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "3": {
+          "accept": [
+            "10"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q13-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGZpbmFsIHRvdGFsIGlzIDEwLiBNb3ZpbmcgdG8gYSBuZXcgcm93IGRvZXMgbm90IHJlc2V0IHN1bSBiZWNhdXNlIGl0cyBpbml0aWFsaXphdGlvbiBpcyBvdXRzaWRlIGJvdGggbG9vcHMu"
+    },
+    "q14": {
+      "type": "code",
+      "xp": 4,
+      "title": "StudyGroup.java",
+      "minLines": 74,
+      "maxLines": 86,
+      "starter": "/** Four students and their study minutes for seven days.\n * Row arguments are 0 to 3; day arguments are 0 to 6.\n */\npublic class StudyGroup\n{\n    private Student[] members;\n    private int[][] minutes;\n\n    public StudyGroup()\n    {\n        members = new Student[] {new Student(\"Ada\"), new Student(\"Bo\"),\n            new Student(\"Chen\"), new Student(\"Dev\")};\n        minutes = new int[][] {\n            {45, 0, 90, 30, 0, 120, 60},\n            {60, 60, 60, 60, 60, 0, 0},\n            {0, 30, 30, 30, 30, 30, 90},\n            {120, 0, 0, 0, 0, 150, 30}\n        };\n    }\n\n    public Student getMember(int row)\n    {\n        return members[row];\n    }\n\n    public int getMinutes(int row, int day)\n    {\n        return minutes[row][day];\n    }\n\n    public int totalForStudent(int row)\n    {\n        int sum = 0;\n        for(int day = 0; day < minutes[row].length; day++) {\n            sum += minutes[row][day];\n        }\n        return sum;\n    }\n\n    public int totalForDay(int day)\n    {\n        int sum = 0;\n        for(int row = 0; row < minutes.length; row++) {\n            sum += minutes[row][day];\n        }\n        return sum;\n    }\n\n    /** Return the first row with the largest total. */\n    public int busiestStudent()\n    {\n        int best = 0;\n        for(int row = 1; row < minutes.length; row++) {\n            if(totalForStudent(row) > totalForStudent(best)) {\n                best = row;\n            }\n        }\n        return best;\n    }\n\n    // Part of StudyGroup.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "2\n0\n4\n1\n2"
+        }
+      ],
+      "check": "",
+      "answer": "LyoqIEZvdXIgc3R1ZGVudHMgYW5kIHRoZWlyIHN0dWR5IG1pbnV0ZXMgZm9yIHNldmVuIGRheXMuCiAqIFJvdyBhcmd1bWVudHMgYXJlIDAgdG8gMzsgZGF5IGFyZ3VtZW50cyBhcmUgMCB0byA2LgogKi8KcHVibGljIGNsYXNzIFN0dWR5R3JvdXAKewogICAgcHJpdmF0ZSBTdHVkZW50W10gbWVtYmVyczsKICAgIHByaXZhdGUgaW50W11bXSBtaW51dGVzOwoKICAgIHB1YmxpYyBTdHVkeUdyb3VwKCkKICAgIHsKICAgICAgICBtZW1iZXJzID0gbmV3IFN0dWRlbnRbXSB7bmV3IFN0dWRlbnQoIkFkYSIpLCBuZXcgU3R1ZGVudCgiQm8iKSwKICAgICAgICAgICAgbmV3IFN0dWRlbnQoIkNoZW4iKSwgbmV3IFN0dWRlbnQoIkRldiIpfTsKICAgICAgICBtaW51dGVzID0gbmV3IGludFtdW10gewogICAgICAgICAgICB7NDUsIDAsIDkwLCAzMCwgMCwgMTIwLCA2MH0sCiAgICAgICAgICAgIHs2MCwgNjAsIDYwLCA2MCwgNjAsIDAsIDB9LAogICAgICAgICAgICB7MCwgMzAsIDMwLCAzMCwgMzAsIDMwLCA5MH0sCiAgICAgICAgICAgIHsxMjAsIDAsIDAsIDAsIDAsIDE1MCwgMzB9CiAgICAgICAgfTsKICAgIH0KCiAgICBwdWJsaWMgU3R1ZGVudCBnZXRNZW1iZXIoaW50IHJvdykKICAgIHsKICAgICAgICByZXR1cm4gbWVtYmVyc1tyb3ddOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TWludXRlcyhpbnQgcm93LCBpbnQgZGF5KQogICAgewogICAgICAgIHJldHVybiBtaW51dGVzW3Jvd11bZGF5XTsKICAgIH0KCiAgICBwdWJsaWMgaW50IHRvdGFsRm9yU3R1ZGVudChpbnQgcm93KQogICAgewogICAgICAgIGludCBzdW0gPSAwOwogICAgICAgIGZvcihpbnQgZGF5ID0gMDsgZGF5IDwgbWludXRlc1tyb3ddLmxlbmd0aDsgZGF5KyspIHsKICAgICAgICAgICAgc3VtICs9IG1pbnV0ZXNbcm93XVtkYXldOwogICAgICAgIH0KICAgICAgICByZXR1cm4gc3VtOwogICAgfQoKICAgIHB1YmxpYyBpbnQgdG90YWxGb3JEYXkoaW50IGRheSkKICAgIHsKICAgICAgICBpbnQgc3VtID0gMDsKICAgICAgICBmb3IoaW50IHJvdyA9IDA7IHJvdyA8IG1pbnV0ZXMubGVuZ3RoOyByb3crKykgewogICAgICAgICAgICBzdW0gKz0gbWludXRlc1tyb3ddW2RheV07CiAgICAgICAgfQogICAgICAgIHJldHVybiBzdW07CiAgICB9CgogICAgLyoqIFJldHVybiB0aGUgZmlyc3Qgcm93IHdpdGggdGhlIGxhcmdlc3QgdG90YWwuICovCiAgICBwdWJsaWMgaW50IGJ1c2llc3RTdHVkZW50KCkKICAgIHsKICAgICAgICBpbnQgYmVzdCA9IDA7CiAgICAgICAgZm9yKGludCByb3cgPSAxOyByb3cgPCBtaW51dGVzLmxlbmd0aDsgcm93KyspIHsKICAgICAgICAgICAgaWYodG90YWxGb3JTdHVkZW50KHJvdykgPiB0b3RhbEZvclN0dWRlbnQoYmVzdCkpIHsKICAgICAgICAgICAgICAgIGJlc3QgPSByb3c7CiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICAgICAgcmV0dXJuIGJlc3Q7CiAgICB9CgogICAgLy8gUGFydCBvZiBTdHVkeUdyb3VwLgogICAgcHVibGljIGludCBzdHVkZW50c092ZXIoaW50IGRheSwgaW50IGxpbWl0KQogICAgewogICAgICAgIGludCBjb3VudCA9IDA7CiAgICAgICAgZm9yKGludCByb3cgPSAwOyByb3cgPCBtaW51dGVzLmxlbmd0aDsgcm93KyspIHsKICAgICAgICAgICAgaWYobWludXRlc1tyb3ddW2RheV0gPiBsaW1pdCkgewogICAgICAgICAgICAgICAgY291bnQrKzsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICByZXR1cm4gY291bnQ7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Student.java",
+          "content": "/** One student in a study group. */\npublic class Student\n{\n    private String name;\n\n    public Student(String name)\n    {\n        this.name = name;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public void setName(String name)\n    {\n        this.name = name;\n    }\n}"
+        },
+        {
+          "name": "QuestionCheck.java",
+          "content": "public class QuestionCheck\n{\n    public static void main(String[] args)\n    {\n        StudyGroup g = new StudyGroup();\n        System.out.println(g.studentsOver(5, 30));\n        System.out.println(g.studentsOver(5, 150));\n        System.out.println(g.studentsOver(5, -1));\n        System.out.println(g.studentsOver(1, 30));\n        System.out.println(g.studentsOver(5, 30));\n    }\n}"
+        }
+      ]
+    },
+    "q15": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "condition": {
+          "accept": [
+            "col < marks[row].length",
+            "col<marks[row].length"
+          ],
+          "show": "col < marks[row].length",
+          "caseSensitive": true,
+          "width": "26rem"
+        }
+      }
+    },
+    "q16": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "strict": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "equal": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q16-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "MCB3aXRoID47IDEgd2l0aCA+PS4gVGhlIGZpcnN0IHRlc3Qga2VlcHMgdGhlIGZpcnN0IGxhcmdlc3QgdG90YWw7IHRoZSBzZWNvbmQgcmVwbGFjZXMgaXQgd2hlbiBhbiBlcXVhbCB0b3RhbCBpcyByZWFjaGVkLg=="
+    },
+    "q17-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "10"
+          ],
+          "show": "10",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "20"
+          ],
+          "show": "20",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "2": {
+          "accept": [
+            "30"
+          ],
+          "show": "30",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "3": {
+          "accept": [
+            "40"
+          ],
+          "show": "40",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q17-output-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "MTAsIDIwLCAzMCBhbmQgNDAsIG9uIHNlcGFyYXRlIGxpbmVzLiBUaGUgZW1wdHkgcm93IGNvbnRyaWJ1dGVzIG5vIHZhbHVlcyBiZWNhdXNlIGl0cyBpbm5lciBsb29wIGhhcyBubyBwYXNzZXMu"
+    },
+    "q18": {
+      "type": "code",
+      "xp": 4,
+      "title": "MakeRows.java",
+      "minLines": 18,
+      "maxLines": 30,
+      "starter": "public class MakeRows\n{\n    public static void main(String[] args)\n    {\n        // Create rows of lengths 2, 0 and 5.\n        for(int[] row : rows) {\n            System.out.println(row.length);\n            for(int value : row) {\n                System.out.println(value);\n            }\n        }\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "2\n0\n0\n0\n5\n0\n0\n0\n0\n0"
+        }
+      ],
+      "check": "",
+      "answer": "cHVibGljIGNsYXNzIE1ha2VSb3dzCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgaW50W11bXSByb3dzID0gbmV3IGludFszXVtdOwogICAgICAgIHJvd3NbMF0gPSBuZXcgaW50WzJdOwogICAgICAgIHJvd3NbMV0gPSBuZXcgaW50WzBdOwogICAgICAgIHJvd3NbMl0gPSBuZXcgaW50WzVdOwogICAgICAgIGZvcihpbnRbXSByb3cgOiByb3dzKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihyb3cubGVuZ3RoKTsKICAgICAgICAgICAgZm9yKGludCB2YWx1ZSA6IHJvdykgewogICAgICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKHZhbHVlKTsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KfQ==",
+      "files": []
+    },
+    "q19-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "[9, 3, 6]",
+            "\"[9, 3, 6]\""
+          ],
+          "show": "[9, 3, 6]",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "[3, 6, 9]",
+            "\"[3, 6, 9]\""
+          ],
+          "show": "[3, 6, 9]",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "2": {
+          "accept": [
+            "[0, 0, 0]",
+            "\"[0, 0, 0]\""
+          ],
+          "show": "[0, 0, 0]",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q19-output-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "WzksIDMsIDZdLCBbMywgNiwgOV0sIHRoZW4gWzAsIDAsIDBdLiBTb3J0aW5nIGFuZCBmaWxsaW5nIGNoYW5nZSBiOyBhIGtlZXBzIGl0cyBvcmlnaW5hbCB2YWx1ZXMu"
+    },
+    "q20-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "false"
+          ],
+          "show": "false",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "true"
+          ],
+          "show": "true",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "2": {
+          "accept": [
+            "false"
+          ],
+          "show": "false",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q20-output-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "ZmFsc2UsIHRydWUsIGZhbHNlLiBUaGUgZmlyc3QgY29tcGFyaXNvbiBmaW5kcyBkaWZmZXJlbnQgcm93IG9iamVjdHMuIFRoZSBkZWVwIGNvbXBhcmlzb24gZmluZHMgZXF1YWwgcm93IGNvbnRlbnRzIHVudGlsIHkgaXMgY2hhbmdlZC4="
+    },
+    "q21-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "Rae",
+            "\"Rae\""
+          ],
+          "show": "Rae",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q21-output-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "UmFlLiBUaGUgZXhwcmVzc2lvbiBuZXcgU3R1ZGVudCgiR3Vlc3QiKSBjcmVhdGVzIG9uZSBzdHVkZW50LCBhbmQgZmlsbCBzdG9yZXMgdGhhdCByZWZlcmVuY2UgaW4gYm90aCBzbG90cy4gVGhlIHNldHRlciBjaGFuZ2VzIHRoZSBvYmplY3QgYm90aCBzbG90cyByZWFjaC4="
+    },
+    "q22": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "VXNlIGFuIGFycmF5IGZvciB0aGUgZml4ZWQgc2Vuc29yIHBvc2l0aW9ucywgYW4gQXJyYXlMaXN0IGZvciBhIGNoYW5naW5nIHZpc2l0b3IgbGlzdCwgYW5kIGFuIGludFtdW10gZ3JpZCBmb3IgdGhlIGZvdXItYnktc2V2ZW4gc3R1ZHkgdmFsdWVzLg=="
+    },
+    "q23-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "Ada: 60",
+            "\"Ada: 60\""
+          ],
+          "show": "Ada: 60",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q23-output-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "QWRhOiA2MC4gVGhlIDYwIGJlbG9uZ3MgdG8gQm8uIFRoZSBzdHVkZW50IHJlZmVyZW5jZXMgbW92ZWQsIGJ1dCB0aGUgcm93cyBvZiBtaW51dGVzIGRpZCBub3Qu"
+    },
+    "q24": {
+      "type": "code",
+      "xp": 4,
+      "title": "Theatre.java",
+      "minLines": 50,
+      "maxLines": 62,
+      "starter": "/** A theatre made of rows of seats. Sizes must be non-negative. */\npublic class Theatre\n{\n    private SeatRow[] rows;\n\n    public Theatre(int rowCount, int seatsPerRow)\n    {\n        rows = new SeatRow[rowCount];\n        for(int row = 0; row < rows.length; row++) {\n            rows[row] = new SeatRow(seatsPerRow);\n        }\n    }\n\n    public boolean book(int row, int seat)\n    {\n        if(row < 0 || row >= rows.length) {\n            return false;\n        }\n        return rows[row].book(seat);\n    }\n\n    public int countBooked()\n    {\n        int count = 0;\n        for(SeatRow row : rows) {\n            count += row.getSize() - row.countFree();\n        }\n        return count;\n    }\n    /** Return the first row with most free seats, or -1 for no rows. */\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Row 0: \nRow 1: \nRow 0: ..\nRow 1: ..\nRow 0: .X\nRow 1: X.\nRow 0: .X\nRow 1: X."
+        }
+      ],
+      "check": "",
+      "answer": "LyoqIEEgdGhlYXRyZSBtYWRlIG9mIHJvd3Mgb2Ygc2VhdHMuIFNpemVzIG11c3QgYmUgbm9uLW5lZ2F0aXZlLiAqLwpwdWJsaWMgY2xhc3MgVGhlYXRyZQp7CiAgICBwcml2YXRlIFNlYXRSb3dbXSByb3dzOwoKICAgIHB1YmxpYyBUaGVhdHJlKGludCByb3dDb3VudCwgaW50IHNlYXRzUGVyUm93KQogICAgewogICAgICAgIHJvd3MgPSBuZXcgU2VhdFJvd1tyb3dDb3VudF07CiAgICAgICAgZm9yKGludCByb3cgPSAwOyByb3cgPCByb3dzLmxlbmd0aDsgcm93KyspIHsKICAgICAgICAgICAgcm93c1tyb3ddID0gbmV3IFNlYXRSb3coc2VhdHNQZXJSb3cpOwogICAgICAgIH0KICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBib29rKGludCByb3csIGludCBzZWF0KQogICAgewogICAgICAgIGlmKHJvdyA8IDAgfHwgcm93ID49IHJvd3MubGVuZ3RoKSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIHJvd3Nbcm93XS5ib29rKHNlYXQpOwogICAgfQoKICAgIHB1YmxpYyBpbnQgY291bnRCb29rZWQoKQogICAgewogICAgICAgIGludCBjb3VudCA9IDA7CiAgICAgICAgZm9yKFNlYXRSb3cgcm93IDogcm93cykgewogICAgICAgICAgICBjb3VudCArPSByb3cuZ2V0U2l6ZSgpIC0gcm93LmNvdW50RnJlZSgpOwogICAgICAgIH0KICAgICAgICByZXR1cm4gY291bnQ7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRTZWF0TWFwKCkKICAgIHsKICAgICAgICBmb3IoaW50IHJvdyA9IDA7IHJvdyA8IHJvd3MubGVuZ3RoOyByb3crKykgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50KCJSb3cgIiArIHJvdyArICI6ICIpOwogICAgICAgICAgICBmb3IoaW50IHNlYXQgPSAwOyBzZWF0IDwgcm93c1tyb3ddLmdldFNpemUoKTsgc2VhdCsrKSB7CiAgICAgICAgICAgICAgICBpZihyb3dzW3Jvd10uaXNCb29rZWQoc2VhdCkpIHsKICAgICAgICAgICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50KCJYIik7CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICBlbHNlIHsKICAgICAgICAgICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50KCIuIik7CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCk7CiAgICAgICAgfQogICAgfQoKICAgIC8qKiBSZXR1cm4gdGhlIGZpcnN0IHJvdyB3aXRoIG1vc3QgZnJlZSBzZWF0cywgb3IgLTEgZm9yIG5vIHJvd3MuICovCn0=",
+      "files": [
+        {
+          "name": "SeatRow.java",
+          "content": "/**\n * One row of seats in a theatre. Seat 0 is at the aisle.\n * @author Pranjal Patra\n * @version 1.0\n */\npublic class SeatRow\n{\n    private boolean[] booked;\n\n    /**\n     * Create a row of seats, all free.\n     * @param size The number of seats in the row.\n     */\n    public SeatRow(int size)\n    {\n        booked = new boolean[size];\n    }\n\n    /**\n     * Return the number of seats in the row.\n     * @return The row's size.\n     */\n    public int getSize()\n    {\n        return booked.length;\n    }\n\n    /**\n     * Say whether a seat is booked.\n     * @param seat The seat number, from 0 to the size minus 1.\n     * @return true if the seat is booked.\n     */\n    public boolean isBooked(int seat)\n    {\n        return booked[seat];\n    }\n\n    /**\n     * Book a seat, if it exists and is free.\n     * @param seat The seat number.\n     * @return true if the seat was booked, false if it does not exist\n     *         or is already booked.\n     */\n    public boolean book(int seat)\n    {\n        if(seat < 0 || seat >= booked.length) {\n            return false;\n        }\n        if(booked[seat]) {\n            return false;\n        }\n        booked[seat] = true;\n        return true;\n    }\n\n    /**\n     * Return the number of free seats.\n     * @return How many seats are not booked.\n     */\n    public int countFree()\n    {\n        int free = 0;\n        for(boolean taken : booked) {\n            if(!taken) {\n                free++;\n            }\n        }\n        return free;\n    }\n\n    /**\n     * Return the free seat nearest the aisle.\n     * @return The lowest free seat number, or -1 if the row is full.\n     */\n    public int firstFree()\n    {\n        for(int seat = 0; seat < booked.length; seat++) {\n            if(!booked[seat]) {\n                return seat;\n            }\n        }\n        return -1;\n    }\n}"
+        },
+        {
+          "name": "QuestionCheck.java",
+          "content": "public class QuestionCheck\n{\n    public static void main(String[] args)\n    {\n        Theatre none = new Theatre(0, 2);\n        none.printSeatMap();\n        Theatre zero = new Theatre(2, 0);\n        zero.printSeatMap();\n        Theatre t = new Theatre(2, 2);\n        t.printSeatMap();\n        t.book(0, 1);\n        t.book(1, 0);\n        t.printSeatMap();\n        t.printSeatMap();\n    }\n}"
+        }
+      ]
+    },
+    "q24-demo": {
+      "type": "code",
+      "xp": 4,
+      "title": "TheatreDemo.java",
+      "minLines": 18,
+      "maxLines": 30,
+      "starter": "public class TheatreDemo\n{\n    public static void main(String[] args)\n    {\n        Theatre theatre = new Theatre(3, 5);\n        System.out.println(\"Booked: \" + theatre.countBooked());\n        System.out.println(\"Book (0, 1): \" + theatre.book(0, 1));\n        System.out.println(\"Book (0, 1) again: \" + theatre.book(0, 1));\n        System.out.println(\"Book (3, 0): \" + theatre.book(3, 0));\n        System.out.println(\"Book (1, 4): \" + theatre.book(1, 4));\n        System.out.println(\"Book (2, 5): \" + theatre.book(2, 5));\n        System.out.println(\"Booked: \" + theatre.countBooked());\n    }\n}",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Booked: 0\nBook (0, 1): true\nBook (0, 1) again: false\nBook (3, 0): false\nBook (1, 4): true\nBook (2, 5): false\nBooked: 2\nRow 0: .X...\nRow 1: ....X\nRow 2: .....\nBest row: 2"
+        }
+      ],
+      "check": "",
+      "answer": "cHVibGljIGNsYXNzIFRoZWF0cmVEZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgVGhlYXRyZSB0aGVhdHJlID0gbmV3IFRoZWF0cmUoMywgNSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJCb29rZWQ6ICIgKyB0aGVhdHJlLmNvdW50Qm9va2VkKCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQm9vayAoMCwgMSk6ICIgKyB0aGVhdHJlLmJvb2soMCwgMSkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQm9vayAoMCwgMSkgYWdhaW46ICIgKyB0aGVhdHJlLmJvb2soMCwgMSkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQm9vayAoMywgMCk6ICIgKyB0aGVhdHJlLmJvb2soMywgMCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQm9vayAoMSwgNCk6ICIgKyB0aGVhdHJlLmJvb2soMSwgNCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQm9vayAoMiwgNSk6ICIgKyB0aGVhdHJlLmJvb2soMiwgNSkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQm9va2VkOiAiICsgdGhlYXRyZS5jb3VudEJvb2tlZCgpKTsKICAgICAgICB0aGVhdHJlLnByaW50U2VhdE1hcCgpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQmVzdCByb3c6ICIgKyB0aGVhdHJlLmJlc3RSb3coKSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "SeatRow.java",
+          "content": "/**\n * One row of seats in a theatre. Seat 0 is at the aisle.\n * @author Pranjal Patra\n * @version 1.0\n */\npublic class SeatRow\n{\n    private boolean[] booked;\n\n    /**\n     * Create a row of seats, all free.\n     * @param size The number of seats in the row.\n     */\n    public SeatRow(int size)\n    {\n        booked = new boolean[size];\n    }\n\n    /**\n     * Return the number of seats in the row.\n     * @return The row's size.\n     */\n    public int getSize()\n    {\n        return booked.length;\n    }\n\n    /**\n     * Say whether a seat is booked.\n     * @param seat The seat number, from 0 to the size minus 1.\n     * @return true if the seat is booked.\n     */\n    public boolean isBooked(int seat)\n    {\n        return booked[seat];\n    }\n\n    /**\n     * Book a seat, if it exists and is free.\n     * @param seat The seat number.\n     * @return true if the seat was booked, false if it does not exist\n     *         or is already booked.\n     */\n    public boolean book(int seat)\n    {\n        if(seat < 0 || seat >= booked.length) {\n            return false;\n        }\n        if(booked[seat]) {\n            return false;\n        }\n        booked[seat] = true;\n        return true;\n    }\n\n    /**\n     * Return the number of free seats.\n     * @return How many seats are not booked.\n     */\n    public int countFree()\n    {\n        int free = 0;\n        for(boolean taken : booked) {\n            if(!taken) {\n                free++;\n            }\n        }\n        return free;\n    }\n\n    /**\n     * Return the free seat nearest the aisle.\n     * @return The lowest free seat number, or -1 if the row is full.\n     */\n    public int firstFree()\n    {\n        for(int seat = 0; seat < booked.length; seat++) {\n            if(!booked[seat]) {\n                return seat;\n            }\n        }\n        return -1;\n    }\n}"
+        },
+        {
+          "name": "Theatre.java",
+          "content": "/** A theatre made of rows of seats. Sizes must be non-negative. */\npublic class Theatre\n{\n    private SeatRow[] rows;\n\n    public Theatre(int rowCount, int seatsPerRow)\n    {\n        rows = new SeatRow[rowCount];\n        for(int row = 0; row < rows.length; row++) {\n            rows[row] = new SeatRow(seatsPerRow);\n        }\n    }\n\n    public boolean book(int row, int seat)\n    {\n        if(row < 0 || row >= rows.length) {\n            return false;\n        }\n        return rows[row].book(seat);\n    }\n\n    public int countBooked()\n    {\n        int count = 0;\n        for(SeatRow row : rows) {\n            count += row.getSize() - row.countFree();\n        }\n        return count;\n    }\n\n    public void printSeatMap()\n    {\n        for(int row = 0; row < rows.length; row++) {\n            System.out.print(\"Row \" + row + \": \");\n            for(int seat = 0; seat < rows[row].getSize(); seat++) {\n                if(rows[row].isBooked(seat)) {\n                    System.out.print(\"X\");\n                }\n                else {\n                    System.out.print(\".\");\n                }\n            }\n            System.out.println();\n        }\n    }\n\n    /** Return the first row with most free seats, or -1 for no rows. */\n    public int bestRow()\n    {\n        int best = -1;\n        for(int row = 0; row < rows.length; row++) {\n            if(best == -1 || rows[row].countFree() > rows[best].countFree()) {\n                best = row;\n            }\n        }\n        return best;\n    }\n}"
+        }
+      ]
+    },
+    "q25": {
+      "type": "code",
+      "xp": 4,
+      "title": "Theatre.java",
+      "minLines": 60,
+      "maxLines": 72,
+      "starter": "/** A theatre made of rows of seats. Sizes must be non-negative. */\npublic class Theatre\n{\n    private SeatRow[] rows;\n\n    public Theatre(int rowCount, int seatsPerRow)\n    {\n        rows = new SeatRow[rowCount];\n        for(int row = 0; row < rows.length; row++) {\n            rows[row] = new SeatRow(seatsPerRow);\n        }\n    }\n\n    public boolean book(int row, int seat)\n    {\n        if(row < 0 || row >= rows.length) {\n            return false;\n        }\n        return rows[row].book(seat);\n    }\n\n    public int countBooked()\n    {\n        int count = 0;\n        for(SeatRow row : rows) {\n            count += row.getSize() - row.countFree();\n        }\n        return count;\n    }\n\n    public void printSeatMap()\n    {\n        for(int row = 0; row < rows.length; row++) {\n            System.out.print(\"Row \" + row + \": \");\n            for(int seat = 0; seat < rows[row].getSize(); seat++) {\n                if(rows[row].isBooked(seat)) {\n                    System.out.print(\"X\");\n                }\n                else {\n                    System.out.print(\".\");\n                }\n            }\n            System.out.println();\n        }\n    }\n\n    /** Return the first row with most free seats, or -1 for no rows. */\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "-1\n0\n0\n1\n0\n0\n2"
+        }
+      ],
+      "check": "",
+      "answer": "LyoqIEEgdGhlYXRyZSBtYWRlIG9mIHJvd3Mgb2Ygc2VhdHMuIFNpemVzIG11c3QgYmUgbm9uLW5lZ2F0aXZlLiAqLwpwdWJsaWMgY2xhc3MgVGhlYXRyZQp7CiAgICBwcml2YXRlIFNlYXRSb3dbXSByb3dzOwoKICAgIHB1YmxpYyBUaGVhdHJlKGludCByb3dDb3VudCwgaW50IHNlYXRzUGVyUm93KQogICAgewogICAgICAgIHJvd3MgPSBuZXcgU2VhdFJvd1tyb3dDb3VudF07CiAgICAgICAgZm9yKGludCByb3cgPSAwOyByb3cgPCByb3dzLmxlbmd0aDsgcm93KyspIHsKICAgICAgICAgICAgcm93c1tyb3ddID0gbmV3IFNlYXRSb3coc2VhdHNQZXJSb3cpOwogICAgICAgIH0KICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBib29rKGludCByb3csIGludCBzZWF0KQogICAgewogICAgICAgIGlmKHJvdyA8IDAgfHwgcm93ID49IHJvd3MubGVuZ3RoKSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIHJvd3Nbcm93XS5ib29rKHNlYXQpOwogICAgfQoKICAgIHB1YmxpYyBpbnQgY291bnRCb29rZWQoKQogICAgewogICAgICAgIGludCBjb3VudCA9IDA7CiAgICAgICAgZm9yKFNlYXRSb3cgcm93IDogcm93cykgewogICAgICAgICAgICBjb3VudCArPSByb3cuZ2V0U2l6ZSgpIC0gcm93LmNvdW50RnJlZSgpOwogICAgICAgIH0KICAgICAgICByZXR1cm4gY291bnQ7CiAgICB9CgogICAgcHVibGljIHZvaWQgcHJpbnRTZWF0TWFwKCkKICAgIHsKICAgICAgICBmb3IoaW50IHJvdyA9IDA7IHJvdyA8IHJvd3MubGVuZ3RoOyByb3crKykgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50KCJSb3cgIiArIHJvdyArICI6ICIpOwogICAgICAgICAgICBmb3IoaW50IHNlYXQgPSAwOyBzZWF0IDwgcm93c1tyb3ddLmdldFNpemUoKTsgc2VhdCsrKSB7CiAgICAgICAgICAgICAgICBpZihyb3dzW3Jvd10uaXNCb29rZWQoc2VhdCkpIHsKICAgICAgICAgICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50KCJYIik7CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICBlbHNlIHsKICAgICAgICAgICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50KCIuIik7CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCk7CiAgICAgICAgfQogICAgfQoKICAgIC8qKiBSZXR1cm4gdGhlIGZpcnN0IHJvdyB3aXRoIG1vc3QgZnJlZSBzZWF0cywgb3IgLTEgZm9yIG5vIHJvd3MuICovCiAgICBwdWJsaWMgaW50IGJlc3RSb3coKQogICAgewogICAgICAgIGludCBiZXN0ID0gLTE7CiAgICAgICAgZm9yKGludCByb3cgPSAwOyByb3cgPCByb3dzLmxlbmd0aDsgcm93KyspIHsKICAgICAgICAgICAgaWYoYmVzdCA9PSAtMSB8fCByb3dzW3Jvd10uY291bnRGcmVlKCkgPiByb3dzW2Jlc3RdLmNvdW50RnJlZSgpKSB7CiAgICAgICAgICAgICAgICBiZXN0ID0gcm93OwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgICAgIHJldHVybiBiZXN0OwogICAgfQp9",
+      "files": [
+        {
+          "name": "SeatRow.java",
+          "content": "/**\n * One row of seats in a theatre. Seat 0 is at the aisle.\n * @author Pranjal Patra\n * @version 1.0\n */\npublic class SeatRow\n{\n    private boolean[] booked;\n\n    /**\n     * Create a row of seats, all free.\n     * @param size The number of seats in the row.\n     */\n    public SeatRow(int size)\n    {\n        booked = new boolean[size];\n    }\n\n    /**\n     * Return the number of seats in the row.\n     * @return The row's size.\n     */\n    public int getSize()\n    {\n        return booked.length;\n    }\n\n    /**\n     * Say whether a seat is booked.\n     * @param seat The seat number, from 0 to the size minus 1.\n     * @return true if the seat is booked.\n     */\n    public boolean isBooked(int seat)\n    {\n        return booked[seat];\n    }\n\n    /**\n     * Book a seat, if it exists and is free.\n     * @param seat The seat number.\n     * @return true if the seat was booked, false if it does not exist\n     *         or is already booked.\n     */\n    public boolean book(int seat)\n    {\n        if(seat < 0 || seat >= booked.length) {\n            return false;\n        }\n        if(booked[seat]) {\n            return false;\n        }\n        booked[seat] = true;\n        return true;\n    }\n\n    /**\n     * Return the number of free seats.\n     * @return How many seats are not booked.\n     */\n    public int countFree()\n    {\n        int free = 0;\n        for(boolean taken : booked) {\n            if(!taken) {\n                free++;\n            }\n        }\n        return free;\n    }\n\n    /**\n     * Return the free seat nearest the aisle.\n     * @return The lowest free seat number, or -1 if the row is full.\n     */\n    public int firstFree()\n    {\n        for(int seat = 0; seat < booked.length; seat++) {\n            if(!booked[seat]) {\n                return seat;\n            }\n        }\n        return -1;\n    }\n}"
+        },
+        {
+          "name": "QuestionCheck.java",
+          "content": "public class QuestionCheck\n{\n    public static void main(String[] args)\n    {\n        System.out.println(new Theatre(0, 2).bestRow());\n        System.out.println(new Theatre(2, 0).bestRow());\n        Theatre t = new Theatre(2, 1);\n        System.out.println(t.bestRow());\n        t.book(0, 0);\n        System.out.println(t.bestRow());\n        t.book(1, 0);\n        System.out.println(t.bestRow());\n        System.out.println(t.bestRow());\n        System.out.println(t.countBooked());\n    }\n}"
+        }
+      ]
+    },
+    "q26": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 3,
+      "answer": "KGEpIEl0IGNyZWF0ZXMgdHdvIG51bGwgcmVmZXJlbmNlIHNsb3RzIGFuZCBubyBzdHVkZW50cy4gKGIpIEl0IGNvcGllcyB0aGUgcmVmZXJlbmNlcyBpbnRvIGEgbmV3IGFycmF5OyB0aGUgc3R1ZGVudHMgYXJlIHNoYXJlZC4gKGMpIFJvdyBsZW5ndGhzIG1heSBkaWZmZXIu"
+    },
+    "q27": {
+      "type": "code",
+      "xp": 4,
+      "title": "StudyGroup.java",
+      "minLines": 72,
+      "maxLines": 84,
+      "starter": "/** Four students and their study minutes for seven days.\n * Row arguments are 0 to 3; day arguments are 0 to 6.\n */\npublic class StudyGroup\n{\n    private Student[] members;\n    private int[][] minutes;\n\n    public StudyGroup()\n    {\n        members = new Student[] {new Student(\"Ada\"), new Student(\"Bo\"),\n            new Student(\"Chen\"), new Student(\"Dev\")};\n        minutes = new int[][] {\n            {45, 0, 90, 30, 0, 120, 60},\n            {60, 60, 60, 60, 60, 0, 0},\n            {0, 30, 30, 30, 30, 30, 90},\n            {120, 0, 0, 0, 0, 150, 30}\n        };\n    }\n\n    public Student getMember(int row)\n    {\n        return members[row];\n    }\n\n    public int getMinutes(int row, int day)\n    {\n        return minutes[row][day];\n    }\n\n    public int totalForStudent(int row)\n    {\n        int sum = 0;\n        for(int day = 0; day < minutes[row].length; day++) {\n            sum += minutes[row][day];\n        }\n        return sum;\n    }\n\n    public int totalForDay(int day)\n    {\n        int sum = 0;\n        for(int row = 0; row < minutes.length; row++) {\n            sum += minutes[row][day];\n        }\n        return sum;\n    }\n\n    /** Return the first row with the largest total. */\n    public int busiestStudent()\n    {\n        int best = 0;\n        for(int row = 1; row < minutes.length; row++) {\n            if(totalForStudent(row) > totalForStudent(best)) {\n                best = row;\n            }\n        }\n        return best;\n    }\n\n    // Part of StudyGroup.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "1185\n1185"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"totalForStudent(\"), \"Use totalForStudent to obtain each row total.\");",
+      "answer": "LyoqIEZvdXIgc3R1ZGVudHMgYW5kIHRoZWlyIHN0dWR5IG1pbnV0ZXMgZm9yIHNldmVuIGRheXMuCiAqIFJvdyBhcmd1bWVudHMgYXJlIDAgdG8gMzsgZGF5IGFyZ3VtZW50cyBhcmUgMCB0byA2LgogKi8KcHVibGljIGNsYXNzIFN0dWR5R3JvdXAKewogICAgcHJpdmF0ZSBTdHVkZW50W10gbWVtYmVyczsKICAgIHByaXZhdGUgaW50W11bXSBtaW51dGVzOwoKICAgIHB1YmxpYyBTdHVkeUdyb3VwKCkKICAgIHsKICAgICAgICBtZW1iZXJzID0gbmV3IFN0dWRlbnRbXSB7bmV3IFN0dWRlbnQoIkFkYSIpLCBuZXcgU3R1ZGVudCgiQm8iKSwKICAgICAgICAgICAgbmV3IFN0dWRlbnQoIkNoZW4iKSwgbmV3IFN0dWRlbnQoIkRldiIpfTsKICAgICAgICBtaW51dGVzID0gbmV3IGludFtdW10gewogICAgICAgICAgICB7NDUsIDAsIDkwLCAzMCwgMCwgMTIwLCA2MH0sCiAgICAgICAgICAgIHs2MCwgNjAsIDYwLCA2MCwgNjAsIDAsIDB9LAogICAgICAgICAgICB7MCwgMzAsIDMwLCAzMCwgMzAsIDMwLCA5MH0sCiAgICAgICAgICAgIHsxMjAsIDAsIDAsIDAsIDAsIDE1MCwgMzB9CiAgICAgICAgfTsKICAgIH0KCiAgICBwdWJsaWMgU3R1ZGVudCBnZXRNZW1iZXIoaW50IHJvdykKICAgIHsKICAgICAgICByZXR1cm4gbWVtYmVyc1tyb3ddOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0TWludXRlcyhpbnQgcm93LCBpbnQgZGF5KQogICAgewogICAgICAgIHJldHVybiBtaW51dGVzW3Jvd11bZGF5XTsKICAgIH0KCiAgICBwdWJsaWMgaW50IHRvdGFsRm9yU3R1ZGVudChpbnQgcm93KQogICAgewogICAgICAgIGludCBzdW0gPSAwOwogICAgICAgIGZvcihpbnQgZGF5ID0gMDsgZGF5IDwgbWludXRlc1tyb3ddLmxlbmd0aDsgZGF5KyspIHsKICAgICAgICAgICAgc3VtICs9IG1pbnV0ZXNbcm93XVtkYXldOwogICAgICAgIH0KICAgICAgICByZXR1cm4gc3VtOwogICAgfQoKICAgIHB1YmxpYyBpbnQgdG90YWxGb3JEYXkoaW50IGRheSkKICAgIHsKICAgICAgICBpbnQgc3VtID0gMDsKICAgICAgICBmb3IoaW50IHJvdyA9IDA7IHJvdyA8IG1pbnV0ZXMubGVuZ3RoOyByb3crKykgewogICAgICAgICAgICBzdW0gKz0gbWludXRlc1tyb3ddW2RheV07CiAgICAgICAgfQogICAgICAgIHJldHVybiBzdW07CiAgICB9CgogICAgLyoqIFJldHVybiB0aGUgZmlyc3Qgcm93IHdpdGggdGhlIGxhcmdlc3QgdG90YWwuICovCiAgICBwdWJsaWMgaW50IGJ1c2llc3RTdHVkZW50KCkKICAgIHsKICAgICAgICBpbnQgYmVzdCA9IDA7CiAgICAgICAgZm9yKGludCByb3cgPSAxOyByb3cgPCBtaW51dGVzLmxlbmd0aDsgcm93KyspIHsKICAgICAgICAgICAgaWYodG90YWxGb3JTdHVkZW50KHJvdykgPiB0b3RhbEZvclN0dWRlbnQoYmVzdCkpIHsKICAgICAgICAgICAgICAgIGJlc3QgPSByb3c7CiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICAgICAgcmV0dXJuIGJlc3Q7CiAgICB9CgogICAgLy8gUGFydCBvZiBTdHVkeUdyb3VwLgogICAgcHVibGljIGludCBncm91cFRvdGFsKCkKICAgIHsKICAgICAgICBpbnQgc3VtID0gMDsKICAgICAgICBmb3IoaW50IHJvdyA9IDA7IHJvdyA8IG1pbnV0ZXMubGVuZ3RoOyByb3crKykgewogICAgICAgICAgICBzdW0gKz0gdG90YWxGb3JTdHVkZW50KHJvdyk7CiAgICAgICAgfQogICAgICAgIHJldHVybiBzdW07CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Student.java",
+          "content": "/** One student in a study group. */\npublic class Student\n{\n    private String name;\n\n    public Student(String name)\n    {\n        this.name = name;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public void setName(String name)\n    {\n        this.name = name;\n    }\n}"
+        },
+        {
+          "name": "QuestionCheck.java",
+          "content": "public class QuestionCheck\n{\n    public static void main(String[] args)\n    {\n        StudyGroup g = new StudyGroup();\n        System.out.println(g.groupTotal());\n        System.out.println(g.groupTotal());\n    }\n}"
+        }
+      ]
+    },
+    "q28": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "null": {
+          "accept": [
+            "NullPointerException",
+            "java.lang.NullPointerException"
+          ],
+          "show": "NullPointerException",
+          "caseSensitive": true,
+          "width": "26rem"
+        },
+        "bounds": {
+          "accept": [
+            "ArrayIndexOutOfBoundsException",
+            "java.lang.ArrayIndexOutOfBoundsException"
+          ],
+          "show": "ArrayIndexOutOfBoundsException",
+          "caseSensitive": true,
+          "width": "26rem"
+        },
+        "value": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q28-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Rmlyc3Q6IE51bGxQb2ludGVyRXhjZXB0aW9uLCBiZWNhdXNlIHJvdyAxIGlzIG51bGwuIFNlY29uZDogQXJyYXlJbmRleE91dE9mQm91bmRzRXhjZXB0aW9uLCBiZWNhdXNlIHJvdyAwIGhhcyBubyBjb2x1bW4gMi4gVGhpcmQ6IDMu"
+    },
+    "p1-item": {
+      "type": "code",
+      "xp": 4,
+      "title": "Car.java",
+      "minLines": 17,
+      "maxLines": 29,
+      "starter": "public class Car\n{\n    // Add the field, constructor and getter.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "ABC 123\nJKL 012\nABC 123"
+        }
+      ],
+      "check": "",
+      "answer": "LyoqIEEgY2FyIGlkZW50aWZpZWQgYnkgaXRzIHJlZ2lzdHJhdGlvbi4gKi8KcHVibGljIGNsYXNzIENhcgp7CiAgICBwcml2YXRlIFN0cmluZyByZWdpc3RyYXRpb247CgogICAgcHVibGljIENhcihTdHJpbmcgcmVnaXN0cmF0aW9uKQogICAgewogICAgICAgIHRoaXMucmVnaXN0cmF0aW9uID0gcmVnaXN0cmF0aW9uOwogICAgfQoKICAgIHB1YmxpYyBTdHJpbmcgZ2V0UmVnaXN0cmF0aW9uKCkKICAgIHsKICAgICAgICByZXR1cm4gcmVnaXN0cmF0aW9uOwogICAgfQp9",
+      "files": [
+        {
+          "name": "CarCheck.java",
+          "content": "public class CarCheck\n{\n    public static void main(String[] args)\n    {\n        Car a = new Car(\"ABC 123\");\n        Car b = new Car(\"JKL 012\");\n        System.out.println(a.getRegistration());\n        System.out.println(b.getRegistration());\n        System.out.println(a.getRegistration());\n    }\n}"
+        }
+      ]
+    },
+    "p1-collection": {
+      "type": "code",
+      "xp": 6,
+      "title": "ParkingLot.java",
+      "minLines": 64,
+      "maxLines": 76,
+      "starter": "public class ParkingLot\n{\n    // Add spaces, the constructor and the four methods.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Empty free: 0\nEmpty park: false\nEmpty leave: false\nFree: 2\nNull: false\nNegative: false\nPast: false\nLeave empty: false\nPark: true\nAgain: false\nFree: 1\n0: free\n1: ABC 123\nLeave negative: false\nLeave past: false\nLeave: true\nLeave again: false\nFree: 2\n0: free\n1: free"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"Car[]spaces\"), \"Store the spaces in a Car array.\");",
+      "answer": "LyoqIEZpeGVkIHBhcmtpbmcgc3BhY2VzLiBBIG51bGwgc2xvdCBpcyBmcmVlLiAqLwpwdWJsaWMgY2xhc3MgUGFya2luZ0xvdAp7CiAgICBwcml2YXRlIENhcltdIHNwYWNlczsKCiAgICAvKiogU2l6ZSBtdXN0IGJlIG5vbi1uZWdhdGl2ZS4gKi8KICAgIHB1YmxpYyBQYXJraW5nTG90KGludCBzaXplKQogICAgewogICAgICAgIHNwYWNlcyA9IG5ldyBDYXJbc2l6ZV07CiAgICB9CgogICAgLyoqIFBhcmsgYSBub24tbnVsbCBjYXIgaW4gYSB2YWxpZCBmcmVlIHNwYWNlLiAqLwogICAgcHVibGljIGJvb2xlYW4gcGFyayhpbnQgc3BhY2UsIENhciBjYXIpCiAgICB7CiAgICAgICAgaWYoc3BhY2UgPCAwIHx8IHNwYWNlID49IHNwYWNlcy5sZW5ndGgKICAgICAgICAgICAgfHwgY2FyID09IG51bGwpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KICAgICAgICBpZihzcGFjZXNbc3BhY2VdICE9IG51bGwpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KICAgICAgICBzcGFjZXNbc3BhY2VdID0gY2FyOwogICAgICAgIHJldHVybiB0cnVlOwogICAgfQoKICAgIC8qKiBSZW1vdmUgYSBjYXIgZnJvbSBhIHZhbGlkIG9jY3VwaWVkIHNwYWNlLiAqLwogICAgcHVibGljIGJvb2xlYW4gbGVhdmUoaW50IHNwYWNlKQogICAgewogICAgICAgIGlmKHNwYWNlIDwgMCB8fCBzcGFjZSA+PSBzcGFjZXMubGVuZ3RoCiAgICAgICAgICAgIHx8IHNwYWNlc1tzcGFjZV0gPT0gbnVsbCkgewogICAgICAgICAgICByZXR1cm4gZmFsc2U7CiAgICAgICAgfQogICAgICAgIHNwYWNlc1tzcGFjZV0gPSBudWxsOwogICAgICAgIHJldHVybiB0cnVlOwogICAgfQoKICAgIHB1YmxpYyBpbnQgY291bnRGcmVlKCkKICAgIHsKICAgICAgICBpbnQgY291bnQgPSAwOwogICAgICAgIGZvcihDYXIgY2FyIDogc3BhY2VzKSB7CiAgICAgICAgICAgIGlmKGNhciA9PSBudWxsKSB7CiAgICAgICAgICAgICAgICBjb3VudCsrOwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgICAgIHJldHVybiBjb3VudDsKICAgIH0KCiAgICAvKiogUHJpbnQgb2NjdXBpZWQgYW5kIGZyZWUgc3BhY2VzLiAqLwogICAgcHVibGljIHZvaWQgcHJpbnRTcGFjZXMoKQogICAgewogICAgICAgIGZvcihpbnQgc3BhY2UgPSAwOyBzcGFjZSA8IHNwYWNlcy5sZW5ndGg7CiAgICAgICAgICAgIHNwYWNlKyspIHsKICAgICAgICAgICAgaWYoc3BhY2VzW3NwYWNlXSA9PSBudWxsKSB7CiAgICAgICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oc3BhY2UgKyAiOiBmcmVlIik7CiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxzZSB7CiAgICAgICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oc3BhY2UgKyAiOiAiCiAgICAgICAgICAgICAgICAgICAgKyBzcGFjZXNbc3BhY2VdLmdldFJlZ2lzdHJhdGlvbigpKTsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Car.java",
+          "content": "/** A car identified by its registration. */\npublic class Car\n{\n    private String registration;\n\n    public Car(String registration)\n    {\n        this.registration = registration;\n    }\n\n    public String getRegistration()\n    {\n        return registration;\n    }\n}"
+        },
+        {
+          "name": "LotCheck.java",
+          "content": "public class LotCheck\n{\n    public static void main(String[] args)\n    {\n        ParkingLot empty = new ParkingLot(0);\n        System.out.println(\"Empty free: \" + empty.countFree());\n        System.out.println(\"Empty park: \" + empty.park(0, new Car(\"A\")));\n        System.out.println(\"Empty leave: \" + empty.leave(0));\n        empty.printSpaces();\n        ParkingLot lot = new ParkingLot(2);\n        System.out.println(\"Free: \" + lot.countFree());\n        System.out.println(\"Null: \" + lot.park(0, null));\n        System.out.println(\"Negative: \" + lot.park(-1, new Car(\"A\")));\n        System.out.println(\"Past: \" + lot.park(2, new Car(\"A\")));\n        System.out.println(\"Leave empty: \" + lot.leave(0));\n        System.out.println(\"Park: \" + lot.park(1, new Car(\"ABC 123\")));\n        System.out.println(\"Again: \" + lot.park(1, new Car(\"B\")));\n        System.out.println(\"Free: \" + lot.countFree());\n        lot.printSpaces();\n        System.out.println(\"Leave negative: \" + lot.leave(-1));\n        System.out.println(\"Leave past: \" + lot.leave(2));\n        System.out.println(\"Leave: \" + lot.leave(1));\n        System.out.println(\"Leave again: \" + lot.leave(1));\n        System.out.println(\"Free: \" + lot.countFree());\n        lot.printSpaces();\n    }\n}"
+        }
+      ]
+    },
+    "p1-demo": {
+      "type": "code",
+      "xp": 4,
+      "title": "ParkingLotDemo.java",
+      "minLines": 23,
+      "maxLines": 35,
+      "starter": "public class ParkingLotDemo\n{\n    public static void main(String[] args)\n    {\n        // Try the parks and leaves, then print the final spaces.\n    }\n}",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Free: 4\nPark 1: true\nPark 1 again: false\nPark 4: false\nPark 3: true\nLeave 1: true\nFree: 3\n0: free\n1: free\n2: free\n3: JKL 012"
+        }
+      ],
+      "check": "",
+      "answer": "cHVibGljIGNsYXNzIFBhcmtpbmdMb3REZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgUGFya2luZ0xvdCBsb3QgPSBuZXcgUGFya2luZ0xvdCg0KTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkZyZWU6ICIKICAgICAgICAgICAgKyBsb3QuY291bnRGcmVlKCkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiUGFyayAxOiAiCiAgICAgICAgICAgICsgbG90LnBhcmsoMSwgbmV3IENhcigiQUJDIDEyMyIpKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJQYXJrIDEgYWdhaW46ICIKICAgICAgICAgICAgKyBsb3QucGFyaygxLCBuZXcgQ2FyKCJERUYgNDU2IikpKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlBhcmsgNDogIgogICAgICAgICAgICArIGxvdC5wYXJrKDQsIG5ldyBDYXIoIkdISSA3ODkiKSkpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiUGFyayAzOiAiCiAgICAgICAgICAgICsgbG90LnBhcmsoMywgbmV3IENhcigiSktMIDAxMiIpKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJMZWF2ZSAxOiAiICsgbG90LmxlYXZlKDEpKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkZyZWU6ICIKICAgICAgICAgICAgKyBsb3QuY291bnRGcmVlKCkpOwogICAgICAgIGxvdC5wcmludFNwYWNlcygpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Car.java",
+          "content": "/** A car identified by its registration. */\npublic class Car\n{\n    private String registration;\n\n    public Car(String registration)\n    {\n        this.registration = registration;\n    }\n\n    public String getRegistration()\n    {\n        return registration;\n    }\n}"
+        },
+        {
+          "name": "ParkingLot.java",
+          "content": "/** Fixed parking spaces. A null slot is free. */\npublic class ParkingLot\n{\n    private Car[] spaces;\n\n    /** Size must be non-negative. */\n    public ParkingLot(int size)\n    {\n        spaces = new Car[size];\n    }\n\n    /** Park a non-null car in a valid free space. */\n    public boolean park(int space, Car car)\n    {\n        if(space < 0 || space >= spaces.length\n            || car == null) {\n            return false;\n        }\n        if(spaces[space] != null) {\n            return false;\n        }\n        spaces[space] = car;\n        return true;\n    }\n\n    /** Remove a car from a valid occupied space. */\n    public boolean leave(int space)\n    {\n        if(space < 0 || space >= spaces.length\n            || spaces[space] == null) {\n            return false;\n        }\n        spaces[space] = null;\n        return true;\n    }\n\n    public int countFree()\n    {\n        int count = 0;\n        for(Car car : spaces) {\n            if(car == null) {\n                count++;\n            }\n        }\n        return count;\n    }\n\n    /** Print occupied and free spaces. */\n    public void printSpaces()\n    {\n        for(int space = 0; space < spaces.length;\n            space++) {\n            if(spaces[space] == null) {\n                System.out.println(space + \": free\");\n            }\n            else {\n                System.out.println(space + \": \"\n                    + spaces[space].getRegistration());\n            }\n        }\n    }\n}"
+        }
+      ]
+    },
+    "q29": {
+      "type": "code",
+      "xp": 4,
+      "title": "ParkingLot.java",
+      "minLines": 75,
+      "maxLines": 87,
+      "starter": "/** Fixed parking spaces. A null slot is free. */\npublic class ParkingLot\n{\n    private Car[] spaces;\n\n    /** Size must be non-negative. */\n    public ParkingLot(int size)\n    {\n        spaces = new Car[size];\n    }\n\n    /** Park a non-null car in a valid free space. */\n    public boolean park(int space, Car car)\n    {\n        if(space < 0 || space >= spaces.length\n            || car == null) {\n            return false;\n        }\n        if(spaces[space] != null) {\n            return false;\n        }\n        spaces[space] = car;\n        return true;\n    }\n\n    /** Remove a car from a valid occupied space. */\n    public boolean leave(int space)\n    {\n        if(space < 0 || space >= spaces.length\n            || spaces[space] == null) {\n            return false;\n        }\n        spaces[space] = null;\n        return true;\n    }\n\n    public int countFree()\n    {\n        int count = 0;\n        for(Car car : spaces) {\n            if(car == null) {\n                count++;\n            }\n        }\n        return count;\n    }\n\n    /** Print occupied and free spaces. */\n    public void printSpaces()\n    {\n        for(int space = 0; space < spaces.length;\n            space++) {\n            if(spaces[space] == null) {\n                System.out.println(space + \": free\");\n            }\n            else {\n                System.out.println(space + \": \"\n                    + spaces[space].getRegistration());\n            }\n        }\n    }\n\n    // Add this method inside ParkingLot.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "-1\n0\n1\n-1\n0\n0"
+        }
+      ],
+      "check": "",
+      "answer": "LyoqIEZpeGVkIHBhcmtpbmcgc3BhY2VzLiBBIG51bGwgc2xvdCBpcyBmcmVlLiAqLwpwdWJsaWMgY2xhc3MgUGFya2luZ0xvdAp7CiAgICBwcml2YXRlIENhcltdIHNwYWNlczsKCiAgICAvKiogU2l6ZSBtdXN0IGJlIG5vbi1uZWdhdGl2ZS4gKi8KICAgIHB1YmxpYyBQYXJraW5nTG90KGludCBzaXplKQogICAgewogICAgICAgIHNwYWNlcyA9IG5ldyBDYXJbc2l6ZV07CiAgICB9CgogICAgLyoqIFBhcmsgYSBub24tbnVsbCBjYXIgaW4gYSB2YWxpZCBmcmVlIHNwYWNlLiAqLwogICAgcHVibGljIGJvb2xlYW4gcGFyayhpbnQgc3BhY2UsIENhciBjYXIpCiAgICB7CiAgICAgICAgaWYoc3BhY2UgPCAwIHx8IHNwYWNlID49IHNwYWNlcy5sZW5ndGgKICAgICAgICAgICAgfHwgY2FyID09IG51bGwpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KICAgICAgICBpZihzcGFjZXNbc3BhY2VdICE9IG51bGwpIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KICAgICAgICBzcGFjZXNbc3BhY2VdID0gY2FyOwogICAgICAgIHJldHVybiB0cnVlOwogICAgfQoKICAgIC8qKiBSZW1vdmUgYSBjYXIgZnJvbSBhIHZhbGlkIG9jY3VwaWVkIHNwYWNlLiAqLwogICAgcHVibGljIGJvb2xlYW4gbGVhdmUoaW50IHNwYWNlKQogICAgewogICAgICAgIGlmKHNwYWNlIDwgMCB8fCBzcGFjZSA+PSBzcGFjZXMubGVuZ3RoCiAgICAgICAgICAgIHx8IHNwYWNlc1tzcGFjZV0gPT0gbnVsbCkgewogICAgICAgICAgICByZXR1cm4gZmFsc2U7CiAgICAgICAgfQogICAgICAgIHNwYWNlc1tzcGFjZV0gPSBudWxsOwogICAgICAgIHJldHVybiB0cnVlOwogICAgfQoKICAgIHB1YmxpYyBpbnQgY291bnRGcmVlKCkKICAgIHsKICAgICAgICBpbnQgY291bnQgPSAwOwogICAgICAgIGZvcihDYXIgY2FyIDogc3BhY2VzKSB7CiAgICAgICAgICAgIGlmKGNhciA9PSBudWxsKSB7CiAgICAgICAgICAgICAgICBjb3VudCsrOwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgICAgIHJldHVybiBjb3VudDsKICAgIH0KCiAgICAvKiogUHJpbnQgb2NjdXBpZWQgYW5kIGZyZWUgc3BhY2VzLiAqLwogICAgcHVibGljIHZvaWQgcHJpbnRTcGFjZXMoKQogICAgewogICAgICAgIGZvcihpbnQgc3BhY2UgPSAwOyBzcGFjZSA8IHNwYWNlcy5sZW5ndGg7CiAgICAgICAgICAgIHNwYWNlKyspIHsKICAgICAgICAgICAgaWYoc3BhY2VzW3NwYWNlXSA9PSBudWxsKSB7CiAgICAgICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oc3BhY2UgKyAiOiBmcmVlIik7CiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxzZSB7CiAgICAgICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oc3BhY2UgKyAiOiAiCiAgICAgICAgICAgICAgICAgICAgKyBzcGFjZXNbc3BhY2VdLmdldFJlZ2lzdHJhdGlvbigpKTsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KCiAgICAvLyBBZGQgdGhpcyBtZXRob2QgaW5zaWRlIFBhcmtpbmdMb3QuCiAgICBwdWJsaWMgaW50IGZpcnN0RnJlZSgpCiAgICB7CiAgICAgICAgZm9yKGludCBzcGFjZSA9IDA7IHNwYWNlIDwgc3BhY2VzLmxlbmd0aDsgc3BhY2UrKykgewogICAgICAgICAgICBpZihzcGFjZXNbc3BhY2VdID09IG51bGwpIHsKICAgICAgICAgICAgICAgIHJldHVybiBzcGFjZTsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICByZXR1cm4gLTE7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Car.java",
+          "content": "/** A car identified by its registration. */\npublic class Car\n{\n    private String registration;\n\n    public Car(String registration)\n    {\n        this.registration = registration;\n    }\n\n    public String getRegistration()\n    {\n        return registration;\n    }\n}"
+        },
+        {
+          "name": "QuestionCheck.java",
+          "content": "public class QuestionCheck\n{\n    public static void main(String[] args)\n    {\n        System.out.println(new ParkingLot(0).firstFree());\n        ParkingLot lot = new ParkingLot(2);\n        System.out.println(lot.firstFree());\n        lot.park(0, new Car(\"A\"));\n        System.out.println(lot.firstFree());\n        lot.park(1, new Car(\"B\"));\n        System.out.println(lot.firstFree());\n        lot.leave(0);\n        System.out.println(lot.firstFree());\n        System.out.println(lot.firstFree());\n    }\n}"
+        }
+      ]
+    },
+    "p2-item": {
+      "type": "code",
+      "xp": 4,
+      "title": "Course.java",
+      "minLines": 26,
+      "maxLines": 38,
+      "starter": "public class Course\n{\n    // Add both fields, the constructor and both getters.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "One: 1\nCOMP 2001: 4"
+        }
+      ],
+      "check": "",
+      "answer": "LyoqIEEgY291cnNlIHdpdGggZml4ZWQgYXNzZXNzbWVudHMuICovCnB1YmxpYyBjbGFzcyBDb3Vyc2UKewogICAgcHJpdmF0ZSBTdHJpbmcgdGl0bGU7CiAgICBwcml2YXRlIGludCBhc3Nlc3NtZW50Q291bnQ7CgogICAgLyoqIEFzc2Vzc21lbnQgY291bnQgbXVzdCBiZSBwb3NpdGl2ZS4gKi8KICAgIHB1YmxpYyBDb3Vyc2UoU3RyaW5nIHRpdGxlLAogICAgICAgIGludCBhc3Nlc3NtZW50Q291bnQpCiAgICB7CiAgICAgICAgdGhpcy50aXRsZSA9IHRpdGxlOwogICAgICAgIHRoaXMuYXNzZXNzbWVudENvdW50ID0gYXNzZXNzbWVudENvdW50OwogICAgfQoKICAgIHB1YmxpYyBTdHJpbmcgZ2V0VGl0bGUoKQogICAgewogICAgICAgIHJldHVybiB0aXRsZTsKICAgIH0KCiAgICBwdWJsaWMgaW50IGdldEFzc2Vzc21lbnRDb3VudCgpCiAgICB7CiAgICAgICAgcmV0dXJuIGFzc2Vzc21lbnRDb3VudDsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "CourseCheck.java",
+          "content": "public class CourseCheck\n{\n    public static void main(String[] args)\n    {\n        Course one = new Course(\"One\", 1);\n        Course four = new Course(\"COMP 2001\", 4);\n        System.out.println(one.getTitle() + \": \" + one.getAssessmentCount());\n        System.out.println(four.getTitle() + \": \" + four.getAssessmentCount());\n    }\n}"
+        }
+      ]
+    },
+    "p2-collection": {
+      "type": "code",
+      "xp": 6,
+      "title": "Gradebook.java",
+      "minLines": 62,
+      "maxLines": 74,
+      "starter": "public class Gradebook\n{\n    // Add the course, marks, constructor and four methods.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Two\nInitial: 0.0\nInitial col: 0.0\nfalse\nfalse\nfalse\nfalse\nfalse\nfalse\ntrue\ntrue\ntrue\ntrue\nRow 0: 50.0\nRow 1: 80.5\nCol 0: 40.0\nCol 1: 90.5\nReplace: 81.0\nAgain: 81.0\nOne: 75.0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"int[][]marks\"), \"Keep the marks in an int grid.\");",
+      "answer": "LyoqIFJvd3MgYXJlIHN0dWRlbnRzOyBjb2x1bW5zIGFyZSBhc3Nlc3NtZW50cy4gKi8KcHVibGljIGNsYXNzIEdyYWRlYm9vawp7CiAgICBwcml2YXRlIENvdXJzZSBjb3Vyc2U7CiAgICBwcml2YXRlIGludFtdW10gbWFya3M7CgogICAgLyoqIFBvc2l0aXZlIGNvdW50OyBub24tbnVsbCBjb3Vyc2UuICovCiAgICBwdWJsaWMgR3JhZGVib29rKENvdXJzZSBjb3Vyc2UsCiAgICAgICAgaW50IHN0dWRlbnRDb3VudCkKICAgIHsKICAgICAgICB0aGlzLmNvdXJzZSA9IGNvdXJzZTsKICAgICAgICBpbnQgYXNzZXNzbWVudHMgPQogICAgICAgICAgICBjb3Vyc2UuZ2V0QXNzZXNzbWVudENvdW50KCk7CiAgICAgICAgbWFya3MgPSBuZXcgaW50W3N0dWRlbnRDb3VudF1bYXNzZXNzbWVudHNdOwogICAgfQoKICAgIHB1YmxpYyBTdHJpbmcgZ2V0Q291cnNlVGl0bGUoKQogICAgewogICAgICAgIHJldHVybiBjb3Vyc2UuZ2V0VGl0bGUoKTsKICAgIH0KCiAgICAvKiogUmVmdXNlIGludmFsaWQgaW5kZXhlcyBvciBtYXJrcy4gKi8KICAgIHB1YmxpYyBib29sZWFuIHJlY29yZChpbnQgc3R1ZGVudCwKICAgICAgICBpbnQgYXNzZXNzbWVudCwKICAgICAgICBpbnQgbWFyaykKICAgIHsKICAgICAgICBpZihzdHVkZW50IDwgMCB8fCBzdHVkZW50ID49IG1hcmtzLmxlbmd0aCkgewogICAgICAgICAgICByZXR1cm4gZmFsc2U7CiAgICAgICAgfQogICAgICAgIGlmKGFzc2Vzc21lbnQgPCAwCiAgICAgICAgICAgIHx8IGFzc2Vzc21lbnQgPj0gbWFya3Nbc3R1ZGVudF0ubGVuZ3RoCiAgICAgICAgICAgIHx8IG1hcmsgPCAwIHx8IG1hcmsgPiAxMDApIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KICAgICAgICBtYXJrc1tzdHVkZW50XVthc3Nlc3NtZW50XSA9IG1hcms7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgLyoqIEF2ZXJhZ2UgZm9yIGEgdmFsaWQgc3R1ZGVudC4gKi8KICAgIHB1YmxpYyBkb3VibGUgc3R1ZGVudEF2ZXJhZ2UoaW50IHN0dWRlbnQpCiAgICB7CiAgICAgICAgaW50IHN1bSA9IDA7CiAgICAgICAgZm9yKGludCBtYXJrIDogbWFya3Nbc3R1ZGVudF0pIHsKICAgICAgICAgICAgc3VtICs9IG1hcms7CiAgICAgICAgfQogICAgICAgIHJldHVybiAoZG91YmxlKSBzdW0KICAgICAgICAgICAgLyBtYXJrc1tzdHVkZW50XS5sZW5ndGg7CiAgICB9CgogICAgLyoqIEF2ZXJhZ2UgZm9yIGEgdmFsaWQgYXNzZXNzbWVudC4gKi8KICAgIHB1YmxpYyBkb3VibGUgYXNzZXNzbWVudEF2ZXJhZ2UoCiAgICAgICAgaW50IGFzc2Vzc21lbnQpCiAgICB7CiAgICAgICAgaW50IHN1bSA9IDA7CiAgICAgICAgZm9yKGludCByb3cgPSAwOyByb3cgPCBtYXJrcy5sZW5ndGg7IHJvdysrKSB7CiAgICAgICAgICAgIHN1bSArPSBtYXJrc1tyb3ddW2Fzc2Vzc21lbnRdOwogICAgICAgIH0KICAgICAgICByZXR1cm4gKGRvdWJsZSkgc3VtIC8gbWFya3MubGVuZ3RoOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Course.java",
+          "content": "/** A course with fixed assessments. */\npublic class Course\n{\n    private String title;\n    private int assessmentCount;\n\n    /** Assessment count must be positive. */\n    public Course(String title,\n        int assessmentCount)\n    {\n        this.title = title;\n        this.assessmentCount = assessmentCount;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public int getAssessmentCount()\n    {\n        return assessmentCount;\n    }\n}"
+        },
+        {
+          "name": "BookCheck.java",
+          "content": "public class BookCheck\n{\n    public static void main(String[] args)\n    {\n        Gradebook b = new Gradebook(new Course(\"Two\", 2), 2);\n        System.out.println(b.getCourseTitle());\n        System.out.println(\"Initial: \" + b.studentAverage(0));\n        System.out.println(\"Initial col: \" + b.assessmentAverage(1));\n        System.out.println(b.record(-1, 0, 50));\n        System.out.println(b.record(2, 0, 50));\n        System.out.println(b.record(0, -1, 50));\n        System.out.println(b.record(0, 2, 50));\n        System.out.println(b.record(0, 0, -1));\n        System.out.println(b.record(0, 0, 101));\n        System.out.println(b.record(0, 0, 0));\n        System.out.println(b.record(0, 1, 100));\n        System.out.println(b.record(1, 0, 80));\n        System.out.println(b.record(1, 1, 81));\n        System.out.println(\"Row 0: \" + b.studentAverage(0));\n        System.out.println(\"Row 1: \" + b.studentAverage(1));\n        System.out.println(\"Col 0: \" + b.assessmentAverage(0));\n        System.out.println(\"Col 1: \" + b.assessmentAverage(1));\n        b.record(1, 0, 81);\n        System.out.println(\"Replace: \" + b.studentAverage(1));\n        System.out.println(\"Again: \" + b.studentAverage(1));\n        Gradebook one = new Gradebook(new Course(\"One\", 1), 1);\n        one.record(0, 0, 75);\n        System.out.println(\"One: \" + one.assessmentAverage(0));\n    }\n}"
+        }
+      ]
+    },
+    "p2-demo": {
+      "type": "code",
+      "xp": 4,
+      "title": "GradebookDemo.java",
+      "minLines": 39,
+      "maxLines": 51,
+      "starter": "public class GradebookDemo\n{\n    public static void main(String[] args)\n    {\n        // Record all values and print the course and averages.\n    }\n}",
+      "cases": [
+        {
+          "name": "Program output",
+          "expected": "Bad student stored: false\nCourse: COMP 2001\nStudent 0: 81.25\nStudent 1: 72.0\nStudent 2: 91.0\nStudent 3: 83.0\nAssessment 0: 75.0\nAssessment 1: 79.0\nAssessment 2: 90.0\nAssessment 3: 83.25"
+        }
+      ],
+      "check": "",
+      "answer": "cHVibGljIGNsYXNzIEdyYWRlYm9va0RlbW8KewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBDb3Vyc2UgY291cnNlID0gbmV3IENvdXJzZSgiQ09NUCAyMDAxIiwgNCk7CiAgICAgICAgR3JhZGVib29rIGJvb2sgPSBuZXcgR3JhZGVib29rKGNvdXJzZSwgNCk7CiAgICAgICAgaW50W11bXSByZXN1bHRzID0gewogICAgICAgICAgICB7NzAsIDgwLCA5MCwgODV9LCB7NjAsIDc1LCA4MSwgNzJ9LAogICAgICAgICAgICB7OTAsIDg1LCA5NSwgOTR9LCB7ODAsIDc2LCA5NCwgODJ9CiAgICAgICAgfTsKICAgICAgICAvLyBSZWNvcmQgYWxsIG1hcmtzIGJlZm9yZSBhdmVyYWdpbmcuCiAgICAgICAgZm9yKGludCByb3cgPSAwOyByb3cgPCByZXN1bHRzLmxlbmd0aDsKICAgICAgICAgICAgcm93KyspIHsKICAgICAgICAgICAgZm9yKGludCBjb2wgPSAwOwogICAgICAgICAgICAgICAgY29sIDwgcmVzdWx0c1tyb3ddLmxlbmd0aDsgY29sKyspIHsKICAgICAgICAgICAgICAgIGJvb2sucmVjb3JkKHJvdywgY29sLAogICAgICAgICAgICAgICAgICAgIHJlc3VsdHNbcm93XVtjb2xdKTsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkJhZCBzdHVkZW50IHN0b3JlZDogIgogICAgICAgICAgICArIGJvb2sucmVjb3JkKDQsIDAsIDUwKSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJDb3Vyc2U6ICIKICAgICAgICAgICAgKyBib29rLmdldENvdXJzZVRpdGxlKCkpOwogICAgICAgIGZvcihpbnQgcm93ID0gMDsgcm93IDwgcmVzdWx0cy5sZW5ndGg7CiAgICAgICAgICAgIHJvdysrKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiU3R1ZGVudCAiICsgcm93ICsgIjogIgogICAgICAgICAgICAgICAgKyBib29rLnN0dWRlbnRBdmVyYWdlKHJvdykpOwogICAgICAgIH0KICAgICAgICBmb3IoaW50IGNvbCA9IDA7CiAgICAgICAgICAgIGNvbCA8IGNvdXJzZS5nZXRBc3Nlc3NtZW50Q291bnQoKTsKICAgICAgICAgICAgY29sKyspIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJBc3Nlc3NtZW50ICIKICAgICAgICAgICAgICAgICsgY29sICsgIjogIgogICAgICAgICAgICAgICAgKyBib29rLmFzc2Vzc21lbnRBdmVyYWdlKGNvbCkpOwogICAgICAgIH0KICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Course.java",
+          "content": "/** A course with fixed assessments. */\npublic class Course\n{\n    private String title;\n    private int assessmentCount;\n\n    /** Assessment count must be positive. */\n    public Course(String title,\n        int assessmentCount)\n    {\n        this.title = title;\n        this.assessmentCount = assessmentCount;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public int getAssessmentCount()\n    {\n        return assessmentCount;\n    }\n}"
+        },
+        {
+          "name": "Gradebook.java",
+          "content": "/** Rows are students; columns are assessments. */\npublic class Gradebook\n{\n    private Course course;\n    private int[][] marks;\n\n    /** Positive count; non-null course. */\n    public Gradebook(Course course,\n        int studentCount)\n    {\n        this.course = course;\n        int assessments =\n            course.getAssessmentCount();\n        marks = new int[studentCount][assessments];\n    }\n\n    public String getCourseTitle()\n    {\n        return course.getTitle();\n    }\n\n    /** Refuse invalid indexes or marks. */\n    public boolean record(int student,\n        int assessment,\n        int mark)\n    {\n        if(student < 0 || student >= marks.length) {\n            return false;\n        }\n        if(assessment < 0\n            || assessment >= marks[student].length\n            || mark < 0 || mark > 100) {\n            return false;\n        }\n        marks[student][assessment] = mark;\n        return true;\n    }\n\n    /** Average for a valid student. */\n    public double studentAverage(int student)\n    {\n        int sum = 0;\n        for(int mark : marks[student]) {\n            sum += mark;\n        }\n        return (double) sum\n            / marks[student].length;\n    }\n\n    /** Average for a valid assessment. */\n    public double assessmentAverage(\n        int assessment)\n    {\n        int sum = 0;\n        for(int row = 0; row < marks.length; row++) {\n            sum += marks[row][assessment];\n        }\n        return (double) sum / marks.length;\n    }\n}"
+        }
+      ]
+    },
+    "q30": {
+      "type": "code",
+      "xp": 4,
+      "title": "Gradebook.java",
+      "minLines": 76,
+      "maxLines": 88,
+      "starter": "/** Rows are students; columns are assessments. */\npublic class Gradebook\n{\n    private Course course;\n    private int[][] marks;\n\n    /** Positive count; non-null course. */\n    public Gradebook(Course course,\n        int studentCount)\n    {\n        this.course = course;\n        int assessments =\n            course.getAssessmentCount();\n        marks = new int[studentCount][assessments];\n    }\n\n    public String getCourseTitle()\n    {\n        return course.getTitle();\n    }\n\n    /** Refuse invalid indexes or marks. */\n    public boolean record(int student,\n        int assessment,\n        int mark)\n    {\n        if(student < 0 || student >= marks.length) {\n            return false;\n        }\n        if(assessment < 0\n            || assessment >= marks[student].length\n            || mark < 0 || mark > 100) {\n            return false;\n        }\n        marks[student][assessment] = mark;\n        return true;\n    }\n\n    /** Average for a valid student. */\n    public double studentAverage(int student)\n    {\n        int sum = 0;\n        for(int mark : marks[student]) {\n            sum += mark;\n        }\n        return (double) sum\n            / marks[student].length;\n    }\n\n    /** Average for a valid assessment. */\n    public double assessmentAverage(\n        int assessment)\n    {\n        int sum = 0;\n        for(int row = 0; row < marks.length; row++) {\n            sum += marks[row][assessment];\n        }\n        return (double) sum / marks.length;\n    }\n\n    // Add this method inside Gradebook.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "0.0\n81.25\n81.25"
+        }
+      ],
+      "check": "",
+      "answer": "LyoqIFJvd3MgYXJlIHN0dWRlbnRzOyBjb2x1bW5zIGFyZSBhc3Nlc3NtZW50cy4gKi8KcHVibGljIGNsYXNzIEdyYWRlYm9vawp7CiAgICBwcml2YXRlIENvdXJzZSBjb3Vyc2U7CiAgICBwcml2YXRlIGludFtdW10gbWFya3M7CgogICAgLyoqIFBvc2l0aXZlIGNvdW50OyBub24tbnVsbCBjb3Vyc2UuICovCiAgICBwdWJsaWMgR3JhZGVib29rKENvdXJzZSBjb3Vyc2UsCiAgICAgICAgaW50IHN0dWRlbnRDb3VudCkKICAgIHsKICAgICAgICB0aGlzLmNvdXJzZSA9IGNvdXJzZTsKICAgICAgICBpbnQgYXNzZXNzbWVudHMgPQogICAgICAgICAgICBjb3Vyc2UuZ2V0QXNzZXNzbWVudENvdW50KCk7CiAgICAgICAgbWFya3MgPSBuZXcgaW50W3N0dWRlbnRDb3VudF1bYXNzZXNzbWVudHNdOwogICAgfQoKICAgIHB1YmxpYyBTdHJpbmcgZ2V0Q291cnNlVGl0bGUoKQogICAgewogICAgICAgIHJldHVybiBjb3Vyc2UuZ2V0VGl0bGUoKTsKICAgIH0KCiAgICAvKiogUmVmdXNlIGludmFsaWQgaW5kZXhlcyBvciBtYXJrcy4gKi8KICAgIHB1YmxpYyBib29sZWFuIHJlY29yZChpbnQgc3R1ZGVudCwKICAgICAgICBpbnQgYXNzZXNzbWVudCwKICAgICAgICBpbnQgbWFyaykKICAgIHsKICAgICAgICBpZihzdHVkZW50IDwgMCB8fCBzdHVkZW50ID49IG1hcmtzLmxlbmd0aCkgewogICAgICAgICAgICByZXR1cm4gZmFsc2U7CiAgICAgICAgfQogICAgICAgIGlmKGFzc2Vzc21lbnQgPCAwCiAgICAgICAgICAgIHx8IGFzc2Vzc21lbnQgPj0gbWFya3Nbc3R1ZGVudF0ubGVuZ3RoCiAgICAgICAgICAgIHx8IG1hcmsgPCAwIHx8IG1hcmsgPiAxMDApIHsKICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KICAgICAgICBtYXJrc1tzdHVkZW50XVthc3Nlc3NtZW50XSA9IG1hcms7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgLyoqIEF2ZXJhZ2UgZm9yIGEgdmFsaWQgc3R1ZGVudC4gKi8KICAgIHB1YmxpYyBkb3VibGUgc3R1ZGVudEF2ZXJhZ2UoaW50IHN0dWRlbnQpCiAgICB7CiAgICAgICAgaW50IHN1bSA9IDA7CiAgICAgICAgZm9yKGludCBtYXJrIDogbWFya3Nbc3R1ZGVudF0pIHsKICAgICAgICAgICAgc3VtICs9IG1hcms7CiAgICAgICAgfQogICAgICAgIHJldHVybiAoZG91YmxlKSBzdW0KICAgICAgICAgICAgLyBtYXJrc1tzdHVkZW50XS5sZW5ndGg7CiAgICB9CgogICAgLyoqIEF2ZXJhZ2UgZm9yIGEgdmFsaWQgYXNzZXNzbWVudC4gKi8KICAgIHB1YmxpYyBkb3VibGUgYXNzZXNzbWVudEF2ZXJhZ2UoCiAgICAgICAgaW50IGFzc2Vzc21lbnQpCiAgICB7CiAgICAgICAgaW50IHN1bSA9IDA7CiAgICAgICAgZm9yKGludCByb3cgPSAwOyByb3cgPCBtYXJrcy5sZW5ndGg7IHJvdysrKSB7CiAgICAgICAgICAgIHN1bSArPSBtYXJrc1tyb3ddW2Fzc2Vzc21lbnRdOwogICAgICAgIH0KICAgICAgICByZXR1cm4gKGRvdWJsZSkgc3VtIC8gbWFya3MubGVuZ3RoOwogICAgfQoKICAgIC8vIEFkZCB0aGlzIG1ldGhvZCBpbnNpZGUgR3JhZGVib29rLgogICAgcHVibGljIGRvdWJsZSBvdmVyYWxsQXZlcmFnZSgpCiAgICB7CiAgICAgICAgaW50IHN1bSA9IDA7CiAgICAgICAgaW50IGNvdW50ID0gMDsKICAgICAgICBmb3IoaW50W10gcm93IDogbWFya3MpIHsKICAgICAgICAgICAgZm9yKGludCBtYXJrIDogcm93KSB7CiAgICAgICAgICAgICAgICBzdW0gKz0gbWFyazsKICAgICAgICAgICAgICAgIGNvdW50Kys7CiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICAgICAgcmV0dXJuIChkb3VibGUpIHN1bSAvIGNvdW50OwogICAgfQp9",
+      "files": [
+        {
+          "name": "Course.java",
+          "content": "/** A course with fixed assessments. */\npublic class Course\n{\n    private String title;\n    private int assessmentCount;\n\n    /** Assessment count must be positive. */\n    public Course(String title,\n        int assessmentCount)\n    {\n        this.title = title;\n        this.assessmentCount = assessmentCount;\n    }\n\n    public String getTitle()\n    {\n        return title;\n    }\n\n    public int getAssessmentCount()\n    {\n        return assessmentCount;\n    }\n}"
+        },
+        {
+          "name": "QuestionCheck.java",
+          "content": "public class QuestionCheck\n{\n    public static void main(String[] args)\n    {\n        Gradebook b = new Gradebook(new Course(\"Two\", 2), 2);\n        System.out.println(b.overallAverage());\n        b.record(0, 0, 70);\n        b.record(0, 1, 80);\n        b.record(1, 0, 90);\n        b.record(1, 1, 85);\n        System.out.println(b.overallAverage());\n        System.out.println(b.overallAverage());\n    }\n}"
+        }
+      ]
+    }
+  }
+}
