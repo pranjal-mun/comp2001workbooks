@@ -1,0 +1,628 @@
+{
+  "id": "lecture-15",
+  "course": "COMP 2001: Object-Oriented Programming",
+  "title": "Lecture 15 Workbook",
+  "subtitle": "Chapter 9: Testing and Debugging",
+  "exercises": {
+    "q1": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIG1pc3NpbmcgcGFyZW50aGVzaXMgaXMgYSBzeW50YXggZXJyb3IgZGV0ZWN0ZWQgYnkgdGhlIGNvbXBpbGVyLiBUaGUgb21pdHRlZCBpdGVtIGlzIGEgbG9naWNhbCBlcnJvciBkZXRlY3RlZCBieSBhIHRlc3Qgd2l0aCBhIGtub3duIGV4cGVjdGVkIHRvdGFsLg=="
+    },
+    "q2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Q29tcGFyaW5nIHRoZSByZXN1bHQgd2l0aCA3NTAgaXMgdGVzdGluZzogaXQgc2hvd3MgdGhhdCB0aGlzIGNhc2UgZmFpbHMuIEZpbmRpbmcgdGhlIG9taXR0ZWQgYnJhbmNoIGlzIGRlYnVnZ2luZzogaXQgaWRlbnRpZmllcyB0aGUgc291cmNlIG9mIHRoZSB3cm9uZyB0b3RhbC4="
+    },
+    "q3": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "U3RhcnQgd2l0aCBhbiBlbXB0eSBvcmRlciBmb3IgYSB2YWxpZCBjdXN0b21lci4gQWRkIHRlYSBhbmQgYSBjb29raWUsIHRoZW4gY2FsbCBnZXRUb3RhbCgpLiBUaGUgZXhwZWN0ZWQgcmVzdWx0IGlzIDM3NSBjZW50cy4="
+    },
+    "q5": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIG9ic2VydmVkIHZhbHVlIG1heSBhbHJlYWR5IGJlIHdyb25nLiBUaGUgZXhwZWN0ZWQgcmVzdWx0IHNob3VsZCBjb21lIGZyb20gdGhlIGNvbnRyYWN0IGFuZCB0aGUgaW5wdXQgZGF0YSwgc3VjaCBhcyB0aGUgcHJpY2VzIG9mIGFsbCBpdGVtcyBpbiB0aGUgb3JkZXIu"
+    },
+    "q6": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "QXQgMjUwIHRoZSB0YXAgc2hvdWxkIHN1Y2NlZWQsIHNvIGl0IGlzIHBvc2l0aXZlIGFuZCBhdCB0aGUgYm91bmRhcnkuIEF0IDI0OSB0aGUgdGFwIHNob3VsZCBiZSByZWZ1c2VkLCBzbyBpdCBpcyBuZWdhdGl2ZSBhbmQganVzdCBvdXRzaWRlIHRoZSBib3VuZGFyeS4gQm90aCBhcmUgYm91bmRhcnkgdGVzdHMu"
+    },
+    "q7": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VXNlIDExLCAxMiwgMTMsIDY0LCA2NSBhbmQgNjYuIEFjY2VwdCAxMiwgMTMsIDY0IGFuZCA2NTsgcmVmdXNlIDExIGFuZCA2Ni4="
+    },
+    "q8": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIHRvdGFscyBhcmUgMCBhbmQgMTc1LiBFbXB0eSB0ZXN0cyB6ZXJvIGl0ZXJhdGlvbnM7IG9uZSBjb29raWUgdGVzdHMgdGhhdCBleGFjdGx5IG9uZSB2aXNpdCBjb250cmlidXRlcyBpdHMgcHJpY2Uu"
+    },
+    "q10": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Tm9uZSBhYm91dCB3aGV0aGVyIHRoZSB0b3RhbCBpcyBjb3JyZWN0LiBUaGUgcHJvZ3JhbSByZWFjaGVkIHRoZSBwcmludCBzdGF0ZW1lbnQuIEl0IG5lZWRzIGFuIGFzc2VydGlvbiBvciBhbm90aGVyIGNvbXBhcmlzb24gd2l0aCBhIGtub3duIGV4cGVjdGVkIHZhbHVlLg=="
+    },
+    "q11": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "SXQgc2hvdWxkIHNlZSAwIGJlY2F1c2UgdGhlIHNlY29uZCBjYWxsIGNyZWF0ZXMgYSBuZXcgdGlsbCBhbmQgc3RhcnRzIGFuIGVtcHR5IG9yZGVyLiBSZXVzaW5nIHNldHVwIGNvZGUgZG9lcyBub3QgbWVhbiByZXVzaW5nIHRoZSBmaXJzdCB0ZXN0J3MgY2hhbmdlZCBvYmplY3Qu"
+    },
+    "q13": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIHByZXZpb3VzIG9yZGVyIG11c3QgaGF2ZSBiZWVuIGZpbmlzaGVkIG9uY2UuIENsZWFyIHJ1bm5pbmdUb3RhbCBhbmQgaXRlbUNvdW50OyBwcmVzZXJ2ZSBkYXlUb3RhbC4gVGhpcyBzZXBhcmF0ZXMgdGhlIGNhbGxlcidzIG9ibGlnYXRpb24gZnJvbSB0aGUgbWV0aG9kJ3MgcHJvbWlzZS4="
+    },
+    "q14": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "QSBuZXcgdGlsbCBzdGFydHMgd2l0aCBubyBlYXJsaWVyIGl0ZW1zLiBUaGUgdGVzdCBuZWVkcyBhIGNvbXBsZXRlZCBmaXJzdCBvcmRlciBvbiB0aGUgc2FtZSBvYmplY3QsIGZvbGxvd2VkIGJ5IHN0YXJ0T3JkZXIoKSBhbmQgdGhlIHRlYSBmb3IgdGhlIHNlY29uZCBvcmRlci4gVGhhdCBoaXN0b3J5IGV4cG9zZXMgdGhlIG1pc3NpbmcgcmVzZXQu"
+    },
+    "q15": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIHJvd3MgYXJlICgwLCAwLCAwKSwgKDI1MCwgMSwgMCksICgyNTAsIDEsIDI1MCksICgwLCAxLCAyNTApLCAoMTc1LCAyLCAyNTApLiBUaGUgc2Vjb25kIHN0YXJ0IHNob3VsZCBjbGVhciB0aGUgY291bnQ7IHRoZSBsYXRlciBjb29raWUgaW5jcmVtZW50cyBhIHN0YWxlIHZhbHVlLg=="
+    },
+    "q16": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIHNlY29uZCBzdGFydE9yZGVyKCkgcm93IGlzIGZpcnN0IHdyb25nOiBpdHMgY291bnQgcmVtYWlucyAxLiBSaW5naW5nIHVwIHRoZSBjb29raWUgc2hvdWxkIGFkZCBvbmUgaXRlbS4gVGhlIHJlc2V0IG11c3QgY2xlYXIgdGhlIGVhcmxpZXIgY291bnQgYmVmb3JlIHRoYXQgaW5jcmVtZW50IGhhcHBlbnMu"
+    },
+    "q17": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "UnVuIG9ubHkgdGhlIHNob3J0IHJlcHJvZHVjaW5nIHNlcXVlbmNlIGFuZCBlbmFibGUgdGhlIGRlYnVnZ2luZyBmbGFnIGZvciBpdHMgdHJhY2UuIFByaW50IGVhY2ggcmVsZXZhbnQgY2FsbCBsYWJlbCBhbmQgdGhlIHRocmVlIHRpbGwgZmllbGRzIHRvZ2V0aGVyLiBTdXBwcmVzcyB1bnJlbGF0ZWQgb3V0cHV0Lg=="
+    },
+    "q19": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "S2VlcCB0aGUgY29tcGxldGVkLWZpcnN0LW9yZGVyLCBzdGFydC1zZWNvbmQtb3JkZXIgc2VxdWVuY2Ugd2l0aCBhc3NlcnRpb25zIGZvciB0aGUgY2xlYXJlZCBjb3VudCwgY2xlYXJlZCBjdXJyZW50IHRvdGFsLCBwcmVzZXJ2ZWQgZGF5IHRvdGFsIGFuZCB0aGUgdGVhIGNvdW50LiBBIGZyZXNoIG9uZS1vcmRlciB0ZXN0IG5ldmVyIGV4ZXJjaXNlcyByZXVzZSBvZiB0aGUgc2FtZSB0aWxsLg=="
+    },
+    "q21": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "QWZ0ZXIgdGhlIHRhcCBhbmQgYWNjZXB0ZWQgdG9wLXVwOiBiYWxhbmNlIDM1MCwgdHJpcHMgMS4gUmVmdXNpbmcgLTEwMCBtdXN0IGxlYXZlIGJvdGggYXQgMzUwIGFuZCAxLg=="
+    },
+    "q22": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Tm8uIEl0IHByb3ZpZGVzIGV2aWRlbmNlIGZvciBpdHMgb3duIGNhc2VzLCBub3QgdGhlIHVudGVzdGVkIHNlcXVlbmNlLiBSZXByb2R1Y2UgdGhlIHJlcG9ydGVkIHNlcXVlbmNlIHdpdGgga25vd24gc3RhcnRpbmcgc3RhdGUgYW5kIGV4cGVjdGVkIHJlc3VsdHMsIHRoZW4gYWRkIGFzc2VydGlvbnMgZm9yIGl0Lg=="
+    },
+    "q23": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VXNlIGFuIGludGVnZXIgYXNzZXJ0aW9uIGZvciB0aGUga25vd24gdG90YWwuIFVzZSBhIHN0YXRlIHRhYmxlLCBzdXBwb3J0ZWQgYnkgYSBzaG9ydCB0cmFjZSBpZiBuZWVkZWQsIHRvIGxvY2F0ZSB0aGUgZWFybGllc3Qgd3JvbmcgY291bnQgYWZ0ZXIgYSBjYWxsLg=="
+    },
+    "q24": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "UmVydW4gdGhlIHJlcHJvZHVjaW5nIHNlcXVlbmNlIGFuZCB0aGUgZXhpc3RpbmcgdGVzdHMsIGluY2x1ZGluZyByZWZ1c2FscywgYm91bmRhcmllcyBhbmQgcHJlc2VydmVkIGZpZWxkcy4gQWRkIHRoZSByZXByb2R1Y2luZyBjYXNlIGFzIGEgcmVncmVzc2lvbiB0ZXN0LiBPbmUgbWF0Y2hpbmcgZXhhbXBsZSBhbG9uZSBsZWF2ZXMgb3RoZXIgcHJvbWlzZXMgdW5jaGVja2VkLg=="
+    },
+    "q26": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGtlZXAgMzAgYXNzZXJ0aW9uIGZhaWxzIGJlY2F1c2UgdGhlIHN0b3JlZCB0YXJnZXQgYmVjb21lcyAzMS4gVGhlIHJlZnVzZSAzMSBib29sZWFuIGNoZWNrIHN0aWxsIHBhc3NlczogdGhlIG1ldGhvZCByZXR1cm5lZCBmYWxzZSwgYnV0IGJyb2tlIGl0cyBwcm9taXNlIHRvIHByZXNlcnZlIHRoZSBvbGQgc3RhdGUu"
+    },
+    "q4": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "code": {
+          "accept": [
+            "assertEquals(\"two coffees\", 500, order.getTotal());",
+            "assertEquals(\"two coffees\",500,order.getTotal());",
+            "assertEquals(\"two coffees\", 500, order.getTotal())",
+            "assertEquals(\"two coffees\",500,order.getTotal())"
+          ],
+          "show": "assertEquals(\"two coffees\", 500, order.getTotal());",
+          "caseSensitive": true,
+          "width": "26rem"
+        }
+      }
+    },
+    "q18": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "code": {
+          "accept": [
+            "assertEquals(\"day total kept\", 575, till.getDayTotal());",
+            "assertEquals(\"day total kept\",575,till.getDayTotal());",
+            "assertEquals(\"day total kept\", 575, till.getDayTotal())",
+            "assertEquals(\"day total kept\",575,till.getDayTotal())"
+          ],
+          "show": "assertEquals(\"day total kept\", 575, till.getDayTotal());",
+          "caseSensitive": true,
+          "width": "26rem"
+        }
+      }
+    },
+    "q9-card": {
+      "type": "code",
+      "xp": 4,
+      "title": "TransitCard.java",
+      "minLines": 48,
+      "maxLines": 60,
+      "starter": "public class TransitCard\n{\n    private static final int FARE = 250;\n    private int balance;\n    private int trips;\n\n    public TransitCard(int balance)\n    {\n        this.balance = balance;\n        trips = 0;\n    }\n\n    public boolean tapOn()\n    {\n        if(balance > FARE) {\n            balance -= FARE;\n            trips++;\n            return true;\n        }\n        return false;\n    }\n\n    public boolean topUp(int amount)\n    {\n        if(amount <= 0) {\n            return false;\n        }\n        balance += amount;\n        return true;\n    }\n\n    public void newMonth()\n    {\n        // Keep the credit for the new month.\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int getTrips()\n    {\n        return trips;\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "false\n249\n0\ntrue\n0\n1\nfalse\n0\n1\ntrue\n1\n1\nfalse\nfalse\n1\n1\ntrue\n101\n1"
+        }
+      ],
+      "check": "",
+      "answer": "cHVibGljIGNsYXNzIFRyYW5zaXRDYXJkCnsKICAgIHByaXZhdGUgc3RhdGljIGZpbmFsIGludCBGQVJFID0gMjUwOwogICAgcHJpdmF0ZSBpbnQgYmFsYW5jZTsKICAgIHByaXZhdGUgaW50IHRyaXBzOwoKICAgIHB1YmxpYyBUcmFuc2l0Q2FyZChpbnQgYmFsYW5jZSkKICAgIHsKICAgICAgICB0aGlzLmJhbGFuY2UgPSBiYWxhbmNlOwogICAgICAgIHRyaXBzID0gMDsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiB0YXBPbigpCiAgICB7CiAgICAgICAgaWYoYmFsYW5jZSA+PSBGQVJFKSB7CiAgICAgICAgICAgIGJhbGFuY2UgLT0gRkFSRTsKICAgICAgICAgICAgdHJpcHMrKzsKICAgICAgICAgICAgcmV0dXJuIHRydWU7CiAgICAgICAgfQogICAgICAgIHJldHVybiBmYWxzZTsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiB0b3BVcChpbnQgYW1vdW50KQogICAgewogICAgICAgIGlmKGFtb3VudCA8PSAwKSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9CiAgICAgICAgYmFsYW5jZSArPSBhbW91bnQ7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIHZvaWQgbmV3TW9udGgoKQogICAgewogICAgICAgIC8vIEtlZXAgdGhlIGNyZWRpdCBmb3IgdGhlIG5ldyBtb250aC4KICAgIH0KCiAgICBwdWJsaWMgaW50IGdldEJhbGFuY2UoKQogICAgewogICAgICAgIHJldHVybiBiYWxhbmNlOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0VHJpcHMoKQogICAgewogICAgICAgIHJldHVybiB0cmlwczsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "CardEdges.java",
+          "content": "public class CardEdges\n{\n    public static void main(String[] args)\n    {\n        TransitCard low = new TransitCard(249);\n        System.out.println(low.tapOn());\n        System.out.println(low.getBalance());\n        System.out.println(low.getTrips());\n        TransitCard exact = new TransitCard(250);\n        System.out.println(exact.tapOn());\n        System.out.println(exact.getBalance());\n        System.out.println(exact.getTrips());\n        System.out.println(exact.tapOn());\n        System.out.println(exact.getBalance());\n        System.out.println(exact.getTrips());\n        TransitCard above = new TransitCard(251);\n        System.out.println(above.tapOn());\n        System.out.println(above.getBalance());\n        System.out.println(above.getTrips());\n        System.out.println(above.topUp(0));\n        System.out.println(above.topUp(-100));\n        System.out.println(above.getBalance());\n        System.out.println(above.getTrips());\n        System.out.println(above.topUp(100));\n        System.out.println(above.getBalance());\n        System.out.println(above.getTrips());\n    }\n}"
+        }
+      ]
+    },
+    "q9-test": {
+      "type": "code",
+      "xp": 4,
+      "title": "TransitCardTest.java",
+      "minLines": 60,
+      "maxLines": 72,
+      "starter": "public class TransitCardTest\n{\n    private static int failures = 0;\n\n    public static void main(String[] args)\n    {\n        // Run testTaps and report the failure count.\n    }\n\n    // Add testTaps and the two assertion helpers.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "PASS first tap\nPASS after first\nPASS exact fare\nPASS after second\nPASS third refused\nPASS after third\nPASS negative top-up\nPASS after refusal\nAll tests passed"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertEquals(Stringlabel,intexpected,intactual)\"), \"Include the integer assertion helper with a label.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertTrue(Stringlabel,booleancondition)\"), \"Include the boolean assertion helper with a label.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"failures++\"), \"Count failed checks and keep going.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"if(failures==0)\"), \"Print the success message only when no check failed.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"testTaps();\"), \"Run the tap tests from main.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.topUp\\\\(-100\\\\).*\"), \"Keep the negative top-up check.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.tapOn\\\\(\\\\).*\\\\.tapOn\\\\(\\\\).*\\\\.tapOn\\\\(\\\\).*\"), \"Test the first tap, exact fare and third refused tap.\");",
+      "answer": "cHVibGljIGNsYXNzIFRyYW5zaXRDYXJkVGVzdAp7CiAgICBwcml2YXRlIHN0YXRpYyBpbnQgZmFpbHVyZXMgPSAwOwoKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgdGVzdFRhcHMoKTsKICAgICAgICBpZihmYWlsdXJlcyA9PSAwKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQWxsIHRlc3RzIHBhc3NlZCIpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGYWlsdXJlczogIiArIGZhaWx1cmVzKTsKICAgICAgICB9CiAgICB9CgogICAgcHJpdmF0ZSBzdGF0aWMgdm9pZCB0ZXN0VGFwcygpCiAgICB7CiAgICAgICAgVHJhbnNpdENhcmQgY2FyZCA9IG5ldyBUcmFuc2l0Q2FyZCg1MDApOwogICAgICAgIGFzc2VydFRydWUoImZpcnN0IHRhcCIsIGNhcmQudGFwT24oKSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJhZnRlciBmaXJzdCIsIDI1MCwKICAgICAgICAgICAgY2FyZC5nZXRCYWxhbmNlKCkpOwogICAgICAgIGFzc2VydFRydWUoImV4YWN0IGZhcmUiLCBjYXJkLnRhcE9uKCkpOwogICAgICAgIGFzc2VydEVxdWFscygiYWZ0ZXIgc2Vjb25kIiwgMCwKICAgICAgICAgICAgY2FyZC5nZXRCYWxhbmNlKCkpOwogICAgICAgIGFzc2VydFRydWUoInRoaXJkIHJlZnVzZWQiLCAhY2FyZC50YXBPbigpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoImFmdGVyIHRoaXJkIiwgMCwKICAgICAgICAgICAgY2FyZC5nZXRCYWxhbmNlKCkpOwogICAgICAgIGFzc2VydFRydWUoIm5lZ2F0aXZlIHRvcC11cCIsICFjYXJkLnRvcFVwKC0xMDApKTsKICAgICAgICBhc3NlcnRFcXVhbHMoImFmdGVyIHJlZnVzYWwiLCAwLAogICAgICAgICAgICBjYXJkLmdldEJhbGFuY2UoKSk7CiAgICB9CgogICAgcHJpdmF0ZSBzdGF0aWMgdm9pZCBhc3NlcnRFcXVhbHMoU3RyaW5nIGxhYmVsLAogICAgICAgIGludCBleHBlY3RlZCwgaW50IGFjdHVhbCkKICAgIHsKICAgICAgICBpZihleHBlY3RlZCA9PSBhY3R1YWwpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJQQVNTICIgKyBsYWJlbCk7CiAgICAgICAgfQogICAgICAgIGVsc2UgewogICAgICAgICAgICBmYWlsdXJlcysrOwogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkZBSUwgIiArIGxhYmVsCiAgICAgICAgICAgICAgICArICI6IGV4cGVjdGVkICIgKyBleHBlY3RlZAogICAgICAgICAgICAgICAgKyAiLCBhY3R1YWwgIiArIGFjdHVhbCk7CiAgICAgICAgfQogICAgfQoKICAgIHByaXZhdGUgc3RhdGljIHZvaWQgYXNzZXJ0VHJ1ZShTdHJpbmcgbGFiZWwsCiAgICAgICAgYm9vbGVhbiBjb25kaXRpb24pCiAgICB7CiAgICAgICAgaWYoY29uZGl0aW9uKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiUEFTUyAiICsgbGFiZWwpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgZmFpbHVyZXMrKzsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGQUlMICIgKyBsYWJlbCk7CiAgICAgICAgfQogICAgfQp9",
+      "files": [
+        {
+          "name": "TransitCard.java",
+          "content": "public class TransitCard\n{\n    private static final int FARE = 250;\n    private int balance;\n    private int trips;\n\n    public TransitCard(int balance)\n    {\n        this.balance = balance;\n        trips = 0;\n    }\n\n    public boolean tapOn()\n    {\n        if(balance >= FARE) {\n            balance -= FARE;\n            trips++;\n            return true;\n        }\n        return false;\n    }\n\n    public boolean topUp(int amount)\n    {\n        if(amount <= 0) {\n            return false;\n        }\n        balance += amount;\n        return true;\n    }\n\n    public void newMonth()\n    {\n        // Keep the credit for the new month.\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int getTrips()\n    {\n        return trips;\n    }\n}"
+        }
+      ]
+    },
+    "q12": {
+      "type": "code",
+      "xp": 4,
+      "title": "Report.java",
+      "minLines": 22,
+      "maxLines": 34,
+      "starter": "public class Report\n{\n    private static int failures = 0;\n\n    private static void report()\n    {\n        // Print success only for zero failures; otherwise print the count.\n    }\n\n    public static void main(String[] args)\n    {\n        report();\n        failures = 2;\n        report();\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "All tests passed\nFailures: 2"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"if(failures==0)\"), \"Compare the failure count with zero before reporting success.\");",
+      "answer": "cHVibGljIGNsYXNzIFJlcG9ydAp7CiAgICBwcml2YXRlIHN0YXRpYyBpbnQgZmFpbHVyZXMgPSAwOwoKICAgIHByaXZhdGUgc3RhdGljIHZvaWQgcmVwb3J0KCkKICAgIHsKICAgICAgICBpZihmYWlsdXJlcyA9PSAwKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQWxsIHRlc3RzIHBhc3NlZCIpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGYWlsdXJlczogIiArIGZhaWx1cmVzKTsKICAgICAgICB9CiAgICB9CgogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICByZXBvcnQoKTsKICAgICAgICBmYWlsdXJlcyA9IDI7CiAgICAgICAgcmVwb3J0KCk7CiAgICB9Cn0=",
+      "files": []
+    },
+    "q15-state": {
+      "type": "table",
+      "xp": 3,
+      "blanks": {
+        "0-0": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "0-1": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "0-2": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "1-0": {
+          "accept": [
+            "250"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "1-1": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "1-2": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "2-0": {
+          "accept": [
+            "250"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "2-1": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "2-2": {
+          "accept": [
+            "250"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "3-0": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "3-1": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "3-2": {
+          "accept": [
+            "250"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "4-0": {
+          "accept": [
+            "175"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "4-1": {
+          "accept": [
+            "2"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "4-2": {
+          "accept": [
+            "250"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q20-card": {
+      "type": "code",
+      "xp": 4,
+      "title": "TransitCard.java",
+      "minLines": 53,
+      "maxLines": 65,
+      "starter": "public class TransitCard\n{\n    private static final int FARE = 250;\n    private int balance;\n    private int trips;\n\n    public TransitCard(int balance)\n    {\n        this.balance = balance;\n        trips = 0;\n    }\n\n    public boolean tapOn()\n    {\n        if(balance >= FARE) {\n            balance -= FARE;\n            trips++;\n            return true;\n        }\n        return false;\n    }\n\n    public boolean topUp(int amount)\n    {\n        if(amount <= 0) {\n            return false;\n        }\n        balance += amount;\n        return true;\n    }\n\n    public void newMonth()\n    {\n        // Keep the credit for the new month.\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int getTrips()\n    {\n        return trips;\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "balance=500 trips=0\ntrue\nbalance=250 trips=1\nbalance=250 trips=0\nbalance=250 trips=0\ntrue\nbalance=0 trips=1\nfalse\nbalance=0 trips=1\nfalse\nfalse\nbalance=0 trips=1\ntrue\nbalance=100 trips=1\nfalse\nbalance=249 trips=0\ntrue\nbalance=1 trips=1"
+        }
+      ],
+      "check": "",
+      "answer": "cHVibGljIGNsYXNzIFRyYW5zaXRDYXJkCnsKICAgIHByaXZhdGUgc3RhdGljIGZpbmFsIGludCBGQVJFID0gMjUwOwogICAgcHJpdmF0ZSBpbnQgYmFsYW5jZTsKICAgIHByaXZhdGUgaW50IHRyaXBzOwoKICAgIHB1YmxpYyBUcmFuc2l0Q2FyZChpbnQgYmFsYW5jZSkKICAgIHsKICAgICAgICB0aGlzLmJhbGFuY2UgPSBiYWxhbmNlOwogICAgICAgIHRyaXBzID0gMDsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiB0YXBPbigpCiAgICB7CiAgICAgICAgaWYoYmFsYW5jZSA+PSBGQVJFKSB7CiAgICAgICAgICAgIGJhbGFuY2UgLT0gRkFSRTsKICAgICAgICAgICAgdHJpcHMrKzsKICAgICAgICAgICAgcmV0dXJuIHRydWU7CiAgICAgICAgfQogICAgICAgIHJldHVybiBmYWxzZTsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiB0b3BVcChpbnQgYW1vdW50KQogICAgewogICAgICAgIGlmKGFtb3VudCA8PSAwKSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9CiAgICAgICAgYmFsYW5jZSArPSBhbW91bnQ7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIHZvaWQgbmV3TW9udGgoKQogICAgewogICAgICAgIHRyaXBzID0gMDsKICAgIH0KCiAgICBwdWJsaWMgaW50IGdldEJhbGFuY2UoKQogICAgewogICAgICAgIHJldHVybiBiYWxhbmNlOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0VHJpcHMoKQogICAgewogICAgICAgIHJldHVybiB0cmlwczsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCByZXBvcnRTdGF0ZSgpCiAgICB7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJiYWxhbmNlPSIgKyBiYWxhbmNlICsgIiB0cmlwcz0iICsgdHJpcHMpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "MonthEdges.java",
+          "content": "public class MonthEdges\n{\n    public static void main(String[] args)\n    {\n        TransitCard card = new TransitCard(500);\n        card.newMonth();\n        card.reportState();\n        System.out.println(card.tapOn());\n        card.reportState();\n        card.newMonth();\n        card.reportState();\n        card.newMonth();\n        card.reportState();\n        System.out.println(card.tapOn());\n        card.reportState();\n        System.out.println(card.tapOn());\n        card.reportState();\n        System.out.println(card.topUp(0));\n        System.out.println(card.topUp(-100));\n        card.reportState();\n        System.out.println(card.topUp(100));\n        card.reportState();\n        TransitCard low = new TransitCard(249);\n        System.out.println(low.tapOn());\n        low.reportState();\n        TransitCard above = new TransitCard(251);\n        System.out.println(above.tapOn());\n        above.reportState();\n    }\n}"
+        }
+      ]
+    },
+    "q20-test": {
+      "type": "code",
+      "xp": 4,
+      "title": "TransitCardTest.java",
+      "minLines": 74,
+      "maxLines": 86,
+      "starter": "public class TransitCardTest\n{\n    private static int failures = 0;\n\n    public static void main(String[] args)\n    {\n        testTaps();\n        if(failures == 0) {\n            System.out.println(\"All tests passed\");\n        }\n        else {\n            System.out.println(\"Failures: \" + failures);\n        }\n    }\n\n    private static void testTaps()\n    {\n        TransitCard card = new TransitCard(500);\n        assertTrue(\"first tap\", card.tapOn());\n        assertEquals(\"after first\", 250,\n            card.getBalance());\n        assertTrue(\"exact fare\", card.tapOn());\n        assertEquals(\"after second\", 0,\n            card.getBalance());\n        assertTrue(\"third refused\", !card.tapOn());\n        assertEquals(\"after third\", 0,\n            card.getBalance());\n        assertTrue(\"negative top-up\", !card.topUp(-100));\n        assertEquals(\"after refusal\", 0,\n            card.getBalance());\n    }\n\n    private static void assertEquals(String label,\n        int expected, int actual)\n    {\n        if(expected == actual) {\n            System.out.println(\"PASS \" + label);\n        }\n        else {\n            failures++;\n            System.out.println(\"FAIL \" + label\n                + \": expected \" + expected\n                + \", actual \" + actual);\n        }\n    }\n\n    private static void assertTrue(String label,\n        boolean condition)\n    {\n        if(condition) {\n            System.out.println(\"PASS \" + label);\n        }\n        else {\n            failures++;\n            System.out.println(\"FAIL \" + label);\n        }\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "PASS first tap\nPASS after first\nPASS exact fare\nPASS after second\nPASS third refused\nPASS after third\nPASS negative top-up\nPASS after refusal\nPASS trip before reset\nPASS new month trips\nPASS balance kept\nAll tests passed"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertEquals(Stringlabel,intexpected,intactual)\"), \"Include the integer assertion helper with a label.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertTrue(Stringlabel,booleancondition)\"), \"Include the boolean assertion helper with a label.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"failures++\"), \"Count failed checks and keep going.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"if(failures==0)\"), \"Print the success message only when no check failed.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"testTaps();\"), \"Run the tap tests from main.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.topUp\\\\(-100\\\\).*\"), \"Keep the negative top-up check.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.tapOn\\\\(\\\\).*\\\\.tapOn\\\\(\\\\).*\\\\.tapOn\\\\(\\\\).*\"), \"Test the first tap, exact fare and third refused tap.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"testNewMonth();\"), \"Call the new month regression test from main.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.newMonth\\\\(\\\\);.*\"), \"Exercise the month reset.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*assertEquals\\\\(\\\"[^\\\"]*\\\",0,[A-Za-z_$][\\\\w$]*\\\\.getTrips\\\\(\\\\)\\\\);.*\"), \"Check that the month reset clears trips.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*assertEquals\\\\(\\\"[^\\\"]*\\\",250,[A-Za-z_$][\\\\w$]*\\\\.getBalance\\\\(\\\\)\\\\);.*\"), \"Check that the month reset preserves credit.\");",
+      "answer": "cHVibGljIGNsYXNzIFRyYW5zaXRDYXJkVGVzdAp7CiAgICBwcml2YXRlIHN0YXRpYyBpbnQgZmFpbHVyZXMgPSAwOwoKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgdGVzdFRhcHMoKTsKICAgICAgICB0ZXN0TmV3TW9udGgoKTsKICAgICAgICBpZihmYWlsdXJlcyA9PSAwKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQWxsIHRlc3RzIHBhc3NlZCIpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGYWlsdXJlczogIiArIGZhaWx1cmVzKTsKICAgICAgICB9CiAgICB9CgogICAgcHJpdmF0ZSBzdGF0aWMgdm9pZCB0ZXN0VGFwcygpCiAgICB7CiAgICAgICAgVHJhbnNpdENhcmQgY2FyZCA9IG5ldyBUcmFuc2l0Q2FyZCg1MDApOwogICAgICAgIGFzc2VydFRydWUoImZpcnN0IHRhcCIsIGNhcmQudGFwT24oKSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJhZnRlciBmaXJzdCIsIDI1MCwKICAgICAgICAgICAgY2FyZC5nZXRCYWxhbmNlKCkpOwogICAgICAgIGFzc2VydFRydWUoImV4YWN0IGZhcmUiLCBjYXJkLnRhcE9uKCkpOwogICAgICAgIGFzc2VydEVxdWFscygiYWZ0ZXIgc2Vjb25kIiwgMCwKICAgICAgICAgICAgY2FyZC5nZXRCYWxhbmNlKCkpOwogICAgICAgIGFzc2VydFRydWUoInRoaXJkIHJlZnVzZWQiLCAhY2FyZC50YXBPbigpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoImFmdGVyIHRoaXJkIiwgMCwKICAgICAgICAgICAgY2FyZC5nZXRCYWxhbmNlKCkpOwogICAgICAgIGFzc2VydFRydWUoIm5lZ2F0aXZlIHRvcC11cCIsICFjYXJkLnRvcFVwKC0xMDApKTsKICAgICAgICBhc3NlcnRFcXVhbHMoImFmdGVyIHJlZnVzYWwiLCAwLAogICAgICAgICAgICBjYXJkLmdldEJhbGFuY2UoKSk7CiAgICB9CgogICAgcHJpdmF0ZSBzdGF0aWMgdm9pZCB0ZXN0TmV3TW9udGgoKQogICAgewogICAgICAgIFRyYW5zaXRDYXJkIGNhcmQgPSBuZXcgVHJhbnNpdENhcmQoNTAwKTsKICAgICAgICBjYXJkLnRhcE9uKCk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJ0cmlwIGJlZm9yZSByZXNldCIsIDEsCiAgICAgICAgICAgIGNhcmQuZ2V0VHJpcHMoKSk7CiAgICAgICAgY2FyZC5uZXdNb250aCgpOwogICAgICAgIGFzc2VydEVxdWFscygibmV3IG1vbnRoIHRyaXBzIiwgMCwKICAgICAgICAgICAgY2FyZC5nZXRUcmlwcygpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoImJhbGFuY2Uga2VwdCIsIDI1MCwKICAgICAgICAgICAgY2FyZC5nZXRCYWxhbmNlKCkpOwogICAgfQoKICAgIHByaXZhdGUgc3RhdGljIHZvaWQgYXNzZXJ0RXF1YWxzKFN0cmluZyBsYWJlbCwKICAgICAgICBpbnQgZXhwZWN0ZWQsIGludCBhY3R1YWwpCiAgICB7CiAgICAgICAgaWYoZXhwZWN0ZWQgPT0gYWN0dWFsKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiUEFTUyAiICsgbGFiZWwpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgZmFpbHVyZXMrKzsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGQUlMICIgKyBsYWJlbAogICAgICAgICAgICAgICAgKyAiOiBleHBlY3RlZCAiICsgZXhwZWN0ZWQKICAgICAgICAgICAgICAgICsgIiwgYWN0dWFsICIgKyBhY3R1YWwpOwogICAgICAgIH0KICAgIH0KCiAgICBwcml2YXRlIHN0YXRpYyB2b2lkIGFzc2VydFRydWUoU3RyaW5nIGxhYmVsLAogICAgICAgIGJvb2xlYW4gY29uZGl0aW9uKQogICAgewogICAgICAgIGlmKGNvbmRpdGlvbikgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlBBU1MgIiArIGxhYmVsKTsKICAgICAgICB9CiAgICAgICAgZWxzZSB7CiAgICAgICAgICAgIGZhaWx1cmVzKys7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiRkFJTCAiICsgbGFiZWwpOwogICAgICAgIH0KICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "TransitCard.java",
+          "content": "public class TransitCard\n{\n    private static final int FARE = 250;\n    private int balance;\n    private int trips;\n\n    public TransitCard(int balance)\n    {\n        this.balance = balance;\n        trips = 0;\n    }\n\n    public boolean tapOn()\n    {\n        if(balance >= FARE) {\n            balance -= FARE;\n            trips++;\n            return true;\n        }\n        return false;\n    }\n\n    public boolean topUp(int amount)\n    {\n        if(amount <= 0) {\n            return false;\n        }\n        balance += amount;\n        return true;\n    }\n\n    public void newMonth()\n    {\n        trips = 0;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int getTrips()\n    {\n        return trips;\n    }\n\n    public void reportState()\n    {\n        System.out.println(\"balance=\" + balance + \" trips=\" + trips);\n    }\n}"
+        }
+      ]
+    },
+    "q20-demo": {
+      "type": "code",
+      "xp": 4,
+      "title": "TransitCardDemo.java",
+      "minLines": 20,
+      "maxLines": 32,
+      "starter": "public class TransitCardDemo\n{\n    public static void main(String[] args)\n    {\n        // Report a fresh 500-cent card, three taps and the month reset.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "new card balance=500 trips=0\nfirst tap: true\nbalance=250 trips=1\nsecond tap: true\nbalance=0 trips=2\nthird tap: false\nbalance=0 trips=2\nnew month balance=0 trips=0"
+        }
+      ],
+      "check": "",
+      "answer": "cHVibGljIGNsYXNzIFRyYW5zaXRDYXJkRGVtbwp7CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKQogICAgewogICAgICAgIFRyYW5zaXRDYXJkIGNhcmQgPSBuZXcgVHJhbnNpdENhcmQoNTAwKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50KCJuZXcgY2FyZCAiKTsKICAgICAgICBjYXJkLnJlcG9ydFN0YXRlKCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJmaXJzdCB0YXA6ICIgKyBjYXJkLnRhcE9uKCkpOwogICAgICAgIGNhcmQucmVwb3J0U3RhdGUoKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oInNlY29uZCB0YXA6ICIgKyBjYXJkLnRhcE9uKCkpOwogICAgICAgIGNhcmQucmVwb3J0U3RhdGUoKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oInRoaXJkIHRhcDogIiArIGNhcmQudGFwT24oKSk7CiAgICAgICAgY2FyZC5yZXBvcnRTdGF0ZSgpOwogICAgICAgIGNhcmQubmV3TW9udGgoKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50KCJuZXcgbW9udGggIik7CiAgICAgICAgY2FyZC5yZXBvcnRTdGF0ZSgpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "TransitCard.java",
+          "content": "public class TransitCard\n{\n    private static final int FARE = 250;\n    private int balance;\n    private int trips;\n\n    public TransitCard(int balance)\n    {\n        this.balance = balance;\n        trips = 0;\n    }\n\n    public boolean tapOn()\n    {\n        if(balance >= FARE) {\n            balance -= FARE;\n            trips++;\n            return true;\n        }\n        return false;\n    }\n\n    public boolean topUp(int amount)\n    {\n        if(amount <= 0) {\n            return false;\n        }\n        balance += amount;\n        return true;\n    }\n\n    public void newMonth()\n    {\n        trips = 0;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int getTrips()\n    {\n        return trips;\n    }\n\n    public void reportState()\n    {\n        System.out.println(\"balance=\" + balance + \" trips=\" + trips);\n    }\n}"
+        }
+      ]
+    },
+    "p1-item": {
+      "type": "code",
+      "xp": 4,
+      "title": "Thermostat.java",
+      "minLines": 28,
+      "maxLines": 40,
+      "starter": "public class Thermostat\n{\n    // Add target, the constructor, setTarget and getTarget.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "20\ntrue\n22\nfalse\n22\ntrue\n10\ntrue\n30\nfalse\n30\ntrue\n10"
+        }
+      ],
+      "check": "",
+      "answer": "LyoqIEEgdGFyZ2V0IHRlbXBlcmF0dXJlIGJldHdlZW4gMTAgYW5kIDMwIGluY2x1c2l2ZS4gKi8KcHVibGljIGNsYXNzIFRoZXJtb3N0YXQKewogICAgcHJpdmF0ZSBpbnQgdGFyZ2V0OwoKICAgIC8qKiBTdGFydCBhdCAyMCBkZWdyZWVzLiAqLwogICAgcHVibGljIFRoZXJtb3N0YXQoKQogICAgewogICAgICAgIHRhcmdldCA9IDIwOwogICAgfQoKICAgIC8qKiBSZWZ1c2UgYW4gaW52YWxpZCB0YXJnZXQgd2l0aG91dCBjaGFuZ2luZyB0aGUgb2xkIG9uZS4gKi8KICAgIHB1YmxpYyBib29sZWFuIHNldFRhcmdldChpbnQgdGFyZ2V0KQogICAgewogICAgICAgIGlmKHRhcmdldCA8IDEwIHx8IHRhcmdldCA+IDMwKSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9CiAgICAgICAgdGhpcy50YXJnZXQgPSB0YXJnZXQ7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIGludCBnZXRUYXJnZXQoKQogICAgewogICAgICAgIHJldHVybiB0YXJnZXQ7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "ThermostatEdges.java",
+          "content": "public class ThermostatEdges\n{\n    public static void main(String[] args)\n    {\n        Thermostat t = new Thermostat();\n        System.out.println(t.getTarget());\n        System.out.println(t.setTarget(22));\n        System.out.println(t.getTarget());\n        System.out.println(t.setTarget(9));\n        System.out.println(t.getTarget());\n        System.out.println(t.setTarget(10));\n        System.out.println(t.getTarget());\n        System.out.println(t.setTarget(30));\n        System.out.println(t.getTarget());\n        System.out.println(t.setTarget(31));\n        System.out.println(t.getTarget());\n        System.out.println(t.setTarget(10));\n        System.out.println(t.getTarget());\n    }\n}"
+        }
+      ]
+    },
+    "p1-test": {
+      "type": "code",
+      "xp": 4,
+      "title": "ThermostatTest.java",
+      "minLines": 60,
+      "maxLines": 72,
+      "starter": "public class ThermostatTest\n{\n    public static void main(String[] args)\n    {\n        // Write testTargets, the assertion helpers and the final report.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "PASS normal 22\nPASS target 22\nPASS refuse 9\nPASS keep 22\nPASS lower 10\nPASS target 10\nPASS upper 30\nPASS target 30\nPASS refuse 31\nPASS keep 30\nAll tests passed"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertEquals(Stringlabel,intexpected,intactual)\"), \"Include the integer assertion helper.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertTrue(Stringlabel,booleancondition)\"), \"Include the boolean assertion helper.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"failures++\"), \"Count failures and keep going.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"if(failures==0)\"), \"Report success only when all checks pass.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"testTargets();\"), \"Run testTargets from main.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(22\\\\).*\"), \"Test the request at 22.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(9\\\\).*\"), \"Test the request at 9.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(10\\\\).*\"), \"Test the request at 10.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(30\\\\).*\"), \"Test the request at 30.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(31\\\\).*\"), \"Test the request at 31.\");",
+      "answer": "LyoqIENoZWNrIG9yZGluYXJ5LCByZWZ1c2VkIGFuZCBib3VuZGFyeSByZXF1ZXN0cy4gKi8KcHVibGljIGNsYXNzIFRoZXJtb3N0YXRUZXN0CnsKICAgIHByaXZhdGUgc3RhdGljIGludCBmYWlsdXJlcyA9IDA7CgogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICB0ZXN0VGFyZ2V0cygpOwogICAgICAgIGlmKGZhaWx1cmVzID09IDApIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJBbGwgdGVzdHMgcGFzc2VkIik7CiAgICAgICAgfQogICAgICAgIGVsc2UgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkZhaWx1cmVzOiAiICsgZmFpbHVyZXMpOwogICAgICAgIH0KICAgIH0KCiAgICAvKiogRWFjaCBhc3NlcnRpb24gdXNlcyB0aGUgcHJvbWlzZWQgdGFyZ2V0LCBub3Qgb2JzZXJ2ZWQgb3V0cHV0LiAqLwogICAgcHJpdmF0ZSBzdGF0aWMgdm9pZCB0ZXN0VGFyZ2V0cygpCiAgICB7CiAgICAgICAgVGhlcm1vc3RhdCBoZWF0ID0gbmV3IFRoZXJtb3N0YXQoKTsKICAgICAgICBhc3NlcnRUcnVlKCJub3JtYWwgMjIiLCBoZWF0LnNldFRhcmdldCgyMikpOwogICAgICAgIGFzc2VydEVxdWFscygidGFyZ2V0IDIyIiwgMjIsIGhlYXQuZ2V0VGFyZ2V0KCkpOwogICAgICAgIGFzc2VydFRydWUoInJlZnVzZSA5IiwgIWhlYXQuc2V0VGFyZ2V0KDkpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoImtlZXAgMjIiLCAyMiwgaGVhdC5nZXRUYXJnZXQoKSk7CiAgICAgICAgYXNzZXJ0VHJ1ZSgibG93ZXIgMTAiLCBoZWF0LnNldFRhcmdldCgxMCkpOwogICAgICAgIGFzc2VydEVxdWFscygidGFyZ2V0IDEwIiwgMTAsIGhlYXQuZ2V0VGFyZ2V0KCkpOwogICAgICAgIGFzc2VydFRydWUoInVwcGVyIDMwIiwgaGVhdC5zZXRUYXJnZXQoMzApKTsKICAgICAgICBhc3NlcnRFcXVhbHMoInRhcmdldCAzMCIsIDMwLCBoZWF0LmdldFRhcmdldCgpKTsKICAgICAgICBhc3NlcnRUcnVlKCJyZWZ1c2UgMzEiLCAhaGVhdC5zZXRUYXJnZXQoMzEpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoImtlZXAgMzAiLCAzMCwgaGVhdC5nZXRUYXJnZXQoKSk7CiAgICB9CgogICAgcHJpdmF0ZSBzdGF0aWMgdm9pZCBhc3NlcnRFcXVhbHMoU3RyaW5nIGxhYmVsLAogICAgICAgIGludCBleHBlY3RlZCwgaW50IGFjdHVhbCkKICAgIHsKICAgICAgICBpZihleHBlY3RlZCA9PSBhY3R1YWwpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJQQVNTICIgKyBsYWJlbCk7CiAgICAgICAgfQogICAgICAgIGVsc2UgewogICAgICAgICAgICBmYWlsdXJlcysrOwogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkZBSUwgIiArIGxhYmVsCiAgICAgICAgICAgICAgICArICI6IGV4cGVjdGVkICIgKyBleHBlY3RlZAogICAgICAgICAgICAgICAgKyAiLCBhY3R1YWwgIiArIGFjdHVhbCk7CiAgICAgICAgfQogICAgfQoKICAgIHByaXZhdGUgc3RhdGljIHZvaWQgYXNzZXJ0VHJ1ZShTdHJpbmcgbGFiZWwsCiAgICAgICAgYm9vbGVhbiBjb25kaXRpb24pCiAgICB7CiAgICAgICAgaWYoY29uZGl0aW9uKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiUEFTUyAiICsgbGFiZWwpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgZmFpbHVyZXMrKzsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGQUlMICIgKyBsYWJlbCk7CiAgICAgICAgfQogICAgfQp9",
+      "files": [
+        {
+          "name": "Thermostat.java",
+          "content": "/** A target temperature between 10 and 30 inclusive. */\npublic class Thermostat\n{\n    private int target;\n\n    /** Start at 20 degrees. */\n    public Thermostat()\n    {\n        target = 20;\n    }\n\n    /** Refuse an invalid target without changing the old one. */\n    public boolean setTarget(int target)\n    {\n        if(target < 10 || target > 30) {\n            return false;\n        }\n        this.target = target;\n        return true;\n    }\n\n    public int getTarget()\n    {\n        return target;\n    }\n}"
+        }
+      ]
+    },
+    "q25": {
+      "type": "code",
+      "xp": 4,
+      "title": "ThermostatTest.java",
+      "minLines": 69,
+      "maxLines": 81,
+      "starter": "/** Check ordinary, refused and boundary requests. */\npublic class ThermostatTest\n{\n    private static int failures = 0;\n\n    public static void main(String[] args)\n    {\n        testTargets();\n        if(failures == 0) {\n            System.out.println(\"All tests passed\");\n        }\n        else {\n            System.out.println(\"Failures: \" + failures);\n        }\n    }\n\n    /** Each assertion uses the promised target, not observed output. */\n    private static void testTargets()\n    {\n        Thermostat heat = new Thermostat();\n        assertTrue(\"normal 22\", heat.setTarget(22));\n        assertEquals(\"target 22\", 22, heat.getTarget());\n        assertTrue(\"refuse 9\", !heat.setTarget(9));\n        assertEquals(\"keep 22\", 22, heat.getTarget());\n        assertTrue(\"lower 10\", heat.setTarget(10));\n        assertEquals(\"target 10\", 10, heat.getTarget());\n        assertTrue(\"upper 30\", heat.setTarget(30));\n        assertEquals(\"target 30\", 30, heat.getTarget());\n        assertTrue(\"refuse 31\", !heat.setTarget(31));\n        assertEquals(\"keep 30\", 30, heat.getTarget());\n    }\n\n    private static void assertEquals(String label,\n        int expected, int actual)\n    {\n        if(expected == actual) {\n            System.out.println(\"PASS \" + label);\n        }\n        else {\n            failures++;\n            System.out.println(\"FAIL \" + label\n                + \": expected \" + expected\n                + \", actual \" + actual);\n        }\n    }\n\n    private static void assertTrue(String label,\n        boolean condition)\n    {\n        if(condition) {\n            System.out.println(\"PASS \" + label);\n        }\n        else {\n            failures++;\n            System.out.println(\"FAIL \" + label);\n        }\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "PASS normal 22\nPASS target 22\nPASS refuse 9\nPASS keep 22\nPASS lower 10\nPASS target 10\nPASS upper 30\nPASS target 30\nPASS refuse 31\nPASS keep 30\nPASS return to 10\nPASS back at 10\nAll tests passed"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertEquals(Stringlabel,intexpected,intactual)\"), \"Include the integer assertion helper.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertTrue(Stringlabel,booleancondition)\"), \"Include the boolean assertion helper.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"failures++\"), \"Count failures and keep going.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"if(failures==0)\"), \"Report success only when all checks pass.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"testTargets();\"), \"Run testTargets from main.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(22\\\\).*\"), \"Test the request at 22.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(9\\\\).*\"), \"Test the request at 9.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(10\\\\).*\"), \"Test the request at 10.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(30\\\\).*\"), \"Test the request at 30.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(31\\\\).*\"), \"Test the request at 31.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"testReturnToLowerBound();\"), \"Call the new boundary test from main.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatestaticvoidtestReturnToLowerBound()\"), \"Add the separate boundary test with a fresh fixture.\");",
+      "answer": "LyoqIENoZWNrIG9yZGluYXJ5LCByZWZ1c2VkIGFuZCBib3VuZGFyeSByZXF1ZXN0cy4gKi8KcHVibGljIGNsYXNzIFRoZXJtb3N0YXRUZXN0CnsKICAgIHByaXZhdGUgc3RhdGljIGludCBmYWlsdXJlcyA9IDA7CgogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICB0ZXN0VGFyZ2V0cygpOwogICAgICAgIHRlc3RSZXR1cm5Ub0xvd2VyQm91bmQoKTsKICAgICAgICBpZihmYWlsdXJlcyA9PSAwKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQWxsIHRlc3RzIHBhc3NlZCIpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGYWlsdXJlczogIiArIGZhaWx1cmVzKTsKICAgICAgICB9CiAgICB9CgogICAgLyoqIEVhY2ggYXNzZXJ0aW9uIHVzZXMgdGhlIHByb21pc2VkIHRhcmdldCwgbm90IG9ic2VydmVkIG91dHB1dC4gKi8KICAgIHByaXZhdGUgc3RhdGljIHZvaWQgdGVzdFRhcmdldHMoKQogICAgewogICAgICAgIFRoZXJtb3N0YXQgaGVhdCA9IG5ldyBUaGVybW9zdGF0KCk7CiAgICAgICAgYXNzZXJ0VHJ1ZSgibm9ybWFsIDIyIiwgaGVhdC5zZXRUYXJnZXQoMjIpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoInRhcmdldCAyMiIsIDIyLCBoZWF0LmdldFRhcmdldCgpKTsKICAgICAgICBhc3NlcnRUcnVlKCJyZWZ1c2UgOSIsICFoZWF0LnNldFRhcmdldCg5KSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJrZWVwIDIyIiwgMjIsIGhlYXQuZ2V0VGFyZ2V0KCkpOwogICAgICAgIGFzc2VydFRydWUoImxvd2VyIDEwIiwgaGVhdC5zZXRUYXJnZXQoMTApKTsKICAgICAgICBhc3NlcnRFcXVhbHMoInRhcmdldCAxMCIsIDEwLCBoZWF0LmdldFRhcmdldCgpKTsKICAgICAgICBhc3NlcnRUcnVlKCJ1cHBlciAzMCIsIGhlYXQuc2V0VGFyZ2V0KDMwKSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJ0YXJnZXQgMzAiLCAzMCwgaGVhdC5nZXRUYXJnZXQoKSk7CiAgICAgICAgYXNzZXJ0VHJ1ZSgicmVmdXNlIDMxIiwgIWhlYXQuc2V0VGFyZ2V0KDMxKSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJrZWVwIDMwIiwgMzAsIGhlYXQuZ2V0VGFyZ2V0KCkpOwogICAgfQoKICAgIHByaXZhdGUgc3RhdGljIHZvaWQgYXNzZXJ0RXF1YWxzKFN0cmluZyBsYWJlbCwKICAgICAgICBpbnQgZXhwZWN0ZWQsIGludCBhY3R1YWwpCiAgICB7CiAgICAgICAgaWYoZXhwZWN0ZWQgPT0gYWN0dWFsKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiUEFTUyAiICsgbGFiZWwpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgZmFpbHVyZXMrKzsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGQUlMICIgKyBsYWJlbAogICAgICAgICAgICAgICAgKyAiOiBleHBlY3RlZCAiICsgZXhwZWN0ZWQKICAgICAgICAgICAgICAgICsgIiwgYWN0dWFsICIgKyBhY3R1YWwpOwogICAgICAgIH0KICAgIH0KCiAgICBwcml2YXRlIHN0YXRpYyB2b2lkIGFzc2VydFRydWUoU3RyaW5nIGxhYmVsLAogICAgICAgIGJvb2xlYW4gY29uZGl0aW9uKQogICAgewogICAgICAgIGlmKGNvbmRpdGlvbikgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlBBU1MgIiArIGxhYmVsKTsKICAgICAgICB9CiAgICAgICAgZWxzZSB7CiAgICAgICAgICAgIGZhaWx1cmVzKys7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiRkFJTCAiICsgbGFiZWwpOwogICAgICAgIH0KICAgIH0KICAgIC8qKiBSZXR1cm4gZnJvbSB0aGUgdXBwZXIgYm91bmRhcnkgdG8gdGhlIGxvd2VyIG9uZS4gKi8KICAgIHByaXZhdGUgc3RhdGljIHZvaWQgdGVzdFJldHVyblRvTG93ZXJCb3VuZCgpCiAgICB7CiAgICAgICAgVGhlcm1vc3RhdCBoZWF0ID0gbmV3IFRoZXJtb3N0YXQoKTsKICAgICAgICBoZWF0LnNldFRhcmdldCgzMCk7CiAgICAgICAgYXNzZXJ0VHJ1ZSgicmV0dXJuIHRvIDEwIiwgaGVhdC5zZXRUYXJnZXQoMTApKTsKICAgICAgICBhc3NlcnRFcXVhbHMoImJhY2sgYXQgMTAiLCAxMCwgaGVhdC5nZXRUYXJnZXQoKSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Thermostat.java",
+          "content": "/** A target temperature between 10 and 30 inclusive. */\npublic class Thermostat\n{\n    private int target;\n\n    /** Start at 20 degrees. */\n    public Thermostat()\n    {\n        target = 20;\n    }\n\n    /** Refuse an invalid target without changing the old one. */\n    public boolean setTarget(int target)\n    {\n        if(target < 10 || target > 30) {\n            return false;\n        }\n        this.target = target;\n        return true;\n    }\n\n    public int getTarget()\n    {\n        return target;\n    }\n}"
+        }
+      ]
+    },
+    "p2-demo": {
+      "type": "code",
+      "xp": 4,
+      "title": "ScoreBoardDemo.java",
+      "minLines": 19,
+      "maxLines": 31,
+      "starter": "public class ScoreBoardDemo\n{\n    public static void main(String[] args)\n    {\n        // Report a fresh scoreboard, rounds 7 and 5, a reset and round 3.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "points=0 rounds=0\npoints=7 rounds=1\npoints=12 rounds=2\npoints=0 rounds=2\npoints=3 rounds=3"
+        }
+      ],
+      "check": "",
+      "answer": "LyoqIFRyYWNlIHR3byBnYW1lcyBvbiB0aGUgc2FtZSBzY29yZWJvYXJkLiAqLwpwdWJsaWMgY2xhc3MgU2NvcmVCb2FyZERlbW8KewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBTY29yZUJvYXJkIGJvYXJkID0gbmV3IFNjb3JlQm9hcmQoKTsKICAgICAgICBib2FyZC5yZXBvcnRTdGF0ZSgpOwogICAgICAgIGJvYXJkLnJlY29yZFJvdW5kKDcpOwogICAgICAgIGJvYXJkLnJlcG9ydFN0YXRlKCk7CiAgICAgICAgYm9hcmQucmVjb3JkUm91bmQoNSk7CiAgICAgICAgYm9hcmQucmVwb3J0U3RhdGUoKTsKICAgICAgICBib2FyZC5yZXNldCgpOwogICAgICAgIGJvYXJkLnJlcG9ydFN0YXRlKCk7CiAgICAgICAgYm9hcmQucmVjb3JkUm91bmQoMyk7CiAgICAgICAgYm9hcmQucmVwb3J0U3RhdGUoKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "ScoreBoard.java",
+          "content": "/** Points and number of rounds for one game. */\npublic class ScoreBoard\n{\n    private int points;\n    private int rounds;\n\n    public ScoreBoard()\n    {\n        points = 0;\n        rounds = 0;\n    }\n\n    /** Add a non-negative score. Totals must fit in an int. */\n    public void recordRound(int points)\n    {\n        this.points += points;\n        rounds++;\n    }\n\n    /** Start a fresh game. */\n    public void reset()\n    {\n        points = 0;\n    }\n\n    public int getPoints()\n    {\n        return points;\n    }\n\n    public int getRounds()\n    {\n        return rounds;\n    }\n\n    /** Print the two fields without changing them. */\n    public void reportState()\n    {\n        System.out.println(\"points=\" + points\n            + \" rounds=\" + rounds);\n    }\n}"
+        }
+      ]
+    },
+    "q27": {
+      "type": "code",
+      "xp": 4,
+      "title": "ScoreBoard.java",
+      "minLines": 45,
+      "maxLines": 57,
+      "starter": "/** Points and number of rounds for one game. */\npublic class ScoreBoard\n{\n    private int points;\n    private int rounds;\n\n    public ScoreBoard()\n    {\n        points = 0;\n        rounds = 0;\n    }\n\n    /** Add a non-negative score. Totals must fit in an int. */\n    public void recordRound(int points)\n    {\n        this.points += points;\n        rounds++;\n    }\n\n    /** Start a fresh game. */\n    public void reset()\n    {\n        points = 0;\n    }\n\n    public int getPoints()\n    {\n        return points;\n    }\n\n    public int getRounds()\n    {\n        return rounds;\n    }\n\n    /** Print the two fields without changing them. */\n    public void reportState()\n    {\n        System.out.println(\"points=\" + points\n            + \" rounds=\" + rounds);\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "points=0 rounds=0\npoints=7 rounds=1\npoints=12 rounds=2\npoints=0 rounds=0\npoints=0 rounds=0\npoints=0 rounds=1\npoints=3 rounds=2\n3\n2"
+        }
+      ],
+      "check": "",
+      "answer": "LyoqIFBvaW50cyBhbmQgbnVtYmVyIG9mIHJvdW5kcyBmb3Igb25lIGdhbWUuICovCnB1YmxpYyBjbGFzcyBTY29yZUJvYXJkCnsKICAgIHByaXZhdGUgaW50IHBvaW50czsKICAgIHByaXZhdGUgaW50IHJvdW5kczsKCiAgICBwdWJsaWMgU2NvcmVCb2FyZCgpCiAgICB7CiAgICAgICAgcG9pbnRzID0gMDsKICAgICAgICByb3VuZHMgPSAwOwogICAgfQoKICAgIC8qKiBBZGQgYSBub24tbmVnYXRpdmUgc2NvcmUuIFRvdGFscyBtdXN0IGZpdCBpbiBhbiBpbnQuICovCiAgICBwdWJsaWMgdm9pZCByZWNvcmRSb3VuZChpbnQgcG9pbnRzKQogICAgewogICAgICAgIHRoaXMucG9pbnRzICs9IHBvaW50czsKICAgICAgICByb3VuZHMrKzsKICAgIH0KCiAgICAvKiogU3RhcnQgYSBmcmVzaCBnYW1lLiAqLwogICAgcHVibGljIHZvaWQgcmVzZXQoKQogICAgewogICAgICAgIHBvaW50cyA9IDA7CiAgICAgICAgcm91bmRzID0gMDsKICAgIH0KCiAgICBwdWJsaWMgaW50IGdldFBvaW50cygpCiAgICB7CiAgICAgICAgcmV0dXJuIHBvaW50czsKICAgIH0KCiAgICBwdWJsaWMgaW50IGdldFJvdW5kcygpCiAgICB7CiAgICAgICAgcmV0dXJuIHJvdW5kczsKICAgIH0KCiAgICAvKiogUHJpbnQgdGhlIHR3byBmaWVsZHMgd2l0aG91dCBjaGFuZ2luZyB0aGVtLiAqLwogICAgcHVibGljIHZvaWQgcmVwb3J0U3RhdGUoKQogICAgewogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigicG9pbnRzPSIgKyBwb2ludHMKICAgICAgICAgICAgKyAiIHJvdW5kcz0iICsgcm91bmRzKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "ScoreBoardEdges.java",
+          "content": "public class ScoreBoardEdges\n{\n    public static void main(String[] args)\n    {\n        ScoreBoard s = new ScoreBoard();\n        s.reset();\n        s.reportState();\n        s.recordRound(7);\n        s.reportState();\n        s.recordRound(5);\n        s.reportState();\n        s.reset();\n        s.reportState();\n        s.reset();\n        s.reportState();\n        s.recordRound(0);\n        s.reportState();\n        s.recordRound(3);\n        s.reportState();\n        System.out.println(s.getPoints());\n        System.out.println(s.getRounds());\n    }\n}"
+        }
+      ]
+    },
+    "q27-state": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0-0": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "0-1": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "1-0": {
+          "accept": [
+            "7"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "1-1": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "2-0": {
+          "accept": [
+            "12"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "2-1": {
+          "accept": [
+            "2"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "3-0": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "3-1": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "4-0": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "4-1": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "q28": {
+      "type": "code",
+      "xp": 4,
+      "title": "ScoreBoardTest.java",
+      "minLines": 58,
+      "maxLines": 70,
+      "starter": "public class ScoreBoardTest\n{\n    public static void main(String[] args)\n    {\n        // Add testFreshGame, the assertion helpers and the final report.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "PASS reset points\nPASS reset rounds\nPASS new points\nPASS new rounds\nAll tests passed"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"testFreshGame();\"), \"Run the new-game regression test from main.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"failures++\"), \"Count each failed check and keep going.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"if(failures==0)\"), \"Report success only when all checks pass.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"recordRound(7)\"), \"Keep the two-round first game, reset and checks for both fields.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"recordRound(5)\"), \"Keep the two-round first game, reset and checks for both fields.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"reset()\"), \"Keep the two-round first game, reset and checks for both fields.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"recordRound(3)\"), \"Keep the two-round first game, reset and checks for both fields.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"getPoints()\"), \"Keep the two-round first game, reset and checks for both fields.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"getRounds()\"), \"Keep the two-round first game, reset and checks for both fields.\");",
+      "answer": "LyoqIEtlZXAgdGhlIGZhaWxpbmcgc2VxdWVuY2UgYXMgYSByZXBlYXRhYmxlIGNoZWNrLiAqLwpwdWJsaWMgY2xhc3MgU2NvcmVCb2FyZFRlc3QKewogICAgcHJpdmF0ZSBzdGF0aWMgaW50IGZhaWx1cmVzID0gMDsKCiAgICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKQogICAgewogICAgICAgIHRlc3RGcmVzaEdhbWUoKTsKICAgICAgICBpZihmYWlsdXJlcyA9PSAwKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQWxsIHRlc3RzIHBhc3NlZCIpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGYWlsdXJlczogIiArIGZhaWx1cmVzKTsKICAgICAgICB9CiAgICB9CgogICAgLyoqIEEgZnJlc2ggZ2FtZSBtdXN0IG5vdCBjb3VudCByb3VuZHMgZnJvbSB0aGUgb2xkIGdhbWUuICovCiAgICBwcml2YXRlIHN0YXRpYyB2b2lkIHRlc3RGcmVzaEdhbWUoKQogICAgewogICAgICAgIFNjb3JlQm9hcmQgYm9hcmQgPSBuZXcgU2NvcmVCb2FyZCgpOwogICAgICAgIGJvYXJkLnJlY29yZFJvdW5kKDcpOwogICAgICAgIGJvYXJkLnJlY29yZFJvdW5kKDUpOwogICAgICAgIGJvYXJkLnJlc2V0KCk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJyZXNldCBwb2ludHMiLCAwLCBib2FyZC5nZXRQb2ludHMoKSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJyZXNldCByb3VuZHMiLCAwLCBib2FyZC5nZXRSb3VuZHMoKSk7CiAgICAgICAgYm9hcmQucmVjb3JkUm91bmQoMyk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJuZXcgcG9pbnRzIiwgMywgYm9hcmQuZ2V0UG9pbnRzKCkpOwogICAgICAgIGFzc2VydEVxdWFscygibmV3IHJvdW5kcyIsIDEsIGJvYXJkLmdldFJvdW5kcygpKTsKICAgIH0KCiAgICBwcml2YXRlIHN0YXRpYyB2b2lkIGFzc2VydEVxdWFscyhTdHJpbmcgbGFiZWwsCiAgICAgICAgaW50IGV4cGVjdGVkLCBpbnQgYWN0dWFsKQogICAgewogICAgICAgIGlmKGV4cGVjdGVkID09IGFjdHVhbCkgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlBBU1MgIiArIGxhYmVsKTsKICAgICAgICB9CiAgICAgICAgZWxzZSB7CiAgICAgICAgICAgIGZhaWx1cmVzKys7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiRkFJTCAiICsgbGFiZWwKICAgICAgICAgICAgICAgICsgIjogZXhwZWN0ZWQgIiArIGV4cGVjdGVkCiAgICAgICAgICAgICAgICArICIsIGFjdHVhbCAiICsgYWN0dWFsKTsKICAgICAgICB9CiAgICB9CgogICAgcHJpdmF0ZSBzdGF0aWMgdm9pZCBhc3NlcnRUcnVlKFN0cmluZyBsYWJlbCwKICAgICAgICBib29sZWFuIGNvbmRpdGlvbikKICAgIHsKICAgICAgICBpZihjb25kaXRpb24pIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJQQVNTICIgKyBsYWJlbCk7CiAgICAgICAgfQogICAgICAgIGVsc2UgewogICAgICAgICAgICBmYWlsdXJlcysrOwogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkZBSUwgIiArIGxhYmVsKTsKICAgICAgICB9CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "ScoreBoard.java",
+          "content": "/** Points and number of rounds for one game. */\npublic class ScoreBoard\n{\n    private int points;\n    private int rounds;\n\n    public ScoreBoard()\n    {\n        points = 0;\n        rounds = 0;\n    }\n\n    /** Add a non-negative score. Totals must fit in an int. */\n    public void recordRound(int points)\n    {\n        this.points += points;\n        rounds++;\n    }\n\n    /** Start a fresh game. */\n    public void reset()\n    {\n        points = 0;\n        rounds = 0;\n    }\n\n    public int getPoints()\n    {\n        return points;\n    }\n\n    public int getRounds()\n    {\n        return rounds;\n    }\n\n    /** Print the two fields without changing them. */\n    public void reportState()\n    {\n        System.out.println(\"points=\" + points\n            + \" rounds=\" + rounds);\n    }\n}"
+        }
+      ]
+    }
+  }
+}

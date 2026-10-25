@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 2001: Lecture 15 Workbook</title>
+  <link rel="icon" href="../../runtime/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
+  <link rel="stylesheet" href="../../runtime/workbook.css">
+  <style>
+    html, html[data-theme], html.wb-presenting, html.wb-presenting[data-theme] { --ink-quiet: var(--ink); --code-comment: var(--good-ink); }
+    .wb-shot { margin: 1rem 0 1.2rem; }
+    .wb-shot img { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; border: 1px solid var(--rule); border-radius: 6px; background: #fff; }
+    .wb-shot figcaption { font-family: var(--font-sans); font-size: 0.85rem; color: var(--ink); text-align: center; margin-top: 0.4rem; }
+    .wb-shot-narrow img { max-width: 300px; }
+    .wb-outcomes h3 { margin-top: 1.4rem; }
+    .wb-array td { text-align: center; min-width: 2.4rem; }
+  </style>
+  <script type="module">
+    import { initWorkbook } from "../../runtime/workbook.js";
+    initWorkbook({ id: "lecture-15", specs: "./exercises.json" });
+  </script>
+</head>
+<body>
+<main>
+
+<div class="wb-title-block">
+  <div>
+    <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
+    <h1>Lecture 15 Workbook</h1>
+    <div class="wb-subtitle">Chapter 9: Testing and Debugging</div>
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
+  </div>
+  <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+</div>
+
+<p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run takes a few seconds while Java loads). Each box includes the other classes and the checking program it needs. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
+<p>This workbook holds the notes and the questions for Lecture 15. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. Sections 4 and 9 are the transit card problem in two parts, to do at home as practice. Section 11 has two complete programs to read, run and extend after class. By the end, you should be able to:</p>
+<ul>
+<li>distinguish a syntax error from a logical error;</li>
+<li>choose positive, negative and boundary test cases;</li>
+<li>write assertions and repeatable test programs with a known starting state;</li>
+<li>follow a call sequence in a state table and find its first wrong row;</li>
+<li>repair a cause and keep a regression test; and</li>
+<li>write complete programs that test and trace objects whose state changes.</li>
+</ul>
+<h2 id="s1">1. Testing</h2>
+<h3>The wrong receipt</h3>
+<p>A customer orders coffee, a muffin and a cookie. Their prices are 250, 325 and 175 cents. The receipt lists all three items, but reports a total of 575. The expected total is 750. The program compiled and ran; that did not check its calculation. A logical error lets the program compile and run, but gives the wrong behaviour.</p>
+<p>A syntax error breaks a rule of the language. For example, a missing semicolon can stop a class from compiling. The compiler reports the problem it finds. A legal addition or comparison can still implement the wrong rule, so the compiler cannot tell us whether the receipt charges the right amount.</p>
+<figure class="wb-shot">
+  <img src="img/receipt.png" alt="The expected total is 750 cents; the receipt reports 575." loading="lazy" style="max-width: 480px">
+</figure>
+<h3>Testing and debugging</h3>
+<p>Testing checks whether code produces the intended behaviour. Debugging finds and fixes the cause of an error. Comparing the returned total with 750 tests this order. Following the calculation to find the missing cookie branch is debugging. A wrong printed value is a symptom; the line that caused it may be elsewhere.</p>
+<p>The improved cafe classes return totals and receipt text. A test can call <code>getTotal</code> and compare the returned <code>int</code> with an expected value. Small methods and private fields limit the code we need to inspect. Useful comments and consistent indentation also help us follow assignments. These design choices reduce mistakes, but tests are still needed.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.1</div>
+  <p><strong>1.1</strong> Classify each problem as a syntax error or a logical error: a method declaration has a missing closing parenthesis; a loop that compiles and runs leaves one ordered item out of the total. Say how each problem can be detected.</p>
+
+  <wb-short id="q1"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.2</div>
+  <p><strong>1.2</strong> A check finds that the receipt total differs from 750. A programmer then follows the calculation and finds the omitted branch. Which activity is testing and which is debugging? Explain the difference in what each establishes.</p>
+
+  <wb-short id="q2"></wb-short>
+</div>
+<h2 id="s2">2. Test cases</h2>
+<h3>Starting state and expected results</h3>
+<p>A test case gives the starting state, the inputs and the expected result. The same call can mean different things on different objects. Adding a muffin to an empty order differs from adding it to an order that already has coffee. Write down the expected result before running. Use the prices and the method's promise, rather than copying the program's answer.</p>
+<p>A unit test checks one method or class at a time. We can check <code>Order.getTotal()</code> without printing a receipt. Any compiled method can be tested, so begin while its purpose is clear. The cafe examples use non-null customers and items, non-negative prices, and totals that fit in an <code>int</code>.</p>
+<figure class="wb-shot">
+  <img src="img/test_case.png" alt="An empty order receives coffee and a muffin; getTotal returns 575." loading="lazy" style="max-width: 540px">
+</figure>
+<h3>Assertions</h3>
+<p>An assertion states a condition that a test expects to be true. Our ordinary Java helpers have these meanings: <code>assertEquals(label, expected, actual)</code> compares two ints; <code>assertTrue(label, condition)</code> checks a boolean. They print PASS or FAIL with the label. A failed check increases a failure count, and later checks still run. These are method calls, not new syntax.</p>
+<pre><code>assertEquals(<span class="wb-str">"order total"</span>, <span class="wb-num">575</span>, order.getTotal());
+assertTrue(<span class="wb-str">"paid order"</span>, order.getTotal() &gt; <span class="wb-num">0</span>);</code></pre>
+<p>The first assertion checks an exact amount. The second checks only that the amount is positive, so it would accept many wrong totals. Choose a condition that tests the promise you care about. A label should identify the claim so a failure can be found in the output.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.1</div>
+  <p><strong>2.1</strong> Specify a test case for an order containing one tea and one cookie. Give its starting state, its inputs and the expected value of <code>getTotal()</code>.</p>
+
+  <wb-short id="q3"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.2</div>
+  <p><strong>2.2</strong> An <code>Order order</code> contains two coffees. Write one exact integer assertion, with a useful label, for its total.</p>
+
+<p>Use the label <code>"two coffees"</code> in this answer box.</p>  <wb-table id="q4">
+    <table>
+      <thead><tr><th>Assertion</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="code"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.3</div>
+  <p><strong>2.3</strong> A programmer runs a method, sees 575, and then writes 575 as the expected result. Why can this accept a mistake? What information should determine the expected value?</p>
+
+  <wb-short id="q5"></wb-short>
+</div>
+<h2 id="s3">3. Edges</h2>
+<h3>Successes, refusals and boundaries</h3>
+<p>A positive test checks a case that should succeed. A negative test checks that an invalid operation is refused in the specified way. A boundary test checks an edge and values just inside or outside it. These categories can overlap. A tap with exactly the fare should succeed, so it is both a positive case and a boundary case.</p>
+<p>For a fare of 250, use balances 249, 250 and 251. The first must be refused; the other two must be accepted. Test the returned result and the resulting balance. For a negative top-up, a false return value is only part of the promise: the balance and trip count must also stay unchanged.</p>
+<figure class="wb-shot">
+  <img src="img/boundaries.png" alt="Balances 249, 250 and 251: refused, accepted and accepted." loading="lazy" style="max-width: 520px">
+</figure>
+<h3>Empty and one</h3>
+<p>Testing only ordinary successful inputs is a common mistake. A comparison can work in the middle of a range and be wrong at its edge. For an inclusive range, check both end values and values just inside and outside each end.</p>
+<p>Collections have boundaries too. Check an empty order, an order with one item, and an order with several items. An empty total loop executes no iterations and should return 0. One item checks that the first entry is included. Several items check that the loop keeps adding rather than returning too early.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.1</div>
+  <p><strong>3.1</strong> A card has 250 cents and the fare is 250. Another card has 249 cents. Classify a tap on each card as positive or negative, and say whether either is also a boundary test.</p>
+
+  <wb-short id="q6"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.2</div>
+  <p><strong>3.2</strong> A method accepts ages from 12 to 65 inclusive. Choose values at each end and just inside and outside each end. State which values should be accepted.</p>
+
+  <wb-short id="q7"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.3</div>
+  <p><strong>3.3</strong> A fresh order is empty. Predict its total, then predict its total after one cookie is added. Explain which loop boundary each case checks.</p>
+
+  <wb-short id="q8"></wb-short>
+</div>
+<h2 id="s4">4. Cards Part 1: Tests</h2>
+<h3>The problem</h3>
+<p>Do this part at home. The supplied <code>TransitCard</code> stores <code>balance</code> and <code>trips</code>. A new card starts with 500 cents and no trips. A fare is 250. The constructor requires a non-negative balance. All amounts and counts fit in an <code>int</code>. The class compiles but has two logical errors.</p>
+<p><code>tapOn()</code> must accept an exact fare, deduct the fare and count one trip. A refused tap changes neither field. <code>topUp(amount)</code> refuses zero or negative amounts; a positive amount adds credit. <code>newMonth()</code> should clear the trip count and keep the credit. The getters return their fields.</p>
+<figure class="wb-shot">
+  <img src="img/card_part1.png" alt="TransitCard fields and public methods for Part 1." loading="lazy" style="max-width: 400px">
+</figure>
+<h3>The supplied class</h3>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">TransitCard</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-kw">int</span> <span class="wb-type">FARE</span> = <span class="wb-num">250</span>;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> balance;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> trips;
+    <span class="wb-kw">public</span> <span class="wb-fn">TransitCard</span>(<span class="wb-kw">int</span> balance)
+    {
+        <span class="wb-kw">this</span>.balance = balance;
+        trips = <span class="wb-num">0</span>;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">tapOn</span>()
+    {
+        <span class="wb-kw">if</span>(balance &gt; <span class="wb-type">FARE</span>) {
+            balance -= <span class="wb-type">FARE</span>;
+            trips++;
+            <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
+        }
+        <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">topUp</span>(<span class="wb-kw">int</span> amount)
+    {
+        <span class="wb-kw">if</span>(amount &lt;= <span class="wb-num">0</span>) {
+            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
+        }
+        balance += amount;
+        <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">newMonth</span>()
+    {
+        <span class="wb-cmt">// Keep the credit for the new month.</span>
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getBalance</span>()
+    {
+        <span class="wb-kw">return</span> balance;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getTrips</span>()
+    {
+        <span class="wb-kw">return</span> trips;
+    }
+}</code></pre>
+<h3>The checks to write</h3>
+<p>Write <code>TransitCardTest</code> with a private static <code>failures</code> field starting at 0. Add <code>assertEquals(String label, int expected, int actual)</code>, <code>assertTrue(String label, boolean condition)</code> and <code>testTaps()</code>. Both assertion helpers print PASS or FAIL with the label, count failures and keep going. For unequal ints, print the expected and actual values too. <code>main</code> runs the test and prints All tests passed only when the count is 0. Otherwise it prints the failure count. Use one card for these successive checks.</p>
+<table>
+  <thead><tr><th>Label</th><th>What to call or read</th><th>Expected result</th></tr></thead>
+  <tbody>
+      <tr><td>first tap</td><td><code>tapOn()</code></td><td><code>true</code></td></tr>
+      <tr><td>after first</td><td><code>getBalance()</code></td><td>250</td></tr>
+      <tr><td>exact fare</td><td><code>tapOn()</code></td><td><code>true</code></td></tr>
+      <tr><td>after second</td><td><code>getBalance()</code></td><td>0</td></tr>
+      <tr><td>third refused</td><td><code>tapOn()</code></td><td><code>false</code></td></tr>
+      <tr><td>after third</td><td><code>getBalance()</code></td><td>0</td></tr>
+      <tr><td>negative top-up</td><td><code>topUp(-100)</code></td><td><code>false</code></td></tr>
+      <tr><td>after refusal</td><td><code>getBalance()</code></td><td>0</td></tr>
+  </tbody>
+</table>
+<p>The first tap is positive, the second is at the boundary, and the third should be refused. With the supplied class, the boundary test fails. Find and repair the line in <code>tapOn</code> that refuses the exact fare, then rerun all eight checks. Keep the month-reset behaviour for Part 2.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.1</div>
+  <p><strong>4.1</strong> Write the test program and repair the fare fault. Run the same checks before and after the repair. Use additional paper or an IDE for the complete implementation.</p>
+
+<p><strong>Output before the fare repair</strong></p>
+<pre class="wb-output">PASS first tap
+PASS after first
+FAIL exact fare
+FAIL after second: expected 0, actual 250
+PASS third refused
+FAIL after third: expected 0, actual 250
+PASS negative top-up
+FAIL after refusal: expected 0, actual 250
+Failures: 4</pre>
+<p><strong>Output after the fare repair</strong></p>
+<pre class="wb-output">PASS first tap
+PASS after first
+PASS exact fare
+PASS after second
+PASS third refused
+PASS after third
+PASS negative top-up
+PASS after refusal
+All tests passed</pre>
+<p>Repair the fare comparison in the card box. Write the test class in the second box. Each box includes a finished copy of the other class. The card check also tries balances 249, 250 and 251, zero and positive top-ups, and fields that must stay unchanged after refusal.</p>  <wb-exercise id="q9-card"></wb-exercise>  <wb-exercise id="q9-test"></wb-exercise>
+</div>
+<h2 id="s5">5. Test programs</h2>
+<h3>Repeated checks and fixtures</h3>
+<p>A test program runs test cases and checks their results automatically. After a change, run the same program again. The program repeats the earlier calls and comparisons, so we do not have to reconstruct them from memory. A regression test checks behaviour that worked before a change. Keep earlier tests while adding checks for a new feature or a repaired fault.</p>
+<p>A fixture is a set of objects in a known state used by tests. Our <code>makeTill()</code> helper creates a fresh till and starts an empty order. Tests share the setup code, not the changed object. A later test therefore cannot inherit the items left by an earlier test.</p>
+<figure class="wb-shot">
+  <img src="img/fixture.png" alt="makeTill creates a fresh till with all three fields zero." loading="lazy" style="max-width: 500px">
+</figure>
+<h3>The till and its first-order tests</h3>
+<p><code>Till</code> keeps a current order total, an item count and a day total. Start an order, ring up its items, and finish it once before starting another. The class relies on this sequence; it has no order-open flag. Menu prices are Coffee 250, Tea 200, Muffin 325 and Cookie 175. The <code>MenuItem</code> getter <code>getPriceInCents()</code> supplies a price; <code>Menu.COFFEE</code> and the other menu constants refer to those items. The till below has a reset fault.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Till</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> runningTotal;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> itemCount;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> dayTotal;
+    <span class="wb-kw">public</span> <span class="wb-fn">Till</span>()
+    {
+        runningTotal = <span class="wb-num">0</span>;
+        itemCount = <span class="wb-num">0</span>;
+        dayTotal = <span class="wb-num">0</span>;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">startOrder</span>()
+    {
+        runningTotal = <span class="wb-num">0</span>;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">ringUp</span>(<span class="wb-type">MenuItem</span> item)
+    {
+        runningTotal += item.getPriceInCents();
+        itemCount++;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">finishOrder</span>()
+    {
+        dayTotal += runningTotal;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getRunningTotal</span>()
+    {
+        <span class="wb-kw">return</span> runningTotal;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getItemCount</span>()
+    {
+        <span class="wb-kw">return</span> itemCount;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getDayTotal</span>()
+    {
+        <span class="wb-kw">return</span> dayTotal;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">reportState</span>()
+    {
+        System.out.println(<span class="wb-str">"runningTotal="</span> + runningTotal
+            + <span class="wb-str">" itemCount="</span> + itemCount
+            + <span class="wb-str">" dayTotal="</span> + dayTotal);
+    }
+}</code></pre>
+<p>The complete test program below checks an empty order, one item, two items and a finished order. The assertion helpers use ordinary <code>if</code> statements. They report each failure and continue. Success is printed only when the failure count is 0. Run each test program in a fresh process so its count starts at 0.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">TillTest</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">int</span> failures = <span class="wb-num">0</span>;
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
+    {
+        testFirstOrder();
+        <span class="wb-kw">if</span>(failures == <span class="wb-num">0</span>) {
+            System.out.println(<span class="wb-str">"All tests passed"</span>);
+        }
+        <span class="wb-kw">else</span> {
+            System.out.println(<span class="wb-str">"Failures: "</span> + failures);
+        }
+    }
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-type">Till</span> <span class="wb-fn">makeTill</span>()
+    {
+        <span class="wb-type">Till</span> till = <span class="wb-kw">new</span> <span class="wb-fn">Till</span>();
+        till.startOrder();
+        <span class="wb-kw">return</span> till;
+    }
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">testFirstOrder</span>()
+    {
+        <span class="wb-type">Till</span> till = makeTill();
+        assertEquals(<span class="wb-str">"empty count"</span>, <span class="wb-num">0</span>,
+            till.getItemCount());
+        till.ringUp(<span class="wb-type">Menu</span>.COFFEE);
+        assertEquals(<span class="wb-str">"one item"</span>, <span class="wb-num">1</span>,
+            till.getItemCount());
+        till.ringUp(<span class="wb-type">Menu</span>.MUFFIN);
+        assertEquals(<span class="wb-str">"order total"</span>, <span class="wb-num">575</span>,
+            till.getRunningTotal());
+        assertEquals(<span class="wb-str">"two items"</span>, <span class="wb-num">2</span>,
+            till.getItemCount());
+        assertTrue(<span class="wb-str">"paid order"</span>,
+            till.getRunningTotal() &gt; <span class="wb-num">0</span>);
+        till.finishOrder();
+        assertEquals(<span class="wb-str">"day total"</span>, <span class="wb-num">575</span>,
+            till.getDayTotal());
+    }
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">assertEquals</span>(<span class="wb-type">String</span> label,
+        <span class="wb-kw">int</span> expected, <span class="wb-kw">int</span> actual)
+    {
+        <span class="wb-kw">if</span>(expected == actual) {
+            System.out.println(<span class="wb-str">"PASS "</span> + label);
+        }
+        <span class="wb-kw">else</span> {
+            failures++;
+            System.out.println(<span class="wb-str">"FAIL "</span> + label
+                + <span class="wb-str">": expected "</span> + expected
+                + <span class="wb-str">", actual "</span> + actual);
+        }
+    }
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">assertTrue</span>(<span class="wb-type">String</span> label,
+        <span class="wb-kw">boolean</span> condition)
+    {
+        <span class="wb-kw">if</span>(condition) {
+            System.out.println(<span class="wb-str">"PASS "</span> + label);
+        }
+        <span class="wb-kw">else</span> {
+            failures++;
+            System.out.println(<span class="wb-str">"FAIL "</span> + label);
+        }
+    }
+}</code></pre>
+<h3>Checks and tools</h3>
+<p>These first-order checks all pass, even though the till is faulty. They never start a second order on the same object. A program that merely calls methods and prints All tests passed would check even less: without comparisons, it cannot detect a wrong returned value.</p>
+<p>JUnit is a library for running tests. You may meet its test classes and assertion methods later. The ordinary Java programs here already teach the ideas of test cases, assertions and fixtures; no JUnit library is required.</p>
+<p>The method below prints a message without comparing any result.</p>
+<pre><code>    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
+    {
+        <span class="wb-type">Till</span> till = <span class="wb-kw">new</span> <span class="wb-fn">Till</span>();
+        till.startOrder();
+        till.ringUp(<span class="wb-type">Menu</span>.COFFEE);
+        System.out.println(<span class="wb-str">"All tests passed"</span>);
+    }</code></pre>
+<p>This picture shows the spelling of a JUnit test, with its order already prepared.</p>
+<figure class="wb-shot">
+  <img src="img/junit.png" alt="A JUnit test compares 250 with the prepared order total." loading="lazy" style="max-width: 330px">
+</figure>
+<p>The assertion compares a known expected value with the method's result. Our ordinary Java helpers make the same kind of comparison. An assertion checks a particular claim; it does not establish every other property of the object. A total can be right while an item count is wrong.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.1</div>
+  <p><strong>5.1</strong> A test method reads a total and prints All tests passed, but never compares the total with anything. What evidence does that success message provide about whether the total includes every ordered item at the correct price?</p>
+
+  <wb-short id="q10"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.2</div>
+  <p><strong>5.2</strong> Two tests each call <code>makeTill()</code>. The first rings up a muffin. What item count should the second test see before ringing up anything, and why?</p>
+
+  <wb-short id="q11"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.3</div>
+  <p><strong>5.3</strong> A maintainer prints All tests passed after every run, even when <code>failures</code> is nonzero. Write the conditional report that belongs at the end of <code>main</code>.</p>
+
+<p>Complete the report method. Its checking program calls it with zero failures and with two failures.</p>  <wb-exercise id="q12"></wb-exercise>
+</div>
+<h2 id="s6">6. Finding the cause</h2>
+<h3>Promises and reproduction</h3>
+<p>A contract states what callers may supply and what a method promises in return. For <code>Till</code>, callers supply non-null menu items. They start an order, ring up its items and finish it once. All totals fit in an <code>int</code>. <code>startOrder</code> resets the current total and item count but preserves the day total. <code>ringUp</code> adds one item's price and counts one item. <code>finishOrder</code> adds the current total to the day total.</p>
+<p>Agree on these promises in the public interface before implementing the separate parts. A test compares the observed behaviour with the promise. When a report is vague, first find a short sequence that reproduces the failure. Record its starting state and inputs so each investigation begins the same way.</p>
+<figure class="wb-shot">
+  <img src="img/second_order.png" alt="After the first order, the faulty second start keeps count 2; adding tea makes it 3." loading="lazy" style="max-width: 560px">
+</figure>
+<p>The second order contains one tea, but its reported count is 3. The increment in <code>ringUp</code> is correct: one new item adds one. The count was already wrong before that call. Follow the state back to the first disagreement with the contract instead of changing the line where the symptom appeared.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.1</div>
+  <p><strong>6.1</strong> For <code>startOrder()</code>, identify what the caller must have finished first, what two fields must be cleared, and what field must be preserved.</p>
+
+  <wb-short id="q13"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.2</div>
+  <p><strong>6.2</strong> A customer reports a wrong count only on the second order. Why is testing a new till with one tea insufficient to reproduce that report? Give the extra history the test needs.</p>
+
+  <wb-short id="q14"></wb-short>
+</div>
+<h2 id="s7">7. Tracing state</h2>
+<h3>Walkthroughs and state tables</h3>
+<p>A manual walkthrough follows the code line by line while recording fields. Begin with known values and apply each assignment in order. A state table has one row per call and one column per field. It separates what a method changed from what it left alone. The values below come from the faulty till's trace.</p>
+<figure class="wb-shot">
+  <img src="img/till_state.png" alt="The faulty till state table: the second start first leaves the wrong item count." loading="lazy" style="max-width: 560px">
+</figure>
+<p>The first wrong row is the second <code>startOrder</code>. The total becomes 0 as promised, but the item count stays at 2. The day total correctly stays at 575. A verbal walkthrough explains each change aloud, to a person or a rubber duck. Saying why each field should change can reveal a missing assignment.</p>
+<h3>Printed traces and debuggers</h3>
+<p><code>reportState()</code> prints every field together. Put a call label before the values so the trace shows which operation just finished. Use the shortest sequence that reproduces the fault; too much output can hide the first wrong value. A boolean field can switch the trace on and off.</p>
+<pre><code><span class="wb-cmt">// Inside the trace class, not inside Till.</span>
+<span class="wb-kw">private</span> <span class="wb-kw">boolean</span> debugging = <span class="wb-kw">true</span>;
+
+<span class="wb-kw">private</span> <span class="wb-kw">void</span> <span class="wb-fn">show</span>(<span class="wb-type">String</span> call, <span class="wb-type">Till</span> till)
+{
+    <span class="wb-kw">if</span>(debugging) {
+        System.out.print(call + <span class="wb-str">" "</span>);
+        till.reportState();
+    }
+}</code></pre>
+<p>A debugger can pause at a breakpoint so you can inspect the fields. Stepping runs one step at a time; step into follows a called method. The call sequence shows how execution reached the current method. A printed trace and a state table are enough for these examples. Keep assertions after the investigation so future changes can be checked automatically.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.1</div>
+  <p><strong>7.1</strong> Use the faulty <code>Till</code> from Section 5. It completes an order containing one coffee, starts another order, then rings up one cookie. Fill in the table.</p>
+
+  <wb-table id="q15-state">
+    <table>
+      <thead><tr><th>Call</th><th><code>runningTotal</code></th><th><code>itemCount</code></th><th><code>dayTotal</code></th></tr></thead>
+      <tbody>
+        <tr><td><code>startOrder()</code></td><td data-blank="0-0"></td><td data-blank="0-1"></td><td data-blank="0-2"></td></tr>
+        <tr><td><code>ringUp(COFFEE)</code></td><td data-blank="1-0"></td><td data-blank="1-1"></td><td data-blank="1-2"></td></tr>
+        <tr><td><code>finishOrder()</code></td><td data-blank="2-0"></td><td data-blank="2-1"></td><td data-blank="2-2"></td></tr>
+        <tr><td><code>startOrder()</code></td><td data-blank="3-0"></td><td data-blank="3-1"></td><td data-blank="3-2"></td></tr>
+        <tr><td><code>ringUp(COOKIE)</code></td><td data-blank="4-0"></td><td data-blank="4-1"></td><td data-blank="4-2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q15"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.2</div>
+  <p><strong>7.2</strong> In your table for 7.1, identify the first wrong row. Explain why changing the increment in <code>ringUp</code> would address the symptom rather than the cause.</p>
+
+  <wb-short id="q16"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.3</div>
+  <p><strong>7.3</strong> A trace prints thousands of lines from unrelated objects. Describe one way to narrow the output while preserving the call sequence needed for the failure.</p>
+
+  <wb-short id="q17"></wb-short>
+</div>
+<h2 id="s8">8. Repairs</h2>
+<h3>The cause and the regression case</h3>
+<p>The till's reset must clear both current-order fields. Repair the method whose promise was broken, then run the two-order sequence again. The day total must survive that repair. Clearing every field would remove the stale count but also lose the money already taken.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">startOrder</span>()
+{
+    runningTotal = <span class="wb-num">0</span>;
+    itemCount = <span class="wb-num">0</span>;
+}</code></pre>
+<figure class="wb-shot">
+  <img src="img/repair.png" alt="Repairing the reset changes the current count from 2 to 0 and preserves day total 575." loading="lazy" style="max-width: 500px">
+</figure>
+<p>Extend <code>TillTest</code> with <code>testNextOrder</code>. Complete the coffee and muffin order, start a second order, check total 0, count 0 and day total 575, then ring up tea and check count 1. Against the old class the reset-count and tea-count checks fail; against the repaired class all ten checks pass.</p>
+<p>Choose a technique for the question you need to answer. Use an assertion for a known expected value, a state table for a sequence of field changes, and a short printed trace or debugger pause to inspect a value. Use the observations to locate the cause. After the repair, keep the regression case and rerun the existing tests after every change. Passing tests give evidence only for the cases they actually check.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.1</div>
+  <p><strong>8.1</strong> A proposed till repair sets all three fields to 0 in <code>startOrder</code>. After a first order of 575, what assertion would reject that repair when the second order starts?</p>
+
+<p>Use the label <code>"day total kept"</code> in this answer box.</p>  <wb-table id="q18">
+    <table>
+      <thead><tr><th>Assertion</th></tr></thead>
+      <tbody>
+        <tr><td data-blank="code"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.2</div>
+  <p><strong>8.2</strong> A one-order test passes, but customers report a wrong second-order count. Choose what to keep as the regression test after debugging, and explain why repeating only the passing one-order test would be insufficient.</p>
+
+  <wb-short id="q19"></wb-short>
+</div>
+<h2 id="s9">9. Cards Part 2: Debugging</h2>
+<h3>The problem</h3>
+<p>Extend Part 1 at home. Keep the repaired fare comparison and every earlier test. Repair <code>newMonth()</code> and add <code>reportState()</code>, both in red. <code>reportState()</code> prints the current <code>balance</code> and <code>trips</code> as one line without changing them. <code>testNewMonth()</code> uses a fresh card with 500, taps once, checks trips 1, then calls <code>newMonth</code> and checks trips 0 and balance 250. Call it from <code>main</code>, after <code>testTaps</code>.</p>
+<figure class="wb-shot">
+  <img src="img/card_part2.png" alt="Repair newMonth and add reportState to TransitCard; add testNewMonth to its test class." loading="lazy" style="max-width: 560px">
+</figure>
+<p>Write <code>TransitCardDemo.main</code>. It uses another card with 500, reports the initial state, prints each of three tap results and reports state after each tap. Finally it calls <code>newMonth</code> and reports the state. The faulty month method gives this trace after the fare fix:</p>
+<table>
+  <thead><tr><th>Call</th><th><code>balance</code></th><th><code>trips</code></th></tr></thead>
+  <tbody>
+      <tr><td>new card</td><td>500</td><td>0</td></tr>
+      <tr><td>first tap, true</td><td>250</td><td>1</td></tr>
+      <tr><td>second tap, true</td><td>0</td><td>2</td></tr>
+      <tr><td>third tap, false</td><td>0</td><td>2</td></tr>
+      <tr><td><code>newMonth</code></td><td>0</td><td>2</td></tr>
+  </tbody>
+</table>
+<p>Compare each row with the method's promise. Find the first wrong row, repair its cause, then rerun all eleven checks. The demo and the regression test use separate cards and different call sequences. Their final balances and trip counts can differ. Keep the new test after the repair.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 9.1</div>
+  <p><strong>9.1</strong> Add the state report, demo and regression test, trace the faulty month reset, and repair it. Run the tests before and after the repair. Use additional paper or an IDE for the complete implementation.</p>
+
+<p><strong>Demo before the month repair</strong></p>
+<pre class="wb-output">new card balance=500 trips=0
+first tap: true
+balance=250 trips=1
+second tap: true
+balance=0 trips=2
+third tap: false
+balance=0 trips=2
+new month balance=0 trips=2</pre>
+<p><strong>Demo after the month repair</strong></p>
+<pre class="wb-output">new card balance=500 trips=0
+first tap: true
+balance=250 trips=1
+second tap: true
+balance=0 trips=2
+third tap: false
+balance=0 trips=2
+new month balance=0 trips=0</pre>
+<p>Before the repair the new-month assertion reports expected 0, actual 1. After the repair all eleven checks pass. The earlier fare checks are still part of the same test program.</p>
+<p>The card box starts with the fare repair already made. Repair the month reset and add the state report. In the test box, keep the eight earlier checks and add the three month checks. The demo has a separate card. The hidden card check also tries a reset before any trip, a repeated reset and a tap after a reset.</p>  <wb-exercise id="q20-card"></wb-exercise>  <wb-exercise id="q20-test"></wb-exercise>  <wb-exercise id="q20-demo"></wb-exercise>
+</div>
+<h2 id="s10">10. Review</h2>
+<h3>Evidence and technique</h3>
+<p>Testing and debugging answer different questions. A failing assertion shows a mismatch for a particular starting state and call sequence. A trace helps locate the assignment or missing assignment that caused it. The public contract provides the intended behaviour for both activities.</p>
+<p>For each repair, keep the failure sequence as a test. Include the state that must be preserved, not only the field that was wrong. For example, a month reset must clear trips while preserving credit. A till reset must clear the current order while preserving the day total. A repair can remove one symptom and break another promise, which is why earlier tests still need to run. Related classes can also repeat fields and methods. Chapter 12 introduces inheritance as a way for related classes to share code.</p>
+<h3>Reading a failure</h3>
+<p>A failed assertion reports a claim that did not hold. Read its label first, then distinguish the expected value from the actual value. The expected value comes from the contract and the inputs; the actual value comes from running the code. For example, the extended till tests report this line against the faulty class:</p>
+<pre class="wb-output">FAIL reset count: expected 0, actual 2</pre>
+<figure class="wb-shot">
+  <img src="img/failure.png" alt="The reset promises count 0 but the faulty class leaves count 2." loading="lazy" style="max-width: 500px">
+</figure>
+<p>Changing the expected value to 2 would accept the old count rather than repairing the method. First check that the test follows the caller's part of the contract. Then follow the state to find the first wrong change. The label identifies the failed check; it does not by itself identify the source line that caused the failure.</p>
+<p>Keep a fresh starting fixture for each independent test, but keep the same object for the calls within a history-dependent test case. A case that tests two orders must complete both on one till. Starting a new object for every order would prevent the old count from reaching the second order. Fresh setup and testing reuse are compatible: the fresh object is the start of the whole case, not a replacement between every pair of calls.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 10.1</div>
+  <p><strong>10.1</strong> A card starts at 500, taps once and receives a top-up of 100. Predict <code>balance</code> and <code>trips</code>. A top-up of -100 is then refused. What must stay unchanged?</p>
+
+  <wb-short id="q21"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 10.2</div>
+  <p><strong>10.2</strong> A suite has twenty passing tests. A report describes a call sequence that none of them runs. Does the passing suite settle that report? Explain the next useful check.</p>
+
+  <wb-short id="q22"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 10.3</div>
+  <p><strong>10.3</strong> You know the expected total but do not know which assignment first makes the item count wrong. Choose one technique to check the total and another to locate the first wrong state.</p>
+
+  <wb-short id="q23"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 10.4</div>
+  <p><strong>10.4</strong> A repair changes the output to match one example. What must you do before accepting it as a repair of the method's contract?</p>
+
+  <wb-short id="q24"></wb-short>
+</div>
+<h2 id="s11">11. Complete Java Programs</h2>
+<p>Read and run these two complete programs after class, then write their extensions. Use additional paper or an IDE for the complete implementation. Compare each program's output with the expected output before changing its classes. Use small integers whose arithmetic fits in an <code>int</code>.</p>
+<h3>Program A: Thermostat tests</h3>
+<p>A thermostat stores a target temperature. Its public contract defines both the valid range and what happens when a request is refused.</p>
+<ul>
+<li><code>Thermostat()</code> starts with private <code>target</code> equal to 20. <code>getTarget()</code> returns it.</li>
+<li><code>setTarget(int target)</code> accepts 10 to 30 inclusive, stores the requested value and returns true. Otherwise it returns false and preserves the old target.</li>
+<li><code>ThermostatTest</code> uses the same two assertion helpers as the till and card tests. It checks an ordinary request at 22, then requests 9, 10, 30 and 31 in that order, checking both the returned result and the target after each request.</li>
+<li>The two limits are valid. Values just outside them are refused. The suite prints All tests passed only if its failure count is 0.</li>
+</ul>
+<pre><code><span class="wb-cmt">/**
+ * A target temperature between 10 and 30 inclusive.
+ */</span>
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Thermostat</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> target;
+    <span class="wb-cmt">/** Start at 20 degrees. */</span>
+    <span class="wb-kw">public</span> <span class="wb-fn">Thermostat</span>()
+    {
+        target = <span class="wb-num">20</span>;
+    }
+    <span class="wb-cmt">/**
+     * Refuse an invalid target without changing the
+     * old one.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">setTarget</span>(<span class="wb-kw">int</span> target)
+    {
+        <span class="wb-kw">if</span>(target &lt; <span class="wb-num">10</span> || target &gt; <span class="wb-num">30</span>) {
+            <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
+        }
+        <span class="wb-kw">this</span>.target = target;
+        <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getTarget</span>()
+    {
+        <span class="wb-kw">return</span> target;
+    }
+}</code></pre>
+<pre><code><span class="wb-cmt">/** Check ordinary, refused and boundary requests. */</span>
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ThermostatTest</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">int</span> failures = <span class="wb-num">0</span>;
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
+    {
+        testTargets();
+        <span class="wb-kw">if</span>(failures == <span class="wb-num">0</span>) {
+            System.out.println(<span class="wb-str">"All tests passed"</span>);
+        }
+        <span class="wb-kw">else</span> {
+            System.out.println(<span class="wb-str">"Failures: "</span> + failures);
+        }
+    }
+    <span class="wb-cmt">/**
+     * Each assertion uses the promised target, not
+     * observed output.
+     */</span>
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">testTargets</span>()
+    {
+        <span class="wb-type">Thermostat</span> heat = <span class="wb-kw">new</span> <span class="wb-fn">Thermostat</span>();
+        assertTrue(<span class="wb-str">"normal 22"</span>, heat.setTarget(<span class="wb-num">22</span>));
+        assertEquals(<span class="wb-str">"target 22"</span>, <span class="wb-num">22</span>, heat.getTarget());
+        assertTrue(<span class="wb-str">"refuse 9"</span>, !heat.setTarget(<span class="wb-num">9</span>));
+        assertEquals(<span class="wb-str">"keep 22"</span>, <span class="wb-num">22</span>, heat.getTarget());
+        assertTrue(<span class="wb-str">"lower 10"</span>, heat.setTarget(<span class="wb-num">10</span>));
+        assertEquals(<span class="wb-str">"target 10"</span>, <span class="wb-num">10</span>, heat.getTarget());
+        assertTrue(<span class="wb-str">"upper 30"</span>, heat.setTarget(<span class="wb-num">30</span>));
+        assertEquals(<span class="wb-str">"target 30"</span>, <span class="wb-num">30</span>, heat.getTarget());
+        assertTrue(<span class="wb-str">"refuse 31"</span>, !heat.setTarget(<span class="wb-num">31</span>));
+        assertEquals(<span class="wb-str">"keep 30"</span>, <span class="wb-num">30</span>, heat.getTarget());
+    }
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">assertEquals</span>(<span class="wb-type">String</span> label,
+        <span class="wb-kw">int</span> expected, <span class="wb-kw">int</span> actual)
+    {
+        <span class="wb-kw">if</span>(expected == actual) {
+            System.out.println(<span class="wb-str">"PASS "</span> + label);
+        }
+        <span class="wb-kw">else</span> {
+            failures++;
+            System.out.println(<span class="wb-str">"FAIL "</span> + label
+                + <span class="wb-str">": expected "</span> + expected
+                + <span class="wb-str">", actual "</span> + actual);
+        }
+    }
+    <span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">assertTrue</span>(<span class="wb-type">String</span> label,
+        <span class="wb-kw">boolean</span> condition)
+    {
+        <span class="wb-kw">if</span>(condition) {
+            System.out.println(<span class="wb-str">"PASS "</span> + label);
+        }
+        <span class="wb-kw">else</span> {
+            failures++;
+            System.out.println(<span class="wb-str">"FAIL "</span> + label);
+        }
+    }
+}</code></pre>
+<p><strong>Expected output</strong></p>
+<pre class="wb-output">PASS normal 22
+PASS target 22
+PASS refuse 9
+PASS keep 22
+PASS lower 10
+PASS target 10
+PASS upper 30
+PASS target 30
+PASS refuse 31
+PASS keep 30
+All tests passed</pre>
+<p>Complete the supplied classes in the live boxes. The thermostat check includes both limits and their outside neighbours; the test-program box runs the ten checks shown above.</p>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Thermostat</code></div>
+  <wb-exercise id="p1-item"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>ThermostatTest</code></div>
+  <wb-exercise id="p1-test"></wb-exercise>
+</div>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 11.1</div>
+  <p><strong>11.1</strong> Add <code>testReturnToLowerBound()</code> to the test class. Use a fresh thermostat, set its target to 30, then request 10. Check that the request succeeds and the final target is 10. Call the new test from <code>main</code>. Use additional paper or an IDE for the complete implementation.</p>
+
+<p>Extend the full test class and call the new method from its main method.</p>  <wb-exercise id="q25"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 11.2</div>
+  <p><strong>11.2</strong> Suppose <code>setTarget</code> returns false for 31 but stores 31 anyway. Which existing assertion catches this error, and why would the return-value check alone miss it?</p>
+
+  <wb-short id="q26"></wb-short>
+</div>
+<h3>Program B: Scoreboard reset</h3>
+<p>A scoreboard stores <code>points</code> and <code>rounds</code> for one game. This version contains a reset fault. Use its trace to locate the fault before writing the regression case.</p>
+<ul>
+<li><code>ScoreBoard()</code> sets both fields to 0. <code>recordRound(int points)</code> adds a non-negative score and increments rounds once. The getters return the two fields.</li>
+<li><code>reset()</code> promises a fresh game with both fields 0. <code>reportState()</code> prints the two fields and changes neither.</li>
+<li>The demo reports a new scoreboard, records 7 then 5, reports after each, resets and reports, then records 3 and reports again. It uses the same object throughout.</li>
+</ul>
+<pre><code><span class="wb-cmt">/** Points and number of rounds for one game. */</span>
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ScoreBoard</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> points;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> rounds;
+    <span class="wb-kw">public</span> <span class="wb-fn">ScoreBoard</span>()
+    {
+        points = <span class="wb-num">0</span>;
+        rounds = <span class="wb-num">0</span>;
+    }
+    <span class="wb-cmt">/**
+     * Add a non-negative score. Totals must fit in
+     * an int.
+     */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">recordRound</span>(<span class="wb-kw">int</span> points)
+    {
+        <span class="wb-kw">this</span>.points += points;
+        rounds++;
+    }
+    <span class="wb-cmt">/** Start a fresh game. */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">reset</span>()
+    {
+        points = <span class="wb-num">0</span>;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getPoints</span>()
+    {
+        <span class="wb-kw">return</span> points;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getRounds</span>()
+    {
+        <span class="wb-kw">return</span> rounds;
+    }
+    <span class="wb-cmt">/** Print the two fields without changing them. */</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">reportState</span>()
+    {
+        System.out.println(<span class="wb-str">"points="</span> + points
+            + <span class="wb-str">" rounds="</span> + rounds);
+    }
+}</code></pre>
+<pre><code><span class="wb-cmt">/** Trace two games on the same scoreboard. */</span>
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ScoreBoardDemo</span>
+{
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
+    {
+        <span class="wb-type">ScoreBoard</span> board = <span class="wb-kw">new</span> <span class="wb-fn">ScoreBoard</span>();
+        board.reportState();
+        board.recordRound(<span class="wb-num">7</span>);
+        board.reportState();
+        board.recordRound(<span class="wb-num">5</span>);
+        board.reportState();
+        board.reset();
+        board.reportState();
+        board.recordRound(<span class="wb-num">3</span>);
+        board.reportState();
+    }
+}</code></pre>
+<p><strong>Output of the supplied program</strong></p>
+<pre class="wb-output">points=0 rounds=0
+points=7 rounds=1
+points=12 rounds=2
+points=0 rounds=2
+points=3 rounds=3</pre>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>ScoreBoardDemo</code></div>
+<p>The supplied faulty scoreboard is available in this box. Reproduce its five state reports.</p>
+  <wb-exercise id="p2-demo"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 11.3</div>
+  <p><strong>11.3</strong> Repair <code>reset()</code> and give the corrected state table for the demo sequence. Check both the new game's first round and the reset itself. Use additional paper or an IDE for the complete implementation.</p>
+
+<p>Repair the supplied class. The checking program also resets a fresh scoreboard, repeats a reset and records a zero-point round.</p>  <wb-exercise id="q27"></wb-exercise>  <wb-table id="q27-state">
+    <table>
+      <thead><tr><th>Call</th><th><code>points</code></th><th><code>rounds</code></th></tr></thead>
+      <tbody>
+        <tr><td>new scoreboard</td><td data-blank="0-0"></td><td data-blank="0-1"></td></tr>
+        <tr><td>record 7</td><td data-blank="1-0"></td><td data-blank="1-1"></td></tr>
+        <tr><td>record 5</td><td data-blank="2-0"></td><td data-blank="2-1"></td></tr>
+        <tr><td>reset</td><td data-blank="3-0"></td><td data-blank="3-1"></td></tr>
+        <tr><td>record 3</td><td data-blank="4-0"></td><td data-blank="4-1"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 11.4</div>
+  <p><strong>11.4</strong> Write <code>ScoreBoardTest</code> with a <code>testFreshGame()</code> method. Repeat the two-round first game, reset, then a new round of 3. Check reset points 0, reset rounds 0, new points 3 and new rounds 1. Count failures and keep going. Run this test against the faulty and repaired classes. Use additional paper or an IDE for the complete implementation.</p>
+
+<p>The box includes the repaired scoreboard. Run the same test in your IDE against the supplied faulty class to see the two failing round-count checks.</p>  <wb-exercise id="q28"></wb-exercise>
+</div>
+<hr>
+<section class="wb-outcomes wb-review">
+<h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+<p>A program can compile and run while giving the wrong answer. The cafe receipt lists coffee, a muffin and a cookie, but charges only 575 cents. The prices add to 750. Testing detects the wrong total; debugging follows the calculation to its cause.</p>
+<h3>Testing</h3>
+<ul>
+<li>A <strong>syntax error</strong> breaks a language rule and can stop compilation. A <strong>logical error</strong> lets the program compile and run, but gives the wrong behaviour. The compiler cannot decide whether a legal calculation follows the intended price rule.</li>
+<li><strong>Testing</strong> checks whether code produces the intended behaviour. <strong>Debugging</strong> finds and fixes the cause of an error. The wrong total is a symptom; its cause may be in a different part of the calculation.</li>
+<li>A <strong>test case</strong> gives the starting state, the inputs and the expected result. Work out the expected result from the contract and input data before running the code. Copying the observed result into a test can preserve a mistake.</li>
+<li>A <strong>unit test</strong> checks one method or class at a time. For an order containing coffee and a muffin, compare <code>getTotal()</code> with 575. Two coffees should contribute twice, for a total of 500.</li>
+</ul>
+<h3>Assertions and edges</h3>
+<ul>
+<li>An <strong>assertion</strong> states a condition that a test expects to be true. Our ordinary Java <code>assertEquals(label, expected, actual)</code> compares two ints. <code>assertTrue(label, condition)</code> checks a boolean. Both print a labelled PASS or FAIL, count failures and keep going.</li>
+<li>An exact integer comparison checks more than a condition such as "the total is positive". Many incorrect totals are positive. Choose a condition that checks the method's promise.</li>
+<li>A <strong>positive test</strong> checks a case that should succeed. A <strong>negative test</strong> checks that an invalid operation is refused in the specified way. Check the return value and every field that must stay unchanged.</li>
+<li>A <strong>boundary test</strong> checks an edge and values just inside or outside it. For a fare of 250, try balances 249, 250 and 251. Exactly 250 should succeed, so that case is both positive and at the boundary.</li>
+<li>For an inclusive range, test both end values and their neighbours. Collections also have edges: an empty order checks zero loop iterations, one item checks the first visit, and several items check that the loop keeps adding.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_boundaries.png" alt="Balances 249, 250 and 251 test the fare boundary." loading="lazy" style="max-width: 560px">
+<figcaption>Check the edge and its neighbours.</figcaption>
+</figure>
+<h3>Test programs and fixtures</h3>
+<ul>
+<li>A <strong>test program</strong> runs test cases and checks their results automatically. It reports success only when the failure count is zero. A success message without comparisons says only that execution reached the print statement.</li>
+<li>A <strong>fixture</strong> is a set of objects in a known state used by tests. <code>makeTill()</code> creates a fresh till and starts an empty order. Sharing the setup method gives each independent test its own object.</li>
+<li>Within a case that checks reuse, keep the same object throughout the call sequence. Creating a new till for each order would hide a count left over from the previous order.</li>
+<li>A <strong>regression test</strong> checks behaviour that worked before a change. Keep earlier tests, add the case that exposed a fault, and rerun them after a repair. Passing tests provide evidence for the cases they actually check.</li>
+</ul>
+<h3>Contracts and state</h3>
+<ul>
+<li>A <strong>contract</strong> states what callers may supply and what a method promises in return. The till caller starts an order, rings up its items and finishes it once before starting another. Items are non-null and totals fit in an <code>int</code>.</li>
+<li><code>startOrder()</code> clears <code>runningTotal</code> and <code>itemCount</code>, and preserves <code>dayTotal</code>. <code>ringUp</code> adds one price and counts one item. <code>finishOrder()</code> adds the current total to the day total.</li>
+<li>A <strong>state table</strong> has one row per call and one column per field. A manual walkthrough applies assignments in order. Find the first row that disagrees with the contract, including fields that should have stayed unchanged.</li>
+<li>After coffee and a muffin, the faulty till has total 575, count 2 and day total 575. The second <code>startOrder()</code> changes the total to 0 but leaves count 2. Adding tea then makes count 3. The increment is correct; the reset omitted an assignment.</li>
+<li>The repair clears the count as well as the current total. Clearing the day total too would break another promise. The two-order regression case checks total 0, count 0 and day total 575 after the reset, then count 1 after tea.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_state.png" alt="The faulty till's second startOrder row first has the wrong count, shown in red." loading="lazy" style="max-width: 560px">
+<figcaption>The first wrong row helps locate the cause.</figcaption>
+</figure>
+<h3>Debugging techniques</h3>
+<ul>
+<li>Start with a short sequence that reproduces the reported failure. Record its starting state and inputs so each investigation begins in the same way.</li>
+<li><code>reportState()</code> prints all relevant fields together. Put the call label before the values. A boolean flag can enable a short trace while suppressing unrelated output.</li>
+<li>A debugger can pause at a <strong>breakpoint</strong> so you can inspect fields. <strong>Stepping</strong> runs one step at a time; step into follows a called method. A verbal walkthrough explains each change aloud.</li>
+<li>Use an assertion for a known expected value, a state table for a sequence of changes, and a short trace or debugger pause to inspect values. Keep assertions after the investigation so later changes can be checked automatically.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_techniques.png" alt="Assertions, state tables and short traces answer different questions during testing and debugging." loading="lazy" style="max-width: 560px">
+<figcaption>Choose a technique for the question you need to answer.</figcaption>
+</figure>
+<h3>Cards and complete programs</h3>
+<ul>
+<li><code>TransitCard.tapOn()</code> accepts an exact fare. Starting at 500, two successful taps leave balances 250 then 0, with trips 1 then 2. A third tap is refused and changes neither field. Zero and negative top-ups are refused too.</li>
+<li>Part 1 writes the eight tap and top-up checks and repairs the fare comparison. Part 2 repairs the existing <code>newMonth()</code>, adds <code>reportState()</code> and keeps a month regression test. A month reset clears trips and preserves credit.</li>
+<li>The month test uses a fresh 500-cent card and one tap before resetting: balance stays 250 and trips becomes 0. The separate demo taps three times before resetting, so its final balance and trips are both 0.</li>
+<li><code>Thermostat.setTarget</code> accepts 10 to 30 inclusive. The tests check an ordinary request at 22, both limits, and refusals at 9 and 31. A refusal must preserve the previous target as well as return false.</li>
+<li><code>ScoreBoard.reset()</code> must clear both points and rounds. Its regression case records 7 then 5, resets, and records 3. Check both fields after the reset and after the new game's first round.</li>
+</ul>
+</section>
+
+</main>
+</body>
+</html>
