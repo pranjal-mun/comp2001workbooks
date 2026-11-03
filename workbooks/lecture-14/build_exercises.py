@@ -1,10 +1,18 @@
 """Build Lecture 14 exercises from the approved workbook and real Java runs.
 
-New page: q1 to q28 follow questions 1.1 to 11.2 in order. Suffixes
-identify an output table, explanation or second class in the same question.
-Program classes use p1-* and p2-* as in Lecture 13. Every code case is
-computed by run(), then pinned by an assert. Hidden drivers test the edge
-cases described on the page. Run from anywhere; no server is needed.
+Program classes use p1-* and p2-* as in Lecture 13. Suffixes identify an
+output table, explanation or second class in the same question. Every code
+case is computed by run(), then pinned by an assert. Hidden drivers test the
+edge cases described on the page. Run from anywhere; no server is needed.
+
+The page is published, so each id keeps its question. The sections were
+reordered on 2026-11-03 (loans moved to Section 9, enums and switches added),
+so the numbers changed. Ids and their current numbers:
+  q1 1.1, q2 1.2, q3 2.1, q4 2.2, q5-q7 3.1-3.3,
+  q10-q12 4.1-4.3, q13-q15 5.1-5.3, q16 6.1,
+  q17 7.1, q18 7.2, q29 7.3, q30 7.4, q31 7.5 (q29-q31 are new),
+  q19-q21 8.1-8.3, q8 9.1, q9 9.2, q22 9.3, q23 9.4,
+  q24-q26 10.1-10.3, q27 11.1, q28 11.2.
 """
 import base64, html, json, re, sys, pathlib
 
@@ -229,7 +237,7 @@ reports.printSummary();'''),'Thank you\nPlease visit again\nThank you\nPlease vi
 E['q6'] = SHORT(solution('3.2'))
 E['q7'] = SHORT(solution('3.3'))
 
-# 4. Loans Part 1
+# 9. Practice: Loans, Part 1 (questions 9.1 and 9.2)
 BOOK1=read('loans/part1/Book.java')
 DESK1=read('loans/part1/LoanDesk.java')
 LOAN_DEMO=read('loans/part1/LoanDemo.java')
@@ -284,18 +292,18 @@ checked('q8-desk','LoanDesk.java',read('loans/starter/LoanDesk.java'),DESK1,
  BOOK1_FILES+driver('DeskCheck',DESK_BODY),DESK_EXPECT,RATE_CHECKS,xp=6)
 checked('q8-demo','LoanDemo.java',demo('LoanDemo','// Create the three books and print the overdue report and total.'),LOAN_DEMO,
  DESK1_FILES,read('loans/part1/expected.txt').strip(),xp=3)
-output('4.2','q9-output','0\n2\n0',BOOK1_FILES)
+output('9.2','q9-output','0\n2\n0',BOOK1_FILES)
 
-# 5. Encapsulation
+# 4. Encapsulation
 PRIVATE_ORDER=read('cafe/private/Order.java')
 checked('q10','PhoneCaller.java',demo('PhoneCaller','Order order = new Order("Ada Lim", "555-0101");\n// Print the phone using its public query.'),
- demo('PhoneCaller','Order order = new Order("Ada Lim", "555-0101");\n'+answer_code('5.1')),
+ demo('PhoneCaller','Order order = new Order("Ada Lim", "555-0101");\n'+answer_code('4.1')),
  [file('Order.java',PRIVATE_ORDER)],'555-0101',[has('order.getCustomerPhone()', 'Ask for the phone with getCustomerPhone().')],xp=2)
-E['q11'] = SHORT(solution('5.2'))
-E['q12'] = SHORT(solution('5.3'))
+E['q11'] = SHORT(solution('4.2'))
+E['q12'] = SHORT(solution('4.3'))
 
-# 6. Responsibility
-ANY_ORDER=add_before_end(PRIVATE_ORDER,answer_code('6.1'))
+# 5. Responsibility
+ANY_ORDER=add_before_end(PRIVATE_ORDER,answer_code('5.1'))
 checked('q13','Order.java',PRIVATE_ORDER,ANY_ORDER,driver('AnyItemCheck','''Order empty = new Order("Ada", "1");
 System.out.println(empty.hasAnyItem());
 Order coffee = new Order("Bo", "2");
@@ -310,20 +318,51 @@ System.out.println(muffin.hasAnyItem());
 System.out.println(empty.hasAnyItem());
 System.out.println(coffee.hasAnyItem());'''),'false\ntrue\ntrue\ntrue\nfalse\ntrue',[
  has('public boolean hasAnyItem()', 'Add hasAnyItem to Order, which stores the choices.')])
-E['q13-why'] = SHORT(solution('6.1'))
-E['q14'] = SHORT(solution('6.2'))
-output('6.3','q15-output','Order for Ada Lim\nPhone 555-0101\nTotal 0\n250',files_at('cafe/owner','Order'))
+E['q13-why'] = SHORT(solution('5.1'))
+E['q14'] = SHORT(solution('5.2'))
+output('5.3','q15-output','Order for Ada Lim\nPhone 555-0101\nTotal 0\n250',files_at('cafe/owner','Order'))
 
-# 7. Cohesion; 8. Refactoring
-E['q16'] = SHORT(solution('7.1'))
-CAFE_FILES=files_at('cafe/better','Customer','MenuItem','Menu','Order')
-output('7.2','q17-output','500\n500',CAFE_FILES,'import java.util.ArrayList;')
-E['q18'] = SHORT('Draw two separate list entries. Both arrows end at the same Coffee MenuItem object. '+solution('7.3'),chars=25,rows=5)
+# 6. Cohesion; 7. Enums and switches; 8. Refactoring
+E['q16'] = SHORT(solution('6.1'))
+CAFE_FILES=files_at('cafe/better','Customer','MenuItem','Order')
+output('7.1','q17-output','500\n500',CAFE_FILES,'import java.util.ArrayList;')
+E['q18'] = SHORT('Draw two separate list entries. Both arrows end at the same MenuItem.COFFEE value. '+solution('7.2'),chars=25,rows=5)
+E['q29'] = SHORT(solution('7.3'),chars=25,rows=3)
+output('7.4','q30-output','525',CAFE_FILES)
+SIZE,DRINK_START=[c.rstrip() for c in listings(QUESTION_RAW['7.5'])[:2]]
+assert SIZE.startswith('public enum Size') and DRINK_START.startswith('public class Drink')
+DRINK=DRINK_START.replace('''        int extra = 0;
+        // Set extra with a switch on size.
+        return extra;''','''        int extra = 0;
+        switch(size) {
+            case SMALL:
+                extra = 0;
+                break;
+            case MEDIUM:
+                extra = 50;
+                break;
+            case LARGE:
+                extra = 100;
+                break;
+        }
+        return extra;''')
+assert DRINK != DRINK_START
+checked('q31','Drink.java',DRINK_START,DRINK,[file('Size.java',SIZE)]+driver('ExtraCheck','''Drink small = new Drink("Tea", Size.SMALL);
+Drink medium = new Drink("Coffee", Size.MEDIUM);
+Drink large = new Drink("Latte", Size.LARGE);
+System.out.println(small.getExtra());
+System.out.println(medium.getExtra());
+System.out.println(large.getExtra());
+System.out.println(large.getExtra());
+System.out.println(small.getExtra());'''),'0\n50\n100\n100\n0',[
+ has('switch(size)', 'Choose the extra with a switch on size.'),
+ has('case MEDIUM:', 'Add a case for each Size value.'),
+ has('break;', 'End each case with break.')])
 E['q19'] = SHORT(solution('8.1'))
 E['q20'] = SHORT(solution('8.2'))
 output('8.3','q21-output','525\n700',CAFE_FILES,'import java.util.ArrayList;')
 
-# 9. Loans Part 2: retain Part 1, then add returned text and a total query.
+# 9. Practice: Loans, Part 2 (questions 9.3 and 9.4): keep Part 1, then add returned text and a total query.
 BOOK2=read('loans/part2/Book.java')
 DESK2=read('loans/part2/LoanDesk.java')
 BOOK2_FILES=[file('Book.java',BOOK2)]
@@ -364,7 +403,7 @@ System.out.println(desk.totalFines(12));'''),
 line=run(demo('EmmaLine','Book emma = new Book("Emma", 14);\nSystem.out.println(emma.getLine(12));'),BOOK2_FILES)
 assert line == 'Emma: 0 days late'
 lines_table('q23-output',line)
-E['q23-why'] = SHORT(solution('9.2'))
+E['q23-why'] = SHORT(solution('9.4'))
 
 # 10. Review
 E['q24'] = SHORT(solution('10.1'))

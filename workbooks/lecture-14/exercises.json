@@ -394,7 +394,62 @@
       "xp": 2,
       "minChars": 25,
       "rows": 5,
-      "answer": "RHJhdyB0d28gc2VwYXJhdGUgbGlzdCBlbnRyaWVzLiBCb3RoIGFycm93cyBlbmQgYXQgdGhlIHNhbWUgQ29mZmVlIE1lbnVJdGVtIG9iamVjdC4gQm90aCBlbnRyaWVzIHJlZmVyIHRvIHRoZSBzYW1lIGNvZmZlZSBvYmplY3QuIFRoZSBsb29wIHZpc2l0cyBldmVyeSBsaXN0IGVudHJ5LCBzbyBpdCBhZGRzIHRoZSBwcmljZSB0d2ljZS4="
+      "answer": "RHJhdyB0d28gc2VwYXJhdGUgbGlzdCBlbnRyaWVzLiBCb3RoIGFycm93cyBlbmQgYXQgdGhlIHNhbWUgTWVudUl0ZW0uQ09GRkVFIHZhbHVlLiBCb3RoIGVudHJpZXMgcmVmZXIgdG8gdGhlIHNhbWUgY29mZmVlIG9iamVjdC4gVGhlIGxvb3AgdmlzaXRzIGV2ZXJ5IGxpc3QgZW50cnksIHNvIGl0IGFkZHMgdGhlIHByaWNlIHR3aWNlLg=="
+    },
+    "q29": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 25,
+      "rows": 3,
+      "answer": "cHVibGljIGVudW0gU2l6ZSB7IFNNQUxMLCBNRURJVU0sIExBUkdFIH0uIEEgU2l6ZSB2YXJpYWJsZSBjYW4gb25seSBob2xkIG9uZSBvZiB0aGUgdGhyZWUgdmFsdWVzLCBzbyBhIG1pc3NwZWxsZWQgdmFsdWUgZG9lcyBub3QgY29tcGlsZS4gQW55IFN0cmluZyBjb21waWxlcywgZXZlbiAibWVkdWltIiwgYW5kIHRoZSBtaXN0YWtlIHNob3dzIHVwIG9ubHkgd2hlbiB0aGUgcHJvZ3JhbSBydW5zLg=="
+    },
+    "q30-output": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "525"
+          ],
+          "show": "525",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q30-output-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "NTI1LiBUaGUgVEVBIGNhc2UgaGFzIG5vIGJyZWFrLCBzbyBKYXZhIGNhcnJpZXMgb24gaW50byB0aGUgTVVGRklOIGNhc2UgYW5kIGFkZHMgMzI1IGFzIHdlbGwu"
+    },
+    "q31": {
+      "type": "code",
+      "xp": 4,
+      "title": "Drink.java",
+      "minLines": 29,
+      "maxLines": 41,
+      "starter": "public class Drink\n{\n    private String name;\n    private Size size;\n\n    public Drink(String name, Size size)\n    {\n        this.name = name;\n        this.size = size;\n    }\n\n    public int getExtra()\n    {\n        int extra = 0;\n        // Set extra with a switch on size.\n        return extra;\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "0\n50\n100\n100\n0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"switch(size)\"), \"Choose the extra with a switch on size.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"caseMEDIUM:\"), \"Add a case for each Size value.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"break;\"), \"End each case with break.\");",
+      "answer": "cHVibGljIGNsYXNzIERyaW5rCnsKICAgIHByaXZhdGUgU3RyaW5nIG5hbWU7CiAgICBwcml2YXRlIFNpemUgc2l6ZTsKCiAgICBwdWJsaWMgRHJpbmsoU3RyaW5nIG5hbWUsIFNpemUgc2l6ZSkKICAgIHsKICAgICAgICB0aGlzLm5hbWUgPSBuYW1lOwogICAgICAgIHRoaXMuc2l6ZSA9IHNpemU7CiAgICB9CgogICAgcHVibGljIGludCBnZXRFeHRyYSgpCiAgICB7CiAgICAgICAgaW50IGV4dHJhID0gMDsKICAgICAgICBzd2l0Y2goc2l6ZSkgewogICAgICAgICAgICBjYXNlIFNNQUxMOgogICAgICAgICAgICAgICAgZXh0cmEgPSAwOwogICAgICAgICAgICAgICAgYnJlYWs7CiAgICAgICAgICAgIGNhc2UgTUVESVVNOgogICAgICAgICAgICAgICAgZXh0cmEgPSA1MDsKICAgICAgICAgICAgICAgIGJyZWFrOwogICAgICAgICAgICBjYXNlIExBUkdFOgogICAgICAgICAgICAgICAgZXh0cmEgPSAxMDA7CiAgICAgICAgICAgICAgICBicmVhazsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIGV4dHJhOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Size.java",
+          "content": "public enum Size\n{\n    SMALL, MEDIUM, LARGE\n}"
+        },
+        {
+          "name": "ExtraCheck.java",
+          "content": "public class ExtraCheck\n{\n    public static void main(String[] args)\n    {\n        Drink small = new Drink(\"Tea\", Size.SMALL);\n        Drink medium = new Drink(\"Coffee\", Size.MEDIUM);\n        Drink large = new Drink(\"Latte\", Size.LARGE);\n        System.out.println(small.getExtra());\n        System.out.println(medium.getExtra());\n        System.out.println(large.getExtra());\n        System.out.println(large.getExtra());\n        System.out.println(small.getExtra());\n    }\n}"
+        }
+      ]
     },
     "q19": {
       "type": "short",

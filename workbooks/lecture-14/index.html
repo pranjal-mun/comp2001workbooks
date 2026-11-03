@@ -36,24 +36,24 @@
 </div>
 
 <p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run takes a few seconds while Java loads). Each box includes the other classes and the checking program it needs. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
-<p>This workbook holds the notes and the questions for Lecture 14. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. Sections 4 and 9 are the library loans problem in two parts, to do at home as practice. Section 11 has two complete programs to read, run and extend after class. By the end, you should be able to:</p>
+<p>This workbook holds the notes and the questions for Lecture 14. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. Section 9 is the library loans problem in two parts, to do at home as practice. Section 11 has two complete programs to read, run and extend after class. By the end, you should be able to:</p>
 <ul>
 <li>explain why working code can still be expensive to change;</li>
 <li>find duplicated code and rules, and extract a method with a clear job;</li>
 <li>hide representation details behind useful methods;</li>
 <li>assign work to the class that holds the information it needs;</li>
-<li>split a class that represents separate ideas and use a collection for repeated items; and</li>
+<li>split a class that represents separate ideas and use a collection for repeated items;</li>
+<li>name a fixed set of values with an enum, and choose code by value with a switch; and</li>
 <li>refactor before extending a program, and compare its results after each change.</li>
 </ul>
 <h2 id="s1">1. Change</h2>
 <h3>The cafe order</h3>
-<p>A cafe kiosk prints an order for Ada Lim, phone 555-0101. Coffee costs 250 cents, tea 200 and a muffin 325. All amounts are whole numbers of cents, so these examples need no rounding. The standing order is one coffee and one muffin. The cafe now wants to sell a cookie for 175 cents.</p>
-<p>A program can produce the right answer while making the next change difficult. The first version stores a separate flag for each product in <code>Order</code>. <code>Kiosk</code> reads those public fields, computes the total and prints the reports. Its total uses price constants, but its receipt contains separate literal prices.</p>
+<p>The cafe sells three items: coffee for 250 cents, tea for 200 and a muffin for 325. All amounts are whole numbers of cents, so the examples need no rounding. The program prints a customer's receipt and total. Ada Lim, phone 555-0101, orders a coffee and a muffin. The cafe now wants to sell a cookie for 175 cents, and we count how many lines of code that change takes. A program can produce the right answer while making the next change difficult.</p>
 <figure class="wb-shot">
   <img src="img/cafe_total.png" alt="Coffee at 250 cents plus a muffin at 325 gives a total of 575 cents." loading="lazy" style="max-width: 480px">
 </figure>
 <h3>The first version</h3>
-<p>These are complete classes. The demo prints a receipt and then a short summary. A false flag means that the product was not ordered.</p>
+<p><code>Order</code> stores the customer and what they picked, with one boolean per item: <code>hasCoffee</code>, <code>hasTea</code> and <code>hasMuffin</code>. A false flag means that the product was not ordered. The constructor sets the customer, and every item starts as <code>false</code>. All the fields are public, so any class can read or change them. <code>Kiosk</code> reads those fields, computes the total and prints the reports. Its total uses price constants, but its receipt contains separate literal prices. The demo prints a receipt and then a short summary.</p>
 <pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Order</span>
 {
     <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> hasCoffee;
@@ -142,9 +142,27 @@ Total 575
 Order for Ada Lim
 Phone 555-0101
 Total 575</pre>
+<h3>A sequence diagram</h3>
+<p>A sequence diagram shows the calls of one run, read from top to bottom. Each object has a dashed lifeline below its box. A solid arrow is a method call or <code>new</code>. A red dashed arrow marks one class reading or setting another class's fields. The demo sets two flags directly, and the kiosk reads the order's fields each time it prints. The small loop is the kiosk calling its own <code>getTotal()</code>.</p>
+<figure class="wb-shot">
+  <img src="img/sequence_first.png" alt="OrderDemo creates the order, sets its public hasCoffee and hasMuffin fields, then calls printReceipt and printSummary on Kiosk. Each time Kiosk reads the Order fields directly and calls its own getTotal." loading="lazy" style="max-width: 600px">
+</figure>
 <h3>Counting changes</h3>
-<p>Adding cookie support needs seven added source lines in two classes: the new flag and its initial value in <code>Order</code>; a price constant, two total lines and two receipt lines in <code>Kiosk</code>. We count added lines, leaving out brace-only lines and the demo line that orders the cookie. The same rule applies when we compare the better design later.</p>
-<p>A useful design keeps a change close to the data or rule that changed. Some features still touch several classes. The aim is that each class changes for its own reason. As more products are added, a list of items will express the choices more directly than a growing set of flags.</p>
+<p>Adding the cookie needs seven new lines in two classes: two in <code>Order</code> and five in <code>Kiosk</code>. The comments number them:</p>
+<pre><code><span class="wb-cmt">// In Order:</span>
+<span class="wb-kw">public</span> <span class="wb-kw">boolean</span> hasCookie;          <span class="wb-cmt">// 1</span>
+hasCookie = <span class="wb-kw">false</span>;                 <span class="wb-cmt">// 2</span>
+<span class="wb-cmt">// In Kiosk:</span>
+<span class="wb-kw">private</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-kw">int</span>
+    <span class="wb-type">COOKIE_PRICE</span> = <span class="wb-num">175</span>;            <span class="wb-cmt">// 3</span>
+<span class="wb-kw">if</span>(order.hasCookie) {              <span class="wb-cmt">// 4</span>
+    total = total + <span class="wb-type">COOKIE_PRICE</span>;  <span class="wb-cmt">// 5</span>
+}
+<span class="wb-kw">if</span>(order.hasCookie) {              <span class="wb-cmt">// 6</span>
+    System.out.println(
+        <span class="wb-str">"Cookie 175"</span>);             <span class="wb-cmt">// 7</span>
+}</code></pre>
+<p>We count added lines, leaving out brace-only lines and the demo line <code>order.hasCookie = true;</code> that orders the cookie. The same rule applies when we compare the better design later. The price 175 is written twice, in lines 3 and 7, and Java does not check that they match. Every new item needs edits in both classes. A good design writes each fact in one place, so a change touches as few places as possible.</p>
 <h3>Practice</h3>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice 1.1</div>
@@ -174,10 +192,30 @@ Coffee 250
 Muffin 325
 Cookie 175
 Total 575</pre>
-<p>The listed food costs 750 cents, but the program charges 575. The missing 175 is a business-rule error. Java checks names and types here; it does not add the receipt lines and compare them with the total.</p>
-<p><strong>Implicit coupling</strong> is a dependency between pieces of code that the compiler cannot check. The receipt and total must agree about the menu and prices. If that knowledge is stored in several places, a change to one place can leave the others behind.</p>
+<p>The listed food costs 750 cents, but the program charges 575: the customer gets the cookie for free. The receipt has a cookie branch and <code>getTotal</code> does not. Each method is valid Java on its own, so the compiler sees nothing wrong. Java checks names and types here; it does not add the receipt lines and compare them with the total.</p>
+<p><strong>Implicit coupling</strong> is a dependency between pieces of code that the compiler cannot check. <code>printReceipt</code> and <code>getTotal</code> must list the same items and prices. If one changes and the other does not, Java cannot tell.</p>
 <figure class="wb-shot">
   <img src="img/implicit_coupling.png" alt="The receipt and total must agree about each product." loading="lazy" style="max-width: 540px">
+</figure>
+<p>A better design keeps each item's name and price in one place, and the receipt and the total both read from there. The question for the rest of the lecture: how do we organise the program so that adding one item does not need changes all over the place?</p>
+<h3>Six design problems</h3>
+<p>The first version works, but it has six design problems. We fix them in this order, and Ada's receipt stays the same after every fix.</p>
+<ul>
+<li><strong>Problem 1, header copied.</strong> <code>printReceipt</code> and <code>printSummary</code> both print <code>Order for Ada Lim</code> and <code>Phone 555-0101</code>. Fix 1: one <code>printHeader</code> method that both reports call.</li>
+<li><strong>Problem 2, public fields.</strong> <code>Kiosk</code> reads <code>order.hasCoffee</code> and <code>order.customerName</code>, and <code>OrderDemo</code> sets <code>hasCoffee</code> to <code>true</code>. Fix 2: private fields, and methods such as <code>addCoffee()</code> and <code>hasCoffee()</code>.</li>
+<li><strong>Problem 3, total in the wrong class.</strong> <code>getTotal</code> is in <code>Kiosk</code>, but the items it checks are in <code>Order</code>. Fix 3: move <code>getTotal</code> into <code>Order</code>.</li>
+<li><strong>Problem 4, two things in one class.</strong> <code>Order</code> holds the customer (<code>customerName</code>, <code>customerPhone</code>) and the items. Fix 4: a <code>Customer</code> class for the name and phone.</li>
+<li><strong>Problem 5, one field per item.</strong> A cookie needs <code>hasCookie</code> and two more <code>if</code> statements. Fix 5: an enum <code>MenuItem</code> with <code>COFFEE</code>, <code>TEA</code> and <code>MUFFIN</code>, kept in a list.</li>
+<li><strong>Problem 6, prices written twice.</strong> <code>COFFEE_PRICE</code> holds 250 for the total, and the receipt prints <code>Coffee 250</code>. This caused the cookie bug. Fix 6: each enum value holds its name and price, as in <code>COFFEE("Coffee", 250)</code>.</li>
+</ul>
+<h3>Class diagrams</h3>
+<p>A UML class diagram draws each class as a box with three parts: the name, the fields and the methods. A minus sign means private and a plus sign means public. An underlined field is static. A dashed arrow points from a class to a class it uses. Constructors and <code>OrderDemo</code> are left out. The first version shows problems 1 to 6: both print methods copy the header, every field of <code>Order</code> is public, <code>getTotal</code> is in <code>Kiosk</code>, <code>Order</code> holds the customer and the items, there is one boolean per item, and the prices are in <code>Kiosk</code>'s constants and again in its receipt text.</p>
+<figure class="wb-shot">
+  <img src="img/class_first.png" alt="Class diagram of the first version: Kiosk has static price constants, getTotal, printReceipt and printSummary, and uses Order, whose five fields are all public." loading="lazy" style="max-width: 600px">
+</figure>
+<p>The fixed version shows the six fixes. <code>getHeader</code> is written once, and every field is private. <code>Order</code> computes its own total, <code>Customer</code> has its own class, and the items are in one list. Each <code>MenuItem</code> value holds its name and price; the enum's box lists its values above its fields.</p>
+<figure class="wb-shot">
+  <img src="img/class_fixed.png" alt="Class diagram of the fixed version: Kiosk uses Order. Order has a private Customer and a list of MenuItem values. MenuItem is an enum with COFFEE, TEA and MUFFIN, each with a name and a price." loading="lazy" style="max-width: 600px">
 </figure>
 <p>Use this complete delivery class for the questions below. Its two methods contain separate charge values.</p>
 <pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Parcel</span>
@@ -216,9 +254,9 @@ System.out.println(parcel.getLabel());</code></pre>
   <wb-short id="q4"></wb-short>
 </div>
 <h2 id="s3">3. Duplication</h2>
-<h3>Shared code and rules</h3>
-<p><strong>Duplication</strong> is the same code or knowledge written in more than one place. The cafe reports repeat the customer header. The literal receipt prices repeat the knowledge used by the total. Both copies need the same edit when that shared information changes. A missed copy can silently give a wrong result.</p>
-<p><strong>Method decomposition</strong> splits a larger task into smaller methods with clear jobs. Extract the two header lines into a private method inside <code>Kiosk</code>. Both reports call it in the same position where their old copies appeared:</p>
+<h3>The copied header</h3>
+<p>Problem 1: <code>printReceipt</code> and <code>printSummary</code> both start with the same two lines. <strong>Duplication</strong> is the same code or knowledge written in more than one place. If the header changes, we must edit both copies. Miss one and the two reports disagree, just like the missed cookie total. The literal receipt prices also repeat the knowledge used by the total; Fix 6 deals with them.</p>
+<p>Fix 1 uses <strong>method decomposition</strong>, which splits a larger task into smaller methods with clear jobs. Extract the two header lines into a private method inside <code>Kiosk</code>. Each report calls <code>printHeader()</code> in the place where its old copy appeared:</p>
 <pre><code><span class="wb-kw">private</span> <span class="wb-kw">void</span> <span class="wb-fn">printHeader</span>()
 {
     System.out.println(<span class="wb-str">"Order for "</span> + order.customerName);
@@ -228,7 +266,7 @@ System.out.println(parcel.getLabel());</code></pre>
   <img src="img/extract_header.png" alt="The receipt and summary both call printHeader." loading="lazy" style="max-width: 500px">
 </figure>
 <h3>Method cohesion</h3>
-<p><strong>Cohesion</strong> is how closely the parts of a method or class belong to one task or one idea. <code>printHeader</code> has one job. A receipt method can call smaller methods and still have one logical task: produce a receipt. Changing a customer's phone number is a separate task and belongs in a different method.</p>
+<p><strong>Cohesion</strong> is how well a piece of code matches one task or one entity. A cohesive method does one well-defined task, and a cohesive class represents one well-defined entity (Textbook, Section 8.11). In the first version, <code>printReceipt</code> has two jobs: it prints the header, then it lists the items and the total. After Fix 1, <code>printHeader</code> has one job: print the two header lines. <code>printReceipt</code> also has one job, printing a receipt, and it calls <code>printHeader</code> to do part of it. A method that prints a receipt and also changes the customer's phone number would mix two jobs.</p>
 <p>Names help readers see these boundaries. <code>printHeader</code> describes an output operation. <code>getTotal</code> describes a returned value. A name such as <code>doThings</code> gives the reader no information about the job. Short methods with clear names are easier to read and can be called wherever their task is needed.</p>
 <h3>Practice</h3>
 <div class="wb-checkpoint">
@@ -251,180 +289,105 @@ System.out.println(<span class="wb-str">"Please visit again"</span>);</code></pr
 
   <wb-short id="q7"></wb-short>
 </div>
-<h2 id="s4">4. Loans Part 1: The desk</h2>
-<h3>The problem</h3>
-<p>Do this part at home. A library's starter program stores <code>title</code>, <code>dueDay</code> and <code>returned</code> as public fields in <code>Book</code>. <code>Book(String title, int dueDay)</code> creates an unreturned book. <code>LoanDesk</code> holds an <code>ArrayList&lt;Book&gt;</code>; its constructor starts an empty list and <code>addBook(book)</code> appends a book. Both <code>printOverdue(today)</code> and <code>printTotal(today)</code> contain the 25-cent daily fine rule.</p>
-<p>Use non-null titles and books, add each book once, and use small day numbers on the same calendar. All days and fine totals fit in an <code>int</code>. A returned book has no current fine in this model; the program does not keep paid-fine history.</p>
-<figure class="wb-shot">
-  <img src="img/loan_starter.png" alt="LoanDesk reads public fields from Book and calculates fines in two places." loading="lazy" style="max-width: 540px">
-</figure>
-<h3>The starter classes</h3>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Book</span>
+<h2 id="s4">4. Encapsulation</h2>
+<h3>Public fields</h3>
+<p>Problem 2: the fields of <code>Order</code> are public, so <code>Kiosk</code> reads and sets them directly, as in <code>order.hasCoffee</code>. <code>Kiosk</code> depends on a boolean with that exact name. If <code>Order</code> renames <code>hasCoffee</code> or stores its items another way, <code>Kiosk</code> breaks.</p>
+<h3>Private access</h3>
+<p><strong>Encapsulation</strong> hides how a class works: other classes should see what a class can do, not how it does it (Textbook, Section 8.6.1). In Java, make the fields <code>private</code> and give other classes <code>public</code> methods. Once a field is private, no other class can read it. This code does not compile:</p>
+<pre><code><span class="wb-kw">class</span> <span class="wb-type">Order</span>
 {
-    <span class="wb-kw">public</span> <span class="wb-type">String</span> title;
-    <span class="wb-kw">public</span> <span class="wb-kw">int</span> dueDay;
-    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> returned;
-    <span class="wb-kw">public</span> <span class="wb-fn">Book</span>(<span class="wb-type">String</span> title, <span class="wb-kw">int</span> dueDay)
+    <span class="wb-kw">private</span> <span class="wb-kw">boolean</span> hasCoffee;
+}
+<span class="wb-kw">class</span> <span class="wb-type">Kiosk</span>
+{
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">read</span>(<span class="wb-type">Order</span> order)
     {
-        <span class="wb-kw">this</span>.title = title;
-        <span class="wb-kw">this</span>.dueDay = dueDay;
-        returned = <span class="wb-kw">false</span>;
+        <span class="wb-kw">return</span> order.hasCoffee;
     }
 }</code></pre>
-<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
-<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">LoanDesk</span>
-{
-    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Book</span>&gt; books;
-    <span class="wb-kw">public</span> <span class="wb-fn">LoanDesk</span>()
-    {
-        books = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
-    }
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addBook</span>(<span class="wb-type">Book</span> book)
-    {
-        books.add(book);
-    }
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printOverdue</span>(<span class="wb-kw">int</span> today)
-    {
-        <span class="wb-kw">for</span>(<span class="wb-type">Book</span> book : books) {
-            <span class="wb-kw">if</span>(!book.returned &amp;&amp; today &gt; book.dueDay) {
-                <span class="wb-kw">int</span> days = today - book.dueDay;
-                <span class="wb-kw">int</span> fine = days * <span class="wb-num">25</span>;
-                System.out.println(
-                    book.title + <span class="wb-str">": "</span> + days
-                    + <span class="wb-str">" days late, fine "</span> + fine);
-            }
-        }
-    }
-    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printTotal</span>(<span class="wb-kw">int</span> today)
-    {
-        <span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
-        <span class="wb-kw">for</span>(<span class="wb-type">Book</span> book : books) {
-            <span class="wb-kw">if</span>(!book.returned &amp;&amp; today &gt; book.dueDay) {
-                total = total + (today - book.dueDay) * <span class="wb-num">25</span>;
-            }
-        }
-        System.out.println(<span class="wb-str">"Total fines: "</span> + total);
-    }
-}</code></pre>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">LoanDemo</span>
-{
-    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
-    {
-        <span class="wb-type">LoanDesk</span> desk = <span class="wb-kw">new</span> <span class="wb-fn">LoanDesk</span>();
-        desk.addBook(<span class="wb-kw">new</span> <span class="wb-fn">Book</span>(<span class="wb-str">"Dune"</span>, <span class="wb-num">10</span>));
-        desk.addBook(<span class="wb-kw">new</span> <span class="wb-fn">Book</span>(<span class="wb-str">"Emma"</span>, <span class="wb-num">14</span>));
-        desk.addBook(<span class="wb-kw">new</span> <span class="wb-fn">Book</span>(<span class="wb-str">"Holes"</span>, <span class="wb-num">3</span>));
-        desk.printOverdue(<span class="wb-num">12</span>);
-        desk.printTotal(<span class="wb-num">12</span>);
-    }
-}</code></pre>
-<h3>The new interface</h3>
-<p>Make the book's three fields private. Add the methods in red, and keep the constructors and the desk's existing public methods. The minus sign denotes a private member; the plus sign denotes a public member.</p>
-<figure class="wb-shot">
-  <img src="img/loan_part1.png" alt="Book has private fields and new getters, returnBook and daysLate. LoanDesk adds one daily-rate constant and a private fineFor helper." loading="lazy" style="max-width: 560px">
-</figure>
-<ul>
-<li>Each getter returns its field's value. <code>returnBook()</code> sets the returned flag to true.</li>
-<li><code>daysLate(today)</code> returns 0 if the book is returned or today is on or before its due day. A book due today is not late. Otherwise return today minus the due day.</li>
-<li><code>fineFor(book, today)</code> uses the book's days late and the one daily-rate constant. Both printing methods use this private helper. Use <code>book.daysLate(today)</code> to decide which books are overdue.</li>
-</ul>
-<p>The demo adds Dune due on day 10, Emma on day 14 and Holes on day 3, in that order. Today is day 12. Call <code>printOverdue(12)</code>, then <code>printTotal(12)</code>. Only Dune and Holes have report lines.</p>
-<h3>Practice</h3>
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Practice 4.1</div>
-  <p><strong>4.1</strong> Write the revised <code>Book</code>, <code>LoanDesk</code> and <code>LoanDemo</code>. Use additional paper or an IDE for the complete implementation.</p>
-
-<p><strong>Expected output</strong></p>
-<pre class="wb-output">Dune: 2 days late, fine 50
-Holes: 9 days late, fine 225
-Total fines: 275</pre>
-<p>Write each class in its own box. Finished copies of the other classes are available. The checks try a book before its due day, on its due day, after it is due and after it is returned. The desk check also tries an empty desk and repeated calls.</p>  <wb-exercise id="q8-book"></wb-exercise>  <wb-exercise id="q8-desk"></wb-exercise>  <wb-exercise id="q8-demo"></wb-exercise>
-</div>
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Practice 4.2</div>
-  <p><strong>4.2</strong> Predict the three numbers printed by this Part 1 code. Explain the last result.</p>
-
-<pre><code><span class="wb-type">Book</span> book = <span class="wb-kw">new</span> <span class="wb-fn">Book</span>(<span class="wb-str">"Dune"</span>, <span class="wb-num">10</span>);
-System.out.println(book.daysLate(<span class="wb-num">10</span>));
-System.out.println(book.daysLate(<span class="wb-num">12</span>));
-book.returnBook();
-System.out.println(book.daysLate(<span class="wb-num">12</span>));</code></pre>
-  <wb-table id="q9-output">
-    <table>
-      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td data-blank="0"></td></tr>
-        <tr><td>2</td><td data-blank="1"></td></tr>
-        <tr><td>3</td><td data-blank="2"></td></tr>
-      </tbody>
-    </table>
-  </wb-table>  <wb-short id="q9-output-why"></wb-short>
-</div>
-<h2 id="s5">5. Encapsulation</h2>
-<h3>Representation and access</h3>
-<p><strong>Encapsulation</strong> hides a class's representation behind the methods it offers. Public fields let callers read and change storage details directly. In the cafe, <code>Kiosk</code> depends on a boolean with the exact name <code>hasCoffee</code>. If that field becomes private, the separate kiosk class can no longer read it directly. The compiler points out these accesses. A public query provides a controlled answer:</p>
+<pre class="wb-output">error: hasCoffee has private access in Order</pre>
+<p>A public query gives a controlled answer instead:</p>
 <pre><code><span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">hasCoffee</span>()
 {
     <span class="wb-kw">return</span> hasCoffee;
 }</code></pre>
-<p>The caller changes <code>order.hasCoffee</code> to <code>order.hasCoffee()</code>. This method is a promise to answer a question. Its implementation may change if the representation changes, provided it keeps the same meaning. Operations such as <code>addCoffee()</code> also let callers request changes without writing fields directly.</p>
+<p>The caller changes <code>order.hasCoffee</code> to <code>order.hasCoffee()</code>. This method is a promise to answer a question. Its implementation may change if the representation changes, provided it keeps the same meaning. Operations such as <code>addCoffee()</code> also let callers request changes without writing fields directly. So <code>Order</code> can change how it stores its items without breaking <code>Kiosk</code>.</p>
 <h3>Coupling</h3>
-<p><strong>Coupling</strong> is how much one class depends on the details of another. With tight coupling, a change to one class's details often requires edits in its callers. With loose coupling, callers depend on a small, stable interface. Loose coupling still has dependencies. A getter hides a field but still connects its caller to a method. Private fields help reduce coupling, but the kiosk still knows all the products and prices until we move that work.</p>
+<p><strong>Coupling</strong> is how strongly classes are connected to each other. Aim for <strong>loose coupling</strong>: each class is mostly independent and talks to others through a small, well-defined interface (Textbook, Section 8.3). In the first version the coupling is tight: <code>Kiosk</code> uses all five fields of <code>Order</code>, so renaming one breaks <code>Kiosk</code>. In the final design, <code>Kiosk</code> only calls <code>getReceipt()</code> and <code>getSummary()</code>, so <code>Order</code> can change its fields freely.</p>
+<p>Fix 2 replaces field access with method calls. <code>Kiosk</code> only calls methods, so <code>Order</code> can change its fields as long as the methods still work. A dependency arrow points from the class that uses something to the class it uses.</p>
 <figure class="wb-shot">
   <img src="img/encapsulation.png" alt="Kiosk calls the hasCoffee method on Order, whose fields are private." loading="lazy" style="max-width: 500px">
 </figure>
-<p>A dependency arrow points from the class that uses something to the class it uses. Fewer and narrower connections usually leave fewer details that a caller must know.</p>
+<p>Private fields do not fix everything. <code>Kiosk</code> still knows every item and every price until we move that work. A getter hides a field but still connects its caller to a method, so fewer and narrower connections leave fewer details that a caller must know.</p>
 <h3>Practice</h3>
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice 5.1</div>
-  <p><strong>5.1</strong> <code>Order.customerPhone</code> has become private, and <code>getCustomerPhone()</code> returns its value. Rewrite this old caller.</p>
+  <div class="wb-block-title">Practice 4.1</div>
+  <p><strong>4.1</strong> <code>Order.customerPhone</code> has become private, and <code>getCustomerPhone()</code> returns its value. Rewrite this old caller.</p>
 
 <pre><code>System.out.println(order.customerPhone);</code></pre>
 <p>A finished private-field <code>Order</code> is available. Complete the caller.</p>  <wb-exercise id="q10"></wb-exercise>
 </div>
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice 5.2</div>
-  <p><strong>5.2</strong> A programmer makes every field private but leaves every product price copied in the receipt and total. Which design problem remains, and why?</p>
+  <div class="wb-block-title">Practice 4.2</div>
+  <p><strong>4.2</strong> A programmer makes every field private but leaves every product price copied in the receipt and total. Which design problem remains, and why?</p>
 
   <wb-short id="q11"></wb-short>
 </div>
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice 5.3</div>
-  <p><strong>5.3</strong> An order changes how it stores its choices but keeps <code>hasCoffee()</code> with the same meaning. Must a caller that only uses this query change? Explain the condition that matters.</p>
+  <div class="wb-block-title">Practice 4.3</div>
+  <p><strong>4.3</strong> An order changes how it stores its choices but keeps <code>hasCoffee()</code> with the same meaning. Must a caller that only uses this query change? Explain the condition that matters.</p>
 
   <wb-short id="q12"></wb-short>
 </div>
-<h2 id="s6">6. Responsibility</h2>
+<h2 id="s5">5. Responsibility</h2>
 <h3>Work near its data</h3>
-<p><strong>Responsibility-driven design</strong> assigns a job to the class that holds the information the job needs. The kiosk needs a total to print, but the order holds the choices. Move the calculation into <code>Order</code>; <code>Kiosk</code> asks for the result. Needing an answer does not mean the caller should calculate it.</p>
-<p>Inside <code>Order</code>, <code>getTotal()</code> can read the order's own private fields. This intermediate version still has price literals in its receipt and total. Moving behaviour to its owner is useful even before that separate duplication problem is removed.</p>
+<p>Problem 3: <code>Kiosk</code> computes the total, but <code>Order</code> holds the items, so <code>Kiosk</code> must ask <code>Order</code> about each item. <strong>Responsibility-driven design</strong> assigns a job to the class that holds the information the job needs. Fix 3 moves the calculation into <code>Order</code>, the class that has the data, and <code>Kiosk</code> asks for the result. Needing an answer does not mean the caller should calculate it.</p>
 <figure class="wb-shot">
   <img src="img/responsibility.png" alt="Kiosk asks Order for a total. Order holds the choices and computes the answer." loading="lazy" style="max-width: 500px">
 </figure>
+<p>Inside <code>Order</code>, <code>getTotal()</code> can read the order's own private fields:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getTotal</span>()
+{
+    <span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
+    <span class="wb-kw">if</span>(hasCoffee) {
+        total = total + <span class="wb-num">250</span>;
+    }
+    <span class="wb-kw">if</span>(hasTea) {
+        total = total + <span class="wb-num">200</span>;
+    }
+    <span class="wb-kw">if</span>(hasMuffin) {
+        total = total + <span class="wb-num">325</span>;
+    }
+    <span class="wb-kw">return</span> total;
+}</code></pre>
+<p><code>Kiosk</code> just calls <code>order.getTotal()</code>. Each price is still written twice, in the total and in the receipt; Fix 6 deals with that. Moving behaviour to its owner is useful even before that separate problem is removed.</p>
 <h3>Returned text</h3>
-<p><code>Order.getReceipt()</code> builds and returns a String. <code>getSummary()</code> returns the short version. The kiosk's printing method becomes:</p>
+<p>Fix 3 also moves the receipt. <code>Order.getReceipt()</code> builds and returns a String, and <code>getSummary()</code> returns the short version. The kiosk's printing method becomes:</p>
 <pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printReceipt</span>()
 {
     System.out.println(order.getReceipt());
 }</code></pre>
-<p>The order builds the header, item lines and total. The kiosk chooses an output destination. Another caller could save or compare the returned text without copying its formatting rules. Printed output can also be captured by a test; returning a value simply makes direct comparison easier.</p>
+<figure class="wb-shot">
+  <img src="img/receipt_trace.png" alt="Kiosk printReceipt asks Order getReceipt for text. getReceipt builds it from getHeader, the item lines and getTotal." loading="lazy" style="max-width: 600px">
+</figure>
+<p>The order builds the header with <code>getHeader()</code>, then the item lines and the total. The kiosk chooses an output destination and prints the text. Another caller could save the returned String, show it on a screen, or compare it with the expected text, without copying its formatting rules. Ada's receipt still ends with <code>Total 575</code>.</p>
 <p>A returned String describes the order at the time of the call. A later change to the order does not update a String already stored in a local variable. Call <code>getReceipt()</code> again to obtain a receipt for the changed order.</p>
 <h3>Practice</h3>
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice 6.1</div>
-  <p><strong>6.1</strong> Add <code>boolean hasAnyItem()</code> to the flag-based design. Choose <code>Order</code> or <code>Kiosk</code>, and write the method using <code>hasCoffee</code>, <code>hasTea</code> and <code>hasMuffin</code>.</p>
+  <div class="wb-block-title">Practice 5.1</div>
+  <p><strong>5.1</strong> Add <code>boolean hasAnyItem()</code> to the flag-based design. Choose <code>Order</code> or <code>Kiosk</code>, and write the method using <code>hasCoffee</code>, <code>hasTea</code> and <code>hasMuffin</code>.</p>
 
 <p>Add the method to <code>Order</code>. The check tries an empty order and each choice separately, then calls the method again.</p>  <wb-exercise id="q13"></wb-exercise>  <wb-short id="q13-why"></wb-short>
 </div>
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice 6.2</div>
-  <p><strong>6.2</strong> A new <code>ReceiptSaver</code> needs exactly the same receipt text as the kiosk. How should it obtain that text without copying the formatting rules?</p>
+  <div class="wb-block-title">Practice 5.2</div>
+  <p><strong>5.2</strong> A new <code>ReceiptSaver</code> needs exactly the same receipt text as the kiosk. How should it obtain that text without copying the formatting rules?</p>
 
   <wb-short id="q14"></wb-short>
 </div>
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice 6.3</div>
-  <p><strong>6.3</strong> Use the intermediate order with returned receipt text. What does this print?</p>
+  <div class="wb-block-title">Practice 5.3</div>
+  <p><strong>5.3</strong> Use the intermediate order with returned receipt text. What does this print?</p>
 
 <pre><code><span class="wb-type">Order</span> order = <span class="wb-kw">new</span> <span class="wb-fn">Order</span>(<span class="wb-str">"Ada Lim"</span>, <span class="wb-str">"555-0101"</span>);
 <span class="wb-type">String</span> receipt = order.getReceipt();
@@ -443,12 +406,13 @@ System.out.println(order.getTotal());</code></pre>
     </table>
   </wb-table>  <wb-short id="q15-output-why"></wb-short>
 </div>
-<h2 id="s7">7. Cohesion</h2>
+<h2 id="s6">6. Cohesion</h2>
 <h3>Related data and operations</h3>
-<p>The old order stores contact details and item choices. A customer could place several orders, so the name and phone describe a separate entity. Extract <code>Customer</code> and let each order hold a customer reference. A <code>MenuItem</code> stores a product's name and price. Both classes have private fields and getters. The shared menu items have no setters, so callers cannot change their prices through the methods they offer.</p>
+<p>Problem 4: <code>Order</code> holds two things: who the customer is (name and phone) and what they ordered. A customer can place many orders, so the name and phone belong in their own class.</p>
 <figure class="wb-shot">
   <img src="img/split_order.png" alt="An old Order with contact details and item flags splits into Customer and Order." loading="lazy" style="max-width: 500px">
 </figure>
+<p>A class has high <strong>cohesion</strong> when it represents one well-defined entity (Textbook, Section 8.11). A quick test: describe the class in one sentence without "and". "An <code>Order</code> holds a customer and their items" needs "and". Fix 4 extracts <code>Customer</code> with private fields and getters. <code>Order</code> now holds a <code>Customer</code> instead of two Strings.</p>
 <pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Customer</span>
 {
     <span class="wb-kw">private</span> <span class="wb-type">String</span> name;
@@ -467,36 +431,197 @@ System.out.println(order.getTotal());</code></pre>
         <span class="wb-kw">return</span> phone;
     }
 }</code></pre>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">MenuItem</span>
+<p>After the split, each class is one thing. A change to how phone numbers are stored touches only <code>Customer</code>. Do not split too far: a class needs related data and methods, and one field on its own is usually not worth a class. An extra class should clarify an idea or a responsibility.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.1</div>
+  <p><strong>6.1</strong> A lesson class stores <code>teacherName</code>, <code>teacherEmail</code>, <code>room</code> and <code>startTime</code>. Suggest two cohesive classes and assign those fields to them.</p>
+
+  <wb-short id="q16"></wb-short>
+</div>
+<h2 id="s7">7. Enums and switches</h2>
+<h3>One field per item</h3>
+<p>Problem 5: each item has its own boolean field, and its own <code>if</code> in both <code>getTotal</code> and <code>getReceipt</code>. A cookie needs a new field and two new <code>if</code> statements. A boolean also cannot count, so Ada cannot order two coffees. Fix 5 names the items with an <strong>enum</strong> and keeps the order's items in a list.</p>
+<h3>Enums</h3>
+<p>An <strong>enumerated type</strong>, or <strong>enum</strong>, lists a fixed set of named values (Textbook, Section 8.14.1). It is written like a class, with <code>enum</code> in place of <code>class</code>:</p>
+<pre><code><span class="wb-kw">public</span> enum <span class="wb-type">MenuItem</span>
 {
+    <span class="wb-type">COFFEE</span>, <span class="wb-type">TEA</span>, <span class="wb-type">MUFFIN</span>
+}</code></pre>
+<p>The values are written in capitals, and we use them as <code>MenuItem.COFFEE</code>. We never call <code>new</code>: Java creates one object for each value. A <code>MenuItem</code> variable can only hold one of these values, so a typo such as <code>MenuItem.COFEE</code> does not compile. A String such as <code>"Cofee"</code> would compile and fail later.</p>
+<h3>A list of menu items</h3>
+<p>The order stores its choices in an <code>ArrayList&lt;MenuItem&gt;</code>, and the demo adds <code>MenuItem.COFFEE</code> and <code>MenuItem.MUFFIN</code>. One list holds any number of items, even the same item twice.</p>
+<figure class="wb-shot">
+  <img src="img/item_references.png" alt="Order refers to a Customer and a list whose entries refer to the MenuItem.COFFEE and MenuItem.MUFFIN enum values." loading="lazy" style="max-width: 540px">
+</figure>
+<p><code>Order(Customer customer, ArrayList&lt;MenuItem&gt; items)</code> copies the input list's references into a new list, so later edits to the caller's list leave the order's list unchanged.</p>
+<h3>Switch statements</h3>
+<p>A <strong>switch statement</strong> selects statements to run from several options (Textbook, Section 8.12.1). Java compares the value with each <code>case</code> and starts at the one that matches. <code>break</code> ends the case; without it, Java carries on into the next case. If no case matches, nothing runs. With an enum, a case names the value, as in <code>case COFFEE:</code>. The textbook also shows a newer arrow form, <code>case COFFEE -&gt;</code>. The course website's Java does not run that form, so we use the form below. Fix 5's <code>getTotal</code> loops over the list and uses a switch to pick the price for each item:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getTotal</span>()
+{
+    <span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
+    <span class="wb-kw">for</span>(<span class="wb-type">MenuItem</span> item : items) {
+        switch(item) {
+            case <span class="wb-type">COFFEE</span>:
+                total = total + <span class="wb-num">250</span>;
+                break;
+            case <span class="wb-type">TEA</span>:
+                total = total + <span class="wb-num">200</span>;
+                break;
+            case <span class="wb-type">MUFFIN</span>:
+                total = total + <span class="wb-num">325</span>;
+                break;
+        }
+    }
+    <span class="wb-kw">return</span> total;
+}</code></pre>
+<p>Two coffees are now two items, and both are charged. The receipt still prints <code>Total 575</code> for Ada.</p>
+<h3>Prices written twice</h3>
+<p>Problem 6: <code>getReceipt</code> needs a second switch with the same cases, and it writes each price again:</p>
+<pre><code>case <span class="wb-type">COFFEE</span>:
+    receipt = receipt + <span class="wb-str">"Coffee 250\n"</span>;
+    break;</code></pre>
+<p>Adding a cookie needs a new enum value and a new case in both switches. Miss one case and we have the cookie bug again: printed but not charged. Java does not complain, because a switch does not have to list every value.</p>
+<h3>An enum with fields</h3>
+<p>Fix 6 stores each item's name and price in the enum value itself. An enum can have fields, a constructor and methods, like a class. Each value passes its name and price to the constructor, as in <code>COFFEE("Coffee", 250)</code>:</p>
+<pre><code><span class="wb-kw">public</span> enum <span class="wb-type">MenuItem</span>
+{
+    <span class="wb-type">COFFEE</span>(<span class="wb-str">"Coffee"</span>, <span class="wb-num">250</span>),
+    <span class="wb-type">TEA</span>(<span class="wb-str">"Tea"</span>, <span class="wb-num">200</span>),
+    <span class="wb-type">MUFFIN</span>(<span class="wb-str">"Muffin"</span>, <span class="wb-num">325</span>);
+
     <span class="wb-kw">private</span> <span class="wb-type">String</span> name;
-    <span class="wb-kw">private</span> <span class="wb-kw">int</span> priceInCents;
-    <span class="wb-kw">public</span> <span class="wb-fn">MenuItem</span>(<span class="wb-type">String</span> name, <span class="wb-kw">int</span> priceInCents)
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> priceInCents;</code></pre>
+<pre><code>    <span class="wb-type">MenuItem</span>(<span class="wb-type">String</span> name, <span class="wb-kw">int</span> priceInCents)
     {
         <span class="wb-kw">this</span>.name = name;
         <span class="wb-kw">this</span>.priceInCents = priceInCents;
     }
+
     <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getName</span>()
     {
         <span class="wb-kw">return</span> name;
     }
+
     <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getPriceInCents</span>()
     {
         <span class="wb-kw">return</span> priceInCents;
     }
 }</code></pre>
-<p>Class cohesion improves when a class represents one useful idea with related operations. More classes do not automatically improve a design. A single field alone is not enough reason for a new class; an extra class should clarify an idea or a responsibility. <code>Customer</code> can be used for several orders, and <code>MenuItem</code> can be used by another kind of order.</p>
-<h3>A list of choices</h3>
-<p>A flag records only yes or no. It cannot record two coffees. An <code>ArrayList&lt;MenuItem&gt;</code> expresses a variable number of choices, including repeated references to the same menu item. The order's total adds the price of every entry, so a repeated reference is counted again.</p>
+<p>The constructor is not public; Java calls it once for each value. Each price is now written in exactly one place. The switch is gone: the loop asks each item for its price, so it works for any items, including ones added later.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getTotal</span>()
+{
+    <span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
+    <span class="wb-kw">for</span>(<span class="wb-type">MenuItem</span> item : items) {
+        total = total + item.getPriceInCents();
+    }
+    <span class="wb-kw">return</span> total;
+}</code></pre>
+<p><code>getReceipt</code> does the same with <code>item.getName()</code>. Small classes with one job are easier to read and to reuse. One <code>Customer</code> can place many orders, and <code>MenuItem</code> could be used in another program.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.1</div>
+  <p><strong>7.1</strong> What two numbers does this print? The order constructor copies the supplied list.</p>
+
+<pre><code><span class="wb-type">Customer</span> customer = <span class="wb-kw">new</span> <span class="wb-fn">Customer</span>(<span class="wb-str">"Ada Lim"</span>, <span class="wb-str">"555-0101"</span>);
+<span class="wb-type">ArrayList</span>&lt;<span class="wb-type">MenuItem</span>&gt; items = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+items.add(<span class="wb-type">MenuItem</span>.COFFEE);
+items.add(<span class="wb-type">MenuItem</span>.COFFEE);
+<span class="wb-type">Order</span> order = <span class="wb-kw">new</span> <span class="wb-fn">Order</span>(customer, items);
+System.out.println(order.getTotal());
+items.add(<span class="wb-type">MenuItem</span>.TEA);
+System.out.println(order.getTotal());</code></pre>
+  <wb-table id="q17-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q17-output-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.2</div>
+  <p><strong>7.2</strong> Sketch the references for an order containing two coffees. Use two list entries and the one <code>MenuItem.COFFEE</code> object. Explain why the total counts two items.</p>
+
+<p>Draw the sketch on paper. In the box, describe where each arrow ends and explain the total.</p>  <wb-short id="q18"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.3</div>
+  <p><strong>7.3</strong> Write an enum <code>Size</code> with the values <code>SMALL</code>, <code>MEDIUM</code> and <code>LARGE</code>. Why is a <code>Size</code> parameter safer than a <code>String</code> parameter such as <code>"medium"</code>?</p>
+
+  <wb-short id="q29"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.4</div>
+  <p><strong>7.4</strong> What does this print? Look closely at the <code>TEA</code> case.</p>
+
+<pre><code><span class="wb-type">MenuItem</span> item = <span class="wb-type">MenuItem</span>.TEA;
+<span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
+switch(item) {
+    case <span class="wb-type">COFFEE</span>:
+        total = total + <span class="wb-num">250</span>;
+        break;
+    case <span class="wb-type">TEA</span>:
+        total = total + <span class="wb-num">200</span>;
+    case <span class="wb-type">MUFFIN</span>:
+        total = total + <span class="wb-num">325</span>;
+        break;
+}
+System.out.println(total);</code></pre>
+  <wb-table id="q30-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q30-output-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.5</div>
+  <p><strong>7.5</strong> <code>Drink</code> stores a name and a <code>Size</code>. Write <code>getExtra()</code> with a switch on <code>size</code>. A small drink costs 0 cents extra, a medium 50 and a large 100.</p>
+
+<pre><code><span class="wb-kw">public</span> enum <span class="wb-type">Size</span>
+{
+    <span class="wb-type">SMALL</span>, <span class="wb-type">MEDIUM</span>, <span class="wb-type">LARGE</span>
+}</code></pre>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Drink</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> name;
+    <span class="wb-kw">private</span> <span class="wb-type">Size</span> size;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Drink</span>(<span class="wb-type">String</span> name, <span class="wb-type">Size</span> size)
+    {
+        <span class="wb-kw">this</span>.name = name;
+        <span class="wb-kw">this</span>.size = size;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getExtra</span>()
+    {
+        <span class="wb-kw">int</span> extra = <span class="wb-num">0</span>;
+        <span class="wb-cmt">// Set extra with a switch on size.</span>
+        <span class="wb-kw">return</span> extra;
+    }
+}</code></pre>
+<p>Write the switch in <code>getExtra</code>. A finished <code>Size</code> enum is available. The check tries all three sizes and calls the method again.</p>  <wb-exercise id="q31"></wb-exercise>
+</div>
+<h2 id="s8">8. Refactoring</h2>
+<h3>Structure and behaviour</h3>
+<p><strong>Refactoring</strong> changes the structure of code without changing its observable behaviour. Extracting the header, moving methods and splitting classes can all be refactorings when their observable results stay the same. Check the original receipt and summary after each structural change, before adding a feature. Fixes 1 to 6 were all refactoring: the output never changed. Then extend the program and check its new behaviour separately. If both changes are made together, a failure has more possible causes.</p>
 <figure class="wb-shot">
-  <img src="img/item_references.png" alt="Order refers to a Customer and a list whose entries refer to coffee and muffin menu items." loading="lazy" style="max-width: 540px">
+  <img src="img/refactoring.png" alt="Refactor, check the old receipt, add the cookie, then check the new total of 750." loading="lazy" style="max-width: 540px">
 </figure>
-<p><code>Order(Customer customer, ArrayList&lt;MenuItem&gt; items)</code> copies the input list's references into a new list. Later edits to the input list therefore leave the order's list unchanged. The item objects are shared, but offer no mutation methods. Use non-null customers and items and non-negative prices. The example totals fit in an <code>int</code>.</p>
-<p>The order's loops now work for any menu item. <code>getTotal()</code> adds the returned prices. <code>getReceipt()</code> builds its header, visits each item, then appends the total. <code>Kiosk</code> only prints the returned text.</p>
-<h3>The menu</h3>
-<p><code>Menu</code> provides <code>static final MenuItem</code> references named <code>COFFEE</code>, <code>TEA</code> and <code>MUFFIN</code>. Each declaration creates an item with its name and price. There is no product-specific branch in either order loop. The list expresses the data directly, using constructs we already know.</p>
-<h3>The complete order</h3>
-<p>These classes use the customer and item classes above. The constructor makes a new list and copies each supplied item reference into it. The public <code>addItem</code> method changes the order's own list. The shared header method keeps the receipt and summary consistent, while the kiosk prints either result. The menu here still has its original three products. Run this version before adding the cookie.</p>
+<h3>The cookie change</h3>
+<p>The better design needs one new value in the <code>MenuItem</code> enum. The semicolon moves from <code>MUFFIN</code> to the new last value:</p>
+<pre><code><span class="wb-type">COFFEE</span>(<span class="wb-str">"Coffee"</span>, <span class="wb-num">250</span>),
+<span class="wb-type">TEA</span>(<span class="wb-str">"Tea"</span>, <span class="wb-num">200</span>),
+<span class="wb-type">MUFFIN</span>(<span class="wb-str">"Muffin"</span>, <span class="wb-num">325</span>),
+<span class="wb-type">COOKIE</span>(<span class="wb-str">"Cookie"</span>, <span class="wb-num">175</span>);</code></pre>
+<p>The demo still has to order the cookie with <code>order.addItem(MenuItem.COOKIE)</code>. The order's loops already include its price and text. <code>Order</code>, <code>Customer</code> and <code>Kiosk</code> keep the same code as before this addition. Using the same counting rule as before, product support costs one added line in one class, compared with seven added non-brace lines in two classes. With the switches of Section 7, it would also have needed a new case in both switches.</p>
+<h3>The whole design</h3>
+<p>These are the final <code>Order</code>, <code>Kiosk</code> and <code>OrderDemo</code>. They use <code>Customer</code> from Section 6 and the <code>MenuItem</code> enum with fields from Section 7, with <code>COOKIE</code> added. The constructor makes a new list and copies each supplied item into it. The public <code>addItem</code> method changes the order's own list. The shared header method keeps the receipt and summary consistent, while the kiosk prints either result. The demo prints Ada's receipt and summary, then adds a cookie and prints the receipt again.</p>
 <pre><code><span class="wb-kw">import</span> java.util.ArrayList;
 <span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Order</span>
 {
@@ -558,15 +683,21 @@ System.out.println(order.getTotal());</code></pre>
         System.out.println(order.getSummary());
     }
 }</code></pre>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Menu</span>
-{
-    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-type">MenuItem</span> <span class="wb-type">COFFEE</span> =
-        <span class="wb-kw">new</span> <span class="wb-fn">MenuItem</span>(<span class="wb-str">"Coffee"</span>, <span class="wb-num">250</span>);
-    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-type">MenuItem</span> <span class="wb-type">TEA</span> =
-        <span class="wb-kw">new</span> <span class="wb-fn">MenuItem</span>(<span class="wb-str">"Tea"</span>, <span class="wb-num">200</span>);
-    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-type">MenuItem</span> <span class="wb-type">MUFFIN</span> =
-        <span class="wb-kw">new</span> <span class="wb-fn">MenuItem</span>(<span class="wb-str">"Muffin"</span>, <span class="wb-num">325</span>);
-}</code></pre>
+<p><strong>Expected output</strong></p>
+<pre class="wb-output">Order for Ada Lim
+Phone 555-0101
+Coffee 250
+Muffin 325
+Total 575
+Order for Ada Lim
+Phone 555-0101
+Total 575
+Order for Ada Lim
+Phone 555-0101
+Coffee 250
+Muffin 325
+Cookie 175
+Total 750</pre>
 <pre><code><span class="wb-kw">import</span> java.util.ArrayList;
 <span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">OrderDemo</span>
 {
@@ -575,60 +706,26 @@ System.out.println(order.getTotal());</code></pre>
         <span class="wb-type">Customer</span> customer = <span class="wb-kw">new</span> <span class="wb-fn">Customer</span>(
             <span class="wb-str">"Ada Lim"</span>, <span class="wb-str">"555-0101"</span>);
         <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">MenuItem</span>&gt; items = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
-        items.add(<span class="wb-type">Menu</span>.COFFEE);
-        items.add(<span class="wb-type">Menu</span>.MUFFIN);
+        items.add(<span class="wb-type">MenuItem</span>.COFFEE);
+        items.add(<span class="wb-type">MenuItem</span>.MUFFIN);
         <span class="wb-type">Order</span> order = <span class="wb-kw">new</span> <span class="wb-fn">Order</span>(customer, items);
         <span class="wb-type">Kiosk</span> kiosk = <span class="wb-kw">new</span> <span class="wb-fn">Kiosk</span>(order);
         kiosk.printReceipt();
         kiosk.printSummary();
+        order.addItem(<span class="wb-type">MenuItem</span>.COOKIE);
+        kiosk.printReceipt();
     }
 }</code></pre>
-<h3>Practice</h3>
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Practice 7.1</div>
-  <p><strong>7.1</strong> A lesson class stores <code>teacherName</code>, <code>teacherEmail</code>, <code>room</code> and <code>startTime</code>. Suggest two cohesive classes and assign those fields to them.</p>
-
-  <wb-short id="q16"></wb-short>
-</div>
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Practice 7.2</div>
-  <p><strong>7.2</strong> What two numbers does this print? The order constructor copies the supplied list.</p>
-
-<pre><code><span class="wb-type">Customer</span> customer = <span class="wb-kw">new</span> <span class="wb-fn">Customer</span>(<span class="wb-str">"Ada Lim"</span>, <span class="wb-str">"555-0101"</span>);
-<span class="wb-type">ArrayList</span>&lt;<span class="wb-type">MenuItem</span>&gt; items = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
-items.add(<span class="wb-type">Menu</span>.COFFEE);
-items.add(<span class="wb-type">Menu</span>.COFFEE);
-<span class="wb-type">Order</span> order = <span class="wb-kw">new</span> <span class="wb-fn">Order</span>(customer, items);
-System.out.println(order.getTotal());
-items.add(<span class="wb-type">Menu</span>.TEA);
-System.out.println(order.getTotal());</code></pre>
-  <wb-table id="q17-output">
-    <table>
-      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td data-blank="0"></td></tr>
-        <tr><td>2</td><td data-blank="1"></td></tr>
-      </tbody>
-    </table>
-  </wb-table>  <wb-short id="q17-output-why"></wb-short>
-</div>
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Practice 7.3</div>
-  <p><strong>7.3</strong> Sketch the references for an order containing two coffees. Use two list entries and one <code>MenuItem</code> object. Explain why the total counts two items.</p>
-
-<p>Draw the sketch on paper. In the box, describe where each arrow ends and explain the total.</p>  <wb-short id="q18"></wb-short>
-</div>
-<h2 id="s8">8. Refactoring</h2>
-<h3>Structure and behaviour</h3>
-<p><strong>Refactoring</strong> changes the structure of code without changing its observable behaviour. Extracting the header, moving methods and splitting classes can all be refactorings when their observable results stay the same. Check the original receipt and summary after each structural change, before adding a feature. Then extend the program and check its new behaviour separately. If both changes are made together, a failure has more possible causes.</p>
-<figure class="wb-shot">
-  <img src="img/refactoring.png" alt="Refactor, check the old receipt, add the cookie, then check the new total of 750." loading="lazy" style="max-width: 540px">
-</figure>
-<h3>The cookie change</h3>
-<p>The better design needs one added declaration in <code>Menu</code>:</p>
-<pre><code><span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">final</span> <span class="wb-type">MenuItem</span> <span class="wb-type">COOKIE</span> = <span class="wb-kw">new</span> <span class="wb-fn">MenuItem</span>(<span class="wb-str">"Cookie"</span>, <span class="wb-num">175</span>);</code></pre>
-<p>The demo still has to order the cookie with <code>Menu.COOKIE</code>. The order's loops already include its price and text. <code>Order</code>, <code>Customer</code>, <code>MenuItem</code> and <code>Kiosk</code> keep the same code as before this addition. Using the same counting rule as before, product support costs one added source line in one class, compared with seven added non-brace lines in two classes.</p>
-<p>A method is too long when it does more than one logical task. A class is too complex when it represents more than one entity. These guidelines concern responsibilities rather than a fixed number of lines. Choose a construct that expresses the data, and give callers a small interface with useful operations.</p>
+<h3>Design guidelines</h3>
+<p>These guidelines are about jobs and responsibilities, not a fixed number of lines.</p>
+<ul>
+<li>A method is too long when it does more than one logical task.</li>
+<li>A class is too complex when it represents more than one entity.</li>
+<li>Count jobs, not lines. A short method can mix two jobs, and a long one can still do just one.</li>
+<li>Pick the structure that fits the data, such as a list for any number of items.</li>
+<li>Use an enum for a fixed set of values. Give it fields when each value has its own data.</li>
+<li>Give other classes methods to call, not fields to read.</li>
+</ul>
 <h3>Practice</h3>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice 8.1</div>
@@ -648,11 +745,11 @@ System.out.println(order.getTotal());</code></pre>
 
 <pre><code><span class="wb-type">Customer</span> customer = <span class="wb-kw">new</span> <span class="wb-fn">Customer</span>(<span class="wb-str">"Ada Lim"</span>, <span class="wb-str">"555-0101"</span>);
 <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">MenuItem</span>&gt; items = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
-items.add(<span class="wb-type">Menu</span>.TEA);
-items.add(<span class="wb-type">Menu</span>.MUFFIN);
+items.add(<span class="wb-type">MenuItem</span>.TEA);
+items.add(<span class="wb-type">MenuItem</span>.MUFFIN);
 <span class="wb-type">Order</span> order = <span class="wb-kw">new</span> <span class="wb-fn">Order</span>(customer, items);
 System.out.println(order.getTotal());
-order.addItem(<span class="wb-type">Menu</span>.COOKIE);
+order.addItem(<span class="wb-type">MenuItem</span>.COOKIE);
 System.out.println(order.getTotal());</code></pre>
   <wb-table id="q21-output">
     <table>
@@ -664,9 +761,87 @@ System.out.println(order.getTotal());</code></pre>
     </table>
   </wb-table>  <wb-short id="q21-output-why"></wb-short>
 </div>
-<h2 id="s9">9. Loans Part 2: The change</h2>
+<h2 id="s9">9. Practice: Loans</h2>
 <h3>The problem</h3>
-<p>Extend Part 1 at home. Keep its interface and add the two methods in red. <code>Book</code> owns lateness and the title; <code>LoanDesk</code> owns the fine rate. Keep the remaining fields and methods from Part 1 too.</p>
+<p>A library loan desk has a starter program that works. Improve its design at home, then compare with the solution. The starter has three of today's problems: public fields (Problem 2), the fine rule written twice (duplication), and lateness worked out by the desk instead of the book (Problem 3). Today is day 12, and a late book costs 25 cents per day. Dune is due on day 10, Emma on day 14 and Holes on day 3.</p>
+<p>A library's starter program stores <code>title</code>, <code>dueDay</code> and <code>returned</code> as public fields in <code>Book</code>. <code>Book(String title, int dueDay)</code> creates an unreturned book. <code>LoanDesk</code> holds an <code>ArrayList&lt;Book&gt;</code>; its constructor starts an empty list and <code>addBook(book)</code> appends a book. Both <code>printOverdue(today)</code> and <code>printTotal(today)</code> contain the 25-cent daily fine rule.</p>
+<p>Use non-null titles and books, add each book once, and use small day numbers on the same calendar. All days and fine totals fit in an <code>int</code>. A returned book has no current fine in this model; the program does not keep paid-fine history.</p>
+<figure class="wb-shot">
+  <img src="img/loan_starter.png" alt="LoanDesk reads the public title, dueDay and returned fields of Book, and the fine rule is written twice." loading="lazy" style="max-width: 540px">
+</figure>
+<h3>The starter classes</h3>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Book</span>
+{
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> title;
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> dueDay;
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> returned;
+    <span class="wb-kw">public</span> <span class="wb-fn">Book</span>(<span class="wb-type">String</span> title, <span class="wb-kw">int</span> dueDay)
+    {
+        <span class="wb-kw">this</span>.title = title;
+        <span class="wb-kw">this</span>.dueDay = dueDay;
+        returned = <span class="wb-kw">false</span>;
+    }
+}</code></pre>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">LoanDesk</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Book</span>&gt; books;
+    <span class="wb-kw">public</span> <span class="wb-fn">LoanDesk</span>()
+    {
+        books = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addBook</span>(<span class="wb-type">Book</span> book)
+    {
+        books.add(book);
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printOverdue</span>(<span class="wb-kw">int</span> today)
+    {
+        <span class="wb-kw">for</span>(<span class="wb-type">Book</span> book : books) {
+            <span class="wb-kw">if</span>(!book.returned &amp;&amp; today &gt; book.dueDay) {
+                <span class="wb-kw">int</span> days = today - book.dueDay;
+                <span class="wb-kw">int</span> fine = days * <span class="wb-num">25</span>;
+                System.out.println(
+                    book.title + <span class="wb-str">": "</span> + days
+                    + <span class="wb-str">" days late, fine "</span> + fine);
+            }
+        }
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printTotal</span>(<span class="wb-kw">int</span> today)
+    {
+        <span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
+        <span class="wb-kw">for</span>(<span class="wb-type">Book</span> book : books) {
+            <span class="wb-kw">if</span>(!book.returned &amp;&amp; today &gt; book.dueDay) {
+                total = total + (today - book.dueDay) * <span class="wb-num">25</span>;
+            }
+        }
+        System.out.println(<span class="wb-str">"Total fines: "</span> + total);
+    }
+}</code></pre>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">LoanDemo</span>
+{
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
+    {
+        <span class="wb-type">LoanDesk</span> desk = <span class="wb-kw">new</span> <span class="wb-fn">LoanDesk</span>();
+        desk.addBook(<span class="wb-kw">new</span> <span class="wb-fn">Book</span>(<span class="wb-str">"Dune"</span>, <span class="wb-num">10</span>));
+        desk.addBook(<span class="wb-kw">new</span> <span class="wb-fn">Book</span>(<span class="wb-str">"Emma"</span>, <span class="wb-num">14</span>));
+        desk.addBook(<span class="wb-kw">new</span> <span class="wb-fn">Book</span>(<span class="wb-str">"Holes"</span>, <span class="wb-num">3</span>));
+        desk.printOverdue(<span class="wb-num">12</span>);
+        desk.printTotal(<span class="wb-num">12</span>);
+    }
+}</code></pre>
+<h3>Part 1: The new interface</h3>
+<p>Make the book's three fields private. Add the methods in red, and keep the constructors and the desk's existing public methods. The minus sign denotes a private member; the plus sign denotes a public member.</p>
+<figure class="wb-shot">
+  <img src="img/loan_part1.png" alt="Book has private fields and new getters, returnBook and daysLate. LoanDesk adds one daily-rate constant and a private fineFor helper." loading="lazy" style="max-width: 560px">
+</figure>
+<ul>
+<li>Each getter returns its field's value. <code>returnBook()</code> sets the returned flag to true.</li>
+<li><code>daysLate(today)</code> returns 0 if the book is returned or today is on or before its due day. A book due today is not late. Otherwise return today minus the due day.</li>
+<li><code>fineFor(book, today)</code> uses the book's days late and the one daily-rate constant. Both printing methods use this private helper. Use <code>book.daysLate(today)</code> to decide which books are overdue.</li>
+</ul>
+<p>The demo adds Dune due on day 10, Emma on day 14 and Holes on day 3, in that order. Today is day 12. Call <code>printOverdue(12)</code>, then <code>printTotal(12)</code>. Only Dune and Holes have report lines.</p>
+<h3>Part 2: The change</h3>
+<p>Then extend Part 1. Keep its interface and add the two methods in red. <code>Book</code> owns lateness and the title; <code>LoanDesk</code> owns the fine rate. Keep the remaining fields and methods from Part 1 too.</p>
 <figure class="wb-shot">
   <img src="img/loan_part2.png" alt="Book adds getLine. LoanDesk adds totalFines and uses the returned book line in its overdue report." loading="lazy" style="max-width: 560px">
 </figure>
@@ -679,7 +854,37 @@ System.out.println(order.getTotal());</code></pre>
 <h3>Practice</h3>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice 9.1</div>
-  <p><strong>9.1</strong> Write the complete Part 2 classes and run both versions of the demo. Use additional paper or an IDE for the complete implementation.</p>
+  <p><strong>9.1</strong> Write the revised <code>Book</code>, <code>LoanDesk</code> and <code>LoanDemo</code>. Use additional paper or an IDE for the complete implementation.</p>
+
+<p><strong>Expected output</strong></p>
+<pre class="wb-output">Dune: 2 days late, fine 50
+Holes: 9 days late, fine 225
+Total fines: 275</pre>
+<p>Write each class in its own box. Finished copies of the other classes are available. The checks try a book before its due day, on its due day, after it is due and after it is returned. The desk check also tries an empty desk and repeated calls.</p>  <wb-exercise id="q8-book"></wb-exercise>  <wb-exercise id="q8-desk"></wb-exercise>  <wb-exercise id="q8-demo"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 9.2</div>
+  <p><strong>9.2</strong> Predict the three numbers printed by this Part 1 code. Explain the last result.</p>
+
+<pre><code><span class="wb-type">Book</span> book = <span class="wb-kw">new</span> <span class="wb-fn">Book</span>(<span class="wb-str">"Dune"</span>, <span class="wb-num">10</span>);
+System.out.println(book.daysLate(<span class="wb-num">10</span>));
+System.out.println(book.daysLate(<span class="wb-num">12</span>));
+book.returnBook();
+System.out.println(book.daysLate(<span class="wb-num">12</span>));</code></pre>
+  <wb-table id="q9-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q9-output-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 9.3</div>
+  <p><strong>9.3</strong> Write the complete Part 2 classes and run both versions of the demo. Use additional paper or an IDE for the complete implementation.</p>
 
 <p><strong>Expected output at 25 cents</strong></p>
 <pre class="wb-output">Dune: 2 days late, fine 50
@@ -692,8 +897,8 @@ Total fines: 330</pre>
 <p>The first three boxes use the 25-cent rate. Finished copies of the other classes are available. The checks include a due-today book, a returned book, an empty desk and repeated calls. Change only the rate in the last box to check the 30-cent version.</p>  <wb-exercise id="q22-book"></wb-exercise>  <wb-exercise id="q22-desk"></wb-exercise>  <wb-exercise id="q22-demo"></wb-exercise>  <wb-exercise id="q22-rate"></wb-exercise>
 </div>
 <div class="wb-checkpoint">
-  <div class="wb-block-title">Practice 9.2</div>
-  <p><strong>9.2</strong> For Emma, due on day 14, what does <code>getLine(12)</code> return? Why is that text absent from <code>printOverdue(12)</code>?</p>
+  <div class="wb-block-title">Practice 9.4</div>
+  <p><strong>9.4</strong> For Emma, due on day 14, what does <code>getLine(12)</code> return? Why is that text absent from <code>printOverdue(12)</code>?</p>
 
   <wb-table id="q23-output">
     <table>
@@ -706,7 +911,7 @@ Total fines: 330</pre>
 </div>
 <h2 id="s10">10. Review</h2>
 <h3>Design choices</h3>
-<p>The cafe and loan desk show the same questions in different settings. Look for rules written twice, callers that depend on storage details, and work separated from the information it needs. A method can be short but mix jobs. A class can have private fields yet expose too many details through its methods.</p>
+<p>The cafe and loan desk show the same questions in different settings. Look for rules written twice, callers that depend on storage details, and work separated from the information it needs. A method can be short but mix jobs. A class can have private fields yet expose too many details through its methods. An enum names a fixed set of values. A switch picks code by value, but an enum with fields can remove the switch.</p>
 <p>A check of one successful example covers only that example. Keep the original behaviour in view while refactoring, including empty collections and boundary cases. Then check the changed feature separately. Refactoring is safe only if we can tell whether we broke something. Lecture 15 starts testing and debugging, where checks become repeatable. Inheritance will later provide another way to remove duplication across classes.</p>
 <h3>Practice</h3>
 <div class="wb-checkpoint">
@@ -961,7 +1166,7 @@ Total 3200</pre>
 <hr>
 <section class="wb-outcomes wb-review">
 <h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
-<p>The cafe starts with code that gives the right answer but repeats its product rules. Adding a cookie shows how those copies can get out of step. The revised design puts work with the data it needs and keeps each price in one place.</p>
+<p>The cafe starts with code that gives the right answer but repeats its product rules. Adding a cookie shows how those copies can get out of step. The first version has six design problems. Each fix keeps Ada's receipt the same, and the final design keeps each item's name and price in one place.</p>
 
 <h3>Change</h3>
 <ul>
@@ -975,23 +1180,24 @@ Total 3200</pre>
 <li><strong>Implicit coupling</strong> is a dependency between pieces of code that the compiler cannot check. The receipt and total must agree about the menu and its prices.</li>
 <li>The missed-cookie version compiles and prints a cookie line, but still charges 575. Java accepts both the text and the arithmetic. It does not check whether the business rules agree.</li>
 <li><strong>Duplication</strong> is the same code or knowledge written in more than one place. Separate price literals duplicate knowledge even when their surrounding code looks different.</li>
+<li>The six problems: <strong>1</strong> the header is copied, <strong>2</strong> the fields are public, <strong>3</strong> the total is in the wrong class, <strong>4</strong> <code>Order</code> holds two things, <strong>5</strong> there is one field per item, and <strong>6</strong> prices are written twice. Fixes 1 to 6 follow in that order.</li>
 </ul>
 <figure class="wb-shot">
 <img src="img/slide_coupling.png" alt="The receipt and total depend on the same product rules, but the compiler cannot check their agreement." loading="lazy" style="max-width: 560px">
 <figcaption>The receipt and total share a rule that Java cannot check.</figcaption>
 </figure>
 
-<h3>Methods and cohesion</h3>
+<h3>Duplication</h3>
 <ul>
 <li><strong>Method decomposition</strong> splits a larger task into smaller methods with clear jobs. Extract the shared header into <code>printHeader()</code>, then call it from both reports.</li>
-<li><strong>Cohesion</strong> is how closely the parts of a method or class belong to one task or one idea. A receipt method can use several helpers and still have one logical task.</li>
+<li><strong>Cohesion</strong> is how well a piece of code matches one task or one entity. A cohesive method does one well-defined task, and a cohesive class represents one well-defined entity (Textbook, Section 8.11). A receipt method can call several helpers and still have one job.</li>
 <li>Names should describe the whole job. A method called <code>getTotal()</code> returns a number. A separate printing method can ask for that number when it produces output.</li>
 </ul>
 
 <h3>Encapsulation and coupling</h3>
 <ul>
-<li><strong>Encapsulation</strong> hides a class's representation behind the methods it offers. Making a field private stops a separate class from reading it directly. The caller can use a public query such as <code>hasCoffee()</code>.</li>
-<li><strong>Coupling</strong> is how much one class depends on the details of another. A small, stable interface leaves fewer details for callers to know. A query can keep its meaning while its class changes how it stores the answer.</li>
+<li><strong>Encapsulation</strong> hides how a class works: other classes see what it can do, not how it does it (Textbook, Section 8.6.1). Make the fields private and give other classes public methods such as <code>hasCoffee()</code>. Reading a private field from another class does not compile.</li>
+<li><strong>Coupling</strong> is how strongly classes are connected to each other (Textbook, Section 8.3). Aim for loose coupling: each class talks to others through a small, well-defined interface. In the first version <code>Kiosk</code> uses all five fields of <code>Order</code>. In the final design it calls only <code>getReceipt()</code> and <code>getSummary()</code>.</li>
 <li>Private fields alone do not remove duplicated prices or make every interface small. A caller that needs many getters to build a report may still depend on many details.</li>
 </ul>
 
@@ -1002,30 +1208,37 @@ Total 3200</pre>
 <li>A returned String describes the order when the method was called. Adding an item later does not update a String already stored in a variable. Call the method again to get current text.</li>
 </ul>
 
-<h3>Classes and collections</h3>
+<h3>Cohesion</h3>
 <ul>
-<li>A customer name and phone describe a customer. Extracting <code>Customer</code> lets several orders refer to the same customer. Each <code>MenuItem</code> holds its product name and price.</li>
-<li>An <code>ArrayList&lt;MenuItem&gt;</code> represents a variable number of choices. Two entries may refer to one coffee object. A total loop visits both entries and adds the price twice.</li>
-<li>The order constructor copies the input list's references into a new list. Adding tea to the original list later leaves the order's list unchanged. The shared menu items offer no mutation methods.</li>
-<li>Choose a representation that fits the data. An array is still suitable when the number of values is fixed, such as seven daily sensor readings.</li>
+<li>A class has high cohesion when it represents one well-defined entity. Test it: describe the class in one sentence without "and". "An <code>Order</code> holds a customer and their items" needs "and".</li>
+<li>Fix 4 extracts <code>Customer</code> with the name and phone. A change to how phone numbers are stored now touches only <code>Customer</code>, and several orders can refer to the same customer.</li>
 </ul>
 <figure class="wb-shot">
-<img src="img/slide_cohesion.png" alt="Contact details move from the old Order into Customer, leaving Order with a customer reference and item choices." loading="lazy" style="max-width: 560px">
+<img src="img/slide_cohesion.png" alt="Low cohesion: one Order class holds the item flags and the customer name and phone. High cohesion: Order has a Customer, which holds the name and phone." loading="lazy" style="max-width: 560px">
 <figcaption>The customer and order represent separate ideas.</figcaption>
 </figure>
+
+<h3>Enums and switches</h3>
+<ul>
+<li>An <strong>enum</strong> lists a fixed set of named values (Textbook, Section 8.14.1), such as <code>COFFEE</code>, <code>TEA</code> and <code>MUFFIN</code> in <code>MenuItem</code>. A <code>MenuItem</code> variable can hold only one of those values, so a misspelled value does not compile.</li>
+<li>Fix 5 keeps the order's items in an <code>ArrayList&lt;MenuItem&gt;</code>. One list holds any number of items, even <code>MenuItem.COFFEE</code> twice. A total loop visits both entries and adds the price twice.</li>
+<li>A <strong>switch statement</strong> selects statements to run from several options (Textbook, Section 8.12.1). Each case ends with <code>break</code>; without it, Java carries on into the next case.</li>
+<li>Two switches, one in <code>getTotal</code> and one in <code>getReceipt</code>, write each price twice (Problem 6). Fix 6 gives each enum value its name and price, as in <code>COFFEE("Coffee", 250)</code>. The loops ask each item for its price and name, so no switch is needed.</li>
+<li>The order constructor copies the input list's references into a new list. Adding tea to the original list later leaves the order's list unchanged.</li>
+</ul>
 
 <h3>Refactoring</h3>
 <ul>
 <li><strong>Refactoring</strong> changes the structure of code without changing its observable behaviour. Extracting a method, moving work and splitting a class can be refactorings when the results stay the same.</li>
-<li>Check the original receipt and summary after each structural change. Include an empty order and an order with only tea. Then add the cookie and check the new behaviour separately.</li>
-<li>The revised design adds cookie support with one declaration in <code>Menu</code>. The existing order loops already use each item's name and price. The demo still has to request the cookie.</li>
+<li>Fixes 1 to 6 were all refactoring: Ada's receipt never changed. Check the original receipt and summary after each structural change, then add the cookie and check the new behaviour separately.</li>
+<li>The final design adds the cookie with one new value, <code>COOKIE("Cookie", 175)</code>, in <code>MenuItem</code>. <code>Order</code> and <code>Kiosk</code> do not change. The demo calls <code>order.addItem(MenuItem.COOKIE)</code>, and the receipt ends with Cookie 175 and Total 750.</li>
 </ul>
 <figure class="wb-shot">
-<img src="img/slide_cookie.png" alt="A new cookie declaration works with the existing Order loops and MenuItem interface." loading="lazy" style="max-width: 560px">
-<figcaption>The order loops use the new menu item without another branch.</figcaption>
+<img src="img/slide_cookie.png" alt="The MenuItem enum values COFFEE, TEA, MUFFIN and COOKIE with their names and prices. The existing Order loops read each item's name and price." loading="lazy" style="max-width: 560px">
+<figcaption>The cookie is one new value in MenuItem; the order loops need no change.</figcaption>
 </figure>
 
-<h3>Library loans</h3>
+<h3>Practice: Loans</h3>
 <ul>
 <li><code>Book</code> owns lateness. <code>daysLate(today)</code> returns 0 for a returned book or a book that is not yet late. A book due today is not late.</li>
 <li><code>LoanDesk</code> owns the fine policy. One <code>FINE_PER_DAY</code> constant and the private <code>fineFor</code> helper supply the fine calculation to both reports.</li>
