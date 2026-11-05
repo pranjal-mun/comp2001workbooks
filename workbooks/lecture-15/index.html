@@ -55,11 +55,7 @@
   <img src="img/cafe_classes.png" alt="Order uses Customer and the MenuItem enum." loading="lazy" style="max-width: 620px">
 </figure>
 <h3>Syntax and logic errors</h3>
-<p>Ada orders coffee, a muffin and a cookie. The receipt lists all three, but the total is 575. Working it out by hand gives 250 + 325 + 175 = 750. The program compiled and printed the receipt without reporting any error, and the answer is still wrong.</p>
-<p>A <strong>syntax error</strong> breaks a rule of Java. The compiler rejects the code and reports where it found the error, so the compiler finds these for us. Code with a <strong>logic error</strong> can compile and run, but it gives the wrong answer. The receipt code leaves the cookie out of the total. Nothing tells us about this unless we compare the result with the expected result, and that comparison is what a test does.</p>
-<figure class="wb-shot">
-  <img src="img/expected_actual.png" alt="Coffee 250, muffin 325 and cookie 175: the expected total is 750, but the receipt reports 575." loading="lazy" style="max-width: 480px">
-</figure>
+<p>A <strong>syntax error</strong> breaks a rule of Java. The compiler rejects the code and reports where it found the error, so the compiler finds these for us. Code with a <strong>logic error</strong> can compile and run, but it gives the wrong answer. Nothing tells us about this unless we compare the result with the expected result, and that comparison is what a test does.</p>
 <h3>A test suite</h3>
 <p>The new <code>removeItem</code> method changes the <code>items</code> list, and <code>getTotal</code> and <code>getReceipt</code> read the same list. If <code>removeItem</code> leaves the wrong items in the list, the total and the receipt can go wrong even though we never edited those methods. It takes time to check every method by hand after each change, so it is easy to skip a check.</p>
 <p>Instead, we write a <strong>test class</strong> for each class and put the tests for its methods there. Together, the test classes form a <strong>test suite</strong>, and we can run them all at once. In <strong>regression testing</strong>, we rerun the whole suite after each change. If a test that used to pass now fails, we start by checking the behaviour it covers.</p>
@@ -628,7 +624,7 @@ resetClearsBoth    expected: &lt;0&gt; but was: &lt;2&gt;</pre>
 <p>Each class in a program can have a shadow test class, with tests for each of its methods. Good test cases cover the whole contract, and the suite is rerun after each change.</p>
 <h3>Why we test</h3>
 <ul>
-<li>A <strong>syntax error</strong> breaks a rule of Java, and the compiler reports it. A <strong>logic error</strong> compiles and runs but gives the wrong answer. The receipt that charges 575 where the prices add to 750 has a logic error.</li>
+<li>A <strong>syntax error</strong> breaks a rule of Java, and the compiler reports it. A <strong>logic error</strong> compiles and runs but gives the wrong answer.</li>
 <li>A test finds a logic error by comparing the result with the expected result.</li>
 <li>A new method can break old ones. <code>removeItem</code> changes the <code>items</code> list, and <code>getTotal</code> and <code>getReceipt</code> read the same list.</li>
 <li>A <strong>test suite</strong> is all the test classes together. In <strong>regression testing</strong>, we rerun the whole suite after each change.</li>
