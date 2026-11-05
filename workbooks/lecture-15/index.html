@@ -187,6 +187,18 @@ assertFalse(order.removeItem(<span class="wb-type">MenuItem</span>.TEA));</code>
 <p>A <strong>positive test</strong> checks that the method succeeds when it should: remove <code>MUFFIN</code> from coffee, muffin and cookie, and expect <code>true</code> and a total of 425. A <strong>negative test</strong> checks how the method handles a request it should refuse: remove <code>TEA</code> from coffee and muffin, and expect <code>false</code> with the total still 575.</p>
 <p><strong>Edge cases</strong> test the limits of what a method handles. Removing from an empty order should return <code>false</code>. Removing the only item should return <code>true</code> and leave a total of 0. With two coffees, removing one should return <code>true</code> and leave a total of 250. When testing a loop over a list, check what happens at the first and last items and when the list is empty.</p>
 <p>The case you had in mind while writing a method will often pass, and a bug can still show up in another case. So we choose cases that cover each part of the contract, including its edge cases.</p>
+<h3>Choosing test cases</h3>
+<p>The code and the contract point to the cases worth testing.</p>
+<table>
+  <thead><tr><th>What you see</th><th>Cases to test</th><th>Example</th></tr></thead>
+  <tbody>
+      <tr><td>A loop</td><td>zero, one, several</td><td><code>getTotal</code>: no items, coffee, two items</td></tr>
+      <tr><td>An <code>if</code></td><td>true and false</td><td><code>removeItem</code>: item present, item absent</td></tr>
+      <tr><td>A limit</td><td>at it, below, above</td><td>fare 250: balance 250, 249, 251</td></tr>
+      <tr><td>Cases that act alike</td><td>one test is enough</td><td>middle item: remove <code>MUFFIN</code> or <code>TEA</code></td></tr>
+  </tbody>
+</table>
+<p>A card needs a balance of at least the 250 fare, so 250 and 251 are accepted and 249 is refused. Removing <code>MUFFIN</code> or <code>TEA</code> from the middle of an order does the same work, so one test covers both. Removing the last item is a different case. Add a case only if it could catch a bug the other cases would miss.</p>
 <h3>The case table</h3>
 <p>We plan the tests as a table before writing code. Each row becomes one test method, and we fill in the expected values from the prices and the contract.</p>
 <table>
@@ -256,6 +268,26 @@ assertFalse(order.removeItem(<span class="wb-type">MenuItem</span>.TEA));</code>
   <p><strong>3.5</strong> A buggy <code>removeItem</code> finds the item and returns <code>true</code>, but never removes it. The positive test has <code>assertTrue(order.removeItem(MenuItem.MUFFIN))</code> and then <code>assertEquals(425, order.getTotal())</code>. Which assertion fails, and why?</p>
 
   <wb-short id="r12"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.6</div>
+  <p><strong>3.6</strong> <code>setTarget</code> accepts a target from 10 to 30, including both ends. Fill in the values that test each limit.</p>
+
+  <wb-table id="r-limit">
+    <table>
+      <thead><tr><th>Limit</th><th>Just below</th><th>At it</th><th>Just above</th></tr></thead>
+      <tbody>
+        <tr><td>lower limit</td><td data-blank="0-0"></td><td>10</td><td data-blank="0-1"></td></tr>
+        <tr><td>upper limit</td><td data-blank="1-0"></td><td>30</td><td data-blank="1-1"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.7</div>
+  <p><strong>3.7</strong> Three tests call <code>removeItem</code>: remove <code>MUFFIN</code> from coffee, muffin, cookie; remove <code>TEA</code> from coffee, tea, cookie; remove <code>COOKIE</code> from coffee, muffin, cookie. Which two act alike, so that one of them is enough? Why keep the third?</p>
+
+  <wb-short id="r-alike"></wb-short>
 </div>
 <h2 id="s4">4. BlueJ</h2>
 <h3>Creating a test class</h3>
@@ -648,6 +680,7 @@ resetClearsBoth    expected: &lt;0&gt; but was: &lt;2&gt;</pre>
 <li>Work out the expected result from the contract and the data before running anything. If you copy the program's answer, the test accepts a wrong answer.</li>
 <li>Check the return value and the state after the call. A method can return <code>true</code> and still leave the wrong items in the list.</li>
 <li>A <strong>positive test</strong> checks that the method succeeds when it should. A <strong>negative test</strong> checks a request it should refuse. <strong>Edge cases</strong> test the limits, such as an empty list, one item, or two of the same item.</li>
+<li>The code and the contract point to the cases. A loop gets zero, one and several. An <code>if</code> gets true and false. A limit gets a value at it and on each side. Cases that act alike need only one test.</li>
 <li>Plan the tests as a <strong>case table</strong>. Each row becomes one test method.</li>
 </ul>
 <figure class="wb-shot">

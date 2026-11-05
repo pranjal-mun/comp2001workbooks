@@ -88,6 +88,13 @@
       "rows": 2,
       "answer": "VGhlIGZpcnN0IHdyb25nIHJvdyBpcyByZXNldCgpOiByb3VuZHMgc3RheXMgYXQgMiwgd2hlcmUgdGhlIGNvbnRyYWN0IHByb21pc2VzIDAuIEFkZCByb3VuZHMgPSAwOyB0byByZXNldC4="
     },
+    "r-alike": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "UmVtb3ZpbmcgdGhlIG11ZmZpbiBhbmQgcmVtb3ZpbmcgdGhlIHRlYSBhY3QgYWxpa2UsIGJlY2F1c2UgZWFjaCByZW1vdmVzIHRoZSBtaWRkbGUgaXRlbS4gS2VlcCBvbmUgb2YgdGhlbS4gVGhlIGNvb2tpZSBpcyB0aGUgbGFzdCBpdGVtLCBhbmQgYSBsb29wIGNhbiBnbyB3cm9uZyBhdCB0aGUgbGFzdCBpdGVtLCBzbyB0aGF0IGNhc2UgbmVlZHMgaXRzIG93biB0ZXN0Lg=="
+    },
     "r4": {
       "type": "table",
       "xp": 2,
@@ -223,6 +230,40 @@
         "3": {
           "accept": [
             "2"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "r-limit": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0-0": {
+          "accept": [
+            "9"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "0-1": {
+          "accept": [
+            "11"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "1-0": {
+          "accept": [
+            "29"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "1-1": {
+          "accept": [
+            "31"
           ],
           "placeholder": "number",
           "width": "7rem"

@@ -367,11 +367,16 @@ System.out.println(Collections.frequency(Arrays.asList("coffee", "muffin"), "muf
 System.out.println(Collections.frequency(Arrays.asList("coffee", "tea", "coffee"), "coffee"));""", 'import java.util.*;')) == '0\n0\n1\n2'
 
 # ------------------------------------------------ explanations
-for i, n in enumerate(QUESTION_SOURCE, 1):
+for i, n in enumerate((m for m in QUESTION_SOURCE if m not in ('3.6', '3.7')), 1):
     if n in ('1.1', '1.2', '2.1', '2.5', '3.2', '3.5', '5.1', '5.5', '7.1', '7.2', '8.1'):
         E[f'r{i}'] = SHORT(solution(n))
 assert set(E) == {'r1', 'r2', 'r3', 'r7', 'r9', 'r12', 'r16', 'r20', 'r24', 'r25', 'r26'}, set(E)
 E['r27-why'] = SHORT(solution('8.2'))
+# 3.7, from the first try: the middle items act alike and the last item does not.
+assert order_case(['COFFEE', 'MUFFIN', 'COOKIE'], 'MUFFIN', FIRST_TRY) == 'true\n425'
+assert order_case(['COFFEE', 'TEA', 'COOKIE'], 'TEA', FIRST_TRY) == 'true\n425'
+assert order_case(['COFFEE', 'MUFFIN', 'COOKIE'], 'COOKIE', FIRST_TRY) == 'false\n750'
+E['r-alike'] = SHORT(solution('3.7'))
 
 # ------------------------------------------------ tables
 def word(*accept, width='9rem', placeholder='answer'):
@@ -391,6 +396,7 @@ table_spec('r5', {'code': {'accept': code_forms('assertEquals(500, order.getTota
 table_spec('r8', {'0-0': boolean('true'), '0-1': num(175), '1-0': boolean('false'), '1-1': num(375)})
 table_spec('r10', {'0': word('positive', 'positive test'), '1': word('negative', 'negative test'), '2': word('edge', 'edge case', 'edge test')})
 table_spec('r11', {'0': num(0), '1': num(0), '2': num(1), '3': num(2)})
+table_spec('r-limit', {'0-0': num(9), '0-1': num(11), '1-0': num(29), '1-1': num(31)})
 table_spec('r13', {'0': word('Create Test Class', 'Create Test Class...', width='18rem', placeholder='command'),
                    '1': word('Test All', width='18rem', placeholder='command'),
                    '2': word('Run Tests', width='18rem', placeholder='command'),
@@ -545,6 +551,10 @@ THERMO_TEST = read('programA/junit/ThermostatTest.java')
 student_listings = listings(STUDENT.split(r'\section{8. Complete Java Programs}')[1])
 THERMO_START = next(x for x in student_listings if 'public class Thermostat\n' in x)
 THERMO_TEST_START = next(x for x in student_listings if 'public class ThermostatTest' in x)
+# 3.6, from the real class.
+assert run(demo('Limits', """for(int t : new int[] {9, 10, 11, 29, 30, 31}) {
+    System.out.println(new Thermostat().setTarget(t));
+}"""), (file('Thermostat.java', THERMO),)) == 'false\ntrue\ntrue\ntrue\ntrue\nfalse'
 THERMO_MORE = """Thermostat more = new Thermostat();
 System.out.println(more.setTarget(11) + " " + more.getTarget());
 System.out.println(more.setTarget(29) + " " + more.getTarget());
