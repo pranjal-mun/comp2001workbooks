@@ -1,10 +1,13 @@
-"""Build Lecture 15 exercises from the approved workbook and real Java runs.
+"""Build Lecture 15 exercises from the workbook and real Java runs.
 
-New page: q1 to q28 follow questions 1.1 to 11.4 in order. Suffixes
-identify classes, state tables or explanations in the same question.
-Program classes use p1-* and p2-* as in Lecture 14. Every code case is
-computed by run(), then pinned by an assert. Hidden drivers test boundaries,
-refusals, repeated resets and later operations. No server is needed.
+The page was rebuilt to follow the deck being taught. The old ids q1 to q28,
+p1-* and p2-* meant other questions, so none is reused: r1 to r27 follow
+questions 1.1 to 8.2 in order, with r-p1-item, r-p1-test, r-p2-test and
+r-p2-fix for the two programs. Every code case is computed by run(), then
+pinned by an assert. The real JUnit runs are in the lecture's code folder.
+The site's runner has no JUnit jars, so each test box carries a small stand-in
+with the same package names. Students write real JUnit test classes, and the
+stand-in prints one line per test. No server is needed.
 """
 import base64, html, json, re, sys, pathlib
 
@@ -170,184 +173,464 @@ def checked(eid, title, starter, answer, files, expected, checks=(), xp=4):
 
 
 
-from workbook import QUESTION_SOURCE
-RUNS = json.loads((CODE_DIR.parent/'validation/step2_runs.json').read_text())
-OLD_RUNS = json.loads((CODE_DIR.parent/'_scratch/runs.json').read_text())
-for i,n in enumerate(QUESTION_SOURCE,1):
-    if n not in ['2.2','4.1','5.3','8.1','9.1','11.1','11.3','11.4']:
-        E['q'+str(i)] = SHORT(solution(n))
+from workbook import QUESTION_SOURCE, STUDENT
 
-def assertion(eid,code):
-    E[eid]={'type':'table','xp':2,'blanks':{'code':{'accept':code_forms(code),'show':code,**CODE}}}
-assertion('q4','assertEquals("two coffees", 500, order.getTotal());')
-assertion('q18','assertEquals("day total kept", 575, till.getDayTotal());')
-CARD1 = read('cards/part1/TransitCard.java')
-CARD2 = read('cards/part2/TransitCard.java')
-TEST1 = read('cards/part1/TransitCardTest.java')
-TEST2 = read('cards/part2/TransitCardTest.java')
-CARD_DEMO = read('cards/part2/TransitCardDemo.java')
-CARD_EDGES = driver('CardEdges','''TransitCard low = new TransitCard(249);
-System.out.println(low.tapOn());
-System.out.println(low.getBalance());
-System.out.println(low.getTrips());
-TransitCard exact = new TransitCard(250);
-System.out.println(exact.tapOn());
-System.out.println(exact.getBalance());
-System.out.println(exact.getTrips());
-System.out.println(exact.tapOn());
-System.out.println(exact.getBalance());
-System.out.println(exact.getTrips());
-TransitCard above = new TransitCard(251);
-System.out.println(above.tapOn());
-System.out.println(above.getBalance());
-System.out.println(above.getTrips());
-System.out.println(above.topUp(0));
-System.out.println(above.topUp(-100));
-System.out.println(above.getBalance());
-System.out.println(above.getTrips());
-System.out.println(above.topUp(100));
-System.out.println(above.getBalance());
-System.out.println(above.getTrips());''')
-checked('q9-card','TransitCard.java',read('cards/starter/TransitCard.java'),CARD1,CARD_EDGES,
- 'false\n249\n0\ntrue\n0\n1\nfalse\n0\n1\ntrue\n1\n1\nfalse\nfalse\n1\n1\ntrue\n101\n1')
-TEST_START = '''public class TransitCardTest
+# ------------------------------------------------ the JUnit stand-in
+ANN = """package org.junit.jupiter.api;
+import java.lang.annotation.*;
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface %s
 {
-    private static int failures = 0;
-
-    public static void main(String[] args)
-    {
-        // Run testTaps and report the failure count.
-    }
-
-    // Add testTaps and the two assertion helpers.
-}'''
-TEST_CHECKS = [has('assertEquals(String label, int expected, int actual)', 'Include the integer assertion helper with a label.'),
- has('assertTrue(String label, boolean condition)', 'Include the boolean assertion helper with a label.'),
- has('failures++', 'Count failed checks and keep going.'),
- has('if(failures == 0)', 'Print the success message only when no check failed.'),
- has('testTaps();', 'Run the tap tests from main.'),
- matches(r'.*\.topUp\(-100\).*', 'Keep the negative top-up check.'),
- matches(r'.*\.tapOn\(\).*\.tapOn\(\).*\.tapOn\(\).*', 'Test the first tap, exact fare and third refused tap.')]
-checked('q9-test','TransitCardTest.java',TEST_START,TEST1,[file('TransitCard.java',CARD1)],
- RUNS['card-part1/TransitCardTest'].strip(),TEST_CHECKS)
-REPORT_START = '''public class Report
+}
+"""
+ASSERTIONS = """package org.junit.jupiter.api;
+public final class Assertions
 {
-    private static int failures = 0;
-
-    private static void report()
+    public static void assertEquals(int expected, int actual)
     {
-        // Print success only for zero failures; otherwise print the count.
-    }
-
-    public static void main(String[] args)
-    {
-        report();
-        failures = 2;
-        report();
-    }
-}'''
-REPORT = REPORT_START.replace('        // Print success only for zero failures; otherwise print the count.', '''        if(failures == 0) {
-            System.out.println("All tests passed");
+        if(expected != actual) {
+            throw new AssertionError("expected: <" + expected + "> but was: <" + actual + ">");
         }
-        else {
-            System.out.println("Failures: " + failures);
-        }''')
-checked('q12','Report.java',REPORT_START,REPORT,[], 'All tests passed\nFailures: 2',
- [has('if(failures == 0)', 'Compare the failure count with zero before reporting success.')])
-E['q15-state']={'type':'table','xp':3,'blanks':{f'{i}-{j}':num(v) for i,row in enumerate([[0,0,0],[250,1,0],[250,1,250],[0,1,250],[175,2,250]]) for j,v in enumerate(row)}}
-MONTH_EDGES = driver('MonthEdges','''TransitCard card = new TransitCard(500);
-card.newMonth();
-card.reportState();
-System.out.println(card.tapOn());
-card.reportState();
-card.newMonth();
-card.reportState();
-card.newMonth();
-card.reportState();
-System.out.println(card.tapOn());
-card.reportState();
-System.out.println(card.tapOn());
-card.reportState();
-System.out.println(card.topUp(0));
-System.out.println(card.topUp(-100));
-card.reportState();
-System.out.println(card.topUp(100));
-card.reportState();
-TransitCard low = new TransitCard(249);
-System.out.println(low.tapOn());
-low.reportState();
-TransitCard above = new TransitCard(251);
-System.out.println(above.tapOn());
-above.reportState();''')
-checked('q20-card','TransitCard.java',CARD1,CARD2,MONTH_EDGES,
- 'balance=500 trips=0\ntrue\nbalance=250 trips=1\nbalance=250 trips=0\nbalance=250 trips=0\ntrue\nbalance=0 trips=1\nfalse\nbalance=0 trips=1\nfalse\nfalse\nbalance=0 trips=1\ntrue\nbalance=100 trips=1\nfalse\nbalance=249 trips=0\ntrue\nbalance=1 trips=1')
-checked('q20-test','TransitCardTest.java',TEST1,TEST2,[file('TransitCard.java',CARD2)],
- RUNS['card-part2/TransitCardTest'].strip(),TEST_CHECKS+[
- has('testNewMonth();', 'Call the new month regression test from main.'),
- matches(r'.*\.newMonth\(\);.*', 'Exercise the month reset.'),
- matches(r'.*assertEquals\("[^"]*",0,[A-Za-z_$][\w$]*\.getTrips\(\)\);.*', 'Check that the month reset clears trips.'),
- matches(r'.*assertEquals\("[^"]*",250,[A-Za-z_$][\w$]*\.getBalance\(\)\);.*', 'Check that the month reset preserves credit.')])
-checked('q20-demo','TransitCardDemo.java',demo('TransitCardDemo','// Report a fresh 500-cent card, three taps and the month reset.'),CARD_DEMO,[file('TransitCard.java',CARD2)],RUNS['card-part2/TransitCardDemo'].strip())
-THERMO=read('programA/Thermostat.java');THERMO_TEST=read('programA/ThermostatTest.java')
-checked('p1-item','Thermostat.java','''public class Thermostat
+    }
+    public static void assertEquals(Object expected, Object actual)
+    {
+        if(expected == null ? actual != null : !expected.equals(actual)) {
+            throw new AssertionError("expected: <" + expected + "> but was: <" + actual + ">");
+        }
+    }
+    public static void assertTrue(boolean condition)
+    {
+        if(!condition) {
+            throw new AssertionError("expected: <true> but was: <false>");
+        }
+    }
+    public static void assertFalse(boolean condition)
+    {
+        if(condition) {
+            throw new AssertionError("expected: <false> but was: <true>");
+        }
+    }
+}
+"""
+RUNNER = """import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+public class TestRun
 {
-    // Add target, the constructor, setTarget and getTarget.
-}''',THERMO,driver('ThermostatEdges','''Thermostat t = new Thermostat();
-System.out.println(t.getTarget());
-System.out.println(t.setTarget(22));
-System.out.println(t.getTarget());
-System.out.println(t.setTarget(9));
-System.out.println(t.getTarget());
-System.out.println(t.setTarget(10));
-System.out.println(t.getTarget());
-System.out.println(t.setTarget(30));
-System.out.println(t.getTarget());
-System.out.println(t.setTarget(31));
-System.out.println(t.getTarget());
-System.out.println(t.setTarget(10));
-System.out.println(t.getTarget());'''),
- '20\ntrue\n22\nfalse\n22\ntrue\n10\ntrue\n30\nfalse\n30\ntrue\n10')
-THERMO_CHECKS = [has('assertEquals(String label, int expected, int actual)', 'Include the integer assertion helper.'),
- has('assertTrue(String label, boolean condition)', 'Include the boolean assertion helper.'),
- has('failures++', 'Count failures and keep going.'),
- has('if(failures == 0)', 'Report success only when all checks pass.'),
- has('testTargets();', 'Run testTargets from main.')]
-for value in [22,9,10,30,31]: THERMO_CHECKS.append(matches(r'.*\.setTarget\('+str(value)+r'\).*', f'Test the request at {value}.'))
-checked('p1-test','ThermostatTest.java',demo('ThermostatTest','// Write testTargets, the assertion helpers and the final report.'),THERMO_TEST,[file('Thermostat.java',THERMO)],RUNS['programA/ThermostatTest'].strip(),THERMO_CHECKS)
-checked('q25','ThermostatTest.java',THERMO_TEST,read('programA/extension/ThermostatTest.java'),[file('Thermostat.java',THERMO)],RUNS['programA-extension/ThermostatTest'].strip(),THERMO_CHECKS+[
- has('testReturnToLowerBound();','Call the new boundary test from main.'),
- has('private static void testReturnToLowerBound()', 'Add the separate boundary test with a fresh fixture.')])
-BOARD=read('programB/fixed/ScoreBoard.java');FAULTY=read('programB/ScoreBoard.java');BOARD_DEMO=read('programB/ScoreBoardDemo.java')
-checked('p2-demo','ScoreBoardDemo.java',demo('ScoreBoardDemo','// Report a fresh scoreboard, rounds 7 and 5, a reset and round 3.'),BOARD_DEMO,[file('ScoreBoard.java',FAULTY)],RUNS['programB/ScoreBoardDemo'].strip())
-checked('q27','ScoreBoard.java',FAULTY,BOARD,driver('ScoreBoardEdges','''ScoreBoard s = new ScoreBoard();
-s.reset();
-s.reportState();
-s.recordRound(7);
-s.reportState();
-s.recordRound(5);
-s.reportState();
-s.reset();
-s.reportState();
-s.reset();
-s.reportState();
-s.recordRound(0);
-s.reportState();
-s.recordRound(3);
-s.reportState();
-System.out.println(s.getPoints());
-System.out.println(s.getRounds());'''),
- 'points=0 rounds=0\npoints=7 rounds=1\npoints=12 rounds=2\npoints=0 rounds=0\npoints=0 rounds=0\npoints=0 rounds=1\npoints=3 rounds=2\n3\n2')
-E['q27-state']={'type':'table','xp':2,'blanks':{f'{i}-{j}':num(v) for i,row in enumerate([[0,0],[7,1],[12,2],[0,0],[3,1]]) for j,v in enumerate(row)}}
-BOARD_TEST=read('programB/fixed/ScoreBoardTest.java')
-BOARD_CHECKS=[has('testFreshGame();','Run the new-game regression test from main.'),
- has('failures++','Count each failed check and keep going.'),
- has('if(failures == 0)','Report success only when all checks pass.')]
-for fragment in ['board.recordRound(7)','board.recordRound(5)','board.reset()','board.recordRound(3)','board.getPoints()','board.getRounds()']:
-    BOARD_CHECKS.append(has(fragment.replace('board.',''),'Keep the two-round first game, reset and checks for both fields.'))
-checked('q28','ScoreBoardTest.java',demo('ScoreBoardTest','// Add testFreshGame, the assertion helpers and the final report.'),BOARD_TEST,[file('ScoreBoard.java',BOARD)],RUNS['programB-fixed/ScoreBoardTest'].strip(),BOARD_CHECKS)
+    public static void all(Class<?> testClass) throws Exception
+    {
+        ArrayList<Method> tests = new ArrayList<>();
+        for(Method m : testClass.getDeclaredMethods()) {
+            if(m.isAnnotationPresent(Test.class)) {
+                tests.add(m);
+            }
+        }
+        Collections.sort(tests, Comparator.comparing(Method::getName));
+        int errors = 0;
+        int failures = 0;
+        for(Method test : tests) {
+            String result = runOne(testClass, test);
+            System.out.println(result);
+            if(result.startsWith("FAIL")) {
+                failures++;
+            }
+            else if(result.startsWith("ERROR")) {
+                errors++;
+            }
+        }
+        System.out.println("Tests: " + tests.size() + "  Errors: " + errors + "  Failures: " + failures);
+    }
 
-data={'id':'lecture-15','course':'COMP 2001: Object-Oriented Programming',
-      'title':'Lecture 15 Workbook','subtitle':'Chapter 9: Testing and Debugging','exercises':E}
-out=pathlib.Path(__file__).with_name('exercises.json')
-out.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n')
+    private static String runOne(Class<?> testClass, Method test) throws Exception
+    {
+        Object object = testClass.getDeclaredConstructor().newInstance();
+        try {
+            for(Method m : testClass.getDeclaredMethods()) {
+                if(m.isAnnotationPresent(BeforeEach.class)) {
+                    m.invoke(object);
+                }
+            }
+            test.invoke(object);
+            for(Method m : testClass.getDeclaredMethods()) {
+                if(m.isAnnotationPresent(AfterEach.class)) {
+                    m.invoke(object);
+                }
+            }
+            return "PASS " + test.getName();
+        }
+        catch(InvocationTargetException e) {
+            Throwable cause = e.getCause();
+            if(cause instanceof AssertionError) {
+                return "FAIL " + test.getName() + "  " + cause.getMessage();
+            }
+            return "ERROR " + test.getName() + "  " + cause;
+        }
+    }
+}
+"""
+SHIM = [file('Test.java', ANN % 'Test'), file('BeforeEach.java', ANN % 'BeforeEach'),
+        file('AfterEach.java', ANN % 'AfterEach'), file('Assertions.java', ASSERTIONS),
+        file('TestRun.java', RUNNER)]
+
+
+def run_it(test_class, more=''):
+    """The hidden main: run one test class, then any further checks."""
+    extra = '\n'.join('        ' + line for line in more.strip('\n').splitlines())
+    return file('RunIt.java', f"""public class RunIt
+{{
+    public static void main(String[] args) throws Exception
+    {{
+        TestRun.all({test_class}.class);
+{extra}
+    }}
+}}
+""")
+
+
+def tests_on(test_class, *classes, more=''):
+    return list(classes) + SHIM + [run_it(test_class, more)]
+
+
+def results(test_source, *classes):
+    """Run a whole test class through the stand-in; return the printed lines."""
+    name = re.search(r'public class (\w+)', test_source)[1]
+    return run(test_source, tests_on(name, *classes))
+
+
+def replaced(src, old, new):
+    assert src.count(old) == 1, old
+    return src.replace(old, new)
+
+
+# ------------------------------------------------ the cafe, as four versions
+def cafe(folder):
+    return files_at('tdd/' + folder, 'Customer', 'MenuItem', 'Order')
+
+
+FIXED = cafe('3_fixed')
+FIRST_TRY = cafe('2_first_try')
+ORDER_TEST = read('tdd/3_fixed/OrderTest.java')
+
+
+def order_with(body):
+    """The cafe with another removeItem body, to pin what the workbook says about it."""
+    source = read('tdd/1_stub/Order.java')
+    old = '    public boolean removeItem(MenuItem item)\n    {\n        return false;\n    }\n'
+    new = '    public boolean removeItem(MenuItem item)\n    {\n' + body + '    }\n'
+    return files_at('tdd/1_stub', 'Customer', 'MenuItem') + [file('Order.java', replaced(source, old, new))]
+
+
+def failing(output):
+    return [line for line in output.split('\n') if line.startswith('FAIL')]
+
+
+# Sections 5 and 7 of the workbook, against real runs of the eight tests.
+assert results(ORDER_TEST, *cafe('1_stub')).endswith('Tests: 8  Errors: 0  Failures: 3')
+assert sorted(x.split()[1] for x in failing(results(ORDER_TEST, *cafe('1_stub')))) == ['removeItemInOrder', 'removeOneOfTwoSame', 'removeOnlyItem']
+assert failing(results(ORDER_TEST, *FIRST_TRY)) == ['FAIL removeOnlyItem  expected: <true> but was: <false>']
+assert results(ORDER_TEST, *FIXED).endswith('Tests: 8  Errors: 0  Failures: 0')
+assert results(ORDER_TEST, *cafe('4_refactored')).endswith('Tests: 8  Errors: 0  Failures: 0')
+# 5.2: a stub that returns true and removes nothing fails all five removeItem tests.
+TRUE_STUB = results(ORDER_TEST, *order_with('        return true;\n'))
+assert sorted(x.split()[1] for x in failing(TRUE_STUB)) == sorted(['removeItemInOrder', 'removeItemNotInOrder', 'removeFromEmptyOrder', 'removeOnlyItem', 'removeOneOfTwoSame']), TRUE_STUB
+# 3.5 and 7.1: finds the item and returns true, but never removes it.
+NEVER_REMOVES = results(ORDER_TEST, *order_with('        return items.contains(item);\n'))
+assert 'FAIL removeItemInOrder  expected: <425> but was: <750>' in NEVER_REMOVES, NEVER_REMOVES
+assert 'FAIL removeOnlyItem  expected: <0> but was: <250>' in NEVER_REMOVES, NEVER_REMOVES
+
+
+def order_case(items, remove, files=FIXED):
+    adds = '\n'.join(f'order.addItem(MenuItem.{i});' for i in items)
+    return run(demo('Case', f"""Order order = new Order(new Customer("Ada Lim", "555-0101"), new ArrayList<>());
+{adds}
+System.out.println(order.removeItem(MenuItem.{remove}));
+System.out.println(order.getTotal());""", 'import java.util.ArrayList;'), files)
+
+
+# 3.1, 5.3 and the case table.
+assert order_case(['TEA', 'COOKIE'], 'TEA') == 'true\n175'
+assert order_case(['TEA', 'COOKIE'], 'COFFEE') == 'false\n375'
+assert order_case(['COFFEE', 'MUFFIN'], 'MUFFIN', FIRST_TRY) == 'false\n575'
+for items, remove, expected in [(['COFFEE', 'MUFFIN', 'COOKIE'], 'MUFFIN', 'true\n425'), (['COFFEE', 'MUFFIN'], 'TEA', 'false\n575'), ([], 'COFFEE', 'false\n0'), (['COFFEE'], 'COFFEE', 'true\n0'), (['COFFEE', 'COFFEE'], 'COFFEE', 'true\n250')]:
+    assert order_case(items, remove) == expected
+# 3.4
+assert run(demo('Count', """ArrayList<String> none = new ArrayList<>();
+System.out.println(Collections.frequency(none, "coffee"));
+System.out.println(Collections.frequency(Arrays.asList("coffee", "muffin"), "tea"));
+System.out.println(Collections.frequency(Arrays.asList("coffee", "muffin"), "muffin"));
+System.out.println(Collections.frequency(Arrays.asList("coffee", "tea", "coffee"), "coffee"));""", 'import java.util.*;')) == '0\n0\n1\n2'
+
+# ------------------------------------------------ explanations
+for i, n in enumerate(QUESTION_SOURCE, 1):
+    if n in ('1.1', '1.2', '2.1', '2.5', '3.2', '3.5', '5.1', '5.5', '7.1', '7.2', '8.1'):
+        E[f'r{i}'] = SHORT(solution(n))
+assert set(E) == {'r1', 'r2', 'r3', 'r7', 'r9', 'r12', 'r16', 'r20', 'r24', 'r25', 'r26'}, set(E)
+E['r27-why'] = SHORT(solution('8.2'))
+
+# ------------------------------------------------ tables
+def word(*accept, width='9rem', placeholder='answer'):
+    return {'accept': list(accept), 'show': accept[0], 'placeholder': placeholder, 'width': width}
+
+
+def boolean(value):
+    return word(value, width='7rem', placeholder='true / false')
+
+
+def table_spec(eid, blanks, xp=2):
+    E[eid] = {'type': 'table', 'xp': xp, 'blanks': blanks}
+
+
+table_spec('r4', {'0': num(8), '1': num(0)})
+table_spec('r5', {'code': {'accept': code_forms('assertEquals(500, order.getTotal());'), 'show': 'assertEquals(500, order.getTotal());', **CODE}})
+table_spec('r8', {'0-0': boolean('true'), '0-1': num(175), '1-0': boolean('false'), '1-1': num(375)})
+table_spec('r10', {'0': word('positive', 'positive test'), '1': word('negative', 'negative test'), '2': word('edge', 'edge case', 'edge test')})
+table_spec('r11', {'0': num(0), '1': num(0), '2': num(1), '3': num(2)})
+table_spec('r13', {'0': word('Create Test Class', 'Create Test Class...', width='18rem', placeholder='command'),
+                   '1': word('Test All', width='18rem', placeholder='command'),
+                   '2': word('Run Tests', width='18rem', placeholder='command'),
+                   '3': word('Object Bench to Test Fixture', width='18rem', placeholder='command')})
+table_spec('r17', {str(i): word('fail', 'fails', 'failed', width='7rem', placeholder='pass / fail') for i in range(5)})
+table_spec('r18', {'limit0': num(1), 'cond0': boolean('true'), 'limit1': num(1), 'cond1': boolean('false')})
+table_spec('r18-return', {'value': boolean('false')}, xp=1)
+
+CARD = read('cards/starter/TransitCard.java')
+CARD_TEST = read('practice_junit/TransitCardTest.java')
+assert CARD_TEST.strip() == answer_code('6.1').strip()
+# 6.2, from the supplied class
+assert run(demo('Trace', """TransitCard exact = new TransitCard(250);
+exact.tapOn();
+System.out.println(exact.getBalance() + " " + exact.getTrips());
+TransitCard month = new TransitCard(500);
+month.tapOn();
+System.out.println(month.getBalance() + " " + month.getTrips());
+month.newMonth();
+System.out.println(month.getBalance() + " " + month.getTrips());"""), [file('TransitCard.java', CARD)]) == '250 0\n250 1\n250 1'
+table_spec('r22', {'0-0': num(250), '0-1': num(0), '1-0': num(250), '1-1': num(1), '2-0': num(250), '2-1': num(1)})
+
+BOARD_FAULTY = without_method(strip_docs(read('programB/ScoreBoard.java')), 'public void reportState()')
+BOARD_FIXED = replaced(BOARD_FAULTY, '        points = 0;\n    }\n\n    public int getPoints', '        points = 0;\n        rounds = 0;\n    }\n\n    public int getPoints')
+# 8.2, from the supplied class
+assert run(demo('Trace', """ScoreBoard b = new ScoreBoard();
+b.recordRound(7);
+System.out.println(b.getPoints() + " " + b.getRounds());
+b.recordRound(5);
+System.out.println(b.getPoints() + " " + b.getRounds());
+b.reset();
+System.out.println(b.getPoints() + " " + b.getRounds());
+b.recordRound(3);
+System.out.println(b.getPoints() + " " + b.getRounds());"""), [file('ScoreBoard.java', BOARD_FAULTY)]) == '7 1\n12 2\n0 2\n3 3'
+table_spec('r27', {f'{i}-{j}': num(v) for i, row in enumerate([[7, 1], [12, 2], [0, 2], [3, 3]]) for j, v in enumerate(row)})
+
+# ------------------------------------------------ code boxes
+IMPORTS = """import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+"""
+ORDER_FRAME = IMPORTS + """import java.util.ArrayList;
+
+public class OrderTest
+{
+    private Customer ada;
+    private Order order;
+
+    @BeforeEach
+    public void setUp()
+    {
+        ada = new Customer("Ada Lim", "555-0101");
+        order = new Order(ada, new ArrayList<>());
+    }
+
+    // WRITE
+}
+"""
+
+
+def in_frame(frame, comment, method):
+    block = '\n'.join('    ' + line if line else '' for line in method.strip('\n').splitlines())
+    return replaced(frame, '    // WRITE', block), replaced(frame, '    // WRITE', '    // ' + comment)
+
+
+# 2.4
+answer, starter = in_frame(ORDER_FRAME, 'Write totalOfThreeItems here.', answer_code('2.4'))
+checked('r6', 'OrderTest.java', starter, answer, tests_on('OrderTest', *FIXED),
+        'PASS totalOfThreeItems\nTests: 1  Errors: 0  Failures: 0',
+        [has('@Test', 'Mark the method with @Test.'),
+         has('order.addItem(MenuItem.COOKIE)', 'Add the cookie to the order.'),
+         has('assertEquals(750,order.getTotal())', 'Check the total with assertEquals, with the expected value first.')])
+
+# 4.2
+CUSTOMER_TEST = read('tdd/suite/CustomerTest.java')
+assert CUSTOMER_TEST.strip() == answer_code('4.2').strip()
+checked('r14', 'CustomerTest.java', """// Write the imports here.
+
+public class CustomerTest
+{
+    // Write nameIsKept and phoneIsKept here.
+}
+""", CUSTOMER_TEST, tests_on('CustomerTest', file('Customer.java', read('tdd/3_fixed/Customer.java'))),
+        'PASS nameIsKept\nPASS phoneIsKept\nTests: 2  Errors: 0  Failures: 0',
+        [matches(r'.*assertEquals\("AdaLim",\w+\.getName\(\)\).*', 'In nameIsKept, compare "Ada Lim" with getName(), with the expected value first.'),
+         matches(r'.*assertEquals\("555-0101",\w+\.getPhone\(\)\).*', 'In phoneIsKept, compare "555-0101" with getPhone(), with the expected value first.')])
+
+# 4.3
+answer, starter = in_frame(ORDER_FRAME, 'Write removeOneOfTwoTeas here.', answer_code('4.3'))
+checked('r15', 'OrderTest.java', starter, answer, tests_on('OrderTest', *FIXED),
+        'PASS removeOneOfTwoTeas\nTests: 1  Errors: 0  Failures: 0',
+        [has('order.addItem(MenuItem.COOKIE)', 'Start with tea, tea and a cookie.'),
+         has('assertTrue(order.removeItem(MenuItem.TEA))', 'Check the return value with assertTrue.'),
+         has('assertEquals(375,order.getTotal())', 'Check the total after the call.')])
+
+# 5.4
+answer, starter = in_frame(ORDER_FRAME, 'Write removeLastItem here.', answer_code('5.4'))
+checked('r19', 'OrderTest.java', starter, answer, tests_on('OrderTest', *FIRST_TRY),
+        'FAIL removeLastItem  expected: <true> but was: <false>\nTests: 1  Errors: 0  Failures: 1',
+        [has('assertTrue(order.removeItem(MenuItem.MUFFIN))', 'Check the return value with assertTrue.'),
+         has('assertEquals(250,order.getTotal())', 'Check the total after the call.')])
+
+# 6.1
+checked('r21', 'TransitCardTest.java', """import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+public class TransitCardTest
+{
+    // Write the six tests here.
+}
+""", CARD_TEST, tests_on('TransitCardTest', file('TransitCard.java', CARD)),
+        """FAIL newMonthResetsTrips  expected: <0> but was: <1>
+PASS tapWithEnoughCredit
+FAIL tapWithExactFare  expected: <true> but was: <false>
+PASS tapWithTooLittleCredit
+PASS topUpNegativeAmount
+PASS topUpPositiveAmount
+Tests: 6  Errors: 0  Failures: 2""",
+        [has('topUp(-100)', 'Test a negative top-up of -100.'),
+         has('newMonth()', 'Call newMonth in newMonthResetsTrips.')], xp=6)
+
+# 6.3
+CARD_FIXED = replaced(replaced(CARD, 'balance > FARE', 'balance >= FARE'), '        // Keep the credit for the new month.\n', '        trips = 0;\n')
+CARD_MORE = """TransitCard low = new TransitCard(249);
+System.out.println(low.tapOn() + " " + low.getBalance() + " " + low.getTrips());
+TransitCard high = new TransitCard(251);
+System.out.println(high.tapOn() + " " + high.getBalance() + " " + high.getTrips());
+System.out.println(high.topUp(0) + " " + high.getBalance());
+TransitCard month = new TransitCard(500);
+month.tapOn();
+month.newMonth();
+month.newMonth();
+System.out.println(month.tapOn() + " " + month.getBalance() + " " + month.getTrips());"""
+checked('r23', 'TransitCard.java', CARD, CARD_FIXED,
+        tests_on('TransitCardTest', file('TransitCardTest.java', CARD_TEST), more=CARD_MORE),
+        """PASS newMonthResetsTrips
+PASS tapWithEnoughCredit
+PASS tapWithExactFare
+PASS tapWithTooLittleCredit
+PASS topUpNegativeAmount
+PASS topUpPositiveAmount
+Tests: 6  Errors: 0  Failures: 0
+false 249 0
+true 1 1
+false 1
+true 0 1""",
+        [has('balance>=FARE', 'Accept an exact fare with >=.')])
+
+# Program A
+THERMO = strip_docs(read('programA/Thermostat.java'))
+THERMO_TEST = read('programA/junit/ThermostatTest.java')
+student_listings = listings(STUDENT.split(r'\section{8. Complete Java Programs}')[1])
+THERMO_START = next(x for x in student_listings if 'public class Thermostat\n' in x)
+THERMO_TEST_START = next(x for x in student_listings if 'public class ThermostatTest' in x)
+THERMO_MORE = """Thermostat more = new Thermostat();
+System.out.println(more.setTarget(11) + " " + more.getTarget());
+System.out.println(more.setTarget(29) + " " + more.getTarget());
+System.out.println(more.setTarget(5) + " " + more.getTarget());"""
+checked('r-p1-item', 'Thermostat.java', THERMO_START, THERMO,
+        tests_on('ThermostatTest', file('ThermostatTest.java', THERMO_TEST), more=THERMO_MORE),
+        """PASS aboveRange
+PASS belowRange
+PASS lowerLimit
+PASS normalTarget
+PASS startsAtTwenty
+PASS upperLimit
+Tests: 6  Errors: 0  Failures: 0
+true 11
+true 29
+false 29""", xp=4)
+checked('r-p1-test', 'ThermostatTest.java', THERMO_TEST_START, THERMO_TEST,
+        tests_on('ThermostatTest', file('Thermostat.java', THERMO)),
+        """PASS aboveRange
+PASS belowRange
+PASS lowerLimit
+PASS normalTarget
+PASS startsAtTwenty
+PASS upperLimit
+Tests: 6  Errors: 0  Failures: 0""",
+        [has('heat=newThermostat()', 'Make a new thermostat in setUp.')]
+        + [has(f'heat.setTarget({v})', f'Test the request at {v}.') for v in (22, 10, 30, 9, 31)]
+        + [has('assertFalse(heat.setTarget(31))', 'Check that 31 is refused with assertFalse.'),
+           has('assertEquals(20,heat.getTarget())', 'Check that a refused target leaves the old one.')], xp=6)
+# 8.1
+BUGGY_THERMO = replaced(THERMO, """        if(target < 10 || target > 30) {
+            return false;
+        }
+        this.target = target;
+        return true;""", """        this.target = target;
+        return target >= 10 && target <= 30;""")
+assert 'FAIL aboveRange  expected: <20> but was: <31>' in results(THERMO_TEST, file('Thermostat.java', BUGGY_THERMO))
+
+# Program B
+BOARD_TEST = read('programB/junit/ScoreBoardTest.java')
+assert BOARD_TEST.strip() == next(x for x in listings(SOURCE) if 'public class ScoreBoardTest' in x).strip()
+BOARD_TEST_START = IMPORTS + """
+public class ScoreBoardTest
+{
+    private ScoreBoard board;
+
+    @BeforeEach
+    public void setUp()
+    {
+        // Make a new scoreboard.
+    }
+
+    // Write the four tests here.
+}
+"""
+checked('r-p2-test', 'ScoreBoardTest.java', BOARD_TEST_START, BOARD_TEST,
+        tests_on('ScoreBoardTest', file('ScoreBoard.java', BOARD_FAULTY)),
+        """PASS freshBoard
+FAIL newGameAfterReset  expected: <1> but was: <3>
+FAIL resetClearsBoth  expected: <0> but was: <2>
+PASS twoRounds
+Tests: 4  Errors: 0  Failures: 2""",
+        [has('board=newScoreBoard()', 'Make a new scoreboard in setUp.'),
+         has('board.reset()', 'Call reset in the two reset tests.')], xp=6)
+assert results(BOARD_TEST, file('ScoreBoard.java', BOARD_FIXED)).endswith('Tests: 4  Errors: 0  Failures: 0')
+BOARD_MORE = """ScoreBoard more = new ScoreBoard();
+more.reset();
+System.out.println(more.getPoints() + " " + more.getRounds());
+more.recordRound(0);
+System.out.println(more.getPoints() + " " + more.getRounds());
+more.reset();
+more.reset();
+System.out.println(more.getPoints() + " " + more.getRounds());"""
+checked('r-p2-fix', 'ScoreBoard.java', BOARD_FAULTY, BOARD_FIXED,
+        tests_on('ScoreBoardTest', file('ScoreBoardTest.java', BOARD_TEST), more=BOARD_MORE),
+        """PASS freshBoard
+PASS newGameAfterReset
+PASS resetClearsBoth
+PASS twoRounds
+Tests: 4  Errors: 0  Failures: 0
+0 0
+0 1
+0 0""")
+
+data = {'id': 'lecture-15', 'course': 'COMP 2001: Object-Oriented Programming',
+        'title': 'Lecture 15 Workbook', 'subtitle': 'Chapter 9: Testing and Debugging', 'exercises': E}
+out = pathlib.Path(__file__).with_name('exercises.json')
+out.write_text(json.dumps(data, indent=2, ensure_ascii=False) + '\n')
 print(f'wrote {out} with {len(E)} specs')

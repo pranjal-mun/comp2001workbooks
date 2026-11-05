@@ -4,181 +4,741 @@
   "title": "Lecture 15 Workbook",
   "subtitle": "Chapter 9: Testing and Debugging",
   "exercises": {
-    "q1": {
+    "r1": {
       "type": "short",
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "VGhlIG1pc3NpbmcgcGFyZW50aGVzaXMgaXMgYSBzeW50YXggZXJyb3IgZGV0ZWN0ZWQgYnkgdGhlIGNvbXBpbGVyLiBUaGUgb21pdHRlZCBpdGVtIGlzIGEgbG9naWNhbCBlcnJvciBkZXRlY3RlZCBieSBhIHRlc3Qgd2l0aCBhIGtub3duIGV4cGVjdGVkIHRvdGFsLg=="
+      "answer": "VGhlIG1pc3NpbmcgcGFyZW50aGVzaXMgaXMgYSBzeW50YXggZXJyb3IsIGFuZCB0aGUgY29tcGlsZXIgZGV0ZWN0cyBpdC4gVGhlIG9taXR0ZWQgaXRlbSBpcyBhIGxvZ2ljIGVycm9yLCBhbmQgYSB0ZXN0IHdpdGggYSBrbm93biBleHBlY3RlZCB0b3RhbCBkZXRlY3RzIGl0Lg=="
     },
-    "q2": {
+    "r2": {
       "type": "short",
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "Q29tcGFyaW5nIHRoZSByZXN1bHQgd2l0aCA3NTAgaXMgdGVzdGluZzogaXQgc2hvd3MgdGhhdCB0aGlzIGNhc2UgZmFpbHMuIEZpbmRpbmcgdGhlIG9taXR0ZWQgYnJhbmNoIGlzIGRlYnVnZ2luZzogaXQgaWRlbnRpZmllcyB0aGUgc291cmNlIG9mIHRoZSB3cm9uZyB0b3RhbC4="
+      "answer": "SXQgdGVsbHMgeW91IHRoYXQgdGhlIHByb2dyYW0gYmVoYXZlcyBhcyBleHBlY3RlZCBpbiB0aG9zZSAxMiBjYXNlcywgc28gdGhlIGNoYW5nZSBkaWQgbm90IGJyZWFrIHRoZW0uIEl0IGRvZXMgbm90IHByb3ZlIHRoYXQgdGhlIHByb2dyYW0gaGFzIG5vIGJ1Z3MsIGJlY2F1c2UgYSBjYXNlIHRoYXQgbm8gdGVzdCBjb3ZlcnMgY2FuIHN0aWxsIGdvIHdyb25nLg=="
     },
-    "q3": {
+    "r3": {
       "type": "short",
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "U3RhcnQgd2l0aCBhbiBlbXB0eSBvcmRlciBmb3IgYSB2YWxpZCBjdXN0b21lci4gQWRkIHRlYSBhbmQgYSBjb29raWUsIHRoZW4gY2FsbCBnZXRUb3RhbCgpLiBUaGUgZXhwZWN0ZWQgcmVzdWx0IGlzIDM3NSBjZW50cy4="
+      "answer": "VGhlIHNldCB1cCBpcyBzZXRVcCwgd2hpY2ggbWFrZXMgdGhlIGVtcHR5IG9yZGVyLCB0b2dldGhlciB3aXRoIGFkZEl0ZW0sIHdoaWNoIHB1dHMgdGhlIGNvZmZlZSBpbiBpdC4gVGhlIGNhbGwgaXMgb3JkZXIuZ2V0VG90YWwoKS4gVGhlIGNoZWNrIGlzIGFzc2VydEVxdWFscyBjb21wYXJpbmcgdGhlIHJlc3VsdCB3aXRoIDI1MC4="
     },
-    "q5": {
+    "r7": {
       "type": "short",
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "VGhlIG9ic2VydmVkIHZhbHVlIG1heSBhbHJlYWR5IGJlIHdyb25nLiBUaGUgZXhwZWN0ZWQgcmVzdWx0IHNob3VsZCBjb21lIGZyb20gdGhlIGNvbnRyYWN0IGFuZCB0aGUgaW5wdXQgZGF0YSwgc3VjaCBhcyB0aGUgcHJpY2VzIG9mIGFsbCBpdGVtcyBpbiB0aGUgb3JkZXIu"
+      "answer": "WWVzLCBpdCBwYXNzZXMuIEEgdGVzdCBmYWlscyBvbmx5IHdoZW4gYW4gYXNzZXJ0aW9uIGZhaWxzIG9yIHRoZSBjb2RlIHN0b3BzIHdpdGggYW4gZXJyb3IuIE5vdGhpbmcgY29tcGFyZXMgdGhlIHdyb25nIHRvdGFsIHdpdGggMjUwLg=="
     },
-    "q6": {
+    "r9": {
       "type": "short",
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "QXQgMjUwIHRoZSB0YXAgc2hvdWxkIHN1Y2NlZWQsIHNvIGl0IGlzIHBvc2l0aXZlIGFuZCBhdCB0aGUgYm91bmRhcnkuIEF0IDI0OSB0aGUgdGFwIHNob3VsZCBiZSByZWZ1c2VkLCBzbyBpdCBpcyBuZWdhdGl2ZSBhbmQganVzdCBvdXRzaWRlIHRoZSBib3VuZGFyeS4gQm90aCBhcmUgYm91bmRhcnkgdGVzdHMu"
+      "answer": "SWYgdGhlIG1ldGhvZCBpcyB3cm9uZywgNTc1IGlzIHRoZSB3cm9uZyBhbnN3ZXIsIGFuZCB0aGUgdGVzdCBub3cgYWNjZXB0cyBpdC4gVGhlIGV4cGVjdGVkIHZhbHVlIHNob3VsZCBjb21lIGZyb20gdGhlIGNvbnRyYWN0IGFuZCB0aGUgaW5wdXQgZGF0YSwgd29ya2VkIG91dCBiZWZvcmUgcnVubmluZyB0aGUgY29kZS4="
     },
-    "q7": {
+    "r12": {
       "type": "short",
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "VXNlIDExLCAxMiwgMTMsIDY0LCA2NSBhbmQgNjYuIEFjY2VwdCAxMiwgMTMsIDY0IGFuZCA2NTsgcmVmdXNlIDExIGFuZCA2Ni4="
+      "answer": "YXNzZXJ0RXF1YWxzIGZhaWxzLCB3aXRoIGV4cGVjdGVkOiA8NDI1PiBidXQgd2FzOiA8NzUwPi4gVGhlIHJldHVybiB2YWx1ZSBpcyByaWdodCwgYnV0IHRoZSBtdWZmaW4gaXMgc3RpbGwgaW4gdGhlIGxpc3QuIFRoaXMgaXMgd2h5IHdlIGNoZWNrIHRoZSBzdGF0ZSBvZiB0aGUgb3JkZXIgYXMgd2VsbCBhcyB0aGUgcmV0dXJuIHZhbHVlLg=="
     },
-    "q8": {
+    "r16": {
       "type": "short",
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "VGhlIHRvdGFscyBhcmUgMCBhbmQgMTc1LiBFbXB0eSB0ZXN0cyB6ZXJvIGl0ZXJhdGlvbnM7IG9uZSBjb29raWUgdGVzdHMgdGhhdCBleGFjdGx5IG9uZSB2aXNpdCBjb250cmlidXRlcyBpdHMgcHJpY2Uu"
+      "answer": "SXQgc2hvd3MgdGhhdCB0aGUgdGVzdCBjYW4gZmFpbCwgc28gaXQgcmVhbGx5IGNoZWNrcyBzb21ldGhpbmcuIEEgdGVzdCB0aGF0IHBhc3NlcyBiZWZvcmUgdGhlIGNvZGUgZXhpc3RzIG1heSBjaGVjayBub3RoaW5nIGF0IGFsbC4="
     },
-    "q10": {
+    "r20": {
       "type": "short",
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "Tm9uZSBhYm91dCB3aGV0aGVyIHRoZSB0b3RhbCBpcyBjb3JyZWN0LiBUaGUgcHJvZ3JhbSByZWFjaGVkIHRoZSBwcmludCBzdGF0ZW1lbnQuIEl0IG5lZWRzIGFuIGFzc2VydGlvbiBvciBhbm90aGVyIGNvbXBhcmlzb24gd2l0aCBhIGtub3duIGV4cGVjdGVkIHZhbHVlLg=="
+      "answer": "V3JpdGUgYSB0ZXN0IHRoYXQgcmVwcm9kdWNlcyB0aGUgd3JvbmcgcmVzdWx0IGFuZCBjaGVjayB0aGF0IGl0IGZhaWxzLiBJdCBzaG93cyB3aGVuIHRoZSBidWcgaXMgZml4ZWQsIGFuZCBpdCBzdGF5cyBpbiB0aGUgc3VpdGUgdG8gY2F0Y2ggdGhlIGJ1ZyBpZiBpdCBjb21lcyBiYWNrLg=="
     },
-    "q11": {
+    "r24": {
       "type": "short",
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "SXQgc2hvdWxkIHNlZSAwIGJlY2F1c2UgdGhlIHNlY29uZCBjYWxsIGNyZWF0ZXMgYSBuZXcgdGlsbCBhbmQgc3RhcnRzIGFuIGVtcHR5IG9yZGVyLiBSZXVzaW5nIHNldHVwIGNvZGUgZG9lcyBub3QgbWVhbiByZXVzaW5nIHRoZSBmaXJzdCB0ZXN0J3MgY2hhbmdlZCBvYmplY3Qu"
+      "answer": "VGhlIG1ldGhvZCByZXR1cm5lZCB0cnVlLCBidXQgdGhlIGNvZmZlZSBpcyBzdGlsbCBpbiB0aGUgbGlzdCwgYmVjYXVzZSB0aGUgdG90YWwgaXMgc3RpbGwgMjUwLiBZb3Ugc3RpbGwgbmVlZCB0byBmaW5kIG91dCB3aHkgaXQgd2FzIG5vdCByZW1vdmVkLCBieSB0cmFjaW5nIHRoZSBjYWxsLg=="
     },
-    "q13": {
+    "r25": {
       "type": "short",
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "VGhlIHByZXZpb3VzIG9yZGVyIG11c3QgaGF2ZSBiZWVuIGZpbmlzaGVkIG9uY2UuIENsZWFyIHJ1bm5pbmdUb3RhbCBhbmQgaXRlbUNvdW50OyBwcmVzZXJ2ZSBkYXlUb3RhbC4gVGhpcyBzZXBhcmF0ZXMgdGhlIGNhbGxlcidzIG9ibGlnYXRpb24gZnJvbSB0aGUgbWV0aG9kJ3MgcHJvbWlzZS4="
+      "answer": "Rm9yIGV4YW1wbGUsIGFuIGl0ZW0gdGhhdCBpcyBub3QgaW4gdGhlIG9yZGVyIHNob3VsZCByZXR1cm4gZmFsc2UgYW5kIGxlYXZlIHRoZSBvcmRlciB1bmNoYW5nZWQuIFJlbW92aW5nIHRoZSBvbmx5IGl0ZW0gc2hvdWxkIHJldHVybiB0cnVlIGFuZCBsZWF2ZSBhIHRvdGFsIG9mIDAuIFRoZSBlbXB0eSBvcmRlciBhbmQgdHdvIG9mIHRoZSBzYW1lIGl0ZW0gYXJlIGFsc28gZ29vZCBhbnN3ZXJzLg=="
     },
-    "q14": {
+    "r26": {
       "type": "short",
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "QSBuZXcgdGlsbCBzdGFydHMgd2l0aCBubyBlYXJsaWVyIGl0ZW1zLiBUaGUgdGVzdCBuZWVkcyBhIGNvbXBsZXRlZCBmaXJzdCBvcmRlciBvbiB0aGUgc2FtZSBvYmplY3QsIGZvbGxvd2VkIGJ5IHN0YXJ0T3JkZXIoKSBhbmQgdGhlIHRlYSBmb3IgdGhlIHNlY29uZCBvcmRlci4gVGhhdCBoaXN0b3J5IGV4cG9zZXMgdGhlIG1pc3NpbmcgcmVzZXQu"
+      "answer": "YWJvdmVSYW5nZSBmYWlscyB3aXRoIGV4cGVjdGVkOiA8MjA+IGJ1dCB3YXM6IDwzMT4uIFRoZSByZXR1cm4gdmFsdWUgaXMgY29ycmVjdCwgc28gYXNzZXJ0RmFsc2UgcGFzc2VzLiBPbmx5IHRoZSBjaGVjayBvbiB0aGUgdGFyZ2V0IHNlZXMgdGhlIHdyb25nIHN0YXRlLg=="
     },
-    "q15": {
+    "r27-why": {
       "type": "short",
       "xp": 2,
       "minChars": 20,
       "rows": 2,
-      "answer": "VGhlIHJvd3MgYXJlICgwLCAwLCAwKSwgKDI1MCwgMSwgMCksICgyNTAsIDEsIDI1MCksICgwLCAxLCAyNTApLCAoMTc1LCAyLCAyNTApLiBUaGUgc2Vjb25kIHN0YXJ0IHNob3VsZCBjbGVhciB0aGUgY291bnQ7IHRoZSBsYXRlciBjb29raWUgaW5jcmVtZW50cyBhIHN0YWxlIHZhbHVlLg=="
+      "answer": "VGhlIGZpcnN0IHdyb25nIHJvdyBpcyByZXNldCgpOiByb3VuZHMgc3RheXMgYXQgMiwgd2hlcmUgdGhlIGNvbnRyYWN0IHByb21pc2VzIDAuIEFkZCByb3VuZHMgPSAwOyB0byByZXNldC4="
     },
-    "q16": {
-      "type": "short",
+    "r4": {
+      "type": "table",
       "xp": 2,
-      "minChars": 20,
-      "rows": 2,
-      "answer": "VGhlIHNlY29uZCBzdGFydE9yZGVyKCkgcm93IGlzIGZpcnN0IHdyb25nOiBpdHMgY291bnQgcmVtYWlucyAxLiBSaW5naW5nIHVwIHRoZSBjb29raWUgc2hvdWxkIGFkZCBvbmUgaXRlbS4gVGhlIHJlc2V0IG11c3QgY2xlYXIgdGhlIGVhcmxpZXIgY291bnQgYmVmb3JlIHRoYXQgaW5jcmVtZW50IGhhcHBlbnMu"
+      "blanks": {
+        "0": {
+          "accept": [
+            "8"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "1": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
     },
-    "q17": {
-      "type": "short",
-      "xp": 2,
-      "minChars": 20,
-      "rows": 2,
-      "answer": "UnVuIG9ubHkgdGhlIHNob3J0IHJlcHJvZHVjaW5nIHNlcXVlbmNlIGFuZCBlbmFibGUgdGhlIGRlYnVnZ2luZyBmbGFnIGZvciBpdHMgdHJhY2UuIFByaW50IGVhY2ggcmVsZXZhbnQgY2FsbCBsYWJlbCBhbmQgdGhlIHRocmVlIHRpbGwgZmllbGRzIHRvZ2V0aGVyLiBTdXBwcmVzcyB1bnJlbGF0ZWQgb3V0cHV0Lg=="
-    },
-    "q19": {
-      "type": "short",
-      "xp": 2,
-      "minChars": 20,
-      "rows": 2,
-      "answer": "S2VlcCB0aGUgY29tcGxldGVkLWZpcnN0LW9yZGVyLCBzdGFydC1zZWNvbmQtb3JkZXIgc2VxdWVuY2Ugd2l0aCBhc3NlcnRpb25zIGZvciB0aGUgY2xlYXJlZCBjb3VudCwgY2xlYXJlZCBjdXJyZW50IHRvdGFsLCBwcmVzZXJ2ZWQgZGF5IHRvdGFsIGFuZCB0aGUgdGVhIGNvdW50LiBBIGZyZXNoIG9uZS1vcmRlciB0ZXN0IG5ldmVyIGV4ZXJjaXNlcyByZXVzZSBvZiB0aGUgc2FtZSB0aWxsLg=="
-    },
-    "q21": {
-      "type": "short",
-      "xp": 2,
-      "minChars": 20,
-      "rows": 2,
-      "answer": "QWZ0ZXIgdGhlIHRhcCBhbmQgYWNjZXB0ZWQgdG9wLXVwOiBiYWxhbmNlIDM1MCwgdHJpcHMgMS4gUmVmdXNpbmcgLTEwMCBtdXN0IGxlYXZlIGJvdGggYXQgMzUwIGFuZCAxLg=="
-    },
-    "q22": {
-      "type": "short",
-      "xp": 2,
-      "minChars": 20,
-      "rows": 2,
-      "answer": "Tm8uIEl0IHByb3ZpZGVzIGV2aWRlbmNlIGZvciBpdHMgb3duIGNhc2VzLCBub3QgdGhlIHVudGVzdGVkIHNlcXVlbmNlLiBSZXByb2R1Y2UgdGhlIHJlcG9ydGVkIHNlcXVlbmNlIHdpdGgga25vd24gc3RhcnRpbmcgc3RhdGUgYW5kIGV4cGVjdGVkIHJlc3VsdHMsIHRoZW4gYWRkIGFzc2VydGlvbnMgZm9yIGl0Lg=="
-    },
-    "q23": {
-      "type": "short",
-      "xp": 2,
-      "minChars": 20,
-      "rows": 2,
-      "answer": "VXNlIGFuIGludGVnZXIgYXNzZXJ0aW9uIGZvciB0aGUga25vd24gdG90YWwuIFVzZSBhIHN0YXRlIHRhYmxlLCBzdXBwb3J0ZWQgYnkgYSBzaG9ydCB0cmFjZSBpZiBuZWVkZWQsIHRvIGxvY2F0ZSB0aGUgZWFybGllc3Qgd3JvbmcgY291bnQgYWZ0ZXIgYSBjYWxsLg=="
-    },
-    "q24": {
-      "type": "short",
-      "xp": 2,
-      "minChars": 20,
-      "rows": 2,
-      "answer": "UmVydW4gdGhlIHJlcHJvZHVjaW5nIHNlcXVlbmNlIGFuZCB0aGUgZXhpc3RpbmcgdGVzdHMsIGluY2x1ZGluZyByZWZ1c2FscywgYm91bmRhcmllcyBhbmQgcHJlc2VydmVkIGZpZWxkcy4gQWRkIHRoZSByZXByb2R1Y2luZyBjYXNlIGFzIGEgcmVncmVzc2lvbiB0ZXN0LiBPbmUgbWF0Y2hpbmcgZXhhbXBsZSBhbG9uZSBsZWF2ZXMgb3RoZXIgcHJvbWlzZXMgdW5jaGVja2VkLg=="
-    },
-    "q26": {
-      "type": "short",
-      "xp": 2,
-      "minChars": 20,
-      "rows": 2,
-      "answer": "VGhlIGtlZXAgMzAgYXNzZXJ0aW9uIGZhaWxzIGJlY2F1c2UgdGhlIHN0b3JlZCB0YXJnZXQgYmVjb21lcyAzMS4gVGhlIHJlZnVzZSAzMSBib29sZWFuIGNoZWNrIHN0aWxsIHBhc3NlczogdGhlIG1ldGhvZCByZXR1cm5lZCBmYWxzZSwgYnV0IGJyb2tlIGl0cyBwcm9taXNlIHRvIHByZXNlcnZlIHRoZSBvbGQgc3RhdGUu"
-    },
-    "q4": {
+    "r5": {
       "type": "table",
       "xp": 2,
       "blanks": {
         "code": {
           "accept": [
-            "assertEquals(\"two coffees\", 500, order.getTotal());",
-            "assertEquals(\"two coffees\",500,order.getTotal());",
-            "assertEquals(\"two coffees\", 500, order.getTotal())",
-            "assertEquals(\"two coffees\",500,order.getTotal())"
+            "assertEquals(500, order.getTotal());",
+            "assertEquals(500,order.getTotal());",
+            "assertEquals(500, order.getTotal())",
+            "assertEquals(500,order.getTotal())"
           ],
-          "show": "assertEquals(\"two coffees\", 500, order.getTotal());",
+          "show": "assertEquals(500, order.getTotal());",
           "caseSensitive": true,
           "width": "26rem"
         }
       }
     },
-    "q18": {
+    "r8": {
       "type": "table",
       "xp": 2,
       "blanks": {
-        "code": {
+        "0-0": {
           "accept": [
-            "assertEquals(\"day total kept\", 575, till.getDayTotal());",
-            "assertEquals(\"day total kept\",575,till.getDayTotal());",
-            "assertEquals(\"day total kept\", 575, till.getDayTotal())",
-            "assertEquals(\"day total kept\",575,till.getDayTotal())"
+            "true"
           ],
-          "show": "assertEquals(\"day total kept\", 575, till.getDayTotal());",
-          "caseSensitive": true,
-          "width": "26rem"
+          "show": "true",
+          "placeholder": "true / false",
+          "width": "7rem"
+        },
+        "0-1": {
+          "accept": [
+            "175"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "1-0": {
+          "accept": [
+            "false"
+          ],
+          "show": "false",
+          "placeholder": "true / false",
+          "width": "7rem"
+        },
+        "1-1": {
+          "accept": [
+            "375"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
         }
       }
     },
-    "q9-card": {
+    "r10": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "positive",
+            "positive test"
+          ],
+          "show": "positive",
+          "placeholder": "answer",
+          "width": "9rem"
+        },
+        "1": {
+          "accept": [
+            "negative",
+            "negative test"
+          ],
+          "show": "negative",
+          "placeholder": "answer",
+          "width": "9rem"
+        },
+        "2": {
+          "accept": [
+            "edge",
+            "edge case",
+            "edge test"
+          ],
+          "show": "edge",
+          "placeholder": "answer",
+          "width": "9rem"
+        }
+      }
+    },
+    "r11": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "1": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "2": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "3": {
+          "accept": [
+            "2"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "r13": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "Create Test Class",
+            "Create Test Class..."
+          ],
+          "show": "Create Test Class",
+          "placeholder": "command",
+          "width": "18rem"
+        },
+        "1": {
+          "accept": [
+            "Test All"
+          ],
+          "show": "Test All",
+          "placeholder": "command",
+          "width": "18rem"
+        },
+        "2": {
+          "accept": [
+            "Run Tests"
+          ],
+          "show": "Run Tests",
+          "placeholder": "command",
+          "width": "18rem"
+        },
+        "3": {
+          "accept": [
+            "Object Bench to Test Fixture"
+          ],
+          "show": "Object Bench to Test Fixture",
+          "placeholder": "command",
+          "width": "18rem"
+        }
+      }
+    },
+    "r17": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "fail",
+            "fails",
+            "failed"
+          ],
+          "show": "fail",
+          "placeholder": "pass / fail",
+          "width": "7rem"
+        },
+        "1": {
+          "accept": [
+            "fail",
+            "fails",
+            "failed"
+          ],
+          "show": "fail",
+          "placeholder": "pass / fail",
+          "width": "7rem"
+        },
+        "2": {
+          "accept": [
+            "fail",
+            "fails",
+            "failed"
+          ],
+          "show": "fail",
+          "placeholder": "pass / fail",
+          "width": "7rem"
+        },
+        "3": {
+          "accept": [
+            "fail",
+            "fails",
+            "failed"
+          ],
+          "show": "fail",
+          "placeholder": "pass / fail",
+          "width": "7rem"
+        },
+        "4": {
+          "accept": [
+            "fail",
+            "fails",
+            "failed"
+          ],
+          "show": "fail",
+          "placeholder": "pass / fail",
+          "width": "7rem"
+        }
+      }
+    },
+    "r18": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "limit0": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "cond0": {
+          "accept": [
+            "true"
+          ],
+          "show": "true",
+          "placeholder": "true / false",
+          "width": "7rem"
+        },
+        "limit1": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "cond1": {
+          "accept": [
+            "false"
+          ],
+          "show": "false",
+          "placeholder": "true / false",
+          "width": "7rem"
+        }
+      }
+    },
+    "r18-return": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "value": {
+          "accept": [
+            "false"
+          ],
+          "show": "false",
+          "placeholder": "true / false",
+          "width": "7rem"
+        }
+      }
+    },
+    "r22": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0-0": {
+          "accept": [
+            "250"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "0-1": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "1-0": {
+          "accept": [
+            "250"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "1-1": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "2-0": {
+          "accept": [
+            "250"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "2-1": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "r27": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0-0": {
+          "accept": [
+            "7"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "0-1": {
+          "accept": [
+            "1"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "1-0": {
+          "accept": [
+            "12"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "1-1": {
+          "accept": [
+            "2"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "2-0": {
+          "accept": [
+            "0"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "2-1": {
+          "accept": [
+            "2"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "3-0": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        },
+        "3-1": {
+          "accept": [
+            "3"
+          ],
+          "placeholder": "number",
+          "width": "7rem"
+        }
+      }
+    },
+    "r6": {
+      "type": "code",
+      "xp": 4,
+      "title": "OrderTest.java",
+      "minLines": 28,
+      "maxLines": 40,
+      "starter": "import static org.junit.jupiter.api.Assertions.*;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\nimport java.util.ArrayList;\n\npublic class OrderTest\n{\n    private Customer ada;\n    private Order order;\n\n    @BeforeEach\n    public void setUp()\n    {\n        ada = new Customer(\"Ada Lim\", \"555-0101\");\n        order = new Order(ada, new ArrayList<>());\n    }\n\n    // Write totalOfThreeItems here.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "PASS totalOfThreeItems\nTests: 1  Errors: 0  Failures: 0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"@Test\"), \"Mark the method with @Test.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"order.addItem(MenuItem.COOKIE)\"), \"Add the cookie to the order.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertEquals(750,order.getTotal())\"), \"Check the total with assertEquals, with the expected value first.\");",
+      "answer": "aW1wb3J0IHN0YXRpYyBvcmcuanVuaXQuanVwaXRlci5hcGkuQXNzZXJ0aW9ucy4qOwppbXBvcnQgb3JnLmp1bml0Lmp1cGl0ZXIuYXBpLkJlZm9yZUVhY2g7CmltcG9ydCBvcmcuanVuaXQuanVwaXRlci5hcGkuVGVzdDsKaW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgT3JkZXJUZXN0CnsKICAgIHByaXZhdGUgQ3VzdG9tZXIgYWRhOwogICAgcHJpdmF0ZSBPcmRlciBvcmRlcjsKCiAgICBAQmVmb3JlRWFjaAogICAgcHVibGljIHZvaWQgc2V0VXAoKQogICAgewogICAgICAgIGFkYSA9IG5ldyBDdXN0b21lcigiQWRhIExpbSIsICI1NTUtMDEwMSIpOwogICAgICAgIG9yZGVyID0gbmV3IE9yZGVyKGFkYSwgbmV3IEFycmF5TGlzdDw+KCkpOwogICAgfQoKICAgIEBUZXN0CiAgICBwdWJsaWMgdm9pZCB0b3RhbE9mVGhyZWVJdGVtcygpCiAgICB7CiAgICAgICAgb3JkZXIuYWRkSXRlbShNZW51SXRlbS5DT0ZGRUUpOwogICAgICAgIG9yZGVyLmFkZEl0ZW0oTWVudUl0ZW0uTVVGRklOKTsKICAgICAgICBvcmRlci5hZGRJdGVtKE1lbnVJdGVtLkNPT0tJRSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKDc1MCwgb3JkZXIuZ2V0VG90YWwoKSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Customer.java",
+          "content": "public class Customer\n{\n    private String name;\n    private String phone;\n\n    public Customer(String name, String phone)\n    {\n        this.name = name;\n        this.phone = phone;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public String getPhone()\n    {\n        return phone;\n    }\n}"
+        },
+        {
+          "name": "MenuItem.java",
+          "content": "public enum MenuItem\n{\n    COFFEE(\"Coffee\", 250),\n    TEA(\"Tea\", 200),\n    MUFFIN(\"Muffin\", 325),\n    COOKIE(\"Cookie\", 175);\n\n    private String name;\n    private int priceInCents;\n\n    MenuItem(String name, int priceInCents)\n    {\n        this.name = name;\n        this.priceInCents = priceInCents;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public int getPriceInCents()\n    {\n        return priceInCents;\n    }\n}"
+        },
+        {
+          "name": "Order.java",
+          "content": "import java.util.ArrayList;\n\npublic class Order\n{\n    private Customer customer;\n    private ArrayList<MenuItem> items;\n\n    public Order(Customer customer, ArrayList<MenuItem> items)\n    {\n        this.customer = customer;\n        this.items = new ArrayList<>();\n        for(MenuItem item : items) {\n            this.items.add(item);\n        }\n    }\n\n    public void addItem(MenuItem item)\n    {\n        items.add(item);\n    }\n\n    /**\n     * Remove one copy of item from this order.\n     * Return true if it was removed. Return false if the\n     * item is not in the order; the order is then unchanged.\n     */\n    public boolean removeItem(MenuItem item)\n    {\n        for(int i = 0; i < items.size(); i++) {\n            if(items.get(i) == item) {\n                items.remove(i);\n                return true;\n            }\n        }\n        return false;\n    }\n\n    public int getTotal()\n    {\n        int total = 0;\n        for(MenuItem item : items) {\n            total = total + item.getPriceInCents();\n        }\n        return total;\n    }\n\n    private String getHeader()\n    {\n        return \"Order for \" + customer.getName() + \"\\n\"\n             + \"Phone \" + customer.getPhone() + \"\\n\";\n    }\n\n    public String getReceipt()\n    {\n        String receipt = getHeader();\n        for(MenuItem item : items) {\n            receipt = receipt + item.getName() + \" \"\n                    + item.getPriceInCents() + \"\\n\";\n        }\n        return receipt + \"Total \" + getTotal();\n    }\n\n    public String getSummary()\n    {\n        return getHeader() + \"Total \" + getTotal();\n    }\n}"
+        },
+        {
+          "name": "Test.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface Test\n{\n}"
+        },
+        {
+          "name": "BeforeEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface BeforeEach\n{\n}"
+        },
+        {
+          "name": "AfterEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface AfterEach\n{\n}"
+        },
+        {
+          "name": "Assertions.java",
+          "content": "package org.junit.jupiter.api;\npublic final class Assertions\n{\n    public static void assertEquals(int expected, int actual)\n    {\n        if(expected != actual) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertEquals(Object expected, Object actual)\n    {\n        if(expected == null ? actual != null : !expected.equals(actual)) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertTrue(boolean condition)\n    {\n        if(!condition) {\n            throw new AssertionError(\"expected: <true> but was: <false>\");\n        }\n    }\n    public static void assertFalse(boolean condition)\n    {\n        if(condition) {\n            throw new AssertionError(\"expected: <false> but was: <true>\");\n        }\n    }\n}"
+        },
+        {
+          "name": "TestRun.java",
+          "content": "import java.lang.reflect.InvocationTargetException;\nimport java.lang.reflect.Method;\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.Comparator;\nimport org.junit.jupiter.api.AfterEach;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\npublic class TestRun\n{\n    public static void all(Class<?> testClass) throws Exception\n    {\n        ArrayList<Method> tests = new ArrayList<>();\n        for(Method m : testClass.getDeclaredMethods()) {\n            if(m.isAnnotationPresent(Test.class)) {\n                tests.add(m);\n            }\n        }\n        Collections.sort(tests, Comparator.comparing(Method::getName));\n        int errors = 0;\n        int failures = 0;\n        for(Method test : tests) {\n            String result = runOne(testClass, test);\n            System.out.println(result);\n            if(result.startsWith(\"FAIL\")) {\n                failures++;\n            }\n            else if(result.startsWith(\"ERROR\")) {\n                errors++;\n            }\n        }\n        System.out.println(\"Tests: \" + tests.size() + \"  Errors: \" + errors + \"  Failures: \" + failures);\n    }\n\n    private static String runOne(Class<?> testClass, Method test) throws Exception\n    {\n        Object object = testClass.getDeclaredConstructor().newInstance();\n        try {\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(BeforeEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            test.invoke(object);\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(AfterEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            return \"PASS \" + test.getName();\n        }\n        catch(InvocationTargetException e) {\n            Throwable cause = e.getCause();\n            if(cause instanceof AssertionError) {\n                return \"FAIL \" + test.getName() + \"  \" + cause.getMessage();\n            }\n            return \"ERROR \" + test.getName() + \"  \" + cause;\n        }\n    }\n}"
+        },
+        {
+          "name": "RunIt.java",
+          "content": "public class RunIt\n{\n    public static void main(String[] args) throws Exception\n    {\n        TestRun.all(OrderTest.class);\n\n    }\n}"
+        }
+      ]
+    },
+    "r14": {
+      "type": "code",
+      "xp": 4,
+      "title": "CustomerTest.java",
+      "minLines": 21,
+      "maxLines": 33,
+      "starter": "// Write the imports here.\n\npublic class CustomerTest\n{\n    // Write nameIsKept and phoneIsKept here.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "PASS nameIsKept\nPASS phoneIsKept\nTests: 2  Errors: 0  Failures: 0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*assertEquals\\\\(\\\"AdaLim\\\",\\\\w+\\\\.getName\\\\(\\\\)\\\\).*\"), \"In nameIsKept, compare \\\"Ada Lim\\\" with getName(), with the expected value first.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*assertEquals\\\\(\\\"555-0101\\\",\\\\w+\\\\.getPhone\\\\(\\\\)\\\\).*\"), \"In phoneIsKept, compare \\\"555-0101\\\" with getPhone(), with the expected value first.\");",
+      "answer": "aW1wb3J0IHN0YXRpYyBvcmcuanVuaXQuanVwaXRlci5hcGkuQXNzZXJ0aW9ucy4qOwppbXBvcnQgb3JnLmp1bml0Lmp1cGl0ZXIuYXBpLlRlc3Q7CgpwdWJsaWMgY2xhc3MgQ3VzdG9tZXJUZXN0CnsKICAgIEBUZXN0CiAgICBwdWJsaWMgdm9pZCBuYW1lSXNLZXB0KCkKICAgIHsKICAgICAgICBDdXN0b21lciBhZGEgPSBuZXcgQ3VzdG9tZXIoIkFkYSBMaW0iLCAiNTU1LTAxMDEiKTsKICAgICAgICBhc3NlcnRFcXVhbHMoIkFkYSBMaW0iLCBhZGEuZ2V0TmFtZSgpKTsKICAgIH0KCiAgICBAVGVzdAogICAgcHVibGljIHZvaWQgcGhvbmVJc0tlcHQoKQogICAgewogICAgICAgIEN1c3RvbWVyIGFkYSA9IG5ldyBDdXN0b21lcigiQWRhIExpbSIsICI1NTUtMDEwMSIpOwogICAgICAgIGFzc2VydEVxdWFscygiNTU1LTAxMDEiLCBhZGEuZ2V0UGhvbmUoKSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Customer.java",
+          "content": "public class Customer\n{\n    private String name;\n    private String phone;\n\n    public Customer(String name, String phone)\n    {\n        this.name = name;\n        this.phone = phone;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public String getPhone()\n    {\n        return phone;\n    }\n}"
+        },
+        {
+          "name": "Test.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface Test\n{\n}"
+        },
+        {
+          "name": "BeforeEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface BeforeEach\n{\n}"
+        },
+        {
+          "name": "AfterEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface AfterEach\n{\n}"
+        },
+        {
+          "name": "Assertions.java",
+          "content": "package org.junit.jupiter.api;\npublic final class Assertions\n{\n    public static void assertEquals(int expected, int actual)\n    {\n        if(expected != actual) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertEquals(Object expected, Object actual)\n    {\n        if(expected == null ? actual != null : !expected.equals(actual)) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertTrue(boolean condition)\n    {\n        if(!condition) {\n            throw new AssertionError(\"expected: <true> but was: <false>\");\n        }\n    }\n    public static void assertFalse(boolean condition)\n    {\n        if(condition) {\n            throw new AssertionError(\"expected: <false> but was: <true>\");\n        }\n    }\n}"
+        },
+        {
+          "name": "TestRun.java",
+          "content": "import java.lang.reflect.InvocationTargetException;\nimport java.lang.reflect.Method;\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.Comparator;\nimport org.junit.jupiter.api.AfterEach;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\npublic class TestRun\n{\n    public static void all(Class<?> testClass) throws Exception\n    {\n        ArrayList<Method> tests = new ArrayList<>();\n        for(Method m : testClass.getDeclaredMethods()) {\n            if(m.isAnnotationPresent(Test.class)) {\n                tests.add(m);\n            }\n        }\n        Collections.sort(tests, Comparator.comparing(Method::getName));\n        int errors = 0;\n        int failures = 0;\n        for(Method test : tests) {\n            String result = runOne(testClass, test);\n            System.out.println(result);\n            if(result.startsWith(\"FAIL\")) {\n                failures++;\n            }\n            else if(result.startsWith(\"ERROR\")) {\n                errors++;\n            }\n        }\n        System.out.println(\"Tests: \" + tests.size() + \"  Errors: \" + errors + \"  Failures: \" + failures);\n    }\n\n    private static String runOne(Class<?> testClass, Method test) throws Exception\n    {\n        Object object = testClass.getDeclaredConstructor().newInstance();\n        try {\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(BeforeEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            test.invoke(object);\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(AfterEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            return \"PASS \" + test.getName();\n        }\n        catch(InvocationTargetException e) {\n            Throwable cause = e.getCause();\n            if(cause instanceof AssertionError) {\n                return \"FAIL \" + test.getName() + \"  \" + cause.getMessage();\n            }\n            return \"ERROR \" + test.getName() + \"  \" + cause;\n        }\n    }\n}"
+        },
+        {
+          "name": "RunIt.java",
+          "content": "public class RunIt\n{\n    public static void main(String[] args) throws Exception\n    {\n        TestRun.all(CustomerTest.class);\n\n    }\n}"
+        }
+      ]
+    },
+    "r15": {
+      "type": "code",
+      "xp": 4,
+      "title": "OrderTest.java",
+      "minLines": 29,
+      "maxLines": 41,
+      "starter": "import static org.junit.jupiter.api.Assertions.*;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\nimport java.util.ArrayList;\n\npublic class OrderTest\n{\n    private Customer ada;\n    private Order order;\n\n    @BeforeEach\n    public void setUp()\n    {\n        ada = new Customer(\"Ada Lim\", \"555-0101\");\n        order = new Order(ada, new ArrayList<>());\n    }\n\n    // Write removeOneOfTwoTeas here.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "PASS removeOneOfTwoTeas\nTests: 1  Errors: 0  Failures: 0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"order.addItem(MenuItem.COOKIE)\"), \"Start with tea, tea and a cookie.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertTrue(order.removeItem(MenuItem.TEA))\"), \"Check the return value with assertTrue.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertEquals(375,order.getTotal())\"), \"Check the total after the call.\");",
+      "answer": "aW1wb3J0IHN0YXRpYyBvcmcuanVuaXQuanVwaXRlci5hcGkuQXNzZXJ0aW9ucy4qOwppbXBvcnQgb3JnLmp1bml0Lmp1cGl0ZXIuYXBpLkJlZm9yZUVhY2g7CmltcG9ydCBvcmcuanVuaXQuanVwaXRlci5hcGkuVGVzdDsKaW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgT3JkZXJUZXN0CnsKICAgIHByaXZhdGUgQ3VzdG9tZXIgYWRhOwogICAgcHJpdmF0ZSBPcmRlciBvcmRlcjsKCiAgICBAQmVmb3JlRWFjaAogICAgcHVibGljIHZvaWQgc2V0VXAoKQogICAgewogICAgICAgIGFkYSA9IG5ldyBDdXN0b21lcigiQWRhIExpbSIsICI1NTUtMDEwMSIpOwogICAgICAgIG9yZGVyID0gbmV3IE9yZGVyKGFkYSwgbmV3IEFycmF5TGlzdDw+KCkpOwogICAgfQoKICAgIEBUZXN0CiAgICBwdWJsaWMgdm9pZCByZW1vdmVPbmVPZlR3b1RlYXMoKQogICAgewogICAgICAgIG9yZGVyLmFkZEl0ZW0oTWVudUl0ZW0uVEVBKTsKICAgICAgICBvcmRlci5hZGRJdGVtKE1lbnVJdGVtLlRFQSk7CiAgICAgICAgb3JkZXIuYWRkSXRlbShNZW51SXRlbS5DT09LSUUpOwogICAgICAgIGFzc2VydFRydWUob3JkZXIucmVtb3ZlSXRlbShNZW51SXRlbS5URUEpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoMzc1LCBvcmRlci5nZXRUb3RhbCgpKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Customer.java",
+          "content": "public class Customer\n{\n    private String name;\n    private String phone;\n\n    public Customer(String name, String phone)\n    {\n        this.name = name;\n        this.phone = phone;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public String getPhone()\n    {\n        return phone;\n    }\n}"
+        },
+        {
+          "name": "MenuItem.java",
+          "content": "public enum MenuItem\n{\n    COFFEE(\"Coffee\", 250),\n    TEA(\"Tea\", 200),\n    MUFFIN(\"Muffin\", 325),\n    COOKIE(\"Cookie\", 175);\n\n    private String name;\n    private int priceInCents;\n\n    MenuItem(String name, int priceInCents)\n    {\n        this.name = name;\n        this.priceInCents = priceInCents;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public int getPriceInCents()\n    {\n        return priceInCents;\n    }\n}"
+        },
+        {
+          "name": "Order.java",
+          "content": "import java.util.ArrayList;\n\npublic class Order\n{\n    private Customer customer;\n    private ArrayList<MenuItem> items;\n\n    public Order(Customer customer, ArrayList<MenuItem> items)\n    {\n        this.customer = customer;\n        this.items = new ArrayList<>();\n        for(MenuItem item : items) {\n            this.items.add(item);\n        }\n    }\n\n    public void addItem(MenuItem item)\n    {\n        items.add(item);\n    }\n\n    /**\n     * Remove one copy of item from this order.\n     * Return true if it was removed. Return false if the\n     * item is not in the order; the order is then unchanged.\n     */\n    public boolean removeItem(MenuItem item)\n    {\n        for(int i = 0; i < items.size(); i++) {\n            if(items.get(i) == item) {\n                items.remove(i);\n                return true;\n            }\n        }\n        return false;\n    }\n\n    public int getTotal()\n    {\n        int total = 0;\n        for(MenuItem item : items) {\n            total = total + item.getPriceInCents();\n        }\n        return total;\n    }\n\n    private String getHeader()\n    {\n        return \"Order for \" + customer.getName() + \"\\n\"\n             + \"Phone \" + customer.getPhone() + \"\\n\";\n    }\n\n    public String getReceipt()\n    {\n        String receipt = getHeader();\n        for(MenuItem item : items) {\n            receipt = receipt + item.getName() + \" \"\n                    + item.getPriceInCents() + \"\\n\";\n        }\n        return receipt + \"Total \" + getTotal();\n    }\n\n    public String getSummary()\n    {\n        return getHeader() + \"Total \" + getTotal();\n    }\n}"
+        },
+        {
+          "name": "Test.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface Test\n{\n}"
+        },
+        {
+          "name": "BeforeEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface BeforeEach\n{\n}"
+        },
+        {
+          "name": "AfterEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface AfterEach\n{\n}"
+        },
+        {
+          "name": "Assertions.java",
+          "content": "package org.junit.jupiter.api;\npublic final class Assertions\n{\n    public static void assertEquals(int expected, int actual)\n    {\n        if(expected != actual) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertEquals(Object expected, Object actual)\n    {\n        if(expected == null ? actual != null : !expected.equals(actual)) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertTrue(boolean condition)\n    {\n        if(!condition) {\n            throw new AssertionError(\"expected: <true> but was: <false>\");\n        }\n    }\n    public static void assertFalse(boolean condition)\n    {\n        if(condition) {\n            throw new AssertionError(\"expected: <false> but was: <true>\");\n        }\n    }\n}"
+        },
+        {
+          "name": "TestRun.java",
+          "content": "import java.lang.reflect.InvocationTargetException;\nimport java.lang.reflect.Method;\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.Comparator;\nimport org.junit.jupiter.api.AfterEach;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\npublic class TestRun\n{\n    public static void all(Class<?> testClass) throws Exception\n    {\n        ArrayList<Method> tests = new ArrayList<>();\n        for(Method m : testClass.getDeclaredMethods()) {\n            if(m.isAnnotationPresent(Test.class)) {\n                tests.add(m);\n            }\n        }\n        Collections.sort(tests, Comparator.comparing(Method::getName));\n        int errors = 0;\n        int failures = 0;\n        for(Method test : tests) {\n            String result = runOne(testClass, test);\n            System.out.println(result);\n            if(result.startsWith(\"FAIL\")) {\n                failures++;\n            }\n            else if(result.startsWith(\"ERROR\")) {\n                errors++;\n            }\n        }\n        System.out.println(\"Tests: \" + tests.size() + \"  Errors: \" + errors + \"  Failures: \" + failures);\n    }\n\n    private static String runOne(Class<?> testClass, Method test) throws Exception\n    {\n        Object object = testClass.getDeclaredConstructor().newInstance();\n        try {\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(BeforeEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            test.invoke(object);\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(AfterEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            return \"PASS \" + test.getName();\n        }\n        catch(InvocationTargetException e) {\n            Throwable cause = e.getCause();\n            if(cause instanceof AssertionError) {\n                return \"FAIL \" + test.getName() + \"  \" + cause.getMessage();\n            }\n            return \"ERROR \" + test.getName() + \"  \" + cause;\n        }\n    }\n}"
+        },
+        {
+          "name": "RunIt.java",
+          "content": "public class RunIt\n{\n    public static void main(String[] args) throws Exception\n    {\n        TestRun.all(OrderTest.class);\n\n    }\n}"
+        }
+      ]
+    },
+    "r19": {
+      "type": "code",
+      "xp": 4,
+      "title": "OrderTest.java",
+      "minLines": 28,
+      "maxLines": 40,
+      "starter": "import static org.junit.jupiter.api.Assertions.*;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\nimport java.util.ArrayList;\n\npublic class OrderTest\n{\n    private Customer ada;\n    private Order order;\n\n    @BeforeEach\n    public void setUp()\n    {\n        ada = new Customer(\"Ada Lim\", \"555-0101\");\n        order = new Order(ada, new ArrayList<>());\n    }\n\n    // Write removeLastItem here.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "FAIL removeLastItem  expected: <true> but was: <false>\nTests: 1  Errors: 0  Failures: 1"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertTrue(order.removeItem(MenuItem.MUFFIN))\"), \"Check the return value with assertTrue.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertEquals(250,order.getTotal())\"), \"Check the total after the call.\");",
+      "answer": "aW1wb3J0IHN0YXRpYyBvcmcuanVuaXQuanVwaXRlci5hcGkuQXNzZXJ0aW9ucy4qOwppbXBvcnQgb3JnLmp1bml0Lmp1cGl0ZXIuYXBpLkJlZm9yZUVhY2g7CmltcG9ydCBvcmcuanVuaXQuanVwaXRlci5hcGkuVGVzdDsKaW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgT3JkZXJUZXN0CnsKICAgIHByaXZhdGUgQ3VzdG9tZXIgYWRhOwogICAgcHJpdmF0ZSBPcmRlciBvcmRlcjsKCiAgICBAQmVmb3JlRWFjaAogICAgcHVibGljIHZvaWQgc2V0VXAoKQogICAgewogICAgICAgIGFkYSA9IG5ldyBDdXN0b21lcigiQWRhIExpbSIsICI1NTUtMDEwMSIpOwogICAgICAgIG9yZGVyID0gbmV3IE9yZGVyKGFkYSwgbmV3IEFycmF5TGlzdDw+KCkpOwogICAgfQoKICAgIEBUZXN0CiAgICBwdWJsaWMgdm9pZCByZW1vdmVMYXN0SXRlbSgpCiAgICB7CiAgICAgICAgb3JkZXIuYWRkSXRlbShNZW51SXRlbS5DT0ZGRUUpOwogICAgICAgIG9yZGVyLmFkZEl0ZW0oTWVudUl0ZW0uTVVGRklOKTsKICAgICAgICBhc3NlcnRUcnVlKG9yZGVyLnJlbW92ZUl0ZW0oTWVudUl0ZW0uTVVGRklOKSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKDI1MCwgb3JkZXIuZ2V0VG90YWwoKSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Customer.java",
+          "content": "public class Customer\n{\n    private String name;\n    private String phone;\n\n    public Customer(String name, String phone)\n    {\n        this.name = name;\n        this.phone = phone;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public String getPhone()\n    {\n        return phone;\n    }\n}"
+        },
+        {
+          "name": "MenuItem.java",
+          "content": "public enum MenuItem\n{\n    COFFEE(\"Coffee\", 250),\n    TEA(\"Tea\", 200),\n    MUFFIN(\"Muffin\", 325),\n    COOKIE(\"Cookie\", 175);\n\n    private String name;\n    private int priceInCents;\n\n    MenuItem(String name, int priceInCents)\n    {\n        this.name = name;\n        this.priceInCents = priceInCents;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public int getPriceInCents()\n    {\n        return priceInCents;\n    }\n}"
+        },
+        {
+          "name": "Order.java",
+          "content": "import java.util.ArrayList;\n\npublic class Order\n{\n    private Customer customer;\n    private ArrayList<MenuItem> items;\n\n    public Order(Customer customer, ArrayList<MenuItem> items)\n    {\n        this.customer = customer;\n        this.items = new ArrayList<>();\n        for(MenuItem item : items) {\n            this.items.add(item);\n        }\n    }\n\n    public void addItem(MenuItem item)\n    {\n        items.add(item);\n    }\n\n    /**\n     * Remove one copy of item from this order.\n     * Return true if it was removed. Return false if the\n     * item is not in the order; the order is then unchanged.\n     */\n    public boolean removeItem(MenuItem item)\n    {\n        for(int i = 0; i < items.size() - 1; i++) {\n            if(items.get(i) == item) {\n                items.remove(i);\n                return true;\n            }\n        }\n        return false;\n    }\n\n    public int getTotal()\n    {\n        int total = 0;\n        for(MenuItem item : items) {\n            total = total + item.getPriceInCents();\n        }\n        return total;\n    }\n\n    private String getHeader()\n    {\n        return \"Order for \" + customer.getName() + \"\\n\"\n             + \"Phone \" + customer.getPhone() + \"\\n\";\n    }\n\n    public String getReceipt()\n    {\n        String receipt = getHeader();\n        for(MenuItem item : items) {\n            receipt = receipt + item.getName() + \" \"\n                    + item.getPriceInCents() + \"\\n\";\n        }\n        return receipt + \"Total \" + getTotal();\n    }\n\n    public String getSummary()\n    {\n        return getHeader() + \"Total \" + getTotal();\n    }\n}"
+        },
+        {
+          "name": "Test.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface Test\n{\n}"
+        },
+        {
+          "name": "BeforeEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface BeforeEach\n{\n}"
+        },
+        {
+          "name": "AfterEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface AfterEach\n{\n}"
+        },
+        {
+          "name": "Assertions.java",
+          "content": "package org.junit.jupiter.api;\npublic final class Assertions\n{\n    public static void assertEquals(int expected, int actual)\n    {\n        if(expected != actual) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertEquals(Object expected, Object actual)\n    {\n        if(expected == null ? actual != null : !expected.equals(actual)) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertTrue(boolean condition)\n    {\n        if(!condition) {\n            throw new AssertionError(\"expected: <true> but was: <false>\");\n        }\n    }\n    public static void assertFalse(boolean condition)\n    {\n        if(condition) {\n            throw new AssertionError(\"expected: <false> but was: <true>\");\n        }\n    }\n}"
+        },
+        {
+          "name": "TestRun.java",
+          "content": "import java.lang.reflect.InvocationTargetException;\nimport java.lang.reflect.Method;\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.Comparator;\nimport org.junit.jupiter.api.AfterEach;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\npublic class TestRun\n{\n    public static void all(Class<?> testClass) throws Exception\n    {\n        ArrayList<Method> tests = new ArrayList<>();\n        for(Method m : testClass.getDeclaredMethods()) {\n            if(m.isAnnotationPresent(Test.class)) {\n                tests.add(m);\n            }\n        }\n        Collections.sort(tests, Comparator.comparing(Method::getName));\n        int errors = 0;\n        int failures = 0;\n        for(Method test : tests) {\n            String result = runOne(testClass, test);\n            System.out.println(result);\n            if(result.startsWith(\"FAIL\")) {\n                failures++;\n            }\n            else if(result.startsWith(\"ERROR\")) {\n                errors++;\n            }\n        }\n        System.out.println(\"Tests: \" + tests.size() + \"  Errors: \" + errors + \"  Failures: \" + failures);\n    }\n\n    private static String runOne(Class<?> testClass, Method test) throws Exception\n    {\n        Object object = testClass.getDeclaredConstructor().newInstance();\n        try {\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(BeforeEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            test.invoke(object);\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(AfterEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            return \"PASS \" + test.getName();\n        }\n        catch(InvocationTargetException e) {\n            Throwable cause = e.getCause();\n            if(cause instanceof AssertionError) {\n                return \"FAIL \" + test.getName() + \"  \" + cause.getMessage();\n            }\n            return \"ERROR \" + test.getName() + \"  \" + cause;\n        }\n    }\n}"
+        },
+        {
+          "name": "RunIt.java",
+          "content": "public class RunIt\n{\n    public static void main(String[] args) throws Exception\n    {\n        TestRun.all(OrderTest.class);\n\n    }\n}"
+        }
+      ]
+    },
+    "r21": {
+      "type": "code",
+      "xp": 6,
+      "title": "TransitCardTest.java",
+      "minLines": 59,
+      "maxLines": 71,
+      "starter": "import static org.junit.jupiter.api.Assertions.*;\nimport org.junit.jupiter.api.Test;\n\npublic class TransitCardTest\n{\n    // Write the six tests here.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "FAIL newMonthResetsTrips  expected: <0> but was: <1>\nPASS tapWithEnoughCredit\nFAIL tapWithExactFare  expected: <true> but was: <false>\nPASS tapWithTooLittleCredit\nPASS topUpNegativeAmount\nPASS topUpPositiveAmount\nTests: 6  Errors: 0  Failures: 2"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"topUp(-100)\"), \"Test a negative top-up of -100.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"newMonth()\"), \"Call newMonth in newMonthResetsTrips.\");",
+      "answer": "aW1wb3J0IHN0YXRpYyBvcmcuanVuaXQuanVwaXRlci5hcGkuQXNzZXJ0aW9ucy4qOwppbXBvcnQgb3JnLmp1bml0Lmp1cGl0ZXIuYXBpLlRlc3Q7CgpwdWJsaWMgY2xhc3MgVHJhbnNpdENhcmRUZXN0CnsKICAgIEBUZXN0CiAgICBwdWJsaWMgdm9pZCB0YXBXaXRoRW5vdWdoQ3JlZGl0KCkKICAgIHsKICAgICAgICBUcmFuc2l0Q2FyZCBjYXJkID0gbmV3IFRyYW5zaXRDYXJkKDUwMCk7CiAgICAgICAgYXNzZXJ0VHJ1ZShjYXJkLnRhcE9uKCkpOwogICAgICAgIGFzc2VydEVxdWFscygyNTAsIGNhcmQuZ2V0QmFsYW5jZSgpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoMSwgY2FyZC5nZXRUcmlwcygpKTsKICAgIH0KCiAgICBAVGVzdAogICAgcHVibGljIHZvaWQgdGFwV2l0aEV4YWN0RmFyZSgpCiAgICB7CiAgICAgICAgVHJhbnNpdENhcmQgY2FyZCA9IG5ldyBUcmFuc2l0Q2FyZCgyNTApOwogICAgICAgIGFzc2VydFRydWUoY2FyZC50YXBPbigpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoMCwgY2FyZC5nZXRCYWxhbmNlKCkpOwogICAgfQoKICAgIEBUZXN0CiAgICBwdWJsaWMgdm9pZCB0YXBXaXRoVG9vTGl0dGxlQ3JlZGl0KCkKICAgIHsKICAgICAgICBUcmFuc2l0Q2FyZCBjYXJkID0gbmV3IFRyYW5zaXRDYXJkKDEwMCk7CiAgICAgICAgYXNzZXJ0RmFsc2UoY2FyZC50YXBPbigpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoMTAwLCBjYXJkLmdldEJhbGFuY2UoKSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKDAsIGNhcmQuZ2V0VHJpcHMoKSk7CiAgICB9CgogICAgQFRlc3QKICAgIHB1YmxpYyB2b2lkIHRvcFVwUG9zaXRpdmVBbW91bnQoKQogICAgewogICAgICAgIFRyYW5zaXRDYXJkIGNhcmQgPSBuZXcgVHJhbnNpdENhcmQoMCk7CiAgICAgICAgYXNzZXJ0VHJ1ZShjYXJkLnRvcFVwKDUwMCkpOwogICAgICAgIGFzc2VydEVxdWFscyg1MDAsIGNhcmQuZ2V0QmFsYW5jZSgpKTsKICAgIH0KCiAgICBAVGVzdAogICAgcHVibGljIHZvaWQgdG9wVXBOZWdhdGl2ZUFtb3VudCgpCiAgICB7CiAgICAgICAgVHJhbnNpdENhcmQgY2FyZCA9IG5ldyBUcmFuc2l0Q2FyZCgzMDApOwogICAgICAgIGFzc2VydEZhbHNlKGNhcmQudG9wVXAoLTEwMCkpOwogICAgICAgIGFzc2VydEVxdWFscygzMDAsIGNhcmQuZ2V0QmFsYW5jZSgpKTsKICAgIH0KCiAgICBAVGVzdAogICAgcHVibGljIHZvaWQgbmV3TW9udGhSZXNldHNUcmlwcygpCiAgICB7CiAgICAgICAgVHJhbnNpdENhcmQgY2FyZCA9IG5ldyBUcmFuc2l0Q2FyZCg1MDApOwogICAgICAgIGNhcmQudGFwT24oKTsKICAgICAgICBjYXJkLm5ld01vbnRoKCk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKDAsIGNhcmQuZ2V0VHJpcHMoKSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKDI1MCwgY2FyZC5nZXRCYWxhbmNlKCkpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "TransitCard.java",
+          "content": "public class TransitCard\n{\n    private static final int FARE = 250;\n    private int balance;\n    private int trips;\n\n    public TransitCard(int balance)\n    {\n        this.balance = balance;\n        trips = 0;\n    }\n\n    public boolean tapOn()\n    {\n        if(balance > FARE) {\n            balance -= FARE;\n            trips++;\n            return true;\n        }\n        return false;\n    }\n\n    public boolean topUp(int amount)\n    {\n        if(amount <= 0) {\n            return false;\n        }\n        balance += amount;\n        return true;\n    }\n\n    public void newMonth()\n    {\n        // Keep the credit for the new month.\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int getTrips()\n    {\n        return trips;\n    }\n}"
+        },
+        {
+          "name": "Test.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface Test\n{\n}"
+        },
+        {
+          "name": "BeforeEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface BeforeEach\n{\n}"
+        },
+        {
+          "name": "AfterEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface AfterEach\n{\n}"
+        },
+        {
+          "name": "Assertions.java",
+          "content": "package org.junit.jupiter.api;\npublic final class Assertions\n{\n    public static void assertEquals(int expected, int actual)\n    {\n        if(expected != actual) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertEquals(Object expected, Object actual)\n    {\n        if(expected == null ? actual != null : !expected.equals(actual)) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertTrue(boolean condition)\n    {\n        if(!condition) {\n            throw new AssertionError(\"expected: <true> but was: <false>\");\n        }\n    }\n    public static void assertFalse(boolean condition)\n    {\n        if(condition) {\n            throw new AssertionError(\"expected: <false> but was: <true>\");\n        }\n    }\n}"
+        },
+        {
+          "name": "TestRun.java",
+          "content": "import java.lang.reflect.InvocationTargetException;\nimport java.lang.reflect.Method;\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.Comparator;\nimport org.junit.jupiter.api.AfterEach;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\npublic class TestRun\n{\n    public static void all(Class<?> testClass) throws Exception\n    {\n        ArrayList<Method> tests = new ArrayList<>();\n        for(Method m : testClass.getDeclaredMethods()) {\n            if(m.isAnnotationPresent(Test.class)) {\n                tests.add(m);\n            }\n        }\n        Collections.sort(tests, Comparator.comparing(Method::getName));\n        int errors = 0;\n        int failures = 0;\n        for(Method test : tests) {\n            String result = runOne(testClass, test);\n            System.out.println(result);\n            if(result.startsWith(\"FAIL\")) {\n                failures++;\n            }\n            else if(result.startsWith(\"ERROR\")) {\n                errors++;\n            }\n        }\n        System.out.println(\"Tests: \" + tests.size() + \"  Errors: \" + errors + \"  Failures: \" + failures);\n    }\n\n    private static String runOne(Class<?> testClass, Method test) throws Exception\n    {\n        Object object = testClass.getDeclaredConstructor().newInstance();\n        try {\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(BeforeEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            test.invoke(object);\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(AfterEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            return \"PASS \" + test.getName();\n        }\n        catch(InvocationTargetException e) {\n            Throwable cause = e.getCause();\n            if(cause instanceof AssertionError) {\n                return \"FAIL \" + test.getName() + \"  \" + cause.getMessage();\n            }\n            return \"ERROR \" + test.getName() + \"  \" + cause;\n        }\n    }\n}"
+        },
+        {
+          "name": "RunIt.java",
+          "content": "public class RunIt\n{\n    public static void main(String[] args) throws Exception\n    {\n        TestRun.all(TransitCardTest.class);\n\n    }\n}"
+        }
+      ]
+    },
+    "r23": {
       "type": "code",
       "xp": 4,
       "title": "TransitCard.java",
@@ -188,439 +748,223 @@
       "cases": [
         {
           "name": "Output of the checking program",
-          "expected": "false\n249\n0\ntrue\n0\n1\nfalse\n0\n1\ntrue\n1\n1\nfalse\nfalse\n1\n1\ntrue\n101\n1"
+          "expected": "PASS newMonthResetsTrips\nPASS tapWithEnoughCredit\nPASS tapWithExactFare\nPASS tapWithTooLittleCredit\nPASS topUpNegativeAmount\nPASS topUpPositiveAmount\nTests: 6  Errors: 0  Failures: 0\nfalse 249 0\ntrue 1 1\nfalse 1\ntrue 0 1"
         }
       ],
-      "check": "",
-      "answer": "cHVibGljIGNsYXNzIFRyYW5zaXRDYXJkCnsKICAgIHByaXZhdGUgc3RhdGljIGZpbmFsIGludCBGQVJFID0gMjUwOwogICAgcHJpdmF0ZSBpbnQgYmFsYW5jZTsKICAgIHByaXZhdGUgaW50IHRyaXBzOwoKICAgIHB1YmxpYyBUcmFuc2l0Q2FyZChpbnQgYmFsYW5jZSkKICAgIHsKICAgICAgICB0aGlzLmJhbGFuY2UgPSBiYWxhbmNlOwogICAgICAgIHRyaXBzID0gMDsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiB0YXBPbigpCiAgICB7CiAgICAgICAgaWYoYmFsYW5jZSA+PSBGQVJFKSB7CiAgICAgICAgICAgIGJhbGFuY2UgLT0gRkFSRTsKICAgICAgICAgICAgdHJpcHMrKzsKICAgICAgICAgICAgcmV0dXJuIHRydWU7CiAgICAgICAgfQogICAgICAgIHJldHVybiBmYWxzZTsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiB0b3BVcChpbnQgYW1vdW50KQogICAgewogICAgICAgIGlmKGFtb3VudCA8PSAwKSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9CiAgICAgICAgYmFsYW5jZSArPSBhbW91bnQ7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIHZvaWQgbmV3TW9udGgoKQogICAgewogICAgICAgIC8vIEtlZXAgdGhlIGNyZWRpdCBmb3IgdGhlIG5ldyBtb250aC4KICAgIH0KCiAgICBwdWJsaWMgaW50IGdldEJhbGFuY2UoKQogICAgewogICAgICAgIHJldHVybiBiYWxhbmNlOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0VHJpcHMoKQogICAgewogICAgICAgIHJldHVybiB0cmlwczsKICAgIH0KfQ==",
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"balance>=FARE\"), \"Accept an exact fare with >=.\");",
+      "answer": "cHVibGljIGNsYXNzIFRyYW5zaXRDYXJkCnsKICAgIHByaXZhdGUgc3RhdGljIGZpbmFsIGludCBGQVJFID0gMjUwOwogICAgcHJpdmF0ZSBpbnQgYmFsYW5jZTsKICAgIHByaXZhdGUgaW50IHRyaXBzOwoKICAgIHB1YmxpYyBUcmFuc2l0Q2FyZChpbnQgYmFsYW5jZSkKICAgIHsKICAgICAgICB0aGlzLmJhbGFuY2UgPSBiYWxhbmNlOwogICAgICAgIHRyaXBzID0gMDsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiB0YXBPbigpCiAgICB7CiAgICAgICAgaWYoYmFsYW5jZSA+PSBGQVJFKSB7CiAgICAgICAgICAgIGJhbGFuY2UgLT0gRkFSRTsKICAgICAgICAgICAgdHJpcHMrKzsKICAgICAgICAgICAgcmV0dXJuIHRydWU7CiAgICAgICAgfQogICAgICAgIHJldHVybiBmYWxzZTsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiB0b3BVcChpbnQgYW1vdW50KQogICAgewogICAgICAgIGlmKGFtb3VudCA8PSAwKSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9CiAgICAgICAgYmFsYW5jZSArPSBhbW91bnQ7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIHZvaWQgbmV3TW9udGgoKQogICAgewogICAgICAgIHRyaXBzID0gMDsKICAgIH0KCiAgICBwdWJsaWMgaW50IGdldEJhbGFuY2UoKQogICAgewogICAgICAgIHJldHVybiBiYWxhbmNlOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0VHJpcHMoKQogICAgewogICAgICAgIHJldHVybiB0cmlwczsKICAgIH0KfQ==",
       "files": [
         {
-          "name": "CardEdges.java",
-          "content": "public class CardEdges\n{\n    public static void main(String[] args)\n    {\n        TransitCard low = new TransitCard(249);\n        System.out.println(low.tapOn());\n        System.out.println(low.getBalance());\n        System.out.println(low.getTrips());\n        TransitCard exact = new TransitCard(250);\n        System.out.println(exact.tapOn());\n        System.out.println(exact.getBalance());\n        System.out.println(exact.getTrips());\n        System.out.println(exact.tapOn());\n        System.out.println(exact.getBalance());\n        System.out.println(exact.getTrips());\n        TransitCard above = new TransitCard(251);\n        System.out.println(above.tapOn());\n        System.out.println(above.getBalance());\n        System.out.println(above.getTrips());\n        System.out.println(above.topUp(0));\n        System.out.println(above.topUp(-100));\n        System.out.println(above.getBalance());\n        System.out.println(above.getTrips());\n        System.out.println(above.topUp(100));\n        System.out.println(above.getBalance());\n        System.out.println(above.getTrips());\n    }\n}"
+          "name": "TransitCardTest.java",
+          "content": "import static org.junit.jupiter.api.Assertions.*;\nimport org.junit.jupiter.api.Test;\n\npublic class TransitCardTest\n{\n    @Test\n    public void tapWithEnoughCredit()\n    {\n        TransitCard card = new TransitCard(500);\n        assertTrue(card.tapOn());\n        assertEquals(250, card.getBalance());\n        assertEquals(1, card.getTrips());\n    }\n\n    @Test\n    public void tapWithExactFare()\n    {\n        TransitCard card = new TransitCard(250);\n        assertTrue(card.tapOn());\n        assertEquals(0, card.getBalance());\n    }\n\n    @Test\n    public void tapWithTooLittleCredit()\n    {\n        TransitCard card = new TransitCard(100);\n        assertFalse(card.tapOn());\n        assertEquals(100, card.getBalance());\n        assertEquals(0, card.getTrips());\n    }\n\n    @Test\n    public void topUpPositiveAmount()\n    {\n        TransitCard card = new TransitCard(0);\n        assertTrue(card.topUp(500));\n        assertEquals(500, card.getBalance());\n    }\n\n    @Test\n    public void topUpNegativeAmount()\n    {\n        TransitCard card = new TransitCard(300);\n        assertFalse(card.topUp(-100));\n        assertEquals(300, card.getBalance());\n    }\n\n    @Test\n    public void newMonthResetsTrips()\n    {\n        TransitCard card = new TransitCard(500);\n        card.tapOn();\n        card.newMonth();\n        assertEquals(0, card.getTrips());\n        assertEquals(250, card.getBalance());\n    }\n}"
+        },
+        {
+          "name": "Test.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface Test\n{\n}"
+        },
+        {
+          "name": "BeforeEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface BeforeEach\n{\n}"
+        },
+        {
+          "name": "AfterEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface AfterEach\n{\n}"
+        },
+        {
+          "name": "Assertions.java",
+          "content": "package org.junit.jupiter.api;\npublic final class Assertions\n{\n    public static void assertEquals(int expected, int actual)\n    {\n        if(expected != actual) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertEquals(Object expected, Object actual)\n    {\n        if(expected == null ? actual != null : !expected.equals(actual)) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertTrue(boolean condition)\n    {\n        if(!condition) {\n            throw new AssertionError(\"expected: <true> but was: <false>\");\n        }\n    }\n    public static void assertFalse(boolean condition)\n    {\n        if(condition) {\n            throw new AssertionError(\"expected: <false> but was: <true>\");\n        }\n    }\n}"
+        },
+        {
+          "name": "TestRun.java",
+          "content": "import java.lang.reflect.InvocationTargetException;\nimport java.lang.reflect.Method;\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.Comparator;\nimport org.junit.jupiter.api.AfterEach;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\npublic class TestRun\n{\n    public static void all(Class<?> testClass) throws Exception\n    {\n        ArrayList<Method> tests = new ArrayList<>();\n        for(Method m : testClass.getDeclaredMethods()) {\n            if(m.isAnnotationPresent(Test.class)) {\n                tests.add(m);\n            }\n        }\n        Collections.sort(tests, Comparator.comparing(Method::getName));\n        int errors = 0;\n        int failures = 0;\n        for(Method test : tests) {\n            String result = runOne(testClass, test);\n            System.out.println(result);\n            if(result.startsWith(\"FAIL\")) {\n                failures++;\n            }\n            else if(result.startsWith(\"ERROR\")) {\n                errors++;\n            }\n        }\n        System.out.println(\"Tests: \" + tests.size() + \"  Errors: \" + errors + \"  Failures: \" + failures);\n    }\n\n    private static String runOne(Class<?> testClass, Method test) throws Exception\n    {\n        Object object = testClass.getDeclaredConstructor().newInstance();\n        try {\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(BeforeEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            test.invoke(object);\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(AfterEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            return \"PASS \" + test.getName();\n        }\n        catch(InvocationTargetException e) {\n            Throwable cause = e.getCause();\n            if(cause instanceof AssertionError) {\n                return \"FAIL \" + test.getName() + \"  \" + cause.getMessage();\n            }\n            return \"ERROR \" + test.getName() + \"  \" + cause;\n        }\n    }\n}"
+        },
+        {
+          "name": "RunIt.java",
+          "content": "public class RunIt\n{\n    public static void main(String[] args) throws Exception\n    {\n        TestRun.all(TransitCardTest.class);\n        TransitCard low = new TransitCard(249);\n        System.out.println(low.tapOn() + \" \" + low.getBalance() + \" \" + low.getTrips());\n        TransitCard high = new TransitCard(251);\n        System.out.println(high.tapOn() + \" \" + high.getBalance() + \" \" + high.getTrips());\n        System.out.println(high.topUp(0) + \" \" + high.getBalance());\n        TransitCard month = new TransitCard(500);\n        month.tapOn();\n        month.newMonth();\n        month.newMonth();\n        System.out.println(month.tapOn() + \" \" + month.getBalance() + \" \" + month.getTrips());\n    }\n}"
         }
       ]
     },
-    "q9-test": {
-      "type": "code",
-      "xp": 4,
-      "title": "TransitCardTest.java",
-      "minLines": 60,
-      "maxLines": 72,
-      "starter": "public class TransitCardTest\n{\n    private static int failures = 0;\n\n    public static void main(String[] args)\n    {\n        // Run testTaps and report the failure count.\n    }\n\n    // Add testTaps and the two assertion helpers.\n}",
-      "cases": [
-        {
-          "name": "Output of the checking program",
-          "expected": "PASS first tap\nPASS after first\nPASS exact fare\nPASS after second\nPASS third refused\nPASS after third\nPASS negative top-up\nPASS after refusal\nAll tests passed"
-        }
-      ],
-      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertEquals(Stringlabel,intexpected,intactual)\"), \"Include the integer assertion helper with a label.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertTrue(Stringlabel,booleancondition)\"), \"Include the boolean assertion helper with a label.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"failures++\"), \"Count failed checks and keep going.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"if(failures==0)\"), \"Print the success message only when no check failed.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"testTaps();\"), \"Run the tap tests from main.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.topUp\\\\(-100\\\\).*\"), \"Keep the negative top-up check.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.tapOn\\\\(\\\\).*\\\\.tapOn\\\\(\\\\).*\\\\.tapOn\\\\(\\\\).*\"), \"Test the first tap, exact fare and third refused tap.\");",
-      "answer": "cHVibGljIGNsYXNzIFRyYW5zaXRDYXJkVGVzdAp7CiAgICBwcml2YXRlIHN0YXRpYyBpbnQgZmFpbHVyZXMgPSAwOwoKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgdGVzdFRhcHMoKTsKICAgICAgICBpZihmYWlsdXJlcyA9PSAwKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQWxsIHRlc3RzIHBhc3NlZCIpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGYWlsdXJlczogIiArIGZhaWx1cmVzKTsKICAgICAgICB9CiAgICB9CgogICAgcHJpdmF0ZSBzdGF0aWMgdm9pZCB0ZXN0VGFwcygpCiAgICB7CiAgICAgICAgVHJhbnNpdENhcmQgY2FyZCA9IG5ldyBUcmFuc2l0Q2FyZCg1MDApOwogICAgICAgIGFzc2VydFRydWUoImZpcnN0IHRhcCIsIGNhcmQudGFwT24oKSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJhZnRlciBmaXJzdCIsIDI1MCwKICAgICAgICAgICAgY2FyZC5nZXRCYWxhbmNlKCkpOwogICAgICAgIGFzc2VydFRydWUoImV4YWN0IGZhcmUiLCBjYXJkLnRhcE9uKCkpOwogICAgICAgIGFzc2VydEVxdWFscygiYWZ0ZXIgc2Vjb25kIiwgMCwKICAgICAgICAgICAgY2FyZC5nZXRCYWxhbmNlKCkpOwogICAgICAgIGFzc2VydFRydWUoInRoaXJkIHJlZnVzZWQiLCAhY2FyZC50YXBPbigpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoImFmdGVyIHRoaXJkIiwgMCwKICAgICAgICAgICAgY2FyZC5nZXRCYWxhbmNlKCkpOwogICAgICAgIGFzc2VydFRydWUoIm5lZ2F0aXZlIHRvcC11cCIsICFjYXJkLnRvcFVwKC0xMDApKTsKICAgICAgICBhc3NlcnRFcXVhbHMoImFmdGVyIHJlZnVzYWwiLCAwLAogICAgICAgICAgICBjYXJkLmdldEJhbGFuY2UoKSk7CiAgICB9CgogICAgcHJpdmF0ZSBzdGF0aWMgdm9pZCBhc3NlcnRFcXVhbHMoU3RyaW5nIGxhYmVsLAogICAgICAgIGludCBleHBlY3RlZCwgaW50IGFjdHVhbCkKICAgIHsKICAgICAgICBpZihleHBlY3RlZCA9PSBhY3R1YWwpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJQQVNTICIgKyBsYWJlbCk7CiAgICAgICAgfQogICAgICAgIGVsc2UgewogICAgICAgICAgICBmYWlsdXJlcysrOwogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkZBSUwgIiArIGxhYmVsCiAgICAgICAgICAgICAgICArICI6IGV4cGVjdGVkICIgKyBleHBlY3RlZAogICAgICAgICAgICAgICAgKyAiLCBhY3R1YWwgIiArIGFjdHVhbCk7CiAgICAgICAgfQogICAgfQoKICAgIHByaXZhdGUgc3RhdGljIHZvaWQgYXNzZXJ0VHJ1ZShTdHJpbmcgbGFiZWwsCiAgICAgICAgYm9vbGVhbiBjb25kaXRpb24pCiAgICB7CiAgICAgICAgaWYoY29uZGl0aW9uKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiUEFTUyAiICsgbGFiZWwpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgZmFpbHVyZXMrKzsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGQUlMICIgKyBsYWJlbCk7CiAgICAgICAgfQogICAgfQp9",
-      "files": [
-        {
-          "name": "TransitCard.java",
-          "content": "public class TransitCard\n{\n    private static final int FARE = 250;\n    private int balance;\n    private int trips;\n\n    public TransitCard(int balance)\n    {\n        this.balance = balance;\n        trips = 0;\n    }\n\n    public boolean tapOn()\n    {\n        if(balance >= FARE) {\n            balance -= FARE;\n            trips++;\n            return true;\n        }\n        return false;\n    }\n\n    public boolean topUp(int amount)\n    {\n        if(amount <= 0) {\n            return false;\n        }\n        balance += amount;\n        return true;\n    }\n\n    public void newMonth()\n    {\n        // Keep the credit for the new month.\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int getTrips()\n    {\n        return trips;\n    }\n}"
-        }
-      ]
-    },
-    "q12": {
-      "type": "code",
-      "xp": 4,
-      "title": "Report.java",
-      "minLines": 22,
-      "maxLines": 34,
-      "starter": "public class Report\n{\n    private static int failures = 0;\n\n    private static void report()\n    {\n        // Print success only for zero failures; otherwise print the count.\n    }\n\n    public static void main(String[] args)\n    {\n        report();\n        failures = 2;\n        report();\n    }\n}",
-      "cases": [
-        {
-          "name": "Output of the checking program",
-          "expected": "All tests passed\nFailures: 2"
-        }
-      ],
-      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"if(failures==0)\"), \"Compare the failure count with zero before reporting success.\");",
-      "answer": "cHVibGljIGNsYXNzIFJlcG9ydAp7CiAgICBwcml2YXRlIHN0YXRpYyBpbnQgZmFpbHVyZXMgPSAwOwoKICAgIHByaXZhdGUgc3RhdGljIHZvaWQgcmVwb3J0KCkKICAgIHsKICAgICAgICBpZihmYWlsdXJlcyA9PSAwKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQWxsIHRlc3RzIHBhc3NlZCIpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGYWlsdXJlczogIiArIGZhaWx1cmVzKTsKICAgICAgICB9CiAgICB9CgogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICByZXBvcnQoKTsKICAgICAgICBmYWlsdXJlcyA9IDI7CiAgICAgICAgcmVwb3J0KCk7CiAgICB9Cn0=",
-      "files": []
-    },
-    "q15-state": {
-      "type": "table",
-      "xp": 3,
-      "blanks": {
-        "0-0": {
-          "accept": [
-            "0"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "0-1": {
-          "accept": [
-            "0"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "0-2": {
-          "accept": [
-            "0"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "1-0": {
-          "accept": [
-            "250"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "1-1": {
-          "accept": [
-            "1"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "1-2": {
-          "accept": [
-            "0"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "2-0": {
-          "accept": [
-            "250"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "2-1": {
-          "accept": [
-            "1"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "2-2": {
-          "accept": [
-            "250"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "3-0": {
-          "accept": [
-            "0"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "3-1": {
-          "accept": [
-            "1"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "3-2": {
-          "accept": [
-            "250"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "4-0": {
-          "accept": [
-            "175"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "4-1": {
-          "accept": [
-            "2"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "4-2": {
-          "accept": [
-            "250"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        }
-      }
-    },
-    "q20-card": {
-      "type": "code",
-      "xp": 4,
-      "title": "TransitCard.java",
-      "minLines": 53,
-      "maxLines": 65,
-      "starter": "public class TransitCard\n{\n    private static final int FARE = 250;\n    private int balance;\n    private int trips;\n\n    public TransitCard(int balance)\n    {\n        this.balance = balance;\n        trips = 0;\n    }\n\n    public boolean tapOn()\n    {\n        if(balance >= FARE) {\n            balance -= FARE;\n            trips++;\n            return true;\n        }\n        return false;\n    }\n\n    public boolean topUp(int amount)\n    {\n        if(amount <= 0) {\n            return false;\n        }\n        balance += amount;\n        return true;\n    }\n\n    public void newMonth()\n    {\n        // Keep the credit for the new month.\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int getTrips()\n    {\n        return trips;\n    }\n}",
-      "cases": [
-        {
-          "name": "Output of the checking program",
-          "expected": "balance=500 trips=0\ntrue\nbalance=250 trips=1\nbalance=250 trips=0\nbalance=250 trips=0\ntrue\nbalance=0 trips=1\nfalse\nbalance=0 trips=1\nfalse\nfalse\nbalance=0 trips=1\ntrue\nbalance=100 trips=1\nfalse\nbalance=249 trips=0\ntrue\nbalance=1 trips=1"
-        }
-      ],
-      "check": "",
-      "answer": "cHVibGljIGNsYXNzIFRyYW5zaXRDYXJkCnsKICAgIHByaXZhdGUgc3RhdGljIGZpbmFsIGludCBGQVJFID0gMjUwOwogICAgcHJpdmF0ZSBpbnQgYmFsYW5jZTsKICAgIHByaXZhdGUgaW50IHRyaXBzOwoKICAgIHB1YmxpYyBUcmFuc2l0Q2FyZChpbnQgYmFsYW5jZSkKICAgIHsKICAgICAgICB0aGlzLmJhbGFuY2UgPSBiYWxhbmNlOwogICAgICAgIHRyaXBzID0gMDsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiB0YXBPbigpCiAgICB7CiAgICAgICAgaWYoYmFsYW5jZSA+PSBGQVJFKSB7CiAgICAgICAgICAgIGJhbGFuY2UgLT0gRkFSRTsKICAgICAgICAgICAgdHJpcHMrKzsKICAgICAgICAgICAgcmV0dXJuIHRydWU7CiAgICAgICAgfQogICAgICAgIHJldHVybiBmYWxzZTsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiB0b3BVcChpbnQgYW1vdW50KQogICAgewogICAgICAgIGlmKGFtb3VudCA8PSAwKSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9CiAgICAgICAgYmFsYW5jZSArPSBhbW91bnQ7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIHZvaWQgbmV3TW9udGgoKQogICAgewogICAgICAgIHRyaXBzID0gMDsKICAgIH0KCiAgICBwdWJsaWMgaW50IGdldEJhbGFuY2UoKQogICAgewogICAgICAgIHJldHVybiBiYWxhbmNlOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0VHJpcHMoKQogICAgewogICAgICAgIHJldHVybiB0cmlwczsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCByZXBvcnRTdGF0ZSgpCiAgICB7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJiYWxhbmNlPSIgKyBiYWxhbmNlICsgIiB0cmlwcz0iICsgdHJpcHMpOwogICAgfQp9",
-      "files": [
-        {
-          "name": "MonthEdges.java",
-          "content": "public class MonthEdges\n{\n    public static void main(String[] args)\n    {\n        TransitCard card = new TransitCard(500);\n        card.newMonth();\n        card.reportState();\n        System.out.println(card.tapOn());\n        card.reportState();\n        card.newMonth();\n        card.reportState();\n        card.newMonth();\n        card.reportState();\n        System.out.println(card.tapOn());\n        card.reportState();\n        System.out.println(card.tapOn());\n        card.reportState();\n        System.out.println(card.topUp(0));\n        System.out.println(card.topUp(-100));\n        card.reportState();\n        System.out.println(card.topUp(100));\n        card.reportState();\n        TransitCard low = new TransitCard(249);\n        System.out.println(low.tapOn());\n        low.reportState();\n        TransitCard above = new TransitCard(251);\n        System.out.println(above.tapOn());\n        above.reportState();\n    }\n}"
-        }
-      ]
-    },
-    "q20-test": {
-      "type": "code",
-      "xp": 4,
-      "title": "TransitCardTest.java",
-      "minLines": 74,
-      "maxLines": 86,
-      "starter": "public class TransitCardTest\n{\n    private static int failures = 0;\n\n    public static void main(String[] args)\n    {\n        testTaps();\n        if(failures == 0) {\n            System.out.println(\"All tests passed\");\n        }\n        else {\n            System.out.println(\"Failures: \" + failures);\n        }\n    }\n\n    private static void testTaps()\n    {\n        TransitCard card = new TransitCard(500);\n        assertTrue(\"first tap\", card.tapOn());\n        assertEquals(\"after first\", 250,\n            card.getBalance());\n        assertTrue(\"exact fare\", card.tapOn());\n        assertEquals(\"after second\", 0,\n            card.getBalance());\n        assertTrue(\"third refused\", !card.tapOn());\n        assertEquals(\"after third\", 0,\n            card.getBalance());\n        assertTrue(\"negative top-up\", !card.topUp(-100));\n        assertEquals(\"after refusal\", 0,\n            card.getBalance());\n    }\n\n    private static void assertEquals(String label,\n        int expected, int actual)\n    {\n        if(expected == actual) {\n            System.out.println(\"PASS \" + label);\n        }\n        else {\n            failures++;\n            System.out.println(\"FAIL \" + label\n                + \": expected \" + expected\n                + \", actual \" + actual);\n        }\n    }\n\n    private static void assertTrue(String label,\n        boolean condition)\n    {\n        if(condition) {\n            System.out.println(\"PASS \" + label);\n        }\n        else {\n            failures++;\n            System.out.println(\"FAIL \" + label);\n        }\n    }\n}",
-      "cases": [
-        {
-          "name": "Output of the checking program",
-          "expected": "PASS first tap\nPASS after first\nPASS exact fare\nPASS after second\nPASS third refused\nPASS after third\nPASS negative top-up\nPASS after refusal\nPASS trip before reset\nPASS new month trips\nPASS balance kept\nAll tests passed"
-        }
-      ],
-      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertEquals(Stringlabel,intexpected,intactual)\"), \"Include the integer assertion helper with a label.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertTrue(Stringlabel,booleancondition)\"), \"Include the boolean assertion helper with a label.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"failures++\"), \"Count failed checks and keep going.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"if(failures==0)\"), \"Print the success message only when no check failed.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"testTaps();\"), \"Run the tap tests from main.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.topUp\\\\(-100\\\\).*\"), \"Keep the negative top-up check.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.tapOn\\\\(\\\\).*\\\\.tapOn\\\\(\\\\).*\\\\.tapOn\\\\(\\\\).*\"), \"Test the first tap, exact fare and third refused tap.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"testNewMonth();\"), \"Call the new month regression test from main.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.newMonth\\\\(\\\\);.*\"), \"Exercise the month reset.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*assertEquals\\\\(\\\"[^\\\"]*\\\",0,[A-Za-z_$][\\\\w$]*\\\\.getTrips\\\\(\\\\)\\\\);.*\"), \"Check that the month reset clears trips.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*assertEquals\\\\(\\\"[^\\\"]*\\\",250,[A-Za-z_$][\\\\w$]*\\\\.getBalance\\\\(\\\\)\\\\);.*\"), \"Check that the month reset preserves credit.\");",
-      "answer": "cHVibGljIGNsYXNzIFRyYW5zaXRDYXJkVGVzdAp7CiAgICBwcml2YXRlIHN0YXRpYyBpbnQgZmFpbHVyZXMgPSAwOwoKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgdGVzdFRhcHMoKTsKICAgICAgICB0ZXN0TmV3TW9udGgoKTsKICAgICAgICBpZihmYWlsdXJlcyA9PSAwKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQWxsIHRlc3RzIHBhc3NlZCIpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGYWlsdXJlczogIiArIGZhaWx1cmVzKTsKICAgICAgICB9CiAgICB9CgogICAgcHJpdmF0ZSBzdGF0aWMgdm9pZCB0ZXN0VGFwcygpCiAgICB7CiAgICAgICAgVHJhbnNpdENhcmQgY2FyZCA9IG5ldyBUcmFuc2l0Q2FyZCg1MDApOwogICAgICAgIGFzc2VydFRydWUoImZpcnN0IHRhcCIsIGNhcmQudGFwT24oKSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJhZnRlciBmaXJzdCIsIDI1MCwKICAgICAgICAgICAgY2FyZC5nZXRCYWxhbmNlKCkpOwogICAgICAgIGFzc2VydFRydWUoImV4YWN0IGZhcmUiLCBjYXJkLnRhcE9uKCkpOwogICAgICAgIGFzc2VydEVxdWFscygiYWZ0ZXIgc2Vjb25kIiwgMCwKICAgICAgICAgICAgY2FyZC5nZXRCYWxhbmNlKCkpOwogICAgICAgIGFzc2VydFRydWUoInRoaXJkIHJlZnVzZWQiLCAhY2FyZC50YXBPbigpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoImFmdGVyIHRoaXJkIiwgMCwKICAgICAgICAgICAgY2FyZC5nZXRCYWxhbmNlKCkpOwogICAgICAgIGFzc2VydFRydWUoIm5lZ2F0aXZlIHRvcC11cCIsICFjYXJkLnRvcFVwKC0xMDApKTsKICAgICAgICBhc3NlcnRFcXVhbHMoImFmdGVyIHJlZnVzYWwiLCAwLAogICAgICAgICAgICBjYXJkLmdldEJhbGFuY2UoKSk7CiAgICB9CgogICAgcHJpdmF0ZSBzdGF0aWMgdm9pZCB0ZXN0TmV3TW9udGgoKQogICAgewogICAgICAgIFRyYW5zaXRDYXJkIGNhcmQgPSBuZXcgVHJhbnNpdENhcmQoNTAwKTsKICAgICAgICBjYXJkLnRhcE9uKCk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJ0cmlwIGJlZm9yZSByZXNldCIsIDEsCiAgICAgICAgICAgIGNhcmQuZ2V0VHJpcHMoKSk7CiAgICAgICAgY2FyZC5uZXdNb250aCgpOwogICAgICAgIGFzc2VydEVxdWFscygibmV3IG1vbnRoIHRyaXBzIiwgMCwKICAgICAgICAgICAgY2FyZC5nZXRUcmlwcygpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoImJhbGFuY2Uga2VwdCIsIDI1MCwKICAgICAgICAgICAgY2FyZC5nZXRCYWxhbmNlKCkpOwogICAgfQoKICAgIHByaXZhdGUgc3RhdGljIHZvaWQgYXNzZXJ0RXF1YWxzKFN0cmluZyBsYWJlbCwKICAgICAgICBpbnQgZXhwZWN0ZWQsIGludCBhY3R1YWwpCiAgICB7CiAgICAgICAgaWYoZXhwZWN0ZWQgPT0gYWN0dWFsKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiUEFTUyAiICsgbGFiZWwpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgZmFpbHVyZXMrKzsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGQUlMICIgKyBsYWJlbAogICAgICAgICAgICAgICAgKyAiOiBleHBlY3RlZCAiICsgZXhwZWN0ZWQKICAgICAgICAgICAgICAgICsgIiwgYWN0dWFsICIgKyBhY3R1YWwpOwogICAgICAgIH0KICAgIH0KCiAgICBwcml2YXRlIHN0YXRpYyB2b2lkIGFzc2VydFRydWUoU3RyaW5nIGxhYmVsLAogICAgICAgIGJvb2xlYW4gY29uZGl0aW9uKQogICAgewogICAgICAgIGlmKGNvbmRpdGlvbikgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlBBU1MgIiArIGxhYmVsKTsKICAgICAgICB9CiAgICAgICAgZWxzZSB7CiAgICAgICAgICAgIGZhaWx1cmVzKys7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiRkFJTCAiICsgbGFiZWwpOwogICAgICAgIH0KICAgIH0KfQ==",
-      "files": [
-        {
-          "name": "TransitCard.java",
-          "content": "public class TransitCard\n{\n    private static final int FARE = 250;\n    private int balance;\n    private int trips;\n\n    public TransitCard(int balance)\n    {\n        this.balance = balance;\n        trips = 0;\n    }\n\n    public boolean tapOn()\n    {\n        if(balance >= FARE) {\n            balance -= FARE;\n            trips++;\n            return true;\n        }\n        return false;\n    }\n\n    public boolean topUp(int amount)\n    {\n        if(amount <= 0) {\n            return false;\n        }\n        balance += amount;\n        return true;\n    }\n\n    public void newMonth()\n    {\n        trips = 0;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int getTrips()\n    {\n        return trips;\n    }\n\n    public void reportState()\n    {\n        System.out.println(\"balance=\" + balance + \" trips=\" + trips);\n    }\n}"
-        }
-      ]
-    },
-    "q20-demo": {
-      "type": "code",
-      "xp": 4,
-      "title": "TransitCardDemo.java",
-      "minLines": 20,
-      "maxLines": 32,
-      "starter": "public class TransitCardDemo\n{\n    public static void main(String[] args)\n    {\n        // Report a fresh 500-cent card, three taps and the month reset.\n    }\n}",
-      "cases": [
-        {
-          "name": "Output of the checking program",
-          "expected": "new card balance=500 trips=0\nfirst tap: true\nbalance=250 trips=1\nsecond tap: true\nbalance=0 trips=2\nthird tap: false\nbalance=0 trips=2\nnew month balance=0 trips=0"
-        }
-      ],
-      "check": "",
-      "answer": "cHVibGljIGNsYXNzIFRyYW5zaXRDYXJkRGVtbwp7CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKQogICAgewogICAgICAgIFRyYW5zaXRDYXJkIGNhcmQgPSBuZXcgVHJhbnNpdENhcmQoNTAwKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50KCJuZXcgY2FyZCAiKTsKICAgICAgICBjYXJkLnJlcG9ydFN0YXRlKCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJmaXJzdCB0YXA6ICIgKyBjYXJkLnRhcE9uKCkpOwogICAgICAgIGNhcmQucmVwb3J0U3RhdGUoKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oInNlY29uZCB0YXA6ICIgKyBjYXJkLnRhcE9uKCkpOwogICAgICAgIGNhcmQucmVwb3J0U3RhdGUoKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oInRoaXJkIHRhcDogIiArIGNhcmQudGFwT24oKSk7CiAgICAgICAgY2FyZC5yZXBvcnRTdGF0ZSgpOwogICAgICAgIGNhcmQubmV3TW9udGgoKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50KCJuZXcgbW9udGggIik7CiAgICAgICAgY2FyZC5yZXBvcnRTdGF0ZSgpOwogICAgfQp9",
-      "files": [
-        {
-          "name": "TransitCard.java",
-          "content": "public class TransitCard\n{\n    private static final int FARE = 250;\n    private int balance;\n    private int trips;\n\n    public TransitCard(int balance)\n    {\n        this.balance = balance;\n        trips = 0;\n    }\n\n    public boolean tapOn()\n    {\n        if(balance >= FARE) {\n            balance -= FARE;\n            trips++;\n            return true;\n        }\n        return false;\n    }\n\n    public boolean topUp(int amount)\n    {\n        if(amount <= 0) {\n            return false;\n        }\n        balance += amount;\n        return true;\n    }\n\n    public void newMonth()\n    {\n        trips = 0;\n    }\n\n    public int getBalance()\n    {\n        return balance;\n    }\n\n    public int getTrips()\n    {\n        return trips;\n    }\n\n    public void reportState()\n    {\n        System.out.println(\"balance=\" + balance + \" trips=\" + trips);\n    }\n}"
-        }
-      ]
-    },
-    "p1-item": {
+    "r-p1-item": {
       "type": "code",
       "xp": 4,
       "title": "Thermostat.java",
-      "minLines": 28,
-      "maxLines": 40,
-      "starter": "public class Thermostat\n{\n    // Add target, the constructor, setTarget and getTarget.\n}",
+      "minLines": 25,
+      "maxLines": 37,
+      "starter": "public class Thermostat\n{\n    private int target;\n\n    public Thermostat()\n    {\n        // Start at 20.\n    }\n\n    public boolean setTarget(int target)\n    {\n        // Refuse a value outside 10 to 30.\n        return false;\n    }\n\n    public int getTarget()\n    {\n        return target;\n    }\n}",
       "cases": [
         {
           "name": "Output of the checking program",
-          "expected": "20\ntrue\n22\nfalse\n22\ntrue\n10\ntrue\n30\nfalse\n30\ntrue\n10"
+          "expected": "PASS aboveRange\nPASS belowRange\nPASS lowerLimit\nPASS normalTarget\nPASS startsAtTwenty\nPASS upperLimit\nTests: 6  Errors: 0  Failures: 0\ntrue 11\ntrue 29\nfalse 29"
         }
       ],
       "check": "",
-      "answer": "LyoqIEEgdGFyZ2V0IHRlbXBlcmF0dXJlIGJldHdlZW4gMTAgYW5kIDMwIGluY2x1c2l2ZS4gKi8KcHVibGljIGNsYXNzIFRoZXJtb3N0YXQKewogICAgcHJpdmF0ZSBpbnQgdGFyZ2V0OwoKICAgIC8qKiBTdGFydCBhdCAyMCBkZWdyZWVzLiAqLwogICAgcHVibGljIFRoZXJtb3N0YXQoKQogICAgewogICAgICAgIHRhcmdldCA9IDIwOwogICAgfQoKICAgIC8qKiBSZWZ1c2UgYW4gaW52YWxpZCB0YXJnZXQgd2l0aG91dCBjaGFuZ2luZyB0aGUgb2xkIG9uZS4gKi8KICAgIHB1YmxpYyBib29sZWFuIHNldFRhcmdldChpbnQgdGFyZ2V0KQogICAgewogICAgICAgIGlmKHRhcmdldCA8IDEwIHx8IHRhcmdldCA+IDMwKSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9CiAgICAgICAgdGhpcy50YXJnZXQgPSB0YXJnZXQ7CiAgICAgICAgcmV0dXJuIHRydWU7CiAgICB9CgogICAgcHVibGljIGludCBnZXRUYXJnZXQoKQogICAgewogICAgICAgIHJldHVybiB0YXJnZXQ7CiAgICB9Cn0=",
+      "answer": "cHVibGljIGNsYXNzIFRoZXJtb3N0YXQKewogICAgcHJpdmF0ZSBpbnQgdGFyZ2V0OwoKICAgIHB1YmxpYyBUaGVybW9zdGF0KCkKICAgIHsKICAgICAgICB0YXJnZXQgPSAyMDsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBzZXRUYXJnZXQoaW50IHRhcmdldCkKICAgIHsKICAgICAgICBpZih0YXJnZXQgPCAxMCB8fCB0YXJnZXQgPiAzMCkgewogICAgICAgICAgICByZXR1cm4gZmFsc2U7CiAgICAgICAgfQogICAgICAgIHRoaXMudGFyZ2V0ID0gdGFyZ2V0OwogICAgICAgIHJldHVybiB0cnVlOwogICAgfQoKICAgIHB1YmxpYyBpbnQgZ2V0VGFyZ2V0KCkKICAgIHsKICAgICAgICByZXR1cm4gdGFyZ2V0OwogICAgfQp9",
       "files": [
         {
-          "name": "ThermostatEdges.java",
-          "content": "public class ThermostatEdges\n{\n    public static void main(String[] args)\n    {\n        Thermostat t = new Thermostat();\n        System.out.println(t.getTarget());\n        System.out.println(t.setTarget(22));\n        System.out.println(t.getTarget());\n        System.out.println(t.setTarget(9));\n        System.out.println(t.getTarget());\n        System.out.println(t.setTarget(10));\n        System.out.println(t.getTarget());\n        System.out.println(t.setTarget(30));\n        System.out.println(t.getTarget());\n        System.out.println(t.setTarget(31));\n        System.out.println(t.getTarget());\n        System.out.println(t.setTarget(10));\n        System.out.println(t.getTarget());\n    }\n}"
+          "name": "ThermostatTest.java",
+          "content": "import static org.junit.jupiter.api.Assertions.*;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\n\npublic class ThermostatTest\n{\n    private Thermostat heat;\n\n    @BeforeEach\n    public void setUp()\n    {\n        heat = new Thermostat();\n    }\n\n    @Test\n    public void startsAtTwenty()\n    {\n        assertEquals(20, heat.getTarget());\n    }\n\n    @Test\n    public void normalTarget()\n    {\n        assertTrue(heat.setTarget(22));\n        assertEquals(22, heat.getTarget());\n    }\n\n    @Test\n    public void lowerLimit()\n    {\n        assertTrue(heat.setTarget(10));\n        assertEquals(10, heat.getTarget());\n    }\n\n    @Test\n    public void upperLimit()\n    {\n        assertTrue(heat.setTarget(30));\n        assertEquals(30, heat.getTarget());\n    }\n\n    @Test\n    public void belowRange()\n    {\n        assertFalse(heat.setTarget(9));\n        assertEquals(20, heat.getTarget());\n    }\n\n    @Test\n    public void aboveRange()\n    {\n        assertFalse(heat.setTarget(31));\n        assertEquals(20, heat.getTarget());\n    }\n}"
+        },
+        {
+          "name": "Test.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface Test\n{\n}"
+        },
+        {
+          "name": "BeforeEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface BeforeEach\n{\n}"
+        },
+        {
+          "name": "AfterEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface AfterEach\n{\n}"
+        },
+        {
+          "name": "Assertions.java",
+          "content": "package org.junit.jupiter.api;\npublic final class Assertions\n{\n    public static void assertEquals(int expected, int actual)\n    {\n        if(expected != actual) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertEquals(Object expected, Object actual)\n    {\n        if(expected == null ? actual != null : !expected.equals(actual)) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertTrue(boolean condition)\n    {\n        if(!condition) {\n            throw new AssertionError(\"expected: <true> but was: <false>\");\n        }\n    }\n    public static void assertFalse(boolean condition)\n    {\n        if(condition) {\n            throw new AssertionError(\"expected: <false> but was: <true>\");\n        }\n    }\n}"
+        },
+        {
+          "name": "TestRun.java",
+          "content": "import java.lang.reflect.InvocationTargetException;\nimport java.lang.reflect.Method;\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.Comparator;\nimport org.junit.jupiter.api.AfterEach;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\npublic class TestRun\n{\n    public static void all(Class<?> testClass) throws Exception\n    {\n        ArrayList<Method> tests = new ArrayList<>();\n        for(Method m : testClass.getDeclaredMethods()) {\n            if(m.isAnnotationPresent(Test.class)) {\n                tests.add(m);\n            }\n        }\n        Collections.sort(tests, Comparator.comparing(Method::getName));\n        int errors = 0;\n        int failures = 0;\n        for(Method test : tests) {\n            String result = runOne(testClass, test);\n            System.out.println(result);\n            if(result.startsWith(\"FAIL\")) {\n                failures++;\n            }\n            else if(result.startsWith(\"ERROR\")) {\n                errors++;\n            }\n        }\n        System.out.println(\"Tests: \" + tests.size() + \"  Errors: \" + errors + \"  Failures: \" + failures);\n    }\n\n    private static String runOne(Class<?> testClass, Method test) throws Exception\n    {\n        Object object = testClass.getDeclaredConstructor().newInstance();\n        try {\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(BeforeEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            test.invoke(object);\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(AfterEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            return \"PASS \" + test.getName();\n        }\n        catch(InvocationTargetException e) {\n            Throwable cause = e.getCause();\n            if(cause instanceof AssertionError) {\n                return \"FAIL \" + test.getName() + \"  \" + cause.getMessage();\n            }\n            return \"ERROR \" + test.getName() + \"  \" + cause;\n        }\n    }\n}"
+        },
+        {
+          "name": "RunIt.java",
+          "content": "public class RunIt\n{\n    public static void main(String[] args) throws Exception\n    {\n        TestRun.all(ThermostatTest.class);\n        Thermostat more = new Thermostat();\n        System.out.println(more.setTarget(11) + \" \" + more.getTarget());\n        System.out.println(more.setTarget(29) + \" \" + more.getTarget());\n        System.out.println(more.setTarget(5) + \" \" + more.getTarget());\n    }\n}"
         }
       ]
     },
-    "p1-test": {
+    "r-p1-test": {
       "type": "code",
-      "xp": 4,
+      "xp": 6,
       "title": "ThermostatTest.java",
-      "minLines": 60,
-      "maxLines": 72,
-      "starter": "public class ThermostatTest\n{\n    public static void main(String[] args)\n    {\n        // Write testTargets, the assertion helpers and the final report.\n    }\n}",
+      "minLines": 57,
+      "maxLines": 69,
+      "starter": "import static org.junit.jupiter.api.Assertions.*;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\n\npublic class ThermostatTest\n{\n    private Thermostat heat;\n\n    @BeforeEach\n    public void setUp()\n    {\n        // Make a new thermostat.\n    }\n\n    // Write the six tests here.\n}",
       "cases": [
         {
           "name": "Output of the checking program",
-          "expected": "PASS normal 22\nPASS target 22\nPASS refuse 9\nPASS keep 22\nPASS lower 10\nPASS target 10\nPASS upper 30\nPASS target 30\nPASS refuse 31\nPASS keep 30\nAll tests passed"
+          "expected": "PASS aboveRange\nPASS belowRange\nPASS lowerLimit\nPASS normalTarget\nPASS startsAtTwenty\nPASS upperLimit\nTests: 6  Errors: 0  Failures: 0"
         }
       ],
-      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertEquals(Stringlabel,intexpected,intactual)\"), \"Include the integer assertion helper.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertTrue(Stringlabel,booleancondition)\"), \"Include the boolean assertion helper.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"failures++\"), \"Count failures and keep going.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"if(failures==0)\"), \"Report success only when all checks pass.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"testTargets();\"), \"Run testTargets from main.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(22\\\\).*\"), \"Test the request at 22.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(9\\\\).*\"), \"Test the request at 9.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(10\\\\).*\"), \"Test the request at 10.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(30\\\\).*\"), \"Test the request at 30.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(31\\\\).*\"), \"Test the request at 31.\");",
-      "answer": "LyoqIENoZWNrIG9yZGluYXJ5LCByZWZ1c2VkIGFuZCBib3VuZGFyeSByZXF1ZXN0cy4gKi8KcHVibGljIGNsYXNzIFRoZXJtb3N0YXRUZXN0CnsKICAgIHByaXZhdGUgc3RhdGljIGludCBmYWlsdXJlcyA9IDA7CgogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICB0ZXN0VGFyZ2V0cygpOwogICAgICAgIGlmKGZhaWx1cmVzID09IDApIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJBbGwgdGVzdHMgcGFzc2VkIik7CiAgICAgICAgfQogICAgICAgIGVsc2UgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkZhaWx1cmVzOiAiICsgZmFpbHVyZXMpOwogICAgICAgIH0KICAgIH0KCiAgICAvKiogRWFjaCBhc3NlcnRpb24gdXNlcyB0aGUgcHJvbWlzZWQgdGFyZ2V0LCBub3Qgb2JzZXJ2ZWQgb3V0cHV0LiAqLwogICAgcHJpdmF0ZSBzdGF0aWMgdm9pZCB0ZXN0VGFyZ2V0cygpCiAgICB7CiAgICAgICAgVGhlcm1vc3RhdCBoZWF0ID0gbmV3IFRoZXJtb3N0YXQoKTsKICAgICAgICBhc3NlcnRUcnVlKCJub3JtYWwgMjIiLCBoZWF0LnNldFRhcmdldCgyMikpOwogICAgICAgIGFzc2VydEVxdWFscygidGFyZ2V0IDIyIiwgMjIsIGhlYXQuZ2V0VGFyZ2V0KCkpOwogICAgICAgIGFzc2VydFRydWUoInJlZnVzZSA5IiwgIWhlYXQuc2V0VGFyZ2V0KDkpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoImtlZXAgMjIiLCAyMiwgaGVhdC5nZXRUYXJnZXQoKSk7CiAgICAgICAgYXNzZXJ0VHJ1ZSgibG93ZXIgMTAiLCBoZWF0LnNldFRhcmdldCgxMCkpOwogICAgICAgIGFzc2VydEVxdWFscygidGFyZ2V0IDEwIiwgMTAsIGhlYXQuZ2V0VGFyZ2V0KCkpOwogICAgICAgIGFzc2VydFRydWUoInVwcGVyIDMwIiwgaGVhdC5zZXRUYXJnZXQoMzApKTsKICAgICAgICBhc3NlcnRFcXVhbHMoInRhcmdldCAzMCIsIDMwLCBoZWF0LmdldFRhcmdldCgpKTsKICAgICAgICBhc3NlcnRUcnVlKCJyZWZ1c2UgMzEiLCAhaGVhdC5zZXRUYXJnZXQoMzEpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoImtlZXAgMzAiLCAzMCwgaGVhdC5nZXRUYXJnZXQoKSk7CiAgICB9CgogICAgcHJpdmF0ZSBzdGF0aWMgdm9pZCBhc3NlcnRFcXVhbHMoU3RyaW5nIGxhYmVsLAogICAgICAgIGludCBleHBlY3RlZCwgaW50IGFjdHVhbCkKICAgIHsKICAgICAgICBpZihleHBlY3RlZCA9PSBhY3R1YWwpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJQQVNTICIgKyBsYWJlbCk7CiAgICAgICAgfQogICAgICAgIGVsc2UgewogICAgICAgICAgICBmYWlsdXJlcysrOwogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkZBSUwgIiArIGxhYmVsCiAgICAgICAgICAgICAgICArICI6IGV4cGVjdGVkICIgKyBleHBlY3RlZAogICAgICAgICAgICAgICAgKyAiLCBhY3R1YWwgIiArIGFjdHVhbCk7CiAgICAgICAgfQogICAgfQoKICAgIHByaXZhdGUgc3RhdGljIHZvaWQgYXNzZXJ0VHJ1ZShTdHJpbmcgbGFiZWwsCiAgICAgICAgYm9vbGVhbiBjb25kaXRpb24pCiAgICB7CiAgICAgICAgaWYoY29uZGl0aW9uKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiUEFTUyAiICsgbGFiZWwpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgZmFpbHVyZXMrKzsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGQUlMICIgKyBsYWJlbCk7CiAgICAgICAgfQogICAgfQp9",
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"heat=newThermostat()\"), \"Make a new thermostat in setUp.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"heat.setTarget(22)\"), \"Test the request at 22.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"heat.setTarget(10)\"), \"Test the request at 10.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"heat.setTarget(30)\"), \"Test the request at 30.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"heat.setTarget(9)\"), \"Test the request at 9.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"heat.setTarget(31)\"), \"Test the request at 31.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertFalse(heat.setTarget(31))\"), \"Check that 31 is refused with assertFalse.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertEquals(20,heat.getTarget())\"), \"Check that a refused target leaves the old one.\");",
+      "answer": "aW1wb3J0IHN0YXRpYyBvcmcuanVuaXQuanVwaXRlci5hcGkuQXNzZXJ0aW9ucy4qOwppbXBvcnQgb3JnLmp1bml0Lmp1cGl0ZXIuYXBpLkJlZm9yZUVhY2g7CmltcG9ydCBvcmcuanVuaXQuanVwaXRlci5hcGkuVGVzdDsKCnB1YmxpYyBjbGFzcyBUaGVybW9zdGF0VGVzdAp7CiAgICBwcml2YXRlIFRoZXJtb3N0YXQgaGVhdDsKCiAgICBAQmVmb3JlRWFjaAogICAgcHVibGljIHZvaWQgc2V0VXAoKQogICAgewogICAgICAgIGhlYXQgPSBuZXcgVGhlcm1vc3RhdCgpOwogICAgfQoKICAgIEBUZXN0CiAgICBwdWJsaWMgdm9pZCBzdGFydHNBdFR3ZW50eSgpCiAgICB7CiAgICAgICAgYXNzZXJ0RXF1YWxzKDIwLCBoZWF0LmdldFRhcmdldCgpKTsKICAgIH0KCiAgICBAVGVzdAogICAgcHVibGljIHZvaWQgbm9ybWFsVGFyZ2V0KCkKICAgIHsKICAgICAgICBhc3NlcnRUcnVlKGhlYXQuc2V0VGFyZ2V0KDIyKSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKDIyLCBoZWF0LmdldFRhcmdldCgpKTsKICAgIH0KCiAgICBAVGVzdAogICAgcHVibGljIHZvaWQgbG93ZXJMaW1pdCgpCiAgICB7CiAgICAgICAgYXNzZXJ0VHJ1ZShoZWF0LnNldFRhcmdldCgxMCkpOwogICAgICAgIGFzc2VydEVxdWFscygxMCwgaGVhdC5nZXRUYXJnZXQoKSk7CiAgICB9CgogICAgQFRlc3QKICAgIHB1YmxpYyB2b2lkIHVwcGVyTGltaXQoKQogICAgewogICAgICAgIGFzc2VydFRydWUoaGVhdC5zZXRUYXJnZXQoMzApKTsKICAgICAgICBhc3NlcnRFcXVhbHMoMzAsIGhlYXQuZ2V0VGFyZ2V0KCkpOwogICAgfQoKICAgIEBUZXN0CiAgICBwdWJsaWMgdm9pZCBiZWxvd1JhbmdlKCkKICAgIHsKICAgICAgICBhc3NlcnRGYWxzZShoZWF0LnNldFRhcmdldCg5KSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKDIwLCBoZWF0LmdldFRhcmdldCgpKTsKICAgIH0KCiAgICBAVGVzdAogICAgcHVibGljIHZvaWQgYWJvdmVSYW5nZSgpCiAgICB7CiAgICAgICAgYXNzZXJ0RmFsc2UoaGVhdC5zZXRUYXJnZXQoMzEpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoMjAsIGhlYXQuZ2V0VGFyZ2V0KCkpOwogICAgfQp9",
       "files": [
         {
           "name": "Thermostat.java",
-          "content": "/** A target temperature between 10 and 30 inclusive. */\npublic class Thermostat\n{\n    private int target;\n\n    /** Start at 20 degrees. */\n    public Thermostat()\n    {\n        target = 20;\n    }\n\n    /** Refuse an invalid target without changing the old one. */\n    public boolean setTarget(int target)\n    {\n        if(target < 10 || target > 30) {\n            return false;\n        }\n        this.target = target;\n        return true;\n    }\n\n    public int getTarget()\n    {\n        return target;\n    }\n}"
+          "content": "public class Thermostat\n{\n    private int target;\n\n    public Thermostat()\n    {\n        target = 20;\n    }\n\n    public boolean setTarget(int target)\n    {\n        if(target < 10 || target > 30) {\n            return false;\n        }\n        this.target = target;\n        return true;\n    }\n\n    public int getTarget()\n    {\n        return target;\n    }\n}"
+        },
+        {
+          "name": "Test.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface Test\n{\n}"
+        },
+        {
+          "name": "BeforeEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface BeforeEach\n{\n}"
+        },
+        {
+          "name": "AfterEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface AfterEach\n{\n}"
+        },
+        {
+          "name": "Assertions.java",
+          "content": "package org.junit.jupiter.api;\npublic final class Assertions\n{\n    public static void assertEquals(int expected, int actual)\n    {\n        if(expected != actual) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertEquals(Object expected, Object actual)\n    {\n        if(expected == null ? actual != null : !expected.equals(actual)) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertTrue(boolean condition)\n    {\n        if(!condition) {\n            throw new AssertionError(\"expected: <true> but was: <false>\");\n        }\n    }\n    public static void assertFalse(boolean condition)\n    {\n        if(condition) {\n            throw new AssertionError(\"expected: <false> but was: <true>\");\n        }\n    }\n}"
+        },
+        {
+          "name": "TestRun.java",
+          "content": "import java.lang.reflect.InvocationTargetException;\nimport java.lang.reflect.Method;\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.Comparator;\nimport org.junit.jupiter.api.AfterEach;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\npublic class TestRun\n{\n    public static void all(Class<?> testClass) throws Exception\n    {\n        ArrayList<Method> tests = new ArrayList<>();\n        for(Method m : testClass.getDeclaredMethods()) {\n            if(m.isAnnotationPresent(Test.class)) {\n                tests.add(m);\n            }\n        }\n        Collections.sort(tests, Comparator.comparing(Method::getName));\n        int errors = 0;\n        int failures = 0;\n        for(Method test : tests) {\n            String result = runOne(testClass, test);\n            System.out.println(result);\n            if(result.startsWith(\"FAIL\")) {\n                failures++;\n            }\n            else if(result.startsWith(\"ERROR\")) {\n                errors++;\n            }\n        }\n        System.out.println(\"Tests: \" + tests.size() + \"  Errors: \" + errors + \"  Failures: \" + failures);\n    }\n\n    private static String runOne(Class<?> testClass, Method test) throws Exception\n    {\n        Object object = testClass.getDeclaredConstructor().newInstance();\n        try {\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(BeforeEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            test.invoke(object);\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(AfterEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            return \"PASS \" + test.getName();\n        }\n        catch(InvocationTargetException e) {\n            Throwable cause = e.getCause();\n            if(cause instanceof AssertionError) {\n                return \"FAIL \" + test.getName() + \"  \" + cause.getMessage();\n            }\n            return \"ERROR \" + test.getName() + \"  \" + cause;\n        }\n    }\n}"
+        },
+        {
+          "name": "RunIt.java",
+          "content": "public class RunIt\n{\n    public static void main(String[] args) throws Exception\n    {\n        TestRun.all(ThermostatTest.class);\n\n    }\n}"
         }
       ]
     },
-    "q25": {
+    "r-p2-test": {
       "type": "code",
-      "xp": 4,
-      "title": "ThermostatTest.java",
-      "minLines": 69,
-      "maxLines": 81,
-      "starter": "/** Check ordinary, refused and boundary requests. */\npublic class ThermostatTest\n{\n    private static int failures = 0;\n\n    public static void main(String[] args)\n    {\n        testTargets();\n        if(failures == 0) {\n            System.out.println(\"All tests passed\");\n        }\n        else {\n            System.out.println(\"Failures: \" + failures);\n        }\n    }\n\n    /** Each assertion uses the promised target, not observed output. */\n    private static void testTargets()\n    {\n        Thermostat heat = new Thermostat();\n        assertTrue(\"normal 22\", heat.setTarget(22));\n        assertEquals(\"target 22\", 22, heat.getTarget());\n        assertTrue(\"refuse 9\", !heat.setTarget(9));\n        assertEquals(\"keep 22\", 22, heat.getTarget());\n        assertTrue(\"lower 10\", heat.setTarget(10));\n        assertEquals(\"target 10\", 10, heat.getTarget());\n        assertTrue(\"upper 30\", heat.setTarget(30));\n        assertEquals(\"target 30\", 30, heat.getTarget());\n        assertTrue(\"refuse 31\", !heat.setTarget(31));\n        assertEquals(\"keep 30\", 30, heat.getTarget());\n    }\n\n    private static void assertEquals(String label,\n        int expected, int actual)\n    {\n        if(expected == actual) {\n            System.out.println(\"PASS \" + label);\n        }\n        else {\n            failures++;\n            System.out.println(\"FAIL \" + label\n                + \": expected \" + expected\n                + \", actual \" + actual);\n        }\n    }\n\n    private static void assertTrue(String label,\n        boolean condition)\n    {\n        if(condition) {\n            System.out.println(\"PASS \" + label);\n        }\n        else {\n            failures++;\n            System.out.println(\"FAIL \" + label);\n        }\n    }\n}",
+      "xp": 6,
+      "title": "ScoreBoardTest.java",
+      "minLines": 53,
+      "maxLines": 65,
+      "starter": "import static org.junit.jupiter.api.Assertions.*;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\n\npublic class ScoreBoardTest\n{\n    private ScoreBoard board;\n\n    @BeforeEach\n    public void setUp()\n    {\n        // Make a new scoreboard.\n    }\n\n    // Write the four tests here.\n}",
       "cases": [
         {
           "name": "Output of the checking program",
-          "expected": "PASS normal 22\nPASS target 22\nPASS refuse 9\nPASS keep 22\nPASS lower 10\nPASS target 10\nPASS upper 30\nPASS target 30\nPASS refuse 31\nPASS keep 30\nPASS return to 10\nPASS back at 10\nAll tests passed"
+          "expected": "PASS freshBoard\nFAIL newGameAfterReset  expected: <1> but was: <3>\nFAIL resetClearsBoth  expected: <0> but was: <2>\nPASS twoRounds\nTests: 4  Errors: 0  Failures: 2"
         }
       ],
-      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertEquals(Stringlabel,intexpected,intactual)\"), \"Include the integer assertion helper.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"assertTrue(Stringlabel,booleancondition)\"), \"Include the boolean assertion helper.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"failures++\"), \"Count failures and keep going.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"if(failures==0)\"), \"Report success only when all checks pass.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"testTargets();\"), \"Run testTargets from main.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(22\\\\).*\"), \"Test the request at 22.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(9\\\\).*\"), \"Test the request at 9.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(10\\\\).*\"), \"Test the request at 10.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(30\\\\).*\"), \"Test the request at 30.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").matches(\"(?s).*\\\\.setTarget\\\\(31\\\\).*\"), \"Test the request at 31.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"testReturnToLowerBound();\"), \"Call the new boundary test from main.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"privatestaticvoidtestReturnToLowerBound()\"), \"Add the separate boundary test with a fresh fixture.\");",
-      "answer": "LyoqIENoZWNrIG9yZGluYXJ5LCByZWZ1c2VkIGFuZCBib3VuZGFyeSByZXF1ZXN0cy4gKi8KcHVibGljIGNsYXNzIFRoZXJtb3N0YXRUZXN0CnsKICAgIHByaXZhdGUgc3RhdGljIGludCBmYWlsdXJlcyA9IDA7CgogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICB0ZXN0VGFyZ2V0cygpOwogICAgICAgIHRlc3RSZXR1cm5Ub0xvd2VyQm91bmQoKTsKICAgICAgICBpZihmYWlsdXJlcyA9PSAwKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQWxsIHRlc3RzIHBhc3NlZCIpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGYWlsdXJlczogIiArIGZhaWx1cmVzKTsKICAgICAgICB9CiAgICB9CgogICAgLyoqIEVhY2ggYXNzZXJ0aW9uIHVzZXMgdGhlIHByb21pc2VkIHRhcmdldCwgbm90IG9ic2VydmVkIG91dHB1dC4gKi8KICAgIHByaXZhdGUgc3RhdGljIHZvaWQgdGVzdFRhcmdldHMoKQogICAgewogICAgICAgIFRoZXJtb3N0YXQgaGVhdCA9IG5ldyBUaGVybW9zdGF0KCk7CiAgICAgICAgYXNzZXJ0VHJ1ZSgibm9ybWFsIDIyIiwgaGVhdC5zZXRUYXJnZXQoMjIpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoInRhcmdldCAyMiIsIDIyLCBoZWF0LmdldFRhcmdldCgpKTsKICAgICAgICBhc3NlcnRUcnVlKCJyZWZ1c2UgOSIsICFoZWF0LnNldFRhcmdldCg5KSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJrZWVwIDIyIiwgMjIsIGhlYXQuZ2V0VGFyZ2V0KCkpOwogICAgICAgIGFzc2VydFRydWUoImxvd2VyIDEwIiwgaGVhdC5zZXRUYXJnZXQoMTApKTsKICAgICAgICBhc3NlcnRFcXVhbHMoInRhcmdldCAxMCIsIDEwLCBoZWF0LmdldFRhcmdldCgpKTsKICAgICAgICBhc3NlcnRUcnVlKCJ1cHBlciAzMCIsIGhlYXQuc2V0VGFyZ2V0KDMwKSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJ0YXJnZXQgMzAiLCAzMCwgaGVhdC5nZXRUYXJnZXQoKSk7CiAgICAgICAgYXNzZXJ0VHJ1ZSgicmVmdXNlIDMxIiwgIWhlYXQuc2V0VGFyZ2V0KDMxKSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJrZWVwIDMwIiwgMzAsIGhlYXQuZ2V0VGFyZ2V0KCkpOwogICAgfQoKICAgIHByaXZhdGUgc3RhdGljIHZvaWQgYXNzZXJ0RXF1YWxzKFN0cmluZyBsYWJlbCwKICAgICAgICBpbnQgZXhwZWN0ZWQsIGludCBhY3R1YWwpCiAgICB7CiAgICAgICAgaWYoZXhwZWN0ZWQgPT0gYWN0dWFsKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiUEFTUyAiICsgbGFiZWwpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgZmFpbHVyZXMrKzsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGQUlMICIgKyBsYWJlbAogICAgICAgICAgICAgICAgKyAiOiBleHBlY3RlZCAiICsgZXhwZWN0ZWQKICAgICAgICAgICAgICAgICsgIiwgYWN0dWFsICIgKyBhY3R1YWwpOwogICAgICAgIH0KICAgIH0KCiAgICBwcml2YXRlIHN0YXRpYyB2b2lkIGFzc2VydFRydWUoU3RyaW5nIGxhYmVsLAogICAgICAgIGJvb2xlYW4gY29uZGl0aW9uKQogICAgewogICAgICAgIGlmKGNvbmRpdGlvbikgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlBBU1MgIiArIGxhYmVsKTsKICAgICAgICB9CiAgICAgICAgZWxzZSB7CiAgICAgICAgICAgIGZhaWx1cmVzKys7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiRkFJTCAiICsgbGFiZWwpOwogICAgICAgIH0KICAgIH0KICAgIC8qKiBSZXR1cm4gZnJvbSB0aGUgdXBwZXIgYm91bmRhcnkgdG8gdGhlIGxvd2VyIG9uZS4gKi8KICAgIHByaXZhdGUgc3RhdGljIHZvaWQgdGVzdFJldHVyblRvTG93ZXJCb3VuZCgpCiAgICB7CiAgICAgICAgVGhlcm1vc3RhdCBoZWF0ID0gbmV3IFRoZXJtb3N0YXQoKTsKICAgICAgICBoZWF0LnNldFRhcmdldCgzMCk7CiAgICAgICAgYXNzZXJ0VHJ1ZSgicmV0dXJuIHRvIDEwIiwgaGVhdC5zZXRUYXJnZXQoMTApKTsKICAgICAgICBhc3NlcnRFcXVhbHMoImJhY2sgYXQgMTAiLCAxMCwgaGVhdC5nZXRUYXJnZXQoKSk7CiAgICB9Cn0=",
-      "files": [
-        {
-          "name": "Thermostat.java",
-          "content": "/** A target temperature between 10 and 30 inclusive. */\npublic class Thermostat\n{\n    private int target;\n\n    /** Start at 20 degrees. */\n    public Thermostat()\n    {\n        target = 20;\n    }\n\n    /** Refuse an invalid target without changing the old one. */\n    public boolean setTarget(int target)\n    {\n        if(target < 10 || target > 30) {\n            return false;\n        }\n        this.target = target;\n        return true;\n    }\n\n    public int getTarget()\n    {\n        return target;\n    }\n}"
-        }
-      ]
-    },
-    "p2-demo": {
-      "type": "code",
-      "xp": 4,
-      "title": "ScoreBoardDemo.java",
-      "minLines": 19,
-      "maxLines": 31,
-      "starter": "public class ScoreBoardDemo\n{\n    public static void main(String[] args)\n    {\n        // Report a fresh scoreboard, rounds 7 and 5, a reset and round 3.\n    }\n}",
-      "cases": [
-        {
-          "name": "Output of the checking program",
-          "expected": "points=0 rounds=0\npoints=7 rounds=1\npoints=12 rounds=2\npoints=0 rounds=2\npoints=3 rounds=3"
-        }
-      ],
-      "check": "",
-      "answer": "LyoqIFRyYWNlIHR3byBnYW1lcyBvbiB0aGUgc2FtZSBzY29yZWJvYXJkLiAqLwpwdWJsaWMgY2xhc3MgU2NvcmVCb2FyZERlbW8KewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBTY29yZUJvYXJkIGJvYXJkID0gbmV3IFNjb3JlQm9hcmQoKTsKICAgICAgICBib2FyZC5yZXBvcnRTdGF0ZSgpOwogICAgICAgIGJvYXJkLnJlY29yZFJvdW5kKDcpOwogICAgICAgIGJvYXJkLnJlcG9ydFN0YXRlKCk7CiAgICAgICAgYm9hcmQucmVjb3JkUm91bmQoNSk7CiAgICAgICAgYm9hcmQucmVwb3J0U3RhdGUoKTsKICAgICAgICBib2FyZC5yZXNldCgpOwogICAgICAgIGJvYXJkLnJlcG9ydFN0YXRlKCk7CiAgICAgICAgYm9hcmQucmVjb3JkUm91bmQoMyk7CiAgICAgICAgYm9hcmQucmVwb3J0U3RhdGUoKTsKICAgIH0KfQ==",
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"board=newScoreBoard()\"), \"Make a new scoreboard in setUp.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"board.reset()\"), \"Call reset in the two reset tests.\");",
+      "answer": "aW1wb3J0IHN0YXRpYyBvcmcuanVuaXQuanVwaXRlci5hcGkuQXNzZXJ0aW9ucy4qOwppbXBvcnQgb3JnLmp1bml0Lmp1cGl0ZXIuYXBpLkJlZm9yZUVhY2g7CmltcG9ydCBvcmcuanVuaXQuanVwaXRlci5hcGkuVGVzdDsKCnB1YmxpYyBjbGFzcyBTY29yZUJvYXJkVGVzdAp7CiAgICBwcml2YXRlIFNjb3JlQm9hcmQgYm9hcmQ7CgogICAgQEJlZm9yZUVhY2gKICAgIHB1YmxpYyB2b2lkIHNldFVwKCkKICAgIHsKICAgICAgICBib2FyZCA9IG5ldyBTY29yZUJvYXJkKCk7CiAgICB9CgogICAgQFRlc3QKICAgIHB1YmxpYyB2b2lkIGZyZXNoQm9hcmQoKQogICAgewogICAgICAgIGFzc2VydEVxdWFscygwLCBib2FyZC5nZXRQb2ludHMoKSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKDAsIGJvYXJkLmdldFJvdW5kcygpKTsKICAgIH0KCiAgICBAVGVzdAogICAgcHVibGljIHZvaWQgdHdvUm91bmRzKCkKICAgIHsKICAgICAgICBib2FyZC5yZWNvcmRSb3VuZCg3KTsKICAgICAgICBib2FyZC5yZWNvcmRSb3VuZCg1KTsKICAgICAgICBhc3NlcnRFcXVhbHMoMTIsIGJvYXJkLmdldFBvaW50cygpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoMiwgYm9hcmQuZ2V0Um91bmRzKCkpOwogICAgfQoKICAgIEBUZXN0CiAgICBwdWJsaWMgdm9pZCByZXNldENsZWFyc0JvdGgoKQogICAgewogICAgICAgIGJvYXJkLnJlY29yZFJvdW5kKDcpOwogICAgICAgIGJvYXJkLnJlY29yZFJvdW5kKDUpOwogICAgICAgIGJvYXJkLnJlc2V0KCk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKDAsIGJvYXJkLmdldFBvaW50cygpKTsKICAgICAgICBhc3NlcnRFcXVhbHMoMCwgYm9hcmQuZ2V0Um91bmRzKCkpOwogICAgfQoKICAgIEBUZXN0CiAgICBwdWJsaWMgdm9pZCBuZXdHYW1lQWZ0ZXJSZXNldCgpCiAgICB7CiAgICAgICAgYm9hcmQucmVjb3JkUm91bmQoNyk7CiAgICAgICAgYm9hcmQucmVjb3JkUm91bmQoNSk7CiAgICAgICAgYm9hcmQucmVzZXQoKTsKICAgICAgICBib2FyZC5yZWNvcmRSb3VuZCgzKTsKICAgICAgICBhc3NlcnRFcXVhbHMoMywgYm9hcmQuZ2V0UG9pbnRzKCkpOwogICAgICAgIGFzc2VydEVxdWFscygxLCBib2FyZC5nZXRSb3VuZHMoKSk7CiAgICB9Cn0=",
       "files": [
         {
           "name": "ScoreBoard.java",
-          "content": "/** Points and number of rounds for one game. */\npublic class ScoreBoard\n{\n    private int points;\n    private int rounds;\n\n    public ScoreBoard()\n    {\n        points = 0;\n        rounds = 0;\n    }\n\n    /** Add a non-negative score. Totals must fit in an int. */\n    public void recordRound(int points)\n    {\n        this.points += points;\n        rounds++;\n    }\n\n    /** Start a fresh game. */\n    public void reset()\n    {\n        points = 0;\n    }\n\n    public int getPoints()\n    {\n        return points;\n    }\n\n    public int getRounds()\n    {\n        return rounds;\n    }\n\n    /** Print the two fields without changing them. */\n    public void reportState()\n    {\n        System.out.println(\"points=\" + points\n            + \" rounds=\" + rounds);\n    }\n}"
+          "content": "public class ScoreBoard\n{\n    private int points;\n    private int rounds;\n\n    public ScoreBoard()\n    {\n        points = 0;\n        rounds = 0;\n    }\n\n    public void recordRound(int points)\n    {\n        this.points += points;\n        rounds++;\n    }\n\n    public void reset()\n    {\n        points = 0;\n    }\n\n    public int getPoints()\n    {\n        return points;\n    }\n\n    public int getRounds()\n    {\n        return rounds;\n    }\n}"
+        },
+        {
+          "name": "Test.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface Test\n{\n}"
+        },
+        {
+          "name": "BeforeEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface BeforeEach\n{\n}"
+        },
+        {
+          "name": "AfterEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface AfterEach\n{\n}"
+        },
+        {
+          "name": "Assertions.java",
+          "content": "package org.junit.jupiter.api;\npublic final class Assertions\n{\n    public static void assertEquals(int expected, int actual)\n    {\n        if(expected != actual) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertEquals(Object expected, Object actual)\n    {\n        if(expected == null ? actual != null : !expected.equals(actual)) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertTrue(boolean condition)\n    {\n        if(!condition) {\n            throw new AssertionError(\"expected: <true> but was: <false>\");\n        }\n    }\n    public static void assertFalse(boolean condition)\n    {\n        if(condition) {\n            throw new AssertionError(\"expected: <false> but was: <true>\");\n        }\n    }\n}"
+        },
+        {
+          "name": "TestRun.java",
+          "content": "import java.lang.reflect.InvocationTargetException;\nimport java.lang.reflect.Method;\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.Comparator;\nimport org.junit.jupiter.api.AfterEach;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\npublic class TestRun\n{\n    public static void all(Class<?> testClass) throws Exception\n    {\n        ArrayList<Method> tests = new ArrayList<>();\n        for(Method m : testClass.getDeclaredMethods()) {\n            if(m.isAnnotationPresent(Test.class)) {\n                tests.add(m);\n            }\n        }\n        Collections.sort(tests, Comparator.comparing(Method::getName));\n        int errors = 0;\n        int failures = 0;\n        for(Method test : tests) {\n            String result = runOne(testClass, test);\n            System.out.println(result);\n            if(result.startsWith(\"FAIL\")) {\n                failures++;\n            }\n            else if(result.startsWith(\"ERROR\")) {\n                errors++;\n            }\n        }\n        System.out.println(\"Tests: \" + tests.size() + \"  Errors: \" + errors + \"  Failures: \" + failures);\n    }\n\n    private static String runOne(Class<?> testClass, Method test) throws Exception\n    {\n        Object object = testClass.getDeclaredConstructor().newInstance();\n        try {\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(BeforeEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            test.invoke(object);\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(AfterEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            return \"PASS \" + test.getName();\n        }\n        catch(InvocationTargetException e) {\n            Throwable cause = e.getCause();\n            if(cause instanceof AssertionError) {\n                return \"FAIL \" + test.getName() + \"  \" + cause.getMessage();\n            }\n            return \"ERROR \" + test.getName() + \"  \" + cause;\n        }\n    }\n}"
+        },
+        {
+          "name": "RunIt.java",
+          "content": "public class RunIt\n{\n    public static void main(String[] args) throws Exception\n    {\n        TestRun.all(ScoreBoardTest.class);\n\n    }\n}"
         }
       ]
     },
-    "q27": {
+    "r-p2-fix": {
       "type": "code",
       "xp": 4,
       "title": "ScoreBoard.java",
-      "minLines": 45,
-      "maxLines": 57,
-      "starter": "/** Points and number of rounds for one game. */\npublic class ScoreBoard\n{\n    private int points;\n    private int rounds;\n\n    public ScoreBoard()\n    {\n        points = 0;\n        rounds = 0;\n    }\n\n    /** Add a non-negative score. Totals must fit in an int. */\n    public void recordRound(int points)\n    {\n        this.points += points;\n        rounds++;\n    }\n\n    /** Start a fresh game. */\n    public void reset()\n    {\n        points = 0;\n    }\n\n    public int getPoints()\n    {\n        return points;\n    }\n\n    public int getRounds()\n    {\n        return rounds;\n    }\n\n    /** Print the two fields without changing them. */\n    public void reportState()\n    {\n        System.out.println(\"points=\" + points\n            + \" rounds=\" + rounds);\n    }\n}",
+      "minLines": 35,
+      "maxLines": 47,
+      "starter": "public class ScoreBoard\n{\n    private int points;\n    private int rounds;\n\n    public ScoreBoard()\n    {\n        points = 0;\n        rounds = 0;\n    }\n\n    public void recordRound(int points)\n    {\n        this.points += points;\n        rounds++;\n    }\n\n    public void reset()\n    {\n        points = 0;\n    }\n\n    public int getPoints()\n    {\n        return points;\n    }\n\n    public int getRounds()\n    {\n        return rounds;\n    }\n}",
       "cases": [
         {
           "name": "Output of the checking program",
-          "expected": "points=0 rounds=0\npoints=7 rounds=1\npoints=12 rounds=2\npoints=0 rounds=0\npoints=0 rounds=0\npoints=0 rounds=1\npoints=3 rounds=2\n3\n2"
+          "expected": "PASS freshBoard\nPASS newGameAfterReset\nPASS resetClearsBoth\nPASS twoRounds\nTests: 4  Errors: 0  Failures: 0\n0 0\n0 1\n0 0"
         }
       ],
       "check": "",
-      "answer": "LyoqIFBvaW50cyBhbmQgbnVtYmVyIG9mIHJvdW5kcyBmb3Igb25lIGdhbWUuICovCnB1YmxpYyBjbGFzcyBTY29yZUJvYXJkCnsKICAgIHByaXZhdGUgaW50IHBvaW50czsKICAgIHByaXZhdGUgaW50IHJvdW5kczsKCiAgICBwdWJsaWMgU2NvcmVCb2FyZCgpCiAgICB7CiAgICAgICAgcG9pbnRzID0gMDsKICAgICAgICByb3VuZHMgPSAwOwogICAgfQoKICAgIC8qKiBBZGQgYSBub24tbmVnYXRpdmUgc2NvcmUuIFRvdGFscyBtdXN0IGZpdCBpbiBhbiBpbnQuICovCiAgICBwdWJsaWMgdm9pZCByZWNvcmRSb3VuZChpbnQgcG9pbnRzKQogICAgewogICAgICAgIHRoaXMucG9pbnRzICs9IHBvaW50czsKICAgICAgICByb3VuZHMrKzsKICAgIH0KCiAgICAvKiogU3RhcnQgYSBmcmVzaCBnYW1lLiAqLwogICAgcHVibGljIHZvaWQgcmVzZXQoKQogICAgewogICAgICAgIHBvaW50cyA9IDA7CiAgICAgICAgcm91bmRzID0gMDsKICAgIH0KCiAgICBwdWJsaWMgaW50IGdldFBvaW50cygpCiAgICB7CiAgICAgICAgcmV0dXJuIHBvaW50czsKICAgIH0KCiAgICBwdWJsaWMgaW50IGdldFJvdW5kcygpCiAgICB7CiAgICAgICAgcmV0dXJuIHJvdW5kczsKICAgIH0KCiAgICAvKiogUHJpbnQgdGhlIHR3byBmaWVsZHMgd2l0aG91dCBjaGFuZ2luZyB0aGVtLiAqLwogICAgcHVibGljIHZvaWQgcmVwb3J0U3RhdGUoKQogICAgewogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigicG9pbnRzPSIgKyBwb2ludHMKICAgICAgICAgICAgKyAiIHJvdW5kcz0iICsgcm91bmRzKTsKICAgIH0KfQ==",
+      "answer": "cHVibGljIGNsYXNzIFNjb3JlQm9hcmQKewogICAgcHJpdmF0ZSBpbnQgcG9pbnRzOwogICAgcHJpdmF0ZSBpbnQgcm91bmRzOwoKICAgIHB1YmxpYyBTY29yZUJvYXJkKCkKICAgIHsKICAgICAgICBwb2ludHMgPSAwOwogICAgICAgIHJvdW5kcyA9IDA7CiAgICB9CgogICAgcHVibGljIHZvaWQgcmVjb3JkUm91bmQoaW50IHBvaW50cykKICAgIHsKICAgICAgICB0aGlzLnBvaW50cyArPSBwb2ludHM7CiAgICAgICAgcm91bmRzKys7CiAgICB9CgogICAgcHVibGljIHZvaWQgcmVzZXQoKQogICAgewogICAgICAgIHBvaW50cyA9IDA7CiAgICAgICAgcm91bmRzID0gMDsKICAgIH0KCiAgICBwdWJsaWMgaW50IGdldFBvaW50cygpCiAgICB7CiAgICAgICAgcmV0dXJuIHBvaW50czsKICAgIH0KCiAgICBwdWJsaWMgaW50IGdldFJvdW5kcygpCiAgICB7CiAgICAgICAgcmV0dXJuIHJvdW5kczsKICAgIH0KfQ==",
       "files": [
         {
-          "name": "ScoreBoardEdges.java",
-          "content": "public class ScoreBoardEdges\n{\n    public static void main(String[] args)\n    {\n        ScoreBoard s = new ScoreBoard();\n        s.reset();\n        s.reportState();\n        s.recordRound(7);\n        s.reportState();\n        s.recordRound(5);\n        s.reportState();\n        s.reset();\n        s.reportState();\n        s.reset();\n        s.reportState();\n        s.recordRound(0);\n        s.reportState();\n        s.recordRound(3);\n        s.reportState();\n        System.out.println(s.getPoints());\n        System.out.println(s.getRounds());\n    }\n}"
-        }
-      ]
-    },
-    "q27-state": {
-      "type": "table",
-      "xp": 2,
-      "blanks": {
-        "0-0": {
-          "accept": [
-            "0"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
+          "name": "ScoreBoardTest.java",
+          "content": "import static org.junit.jupiter.api.Assertions.*;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\n\npublic class ScoreBoardTest\n{\n    private ScoreBoard board;\n\n    @BeforeEach\n    public void setUp()\n    {\n        board = new ScoreBoard();\n    }\n\n    @Test\n    public void freshBoard()\n    {\n        assertEquals(0, board.getPoints());\n        assertEquals(0, board.getRounds());\n    }\n\n    @Test\n    public void twoRounds()\n    {\n        board.recordRound(7);\n        board.recordRound(5);\n        assertEquals(12, board.getPoints());\n        assertEquals(2, board.getRounds());\n    }\n\n    @Test\n    public void resetClearsBoth()\n    {\n        board.recordRound(7);\n        board.recordRound(5);\n        board.reset();\n        assertEquals(0, board.getPoints());\n        assertEquals(0, board.getRounds());\n    }\n\n    @Test\n    public void newGameAfterReset()\n    {\n        board.recordRound(7);\n        board.recordRound(5);\n        board.reset();\n        board.recordRound(3);\n        assertEquals(3, board.getPoints());\n        assertEquals(1, board.getRounds());\n    }\n}"
         },
-        "0-1": {
-          "accept": [
-            "0"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "1-0": {
-          "accept": [
-            "7"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "1-1": {
-          "accept": [
-            "1"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "2-0": {
-          "accept": [
-            "12"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "2-1": {
-          "accept": [
-            "2"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "3-0": {
-          "accept": [
-            "0"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "3-1": {
-          "accept": [
-            "0"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "4-0": {
-          "accept": [
-            "3"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        },
-        "4-1": {
-          "accept": [
-            "1"
-          ],
-          "placeholder": "number",
-          "width": "7rem"
-        }
-      }
-    },
-    "q28": {
-      "type": "code",
-      "xp": 4,
-      "title": "ScoreBoardTest.java",
-      "minLines": 58,
-      "maxLines": 70,
-      "starter": "public class ScoreBoardTest\n{\n    public static void main(String[] args)\n    {\n        // Add testFreshGame, the assertion helpers and the final report.\n    }\n}",
-      "cases": [
         {
-          "name": "Output of the checking program",
-          "expected": "PASS reset points\nPASS reset rounds\nPASS new points\nPASS new rounds\nAll tests passed"
-        }
-      ],
-      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"testFreshGame();\"), \"Run the new-game regression test from main.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"failures++\"), \"Count each failed check and keep going.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"if(failures==0)\"), \"Report success only when all checks pass.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"recordRound(7)\"), \"Keep the two-round first game, reset and checks for both fields.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"recordRound(5)\"), \"Keep the two-round first game, reset and checks for both fields.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"reset()\"), \"Keep the two-round first game, reset and checks for both fields.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"recordRound(3)\"), \"Keep the two-round first game, reset and checks for both fields.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"getPoints()\"), \"Keep the two-round first game, reset and checks for both fields.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"getRounds()\"), \"Keep the two-round first game, reset and checks for both fields.\");",
-      "answer": "LyoqIEtlZXAgdGhlIGZhaWxpbmcgc2VxdWVuY2UgYXMgYSByZXBlYXRhYmxlIGNoZWNrLiAqLwpwdWJsaWMgY2xhc3MgU2NvcmVCb2FyZFRlc3QKewogICAgcHJpdmF0ZSBzdGF0aWMgaW50IGZhaWx1cmVzID0gMDsKCiAgICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKQogICAgewogICAgICAgIHRlc3RGcmVzaEdhbWUoKTsKICAgICAgICBpZihmYWlsdXJlcyA9PSAwKSB7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiQWxsIHRlc3RzIHBhc3NlZCIpOwogICAgICAgIH0KICAgICAgICBlbHNlIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJGYWlsdXJlczogIiArIGZhaWx1cmVzKTsKICAgICAgICB9CiAgICB9CgogICAgLyoqIEEgZnJlc2ggZ2FtZSBtdXN0IG5vdCBjb3VudCByb3VuZHMgZnJvbSB0aGUgb2xkIGdhbWUuICovCiAgICBwcml2YXRlIHN0YXRpYyB2b2lkIHRlc3RGcmVzaEdhbWUoKQogICAgewogICAgICAgIFNjb3JlQm9hcmQgYm9hcmQgPSBuZXcgU2NvcmVCb2FyZCgpOwogICAgICAgIGJvYXJkLnJlY29yZFJvdW5kKDcpOwogICAgICAgIGJvYXJkLnJlY29yZFJvdW5kKDUpOwogICAgICAgIGJvYXJkLnJlc2V0KCk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJyZXNldCBwb2ludHMiLCAwLCBib2FyZC5nZXRQb2ludHMoKSk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJyZXNldCByb3VuZHMiLCAwLCBib2FyZC5nZXRSb3VuZHMoKSk7CiAgICAgICAgYm9hcmQucmVjb3JkUm91bmQoMyk7CiAgICAgICAgYXNzZXJ0RXF1YWxzKCJuZXcgcG9pbnRzIiwgMywgYm9hcmQuZ2V0UG9pbnRzKCkpOwogICAgICAgIGFzc2VydEVxdWFscygibmV3IHJvdW5kcyIsIDEsIGJvYXJkLmdldFJvdW5kcygpKTsKICAgIH0KCiAgICBwcml2YXRlIHN0YXRpYyB2b2lkIGFzc2VydEVxdWFscyhTdHJpbmcgbGFiZWwsCiAgICAgICAgaW50IGV4cGVjdGVkLCBpbnQgYWN0dWFsKQogICAgewogICAgICAgIGlmKGV4cGVjdGVkID09IGFjdHVhbCkgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlBBU1MgIiArIGxhYmVsKTsKICAgICAgICB9CiAgICAgICAgZWxzZSB7CiAgICAgICAgICAgIGZhaWx1cmVzKys7CiAgICAgICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiRkFJTCAiICsgbGFiZWwKICAgICAgICAgICAgICAgICsgIjogZXhwZWN0ZWQgIiArIGV4cGVjdGVkCiAgICAgICAgICAgICAgICArICIsIGFjdHVhbCAiICsgYWN0dWFsKTsKICAgICAgICB9CiAgICB9CgogICAgcHJpdmF0ZSBzdGF0aWMgdm9pZCBhc3NlcnRUcnVlKFN0cmluZyBsYWJlbCwKICAgICAgICBib29sZWFuIGNvbmRpdGlvbikKICAgIHsKICAgICAgICBpZihjb25kaXRpb24pIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJQQVNTICIgKyBsYWJlbCk7CiAgICAgICAgfQogICAgICAgIGVsc2UgewogICAgICAgICAgICBmYWlsdXJlcysrOwogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkZBSUwgIiArIGxhYmVsKTsKICAgICAgICB9CiAgICB9Cn0=",
-      "files": [
+          "name": "Test.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface Test\n{\n}"
+        },
         {
-          "name": "ScoreBoard.java",
-          "content": "/** Points and number of rounds for one game. */\npublic class ScoreBoard\n{\n    private int points;\n    private int rounds;\n\n    public ScoreBoard()\n    {\n        points = 0;\n        rounds = 0;\n    }\n\n    /** Add a non-negative score. Totals must fit in an int. */\n    public void recordRound(int points)\n    {\n        this.points += points;\n        rounds++;\n    }\n\n    /** Start a fresh game. */\n    public void reset()\n    {\n        points = 0;\n        rounds = 0;\n    }\n\n    public int getPoints()\n    {\n        return points;\n    }\n\n    public int getRounds()\n    {\n        return rounds;\n    }\n\n    /** Print the two fields without changing them. */\n    public void reportState()\n    {\n        System.out.println(\"points=\" + points\n            + \" rounds=\" + rounds);\n    }\n}"
+          "name": "BeforeEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface BeforeEach\n{\n}"
+        },
+        {
+          "name": "AfterEach.java",
+          "content": "package org.junit.jupiter.api;\nimport java.lang.annotation.*;\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.METHOD)\npublic @interface AfterEach\n{\n}"
+        },
+        {
+          "name": "Assertions.java",
+          "content": "package org.junit.jupiter.api;\npublic final class Assertions\n{\n    public static void assertEquals(int expected, int actual)\n    {\n        if(expected != actual) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertEquals(Object expected, Object actual)\n    {\n        if(expected == null ? actual != null : !expected.equals(actual)) {\n            throw new AssertionError(\"expected: <\" + expected + \"> but was: <\" + actual + \">\");\n        }\n    }\n    public static void assertTrue(boolean condition)\n    {\n        if(!condition) {\n            throw new AssertionError(\"expected: <true> but was: <false>\");\n        }\n    }\n    public static void assertFalse(boolean condition)\n    {\n        if(condition) {\n            throw new AssertionError(\"expected: <false> but was: <true>\");\n        }\n    }\n}"
+        },
+        {
+          "name": "TestRun.java",
+          "content": "import java.lang.reflect.InvocationTargetException;\nimport java.lang.reflect.Method;\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.Comparator;\nimport org.junit.jupiter.api.AfterEach;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\npublic class TestRun\n{\n    public static void all(Class<?> testClass) throws Exception\n    {\n        ArrayList<Method> tests = new ArrayList<>();\n        for(Method m : testClass.getDeclaredMethods()) {\n            if(m.isAnnotationPresent(Test.class)) {\n                tests.add(m);\n            }\n        }\n        Collections.sort(tests, Comparator.comparing(Method::getName));\n        int errors = 0;\n        int failures = 0;\n        for(Method test : tests) {\n            String result = runOne(testClass, test);\n            System.out.println(result);\n            if(result.startsWith(\"FAIL\")) {\n                failures++;\n            }\n            else if(result.startsWith(\"ERROR\")) {\n                errors++;\n            }\n        }\n        System.out.println(\"Tests: \" + tests.size() + \"  Errors: \" + errors + \"  Failures: \" + failures);\n    }\n\n    private static String runOne(Class<?> testClass, Method test) throws Exception\n    {\n        Object object = testClass.getDeclaredConstructor().newInstance();\n        try {\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(BeforeEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            test.invoke(object);\n            for(Method m : testClass.getDeclaredMethods()) {\n                if(m.isAnnotationPresent(AfterEach.class)) {\n                    m.invoke(object);\n                }\n            }\n            return \"PASS \" + test.getName();\n        }\n        catch(InvocationTargetException e) {\n            Throwable cause = e.getCause();\n            if(cause instanceof AssertionError) {\n                return \"FAIL \" + test.getName() + \"  \" + cause.getMessage();\n            }\n            return \"ERROR \" + test.getName() + \"  \" + cause;\n        }\n    }\n}"
+        },
+        {
+          "name": "RunIt.java",
+          "content": "public class RunIt\n{\n    public static void main(String[] args) throws Exception\n    {\n        TestRun.all(ScoreBoardTest.class);\n        ScoreBoard more = new ScoreBoard();\n        more.reset();\n        System.out.println(more.getPoints() + \" \" + more.getRounds());\n        more.recordRound(0);\n        System.out.println(more.getPoints() + \" \" + more.getRounds());\n        more.reset();\n        more.reset();\n        System.out.println(more.getPoints() + \" \" + more.getRounds());\n    }\n}"
         }
       ]
     }
