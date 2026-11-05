@@ -456,7 +456,36 @@ System.out.println(order.getTotal());</code></pre>
 </figure>
 <p><code>Order(Customer customer, ArrayList&lt;MenuItem&gt; items)</code> copies the input list's references into a new list, so later edits to the caller's list leave the order's list unchanged.</p>
 <h3>Switch statements</h3>
-<p>A <strong>switch statement</strong> selects statements to run from several options (Textbook, Section 8.12.1). Java compares the value with each <code>case</code> and starts at the one that matches. <code>break</code> ends the case; without it, Java carries on into the next case. If no case matches, nothing runs. With an enum, a case names the value, as in <code>case COFFEE:</code>. The textbook also shows a newer arrow form, <code>case COFFEE -&gt;</code>. The course website's Java does not run that form, so we use the form below. Fix 5's <code>getTotal</code> loops over the list and uses a switch to pick the price for each item:</p>
+<p>A <strong>switch statement</strong> selects statements to run from several options (Textbook, Section 8.12.1). Java compares the value with each <code>case</code> and starts at the one that matches. <code>break</code> ends the case; without it, Java carries on into the next case. With an enum, a case names the value, as in <code>case COFFEE:</code>. A switch may end with a <code>default</code> case, which runs when no case matches. With no <code>default</code>, nothing runs.</p>
+<p>Every switch can also be written as an if-else chain. These two blocks set the same <code>price</code> for every item:</p>
+<pre><code>switch(item) {
+    case <span class="wb-type">COFFEE</span>:
+        price = <span class="wb-num">250</span>;
+        break;
+    case <span class="wb-type">TEA</span>:
+        price = <span class="wb-num">200</span>;
+        break;
+    case <span class="wb-type">MUFFIN</span>:
+        price = <span class="wb-num">325</span>;
+        break;
+    default:
+        price = <span class="wb-num">0</span>;
+        break;
+}</code></pre>
+<pre><code><span class="wb-kw">if</span>(item == <span class="wb-type">MenuItem</span>.COFFEE) {
+    price = <span class="wb-num">250</span>;
+}
+<span class="wb-kw">else</span> <span class="wb-kw">if</span>(item == <span class="wb-type">MenuItem</span>.TEA) {
+    price = <span class="wb-num">200</span>;
+}
+<span class="wb-kw">else</span> <span class="wb-kw">if</span>(item == <span class="wb-type">MenuItem</span>.MUFFIN) {
+    price = <span class="wb-num">325</span>;
+}
+<span class="wb-kw">else</span> {
+    price = <span class="wb-num">0</span>;
+}</code></pre>
+<p>Each <code>case</code> matches one <code>else if</code>, and <code>default</code> matches the last <code>else</code>. A case names only the value, <code>TEA</code>; the <code>if</code> needs the full name, <code>MenuItem.TEA</code>, and compares it with <code>==</code>.</p>
+<p>Fix 5's <code>getTotal</code> loops over the list and uses a switch to pick the price for each item:</p>
 <pre><code><span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getTotal</span>()
 {
     <span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
@@ -555,33 +584,7 @@ System.out.println(order.getTotal());</code></pre>
 </div>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice 7.4</div>
-  <p><strong>7.4</strong> What does this print? Look closely at the <code>TEA</code> case.</p>
-
-<pre><code><span class="wb-type">MenuItem</span> item = <span class="wb-type">MenuItem</span>.TEA;
-<span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
-switch(item) {
-    case <span class="wb-type">COFFEE</span>:
-        total = total + <span class="wb-num">250</span>;
-        break;
-    case <span class="wb-type">TEA</span>:
-        total = total + <span class="wb-num">200</span>;
-    case <span class="wb-type">MUFFIN</span>:
-        total = total + <span class="wb-num">325</span>;
-        break;
-}
-System.out.println(total);</code></pre>
-  <wb-table id="q30-output">
-    <table>
-      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td data-blank="0"></td></tr>
-      </tbody>
-    </table>
-  </wb-table>  <wb-short id="q30-output-why"></wb-short>
-</div>
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Practice 7.5</div>
-  <p><strong>7.5</strong> <code>Drink</code> stores a name and a <code>Size</code>. Write <code>getExtra()</code> with a switch on <code>size</code>. A small drink costs 0 cents extra, a medium 50 and a large 100.</p>
+  <p><strong>7.4</strong> <code>Drink</code> stores a name and a <code>Size</code>. Write <code>getExtra()</code> with a switch on <code>size</code>. A small drink costs 0 cents extra, a medium 50 and a large 100.</p>
 
 <pre><code><span class="wb-kw">public</span> enum <span class="wb-type">Size</span>
 {
@@ -606,6 +609,32 @@ System.out.println(total);</code></pre>
     }
 }</code></pre>
 <p>Write the switch in <code>getExtra</code>. A finished <code>Size</code> enum is available. The check tries all three sizes and calls the method again.</p>  <wb-exercise id="q31"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.5</div>
+  <p><strong>7.5</strong> What does this print? Look closely at the <code>TEA</code> case.</p>
+
+<pre><code><span class="wb-type">MenuItem</span> item = <span class="wb-type">MenuItem</span>.TEA;
+<span class="wb-kw">int</span> total = <span class="wb-num">0</span>;
+switch(item) {
+    case <span class="wb-type">COFFEE</span>:
+        total = total + <span class="wb-num">250</span>;
+        break;
+    case <span class="wb-type">TEA</span>:
+        total = total + <span class="wb-num">200</span>;
+    case <span class="wb-type">MUFFIN</span>:
+        total = total + <span class="wb-num">325</span>;
+        break;
+}
+System.out.println(total);</code></pre>
+  <wb-table id="q30-output">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>  <wb-short id="q30-output-why"></wb-short>
 </div>
 <h2 id="s8">8. Refactoring</h2>
 <h3>Structure and behaviour</h3>

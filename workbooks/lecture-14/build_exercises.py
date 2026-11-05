@@ -10,7 +10,7 @@ reordered on 2026-11-03 (loans moved to Section 9, enums and switches added),
 so the numbers changed. Ids and their current numbers:
   q1 1.1, q2 1.2, q3 2.1, q4 2.2, q5-q7 3.1-3.3,
   q10-q12 4.1-4.3, q13-q15 5.1-5.3, q16 6.1,
-  q17 7.1, q18 7.2, q29 7.3, q30 7.4, q31 7.5 (q29-q31 are new),
+  q17 7.1, q18 7.2, q29 7.3, q31 7.4, q30 7.5 (q29-q31 are new),
   q19-q21 8.1-8.3, q8 9.1, q9 9.2, q22 9.3, q23 9.4,
   q24-q26 10.1-10.3, q27 11.1, q28 11.2.
 """
@@ -328,8 +328,8 @@ CAFE_FILES=files_at('cafe/better','Customer','MenuItem','Order')
 output('7.1','q17-output','500\n500',CAFE_FILES,'import java.util.ArrayList;')
 E['q18'] = SHORT('Draw two separate list entries. Both arrows end at the same MenuItem.COFFEE value. '+solution('7.2'),chars=25,rows=5)
 E['q29'] = SHORT(solution('7.3'),chars=25,rows=3)
-output('7.4','q30-output','525',CAFE_FILES)
-SIZE,DRINK_START=[c.rstrip() for c in listings(QUESTION_RAW['7.5'])[:2]]
+output('7.5','q30-output','525',CAFE_FILES)
+SIZE,DRINK_START=[c.rstrip() for c in listings(QUESTION_RAW['7.4'])[:2]]
 assert SIZE.startswith('public enum Size') and DRINK_START.startswith('public class Drink')
 DRINK=DRINK_START.replace('''        int extra = 0;
         // Set extra with a switch on size.
