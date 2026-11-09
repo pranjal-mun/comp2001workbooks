@@ -14,19 +14,32 @@ export function normalizeOutput(text) {
     .replace(/\n+$/, "");
 }
 
-/** Line-by-line comparison. Returns {pass, lines: [{expected, actual, ok}]}. */
-export function compareOutput(expected, actual) {
+/** Spacing inside a line is ignored: runs of spaces count as one. */
+function spacingKey(line) {
+  return line == null ? line : line.replace(/\s+/g, " ").trim();
+}
+
+/**
+ * Line-by-line comparison. Returns {pass, spacingOnly, lines: [{expected, actual, ok}]}.
+ * Lines that differ only in spacing pass, unless `exactSpacing` is set.
+ */
+export function compareOutput(expected, actual, { exactSpacing = false } = {}) {
   const want = normalizeOutput(expected).split("\n");
   const got = normalizeOutput(actual).split("\n");
   const count = Math.max(want.length, got.length);
   const lines = [];
   let pass = true;
+  let spacingOnly = true;
   for (let i = 0; i < count; i++) {
-    const ok = want[i] === got[i];
-    if (!ok) pass = false;
+    const loose = spacingKey(want[i]) === spacingKey(got[i]);
+    const ok = exactSpacing ? want[i] === got[i] : loose;
+    if (!ok) {
+      pass = false;
+      if (!loose) spacingOnly = false;
+    }
     lines.push({ expected: want[i], actual: got[i], ok });
   }
-  return { pass, lines };
+  return { pass, spacingOnly: !pass && spacingOnly, lines };
 }
 
 /** Apply [from, to] literal rewrites to the student's source (case setup). */
@@ -69,7 +82,7 @@ export async function runCases(spec, source, files = []) {
         outcome.error = "Your program stopped with an error.";
       } else {
         if (testCase.expected != null) {
-          outcome.comparison = compareOutput(testCase.expected, result.stdout);
+          outcome.comparison = compareOutput(testCase.expected, result.stdout, { exactSpacing: Boolean(spec.exactSpacing || testCase.exactSpacing) });
         }
         if (result.check && !result.check.passed) outcome.checkMessage = result.check.message;
         outcome.pass = (outcome.comparison?.pass ?? true) && !outcome.checkMessage;

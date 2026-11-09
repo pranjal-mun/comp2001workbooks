@@ -602,7 +602,7 @@ System.out.println("tea: " + counts.get("tea"));
 System.out.println("Drinks: " + counts.size());
 System.out.println("Customers: " + log.getCustomers().size());
 System.out.println("Kim? " + log.getCustomers().contains("Kim"));'''), [
-    has(".trim().toLowerCase()", "Clean the drink with trim() and toLowerCase()."),
+    matches(r".*(\.trim\(\)\.toLowerCase\(\)|\.toLowerCase\(\)\.trim\(\)).*", "Clean the drink with trim() and toLowerCase()."),
     has("getOrDefault(", "Count the drinks with getOrDefault, then put."),
     has("new HashSet<>()", "Collect the customers in a new HashSet.")], xp=6) == "Empty: 0 0 0\nOrders: 3\ncocoa: 2\ntea: 1\nDrinks: 2\nCustomers: 2\nKim? true"
 

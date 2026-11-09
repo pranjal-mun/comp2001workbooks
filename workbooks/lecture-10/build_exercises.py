@@ -357,7 +357,7 @@ catalogue.printMatches("   ");
 System.out.println("Books: " + catalogue.getCount());''')
 Q26_OUT = code_box("q26", "Catalogue.java", Q26_STARTER, CATALOGUE_1, BOOK_FILE + Q26_DRIVER, [
     has("public void printMatches(String query)", "Keep the header public void printMatches(String query)."),
-    has(".trim().toLowerCase()", "Clean the query with query.trim().toLowerCase()."),
+    matches(r".*(\.trim\(\)\.toLowerCase\(\)|\.toLowerCase\(\)\.trim\(\)).*", "Clean the query with query.trim().toLowerCase()."),
     has(".isEmpty()", "Refuse an empty query with isEmpty()."),
     has("for(Book", "Visit the books with a for-each loop: for(Book book : books)."),
     has(".getTitle().toLowerCase().contains(", "Compare the lower-case title with contains."),
@@ -448,7 +448,7 @@ System.out.println("Saw tails: " + tails);''')
 assert code_box("q14", "Coin.java", COIN_STARTER, COIN, COIN_DRIVER, [
     has("import java.util.Random;", "Import the class above it: import java.util.Random;"),
     has("private Random generator;", "Declare the field with the others: private Random generator;"),
-    matches(r".*publicCoin\(\)\{generator=newRandom\(\);\}.*", "Create the generator in the constructor: generator = new Random();"),
+    matches(r".*publicCoin\(\)\{(this\.)?generator=newRandom\(\);\}.*", "Create the generator in the constructor: generator = new Random();"),
     lacks("Random generator = new Random()", "Assign the field in the constructor; do not declare a new local variable.")], xp=3, extra=4) == "All flips valid: true\nSaw heads: true\nSaw tails: true"
 E["q14-why"] = SHORT("One generator should produce the whole sequence of flips. A new generator in every call is wasteful, and with a fixed seed it would restart the same sequence each time, giving the same flip again and again.", rows=2)
 
@@ -628,8 +628,7 @@ RATING_DOC = '''    /**
 DOC_DRIVER = driver("DocCheck", "HelpBot bot = new HelpBot();\nbot.addRating(5);\nbot.addRating(9);\nbot.addRating(3);\nSystem.out.println(\"Ratings: \" + bot.numberOfRatings());")
 assert code_box("q21-method", "HelpBot.java", HELPBOT.replace(ADD_RATING, "    // Write the Javadoc comment for addRating on the lines above its header.\n" + ADD_RATING),
                 HELPBOT.replace(ADD_RATING, RATING_DOC + ADD_RATING), DOC_DRIVER, [
-    matches(r".*/\*\*[^/]*@paramrating[^/]*\*/publicvoidaddRating\(intrating\).*", "Put a /** ... */ comment with an @param rating tag just above addRating."),
-    matches(r".*/\*\*[^/]*(1to5|1and5|1-5|1through5|onetofive)[^/]*\*/publicvoidaddRating.*", "Say which ratings are kept, for example \"Ratings outside 1 to 5 are ignored.\""),
+    matches(r".*/\*\*(?:(?!\*/).)*@paramrating(?:(?!\*/).)*\*/publicvoidaddRating\(intrating\).*", "Put a /** ... */ comment with an @param rating tag just above addRating."),
     lacks("@return", "addRating is void, so it has no @return tag.")], xp=3, extra=6) == "Ratings: 2"
 BOOK_DOC = '''/**
  * A book in the library catalogue, with its title, author and
@@ -662,9 +661,9 @@ Q28_OUT = code_box("q28", "Catalogue.java", Q28_STARTER, CATALOGUE_2, BOOK_FILE 
     has("private Random generator;", "Add the field private Random generator;"),
     has("generator = new Random(42);", "Create the generator once, in the constructor: generator = new Random(42);"),
     has("public Book pickRandom()", "Include public Book pickRandom()."),
-    matches(r".*publicBookpickRandom\(\)\{if\(books\.isEmpty\(\)\)\{returnnull;\}.*", "Return null for an empty catalogue before calling nextInt."),
+    matches(r".*publicBookpickRandom\(\)\{if\((books\.isEmpty\(\)|books\.size\(\)==0)\)\{?returnnull;.*", "Return null for an empty catalogue before calling nextInt."),
     has("generator.nextInt(books.size())", "Use the number of books as the bound: generator.nextInt(books.size())."),
-    matches(r".*/\*\*[^/]*@return[^/]*\*/publicBookpickRandom\(\).*", "Put a /** ... */ comment with an @return tag just above pickRandom."),
+    matches(r".*/\*\*(?:(?!\*/).)*@return(?:(?!\*/).)*\*/publicBookpickRandom\(\).*", "Put a /** ... */ comment with an @return tag just above pickRandom."),
     lacks(".remove(", "The picked book stays in the catalogue.")], xp=6)
 assert Q28_OUT == ("Empty: null\nPick: Objects First with Java\nPick: The Navigator of New York\nPick: The Navigator of New York\n"
                    "Pick: A Brief History of Time\nPick: Objects First with Java\nBooks: 5"), Q28_OUT
@@ -861,7 +860,7 @@ list.printSearch("mary");
 list.printSearch("byron");
 System.out.println("At mun.ca: " + list.countEmailsAt("mun.ca"));
 System.out.println("At example.com: " + list.countEmailsAt("example.com"));'''), [
-    has(".trim().toLowerCase()", "Clean the email and the search text with trim() and toLowerCase()."),
+    matches(r".*(\.trim\(\)\.toLowerCase\(\)|\.toLowerCase\(\)\.trim\(\)).*", "Clean the email and the search text with trim() and toLowerCase()."),
     has(".contains(", "Search the names with contains."),
     has(".endsWith(\"@\" + domain)", "Count with endsWith(\"@\" + domain).")], xp=6) == (
     "Empty list:\nNo contacts match\nAt mun.ca: 0\nTwo contacts:\nMS Mary Shelley <mary@mun.ca>\nPS Percy Shelley <percy@example.com>\n"

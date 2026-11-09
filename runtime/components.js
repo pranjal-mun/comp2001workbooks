@@ -489,7 +489,10 @@ class ExerciseElement extends RunnableElement {
         }
         if (c.stdout) box.append(h("div", { class: "wb-result-label" }, "Printed before the error:"), h("pre", { class: "wb-result-stdout" }, c.stdout));
       } else if (!c.pass) {
-        if (c.comparison && !c.comparison.pass) box.append(this.renderDiff(c.comparison));
+        if (c.comparison && !c.comparison.pass) {
+          if (c.comparison.spacingOnly) box.append(h("p", { class: "wb-result-text" }, "Only the spaces differ. Each · below is one space."));
+          box.append(this.renderDiff(c.comparison));
+        }
         if (c.checkMessage) box.append(h("p", { class: "wb-result-text" }, c.checkMessage));
       }
       panel.append(box);
@@ -501,14 +504,16 @@ class ExerciseElement extends RunnableElement {
     const body = h("tbody");
     for (const line of comparison.lines) {
       body.append(h("tr", { class: line.ok ? "is-ok" : "is-diff" },
-        h("td", {}, cell(line.expected)), h("td", {}, cell(line.actual))));
+        h("td", {}, cell(line.expected, !line.ok)), h("td", {}, cell(line.actual, !line.ok))));
     }
     table.append(body);
     return table;
-    function cell(text) {
+    // In a line that differs, each space shows as a faint dot.
+    function cell(text, showSpaces) {
       if (text == null) return h("span", { class: "wb-diff-missing" }, "(no line)");
       if (text === "") return h("span", { class: "wb-diff-missing" }, "(blank line)");
-      return h("code", {}, text);
+      if (!showSpaces) return h("code", {}, text);
+      return h("code", {}, ...text.split(/( )/).filter((part) => part !== "").map((part) => (part === " " ? h("span", { class: "wb-diff-space" }, "·") : part)));
     }
   }
 

@@ -622,6 +622,7 @@ h4 code, main th code, .wb-block-title code, .wb-callout-title code, .wb-answer-
 .wb-diff td code { background: none; padding: 0; }
 .wb-diff tr.is-diff td { background: var(--bad-wash); }
 .wb-diff tr.is-diff td:first-child { background: var(--good-wash); }
+.wb-diff-space { color: var(--ink-quiet); }
 .wb-diff-missing { color: var(--ink-quiet); font-style: italic; font-family: var(--font-sans); }
 
 /* Model answer. */
