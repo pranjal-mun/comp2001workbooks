@@ -37,7 +37,7 @@ export const LECTURES = [
   { n: 13, unit: 3, date: "2026-10-29", title: "Chapter 7, Part 2: Arrays of objects, grids, and representation choices", built: true },
   { n: 14, unit: 3, date: "2026-11-03", title: "Chapter 8: Designing classes that are easy to change", built: true },
   { n: 15, unit: 3, date: "2026-11-05", title: "Chapter 9: Testing, debugging, and well-behaved objects", built: true },
-  { n: 16, unit: 4, date: "2026-11-10", title: "Chapter 12, Part 1: Inheritance can remove genuine duplication", built: false },
+  { n: 16, unit: 4, date: "2026-11-10", title: "Chapter 12, Part 1: Inheritance can remove genuine duplication", built: true },
   { n: 17, unit: 4, date: "2026-11-12", title: "Chapter 12, Part 2: Subtyping and substitutable objects", built: false },
   { n: 18, unit: 4, date: "2026-11-17", title: "Chapter 13: Dynamic method lookup and overriding", built: false },
   { n: 19, unit: 4, date: "2026-11-19", title: "Chapter 14, Part 1: Abstract classes", built: false },

@@ -680,6 +680,20 @@ h4 code, main th code, .wb-block-title code, .wb-callout-title code, .wb-answer-
 .wb-short-hint { color: var(--ink-quiet); font-size: 0.78rem; }
 .wb-self-check { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; padding: 0.55rem 0.85rem 0.75rem; border-top: 1px solid var(--rule-soft); }
 
+/* Multiple choice. */
+.wb-choice-options { display: flex; flex-direction: column; gap: 0.35rem; padding: 0.7rem 0.85rem 0.4rem; }
+.wb-choice-option { display: flex; align-items: baseline; gap: 0.55rem; padding: 0.4rem 0.6rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper); cursor: pointer; font-family: var(--font-body); font-size: 1.05rem; line-height: 1.45; }
+.wb-choice-option:hover { border-color: var(--accent); }
+.wb-choice-option input { flex: none; margin: 0; transform: translateY(0.1em); }
+.wb-choice-letter { flex: none; font-weight: 700; }
+.wb-choice-text { min-width: 0; overflow-wrap: anywhere; }
+.wb-choice-option.is-right { border-color: var(--good); background: var(--good-wash); }
+.wb-choice-option.is-wrong { border-color: var(--bad); background: var(--bad-wash); }
+.wb-choice-option.is-answer { border: 2px dashed var(--answer); }
+.wb-choice [hidden] { display: none !important; }
+.wb-choice .wb-toolbar { border-top: 0; }
+.wb-choice .wb-result-summary { padding: 0 0.85rem 0.6rem; font-family: var(--font-sans); font-size: 0.88rem; }
+
 /* Expanded editor: the widget takes the whole viewport. */
 .wb-widget.is-expanded {
   position: fixed;

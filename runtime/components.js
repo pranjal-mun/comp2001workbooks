@@ -5,6 +5,7 @@
 //   <wb-exercise id="…">  coding task: editor, Run, Check, XP, model answer
 //   <wb-table id="…">     an HTML table whose [data-blank] cells become inputs
 //   <wb-short id="…">     written answer compared against a model answer
+//   <wb-choice id="…">    multiple choice: its <ol> items become the options
 //
 // All widgets render into the light DOM so workbook.css styles them.
 
@@ -27,6 +28,7 @@ export function defineComponents({ workbookId, specs, progress }) {
     customElements.define("wb-exercise", ExerciseElement);
     customElements.define("wb-table", TableElement);
     customElements.define("wb-short", ShortElement);
+    customElements.define("wb-choice", ChoiceElement);
   }
 }
 
@@ -776,6 +778,122 @@ class ShortElement extends WorkbookElement {
   notQuite() {
     this.selfCheck.hidden = true;
     toast("No problem. Reread the answer and come back to it.", "info");
+  }
+}
+
+// ----------------------------------------------------------- <wb-choice>
+
+/**
+ * A multiple-choice question. The page holds the options as an <ol>; the
+ * spec holds the index of the right one and an explanation. XP is paid for
+ * a right answer on the first try; later tries still show the explanation.
+ */
+class ChoiceElement extends WorkbookElement {
+  render() {
+    const spec = this.spec;
+    const record = this.record;
+    this.classList.add("wb-choice");
+    this.amount = spec.xp ?? 1;
+    const list = this.querySelector("ol");
+    const texts = list ? [...list.children].map((li) => li.innerHTML) : [];
+    list?.remove();
+    if (texts.length < 2 || !(spec.answer >= 0 && spec.answer < texts.length)) {
+      this.append(h("p", { class: "wb-widget-error" }, `Options for "${this.exerciseId}" do not match its spec.`));
+      return;
+    }
+    const name = `${this.exerciseId}-option`;
+    this.options = texts.map((text, i) => {
+      const input = h("input", { type: "radio", name, value: String(i) });
+      input.checked = record.work === i;
+      input.addEventListener("change", () => {
+        this.progress.setWork(this.exerciseId, i);
+        for (const o of this.options) o.label.classList.remove("is-right", "is-wrong");
+        this.result.hidden = true;
+      });
+      const label = h("label", { class: "wb-choice-option" }, input,
+        h("span", { class: "wb-choice-letter" }, String.fromCharCode(65 + i) + "."),
+        h("span", { class: "wb-choice-text", html: text }));
+      return { input, label };
+    });
+    this.badge = xpBadge(this.amount, () => this.record);
+    this.statusPill = h("span", { class: "wb-status-pill" });
+    this.revealButton = button("", () => this.reveal(), { class: "wb-btn-quiet wb-btn-reveal" });
+    this.result = h("div", { class: "wb-result-summary", hidden: true });
+    this.answerPanel = h("div", { class: "wb-answer", hidden: true });
+    this.append(
+      h("div", { class: "wb-choice-options", role: "radiogroup" }, this.options.map((o) => o.label)),
+      h("div", { class: "wb-toolbar" },
+        button("✓ Check", () => this.check(), { class: "wb-btn-check" }),
+        this.statusPill, h("span", { class: "wb-spacer" }), this.badge, this.revealButton),
+      this.result, this.answerPanel,
+    );
+    this.refreshState();
+    if (record.passed || record.revealed) this.showAnswer();
+  }
+
+  get chosen() {
+    const hit = this.options.findIndex((o) => o.input.checked);
+    return hit < 0 ? null : hit;
+  }
+
+  refreshState() {
+    const record = this.record;
+    this.badge.refresh();
+    this.classList.toggle("is-passed", Boolean(record.passed));
+    this.classList.toggle("is-revealed", Boolean(record.revealed));
+    this.statusPill.textContent = record.passed ? "✓ Correct" : "";
+    this.statusPill.className = "wb-status-pill" + (record.passed ? " is-good" : "");
+    const done = Boolean(record.passed || record.revealed);
+    this.revealButton.hidden = done;
+    this.revealButton.textContent = isInstructor() ? "Show answer" : answersAreFree() ? "Show answer (free before the test)" : `Show answer (−${this.amount} XP)`;
+  }
+
+  check() {
+    const choice = this.chosen;
+    this.result.hidden = false;
+    if (choice == null) {
+      this.result.className = "wb-result-summary";
+      this.result.textContent = "Choose an option first.";
+      return;
+    }
+    const record = this.record;
+    const right = choice === this.spec.answer;
+    this.options[choice].label.classList.toggle("is-right", right);
+    this.options[choice].label.classList.toggle("is-wrong", !right);
+    if (right) {
+      this.result.className = "wb-result-summary is-good";
+      this.result.textContent = record.tries ? "✓ Correct. XP is paid only for a first-try answer." : "✓ Correct!";
+      if (!record.tries) {
+        const added = this.progress.award(this.exerciseId, this.amount);
+        if (added) toast(`+${added} XP`, "good");
+      }
+      this.progress.markPassed(this.exerciseId);
+      this.showAnswer();
+    } else {
+      record.tries = (record.tries ?? 0) + 1;
+      this.progress.save();
+      this.result.className = "wb-result-summary is-bad";
+      this.result.textContent = "Not quite. Think about why that option is tempting, then try another.";
+    }
+    this.refreshState();
+  }
+
+  reveal() {
+    if (!confirmReveal(this.exerciseId, this.amount)) return;
+    this.showAnswer();
+    this.refreshState();
+  }
+
+  showAnswer() {
+    const right = this.options[this.spec.answer];
+    right.label.classList.remove("is-wrong");
+    right.label.classList.add(this.record.passed ? "is-right" : "is-answer");
+    for (const o of this.options) o.input.disabled = true;
+    this.answerPanel.hidden = false;
+    if (this.answerPanel.childElementCount) return;
+    const body = h("div", { class: "wb-answer-text" });
+    for (const paragraph of decodeBase64(this.spec.explain ?? "").split(/\n\s*\n/)) body.append(h("p", { html: inlineCode(paragraph) }));
+    this.answerPanel.append(h("div", { class: "wb-answer-title" }, `Answer: ${String.fromCharCode(65 + this.spec.answer)}`), body);
   }
 }
 

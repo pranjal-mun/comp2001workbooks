@@ -1,0 +1,1082 @@
+{
+  "id": "lecture-16",
+  "course": "COMP 2001: Object-Oriented Programming",
+  "title": "Lecture 16 Workbook",
+  "subtitle": "Chapter 12, Part 1: Inheritance",
+  "exercises": {
+    "q3-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGNvbnN0cnVjdG9yIGhhcyBubyBzdXBlciguLi4pIGNhbGwsIHNvIEphdmEgYWRkcyBzdXBlcigpIHdpdGggbm8gYXJndW1lbnRzLiBFdmVudE5vdGljZSBoYXMgb25seSB0aGUgY29uc3RydWN0b3IgRXZlbnROb3RpY2UoU3RyaW5nIGF1dGhvciwgU3RyaW5nIHRpdGxlLCBpbnQgZGF5KSwgc28gdGhlIGNvbXBpbGVyIHJlcG9ydHMgdGhhdCB0aGlzIGNvbnN0cnVjdG9yIGNhbm5vdCBiZSBhcHBsaWVkOiBpdCByZXF1aXJlcyBTdHJpbmcsU3RyaW5nLGludCBhbmQgZm91bmQgbm8gYXJndW1lbnRzLg=="
+    },
+    "q4-3": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "QSBwdWJsaWMgZmllbGQgY2FuIGJlIGNoYW5nZWQgYnkgYW55IGNsYXNzLCBzbyBhbnkgY29kZSBjb3VsZCBjaGFuZ2UgdGhlIGF1dGhvciBvZiBhIG5vdGljZS4gV2l0aCBhIHByaXZhdGUgZmllbGQgYW5kIG9ubHkgYSBnZXR0ZXIsIG90aGVyIGNsYXNzZXMgY2FuIHJlYWQgdGhlIGF1dGhvciBidXQgbm90IGNoYW5nZSBpdCwgYW5kIE5vdGljZSBrZWVwcyBjb250cm9sIG9mIGl0cyBvd24gZGF0YS4="
+    },
+    "q5-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIHNlbnRlbmNlICJFdmVyeSBub3RpY2UgYm9hcmQgaXMgYSB0ZXh0IG5vdGljZSIgaXMgZmFsc2UuIFRoZSBib2FyZCB3b3VsZCBhbHNvIGluaGVyaXQgcGluKCkgYW5kIGEgbWVzc2FnZSBpdCBkb2VzIG5vdCBuZWVkLiBJZiB0aGUgYm9hcmQgbmVlZHMgYW4gYXV0aG9yLCBpdCBzaG91bGQgaGF2ZSBpdHMgb3duIGZpZWxkLg=="
+    },
+    "q6-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "RWFjaCBraW5kIG9mIG5vdGljZSBuZWVkcyBpdHMgb3duIGxpc3QsIGl0cyBvd24gYWRkIG1ldGhvZCBhbmQgaXRzIG93biBsb29wLCBzbyBhIG5ldyBraW5kIGNoYW5nZXMgdGhlIGJvYXJkIGluIGZvdXIgcGxhY2VzLg=="
+    },
+    "q6-3": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "V2l0aCB0aGUgc3VwZXJjbGFzcywgb25seSBOb3RpY2UgY2hhbmdlcywgYmVjYXVzZSBwaW4oKSBpcyB3cml0dGVuIG9uY2UgdGhlcmUuIFdpdGhvdXQgaXQsIFRleHROb3RpY2UsIEV2ZW50Tm90aWNlIGFuZCBKb2JOb3RpY2UgZWFjaCBoYXZlIHRoZWlyIG93biBwaW4oKSwgc28gYWxsIHRocmVlIG11c3QgY2hhbmdlIGluIHRoZSBzYW1lIHdheS4="
+    },
+    "q8-1": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Rmlyc3QsIHN1cGVyKGF1dGhvcik7IG11c3QgYmUgdGhlIGZpcnN0IHN0YXRlbWVudCBpbiB0aGUgY29uc3RydWN0b3IsIHNvIG1vdmUgaXQgYWJvdmUgdGhpcy5jYXB0aW9uID0gY2FwdGlvbjsuIFNlY29uZCwgYXV0aG9yIGlzIHByaXZhdGUgaW4gTm90aWNlLCBzbyBwcmludFN1bW1hcnkoKSBtdXN0IGNhbGwgZ2V0QXV0aG9yKCkgaW5zdGVhZC4="
+    },
+    "q1-1": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "eli: Room 2 is free.",
+            "\"eli: Room 2 is free.\""
+          ],
+          "show": "eli: Room 2 is free.",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "  pins: 0",
+            "\"  pins: 0\""
+          ],
+          "show": "  pins: 0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "2": {
+          "accept": [
+            "fay: Chess club, day 3",
+            "\"fay: Chess club, day 3\""
+          ],
+          "show": "fay: Chess club, day 3",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "3": {
+          "accept": [
+            "  pins: 0",
+            "\"  pins: 0\""
+          ],
+          "show": "  pins: 0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "4": {
+          "accept": [
+            "gil: Git basics, day 5",
+            "\"gil: Git basics, day 5\""
+          ],
+          "show": "gil: Git basics, day 5",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "5": {
+          "accept": [
+            "  pins: 0",
+            "\"  pins: 0\""
+          ],
+          "show": "  pins: 0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q1-1-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "c2hvdygpIHJ1bnMgdGhlIGxvb3Agb3ZlciB0aGUgdGV4dCBub3RpY2VzIGZpcnN0IGFuZCB0aGUgbG9vcCBvdmVyIHRoZSBldmVudCBub3RpY2VzIHNlY29uZCwgc28gZWxpJ3Mgbm90aWNlIGNvbWVzIGZpcnN0IGFsdGhvdWdoIGl0IHdhcyBhZGRlZCBzZWNvbmQu"
+    },
+    "q2-1": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "1": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "2": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "3": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "4": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "does not compile",
+            "it does not compile"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        }
+      }
+    },
+    "q2-2": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "fay",
+            "\"fay\""
+          ],
+          "show": "fay",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "2"
+          ],
+          "show": "2",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "2": {
+          "accept": [
+            "fay: Chess club, day 3",
+            "\"fay: Chess club, day 3\""
+          ],
+          "show": "fay: Chess club, day 3",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "3": {
+          "accept": [
+            "  pins: 2",
+            "\"  pins: 2\""
+          ],
+          "show": "  pins: 2",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q2-3": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "Notice",
+            "notice"
+          ],
+          "show": "Notice",
+          "placeholder": "answer",
+          "width": "10rem"
+        },
+        "1": {
+          "accept": [
+            "Notice",
+            "notice"
+          ],
+          "show": "Notice",
+          "placeholder": "answer",
+          "width": "10rem"
+        },
+        "2": {
+          "accept": [
+            "EventNotice",
+            "eventnotice",
+            "Eventnotice"
+          ],
+          "show": "EventNotice",
+          "placeholder": "answer",
+          "width": "10rem"
+        },
+        "3": {
+          "accept": [
+            "EventNotice",
+            "eventnotice",
+            "Eventnotice"
+          ],
+          "show": "EventNotice",
+          "placeholder": "answer",
+          "width": "10rem"
+        }
+      }
+    },
+    "q3-1": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "4th",
+            "4",
+            "fourth",
+            "Fourth"
+          ],
+          "show": "4th",
+          "placeholder": "1st to 4th",
+          "width": "7rem"
+        },
+        "1": {
+          "accept": [
+            "3rd",
+            "3",
+            "third",
+            "Third"
+          ],
+          "show": "3rd",
+          "placeholder": "1st to 4th",
+          "width": "7rem"
+        },
+        "2": {
+          "accept": [
+            "1st",
+            "1",
+            "first",
+            "First"
+          ],
+          "show": "1st",
+          "placeholder": "1st to 4th",
+          "width": "7rem"
+        },
+        "3": {
+          "accept": [
+            "2nd",
+            "2",
+            "second",
+            "Second"
+          ],
+          "show": "2nd",
+          "placeholder": "1st to 4th",
+          "width": "7rem"
+        }
+      }
+    },
+    "q3-3": {
+      "type": "code",
+      "xp": 4,
+      "title": "Workshop.java",
+      "minLines": 16,
+      "maxLines": 28,
+      "starter": "public class Workshop extends EventNotice\n{\n    private String room;\n    // Write the constructor here.\n    public String getRoom()\n    {\n        return room;\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "gil: Git basics, day 5\n  pins: 1\n  room: EN-2036"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"super(author,title,day)\"), \"Call super(author, title, day) to set up the EventNotice part.\");",
+      "answer": "cHVibGljIGNsYXNzIFdvcmtzaG9wIGV4dGVuZHMgRXZlbnROb3RpY2UKewogICAgcHJpdmF0ZSBTdHJpbmcgcm9vbTsKICAgIHB1YmxpYyBXb3Jrc2hvcChTdHJpbmcgYXV0aG9yLCBTdHJpbmcgdGl0bGUsCiAgICAgICAgaW50IGRheSwgU3RyaW5nIHJvb20pCiAgICB7CiAgICAgICAgc3VwZXIoYXV0aG9yLCB0aXRsZSwgZGF5KTsKICAgICAgICB0aGlzLnJvb20gPSByb29tOwogICAgfQogICAgcHVibGljIFN0cmluZyBnZXRSb29tKCkKICAgIHsKICAgICAgICByZXR1cm4gcm9vbTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Notice.java",
+          "content": "public class Notice\n{\n    private String author;\n    private int pins;\n    public Notice(String author)\n    {\n        this.author = author;\n        pins = 0;\n    }\n    public void pin()\n    {\n        pins = pins + 1;\n    }\n    public String getAuthor()\n    {\n        return author;\n    }\n    public int getPins()\n    {\n        return pins;\n    }\n}"
+        },
+        {
+          "name": "EventNotice.java",
+          "content": "public class EventNotice extends Notice\n{\n    private String title;\n    private int day;\n    public EventNotice(String author,\n        String title, int day)\n    {\n        super(author);\n        this.title = title;\n        this.day = day;\n    }\n    public void printSummary()\n    {\n        System.out.println(getAuthor() + \": \"\n            + title + \", day \" + day);\n        System.out.println(\"  pins: \" + getPins());\n    }\n}"
+        },
+        {
+          "name": "WorkshopDemo.java",
+          "content": "public class WorkshopDemo\n{\n    public static void main(String[] args)\n    {\n        Workshop w = new Workshop(\"gil\", \"Git basics\", 5, \"EN-2036\");\n        w.pin();\n        w.printSummary();\n        System.out.println(\"  room: \" + w.getRoom());\n    }\n}"
+        }
+      ]
+    },
+    "q4-1": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "error",
+            "Error",
+            "an error",
+            "An error"
+          ],
+          "show": "error",
+          "placeholder": "compiles / error",
+          "width": "9rem"
+        },
+        "1": {
+          "accept": [
+            "compiles",
+            "Compiles",
+            "fine",
+            "Fine"
+          ],
+          "show": "compiles",
+          "placeholder": "compiles / error",
+          "width": "9rem"
+        },
+        "2": {
+          "accept": [
+            "compiles",
+            "Compiles",
+            "fine",
+            "Fine"
+          ],
+          "show": "compiles",
+          "placeholder": "compiles / error",
+          "width": "9rem"
+        },
+        "3": {
+          "accept": [
+            "error",
+            "Error",
+            "an error",
+            "An error"
+          ],
+          "show": "error",
+          "placeholder": "compiles / error",
+          "width": "9rem"
+        }
+      }
+    },
+    "q4-2": {
+      "type": "code",
+      "xp": 4,
+      "title": "TextNotice.java",
+      "minLines": 23,
+      "maxLines": 35,
+      "starter": "public class TextNotice extends Notice\n{\n    private String message;\n    public TextNotice(String author,\n        String message)\n    {\n        super(author);\n        this.message = message;\n    }\n    public void printSummary()\n    {\n        System.out.println(getAuthor() + \": \"\n            + message);\n        System.out.println(\"  pins: \" + getPins());\n    }\n    // Add printShort() here.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "ada (2 pins)"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"getAuthor()\"), \"Use getAuthor(): author is private in Notice.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"getPins()\"), \"Use getPins(): pins is private in Notice.\");",
+      "answer": "cHVibGljIGNsYXNzIFRleHROb3RpY2UgZXh0ZW5kcyBOb3RpY2UKewogICAgcHJpdmF0ZSBTdHJpbmcgbWVzc2FnZTsKICAgIHB1YmxpYyBUZXh0Tm90aWNlKFN0cmluZyBhdXRob3IsCiAgICAgICAgU3RyaW5nIG1lc3NhZ2UpCiAgICB7CiAgICAgICAgc3VwZXIoYXV0aG9yKTsKICAgICAgICB0aGlzLm1lc3NhZ2UgPSBtZXNzYWdlOwogICAgfQogICAgcHVibGljIHZvaWQgcHJpbnRTdW1tYXJ5KCkKICAgIHsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oZ2V0QXV0aG9yKCkgKyAiOiAiCiAgICAgICAgICAgICsgbWVzc2FnZSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCIgIHBpbnM6ICIgKyBnZXRQaW5zKCkpOwogICAgfQogICAgcHVibGljIHZvaWQgcHJpbnRTaG9ydCgpCiAgICB7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGdldEF1dGhvcigpICsgIiAoIiArIGdldFBpbnMoKQogICAgICAgICAgICArICIgcGlucykiKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Notice.java",
+          "content": "public class Notice\n{\n    private String author;\n    private int pins;\n    public Notice(String author)\n    {\n        this.author = author;\n        pins = 0;\n    }\n    public void pin()\n    {\n        pins = pins + 1;\n    }\n    public String getAuthor()\n    {\n        return author;\n    }\n    public int getPins()\n    {\n        return pins;\n    }\n}"
+        },
+        {
+          "name": "ShortDemo.java",
+          "content": "public class ShortDemo\n{\n    public static void main(String[] args)\n    {\n        TextNotice note = new TextNotice(\"ada\", \"Study group at 4pm.\");\n        note.pin();\n        note.pin();\n        note.printShort();\n    }\n}"
+        }
+      ]
+    },
+    "q5-1": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0-0": {
+          "accept": [
+            "is-a",
+            "Is-a",
+            "is a",
+            "Is a"
+          ],
+          "show": "is-a",
+          "placeholder": "is-a / has-a",
+          "width": "7rem"
+        },
+        "0-1": {
+          "accept": [
+            "extends",
+            "Extends",
+            "with extends",
+            "With extends"
+          ],
+          "show": "extends",
+          "placeholder": "extends / field",
+          "width": "9rem"
+        },
+        "1-0": {
+          "accept": [
+            "has-a",
+            "Has-a",
+            "has a",
+            "Has a"
+          ],
+          "show": "has-a",
+          "placeholder": "is-a / has-a",
+          "width": "7rem"
+        },
+        "1-1": {
+          "accept": [
+            "a field",
+            "A field",
+            "field",
+            "Field",
+            "with a field",
+            "With a field"
+          ],
+          "show": "a field",
+          "placeholder": "extends / field",
+          "width": "9rem"
+        },
+        "2-0": {
+          "accept": [
+            "has-a",
+            "Has-a",
+            "has a",
+            "Has a"
+          ],
+          "show": "has-a",
+          "placeholder": "is-a / has-a",
+          "width": "7rem"
+        },
+        "2-1": {
+          "accept": [
+            "a field",
+            "A field",
+            "field",
+            "Field",
+            "with a field",
+            "With a field",
+            "a list",
+            "A list",
+            "a field (a list)",
+            "A field (a list)",
+            "list",
+            "List"
+          ],
+          "show": "a field",
+          "placeholder": "extends / field",
+          "width": "9rem"
+        },
+        "3-0": {
+          "accept": [
+            "is-a",
+            "Is-a",
+            "is a",
+            "Is a"
+          ],
+          "show": "is-a",
+          "placeholder": "is-a / has-a",
+          "width": "7rem"
+        },
+        "3-1": {
+          "accept": [
+            "extends",
+            "Extends",
+            "with extends",
+            "With extends"
+          ],
+          "show": "extends",
+          "placeholder": "extends / field",
+          "width": "9rem"
+        }
+      }
+    },
+    "q7-5": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "inheritance",
+            "Inheritance",
+            "extends",
+            "Extends"
+          ],
+          "show": "inheritance",
+          "placeholder": "inheritance / field",
+          "width": "9rem"
+        },
+        "1": {
+          "accept": [
+            "a field",
+            "A field",
+            "field",
+            "Field",
+            "a list",
+            "A list"
+          ],
+          "show": "a field",
+          "placeholder": "inheritance / field",
+          "width": "9rem"
+        },
+        "2": {
+          "accept": [
+            "inheritance",
+            "Inheritance",
+            "extends",
+            "Extends"
+          ],
+          "show": "inheritance",
+          "placeholder": "inheritance / field",
+          "width": "9rem"
+        }
+      }
+    },
+    "q7-5-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "RXZlcnkgcmFiYml0IGlzIGFuIGFuaW1hbCwgYW5kIGV2ZXJ5IGpvYiBub3RpY2UgaXMgYSBub3RpY2UsIHNvIHRob3NlIHBhaXJzIHBhc3MgdGhlIGlzLWEgdGVzdC4gQSBzaGVsdGVyIGlzIG5vdCBhbiBhbmltYWw6IGl0IGhhcyBhbmltYWxzLCBzbyBpdCBrZWVwcyB0aGVtIGluIGEgZmllbGQgc3VjaCBhcyBhIGxpc3Qu"
+    },
+    "q8-2": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "true",
+            "True"
+          ],
+          "show": "true",
+          "placeholder": "true / false",
+          "width": "7rem"
+        },
+        "1": {
+          "accept": [
+            "false",
+            "False"
+          ],
+          "show": "false",
+          "placeholder": "true / false",
+          "width": "7rem"
+        },
+        "2": {
+          "accept": [
+            "false",
+            "False"
+          ],
+          "show": "false",
+          "placeholder": "true / false",
+          "width": "7rem"
+        },
+        "3": {
+          "accept": [
+            "true",
+            "True"
+          ],
+          "show": "true",
+          "placeholder": "true / false",
+          "width": "7rem"
+        }
+      }
+    },
+    "q6-1": {
+      "type": "code",
+      "xp": 6,
+      "title": "SaleNotice.java",
+      "minLines": 20,
+      "maxLines": 32,
+      "starter": "public class SaleNotice extends Notice\n{\n    // Fields, constructor and printSummary().\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "eli: selling a bike for 40 dollars\n  pins: 1\nfay: selling a desk lamp for 12 dollars\n  pins: 0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"extendsNotice\"), \"SaleNotice extends Notice.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"super(author)\"), \"Call super(author) first.\");",
+      "answer": "cHVibGljIGNsYXNzIFNhbGVOb3RpY2UgZXh0ZW5kcyBOb3RpY2UKewogICAgcHJpdmF0ZSBTdHJpbmcgaXRlbTsKICAgIHByaXZhdGUgaW50IHByaWNlOwogICAgcHVibGljIFNhbGVOb3RpY2UoU3RyaW5nIGF1dGhvciwgU3RyaW5nIGl0ZW0sCiAgICAgICAgaW50IHByaWNlKQogICAgewogICAgICAgIHN1cGVyKGF1dGhvcik7CiAgICAgICAgdGhpcy5pdGVtID0gaXRlbTsKICAgICAgICB0aGlzLnByaWNlID0gcHJpY2U7CiAgICB9CiAgICBwdWJsaWMgdm9pZCBwcmludFN1bW1hcnkoKQogICAgewogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihnZXRBdXRob3IoKSArICI6IHNlbGxpbmcgIgogICAgICAgICAgICArIGl0ZW0gKyAiIGZvciAiICsgcHJpY2UgKyAiIGRvbGxhcnMiKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIiAgcGluczogIiArIGdldFBpbnMoKSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Notice.java",
+          "content": "public class Notice\n{\n    private String author;\n    private int pins;\n    public Notice(String author)\n    {\n        this.author = author;\n        pins = 0;\n    }\n    public void pin()\n    {\n        pins = pins + 1;\n    }\n    public String getAuthor()\n    {\n        return author;\n    }\n    public int getPins()\n    {\n        return pins;\n    }\n}"
+        },
+        {
+          "name": "SaleCheck.java",
+          "content": "public class SaleCheck\n{\n    public static void main(String[] args)\n    {\n        SaleNotice sale = new SaleNotice(\"eli\", \"a bike\", 40);\n        sale.pin();\n        sale.printSummary();\n        SaleNotice desk = new SaleNotice(\"fay\", \"a desk lamp\", 12);\n        desk.printSummary();\n    }\n}"
+        }
+      ]
+    },
+    "q7-1": {
+      "type": "code",
+      "xp": 4,
+      "title": "Animal.java",
+      "minLines": 30,
+      "maxLines": 42,
+      "starter": "public class Animal\n{\n    // Fields: name, age and adopted.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Rex, age 3, adopted: false\nadopted: true"
+        }
+      ],
+      "check": "",
+      "answer": "cHVibGljIGNsYXNzIEFuaW1hbAp7CiAgICBwcml2YXRlIFN0cmluZyBuYW1lOwogICAgcHJpdmF0ZSBpbnQgYWdlOwogICAgcHJpdmF0ZSBib29sZWFuIGFkb3B0ZWQ7CiAgICBwdWJsaWMgQW5pbWFsKFN0cmluZyBuYW1lLCBpbnQgYWdlKQogICAgewogICAgICAgIHRoaXMubmFtZSA9IG5hbWU7CiAgICAgICAgdGhpcy5hZ2UgPSBhZ2U7CiAgICAgICAgYWRvcHRlZCA9IGZhbHNlOwogICAgfQogICAgcHVibGljIFN0cmluZyBnZXROYW1lKCkKICAgIHsKICAgICAgICByZXR1cm4gbmFtZTsKICAgIH0KICAgIHB1YmxpYyBpbnQgZ2V0QWdlKCkKICAgIHsKICAgICAgICByZXR1cm4gYWdlOwogICAgfQogICAgcHVibGljIGJvb2xlYW4gaXNBZG9wdGVkKCkKICAgIHsKICAgICAgICByZXR1cm4gYWRvcHRlZDsKICAgIH0KICAgIHB1YmxpYyB2b2lkIGFkb3B0KCkKICAgIHsKICAgICAgICBhZG9wdGVkID0gdHJ1ZTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "AnimalCheck.java",
+          "content": "public class AnimalCheck\n{\n    public static void main(String[] args)\n    {\n        Animal a = new Animal(\"Rex\", 3);\n        System.out.println(a.getName() + \", age \" + a.getAge() + \", adopted: \" + a.isAdopted());\n        a.adopt();\n        System.out.println(\"adopted: \" + a.isAdopted());\n    }\n}"
+        }
+      ]
+    },
+    "q7-2": {
+      "type": "code",
+      "xp": 4,
+      "title": "Dog.java",
+      "minLines": 15,
+      "maxLines": 27,
+      "starter": "public class Dog extends Animal\n{\n    // The breed, the constructor and getBreed().\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Rex, age 3, Beagle\nadopted: true"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"super(name,age)\"), \"Call super(name, age) first.\");",
+      "answer": "cHVibGljIGNsYXNzIERvZyBleHRlbmRzIEFuaW1hbAp7CiAgICBwcml2YXRlIFN0cmluZyBicmVlZDsKICAgIHB1YmxpYyBEb2coU3RyaW5nIG5hbWUsIGludCBhZ2UsIFN0cmluZyBicmVlZCkKICAgIHsKICAgICAgICBzdXBlcihuYW1lLCBhZ2UpOwogICAgICAgIHRoaXMuYnJlZWQgPSBicmVlZDsKICAgIH0KICAgIHB1YmxpYyBTdHJpbmcgZ2V0QnJlZWQoKQogICAgewogICAgICAgIHJldHVybiBicmVlZDsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Animal.java",
+          "content": "public class Animal\n{\n    private String name;\n    private int age;\n    private boolean adopted;\n    public Animal(String name, int age)\n    {\n        this.name = name;\n        this.age = age;\n        adopted = false;\n    }\n    public String getName()\n    {\n        return name;\n    }\n    public int getAge()\n    {\n        return age;\n    }\n    public boolean isAdopted()\n    {\n        return adopted;\n    }\n    public void adopt()\n    {\n        adopted = true;\n    }\n}"
+        },
+        {
+          "name": "DogCheck.java",
+          "content": "public class DogCheck\n{\n    public static void main(String[] args)\n    {\n        Dog d = new Dog(\"Rex\", 3, \"Beagle\");\n        System.out.println(d.getName() + \", age \" + d.getAge() + \", \" + d.getBreed());\n        d.adopt();\n        System.out.println(\"adopted: \" + d.isAdopted());\n    }\n}"
+        }
+      ]
+    },
+    "q7-3": {
+      "type": "code",
+      "xp": 6,
+      "title": "Cat.java",
+      "minLines": 22,
+      "maxLines": 34,
+      "starter": "public class Cat extends Animal\n{\n    // indoor, the constructor, isIndoor() and getLabel().\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Mia, indoor cat\nTom, outdoor cat\nfalse 4"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"super(name,age)\"), \"Call super(name, age) first.\");",
+      "answer": "cHVibGljIGNsYXNzIENhdCBleHRlbmRzIEFuaW1hbAp7CiAgICBwcml2YXRlIGJvb2xlYW4gaW5kb29yOwogICAgcHVibGljIENhdChTdHJpbmcgbmFtZSwgaW50IGFnZSwgYm9vbGVhbiBpbmRvb3IpCiAgICB7CiAgICAgICAgc3VwZXIobmFtZSwgYWdlKTsKICAgICAgICB0aGlzLmluZG9vciA9IGluZG9vcjsKICAgIH0KICAgIHB1YmxpYyBib29sZWFuIGlzSW5kb29yKCkKICAgIHsKICAgICAgICByZXR1cm4gaW5kb29yOwogICAgfQogICAgcHVibGljIFN0cmluZyBnZXRMYWJlbCgpCiAgICB7CiAgICAgICAgaWYoaW5kb29yKSB7CiAgICAgICAgICAgIHJldHVybiBnZXROYW1lKCkgKyAiLCBpbmRvb3IgY2F0IjsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIGdldE5hbWUoKSArICIsIG91dGRvb3IgY2F0IjsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Animal.java",
+          "content": "public class Animal\n{\n    private String name;\n    private int age;\n    private boolean adopted;\n    public Animal(String name, int age)\n    {\n        this.name = name;\n        this.age = age;\n        adopted = false;\n    }\n    public String getName()\n    {\n        return name;\n    }\n    public int getAge()\n    {\n        return age;\n    }\n    public boolean isAdopted()\n    {\n        return adopted;\n    }\n    public void adopt()\n    {\n        adopted = true;\n    }\n}"
+        },
+        {
+          "name": "CatCheck.java",
+          "content": "public class CatCheck\n{\n    public static void main(String[] args)\n    {\n        Cat mia = new Cat(\"Mia\", 2, true);\n        Cat tom = new Cat(\"Tom\", 4, false);\n        System.out.println(mia.getLabel());\n        System.out.println(tom.getLabel());\n        System.out.println(tom.isIndoor() + \" \" + tom.getAge());\n    }\n}"
+        }
+      ]
+    },
+    "q7-4": {
+      "type": "code",
+      "xp": 6,
+      "title": "Rabbit.java",
+      "minLines": 19,
+      "maxLines": 31,
+      "starter": "public class Rabbit extends Animal\n{\n    // colour, the constructor, getColour() and getLabel().\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Clover, brown rabbit\nbrown 1 false"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"super(name,age)\"), \"Call super(name, age) first.\");",
+      "answer": "cHVibGljIGNsYXNzIFJhYmJpdCBleHRlbmRzIEFuaW1hbAp7CiAgICBwcml2YXRlIFN0cmluZyBjb2xvdXI7CiAgICBwdWJsaWMgUmFiYml0KFN0cmluZyBuYW1lLCBpbnQgYWdlLCBTdHJpbmcgY29sb3VyKQogICAgewogICAgICAgIHN1cGVyKG5hbWUsIGFnZSk7CiAgICAgICAgdGhpcy5jb2xvdXIgPSBjb2xvdXI7CiAgICB9CiAgICBwdWJsaWMgU3RyaW5nIGdldENvbG91cigpCiAgICB7CiAgICAgICAgcmV0dXJuIGNvbG91cjsKICAgIH0KICAgIHB1YmxpYyBTdHJpbmcgZ2V0TGFiZWwoKQogICAgewogICAgICAgIHJldHVybiBnZXROYW1lKCkgKyAiLCAiICsgY29sb3VyICsgIiByYWJiaXQiOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Animal.java",
+          "content": "public class Animal\n{\n    private String name;\n    private int age;\n    private boolean adopted;\n    public Animal(String name, int age)\n    {\n        this.name = name;\n        this.age = age;\n        adopted = false;\n    }\n    public String getName()\n    {\n        return name;\n    }\n    public int getAge()\n    {\n        return age;\n    }\n    public boolean isAdopted()\n    {\n        return adopted;\n    }\n    public void adopt()\n    {\n        adopted = true;\n    }\n}"
+        },
+        {
+          "name": "RabbitCheck.java",
+          "content": "public class RabbitCheck\n{\n    public static void main(String[] args)\n    {\n        Rabbit r = new Rabbit(\"Clover\", 1, \"brown\");\n        System.out.println(r.getLabel());\n        System.out.println(r.getColour() + \" \" + r.getAge() + \" \" + r.isAdopted());\n    }\n}"
+        }
+      ]
+    },
+    "q8-1-fix": {
+      "type": "code",
+      "xp": 4,
+      "title": "PhotoNotice.java",
+      "minLines": 15,
+      "maxLines": 27,
+      "starter": "public class PhotoNotice extends Notice\n{\n    private String caption;\n    public PhotoNotice(String author, String caption)\n    {\n        this.caption = caption;\n        super(author);\n    }\n    public void printSummary()\n    {\n        System.out.println(author + \": photo, \" + caption);\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "bo: photo, the hackathon team"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"getAuthor()\"), \"Use getAuthor(): author is private in Notice.\");",
+      "answer": "cHVibGljIGNsYXNzIFBob3RvTm90aWNlIGV4dGVuZHMgTm90aWNlCnsKICAgIHByaXZhdGUgU3RyaW5nIGNhcHRpb247CiAgICBwdWJsaWMgUGhvdG9Ob3RpY2UoU3RyaW5nIGF1dGhvciwgU3RyaW5nIGNhcHRpb24pCiAgICB7CiAgICAgICAgc3VwZXIoYXV0aG9yKTsKICAgICAgICB0aGlzLmNhcHRpb24gPSBjYXB0aW9uOwogICAgfQogICAgcHVibGljIHZvaWQgcHJpbnRTdW1tYXJ5KCkKICAgIHsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oZ2V0QXV0aG9yKCkgKyAiOiBwaG90bywgIiArIGNhcHRpb24pOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Notice.java",
+          "content": "public class Notice\n{\n    private String author;\n    private int pins;\n    public Notice(String author)\n    {\n        this.author = author;\n        pins = 0;\n    }\n    public void pin()\n    {\n        pins = pins + 1;\n    }\n    public String getAuthor()\n    {\n        return author;\n    }\n    public int getPins()\n    {\n        return pins;\n    }\n}"
+        },
+        {
+          "name": "PhotoCheck.java",
+          "content": "public class PhotoCheck\n{\n    public static void main(String[] args)\n    {\n        PhotoNotice p = new PhotoNotice(\"bo\", \"the hackathon team\");\n        p.printSummary();\n    }\n}"
+        }
+      ]
+    },
+    "p1-item": {
+      "type": "code",
+      "xp": 4,
+      "title": "Vehicle.java",
+      "minLines": 24,
+      "maxLines": 36,
+      "starter": "public class Vehicle\n{\n    private String plate;\n    private int km;\n    public Vehicle(String plate)\n    {\n        // Store the plate; start at 0 km.\n    }\n    public void drive(int distance)\n    {\n        // Add the distance to km.\n    }\n    public String getPlate()\n    {\n        return plate;\n    }\n    public int getKm()\n    {\n        return km;\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "CAR-7 0\nCAR-7 50"
+        }
+      ],
+      "check": "",
+      "answer": "cHVibGljIGNsYXNzIFZlaGljbGUKewogICAgcHJpdmF0ZSBTdHJpbmcgcGxhdGU7CiAgICBwcml2YXRlIGludCBrbTsKICAgIHB1YmxpYyBWZWhpY2xlKFN0cmluZyBwbGF0ZSkKICAgIHsKICAgICAgICB0aGlzLnBsYXRlID0gcGxhdGU7CiAgICAgICAga20gPSAwOwogICAgfQogICAgcHVibGljIHZvaWQgZHJpdmUoaW50IGRpc3RhbmNlKQogICAgewogICAgICAgIGttID0ga20gKyBkaXN0YW5jZTsKICAgIH0KICAgIHB1YmxpYyBTdHJpbmcgZ2V0UGxhdGUoKQogICAgewogICAgICAgIHJldHVybiBwbGF0ZTsKICAgIH0KICAgIHB1YmxpYyBpbnQgZ2V0S20oKQogICAgewogICAgICAgIHJldHVybiBrbTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "VehicleCheck.java",
+          "content": "public class VehicleCheck\n{\n    public static void main(String[] args)\n    {\n        Vehicle v = new Vehicle(\"CAR-7\");\n        System.out.println(v.getPlate() + \" \" + v.getKm());\n        v.drive(30);\n        v.drive(20);\n        System.out.println(v.getPlate() + \" \" + v.getKm());\n    }\n}"
+        }
+      ]
+    },
+    "p1-sub": {
+      "type": "code",
+      "xp": 6,
+      "title": "Truck.java",
+      "minLines": 20,
+      "maxLines": 32,
+      "starter": "public class Truck extends Vehicle\n{\n    private int maxLoad;\n    public Truck(String plate, int maxLoad)\n    {\n        // Call super first, then store maxLoad.\n    }\n    public int getMaxLoad()\n    {\n        return maxLoad;\n    }\n    public void printDetails()\n    {\n        // Use getPlate() and getKm().\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "TRK-9: 40 km, max load 500 kg\nTRK-9: 100 km, max load 500 kg\n500"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"extendsVehicle\"), \"Truck extends Vehicle.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"super(plate)\"), \"Call super(plate) first.\");",
+      "answer": "cHVibGljIGNsYXNzIFRydWNrIGV4dGVuZHMgVmVoaWNsZQp7CiAgICBwcml2YXRlIGludCBtYXhMb2FkOwogICAgcHVibGljIFRydWNrKFN0cmluZyBwbGF0ZSwgaW50IG1heExvYWQpCiAgICB7CiAgICAgICAgc3VwZXIocGxhdGUpOwogICAgICAgIHRoaXMubWF4TG9hZCA9IG1heExvYWQ7CiAgICB9CiAgICBwdWJsaWMgaW50IGdldE1heExvYWQoKQogICAgewogICAgICAgIHJldHVybiBtYXhMb2FkOwogICAgfQogICAgcHVibGljIHZvaWQgcHJpbnREZXRhaWxzKCkKICAgIHsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oZ2V0UGxhdGUoKSArICI6ICIgKyBnZXRLbSgpCiAgICAgICAgICAgICsgIiBrbSwgbWF4IGxvYWQgIiArIG1heExvYWQgKyAiIGtnIik7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Vehicle.java",
+          "content": "public class Vehicle\n{\n    private String plate;\n    private int km;\n    public Vehicle(String plate)\n    {\n        this.plate = plate;\n        km = 0;\n    }\n    public void drive(int distance)\n    {\n        km = km + distance;\n    }\n    public String getPlate()\n    {\n        return plate;\n    }\n    public int getKm()\n    {\n        return km;\n    }\n}"
+        },
+        {
+          "name": "TruckCheck.java",
+          "content": "public class TruckCheck\n{\n    public static void main(String[] args)\n    {\n        Truck t = new Truck(\"TRK-9\", 500);\n        t.drive(40);\n        t.printDetails();\n        t.drive(60);\n        t.printDetails();\n        System.out.println(t.getMaxLoad());\n    }\n}"
+        }
+      ]
+    },
+    "p1-demo": {
+      "type": "code",
+      "xp": 4,
+      "title": "FleetDemo.java",
+      "minLines": 18,
+      "maxLines": 30,
+      "starter": "public class FleetDemo\n{\n    public static void main(String[] args)\n    {\n        // 1. Make CAR-7 and TRK-42 (900 kg).\n        // 2. Drive 30, then 100 and 50.\n        // 3. Print the car, the truck\n        //    and the load limit.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "CAR-7: 30 km\nTRK-42: 150 km, max load 900 kg\nLoad limit: 900"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"newTruck(\\\"TRK-42\\\",900)\"), \"Make the truck TRK-42 with a maximum load of 900.\");",
+      "answer": "cHVibGljIGNsYXNzIEZsZWV0RGVtbwp7CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKQogICAgewogICAgICAgIFZlaGljbGUgY2FyID0gbmV3IFZlaGljbGUoIkNBUi03Iik7CiAgICAgICAgVHJ1Y2sgdHJ1Y2sgPSBuZXcgVHJ1Y2soIlRSSy00MiIsIDkwMCk7CiAgICAgICAgY2FyLmRyaXZlKDMwKTsKICAgICAgICB0cnVjay5kcml2ZSgxMDApOwogICAgICAgIHRydWNrLmRyaXZlKDUwKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oY2FyLmdldFBsYXRlKCkgKyAiOiAiCiAgICAgICAgICAgICsgY2FyLmdldEttKCkgKyAiIGttIik7CiAgICAgICAgdHJ1Y2sucHJpbnREZXRhaWxzKCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJMb2FkIGxpbWl0OiAiCiAgICAgICAgICAgICsgdHJ1Y2suZ2V0TWF4TG9hZCgpKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Vehicle.java",
+          "content": "public class Vehicle\n{\n    private String plate;\n    private int km;\n    public Vehicle(String plate)\n    {\n        this.plate = plate;\n        km = 0;\n    }\n    public void drive(int distance)\n    {\n        km = km + distance;\n    }\n    public String getPlate()\n    {\n        return plate;\n    }\n    public int getKm()\n    {\n        return km;\n    }\n}"
+        },
+        {
+          "name": "Truck.java",
+          "content": "public class Truck extends Vehicle\n{\n    private int maxLoad;\n    public Truck(String plate, int maxLoad)\n    {\n        super(plate);\n        this.maxLoad = maxLoad;\n    }\n    public int getMaxLoad()\n    {\n        return maxLoad;\n    }\n    public void printDetails()\n    {\n        System.out.println(getPlate() + \": \" + getKm()\n            + \" km, max load \" + maxLoad + \" kg\");\n    }\n}"
+        }
+      ]
+    },
+    "p2-item": {
+      "type": "code",
+      "xp": 4,
+      "title": "Ticket.java",
+      "minLines": 20,
+      "maxLines": 32,
+      "starter": "public class Ticket\n{\n    private String seat;\n    private int price;\n    public Ticket(String seat, int price)\n    {\n        // Store the seat and the price.\n    }\n    public String getSeat()\n    {\n        return seat;\n    }\n    public int getPrice()\n    {\n        return price;\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "A3 20"
+        }
+      ],
+      "check": "",
+      "answer": "cHVibGljIGNsYXNzIFRpY2tldAp7CiAgICBwcml2YXRlIFN0cmluZyBzZWF0OwogICAgcHJpdmF0ZSBpbnQgcHJpY2U7CiAgICBwdWJsaWMgVGlja2V0KFN0cmluZyBzZWF0LCBpbnQgcHJpY2UpCiAgICB7CiAgICAgICAgdGhpcy5zZWF0ID0gc2VhdDsKICAgICAgICB0aGlzLnByaWNlID0gcHJpY2U7CiAgICB9CiAgICBwdWJsaWMgU3RyaW5nIGdldFNlYXQoKQogICAgewogICAgICAgIHJldHVybiBzZWF0OwogICAgfQogICAgcHVibGljIGludCBnZXRQcmljZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIHByaWNlOwogICAgfQp9",
+      "files": [
+        {
+          "name": "TicketCheck.java",
+          "content": "public class TicketCheck\n{\n    public static void main(String[] args)\n    {\n        Ticket t = new Ticket(\"A3\", 20);\n        System.out.println(t.getSeat() + \" \" + t.getPrice());\n    }\n}"
+        }
+      ]
+    },
+    "p2-sub": {
+      "type": "code",
+      "xp": 6,
+      "title": "StudentTicket.java",
+      "minLines": 28,
+      "maxLines": 40,
+      "starter": "public class StudentTicket extends Ticket\n{\n    private String studentId;\n    public StudentTicket(String seat, int price,\n        String studentId)\n    {\n        // Call super first, then store\n        // the student number.\n    }\n    public String getStudentId()\n    {\n        return studentId;\n    }\n    public int getDiscount()\n    {\n        // One fifth of the price.\n        return 0;\n    }\n    public void printTicket()\n    {\n        // Two lines: use getSeat(),\n        // getPrice() and getDiscount().\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Seat B12: 15 dollars, student 2001234\n  discount: 3 dollars\nSeat C1: 22 dollars, student 2009876\n  discount: 4 dollars\n2009876 4"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"extendsTicket\"), \"StudentTicket extends Ticket.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"super(seat,price)\"), \"Call super(seat, price) first.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"getPrice()/5\"), \"The discount is getPrice() / 5.\");",
+      "answer": "cHVibGljIGNsYXNzIFN0dWRlbnRUaWNrZXQgZXh0ZW5kcyBUaWNrZXQKewogICAgcHJpdmF0ZSBTdHJpbmcgc3R1ZGVudElkOwogICAgcHVibGljIFN0dWRlbnRUaWNrZXQoU3RyaW5nIHNlYXQsIGludCBwcmljZSwKICAgICAgICBTdHJpbmcgc3R1ZGVudElkKQogICAgewogICAgICAgIHN1cGVyKHNlYXQsIHByaWNlKTsKICAgICAgICB0aGlzLnN0dWRlbnRJZCA9IHN0dWRlbnRJZDsKICAgIH0KICAgIHB1YmxpYyBTdHJpbmcgZ2V0U3R1ZGVudElkKCkKICAgIHsKICAgICAgICByZXR1cm4gc3R1ZGVudElkOwogICAgfQogICAgcHVibGljIGludCBnZXREaXNjb3VudCgpCiAgICB7CiAgICAgICAgcmV0dXJuIGdldFByaWNlKCkgLyA1OwogICAgfQogICAgcHVibGljIHZvaWQgcHJpbnRUaWNrZXQoKQogICAgewogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiU2VhdCAiICsgZ2V0U2VhdCgpICsgIjogIgogICAgICAgICAgICArIGdldFByaWNlKCkgKyAiIGRvbGxhcnMsIHN0dWRlbnQgIgogICAgICAgICAgICArIHN0dWRlbnRJZCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCIgIGRpc2NvdW50OiAiICsgZ2V0RGlzY291bnQoKQogICAgICAgICAgICArICIgZG9sbGFycyIpOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Ticket.java",
+          "content": "public class Ticket\n{\n    private String seat;\n    private int price;\n    public Ticket(String seat, int price)\n    {\n        this.seat = seat;\n        this.price = price;\n    }\n    public String getSeat()\n    {\n        return seat;\n    }\n    public int getPrice()\n    {\n        return price;\n    }\n}"
+        },
+        {
+          "name": "StudentCheck.java",
+          "content": "public class StudentCheck\n{\n    public static void main(String[] args)\n    {\n        StudentTicket s = new StudentTicket(\"B12\", 15, \"2001234\");\n        s.printTicket();\n        StudentTicket c = new StudentTicket(\"C1\", 22, \"2009876\");\n        c.printTicket();\n        System.out.println(c.getStudentId() + \" \" + c.getDiscount());\n    }\n}"
+        }
+      ]
+    },
+    "p2-demo": {
+      "type": "code",
+      "xp": 4,
+      "title": "TicketDemo.java",
+      "minLines": 16,
+      "maxLines": 28,
+      "starter": "public class TicketDemo\n{\n    public static void main(String[] args)\n    {\n        // 1. Make the A3 and B12 tickets.\n        // 2. Print the A3 ticket.\n        // 3. Print the student ticket.\n        // 4. Print the price to pay.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Seat A3: 20 dollars\nSeat B12: 15 dollars, student 2001234\n  discount: 3 dollars\nPay: 12 dollars"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"newStudentTicket(\\\"B12\\\",15,\\\"2001234\\\")\"), \"Make the student ticket for seat B12.\");",
+      "answer": "cHVibGljIGNsYXNzIFRpY2tldERlbW8KewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBUaWNrZXQgYWR1bHQgPSBuZXcgVGlja2V0KCJBMyIsIDIwKTsKICAgICAgICBTdHVkZW50VGlja2V0IHN0dWRlbnQgPSBuZXcgU3R1ZGVudFRpY2tldCgiQjEyIiwgMTUsCiAgICAgICAgICAgICIyMDAxMjM0Iik7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJTZWF0ICIgKyBhZHVsdC5nZXRTZWF0KCkgKyAiOiAiCiAgICAgICAgICAgICsgYWR1bHQuZ2V0UHJpY2UoKSArICIgZG9sbGFycyIpOwogICAgICAgIHN0dWRlbnQucHJpbnRUaWNrZXQoKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlBheTogIiArIChzdHVkZW50LmdldFByaWNlKCkKICAgICAgICAgICAgLSBzdHVkZW50LmdldERpc2NvdW50KCkpICsgIiBkb2xsYXJzIik7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Ticket.java",
+          "content": "public class Ticket\n{\n    private String seat;\n    private int price;\n    public Ticket(String seat, int price)\n    {\n        this.seat = seat;\n        this.price = price;\n    }\n    public String getSeat()\n    {\n        return seat;\n    }\n    public int getPrice()\n    {\n        return price;\n    }\n}"
+        },
+        {
+          "name": "StudentTicket.java",
+          "content": "public class StudentTicket extends Ticket\n{\n    private String studentId;\n    public StudentTicket(String seat, int price,\n        String studentId)\n    {\n        super(seat, price);\n        this.studentId = studentId;\n    }\n    public String getStudentId()\n    {\n        return studentId;\n    }\n    public int getDiscount()\n    {\n        return getPrice() / 5;\n    }\n    public void printTicket()\n    {\n        System.out.println(\"Seat \" + getSeat() + \": \"\n            + getPrice() + \" dollars, student \"\n            + studentId);\n        System.out.println(\"  discount: \" + getDiscount()\n            + \" dollars\");\n    }\n}"
+        }
+      ]
+    },
+    "q1-2": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 0,
+      "explain": "VGhlIHR3byBjbGFzc2VzIGFyZSBzZXBhcmF0ZSwgc28gSmF2YSBkb2VzIG5vdCBjb21wYXJlIHRoZWlyIG1ldGhvZHMgb3Igc2hhcmUgY29kZSBiZXR3ZWVuIHRoZW0uIE5vdGhpbmcgZ29lcyB3cm9uZyBhdCBydW4gdGltZSBlaXRoZXI6IHRoZSBvbGQgY29kZSBzaW1wbHkgcnVucy4gVGhpcyBpcyB3aHkgcmVwZWF0ZWQgY29kZSBpcyByaXNreS4="
+    },
+    "q1-3": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "Qm90aCBgcGluKClgIG1ldGhvZHMgYWRkIG9uZSB0byBgcGluc2AuIFRoZSB0d28gYHByaW50U3VtbWFyeSgpYCBtZXRob2RzIGhhdmUgdGhlIHNhbWUgbmFtZSBidXQgcHJpbnQgZGlmZmVyZW50IGZpZWxkcywgYW5kIHRoZSBjb25zdHJ1Y3RvcnMgdGFrZSBkaWZmZXJlbnQgcGFyYW1ldGVycy4gT25seSBgVGV4dE5vdGljZWAgaGFzIGBtZXNzYWdlYC4="
+    },
+    "q1-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 3,
+      "explain": "YHBpbnNgIGFuZCBgcGluKClgIGFyZSByZXBlYXRlZCBpbiBib3RoIGNsYXNzZXMsIHNvIGEgbmV3IHBpbiBydWxlIGNoYW5nZXMgYm90aC4gVGhlIG1lc3NhZ2UgaXMgb25seSBpbiBgVGV4dE5vdGljZWAsIGEgcm9vbSB3b3VsZCBnbyBvbmx5IGluIGBFdmVudE5vdGljZWAsIGFuZCB0aGUgb3JkZXIgaXMgZGVjaWRlZCBvbmNlLCBpbiBgc2hvdygpYCBpbiBgTm90aWNlQm9hcmRgLg=="
+    },
+    "q2-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "VGhlcmUgaXMgb25lIG9iamVjdC4gSXRzIGBOb3RpY2VgIHBhcnQgaG9sZHMgYGF1dGhvcmAgYW5kIGBwaW5zYCwgYW5kIGl0cyBgVGV4dE5vdGljZWAgcGFydCBob2xkcyBgbWVzc2FnZWAuIGBleHRlbmRzYCBkb2VzIG5vdCBtYWtlIGEgc2Vjb25kIG9iamVjdCwgYW5kIHRoZSBvYmplY3QgaGFzIHRoZSBpbmhlcml0ZWQgZmllbGRzIGV2ZW4gdGhvdWdoIHRoZXkgYXJlIHByaXZhdGUu"
+    },
+    "q2-5": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 0,
+      "explain": "RWFjaCBvYmplY3QgaGFzIGl0cyBvd24gYHBpbnNgIGZpZWxkIGluIGl0cyBgTm90aWNlYCBwYXJ0LCBzbyBwaW5uaW5nIGBhYCBkb2VzIG5vdCBjaGFuZ2UgYGJgLiBUaGUgc3VwZXJjbGFzcyBkb2VzIG5vdCBzaGFyZSBvbmUgZmllbGQgYmV0d2VlbiBvYmplY3RzLiBgZ2V0UGlucygpYCBpcyBpbmhlcml0ZWQgZnJvbSBgTm90aWNlYC4="
+    },
+    "q2-6": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 3,
+      "explain": "QSBzdWJjbGFzcyBpbmhlcml0cyBldmVyeSBwdWJsaWMgbWV0aG9kIG9mIGl0cyBzdXBlcmNsYXNzLCBpbmNsdWRpbmcgb25lIGFkZGVkIGxhdGVyLiBUaGUgbWV0aG9kIGlzIHdyaXR0ZW4gb25jZSwgaW4gYE5vdGljZWAsIGFuZCBhbGwgdGhyZWUgY2xhc3NlcyBoYXZlIGl0Lg=="
+    },
+    "q2-7": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "SW5oZXJpdGFuY2UgZ29lcyBmcm9tIGEgc3VwZXJjbGFzcyBkb3duIHRvIGVhY2ggc3ViY2xhc3MuIFR3byBzdWJjbGFzc2VzIG9mIHRoZSBzYW1lIGNsYXNzIHNoYXJlIG9ubHkgd2hhdCB0aGF0IGNsYXNzIGRlY2xhcmVzOyB0aGV5IGluaGVyaXQgbm90aGluZyBmcm9tIGVhY2ggb3RoZXIuIFRoZSBvYmplY3QgZG9lcyBoYXZlIHRoZSBgTm90aWNlYCBmaWVsZHMsIGluIGl0cyBgTm90aWNlYCBwYXJ0Lg=="
+    },
+    "q3-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "Q29uc3RydWN0b3JzIGFyZSBub3QgaW5oZXJpdGVkLCBhbmQgdGhlcmUgaXMgb25seSBvbmUgb2JqZWN0LiBgVGV4dE5vdGljZWAgY2Fubm90IGFzc2lnbiBgYXV0aG9yYCBiZWNhdXNlIGl0IGlzIHByaXZhdGUsIHNvIGl0IHBhc3NlcyB0aGUgYXV0aG9yIHRvIHRoZSBgTm90aWNlYCBjb25zdHJ1Y3Rvciwgd2hpY2ggc2V0cyBgYXV0aG9yYCBhbmQgYHBpbnNgLg=="
+    },
+    "q3-5": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 3,
+      "explain": "YFRleHROb3RpY2VgIGhhcyBvbmx5IHRoZSBjb25zdHJ1Y3RvciBpdCBkZWNsYXJlcywgd2l0aCB0d28gcGFyYW1ldGVycy4gSXQgZG9lcyBub3QgaW5oZXJpdCBgTm90aWNlKFN0cmluZyBhdXRob3IpYCwgYW5kIG5laXRoZXIgY2xhc3MgaGFzIGEgY29uc3RydWN0b3Igd2l0aCBubyBwYXJhbWV0ZXJzLg=="
+    },
+    "q3-6": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 0,
+      "explain": "V2hlbiBhIGNvbnN0cnVjdG9yIGRvZXMgbm90IGNhbGwgYHN1cGVyKC4uLilgLCBKYXZhIGFkZHMgYHN1cGVyKClgIGFzIGl0cyBmaXJzdCBzdGF0ZW1lbnQuIGBOb3RpY2VgIGhhcyBvbmx5IGBOb3RpY2UoU3RyaW5nIGF1dGhvcilgLCBzbyB0aGUgY29kZSBkb2VzIG5vdCBjb21waWxlLiBKYXZhIG5ldmVyIG1hdGNoZXMgcGFyYW1ldGVycyB0byB0aGUgc3VwZXJjbGFzcyBieSBuYW1lLg=="
+    },
+    "q3-7": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "RWFjaCBjb25zdHJ1Y3RvciBjYWxscyBgc3VwZXIoLi4uKWAgZmlyc3QsIHNvIHRoZSBjYWxscyBnbyB1cCB0byBgTm90aWNlYCBiZWZvcmUgYW55IG90aGVyIHN0YXRlbWVudCBydW5zLiBgTm90aWNlYCBzZXRzIHVwIGl0cyBwYXJ0IGZpcnN0LCB0aGVuIHRoZSByZXN0IG9mIHRoZSBgRXZlbnROb3RpY2VgIGNvbnN0cnVjdG9yIHJ1bnMsIHRoZW4gdGhlIHJlc3Qgb2YgdGhlIGBXb3Jrc2hvcGAgY29uc3RydWN0b3IuIFdvcmtzaG9wIGZpcnN0IGlzIHRoZSBvcmRlciB0aGUgY29uc3RydWN0b3JzIGFyZSBjYWxsZWQsIG5vdCB0aGUgb3JkZXIgdGhlIHBhcnRzIGFyZSBzZXQgdXAu"
+    },
+    "q4-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "VGhlIG9iamVjdCBob2xkcyBldmVyeSBmaWVsZCBvZiBgTm90aWNlYDsgYGdldEF1dGhvcigpYCByZXR1cm5zIG9uZSBvZiB0aGVtLiBgcHJpdmF0ZWAgbGltaXRzIHdoaWNoIGNvZGUgY2FuIG5hbWUgdGhlIGZpZWxkLiBJdCBkb2VzIG5vdCBjaGFuZ2Ugd2hhdCB0aGUgb2JqZWN0IGhvbGRzLg=="
+    },
+    "q4-5": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 0,
+      "explain": "YFRleHROb3RpY2VgIG5ldmVyIG5hbWVzIHRoZSBmaWVsZCwgc28gYSBjaGFuZ2UgaW5zaWRlIGBOb3RpY2VgIGRvZXMgbm90IHJlYWNoIGl0LiBJbiBgc3VwZXIoYXV0aG9yKWAsIGBhdXRob3JgIGlzIHRoZSBjb25zdHJ1Y3RvcidzIG93biBwYXJhbWV0ZXIsIG5vdCB0aGUgZmllbGQuIFRoaXMgaXMgb25lIHJlYXNvbiB0byBrZWVwIGZpZWxkcyBwcml2YXRlIGFuZCB1c2UgZ2V0dGVycy4="
+    },
+    "q4-6": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 3,
+      "explain": "SmF2YSBhbGxvd3MgdGhlIG5ldyBmaWVsZCwgc28gdGhlIG9iamVjdCBoYXMgdHdvIGBhdXRob3JgIGZpZWxkcywgb25lIGluIGVhY2ggcGFydC4gYGdldEF1dGhvcigpYCBpbiBgTm90aWNlYCBzdGlsbCByZXR1cm5zIHRoZSBgTm90aWNlYCBmaWVsZC4gVGhpcyBicmluZ3MgYmFjayB0aGUgZHVwbGljYXRpb24gdGhlIHN1cGVyY2xhc3MgcmVtb3ZlZC4gQ2FsbCBgZ2V0QXV0aG9yKClgIGluc3RlYWQu"
+    },
+    "q4-7": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "QSBwcml2YXRlIGZpZWxkIGNhbiBiZSBhc3NpZ25lZCBvbmx5IGJ5IGNvZGUgaW4gaXRzIG93biBjbGFzcy4gYGdldEF1dGhvcigpYCByZXR1cm5zIGEgY29weSBvZiB0aGUgdmFsdWU7IGl0IGNhbm5vdCBiZSBhc3NpZ25lZCB0by4gS2VlcGluZyB0aGUgbm90aWNlIGluIGEgbGlzdCBnaXZlcyB0aGUgYm9hcmQgbm8gYWNjZXNzIHRvIGl0cyBmaWVsZHMu"
+    },
+    "q5-3": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "RXZlcnkgc2F2aW5ncyBhY2NvdW50IGlzIGEgYmFuayBhY2NvdW50LiBBIGJhbmsgaGFzIGFjY291bnRzLCBhbiBhY2NvdW50IGhhcyBhIGJhbGFuY2UsIGFuZCBhIGN1c3RvbWVyIGhhcyBhY2NvdW50czogZWFjaCBvZiB0aGVzZSBpcyBoYXMtYSwgc28gaXQgaXMgYSBmaWVsZC4="
+    },
+    "q5-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 3,
+      "explain": "QSBjb3Vyc2UgaGFzIHN0dWRlbnRzLCBhbmQgYSBjb3Vyc2UgaXMgbm90IGEgc3R1ZGVudCwgbm9yIGlzIGEgc3R1ZGVudCBhIGNvdXJzZS4gSGFzLWEgaXMgYSBmaWVsZCwgaGVyZSBhIGxpc3Qgb2Ygc3R1ZGVudHMu"
+    },
+    "q5-5": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 0,
+      "explain": "QSB3b3Jrc2hvcCBpcyBhbiBldmVudCBub3RpY2UsIGFuZCBzbyBhbHNvIGEgbm90aWNlLiBgRXZlbnROb3RpY2VgIGluaGVyaXRzIHRoZSBgTm90aWNlYCBtZXRob2RzIGFuZCBhZGRzIGBwcmludFN1bW1hcnkoKWAsIGFuZCBgV29ya3Nob3BgIGluaGVyaXRzIGFsbCBvZiB0aGVtIGZyb20gYEV2ZW50Tm90aWNlYC4="
+    },
+    "q5-6": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "VGhlIGlzLWEgdGVzdCBmYWlscyBib3RoIHdheXMgcm91bmQ6IGEgc3R1ZGVudCBpcyBub3QgYSBjb3Vyc2UsIGFuZCBhIGNvdXJzZSBpcyBub3QgYSBzdHVkZW50LiBDb21waWxpbmcgb25seSBzaG93cyB0aGUgY29kZSBpcyBsZWdhbCBKYXZhLCBub3QgdGhhdCB0aGUgZGVzaWduIGlzIHJpZ2h0Lg=="
+    },
+    "q6-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "YEpvYk5vdGljZWAgZXh0ZW5kcyBgTm90aWNlYCwgc28gdGhlIHRocmVlIG5vdGljZSBjbGFzc2VzIHN0YXkgYXMgdGhleSBhcmUsIGFuZCB0aGUgZW1wbG95ZXIgYmVsb25ncyBvbmx5IHRvIGpvYiBub3RpY2VzLiBUaGUgYm9hcmQgbmVlZHMgYSBuZXcgbGlzdCwgYSBuZXcgYWRkIG1ldGhvZCBhbmQgYSBuZXcgbG9vcC4="
+    },
+    "q6-5": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 0,
+      "explain": "YEpvYk5vdGljZWAgaW5oZXJpdHMgYHBpbigpYCBhbmQgYGdldFBpbnMoKWAgZnJvbSBgTm90aWNlYC4gVGhlIGZpcnN0IGxpbmUgaXMgYGRhcmE6IGpvYiBhdCBDYW1wdXMgQm9va3N0b3JlYCwgYW5kIHRoZSBzZWNvbmQgc2hvd3MgdGhlIG9uZSBwaW4u"
+    },
+    "q6-6": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "VGhlIG5ldyBjbGFzcyBleHRlbmRzIGBOb3RpY2VgLCBhbmQgbm90aGluZyBpbiBgTm90aWNlYCBjaGFuZ2VzLiBUaGUgYm9hcmQgc3RpbGwga2VlcHMgb25lIGxpc3QgcGVyIGtpbmQsIHNvIGl0IG5lZWRzIGEgZm91cnRoIGxpc3QsIGFkZCBtZXRob2QgYW5kIGxvb3AuIExlY3R1cmUgMTcgcmVtb3ZlcyB0aGF0IHJlcGV0aXRpb24u"
+    }
+  }
+}

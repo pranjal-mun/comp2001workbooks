@@ -1,0 +1,1127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 2001: Lecture 16 Workbook</title>
+  <link rel="icon" href="../../runtime/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
+  <link rel="stylesheet" href="../../runtime/workbook.css">
+  <style>
+    html, html[data-theme], html.wb-presenting, html.wb-presenting[data-theme] { --ink-quiet: var(--ink); --code-comment: var(--good-ink); }
+    .wb-shot { margin: 1rem 0 1.2rem; }
+    .wb-shot img { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; border: 1px solid var(--rule); border-radius: 6px; background: #fff; }
+    .wb-shot figcaption { font-family: var(--font-sans); font-size: 0.85rem; color: var(--ink); text-align: center; margin-top: 0.4rem; }
+    .wb-outcomes h3 { margin-top: 1.4rem; }
+  </style>
+  <script type="module">
+    import { initWorkbook } from "../../runtime/workbook.js";
+    initWorkbook({ id: "lecture-16", specs: "./exercises.json" });
+  </script>
+</head>
+<body>
+<main>
+
+<div class="wb-title-block">
+  <div>
+    <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
+    <h1>Lecture 16 Workbook</h1>
+    <div class="wb-subtitle">Chapter 12, Part 1: Inheritance</div>
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
+  </div>
+  <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+</div>
+
+<p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run takes a few seconds while Java loads). Each box includes the other classes it needs and a short checking program. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
+<p>This workbook holds the notes and the questions for Lecture 16. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. For a multiple-choice question, circle one letter. Section 7 is the animal shelter problem, to do at home as practice. Section 9 has two complete programs to write after class. By the end, you should be able to:</p>
+<ul>
+<li>find the fields and methods that two classes repeat, and move them into a superclass;</li>
+<li>write a subclass with <code>extends</code>, and say which members it inherits;</li>
+<li>write a subclass constructor that calls <code>super(...)</code> as its first statement;</li>
+<li>use a public getter when a subclass needs a private field of its superclass;</li>
+<li>use the is-a test to choose between inheritance and a field; and</li>
+<li>write complete programs with a superclass, a subclass and a demo.</li>
+</ul>
+<h2 id="s1">1. Duplication</h2>
+<h3>A notice board</h3>
+<p>A campus notice board shows notices that students post. A <strong>text notice</strong> has an author and a message, such as ada's "Study group at 4pm." An <strong>event notice</strong> has an author, a title and a day of the month, such as bo's "Hackathon" on day 12. Anyone who likes a notice can pin it, and every notice keeps count of its pins. We write one class for each kind of notice.</p>
+<figure class="wb-shot">
+  <img src="img/two_classes.png" alt="Class diagrams of TextNotice and EventNotice. Both have the fields author and pins and the method pin(), shown in red; TextNotice also has message, and EventNotice has title and day." loading="lazy" style="max-width: 560px">
+</figure>
+<p>The members in red appear in both classes. Here are the two classes.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">TextNotice</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> author;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> pins;
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> message;
+    <span class="wb-kw">public</span> <span class="wb-fn">TextNotice</span>(<span class="wb-type">String</span> author,
+        <span class="wb-type">String</span> message)
+    {
+        <span class="wb-kw">this</span>.author = author;
+        <span class="wb-kw">this</span>.message = message;
+        pins = <span class="wb-num">0</span>;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">pin</span>()
+    {
+        pins = pins + <span class="wb-num">1</span>;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printSummary</span>()
+    {
+        System.out.println(author + <span class="wb-str">": "</span>
+            + message);
+        System.out.println(<span class="wb-str">"  pins: "</span> + pins);
+    }
+}</code></pre>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">EventNotice</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> author;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> pins;
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> title;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> day;
+    <span class="wb-kw">public</span> <span class="wb-fn">EventNotice</span>(<span class="wb-type">String</span> author,
+        <span class="wb-type">String</span> title, <span class="wb-kw">int</span> day)
+    {
+        <span class="wb-kw">this</span>.author = author;
+        <span class="wb-kw">this</span>.title = title;
+        <span class="wb-kw">this</span>.day = day;
+        pins = <span class="wb-num">0</span>;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">pin</span>()
+    {
+        pins = pins + <span class="wb-num">1</span>;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printSummary</span>()
+    {
+        System.out.println(author + <span class="wb-str">": "</span>
+            + title + <span class="wb-str">", day "</span> + day);
+        System.out.println(<span class="wb-str">"  pins: "</span> + pins);
+    }
+}</code></pre>
+<h3>The board</h3>
+<p>The board keeps one list for each kind of notice, with one add method for each list. Its <code>show()</code> method prints every text notice, then every event notice.</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">NoticeBoard</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">TextNotice</span>&gt; textNotices;
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">EventNotice</span>&gt; eventNotices;
+    <span class="wb-kw">public</span> <span class="wb-fn">NoticeBoard</span>()
+    {
+        textNotices = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        eventNotices = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addTextNotice</span>(<span class="wb-type">TextNotice</span> notice)
+    {
+        textNotices.add(notice);
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addEventNotice</span>(<span class="wb-type">EventNotice</span> notice)
+    {
+        eventNotices.add(notice);
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">show</span>()
+    {
+        <span class="wb-kw">for</span>(<span class="wb-type">TextNotice</span> notice : textNotices) {
+            notice.printSummary();
+        }
+        <span class="wb-kw">for</span>(<span class="wb-type">EventNotice</span> notice : eventNotices) {
+            notice.printSummary();
+        }
+    }
+}</code></pre>
+<p>The demo makes three notices, pins ada's notice twice and bo's notice once, adds the notices to a board and shows it.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">NoticeBoardDemo</span>
+{
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
+    {
+        <span class="wb-type">TextNotice</span> first = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"ada"</span>, <span class="wb-str">"Study group at 4pm."</span>);
+        <span class="wb-type">EventNotice</span> second = <span class="wb-kw">new</span> <span class="wb-fn">EventNotice</span>(<span class="wb-str">"bo"</span>, <span class="wb-str">"Hackathon"</span>, <span class="wb-num">12</span>);
+        <span class="wb-type">TextNotice</span> third = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"chen"</span>, <span class="wb-str">"Lost calculator."</span>);
+        first.pin();
+        first.pin();
+        second.pin();
+        <span class="wb-type">NoticeBoard</span> board = <span class="wb-kw">new</span> <span class="wb-fn">NoticeBoard</span>();
+        board.addTextNotice(first);
+        board.addEventNotice(second);
+        board.addTextNotice(third);
+        board.show();
+    }
+}</code></pre>
+<pre class="wb-output">ada: Study group at 4pm.
+  pins: 2
+chen: Lost calculator.
+  pins: 0
+bo: Hackathon, day 12
+  pins: 1</pre>
+<p>Notice that chen's notice prints before bo's, although bo's was added first. The board prints all the text notices first, because they are in a list of their own.</p>
+<h3>The same code twice</h3>
+<p>The two classes repeat the <code>author</code> and <code>pins</code> fields, the lines that set them, and the whole <code>pin()</code> method. The problem with this approach is that every change to the shared part must be made twice. Suppose a notice may have at most ten pins: we must edit <code>pin()</code> in both classes, and if we forget one, the two kinds of notice behave differently. A bug in the shared code must also be fixed twice. A third kind of notice would copy the same lines a third time. We want to write the shared code once.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.1</div>
+  <p><strong>1.1</strong> This demo uses the board above. Write what it prints, and say why the notices do not print in the order they were added.</p>
+
+<pre><code><span class="wb-type">NoticeBoard</span> board = <span class="wb-kw">new</span> <span class="wb-fn">NoticeBoard</span>();
+board.addEventNotice(<span class="wb-kw">new</span> <span class="wb-fn">EventNotice</span>(<span class="wb-str">"fay"</span>, <span class="wb-str">"Chess club"</span>, <span class="wb-num">3</span>));
+board.addTextNotice(<span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"eli"</span>, <span class="wb-str">"Room 2 is free."</span>));
+board.addEventNotice(<span class="wb-kw">new</span> <span class="wb-fn">EventNotice</span>(<span class="wb-str">"gil"</span>, <span class="wb-str">"Git basics"</span>, <span class="wb-num">5</span>));
+board.show();</code></pre>
+  <wb-table id="q1-1">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+        <tr><td>4</td><td data-blank="3"></td></tr>
+        <tr><td>5</td><td data-blank="4"></td></tr>
+        <tr><td>6</td><td data-blank="5"></td></tr>
+      </tbody>
+    </table>
+  </wb-table><p>Why do the notices not print in the order they were added?</p>  <wb-short id="q1-1-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.2</div>
+  <p><strong>1.2</strong> A student fixes a bug in <code>pin()</code> in <code>TextNotice</code> but forgets to fix <code>EventNotice</code>. What happens?</p>
+
+  <wb-choice id="q1-2">
+    <ol type="A">
+      <li>The program compiles, and event notices still count pins the old way.</li>
+      <li>The program does not compile, because the two <code>pin()</code> methods now differ.</li>
+      <li><code>EventNotice</code> uses the fixed <code>pin()</code> from <code>TextNotice</code>, because the methods have the same name.</li>
+      <li>The program stops with an error the first time an event notice is pinned.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.3</div>
+  <p><strong>1.3</strong> Which member of <code>TextNotice</code> is exactly the same code as a member of <code>EventNotice</code>?</p>
+
+  <wb-choice id="q1-3">
+    <ol type="A">
+      <li><code>printSummary()</code></li>
+      <li>the constructor</li>
+      <li><code>pin()</code></li>
+      <li>the field <code>message</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.4</div>
+  <p><strong>1.4</strong> Which change would have to be made twice, once in each class?</p>
+
+  <wb-choice id="q1-4">
+    <ol type="A">
+      <li>Print the message in capital letters.</li>
+      <li>Add a room to every event notice.</li>
+      <li>Show the event notices before the text notices.</li>
+      <li>Count each pin as two pins.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s2">2. Superclass</h2>
+<h3>One class above two</h3>
+<p>We move the shared part into a new class, <code>Notice</code>. It holds what every notice has: an author, a pin count and the <code>pin()</code> method. <code>Notice</code> is the <strong>superclass</strong>. <code>TextNotice</code> and <code>EventNotice</code> become <strong>subclasses</strong> of <code>Notice</code>: each keeps only the parts that are its own. In a class diagram, the arrow with a hollow triangle points from a subclass to its superclass.</p>
+<figure class="wb-shot">
+  <img src="img/superclass.png" alt="Notice, with author, pins, pin(), getAuthor() and getPins(), sits above TextNotice (message) and EventNotice (title, day). A hollow-triangle arrow points from each subclass up to Notice." loading="lazy" style="max-width: 560px">
+</figure>
+<h3>The Notice class</h3>
+<p><code>Notice</code> is an ordinary class. Its constructor sets the author and starts the pin count at 0. The two getters let other classes read the private fields; we need them in Section 4.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Notice</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> author;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> pins;
+    <span class="wb-kw">public</span> <span class="wb-fn">Notice</span>(<span class="wb-type">String</span> author)
+    {
+        <span class="wb-kw">this</span>.author = author;
+        pins = <span class="wb-num">0</span>;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">pin</span>()
+    {
+        pins = pins + <span class="wb-num">1</span>;
+    }
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getAuthor</span>()
+    {
+        <span class="wb-kw">return</span> author;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getPins</span>()
+    {
+        <span class="wb-kw">return</span> pins;
+    }
+}</code></pre>
+<h3>Subclasses</h3>
+<p>The words <code>extends Notice</code> in a class header make the class a subclass of <code>Notice</code>. Each subclass now declares only its own fields. The <code>pin()</code> method is gone from both, because it is in <code>Notice</code>. The constructors call <code>super(author)</code>, which Section 3 explains, and the <code>printSummary()</code> methods use <code>getAuthor()</code> and <code>getPins()</code>, which Section 4 explains.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">TextNotice</span> extends <span class="wb-type">Notice</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> message;
+    <span class="wb-kw">public</span> <span class="wb-fn">TextNotice</span>(<span class="wb-type">String</span> author,
+        <span class="wb-type">String</span> message)
+    {
+        super(author);
+        <span class="wb-kw">this</span>.message = message;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printSummary</span>()
+    {
+        System.out.println(getAuthor() + <span class="wb-str">": "</span>
+            + message);
+        System.out.println(<span class="wb-str">"  pins: "</span> + getPins());
+    }
+}</code></pre>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">EventNotice</span> extends <span class="wb-type">Notice</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> title;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> day;
+    <span class="wb-kw">public</span> <span class="wb-fn">EventNotice</span>(<span class="wb-type">String</span> author,
+        <span class="wb-type">String</span> title, <span class="wb-kw">int</span> day)
+    {
+        super(author);
+        <span class="wb-kw">this</span>.title = title;
+        <span class="wb-kw">this</span>.day = day;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printSummary</span>()
+    {
+        System.out.println(getAuthor() + <span class="wb-str">": "</span>
+            + title + <span class="wb-str">", day "</span> + day);
+        System.out.println(<span class="wb-str">"  pins: "</span> + getPins());
+    }
+}</code></pre>
+<p>The board and the demo do not change, and the demo prints exactly the same six lines as before.</p>
+<h3>One object, two parts</h3>
+<p><code>new TextNotice(...)</code> makes one object, not two. That object has the fields declared in <code>Notice</code> and the field declared in <code>TextNotice</code>. We can picture it as one object with a <code>Notice</code> part and a <code>TextNotice</code> part.</p>
+<figure class="wb-shot">
+  <img src="img/one_object.png" alt="One TextNotice object drawn as one box with two parts: the Notice part holds author "ada" and pins 2, and the TextNotice part holds the message." loading="lazy" style="max-width: 440px">
+</figure>
+<h3>Inherited methods</h3>
+<p>The methods <code>pin()</code>, <code>getAuthor()</code> and <code>getPins()</code> are written in <code>Notice</code>, but a <code>TextNotice</code> object has them too. This is <strong>inheritance</strong>: a subclass gets the public methods of its superclass, and we call them with the usual dot.</p>
+<pre><code><span class="wb-type">TextNotice</span> note = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"ada"</span>, <span class="wb-str">"Study group at 4pm."</span>);
+note.pin();
+System.out.println(note.getAuthor());
+System.out.println(note.getPins());</code></pre>
+<pre class="wb-output">ada
+1</pre>
+<p>Inheritance goes one way only. A subclass gets the methods of its superclass, but the superclass does not get the methods of its subclasses. A <code>Notice</code> object has no <code>printSummary()</code> method, because that method is written in the subclasses.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.1</div>
+  <p><strong>2.1</strong> Use the classes in this section, with <code>note</code> and <code>plain</code> made as below. Does each call compile? Write yes or no.</p>
+
+<pre><code><span class="wb-type">TextNotice</span> note = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"ada"</span>, <span class="wb-str">"Study group at 4pm."</span>);
+<span class="wb-type">Notice</span> plain = <span class="wb-kw">new</span> <span class="wb-fn">Notice</span>(<span class="wb-str">"eli"</span>);</code></pre>
+  <wb-table id="q2-1">
+    <table>
+      <thead><tr><th>Call</th><th>Compiles?</th></tr></thead>
+      <tbody>
+        <tr><td><code>note.pin()</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>note.getPins()</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>note.printSummary()</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>plain.getAuthor()</code></td><td data-blank="3"></td></tr>
+        <tr><td><code>plain.printSummary()</code></td><td data-blank="4"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.2</div>
+  <p><strong>2.2</strong> What does this code print? Write one printed line on each answer line.</p>
+
+<pre><code><span class="wb-type">EventNotice</span> e = <span class="wb-kw">new</span> <span class="wb-fn">EventNotice</span>(<span class="wb-str">"fay"</span>, <span class="wb-str">"Chess club"</span>, <span class="wb-num">3</span>);
+e.pin();
+e.pin();
+System.out.println(e.getAuthor());
+System.out.println(e.getPins());
+e.printSummary();</code></pre>
+  <wb-table id="q2-2">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+        <tr><td>4</td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.3</div>
+  <p><strong>2.3</strong> The object <code>e</code> from 2.2 has four fields. For each field, give the class that declares it.</p>
+
+  <wb-table id="q2-3">
+    <table>
+      <thead><tr><th>Field</th><th>Declared in</th></tr></thead>
+      <tbody>
+        <tr><td><code>author</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>pins</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>title</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>day</code></td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.4</div>
+  <p><strong>2.4</strong> How many objects does <code>new TextNotice("ada", "Study group at 4pm.")</code> create?</p>
+
+  <wb-choice id="q2-4">
+    <ol type="A">
+      <li>Two objects: a <code>Notice</code> and a <code>TextNotice</code> that refers to it</li>
+      <li>One object, with a <code>Notice</code> part and a <code>TextNotice</code> part</li>
+      <li>One <code>Notice</code> object; the <code>TextNotice</code> class only adds methods to it</li>
+      <li>One <code>TextNotice</code> object, with no <code>author</code> or <code>pins</code> fields</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.5</div>
+  <p><strong>2.5</strong> What does this code print?</p>
+
+<pre><code><span class="wb-type">TextNotice</span> a = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"ada"</span>, <span class="wb-str">"Study group at 4pm."</span>);
+<span class="wb-type">TextNotice</span> b = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"bo"</span>, <span class="wb-str">"Room 2 is free."</span>);
+a.pin();
+a.pin();
+System.out.println(a.getPins() + <span class="wb-str">" "</span> + b.getPins());</code></pre>
+  <wb-choice id="q2-5">
+    <ol type="A">
+      <li><code>2 0</code></li>
+      <li><code>2 2</code></li>
+      <li><code>0 0</code></li>
+      <li>Nothing: it does not compile, because <code>TextNotice</code> has no <code>getPins()</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.6</div>
+  <p><strong>2.6</strong> A public method <code>unpin()</code> is added to <code>Notice</code>, and nothing else changes. Which objects can call it?</p>
+
+  <wb-choice id="q2-6">
+    <ol type="A">
+      <li>Only <code>Notice</code> objects, until <code>unpin()</code> is copied into the subclasses</li>
+      <li>Only <code>TextNotice</code> and <code>EventNotice</code> objects</li>
+      <li>None, until each subclass declares its own <code>unpin()</code></li>
+      <li><code>Notice</code>, <code>TextNotice</code> and <code>EventNotice</code> objects</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.7</div>
+  <p><strong>2.7</strong> <code>TextNotice</code> and <code>EventNotice</code> both extend <code>Notice</code>. Which statement is true?</p>
+
+  <wb-choice id="q2-7">
+    <ol type="A">
+      <li>A <code>TextNotice</code> object also has <code>title</code> and <code>day</code>, because both classes extend <code>Notice</code>.</li>
+      <li><code>EventNotice</code> inherits <code>message</code> from <code>TextNotice</code>.</li>
+      <li>A <code>TextNotice</code> object has <code>author</code>, <code>pins</code> and <code>message</code>, but no <code>title</code> or <code>day</code>.</li>
+      <li>A <code>TextNotice</code> object has only <code>message</code>; <code>author</code> and <code>pins</code> stay in a <code>Notice</code> object.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s3">3. Constructors</h2>
+<h3>Constructors and inheritance</h3>
+<p>A new text notice needs an author, a pin count of 0 and a message. The <code>Notice</code> constructor sets the author and the pins, and the <code>TextNotice</code> constructor sets the message. A subclass inherits the methods of its superclass, but not its constructors: each class writes its own. So the <code>TextNotice</code> constructor must ask the <code>Notice</code> constructor to set up the <code>Notice</code> part.</p>
+<h3>Calling the superclass</h3>
+<p>The statement <code>super(author);</code> calls the constructor of the superclass and passes the author to it. It must be the first statement in the subclass constructor. After it, the constructor sets the subclass's own fields.</p>
+<pre><code><span class="wb-cmt">// Constructor from TextNotice:</span>
+<span class="wb-kw">public</span> <span class="wb-fn">TextNotice</span>(<span class="wb-type">String</span> author,
+    <span class="wb-type">String</span> message)
+{
+    super(author);
+    <span class="wb-kw">this</span>.message = message;
+}</code></pre>
+<p>The arguments of <code>super(...)</code> must match the parameters of a superclass constructor, just as the arguments of <code>new Notice(...)</code> would. <code>Notice(String author)</code> has one <code>String</code> parameter, so we pass one <code>String</code>.</p>
+<h3>Construction order</h3>
+<p>Consider <code>new EventNotice("bo", "Hackathon", 12)</code>. Java first runs <code>super("bo")</code>, so the <code>Notice</code> constructor sets the author to <code>"bo"</code> and the pins to 0. Then the rest of the <code>EventNotice</code> constructor sets the title and the day. The superclass part is always set up first, then the subclass part.</p>
+<figure class="wb-shot">
+  <img src="img/construction_order.png" alt="Three steps: new EventNotice("bo", "Hackathon", 12); then super("bo") runs the Notice constructor, setting author and pins to 0; then the rest of the EventNotice constructor sets title and day." loading="lazy" style="max-width: 560px">
+</figure>
+<p>The demo then calls <code>second.pin()</code>, so bo's notice has 1 pin.</p>
+<h3>Leaving out super</h3>
+<p>What happens if a subclass constructor has no <code>super(...)</code> call? Java then adds <code>super()</code> with no arguments. <code>Notice</code> has no constructor without parameters, so this constructor does not compile.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-fn">TextNotice</span>(<span class="wb-type">String</span> author, <span class="wb-type">String</span> message)
+{
+    <span class="wb-kw">this</span>.message = message;
+}</code></pre>
+<pre class="wb-output">error: constructor Notice in class Notice cannot be applied to given types;
+  required: String
+  found:    no arguments
+  reason: actual and formal argument lists differ in length</pre>
+<p>The fix is to write <code>super(author);</code> as the first line. If we write it later in the constructor, for example after <code>this.message = message;</code>, the compiler stops with a different error:</p>
+<pre class="wb-output">error: call to super must be first statement in constructor</pre>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.1</div>
+  <p><strong>3.1</strong> <code>new TextNotice("chen", "Lost calculator.")</code> runs these four statements. Put them in the order they run.</p>
+
+  <wb-table id="q3-1">
+    <table>
+      <thead><tr><th>Statement</th><th>Written in</th><th>Runs</th></tr></thead>
+      <tbody>
+        <tr><td><code>this.message = message;</code></td><td><code>TextNotice</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>pins = 0;</code></td><td><code>Notice</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>super(author);</code></td><td><code>TextNotice</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>this.author = author;</code></td><td><code>Notice</code></td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.2</div>
+  <p><strong>3.2</strong> A workshop is an event notice with a room. A student writes this class, and it does not compile. Explain why, using the constructors that <code>EventNotice</code> has.</p>
+
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Workshop</span> extends <span class="wb-type">EventNotice</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> room;
+    <span class="wb-kw">public</span> <span class="wb-fn">Workshop</span>(<span class="wb-type">String</span> author, <span class="wb-type">String</span> title,
+        <span class="wb-kw">int</span> day, <span class="wb-type">String</span> room)
+    {
+        <span class="wb-kw">this</span>.room = room;
+    }
+}</code></pre>
+  <wb-short id="q3-2"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.3</div>
+  <p><strong>3.3</strong> Write a correct constructor for <code>Workshop</code>. It sets up the <code>EventNotice</code> part with the author, the title and the day, then sets the room.</p>
+
+<p>Write the constructor in the class below. The box includes <code>Notice</code> and <code>EventNotice</code>, makes gil's workshop in room EN-2036, pins it and prints it.</p>  <wb-exercise id="q3-3"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.4</div>
+  <p><strong>3.4</strong> Why does the <code>TextNotice</code> constructor call <code>super(author)</code> instead of setting <code>author</code> itself?</p>
+
+  <wb-choice id="q3-4">
+    <ol type="A">
+      <li>Java copies the <code>Notice</code> constructor into <code>TextNotice</code>, and <code>super(author)</code> calls that copy.</li>
+      <li><code>author</code> is private in <code>Notice</code>, and the <code>Notice</code> constructor sets up the <code>Notice</code> part.</li>
+      <li><code>super(author)</code> makes a separate <code>Notice</code> object that stores the author.</li>
+      <li>Without <code>super(author)</code>, the author would be set twice.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.5</div>
+  <p><strong>3.5</strong> Which expression compiles?</p>
+
+  <wb-choice id="q3-5">
+    <ol type="A">
+      <li><code>new TextNotice("ada")</code></li>
+      <li><code>new TextNotice()</code></li>
+      <li><code>new Notice()</code></li>
+      <li><code>new TextNotice("ada", "Study group at 4pm.")</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.6</div>
+  <p><strong>3.6</strong> This constructor leaves out <code>super(...)</code>. What happens?</p>
+
+<pre><code><span class="wb-kw">public</span> <span class="wb-fn">TextNotice</span>(<span class="wb-type">String</span> author, <span class="wb-type">String</span> message)
+{
+    <span class="wb-kw">this</span>.message = message;
+}</code></pre>
+  <wb-choice id="q3-6">
+    <ol type="A">
+      <li>It does not compile: Java adds <code>super()</code>, and <code>Notice</code> has no constructor without parameters.</li>
+      <li>It compiles, and the author of each new notice is <code>null</code>.</li>
+      <li>It compiles, and Java passes <code>author</code> to <code>Notice</code> because the names match.</li>
+      <li>It compiles, but the program stops when a <code>TextNotice</code> is made.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.7</div>
+  <p><strong>3.7</strong> <code>Workshop</code> extends <code>EventNotice</code>, and <code>EventNotice</code> extends <code>Notice</code>. When <code>new Workshop(...)</code> runs, in which order are the parts of the object set up?</p>
+
+  <wb-choice id="q3-7">
+    <ol type="A">
+      <li>The <code>Workshop</code> part, then the <code>EventNotice</code> part, then the <code>Notice</code> part</li>
+      <li>The <code>EventNotice</code> part, then the <code>Notice</code> part, then the <code>Workshop</code> part</li>
+      <li>The <code>Notice</code> part, then the <code>EventNotice</code> part, then the <code>Workshop</code> part</li>
+      <li>Only the <code>Workshop</code> part; the other parts are copied from existing objects</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s4">4. Private fields</h2>
+<h3>Private access</h3>
+<p>A <code>TextNotice</code> object has an author, so it may seem that <code>printSummary()</code> can use the field <code>author</code> directly. It cannot.</p>
+<pre><code><span class="wb-cmt">// In TextNotice:</span>
+<span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printSummary</span>()
+{
+    System.out.println(author + <span class="wb-str">": "</span> + message);
+}</code></pre>
+<pre class="wb-output">error: author has private access in Notice</pre>
+<p>The field <code>author</code> is private in <code>Notice</code>. Only code written inside <code>Notice</code> can use a private field by its name, and this holds for subclasses too. The object has the field, but the code of <code>TextNotice</code> cannot name it.</p>
+<h3>The getter</h3>
+<p>The public method <code>getAuthor()</code> is inherited, so the subclass can call it, and the getter reads the private field from inside <code>Notice</code>. In the same way, <code>getPins()</code> reads the pin count.</p>
+<pre><code><span class="wb-cmt">// In TextNotice:</span>
+<span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printSummary</span>()
+{
+    System.out.println(getAuthor() + <span class="wb-str">": "</span> + message);
+    System.out.println(<span class="wb-str">"  pins: "</span> + getPins());
+}</code></pre>
+<figure class="wb-shot">
+  <img src="img/getter_call.png" alt="TextNotice.printSummary() calls Notice.getAuthor(), which reads the private author." loading="lazy" style="max-width: 480px">
+</figure>
+<p>Java also has <code>protected</code> access, which lets subclasses use a field directly. It comes in Chapter 13. Until then, a getter keeps the field private and still lets the subclass read it.</p>
+<h3>One copy</h3>
+<p>The shared code now lives only in <code>Notice</code>. A new pin rule is a change in one method in one class, and both kinds of notice follow it. The output of the demo is exactly the same as before the change: moving code into a superclass changes how the program is written, not what it does.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.1</div>
+  <p><strong>4.1</strong> A student writes <code>printSummary()</code> in <code>EventNotice</code> like this. For each name it uses, say whether the name compiles here or causes an error.</p>
+
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printSummary</span>()
+{
+    System.out.println(author + <span class="wb-str">": "</span>
+        + title + <span class="wb-str">", day "</span> + day);
+    System.out.println(<span class="wb-str">"  pins: "</span> + pins);
+}</code></pre>
+  <wb-table id="q4-1">
+    <table>
+      <thead><tr><th>Name</th><th>Compiles or error?</th></tr></thead>
+      <tbody>
+        <tr><td><code>author</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>title</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>day</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>pins</code></td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.2</div>
+  <p><strong>4.2</strong> Add a method <code>printShort()</code> to <code>TextNotice</code>. It prints the author and the pin count on one line, for example <code>ada (2 pins)</code> for ada's notice after two pins.</p>
+
+<p>Add the method to the class below. The box includes <code>Notice</code>, pins ada's notice twice and calls <code>printShort()</code>.</p>  <wb-exercise id="q4-2"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.3</div>
+  <p><strong>4.3</strong> Making <code>author</code> public would also let <code>TextNotice</code> use it. Why is a private field with a public getter the better choice?</p>
+
+  <wb-short id="q4-3"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.4</div>
+  <p><strong>4.4</strong> Does a <code>TextNotice</code> object have an <code>author</code> field?</p>
+
+  <wb-choice id="q4-4">
+    <ol type="A">
+      <li>No: private fields are not inherited, so the object has no author.</li>
+      <li>Yes, in its <code>Notice</code> part, but only code in <code>Notice</code> can use the field by name.</li>
+      <li>Yes, and code in <code>TextNotice</code> can use it by name, because it is the same object.</li>
+      <li>Only if <code>TextNotice</code> declares its own <code>author</code> field.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.5</div>
+  <p><strong>4.5</strong> <code>Notice</code> renames its private field <code>author</code> to <code>writer</code>, and changes <code>getAuthor()</code> to return <code>writer</code>. What must change in <code>TextNotice</code>?</p>
+
+  <wb-choice id="q4-5">
+    <ol type="A">
+      <li>Nothing, because <code>TextNotice</code> reads the author only through <code>getAuthor()</code>.</li>
+      <li>Every line in <code>TextNotice</code> that uses <code>author</code>.</li>
+      <li>The call <code>super(author)</code> must become <code>super(writer)</code>.</li>
+      <li><code>TextNotice</code> must declare a field called <code>writer</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.6</div>
+  <p><strong>4.6</strong> To get rid of the private access error, a student adds <code>private String author;</code> to <code>TextNotice</code> and sets it in the constructor after <code>super(author)</code>. What is the result?</p>
+
+  <wb-choice id="q4-6">
+    <ol type="A">
+      <li>It does not compile, because <code>Notice</code> already has a field called <code>author</code>.</li>
+      <li>The new field replaces the one in <code>Notice</code>, so <code>getAuthor()</code> returns it.</li>
+      <li>It compiles, and the duplication between the classes is gone.</li>
+      <li>It compiles, but each <code>TextNotice</code> object now holds the author twice.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.7</div>
+  <p><strong>4.7</strong> <code>Notice</code> has <code>getAuthor()</code> but no <code>setAuthor()</code>. After ada's notice is made, can code in <code>TextNotice</code> or <code>NoticeBoard</code> change its author?</p>
+
+  <wb-choice id="q4-7">
+    <ol type="A">
+      <li>Yes, <code>TextNotice</code> can, because a subclass may assign the private fields it inherits.</li>
+      <li>Yes, any class can, by assigning a new value to <code>getAuthor()</code>.</li>
+      <li>No. Only code in <code>Notice</code> can assign <code>author</code>, and only its constructor does.</li>
+      <li>Yes, <code>NoticeBoard</code> can, because it keeps the notice in a list.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s5">5. Is-a</h2>
+<h3>The is-a test</h3>
+<p>Before you write <code>extends</code>, say the sentence "Every X is a Y." "Every event notice is a notice" is true, so <code>EventNotice extends Notice</code> is a good design. "Every notice board is a notice" is false, so the board must not extend <code>Notice</code>, even though both have something to do with notices. Two classes that share a few similar lines are not enough reason for inheritance; the sentence must be true.</p>
+<h3>Has-a</h3>
+<p>A notice board <strong>has</strong> notices. It keeps them in its fields, the two lists. A has-a relationship is written as a field or a list, not with <code>extends</code>. In a class diagram, has-a is a plain line, with no triangle.</p>
+<figure class="wb-shot">
+  <img src="img/has_a.png" alt="NoticeBoard, with the fields textNotices and eventNotices, joined by plain lines to TextNotice and EventNotice." loading="lazy" style="max-width: 460px">
+</figure>
+<h3>Hierarchies</h3>
+<p>Classes joined by <code>extends</code> form an <strong>inheritance hierarchy</strong>. A class can have many subclasses, and a subclass can have subclasses of its own. As a sketch, suppose a workshop is a kind of event notice. Then <code>Workshop extends EventNotice</code>. A workshop is an event notice, and so it is also a notice: a <code>Workshop</code> object has the <code>Notice</code> part, the <code>EventNotice</code> part and its own part. A class can extend only one class.</p>
+<figure class="wb-shot">
+  <img src="img/hierarchy.png" alt="Notice at the top; TextNotice and EventNotice below it; Workshop below EventNotice." loading="lazy" style="max-width: 380px">
+</figure>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.1</div>
+  <p><strong>5.1</strong> For each pair, write is-a or has-a, and say how the code would show it: with <code>extends</code>, or with a field.</p>
+
+  <wb-table id="q5-1">
+    <table>
+      <thead><tr><th>Pair</th><th>Is-a or has-a?</th><th>In the code</th></tr></thead>
+      <tbody>
+        <tr><td>a car and a vehicle</td><td data-blank="0-0"></td><td data-blank="0-1"></td></tr>
+        <tr><td>a car and an engine</td><td data-blank="1-0"></td><td data-blank="1-1"></td></tr>
+        <tr><td>a playlist and its songs</td><td data-blank="2-0"></td><td data-blank="2-1"></td></tr>
+        <tr><td>a lecturer and a person</td><td data-blank="3-0"></td><td data-blank="3-1"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.2</div>
+  <p><strong>5.2</strong> A student wants the board to have an author, so they write <code>public class NoticeBoard extends TextNotice</code>. Use the is-a test to explain why this is a poor design.</p>
+
+  <wb-short id="q5-2"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.3</div>
+  <p><strong>5.3</strong> Which pair passes the is-a test, so that <code>extends</code> fits?</p>
+
+  <wb-choice id="q5-3">
+    <ol type="A">
+      <li>A bank and a bank account</li>
+      <li>A savings account and a bank account</li>
+      <li>A bank account and its balance</li>
+      <li>A customer and a bank account</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.4</div>
+  <p><strong>5.4</strong> A course keeps a list of the students who take it. How should the code show this?</p>
+
+  <wb-choice id="q5-4">
+    <ol type="A">
+      <li><code>public class Course extends Student</code></li>
+      <li><code>public class Student extends Course</code></li>
+      <li>Copy the fields of <code>Student</code> into <code>Course</code></li>
+      <li>A field <code>private ArrayList&lt;Student&gt; students;</code> in <code>Course</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.5</div>
+  <p><strong>5.5</strong> <code>Workshop</code> extends <code>EventNotice</code>. It declares only a <code>room</code> field, its constructor and <code>getRoom()</code>. Which methods can be called on a <code>Workshop</code> object?</p>
+
+  <wb-choice id="q5-5">
+    <ol type="A">
+      <li><code>pin()</code>, <code>getAuthor()</code>, <code>getPins()</code>, <code>printSummary()</code> and <code>getRoom()</code></li>
+      <li>Only <code>getRoom()</code></li>
+      <li><code>getRoom()</code> and <code>printSummary()</code>, from its direct superclass only</li>
+      <li><code>pin()</code>, <code>getAuthor()</code>, <code>getPins()</code> and <code>getRoom()</code>, but not <code>printSummary()</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.6</div>
+  <p><strong>5.6</strong> A student writes <code>public class Student extends Course</code> because each student takes a course. The code compiles. What is the right advice?</p>
+
+  <wb-choice id="q5-6">
+    <ol type="A">
+      <li>Keep <code>extends</code>: the code compiles, so the design is fine.</li>
+      <li>Swap the classes: <code>Course extends Student</code>.</li>
+      <li>Use a field: a student takes a course, but a student is not a course.</li>
+      <li>Keep <code>extends</code>, and make the fields of <code>Course</code> public.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s6">6. A new kind</h2>
+<h3>Job notices</h3>
+<p>The board now needs job notices. Dara posts a job at the Campus Bookstore. A job notice is a notice, so <code>JobNotice</code> extends <code>Notice</code>, and it adds only the employer. The new members are in red.</p>
+<figure class="wb-shot">
+  <img src="img/job_notice.png" alt="Notice above three subclasses: TextNotice, EventNotice and JobNotice. JobNotice adds the field employer and the method printSummary(), shown in red." loading="lazy" style="max-width: 560px">
+</figure>
+<p><code>JobNotice</code> has the same parts as the other subclasses: <code>extends</code>, a constructor that calls <code>super(author)</code>, and a <code>printSummary()</code> that uses the getters. The methods <code>pin()</code>, <code>getAuthor()</code> and <code>getPins()</code> come from <code>Notice</code> for free.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">JobNotice</span> extends <span class="wb-type">Notice</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> employer;
+    <span class="wb-kw">public</span> <span class="wb-fn">JobNotice</span>(<span class="wb-type">String</span> author,
+        <span class="wb-type">String</span> employer)
+    {
+        super(author);
+        <span class="wb-kw">this</span>.employer = employer;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printSummary</span>()
+    {
+        System.out.println(getAuthor() + <span class="wb-str">": job at "</span>
+            + employer);
+        System.out.println(<span class="wb-str">"  pins: "</span> + getPins());
+    }
+}</code></pre>
+<h3>The board with three kinds</h3>
+<p>The board needs a third list, a third add method and a third loop in <code>show()</code>.</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">NoticeBoard</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">TextNotice</span>&gt; textNotices;
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">EventNotice</span>&gt; eventNotices;
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">JobNotice</span>&gt; jobNotices;
+    <span class="wb-kw">public</span> <span class="wb-fn">NoticeBoard</span>()
+    {
+        textNotices = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        eventNotices = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        jobNotices = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addTextNotice</span>(<span class="wb-type">TextNotice</span> notice)
+    {
+        textNotices.add(notice);
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addEventNotice</span>(<span class="wb-type">EventNotice</span> notice)
+    {
+        eventNotices.add(notice);
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addJobNotice</span>(<span class="wb-type">JobNotice</span> notice)
+    {
+        jobNotices.add(notice);
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">show</span>()
+    {
+        <span class="wb-kw">for</span>(<span class="wb-type">TextNotice</span> notice : textNotices) {
+            notice.printSummary();
+        }
+        <span class="wb-kw">for</span>(<span class="wb-type">EventNotice</span> notice : eventNotices) {
+            notice.printSummary();
+        }
+        <span class="wb-kw">for</span>(<span class="wb-type">JobNotice</span> notice : jobNotices) {
+            notice.printSummary();
+        }
+    }
+}</code></pre>
+<p>The demo makes dara's job notice as a fourth notice and adds it with <code>board.addJobNotice(fourth)</code>. The rest of the demo is the same as in Section 1.</p>
+<pre class="wb-output">ada: Study group at 4pm.
+  pins: 2
+chen: Lost calculator.
+  pins: 0
+bo: Hackathon, day 12
+  pins: 1
+dara: job at Campus Bookstore
+  pins: 0</pre>
+<h3>What it cost</h3>
+<p><code>Notice</code>, <code>TextNotice</code> and <code>EventNotice</code> did not change. The new subclass is 16 lines long. A separate <code>JobNotice</code> without inheritance, with its own author, pins and <code>pin()</code>, would be 23 lines. So each new kind of notice is shorter, and the pin rule stays in one place.</p>
+<p>The board did not get shorter. It still needs one list, one add method and one loop for every kind of notice, and it still prints the notices by kind, not in the order they were added. Lecture 17 replaces the three lists with one list that holds every kind of notice.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.1</div>
+  <p><strong>6.1</strong> Write a class <code>SaleNotice</code> for a student who sells something. It is a subclass of <code>Notice</code> with a private <code>String item</code> and a private <code>int price</code> in dollars. The constructor takes the author, the item and the price, in that order. For example, <code>new SaleNotice("eli", "a bike", 40)</code>, pinned once, prints these two lines:</p>
+
+<pre class="wb-output">eli: selling a bike for 40 dollars
+  pins: 1</pre>
+<p>The box includes <code>Notice</code>. It makes eli's sale of a bike for 40 dollars, pins it once and calls <code>printSummary()</code>, then tries a second sale.</p>  <wb-exercise id="q6-1"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.2</div>
+  <p><strong>6.2</strong> Suppose the board must also show sale notices. Write the new field, the line to add to the constructor, the new add method and the new loop in <code>show()</code>.</p>
+
+  <wb-short id="q6-2"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.3</div>
+  <p><strong>6.3</strong> The rule changes: a notice may have at most ten pins. With the superclass, which class or classes must change? With three separate classes and no superclass, which must change?</p>
+
+  <wb-short id="q6-3"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.4</div>
+  <p><strong>6.4</strong> To add <code>JobNotice</code>, which existing class had to change?</p>
+
+  <wb-choice id="q6-4">
+    <ol type="A">
+      <li><code>Notice</code>, to add the employer</li>
+      <li><code>NoticeBoard</code> only</li>
+      <li><code>Notice</code>, <code>TextNotice</code> and <code>EventNotice</code></li>
+      <li>None of the existing classes</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.5</div>
+  <p><strong>6.5</strong> What is the second line this code prints?</p>
+
+<pre><code><span class="wb-type">JobNotice</span> j = <span class="wb-kw">new</span> <span class="wb-fn">JobNotice</span>(<span class="wb-str">"dara"</span>, <span class="wb-str">"Campus Bookstore"</span>);
+j.pin();
+j.printSummary();</code></pre>
+  <wb-choice id="q6-5">
+    <ol type="A">
+      <li><code>  pins: 1</code></li>
+      <li><code>  pins: 0</code></li>
+      <li><code>dara: job at Campus Bookstore</code></li>
+      <li>Nothing: it does not compile, because <code>JobNotice</code> has no <code>pin()</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.6</div>
+  <p><strong>6.6</strong> A fourth kind, <code>LostItemNotice</code>, is added the same way as <code>JobNotice</code>. Which classes must be written or changed?</p>
+
+  <wb-choice id="q6-6">
+    <ol type="A">
+      <li>Only <code>LostItemNotice</code></li>
+      <li><code>LostItemNotice</code>, <code>Notice</code> and <code>NoticeBoard</code></li>
+      <li><code>LostItemNotice</code> and <code>NoticeBoard</code></li>
+      <li>Every notice class and <code>NoticeBoard</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s7">7. Practice</h2>
+<p>This section is the animal shelter problem, to do at home as practice. Try each part before you read its solution.</p>
+<h3>The starter program</h3>
+<p>An animal shelter records dogs and cats. <code>Dog</code> and <code>Cat</code> are separate classes, and both repeat the name, age and adoption code. A new animal is not adopted; <code>adopt()</code> sets <code>adopted</code> to <code>true</code>. Here is the starter <code>Dog</code>.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Dog</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> name;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> age;
+    <span class="wb-kw">private</span> <span class="wb-kw">boolean</span> adopted;
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> breed;
+    <span class="wb-kw">public</span> <span class="wb-fn">Dog</span>(<span class="wb-type">String</span> name, <span class="wb-kw">int</span> age, <span class="wb-type">String</span> breed)
+    {
+        <span class="wb-kw">this</span>.name = name;
+        <span class="wb-kw">this</span>.age = age;
+        adopted = <span class="wb-kw">false</span>;
+        <span class="wb-kw">this</span>.breed = breed;
+    }
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getName</span>()
+    {
+        <span class="wb-kw">return</span> name;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getAge</span>()
+    {
+        <span class="wb-kw">return</span> age;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">isAdopted</span>()
+    {
+        <span class="wb-kw">return</span> adopted;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">adopt</span>()
+    {
+        adopted = <span class="wb-kw">true</span>;
+    }
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getBreed</span>()
+    {
+        <span class="wb-kw">return</span> breed;
+    }
+}</code></pre>
+<p>The starter <code>Cat(String name, int age, boolean indoor)</code> has the same fields and methods, except that it has a <code>boolean indoor</code> field and the method <code>isIndoor()</code> in place of the breed. The demo makes Rex, age 3, a Beagle; Mia, age 2, an indoor cat; and Biscuit, age 5, a Collie. It adopts Mia, then prints one line for each animal.</p>
+<pre class="wb-output">Rex, age 3, Beagle, adopted: false
+Mia, age 2, indoor: true, adopted: true
+Biscuit, age 5, Collie, adopted: false</pre>
+<h3>Part 1: Animals</h3>
+<p>Move the shared code into a new class <code>Animal</code>, with the fields <code>name</code>, <code>age</code> and <code>adopted</code>, the constructor <code>Animal(String name, int age)</code>, and the methods <code>getName()</code>, <code>getAge()</code>, <code>isAdopted()</code> and <code>adopt()</code>. Then make <code>Dog</code> and <code>Cat</code> extend <code>Animal</code>. Each constructor calls <code>super(name, age)</code> first. The demo does not change, and it prints the same three lines.</p>
+<h3>Part 2: Rabbits</h3>
+<p>Keep <code>Animal</code> unchanged. Add a method <code>getLabel()</code> that returns a <code>String</code> to <code>Dog</code> and to <code>Cat</code>, and add a class <code>Rabbit(String name, int age, String colour)</code> with <code>getColour()</code> and <code>getLabel()</code>. The name is private in <code>Animal</code>, so the labels use <code>getName()</code>. The new demo adds Clover, a brown rabbit of age 1, and prints the four labels.</p>
+<pre class="wb-output">Rex the Beagle
+Mia, indoor cat
+Biscuit the Collie
+Clover, brown rabbit</pre>
+<p>An outdoor cat's label ends in <code>outdoor cat</code>.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.1</div>
+  <p><strong>7.1</strong> Write the class <code>Animal</code> for Part 1.</p>
+
+<p>The box makes an animal, adopts it and prints what the getters return.</p>  <wb-exercise id="q7-1"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.2</div>
+  <p><strong>7.2</strong> Write the class <code>Dog</code> for Part 1, as a subclass of <code>Animal</code>.</p>
+
+<p>The box includes a model <code>Animal</code>, the same as the 7.1 answer, and makes Rex the Beagle.</p>  <wb-exercise id="q7-2"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.3</div>
+  <p><strong>7.3</strong> Write the class <code>Cat</code> for Part 2, with <code>isIndoor()</code> and <code>getLabel()</code>.</p>
+
+<p>The box includes <code>Animal</code> and prints the labels of an indoor cat and an outdoor cat.</p>  <wb-exercise id="q7-3"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.4</div>
+  <p><strong>7.4</strong> Write the class <code>Rabbit</code> for Part 2.</p>
+
+<p>The box includes <code>Animal</code> and makes Clover, a brown rabbit of age 1.</p>  <wb-exercise id="q7-4"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.5</div>
+  <p><strong>7.5</strong> For each pair, choose inheritance or a field, and say why.</p>
+
+  <wb-table id="q7-5">
+    <table>
+      <thead><tr><th>Pair</th><th>Inheritance or a field?</th></tr></thead>
+      <tbody>
+        <tr><td>a rabbit and an animal</td><td data-blank="0"></td></tr>
+        <tr><td>a shelter and its animals</td><td data-blank="1"></td></tr>
+        <tr><td>a job notice and a notice</td><td data-blank="2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table><p>Why?</p>  <wb-short id="q7-5-why"></wb-short>
+</div>
+<h2 id="s8">8. Review</h2>
+<h3>Writing a subclass</h3>
+<p>When two classes repeat code, check the steps in order. First, the is-a sentence must be true. Then move the shared fields and methods into the superclass, and give it a constructor and getters for the fields the subclasses need. Each subclass says <code>extends</code>, declares only its own fields, and starts its constructor with <code>super(...)</code>. Inside a subclass, use the superclass's public methods, not its private fields.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.1</div>
+  <p><strong>8.1</strong> This subclass of <code>Notice</code> has two mistakes, and each one stops it from compiling. Find both and give the fix for each.</p>
+
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">PhotoNotice</span> extends <span class="wb-type">Notice</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> caption;
+    <span class="wb-kw">public</span> <span class="wb-fn">PhotoNotice</span>(<span class="wb-type">String</span> author, <span class="wb-type">String</span> caption)
+    {
+        <span class="wb-kw">this</span>.caption = caption;
+        super(author);
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printSummary</span>()
+    {
+        System.out.println(author + <span class="wb-str">": photo, "</span> + caption);
+    }
+}</code></pre>
+  <wb-short id="q8-1"></wb-short><p>Now fix the class. The box includes <code>Notice</code>, makes a photo notice and prints it.</p>  <wb-exercise id="q8-1-fix"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.2</div>
+  <p><strong>8.2</strong> Write true or false for each statement about a subclass.</p>
+
+  <wb-table id="q8-2">
+    <table>
+      <thead><tr><th>Statement</th><th>True or false?</th></tr></thead>
+      <tbody>
+        <tr><td>It inherits the public methods of its superclass.</td><td data-blank="0"></td></tr>
+        <tr><td>Its methods can use the private fields of its superclass by name.</td><td data-blank="1"></td></tr>
+        <tr><td>It inherits the constructors of its superclass.</td><td data-blank="2"></td></tr>
+        <tr><td>It can declare fields of its own.</td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<h2 id="s9">9. Complete Java Programs</h2>
+<p>Write these two programs after class. Each has a superclass, a subclass and a demo.</p>
+<h3>Program A: Vehicles</h3>
+<p>A fleet has cars and trucks. Every vehicle has a plate and a distance driven; a truck also has a maximum load.</p>
+<ul>
+<li><code>Vehicle(String plate)</code> sets the private fields <code>plate</code> and <code>km</code>, with <code>km</code> starting at 0. <code>drive(int distance)</code> adds the distance to <code>km</code>. <code>getPlate()</code> and <code>getKm()</code> return the fields.</li>
+<li><code>Truck(String plate, int maxLoad)</code> extends <code>Vehicle</code>, calls <code>super(plate)</code> and stores the private field <code>maxLoad</code> in kilograms. <code>getMaxLoad()</code> returns it. <code>printDetails()</code> prints one line such as <code>TRK-42: 150 km, max load 900 kg</code>.</li>
+<li><code>FleetDemo</code> makes the car <code>CAR-7</code> as a plain <code>Vehicle</code> object and the truck <code>TRK-42</code> with a maximum load of 900. The car drives 30 km; the truck drives 100 km, then 50 km. The demo prints the car's plate and distance, calls <code>printDetails()</code> on the truck, then prints the truck's load limit.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Vehicle</code></div>
+<p>The box drives a vehicle 30 km, then 20 km more, and prints its plate and distance before and after.</p>
+  <wb-exercise id="p1-item"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Truck</code></div>
+<p>The box includes a model <code>Vehicle</code> and runs a truck through two drives.</p>
+  <wb-exercise id="p1-sub"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>FleetDemo</code></div>
+<p>The box includes model <code>Vehicle</code> and <code>Truck</code> classes and runs your demo.</p>
+  <wb-exercise id="p1-demo"></wb-exercise>
+</div>
+<p>The demo prints:</p>
+<pre class="wb-output">CAR-7: 30 km
+TRK-42: 150 km, max load 900 kg
+Load limit: 900</pre>
+<h3>Program B: Tickets</h3>
+<p>A theatre sells tickets. Every ticket has a seat and a price in whole dollars; a student ticket also has a student number and a discount of one fifth of the price.</p>
+<ul>
+<li><code>Ticket(String seat, int price)</code> sets the private fields <code>seat</code> and <code>price</code>. <code>getSeat()</code> and <code>getPrice()</code> return them.</li>
+<li><code>StudentTicket</code> extends <code>Ticket</code>. Its constructor takes the seat, the price and the student number <code>studentId</code>, in that order. It calls <code>super(seat, price)</code> and stores the private field <code>studentId</code>. <code>getStudentId()</code> returns it. <code>getDiscount()</code> returns <code>getPrice() / 5</code>. <code>printTicket()</code> prints two lines, as in the output below.</li>
+<li><code>TicketDemo</code> makes a ticket for seat A3 at 20 dollars and a student ticket for seat B12 at 15 dollars for student 2001234. It prints the first ticket's seat and price, calls <code>printTicket()</code> on the student ticket, then prints the price minus the discount.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Ticket</code></div>
+<p>The box makes a ticket and prints its seat and price.</p>
+  <wb-exercise id="p2-item"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>StudentTicket</code></div>
+<p>The box includes a model <code>Ticket</code> and prints two student tickets.</p>
+  <wb-exercise id="p2-sub"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>TicketDemo</code></div>
+<p>The box includes model <code>Ticket</code> and <code>StudentTicket</code> classes and runs your demo.</p>
+  <wb-exercise id="p2-demo"></wb-exercise>
+</div>
+<p>The demo prints:</p>
+<pre class="wb-output">Seat A3: 20 dollars
+Seat B12: 15 dollars, student 2001234
+  discount: 3 dollars
+Pay: 12 dollars</pre>
+<hr>
+<section class="wb-outcomes wb-review">
+<h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+<p>When two classes repeat the same fields and methods, and both are kinds of one more general thing, we move the shared code into a superclass and write it once.</p>
+<h3>Duplication</h3>
+<ul>
+<li><code>TextNotice</code> and <code>EventNotice</code> both had <code>author</code>, <code>pins</code> and <code>pin()</code>. Every change to that shared part had to be made <strong>twice</strong>.</li>
+<li>The board keeps one list per kind, so it prints all text notices first: chen's notice prints before bo's.</li>
+</ul>
+<h3>Superclass</h3>
+<ul>
+<li>The <strong>superclass</strong> <code>Notice</code> holds the shared fields, its constructor and <code>pin()</code>, <code>getAuthor()</code> and <code>getPins()</code>.</li>
+<li><code>class TextNotice extends Notice</code> makes a <strong>subclass</strong>. It declares only its own field, <code>message</code>.</li>
+<li>A subclass <strong>inherits</strong> the public methods of its superclass. Inheritance goes one way: a <code>Notice</code> has no <code>printSummary()</code>.</li>
+<li><code>new TextNotice(...)</code> makes <strong>one object</strong> with a Notice part and a TextNotice part.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_superclass.png" alt="The slide One class above two: Notice above TextNotice and EventNotice." loading="lazy" style="max-width: 560px">
+<figcaption>One class above two.</figcaption>
+</figure>
+<h3>Constructors</h3>
+<ul>
+<li>Constructors are <strong>not inherited</strong>. A subclass constructor calls <code>super(author);</code> to set up the superclass part.</li>
+<li><code>super(...)</code> must be the <strong>first statement</strong>. The superclass part is set up first, then the subclass part.</li>
+<li>Without a <code>super(...)</code> call, Java adds <code>super()</code>. <code>Notice</code> has no constructor without parameters, so the code does not compile.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_construction.png" alt="The slide Construction order: new EventNotice, then super runs the Notice constructor, then the rest of the EventNotice constructor." loading="lazy" style="max-width: 560px">
+<figcaption>The superclass part is set up first.</figcaption>
+</figure>
+<h3>Private fields</h3>
+<ul>
+<li>A private field of the superclass cannot be used by name in a subclass: <code>author has private access in Notice</code>.</li>
+<li>The subclass calls the inherited <strong>public getter</strong>, <code>getAuthor()</code>, instead. The field stays private.</li>
+<li>The shared code now has <strong>one copy</strong>, and the demo prints the same output as before.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_getter.png" alt="The slide The getter: printSummary in TextNotice uses getAuthor() and getPins()." loading="lazy" style="max-width: 560px">
+<figcaption>A subclass reads a private field through a getter.</figcaption>
+</figure>
+<h3>Is-a</h3>
+<ul>
+<li>Use inheritance only when <strong>"Every X is a Y"</strong> is true. Every event notice is a notice; a notice board is not a notice.</li>
+<li>A board <strong>has</strong> notices, so it keeps them in fields. Has-a is a field, not <code>extends</code>.</li>
+<li>Classes joined by <code>extends</code> form an <strong>inheritance hierarchy</strong>. A class can extend only one class.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_is_a.png" alt="The slide The is-a test." loading="lazy" style="max-width: 560px">
+<figcaption>The is-a test.</figcaption>
+</figure>
+<h3>A new kind</h3>
+<ul>
+<li><code>JobNotice extends Notice</code> adds only the employer. It is <strong>16 lines</strong>; without inheritance it would be 23.</li>
+<li>The board still needs one list, one add method and one loop <strong>for each kind</strong>. Lecture 17 replaces them with one list.</li>
+</ul>
+<h3>Practice and programs</h3>
+<ul>
+<li>The shelter moves <code>name</code>, <code>age</code> and <code>adopted</code> into <code>Animal</code>. <code>Dog</code>, <code>Cat</code> and <code>Rabbit</code> each call <code>super(name, age)</code> and use <code>getName()</code> in their labels.</li>
+<li><code>Truck extends Vehicle</code> and <code>StudentTicket extends Ticket</code> follow the same steps: <code>extends</code>, <code>super(...)</code> first, then getters for the superclass's fields.</li>
+</ul>
+</section>
+
+</main>
+</body>
+</html>

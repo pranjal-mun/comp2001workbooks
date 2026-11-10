@@ -182,6 +182,11 @@ def main(argv):
             if status != "ok" or normalize(stdout) != normalize(spec["output"]):
                 failures += 1
                 print(f"FAIL example {eid}: status={status}\n--- expected\n{spec['output']}\n--- actual\n{stdout}{stderr}")
+        elif kind == "choice":
+            checked += 1
+            if not (isinstance(spec.get("answer"), int) and 0 <= spec["answer"] < spec.get("options", 0) and spec.get("explain")):
+                failures += 1
+                print(f"FAIL choice {eid}: answer {spec.get('answer')!r} of {spec.get('options')!r} options, explanation {'set' if spec.get('explain') else 'missing'}")
         elif kind == "code" and spec.get("answer"):
             answer = decode(spec["answer"])
             cases = spec.get("cases") or [{"name": "Program output", "expected": spec.get("expected", "")}]

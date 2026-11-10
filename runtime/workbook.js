@@ -34,7 +34,7 @@ export async function initWorkbook({ id, specs: specsUrl = "./exercises.json", t
   const data = await response.json();
   const specs = data.exercises ?? {};
   const progress = new Progress(id);
-  const exerciseIds = [...document.querySelectorAll("wb-exercise[id], wb-table[id], wb-short[id]")].map((el) => el.id).filter((eid) => specs[eid]);
+  const exerciseIds = [...document.querySelectorAll("wb-exercise[id], wb-table[id], wb-short[id], wb-choice[id]")].map((el) => el.id).filter((eid) => specs[eid]);
 
   defineComponents({ workbookId: id, specs, progress });
   buildTopBar({ id, title: title ?? data.title ?? document.title, subtitle: data.subtitle, progress, exerciseIds });
@@ -247,8 +247,8 @@ function sectionExerciseIds(heading) {
   const ids = [];
   let node = heading.nextElementSibling;
   while (node && node.tagName !== "H2") {
-    if (node.matches("wb-exercise[id], wb-table[id], wb-short[id]")) ids.push(node.id);
-    ids.push(...[...node.querySelectorAll("wb-exercise[id], wb-table[id], wb-short[id]")].map((n) => n.id));
+    if (node.matches("wb-exercise[id], wb-table[id], wb-short[id], wb-choice[id]")) ids.push(node.id);
+    ids.push(...[...node.querySelectorAll("wb-exercise[id], wb-table[id], wb-short[id], wb-choice[id]")].map((n) => n.id));
     node = node.nextElementSibling;
   }
   return ids;
