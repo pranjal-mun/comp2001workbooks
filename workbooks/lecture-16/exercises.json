@@ -346,7 +346,7 @@
         },
         {
           "name": "EventNotice.java",
-          "content": "public class EventNotice extends Notice\n{\n    private String title;\n    private int day;\n    public EventNotice(String author,\n        String title, int day)\n    {\n        super(author);\n        this.title = title;\n        this.day = day;\n    }\n    public void printSummary()\n    {\n        System.out.println(getAuthor() + \": \"\n            + title + \", day \" + day);\n        System.out.println(\"  pins: \" + getPins());\n    }\n}"
+          "content": "public class EventNotice extends Notice\n{\n    private String title;\n    private int day;\n    public EventNotice(String author,\n        String title, int day)\n    {\n        super(author);\n        this.title = title;\n        this.day = day;\n    }\n    public void printSummary()\n    {\n        System.out.println(getAuthor() + \": \" + title + \", day \" + day);\n        System.out.println(\"  pins: \" + getPins());\n    }\n}"
         },
         {
           "name": "WorkshopDemo.java",
@@ -410,7 +410,7 @@
       "title": "TextNotice.java",
       "minLines": 23,
       "maxLines": 35,
-      "starter": "public class TextNotice extends Notice\n{\n    private String message;\n    public TextNotice(String author,\n        String message)\n    {\n        super(author);\n        this.message = message;\n    }\n    public void printSummary()\n    {\n        System.out.println(getAuthor() + \": \"\n            + message);\n        System.out.println(\"  pins: \" + getPins());\n    }\n    // Add printShort() here.\n}",
+      "starter": "public class TextNotice extends Notice\n{\n    private String message;\n    public TextNotice(String author,\n        String message)\n    {\n        super(author);\n        this.message = message;\n    }\n    public void printSummary()\n    {\n        System.out.println(getAuthor() + \": \" + message);\n        System.out.println(\"  pins: \" + getPins());\n    }\n    // Add printShort() here.\n}",
       "cases": [
         {
           "name": "Output of the checking program",
@@ -418,7 +418,7 @@
         }
       ],
       "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"getAuthor()\"), \"Use getAuthor(): author is private in Notice.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"getPins()\"), \"Use getPins(): pins is private in Notice.\");",
-      "answer": "cHVibGljIGNsYXNzIFRleHROb3RpY2UgZXh0ZW5kcyBOb3RpY2UKewogICAgcHJpdmF0ZSBTdHJpbmcgbWVzc2FnZTsKICAgIHB1YmxpYyBUZXh0Tm90aWNlKFN0cmluZyBhdXRob3IsCiAgICAgICAgU3RyaW5nIG1lc3NhZ2UpCiAgICB7CiAgICAgICAgc3VwZXIoYXV0aG9yKTsKICAgICAgICB0aGlzLm1lc3NhZ2UgPSBtZXNzYWdlOwogICAgfQogICAgcHVibGljIHZvaWQgcHJpbnRTdW1tYXJ5KCkKICAgIHsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oZ2V0QXV0aG9yKCkgKyAiOiAiCiAgICAgICAgICAgICsgbWVzc2FnZSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCIgIHBpbnM6ICIgKyBnZXRQaW5zKCkpOwogICAgfQogICAgcHVibGljIHZvaWQgcHJpbnRTaG9ydCgpCiAgICB7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGdldEF1dGhvcigpICsgIiAoIiArIGdldFBpbnMoKQogICAgICAgICAgICArICIgcGlucykiKTsKICAgIH0KfQ==",
+      "answer": "cHVibGljIGNsYXNzIFRleHROb3RpY2UgZXh0ZW5kcyBOb3RpY2UKewogICAgcHJpdmF0ZSBTdHJpbmcgbWVzc2FnZTsKICAgIHB1YmxpYyBUZXh0Tm90aWNlKFN0cmluZyBhdXRob3IsCiAgICAgICAgU3RyaW5nIG1lc3NhZ2UpCiAgICB7CiAgICAgICAgc3VwZXIoYXV0aG9yKTsKICAgICAgICB0aGlzLm1lc3NhZ2UgPSBtZXNzYWdlOwogICAgfQogICAgcHVibGljIHZvaWQgcHJpbnRTdW1tYXJ5KCkKICAgIHsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oZ2V0QXV0aG9yKCkgKyAiOiAiICsgbWVzc2FnZSk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCIgIHBpbnM6ICIgKyBnZXRQaW5zKCkpOwogICAgfQogICAgcHVibGljIHZvaWQgcHJpbnRTaG9ydCgpCiAgICB7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKGdldEF1dGhvcigpICsgIiAoIiArIGdldFBpbnMoKSArICIgcGlucykiKTsKICAgIH0KfQ==",
       "files": [
         {
           "name": "Notice.java",
@@ -838,7 +838,7 @@
         }
       ],
       "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"newTruck(\\\"TRK-42\\\",900)\"), \"Make the truck TRK-42 with a maximum load of 900.\");",
-      "answer": "cHVibGljIGNsYXNzIEZsZWV0RGVtbwp7CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKQogICAgewogICAgICAgIFZlaGljbGUgY2FyID0gbmV3IFZlaGljbGUoIkNBUi03Iik7CiAgICAgICAgVHJ1Y2sgdHJ1Y2sgPSBuZXcgVHJ1Y2soIlRSSy00MiIsIDkwMCk7CiAgICAgICAgY2FyLmRyaXZlKDMwKTsKICAgICAgICB0cnVjay5kcml2ZSgxMDApOwogICAgICAgIHRydWNrLmRyaXZlKDUwKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oY2FyLmdldFBsYXRlKCkgKyAiOiAiCiAgICAgICAgICAgICsgY2FyLmdldEttKCkgKyAiIGttIik7CiAgICAgICAgdHJ1Y2sucHJpbnREZXRhaWxzKCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJMb2FkIGxpbWl0OiAiCiAgICAgICAgICAgICsgdHJ1Y2suZ2V0TWF4TG9hZCgpKTsKICAgIH0KfQ==",
+      "answer": "cHVibGljIGNsYXNzIEZsZWV0RGVtbwp7CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKQogICAgewogICAgICAgIFZlaGljbGUgY2FyID0gbmV3IFZlaGljbGUoIkNBUi03Iik7CiAgICAgICAgVHJ1Y2sgdHJ1Y2sgPSBuZXcgVHJ1Y2soIlRSSy00MiIsIDkwMCk7CiAgICAgICAgY2FyLmRyaXZlKDMwKTsKICAgICAgICB0cnVjay5kcml2ZSgxMDApOwogICAgICAgIHRydWNrLmRyaXZlKDUwKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oY2FyLmdldFBsYXRlKCkgKyAiOiAiICsgY2FyLmdldEttKCkgKyAiIGttIik7CiAgICAgICAgdHJ1Y2sucHJpbnREZXRhaWxzKCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJMb2FkIGxpbWl0OiAiICsgdHJ1Y2suZ2V0TWF4TG9hZCgpKTsKICAgIH0KfQ==",
       "files": [
         {
           "name": "Vehicle.java",
@@ -886,7 +886,7 @@
         }
       ],
       "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"extendsTicket\"), \"StudentTicket extends Ticket.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"super(seat,price)\"), \"Call super(seat, price) first.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"getPrice()/5\"), \"The discount is getPrice() / 5.\");",
-      "answer": "cHVibGljIGNsYXNzIFN0dWRlbnRUaWNrZXQgZXh0ZW5kcyBUaWNrZXQKewogICAgcHJpdmF0ZSBTdHJpbmcgc3R1ZGVudElkOwogICAgcHVibGljIFN0dWRlbnRUaWNrZXQoU3RyaW5nIHNlYXQsIGludCBwcmljZSwKICAgICAgICBTdHJpbmcgc3R1ZGVudElkKQogICAgewogICAgICAgIHN1cGVyKHNlYXQsIHByaWNlKTsKICAgICAgICB0aGlzLnN0dWRlbnRJZCA9IHN0dWRlbnRJZDsKICAgIH0KICAgIHB1YmxpYyBTdHJpbmcgZ2V0U3R1ZGVudElkKCkKICAgIHsKICAgICAgICByZXR1cm4gc3R1ZGVudElkOwogICAgfQogICAgcHVibGljIGludCBnZXREaXNjb3VudCgpCiAgICB7CiAgICAgICAgcmV0dXJuIGdldFByaWNlKCkgLyA1OwogICAgfQogICAgcHVibGljIHZvaWQgcHJpbnRUaWNrZXQoKQogICAgewogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiU2VhdCAiICsgZ2V0U2VhdCgpICsgIjogIgogICAgICAgICAgICArIGdldFByaWNlKCkgKyAiIGRvbGxhcnMsIHN0dWRlbnQgIgogICAgICAgICAgICArIHN0dWRlbnRJZCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCIgIGRpc2NvdW50OiAiICsgZ2V0RGlzY291bnQoKQogICAgICAgICAgICArICIgZG9sbGFycyIpOwogICAgfQp9",
+      "answer": "cHVibGljIGNsYXNzIFN0dWRlbnRUaWNrZXQgZXh0ZW5kcyBUaWNrZXQKewogICAgcHJpdmF0ZSBTdHJpbmcgc3R1ZGVudElkOwogICAgcHVibGljIFN0dWRlbnRUaWNrZXQoU3RyaW5nIHNlYXQsIGludCBwcmljZSwKICAgICAgICBTdHJpbmcgc3R1ZGVudElkKQogICAgewogICAgICAgIHN1cGVyKHNlYXQsIHByaWNlKTsKICAgICAgICB0aGlzLnN0dWRlbnRJZCA9IHN0dWRlbnRJZDsKICAgIH0KICAgIHB1YmxpYyBTdHJpbmcgZ2V0U3R1ZGVudElkKCkKICAgIHsKICAgICAgICByZXR1cm4gc3R1ZGVudElkOwogICAgfQogICAgcHVibGljIGludCBnZXREaXNjb3VudCgpCiAgICB7CiAgICAgICAgcmV0dXJuIGdldFByaWNlKCkgLyA1OwogICAgfQogICAgcHVibGljIHZvaWQgcHJpbnRUaWNrZXQoKQogICAgewogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiU2VhdCAiICsgZ2V0U2VhdCgpICsgIjogIiArIGdldFByaWNlKCkgKyAiIGRvbGxhcnMsIHN0dWRlbnQgIgogICAgICAgICAgICArIHN0dWRlbnRJZCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCIgIGRpc2NvdW50OiAiICsgZ2V0RGlzY291bnQoKSArICIgZG9sbGFycyIpOwogICAgfQp9",
       "files": [
         {
           "name": "Ticket.java",
@@ -920,7 +920,7 @@
         },
         {
           "name": "StudentTicket.java",
-          "content": "public class StudentTicket extends Ticket\n{\n    private String studentId;\n    public StudentTicket(String seat, int price,\n        String studentId)\n    {\n        super(seat, price);\n        this.studentId = studentId;\n    }\n    public String getStudentId()\n    {\n        return studentId;\n    }\n    public int getDiscount()\n    {\n        return getPrice() / 5;\n    }\n    public void printTicket()\n    {\n        System.out.println(\"Seat \" + getSeat() + \": \"\n            + getPrice() + \" dollars, student \"\n            + studentId);\n        System.out.println(\"  discount: \" + getDiscount()\n            + \" dollars\");\n    }\n}"
+          "content": "public class StudentTicket extends Ticket\n{\n    private String studentId;\n    public StudentTicket(String seat, int price,\n        String studentId)\n    {\n        super(seat, price);\n        this.studentId = studentId;\n    }\n    public String getStudentId()\n    {\n        return studentId;\n    }\n    public int getDiscount()\n    {\n        return getPrice() / 5;\n    }\n    public void printTicket()\n    {\n        System.out.println(\"Seat \" + getSeat() + \": \" + getPrice() + \" dollars, student \"\n            + studentId);\n        System.out.println(\"  discount: \" + getDiscount() + \" dollars\");\n    }\n}"
         }
       ]
     },

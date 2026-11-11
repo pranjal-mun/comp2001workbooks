@@ -111,7 +111,9 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+/* Jumps to a section are instant unless the student turns on smooth scrolling in ⚙ settings. */
+html { scroll-padding-top: 4.5rem; }
+html.wb-smooth { scroll-behavior: smooth; }
 
 body {
   margin: 0;
@@ -133,16 +135,21 @@ body:not(.wb-ready) { visibility: hidden; animation: wb-reveal 0s 2s forwards; }
 @keyframes wb-reveal { to { visibility: visible; } }
 
 main {
-  max-width: 52rem;
+  max-width: var(--wb-main-width, 68rem);
   margin: 0 auto;
   padding: 2rem 1.5rem 6rem;
 }
 
 body.wb-has-toc {
   display: grid;
-  grid-template-columns: 16rem minmax(0, 1fr);
+  grid-template-columns: 15rem minmax(0, 1fr);
   grid-template-areas: "top top" "toc main";
 }
+/* Wide screens: « hides the contents column; the material then has the whole width to use
+   (how much of it is the Text width setting). */
+body.wb-has-toc.wb-toc-hidden { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "main"; }
+body.wb-toc-hidden > .wb-toc { display: none; }
+body.wb-toc-hidden > main { padding-left: 4rem; padding-right: 2.5rem; }
 body.wb-has-toc > .wb-topbar { grid-area: top; }
 body.wb-has-toc > .wb-toc { grid-area: toc; }
 body.wb-has-toc > main { grid-area: main; width: 100%; }
@@ -351,6 +358,15 @@ main .wb-table-wrap { overflow-x: auto; }
   z-index: 60;
 }
 .wb-menu-items hr { margin: 0.3rem 0; width: auto; }
+.wb-btn.wb-settings-button { font-size: 1.6rem; line-height: 1; padding: 0.1rem 0.45rem 0.2rem; }
+.wb-settings-panel { min-width: 17rem; padding: 0.7rem 0.8rem 0.8rem; font-family: var(--font-sans); font-size: 0.85rem; }
+.wb-settings-label { font-weight: 700; margin-bottom: 0.4rem; }
+.wb-segs { display: flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 0.8rem; }
+.wb-seg { flex: 1; font: inherit; color: var(--ink); background: var(--paper); border: 0; border-left: 1px solid var(--rule); padding: 0.35rem 0.4rem; cursor: pointer; }
+.wb-seg:first-child { border-left: 0; }
+.wb-seg:hover { background: var(--panel); }
+.wb-seg[aria-pressed="true"] { background: var(--accent-fill); color: var(--on-accent); font-weight: 700; }
+.wb-settings-check { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; }
 .wb-menu-item {
   display: block;
   width: 100%;
@@ -397,7 +413,11 @@ main .wb-table-wrap { overflow-x: auto; }
   font-family: var(--font-sans);
   font-size: 0.82rem;
 }
-.wb-toc-title { color: var(--ink-quiet); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.68rem; font-weight: 700; margin-bottom: 0.5rem; padding-left: 0.6rem; }
+.wb-toc-title { display: flex; align-items: center; justify-content: space-between; color: var(--ink-quiet); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.68rem; font-weight: 700; margin-bottom: 0.5rem; padding-left: 0.6rem; }
+.wb-toc-hide { font: inherit; font-size: 1rem; line-height: 1; letter-spacing: 0; color: var(--ink-quiet); background: none; border: 1px solid transparent; border-radius: 5px; padding: 0.15rem 0.45rem; cursor: pointer; }
+.wb-toc-hide:hover { color: var(--ink); background: var(--panel); border-color: var(--rule-soft); }
+.wb-btn.wb-toc-show { display: none; }
+body.wb-toc-hidden > .wb-btn.wb-toc-show { display: inline-flex; position: fixed; left: 0.8rem; top: calc(var(--wb-topbar-h, 3.5rem) + 1rem); z-index: 40; padding: 0.3rem 0.55rem; }
 .wb-toc-list { list-style: none; margin: 0; padding: 0; }
 .wb-toc-list li { margin: 0; }
 .wb-toc-list a {
@@ -415,10 +435,11 @@ main .wb-table-wrap { overflow-x: auto; }
 .wb-toc.is-plain .wb-toc-mark { display: none; }
 .wb-toc-mark { flex: none; min-width: 2.2em; font-variant-numeric: tabular-nums; color: var(--ink-quiet); font-size: 0.7rem; }
 .wb-toc-mark.is-done { color: var(--good-ink); font-weight: 700; }
-.wb-toc-toggle { display: none; }
+.wb-btn.wb-toc-toggle { display: none; }
 @media (max-width: 62rem) {
   /* Narrow screens: the contents become a drop-down under the ☰ button in the top bar. */
-  .wb-toc-toggle { display: inline-flex; }
+  .wb-btn.wb-toc-toggle { display: inline-flex; }
+  .wb-toc-hide, body.wb-toc-hidden > .wb-btn.wb-toc-show { display: none; }
   .wb-toc {
     display: none;
     position: fixed;

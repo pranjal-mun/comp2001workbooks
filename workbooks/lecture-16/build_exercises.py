@@ -414,6 +414,16 @@ assert run(demo('All', 'Workshop w = new Workshop("gil", "Git basics", 5, "EN-20
 assert run(demo('Job', question_code('6.5')), files_at('notices/job', 'Notice', 'JobNotice')).split('\n')[1] == '  pins: 1'
 assert read('workbook/mcq/McqDemo.output.txt').rstrip('\n') == '2 0\ndara: job at Campus Bookstore\n  pins: 1'
 
+# The web page has room for each println on one line; the PDF splits some.
+from hl import unsplit  # noqa: E402
+for spec in E.values():
+    if spec.get('type') != 'code':
+        continue
+    spec['starter'] = unsplit(spec['starter'])
+    spec['answer'] = b64(unsplit(base64.b64decode(spec['answer']).decode()))
+    for f in spec['files']:
+        f['content'] = unsplit(f['content'])
+
 data = {'id': 'lecture-16', 'course': 'COMP 2001: Object-Oriented Programming',
         'title': 'Lecture 16 Workbook', 'subtitle': 'Chapter 12, Part 1: Inheritance', 'exercises': E}
 out = pathlib.Path(__file__).with_name('exercises.json')

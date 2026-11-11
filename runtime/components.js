@@ -16,6 +16,7 @@ import { runCases, matchAnswer } from "./grader.js";
 import { buildProject, relocateMessages, errorLine, usesInput, tutorSource } from "./java.js";
 import { xp } from "./xp.js";
 import { isInstructor } from "./instructor.js";
+import { scrollBehavior } from "./settings.js";
 import { answersAreFree } from "./schedule.js";
 
 let context = null;
@@ -255,7 +256,7 @@ class RunnableElement extends WorkbookElement {
     this.tutorPanel.hidden = false;
     this.tutorButton.textContent = "Hide visualizer";
     this.loadVisualizer();
-    this.tutorPanel.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    this.tutorPanel.scrollIntoView({ block: "nearest", behavior: scrollBehavior() });
   }
 
   /** Fill the panel from the current editor contents: a form for the keyboard answers first when the program needs them. */
@@ -565,6 +566,8 @@ class TableElement extends WorkbookElement {
       }
       const input = h("input", { type: "text", class: "wb-blank", "aria-label": `Answer ${name}`, autocomplete: "off", spellcheck: "false", placeholder: key.placeholder ?? "" });
       if (key.width) input.style.width = key.width;
+      // Never narrower than the whole hint, so "compiles / error" is not cut off.
+      if (key.placeholder) input.style.minWidth = `calc(${key.placeholder.length + 1}ch + 1.2rem)`;
       input.value = saved[name] ?? "";
       input.addEventListener("input", () => {
         cell.classList.remove("is-right", "is-wrong");

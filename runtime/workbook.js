@@ -12,6 +12,7 @@ import { xp } from "./xp.js";
 import { runner } from "./runner.js";
 import { defineComponents, toast } from "./components.js";
 import { initTheme } from "./theme.js";
+import { initSettings, settingsMenu } from "./settings.js";
 import { initPresentation } from "./present.js";
 import { revealPage } from "./page.js";
 import { lectureFor, isOpen, fmtOpens } from "./schedule.js";
@@ -22,6 +23,7 @@ const HOME_URL = new URL("../index.html", import.meta.url).href;
 
 export async function initWorkbook({ id, specs: specsUrl = "./exercises.json", title }) {
   initTheme();
+  initSettings();
   initInstructor();
   const entry = lectureFor(id);
   if (entry && !isOpen(entry) && !isInstructor()) {
@@ -119,7 +121,7 @@ function buildTopBar({ id, title, subtitle, progress, exerciseIds }) {
     instructorBadge(),
     el("span", { class: "wb-spacer" }),
     status, exerciseIds.length ? progressBox : null, xpBadge,
-    el("button", { type: "button", class: "wb-btn wb-btn-quiet wb-theme-toggle", title: "Toggle light / dark", onclick: () => document.dispatchEvent(new CustomEvent("wb:toggle-theme")) }, "◐"),
+    settingsMenu(),
     menu,
   );
   document.body.prepend(topbar);
@@ -198,10 +200,12 @@ function buildContents(progress) {
   }
   // A page with no graded widgets has nothing to count, so it gets no marks column.
   const plain = entries.every((entry) => !entry.ids.length);
-  const nav = el("nav", { class: `wb-toc${plain ? " is-plain" : ""}`, "aria-label": "Contents" }, el("div", { class: "wb-toc-title" }, "Contents"), list);
+  const hide = el("button", { type: "button", class: "wb-toc-hide", title: "Hide contents", "aria-label": "Hide contents" }, "«");
+  const nav = el("nav", { class: `wb-toc${plain ? " is-plain" : ""}`, "aria-label": "Contents" },
+    el("div", { class: "wb-toc-title" }, el("span", {}, "Contents"), hide), list);
   main.parentNode.insertBefore(nav, main);
   document.body.classList.add("wb-has-toc");
-  addContentsToggle(nav, list);
+  addContentsToggle(nav, list, hide);
 
   progress.subscribe((p) => {
     for (const entry of entries) {
@@ -222,20 +226,38 @@ function buildContents(progress) {
   for (const entry of entries) observer.observe(entry.heading);
 }
 
-/** On narrow screens the contents list is a drop-down under a ☰ button in the top bar. */
-function addContentsToggle(nav, list) {
+/** Wide screens: « in the contents header hides the column, and ☰ at the left edge brings it
+    back (remembered per browser). Narrow screens: ☰ in the top bar opens the contents as a drop-down. */
+function addContentsToggle(nav, list, hide) {
   const topbar = document.querySelector(".wb-topbar");
   if (!topbar) return;
+  const narrow = window.matchMedia("(max-width: 62rem)");
+  const KEY = "wb-toc-hidden";
+  const stored = () => { try { return localStorage.getItem(KEY) === "1"; } catch { return false; } };
   const toggle = el("button", { type: "button", class: "wb-btn wb-btn-quiet wb-toc-toggle", title: "Contents", "aria-label": "Contents", "aria-expanded": "false" }, "☰");
+  const show = el("button", { type: "button", class: "wb-btn wb-toc-show", title: "Show contents", "aria-label": "Show contents" }, "☰");
   const setOpen = (open) => {
     document.body.classList.toggle("wb-toc-open", open);
     toggle.setAttribute("aria-expanded", String(open));
   };
+  const setHidden = (hidden, remember = true) => {
+    document.body.classList.toggle("wb-toc-hidden", hidden);
+    if (remember) try { localStorage.setItem(KEY, hidden ? "1" : "0"); } catch { /* private window: not remembered */ }
+  };
+  const sync = () => {
+    setOpen(false);
+    setHidden(!narrow.matches && stored(), false);
+  };
+  sync();
+  narrow.addEventListener("change", sync);
+  hide.addEventListener("click", () => setHidden(true));
+  show.addEventListener("click", () => setHidden(false));
   toggle.addEventListener("click", () => setOpen(!document.body.classList.contains("wb-toc-open")));
   list.addEventListener("click", (e) => { if (e.target.closest("a")) setOpen(false); });
   document.addEventListener("click", (e) => { if (!nav.contains(e.target) && !toggle.contains(e.target)) setOpen(false); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });
-  topbar.querySelector(".wb-theme-toggle").before(toggle);
+  nav.after(show);
+  topbar.querySelector(".wb-settings").before(toggle);
   // The drop-down hangs from the bottom edge of the top bar, whose height depends on the viewport.
   const measure = () => document.documentElement.style.setProperty("--wb-topbar-h", `${topbar.offsetHeight}px`);
   new ResizeObserver(measure).observe(topbar);
