@@ -570,7 +570,8 @@ class TableElement extends WorkbookElement {
       if (key.placeholder) input.style.minWidth = `calc(${key.placeholder.length + 1}ch + 1.2rem)`;
       input.value = saved[name] ?? "";
       input.addEventListener("input", () => {
-        cell.classList.remove("is-right", "is-wrong");
+        this.clearCompare(cell);
+        cell.classList.remove("is-right");
         this.saveWork();
       });
       input.addEventListener("keydown", (e) => { if (e.key === "Enter") this.check(); });
@@ -583,6 +584,13 @@ class TableElement extends WorkbookElement {
     this.statusPill = h("span", { class: "wb-status-pill" });
     this.revealButton = button("", () => this.reveal(), { class: "wb-btn-quiet wb-btn-reveal" });
     this.summaryLine = h("div", { class: "wb-result-summary", hidden: true });
+    this.pending = [];
+    this.gotItButton = button("I got it", () => this.gotIt(), { class: "wb-btn-primary" });
+    this.selfCheck = h("div", { class: "wb-self-check", hidden: true },
+      h("span", {}, "Do your other answers say the same thing as the model answers?"),
+      this.gotItButton,
+      button("Not quite, I'll revisit", () => this.notQuite(), { class: "wb-btn-quiet" }),
+    );
     this.append(h("div", { class: "wb-toolbar" },
       button("✓ Check", () => this.check(), { class: "wb-btn-check" }),
       this.statusPill,
@@ -590,7 +598,7 @@ class TableElement extends WorkbookElement {
       this.badge,
       button("Clear", () => this.clear(), { class: "wb-btn-quiet" }),
       this.revealButton,
-    ), this.summaryLine);
+    ), this.summaryLine, this.selfCheck);
     this.refreshState();
     if (record.revealed) this.fillAnswers();
     else this.markEarned();
@@ -637,18 +645,25 @@ class TableElement extends WorkbookElement {
     let right = 0;
     let added = 0;
     let attempted = 0;
+    this.pending = [];
     for (const [name, { input, cell, key }] of this.inputs) {
-      if (!input.value.trim()) { cell.classList.remove("is-right", "is-wrong"); continue; }
+      this.clearCompare(cell);
+      if (!input.value.trim()) { cell.classList.remove("is-right"); continue; }
       attempted++;
-      const ok = matchAnswer(input.value, key.accept, { caseSensitive: key.caseSensitive, preserveWhitespace: key.preserveWhitespace });
+      const ok = matchAnswer(input.value, key.show ? [...key.accept, key.show] : key.accept, { caseSensitive: key.caseSensitive, preserveWhitespace: key.preserveWhitespace });
       cell.classList.toggle("is-right", ok);
-      cell.classList.toggle("is-wrong", !ok);
       if (ok) {
         right++;
         added += this.progress.award(this.exerciseId, this.perBlank, name);
+      } else {
+        // No exact match: show the model answer and let the student judge (honour system).
+        cell.classList.add("is-compare");
+        cell.append(h("div", { class: "wb-blank-model" }, h("span", {}, "Model: "), key.show ?? key.accept[0]));
+        if (!this.progress.hasEarnedPart(this.exerciseId, name)) this.pending.push(name);
       }
     }
     this.summaryLine.hidden = false;
+    this.selfCheck.hidden = true;
     if (attempted === 0) {
       this.summaryLine.className = "wb-result-summary";
       this.summaryLine.textContent = "Fill in at least one blank first.";
@@ -657,11 +672,48 @@ class TableElement extends WorkbookElement {
       this.summaryLine.textContent = "✓ All correct!";
       this.progress.markPassed(this.exerciseId);
     } else {
-      this.summaryLine.className = "wb-result-summary is-bad";
-      this.summaryLine.textContent = `${right} of ${this.inputs.size} correct. The highlighted cells need another look.`;
+      this.summaryLine.className = "wb-result-summary";
+      const other = attempted - right;
+      this.summaryLine.textContent = other
+        ? `${right} matched exactly. Compare your other ${other === 1 ? "answer" : other + " answers"} with the model answer under ${other === 1 ? "it" : "each"}.`
+        : `${right} of ${this.inputs.size} matched. Fill in the empty cells too.`;
+      if (this.pending.length) {
+        this.gotItButton.textContent = `I got it (+${this.pending.length * this.perBlank} XP)`;
+        this.selfCheck.hidden = false;
+      }
     }
     if (added) toast(`+${added} XP`, "good");
     this.refreshState();
+  }
+
+  clearCompare(cell) {
+    cell.classList.remove("is-compare", "is-wrong");
+    cell.querySelector(".wb-blank-model")?.remove();
+  }
+
+  gotIt() {
+    let added = 0;
+    for (const name of this.pending) {
+      const { cell } = this.inputs.get(name);
+      added += this.progress.award(this.exerciseId, this.perBlank, name);
+      this.clearCompare(cell);
+      cell.classList.add("is-right");
+    }
+    this.pending = [];
+    this.selfCheck.hidden = true;
+    const allEarned = [...this.inputs.keys()].every((name) => this.progress.hasEarnedPart(this.exerciseId, name));
+    if (allEarned) {
+      this.progress.markPassed(this.exerciseId);
+      this.summaryLine.className = "wb-result-summary is-good";
+      this.summaryLine.textContent = "✓ All done!";
+    }
+    if (added) toast(`+${added} XP`, "good");
+    this.refreshState();
+  }
+
+  notQuite() {
+    this.selfCheck.hidden = true;
+    toast("No problem. Change the answer and check again.", "info");
   }
 
   reveal() {
@@ -674,7 +726,7 @@ class TableElement extends WorkbookElement {
     for (const { input, cell, key } of this.inputs.values()) {
       input.value = key.show ?? key.accept[0];
       input.readOnly = true;
-      cell.classList.remove("is-wrong");
+      this.clearCompare(cell);
       cell.classList.add("is-answer");
     }
     this.summaryLine.hidden = true;
@@ -685,9 +737,11 @@ class TableElement extends WorkbookElement {
     if (this.record.revealed) return;
     for (const { input, cell } of this.inputs.values()) {
       input.value = "";
-      cell.classList.remove("is-right", "is-wrong");
+      this.clearCompare(cell);
+      cell.classList.remove("is-right");
     }
     this.summaryLine.hidden = true;
+    this.selfCheck.hidden = true;
     this.saveWork();
   }
 }

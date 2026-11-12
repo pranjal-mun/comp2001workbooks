@@ -681,6 +681,10 @@ h4 code, main th code, .wb-block-title code, .wb-callout-title code, .wb-answer-
    the mark sits inline after a slightly narrower field. */
 .wb-blank-cell.is-right, .wb-blank-cell.is-wrong { white-space: nowrap; }
 .wb-blank-cell.is-right .wb-blank, .wb-blank-cell.is-wrong .wb-blank { width: calc(100% - 1.5em); margin-right: 0.3em; vertical-align: middle; }
+/* No exact match: the model answer sits under the field and the student judges it. */
+.wb-blank-cell.is-compare .wb-blank { border-color: var(--accent); }
+.wb-blank-model { margin-top: 0.3rem; font-size: 0.9em; color: var(--answer); white-space: normal; }
+.wb-blank-model span { color: var(--ink); font-weight: 700; }
 
 /* Written answers. */
 .wb-short-input {
