@@ -1,0 +1,1245 @@
+{
+  "id": "lecture-17",
+  "course": "COMP 2001: Object-Oriented Programming",
+  "title": "Lecture 17 Workbook",
+  "subtitle": "Chapter 12, Part 2: Subtyping and substitutable objects",
+  "exercises": {
+    "q1-1": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Rm91ciBjaGFuZ2VzOiBhIGZpZWxkIEFycmF5TGlzdDxQaG90b05vdGljZT4gcGhvdG9Ob3RpY2VzOyBhIGxpbmUgaW4gdGhlIGNvbnN0cnVjdG9yIHRoYXQgY3JlYXRlcyB0aGF0IGxpc3Q7IGEgbWV0aG9kIGFkZFBob3RvTm90aWNlKFBob3RvTm90aWNlIG5vdGljZSk7IGFuZCBhIGZvdXJ0aCBsb29wIGluIHNob3coKS4="
+    },
+    "q2-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGNvbXBpbGVyIGxvb2tzIG9ubHkgYXQgdGhlIHR5cGUgb2Ygbiwgd2hpY2ggaXMgTm90aWNlLCBhbmQgaXQgZG9lcyBub3QgZm9sbG93IHdoaWNoIG9iamVjdCB3YXMgc3RvcmVkIGluIGl0LiBBIE5vdGljZSB2YXJpYWJsZSBtaWdodCByZWZlciB0byBhbiBldmVudCBvciBhIGpvYiBub3RpY2UsIHNvIHB1dHRpbmcgaXQgaW4gYSBUZXh0Tm90aWNlIHZhcmlhYmxlIGlzIG5vdCBhbHdheXMgc2FmZS4="
+    },
+    "q8-4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "SXQgY29tcGlsZXMsIGJlY2F1c2UgYW4gQW5pbWFsIG1pZ2h0IGJlIGEgZG9nLiBXaGVuIGl0IHJ1bnMsIHRoZSBvYmplY3QgaXMgYSBjYXQsIHNvIHRoZSBjYXN0IHRocm93cyBDbGFzc0Nhc3RFeGNlcHRpb24gYW5kIHRoZSBsYXN0IGxpbmUgbmV2ZXIgcnVucy4="
+    },
+    "q3-2": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "QXJyYXlMaXN0PE1hbW1hbD4gbWFtbWFscyA9IG5ldyBBcnJheUxpc3Q8PigpOwpBcnJheUxpc3Q8Q2F0PiByZWZ1c2VzIGRvZ3MuIEFycmF5TGlzdDxBbmltYWw+IHRha2VzIGV2ZXJ5IG1hbW1hbCwgYnV0IGl0IHdvdWxkIGFsc28gdGFrZSBhbiBhbmltYWwgdGhhdCBpcyBub3QgYSBtYW1tYWwu"
+    },
+    "q9-1": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Rmlyc3QsIGEgU3RyaW5nIGlzIG5vdCBhIE5vdGljZSwgc28gdGhlIHRoaXJkIGxpbmUgbXVzdCBhZGQgYSBub3RpY2UsIGZvciBleGFtcGxlIG5vdGljZXMuYWRkKG5ldyBUZXh0Tm90aWNlKCJoYWwiLCAiTG9zdCBrZXlzLiIpKTsuIFNlY29uZCwgTm90aWNlIGhhcyBubyBwcmludFN1bW1hcnkoKSwgc28gdGhlIGxvb3AgbXVzdCBjYWxsIGEgTm90aWNlIG1ldGhvZCwgZm9yIGV4YW1wbGUgU3lzdGVtLm91dC5wcmludGxuKG5vdGljZS5nZXRBdXRob3IoKSk7Lg=="
+    },
+    "q8-5-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGRlY2xhcmVkIHR5cGUgb2YgYSBpcyBBbmltYWwuIEFuIGFuaW1hbCBtaWdodCBub3QgYmUgYSBkb2csIHNvIHRoZSBmaXJzdCBsaW5lIG5lZWRzIGEgY2FzdCwgYW5kIEFuaW1hbCBoYXMgbm8gZ2V0QnJlZWQoKS4gVGhlIGNhc3QgY29tcGlsZXMsIGFuZCBpdCBhbHNvIHJ1bnMsIGJlY2F1c2UgdGhlIG9iamVjdCBpcyBhIGRvZy4gZ2V0QWdlKCkgaXMgYW4gQW5pbWFsIG1ldGhvZC4="
+    },
+    "q2-1": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "1": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "does not compile",
+            "it does not compile"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "2": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "does not compile",
+            "it does not compile"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "3": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "4": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "5": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "does not compile",
+            "it does not compile"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        }
+      }
+    },
+    "q3-1": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "eli  pins: 1",
+            "\"eli  pins: 1\""
+          ],
+          "show": "eli  pins: 1",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "fay  pins: 2",
+            "\"fay  pins: 2\""
+          ],
+          "show": "fay  pins: 2",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "2": {
+          "accept": [
+            "gil  pins: 0",
+            "\"gil  pins: 0\""
+          ],
+          "show": "gil  pins: 0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q3-1-why": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIGxpc3QgaG9sZHMgcmVmZXJlbmNlcyB0byB0aGUgbm90aWNlIG9iamVjdHMsIG5vdCBjb3BpZXMuIHRleHQgYW5kIHRoZSBsaXN0J3Mgc2Vjb25kIGVsZW1lbnQgcmVmZXIgdG8gdGhlIHNhbWUgb2JqZWN0LCBzbyBwaW5zIGFkZGVkIGxhdGVyIHN0aWxsIHNob3cu"
+    },
+    "q3-3": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "1": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "2": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "3": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "does not compile",
+            "it does not compile"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "4": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "5": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "does not compile",
+            "it does not compile"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "6": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "7": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "does not compile",
+            "it does not compile"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        }
+      }
+    },
+    "q4-1": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0-0": {
+          "accept": [
+            "Notice",
+            "notice"
+          ],
+          "show": "Notice",
+          "placeholder": "type",
+          "width": "12rem"
+        },
+        "0-1": {
+          "accept": [
+            "JobNotice",
+            "jobnotice",
+            "Jobnotice"
+          ],
+          "show": "JobNotice",
+          "placeholder": "type",
+          "width": "12rem"
+        },
+        "1-0": {
+          "accept": [
+            "Animal",
+            "animal"
+          ],
+          "show": "Animal",
+          "placeholder": "type",
+          "width": "12rem"
+        },
+        "1-1": {
+          "accept": [
+            "Cat",
+            "cat"
+          ],
+          "show": "Cat",
+          "placeholder": "type",
+          "width": "12rem"
+        },
+        "2-0": {
+          "accept": [
+            "Mammal",
+            "mammal"
+          ],
+          "show": "Mammal",
+          "placeholder": "type",
+          "width": "12rem"
+        },
+        "2-1": {
+          "accept": [
+            "Dog",
+            "dog"
+          ],
+          "show": "Dog",
+          "placeholder": "type",
+          "width": "12rem"
+        },
+        "3-0": {
+          "accept": [
+            "Object",
+            "object"
+          ],
+          "show": "Object",
+          "placeholder": "type",
+          "width": "12rem"
+        },
+        "3-1": {
+          "accept": [
+            "String",
+            "string"
+          ],
+          "show": "String",
+          "placeholder": "type",
+          "width": "12rem"
+        }
+      }
+    },
+    "q4-2": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "1": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "2": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "does not compile",
+            "it does not compile"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "3": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        }
+      }
+    },
+    "q5-1": {
+      "type": "code",
+      "xp": 4,
+      "title": "Main.java",
+      "minLines": 6,
+      "maxLines": 18,
+      "starter": "Notice n = new EventNotice(\"bo\", \"Hackathon\", 12);\nn.pin();\n// Write the two lines here.",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "bo: Hackathon, day 12\n  pins: 1"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"(EventNotice)\"), \"Cast n to EventNotice before calling printSummary().\");",
+      "answer": "Tm90aWNlIG4gPSBuZXcgRXZlbnROb3RpY2UoImJvIiwgIkhhY2thdGhvbiIsIDEyKTsKbi5waW4oKTsKRXZlbnROb3RpY2UgZSA9IChFdmVudE5vdGljZSkgbjsKZS5wcmludFN1bW1hcnkoKTs=",
+      "files": [
+        {
+          "name": "Notice.java",
+          "content": "public class Notice\n{\n    private String author;\n    private int pins;\n    public Notice(String author)\n    {\n        this.author = author;\n        pins = 0;\n    }\n    public void pin()\n    {\n        pins = pins + 1;\n    }\n    public String getAuthor()\n    {\n        return author;\n    }\n    public int getPins()\n    {\n        return pins;\n    }\n}"
+        },
+        {
+          "name": "EventNotice.java",
+          "content": "public class EventNotice extends Notice\n{\n    private String title;\n    private int day;\n    public EventNotice(String author,\n        String title, int day)\n    {\n        super(author);\n        this.title = title;\n        this.day = day;\n    }\n    public void printSummary()\n    {\n        System.out.println(getAuthor() + \": \" + title + \", day \" + day);\n        System.out.println(\"  pins: \" + getPins());\n    }\n}"
+        }
+      ]
+    },
+    "q5-2": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "fine",
+            "Fine",
+            "ok",
+            "Ok",
+            "compiles",
+            "Compiles",
+            "runs",
+            "Runs"
+          ],
+          "show": "fine",
+          "placeholder": "fine / compile / run-time",
+          "width": "11rem"
+        },
+        "1": {
+          "accept": [
+            "compile error",
+            "Compile error",
+            "compile-time error",
+            "Compile-time error",
+            "compiler error",
+            "Compiler error"
+          ],
+          "show": "compile error",
+          "placeholder": "fine / compile / run-time",
+          "width": "11rem"
+        },
+        "2": {
+          "accept": [
+            "fine",
+            "Fine",
+            "ok",
+            "Ok",
+            "compiles",
+            "Compiles",
+            "runs",
+            "Runs"
+          ],
+          "show": "fine",
+          "placeholder": "fine / compile / run-time",
+          "width": "11rem"
+        },
+        "3": {
+          "accept": [
+            "compile error",
+            "Compile error",
+            "compile-time error",
+            "Compile-time error",
+            "compiler error",
+            "Compiler error"
+          ],
+          "show": "compile error",
+          "placeholder": "fine / compile / run-time",
+          "width": "11rem"
+        },
+        "4": {
+          "accept": [
+            "fine",
+            "Fine",
+            "ok",
+            "Ok",
+            "compiles",
+            "Compiles",
+            "runs",
+            "Runs"
+          ],
+          "show": "fine",
+          "placeholder": "fine / compile / run-time",
+          "width": "11rem"
+        },
+        "5": {
+          "accept": [
+            "fine",
+            "Fine",
+            "ok",
+            "Ok",
+            "compiles",
+            "Compiles",
+            "runs",
+            "Runs"
+          ],
+          "show": "fine",
+          "placeholder": "fine / compile / run-time",
+          "width": "11rem"
+        },
+        "6": {
+          "accept": [
+            "run-time error",
+            "Run-time error",
+            "runtime error",
+            "Runtime error",
+            "run time error",
+            "Run time error",
+            "ClassCastException",
+            "classcastexception",
+            "Classcastexception"
+          ],
+          "show": "run-time error",
+          "placeholder": "fine / compile / run-time",
+          "width": "11rem"
+        },
+        "7": {
+          "accept": [
+            "compile error",
+            "Compile error",
+            "compile-time error",
+            "Compile-time error",
+            "compiler error",
+            "Compiler error"
+          ],
+          "show": "compile error",
+          "placeholder": "fine / compile / run-time",
+          "width": "11rem"
+        }
+      }
+    },
+    "q5-3": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "fine",
+            "Fine",
+            "ok",
+            "Ok",
+            "compiles",
+            "Compiles",
+            "runs",
+            "Runs"
+          ],
+          "show": "fine",
+          "placeholder": "fine / compile / run-time",
+          "width": "11rem"
+        },
+        "1": {
+          "accept": [
+            "run-time error",
+            "Run-time error",
+            "runtime error",
+            "Runtime error",
+            "run time error",
+            "Run time error",
+            "ClassCastException",
+            "classcastexception",
+            "Classcastexception"
+          ],
+          "show": "run-time error",
+          "placeholder": "fine / compile / run-time",
+          "width": "11rem"
+        },
+        "2": {
+          "accept": [
+            "compile error",
+            "Compile error",
+            "compile-time error",
+            "Compile-time error",
+            "compiler error",
+            "Compiler error"
+          ],
+          "show": "compile error",
+          "placeholder": "fine / compile / run-time",
+          "width": "11rem"
+        },
+        "3": {
+          "accept": [
+            "fine",
+            "Fine",
+            "ok",
+            "Ok",
+            "compiles",
+            "Compiles",
+            "runs",
+            "Runs"
+          ],
+          "show": "fine",
+          "placeholder": "fine / compile / run-time",
+          "width": "11rem"
+        },
+        "4": {
+          "accept": [
+            "compile error",
+            "Compile error",
+            "compile-time error",
+            "Compile-time error",
+            "compiler error",
+            "Compiler error"
+          ],
+          "show": "compile error",
+          "placeholder": "fine / compile / run-time",
+          "width": "11rem"
+        }
+      }
+    },
+    "q6-1": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "ArrayList<Notice>",
+            "arraylist<notice>",
+            "Arraylist<notice>",
+            "Notice",
+            "notice"
+          ],
+          "show": "ArrayList<Notice>",
+          "placeholder": "type",
+          "width": "12rem"
+        },
+        "1": {
+          "accept": [
+            "ArrayList<Cat>",
+            "arraylist<cat>",
+            "Arraylist<cat>",
+            "Cat",
+            "cat"
+          ],
+          "show": "ArrayList<Cat>",
+          "placeholder": "type",
+          "width": "12rem"
+        },
+        "2": {
+          "accept": [
+            "ArrayList<Mammal>",
+            "arraylist<mammal>",
+            "Arraylist<mammal>",
+            "Mammal",
+            "mammal"
+          ],
+          "show": "ArrayList<Mammal>",
+          "placeholder": "type",
+          "width": "12rem"
+        },
+        "3": {
+          "accept": [
+            "ArrayList<Object>",
+            "arraylist<object>",
+            "Arraylist<object>",
+            "Object",
+            "object"
+          ],
+          "show": "ArrayList<Object>",
+          "placeholder": "type",
+          "width": "12rem"
+        }
+      }
+    },
+    "q7-1": {
+      "type": "code",
+      "xp": 4,
+      "title": "NoticeBoard.java",
+      "minLines": 30,
+      "maxLines": 42,
+      "starter": "import java.util.ArrayList;\npublic class NoticeBoard\n{\n    private ArrayList<Notice> notices;\n    public NoticeBoard()\n    {\n        notices = new ArrayList<>();\n    }\n    public void addNotice(Notice notice)\n    {\n        notices.add(notice);\n    }\n    public void show()\n    {\n        for(Notice notice : notices) {\n            System.out.println(notice.getAuthor() + \"  pins: \" + notice.getPins());\n        }\n    }\n    // Add totalPins() here.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Total pins: 3"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"getPins()\"), \"Add up getPins() of each notice.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CnB1YmxpYyBjbGFzcyBOb3RpY2VCb2FyZAp7CiAgICBwcml2YXRlIEFycmF5TGlzdDxOb3RpY2U+IG5vdGljZXM7CiAgICBwdWJsaWMgTm90aWNlQm9hcmQoKQogICAgewogICAgICAgIG5vdGljZXMgPSBuZXcgQXJyYXlMaXN0PD4oKTsKICAgIH0KICAgIHB1YmxpYyB2b2lkIGFkZE5vdGljZShOb3RpY2Ugbm90aWNlKQogICAgewogICAgICAgIG5vdGljZXMuYWRkKG5vdGljZSk7CiAgICB9CiAgICBwdWJsaWMgdm9pZCBzaG93KCkKICAgIHsKICAgICAgICBmb3IoTm90aWNlIG5vdGljZSA6IG5vdGljZXMpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKG5vdGljZS5nZXRBdXRob3IoKSArICIgIHBpbnM6ICIgKyBub3RpY2UuZ2V0UGlucygpKTsKICAgICAgICB9CiAgICB9CiAgICBwdWJsaWMgaW50IHRvdGFsUGlucygpCiAgICB7CiAgICAgICAgaW50IHRvdGFsID0gMDsKICAgICAgICBmb3IoTm90aWNlIG5vdGljZSA6IG5vdGljZXMpIHsKICAgICAgICAgICAgdG90YWwgPSB0b3RhbCArIG5vdGljZS5nZXRQaW5zKCk7CiAgICAgICAgfQogICAgICAgIHJldHVybiB0b3RhbDsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Notice.java",
+          "content": "public class Notice\n{\n    private String author;\n    private int pins;\n    public Notice(String author)\n    {\n        this.author = author;\n        pins = 0;\n    }\n    public void pin()\n    {\n        pins = pins + 1;\n    }\n    public String getAuthor()\n    {\n        return author;\n    }\n    public int getPins()\n    {\n        return pins;\n    }\n}"
+        },
+        {
+          "name": "TextNotice.java",
+          "content": "public class TextNotice extends Notice\n{\n    private String message;\n    public TextNotice(String author,\n        String message)\n    {\n        super(author);\n        this.message = message;\n    }\n    public void printSummary()\n    {\n        System.out.println(getAuthor() + \": \" + message);\n        System.out.println(\"  pins: \" + getPins());\n    }\n}"
+        },
+        {
+          "name": "EventNotice.java",
+          "content": "public class EventNotice extends Notice\n{\n    private String title;\n    private int day;\n    public EventNotice(String author,\n        String title, int day)\n    {\n        super(author);\n        this.title = title;\n        this.day = day;\n    }\n    public void printSummary()\n    {\n        System.out.println(getAuthor() + \": \" + title + \", day \" + day);\n        System.out.println(\"  pins: \" + getPins());\n    }\n}"
+        },
+        {
+          "name": "JobNotice.java",
+          "content": "public class JobNotice extends Notice\n{\n    private String employer;\n    public JobNotice(String author,\n        String employer)\n    {\n        super(author);\n        this.employer = employer;\n    }\n    public void printSummary()\n    {\n        System.out.println(getAuthor() + \": job at \" + employer);\n        System.out.println(\"  pins: \" + getPins());\n    }\n}"
+        },
+        {
+          "name": "TotalDemo.java",
+          "content": "public class TotalDemo\n{\n    public static void main(String[] args)\n    {\n        TextNotice first = new TextNotice(\"ada\", \"Study group at 4pm.\");\n        EventNotice second = new EventNotice(\"bo\", \"Hackathon\", 12);\n        TextNotice third = new TextNotice(\"chen\", \"Lost calculator.\");\n        JobNotice fourth = new JobNotice(\"dara\", \"Campus Bookstore\");\n        first.pin();\n        first.pin();\n        second.pin();\n        NoticeBoard board = new NoticeBoard();\n        board.addNotice(first);\n        board.addNotice(second);\n        board.addNotice(third);\n        board.addNotice(fourth);\n        System.out.println(\"Total pins: \" + board.totalPins());\n    }\n}"
+        }
+      ]
+    },
+    "q8-1": {
+      "type": "code",
+      "xp": 6,
+      "title": "Shelter.java",
+      "minLines": 32,
+      "maxLines": 44,
+      "starter": "import java.util.ArrayList;\npublic class Shelter\n{\n    private ArrayList<Animal> animals;\n    // The constructor, add, printAll and countAdopted.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Rex, age 3\nMia, age 2\nBiscuit, age 5\nClover, age 1\nAdopted: 1"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"ArrayList<Animal>\"), \"Keep one ArrayList<Animal>.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CnB1YmxpYyBjbGFzcyBTaGVsdGVyCnsKICAgIHByaXZhdGUgQXJyYXlMaXN0PEFuaW1hbD4gYW5pbWFsczsKICAgIHB1YmxpYyBTaGVsdGVyKCkKICAgIHsKICAgICAgICBhbmltYWxzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICB9CiAgICBwdWJsaWMgdm9pZCBhZGQoQW5pbWFsIGFuaW1hbCkKICAgIHsKICAgICAgICBhbmltYWxzLmFkZChhbmltYWwpOwogICAgfQogICAgcHVibGljIHZvaWQgcHJpbnRBbGwoKQogICAgewogICAgICAgIGZvcihBbmltYWwgYW5pbWFsIDogYW5pbWFscykgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oYW5pbWFsLmdldE5hbWUoKSArICIsIGFnZSAiICsgYW5pbWFsLmdldEFnZSgpKTsKICAgICAgICB9CiAgICB9CiAgICBwdWJsaWMgaW50IGNvdW50QWRvcHRlZCgpCiAgICB7CiAgICAgICAgaW50IGNvdW50ID0gMDsKICAgICAgICBmb3IoQW5pbWFsIGFuaW1hbCA6IGFuaW1hbHMpIHsKICAgICAgICAgICAgaWYoYW5pbWFsLmlzQWRvcHRlZCgpKSB7CiAgICAgICAgICAgICAgICBjb3VudCA9IGNvdW50ICsgMTsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICByZXR1cm4gY291bnQ7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Animal.java",
+          "content": "public class Animal\n{\n    private String name;\n    private int age;\n    private boolean adopted;\n    public Animal(String name, int age)\n    {\n        this.name = name;\n        this.age = age;\n        adopted = false;\n    }\n    public String getName()\n    {\n        return name;\n    }\n    public int getAge()\n    {\n        return age;\n    }\n    public boolean isAdopted()\n    {\n        return adopted;\n    }\n    public void adopt()\n    {\n        adopted = true;\n    }\n}"
+        },
+        {
+          "name": "Dog.java",
+          "content": "public class Dog extends Animal\n{\n    private String breed;\n    public Dog(String name, int age, String breed)\n    {\n        super(name, age);\n        this.breed = breed;\n    }\n    public String getBreed()\n    {\n        return breed;\n    }\n    public String getLabel()\n    {\n        return getName() + \" the \" + breed;\n    }\n}"
+        },
+        {
+          "name": "Cat.java",
+          "content": "public class Cat extends Animal\n{\n    private boolean indoor;\n    public Cat(String name, int age, boolean indoor)\n    {\n        super(name, age);\n        this.indoor = indoor;\n    }\n    public boolean isIndoor()\n    {\n        return indoor;\n    }\n    public String getLabel()\n    {\n        if(indoor) {\n            return getName() + \", indoor cat\";\n        }\n        return getName() + \", outdoor cat\";\n    }\n}"
+        },
+        {
+          "name": "Rabbit.java",
+          "content": "public class Rabbit extends Animal\n{\n    private String colour;\n    public Rabbit(String name, int age, String colour)\n    {\n        super(name, age);\n        this.colour = colour;\n    }\n    public String getColour()\n    {\n        return colour;\n    }\n    public String getLabel()\n    {\n        return getName() + \", \" + colour + \" rabbit\";\n    }\n}"
+        },
+        {
+          "name": "ShelterDemo.java",
+          "content": "public class ShelterDemo\n{\n    public static void main(String[] args)\n    {\n        Dog rex = new Dog(\"Rex\", 3, \"Beagle\");\n        Cat mia = new Cat(\"Mia\", 2, true);\n        Dog biscuit = new Dog(\"Biscuit\", 5, \"Collie\");\n        Rabbit clover = new Rabbit(\"Clover\", 1, \"brown\");\n        mia.adopt();\n        Shelter shelter = new Shelter();\n        shelter.add(rex);\n        shelter.add(mia);\n        shelter.add(biscuit);\n        shelter.add(clover);\n        shelter.printAll();\n        System.out.println(\"Adopted: \" + shelter.countAdopted());\n    }\n}"
+        }
+      ]
+    },
+    "q8-2": {
+      "type": "code",
+      "xp": 6,
+      "title": "Shelter.java",
+      "minLines": 54,
+      "maxLines": 66,
+      "starter": "import java.util.ArrayList;\npublic class Shelter\n{\n    private ArrayList<Animal> animals;\n    public Shelter()\n    {\n        animals = new ArrayList<>();\n    }\n    public void add(Animal animal)\n    {\n        animals.add(animal);\n    }\n    public void printAll()\n    {\n        for(Animal animal : animals) {\n            System.out.println(animal.getName() + \", age \" + animal.getAge());\n        }\n    }\n    public int countAdopted()\n    {\n        int count = 0;\n        for(Animal animal : animals) {\n            if(animal.isAdopted()) {\n                count = count + 1;\n            }\n        }\n        return count;\n    }\n    // Add findByName and oldest here.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Rex, age 3\nMia, age 2\nBiscuit, age 5\nClover, age 1\nAdopted: 1\nRex breed: Beagle\nNot found\nOldest: Biscuit, age 5\nEmpty: null"
+        }
+      ],
+      "check": "",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CnB1YmxpYyBjbGFzcyBTaGVsdGVyCnsKICAgIHByaXZhdGUgQXJyYXlMaXN0PEFuaW1hbD4gYW5pbWFsczsKICAgIHB1YmxpYyBTaGVsdGVyKCkKICAgIHsKICAgICAgICBhbmltYWxzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICB9CiAgICBwdWJsaWMgdm9pZCBhZGQoQW5pbWFsIGFuaW1hbCkKICAgIHsKICAgICAgICBhbmltYWxzLmFkZChhbmltYWwpOwogICAgfQogICAgcHVibGljIHZvaWQgcHJpbnRBbGwoKQogICAgewogICAgICAgIGZvcihBbmltYWwgYW5pbWFsIDogYW5pbWFscykgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oYW5pbWFsLmdldE5hbWUoKSArICIsIGFnZSAiICsgYW5pbWFsLmdldEFnZSgpKTsKICAgICAgICB9CiAgICB9CiAgICBwdWJsaWMgaW50IGNvdW50QWRvcHRlZCgpCiAgICB7CiAgICAgICAgaW50IGNvdW50ID0gMDsKICAgICAgICBmb3IoQW5pbWFsIGFuaW1hbCA6IGFuaW1hbHMpIHsKICAgICAgICAgICAgaWYoYW5pbWFsLmlzQWRvcHRlZCgpKSB7CiAgICAgICAgICAgICAgICBjb3VudCA9IGNvdW50ICsgMTsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICByZXR1cm4gY291bnQ7CiAgICB9CiAgICBwdWJsaWMgQW5pbWFsIGZpbmRCeU5hbWUoU3RyaW5nIG5hbWUpCiAgICB7CiAgICAgICAgZm9yKEFuaW1hbCBhbmltYWwgOiBhbmltYWxzKSB7CiAgICAgICAgICAgIGlmKGFuaW1hbC5nZXROYW1lKCkuZXF1YWxzKG5hbWUpKSB7CiAgICAgICAgICAgICAgICByZXR1cm4gYW5pbWFsOwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgICAgIHJldHVybiBudWxsOwogICAgfQogICAgcHVibGljIEFuaW1hbCBvbGRlc3QoKQogICAgewogICAgICAgIEFuaW1hbCBvbGRlc3QgPSBudWxsOwogICAgICAgIGZvcihBbmltYWwgYW5pbWFsIDogYW5pbWFscykgewogICAgICAgICAgICBpZihvbGRlc3QgPT0gbnVsbCkgewogICAgICAgICAgICAgICAgb2xkZXN0ID0gYW5pbWFsOwogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsc2UgaWYoYW5pbWFsLmdldEFnZSgpID4gb2xkZXN0LmdldEFnZSgpKSB7CiAgICAgICAgICAgICAgICBvbGRlc3QgPSBhbmltYWw7CiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICAgICAgcmV0dXJuIG9sZGVzdDsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Animal.java",
+          "content": "public class Animal\n{\n    private String name;\n    private int age;\n    private boolean adopted;\n    public Animal(String name, int age)\n    {\n        this.name = name;\n        this.age = age;\n        adopted = false;\n    }\n    public String getName()\n    {\n        return name;\n    }\n    public int getAge()\n    {\n        return age;\n    }\n    public boolean isAdopted()\n    {\n        return adopted;\n    }\n    public void adopt()\n    {\n        adopted = true;\n    }\n}"
+        },
+        {
+          "name": "Dog.java",
+          "content": "public class Dog extends Animal\n{\n    private String breed;\n    public Dog(String name, int age, String breed)\n    {\n        super(name, age);\n        this.breed = breed;\n    }\n    public String getBreed()\n    {\n        return breed;\n    }\n    public String getLabel()\n    {\n        return getName() + \" the \" + breed;\n    }\n}"
+        },
+        {
+          "name": "Cat.java",
+          "content": "public class Cat extends Animal\n{\n    private boolean indoor;\n    public Cat(String name, int age, boolean indoor)\n    {\n        super(name, age);\n        this.indoor = indoor;\n    }\n    public boolean isIndoor()\n    {\n        return indoor;\n    }\n    public String getLabel()\n    {\n        if(indoor) {\n            return getName() + \", indoor cat\";\n        }\n        return getName() + \", outdoor cat\";\n    }\n}"
+        },
+        {
+          "name": "Rabbit.java",
+          "content": "public class Rabbit extends Animal\n{\n    private String colour;\n    public Rabbit(String name, int age, String colour)\n    {\n        super(name, age);\n        this.colour = colour;\n    }\n    public String getColour()\n    {\n        return colour;\n    }\n    public String getLabel()\n    {\n        return getName() + \", \" + colour + \" rabbit\";\n    }\n}"
+        },
+        {
+          "name": "ShelterCheck.java",
+          "content": "public class ShelterCheck\n{\n    public static void main(String[] args)\n    {\n        Dog rex = new Dog(\"Rex\", 3, \"Beagle\");\n        Cat mia = new Cat(\"Mia\", 2, true);\n        Dog biscuit = new Dog(\"Biscuit\", 5, \"Collie\");\n        Rabbit clover = new Rabbit(\"Clover\", 1, \"brown\");\n        mia.adopt();\n        Shelter shelter = new Shelter();\n        shelter.add(rex);\n        shelter.add(mia);\n        shelter.add(biscuit);\n        shelter.add(clover);\n        shelter.printAll();\n        System.out.println(\"Adopted: \" + shelter.countAdopted());\n        Animal found = shelter.findByName(\"Rex\");\n        if(found != null) {\n            Dog dog = (Dog) found;\n            System.out.println(\"Rex breed: \" + dog.getBreed());\n        }\n        Animal missing = shelter.findByName(\"Max\");\n        if(missing == null) {\n            System.out.println(\"Not found\");\n        }\n        Animal oldest = shelter.oldest();\n        if(oldest != null) {\n            System.out.println(\"Oldest: \" + oldest.getName()\n                + \", age \" + oldest.getAge());\n        }\n        System.out.println(\"Empty: \" + new Shelter().oldest());\n    }\n}"
+        }
+      ]
+    },
+    "q8-3": {
+      "type": "code",
+      "xp": 4,
+      "title": "Main.java",
+      "minLines": 17,
+      "maxLines": 29,
+      "starter": "Dog rex = new Dog(\"Rex\", 3, \"Beagle\");\nCat mia = new Cat(\"Mia\", 2, true);\nDog biscuit = new Dog(\"Biscuit\", 5, \"Collie\");\nRabbit clover = new Rabbit(\"Clover\", 1, \"brown\");\nmia.adopt();\nShelter shelter = new Shelter();\nshelter.add(rex);\nshelter.add(mia);\nshelter.add(biscuit);\nshelter.add(clover);\n// Find Rex and print his breed.",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Rex breed: Beagle"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"(Dog)\"), \"Cast the animal to Dog before calling getBreed().\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"!=null\"), \"Check for null before the cast.\");",
+      "answer": "RG9nIHJleCA9IG5ldyBEb2coIlJleCIsIDMsICJCZWFnbGUiKTsKQ2F0IG1pYSA9IG5ldyBDYXQoIk1pYSIsIDIsIHRydWUpOwpEb2cgYmlzY3VpdCA9IG5ldyBEb2coIkJpc2N1aXQiLCA1LCAiQ29sbGllIik7ClJhYmJpdCBjbG92ZXIgPSBuZXcgUmFiYml0KCJDbG92ZXIiLCAxLCAiYnJvd24iKTsKbWlhLmFkb3B0KCk7ClNoZWx0ZXIgc2hlbHRlciA9IG5ldyBTaGVsdGVyKCk7CnNoZWx0ZXIuYWRkKHJleCk7CnNoZWx0ZXIuYWRkKG1pYSk7CnNoZWx0ZXIuYWRkKGJpc2N1aXQpOwpzaGVsdGVyLmFkZChjbG92ZXIpOwpBbmltYWwgZm91bmQgPSBzaGVsdGVyLmZpbmRCeU5hbWUoIlJleCIpOwppZihmb3VuZCAhPSBudWxsKSB7CiAgICBEb2cgZG9nID0gKERvZykgZm91bmQ7CiAgICBTeXN0ZW0ub3V0LnByaW50bG4oIlJleCBicmVlZDogIiArIGRvZy5nZXRCcmVlZCgpKTsKfQ==",
+      "files": [
+        {
+          "name": "Animal.java",
+          "content": "public class Animal\n{\n    private String name;\n    private int age;\n    private boolean adopted;\n    public Animal(String name, int age)\n    {\n        this.name = name;\n        this.age = age;\n        adopted = false;\n    }\n    public String getName()\n    {\n        return name;\n    }\n    public int getAge()\n    {\n        return age;\n    }\n    public boolean isAdopted()\n    {\n        return adopted;\n    }\n    public void adopt()\n    {\n        adopted = true;\n    }\n}"
+        },
+        {
+          "name": "Dog.java",
+          "content": "public class Dog extends Animal\n{\n    private String breed;\n    public Dog(String name, int age, String breed)\n    {\n        super(name, age);\n        this.breed = breed;\n    }\n    public String getBreed()\n    {\n        return breed;\n    }\n    public String getLabel()\n    {\n        return getName() + \" the \" + breed;\n    }\n}"
+        },
+        {
+          "name": "Cat.java",
+          "content": "public class Cat extends Animal\n{\n    private boolean indoor;\n    public Cat(String name, int age, boolean indoor)\n    {\n        super(name, age);\n        this.indoor = indoor;\n    }\n    public boolean isIndoor()\n    {\n        return indoor;\n    }\n    public String getLabel()\n    {\n        if(indoor) {\n            return getName() + \", indoor cat\";\n        }\n        return getName() + \", outdoor cat\";\n    }\n}"
+        },
+        {
+          "name": "Rabbit.java",
+          "content": "public class Rabbit extends Animal\n{\n    private String colour;\n    public Rabbit(String name, int age, String colour)\n    {\n        super(name, age);\n        this.colour = colour;\n    }\n    public String getColour()\n    {\n        return colour;\n    }\n    public String getLabel()\n    {\n        return getName() + \", \" + colour + \" rabbit\";\n    }\n}"
+        },
+        {
+          "name": "Shelter.java",
+          "content": "import java.util.ArrayList;\npublic class Shelter\n{\n    private ArrayList<Animal> animals;\n    public Shelter()\n    {\n        animals = new ArrayList<>();\n    }\n    public void add(Animal animal)\n    {\n        animals.add(animal);\n    }\n    public void printAll()\n    {\n        for(Animal animal : animals) {\n            System.out.println(animal.getName() + \", age \" + animal.getAge());\n        }\n    }\n    public int countAdopted()\n    {\n        int count = 0;\n        for(Animal animal : animals) {\n            if(animal.isAdopted()) {\n                count = count + 1;\n            }\n        }\n        return count;\n    }\n    public Animal findByName(String name)\n    {\n        for(Animal animal : animals) {\n            if(animal.getName().equals(name)) {\n                return animal;\n            }\n        }\n        return null;\n    }\n    public Animal oldest()\n    {\n        Animal oldest = null;\n        for(Animal animal : animals) {\n            if(oldest == null) {\n                oldest = animal;\n            }\n            else if(animal.getAge() > oldest.getAge()) {\n                oldest = animal;\n            }\n        }\n        return oldest;\n    }\n}"
+        }
+      ]
+    },
+    "q8-5": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "does not compile",
+            "it does not compile"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "1": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "does not compile",
+            "it does not compile"
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "2": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "3": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "compiles",
+            "it compiles"
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        }
+      }
+    },
+    "q9-1-fix": {
+      "type": "code",
+      "xp": 4,
+      "title": "Review.java",
+      "minLines": 15,
+      "maxLines": 27,
+      "starter": "import java.util.ArrayList;\npublic class Review\n{\n    public static void main(String[] args)\n    {\n        ArrayList<Notice> notices = new ArrayList<>();\n        notices.add(new TextNotice(\"eli\", \"Room 2 is free.\"));\n        notices.add(\"Lost keys\");\n        for(Notice notice : notices) {\n            notice.printSummary();\n        }\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "eli\nhal"
+        }
+      ],
+      "check": "require(!source.replaceAll(\"\\\\s+\", \"\").contains(\"printSummary\"), \"Notice has no printSummary(): call a Notice method instead.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CnB1YmxpYyBjbGFzcyBSZXZpZXcKewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykKICAgIHsKICAgICAgICBBcnJheUxpc3Q8Tm90aWNlPiBub3RpY2VzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICAgICAgbm90aWNlcy5hZGQobmV3IFRleHROb3RpY2UoImVsaSIsICJSb29tIDIgaXMgZnJlZS4iKSk7CiAgICAgICAgbm90aWNlcy5hZGQobmV3IFRleHROb3RpY2UoImhhbCIsICJMb3N0IGtleXMuIikpOwogICAgICAgIGZvcihOb3RpY2Ugbm90aWNlIDogbm90aWNlcykgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4obm90aWNlLmdldEF1dGhvcigpKTsKICAgICAgICB9CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Notice.java",
+          "content": "public class Notice\n{\n    private String author;\n    private int pins;\n    public Notice(String author)\n    {\n        this.author = author;\n        pins = 0;\n    }\n    public void pin()\n    {\n        pins = pins + 1;\n    }\n    public String getAuthor()\n    {\n        return author;\n    }\n    public int getPins()\n    {\n        return pins;\n    }\n}"
+        },
+        {
+          "name": "TextNotice.java",
+          "content": "public class TextNotice extends Notice\n{\n    private String message;\n    public TextNotice(String author,\n        String message)\n    {\n        super(author);\n        this.message = message;\n    }\n    public void printSummary()\n    {\n        System.out.println(getAuthor() + \": \" + message);\n        System.out.println(\"  pins: \" + getPins());\n    }\n}"
+        },
+        {
+          "name": "EventNotice.java",
+          "content": "public class EventNotice extends Notice\n{\n    private String title;\n    private int day;\n    public EventNotice(String author,\n        String title, int day)\n    {\n        super(author);\n        this.title = title;\n        this.day = day;\n    }\n    public void printSummary()\n    {\n        System.out.println(getAuthor() + \": \" + title + \", day \" + day);\n        System.out.println(\"  pins: \" + getPins());\n    }\n}"
+        },
+        {
+          "name": "JobNotice.java",
+          "content": "public class JobNotice extends Notice\n{\n    private String employer;\n    public JobNotice(String author,\n        String employer)\n    {\n        super(author);\n        this.employer = employer;\n    }\n    public void printSummary()\n    {\n        System.out.println(getAuthor() + \": job at \" + employer);\n        System.out.println(\"  pins: \" + getPins());\n    }\n}"
+        },
+        {
+          "name": "NoticeBoard.java",
+          "content": "import java.util.ArrayList;\npublic class NoticeBoard\n{\n    private ArrayList<Notice> notices;\n    public NoticeBoard()\n    {\n        notices = new ArrayList<>();\n    }\n    public void addNotice(Notice notice)\n    {\n        notices.add(notice);\n    }\n    public void show()\n    {\n        for(Notice notice : notices) {\n            System.out.println(notice.getAuthor() + \"  pins: \" + notice.getPins());\n        }\n    }\n}"
+        }
+      ]
+    },
+    "q9-2": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "true",
+            "True"
+          ],
+          "show": "true",
+          "placeholder": "true / false",
+          "width": "7rem"
+        },
+        "1": {
+          "accept": [
+            "false",
+            "False"
+          ],
+          "show": "false",
+          "placeholder": "true / false",
+          "width": "7rem"
+        },
+        "2": {
+          "accept": [
+            "false",
+            "False"
+          ],
+          "show": "false",
+          "placeholder": "true / false",
+          "width": "7rem"
+        },
+        "3": {
+          "accept": [
+            "true",
+            "True"
+          ],
+          "show": "true",
+          "placeholder": "true / false",
+          "width": "7rem"
+        }
+      }
+    },
+    "p1-list": {
+      "type": "code",
+      "xp": 6,
+      "title": "Fleet.java",
+      "minLines": 34,
+      "maxLines": 46,
+      "starter": "import java.util.ArrayList;\npublic class Fleet\n{\n    private ArrayList<Vehicle> vehicles;\n    public Fleet()\n    {\n        // Create the list.\n    }\n    public void add(Vehicle vehicle)\n    {\n        // Add the vehicle.\n    }\n    public Vehicle get(int index)\n    {\n        // Return the vehicle at index.\n    }\n    public void printAll()\n    {\n        // One line per vehicle.\n    }\n    public int totalKm()\n    {\n        // Add up getKm() of each vehicle.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "CAR-1: 10 km\nTRK-5: 40 km\nTotal: 50\nTRK-5"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"ArrayList<Vehicle>\"), \"Keep one ArrayList<Vehicle>.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CnB1YmxpYyBjbGFzcyBGbGVldAp7CiAgICBwcml2YXRlIEFycmF5TGlzdDxWZWhpY2xlPiB2ZWhpY2xlczsKICAgIHB1YmxpYyBGbGVldCgpCiAgICB7CiAgICAgICAgdmVoaWNsZXMgPSBuZXcgQXJyYXlMaXN0PD4oKTsKICAgIH0KICAgIHB1YmxpYyB2b2lkIGFkZChWZWhpY2xlIHZlaGljbGUpCiAgICB7CiAgICAgICAgdmVoaWNsZXMuYWRkKHZlaGljbGUpOwogICAgfQogICAgcHVibGljIFZlaGljbGUgZ2V0KGludCBpbmRleCkKICAgIHsKICAgICAgICByZXR1cm4gdmVoaWNsZXMuZ2V0KGluZGV4KTsKICAgIH0KICAgIHB1YmxpYyB2b2lkIHByaW50QWxsKCkKICAgIHsKICAgICAgICBmb3IoVmVoaWNsZSB2ZWhpY2xlIDogdmVoaWNsZXMpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKHZlaGljbGUuZ2V0UGxhdGUoKSArICI6ICIgKyB2ZWhpY2xlLmdldEttKCkgKyAiIGttIik7CiAgICAgICAgfQogICAgfQogICAgcHVibGljIGludCB0b3RhbEttKCkKICAgIHsKICAgICAgICBpbnQgdG90YWwgPSAwOwogICAgICAgIGZvcihWZWhpY2xlIHZlaGljbGUgOiB2ZWhpY2xlcykgewogICAgICAgICAgICB0b3RhbCA9IHRvdGFsICsgdmVoaWNsZS5nZXRLbSgpOwogICAgICAgIH0KICAgICAgICByZXR1cm4gdG90YWw7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Vehicle.java",
+          "content": "public class Vehicle\n{\n    private String plate;\n    private int km;\n    public Vehicle(String plate)\n    {\n        this.plate = plate;\n        km = 0;\n    }\n    public void drive(int distance)\n    {\n        km = km + distance;\n    }\n    public String getPlate()\n    {\n        return plate;\n    }\n    public int getKm()\n    {\n        return km;\n    }\n}"
+        },
+        {
+          "name": "Truck.java",
+          "content": "public class Truck extends Vehicle\n{\n    private int maxLoad;\n    public Truck(String plate, int maxLoad)\n    {\n        super(plate);\n        this.maxLoad = maxLoad;\n    }\n    public int getMaxLoad()\n    {\n        return maxLoad;\n    }\n    public void printDetails()\n    {\n        System.out.println(getPlate() + \": \" + getKm()\n            + \" km, max load \" + maxLoad + \" kg\");\n    }\n}"
+        },
+        {
+          "name": "FleetCheck.java",
+          "content": "public class FleetCheck\n{\n    public static void main(String[] args)\n    {\n        Vehicle car = new Vehicle(\"CAR-1\");\n        car.drive(10);\n        Truck truck = new Truck(\"TRK-5\", 300);\n        truck.drive(40);\n        Fleet fleet = new Fleet();\n        fleet.add(car);\n        fleet.add(truck);\n        fleet.printAll();\n        System.out.println(\"Total: \" + fleet.totalKm());\n        System.out.println(fleet.get(1).getPlate());\n    }\n}"
+        }
+      ]
+    },
+    "p1-demo": {
+      "type": "code",
+      "xp": 4,
+      "title": "FleetDemo.java",
+      "minLines": 24,
+      "maxLines": 36,
+      "starter": "public class FleetDemo\n{\n    public static void main(String[] args)\n    {\n        // 1. Make CAR-7, TRK-42 (900 kg)\n        //    and VAN-3.\n        // 2. Drive 30; 100 and 50; 20.\n        // 3. Add all three to a Fleet.\n        // 4. Print all, then the total.\n        // 5. Cast fleet.get(1) to Truck\n        //    and call printDetails().\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "CAR-7: 30 km\nTRK-42: 150 km\nVAN-3: 20 km\nTotal: 200 km\nTRK-42: 150 km, max load 900 kg"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"(Truck)\"), \"Cast fleet.get(1) to Truck before calling printDetails().\");",
+      "answer": "cHVibGljIGNsYXNzIEZsZWV0RGVtbwp7CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKQogICAgewogICAgICAgIFZlaGljbGUgY2FyID0gbmV3IFZlaGljbGUoIkNBUi03Iik7CiAgICAgICAgVHJ1Y2sgdHJ1Y2sgPSBuZXcgVHJ1Y2soIlRSSy00MiIsIDkwMCk7CiAgICAgICAgVmVoaWNsZSB2YW4gPSBuZXcgVmVoaWNsZSgiVkFOLTMiKTsKICAgICAgICBjYXIuZHJpdmUoMzApOwogICAgICAgIHRydWNrLmRyaXZlKDEwMCk7CiAgICAgICAgdHJ1Y2suZHJpdmUoNTApOwogICAgICAgIHZhbi5kcml2ZSgyMCk7CiAgICAgICAgRmxlZXQgZmxlZXQgPSBuZXcgRmxlZXQoKTsKICAgICAgICBmbGVldC5hZGQoY2FyKTsKICAgICAgICBmbGVldC5hZGQodHJ1Y2spOwogICAgICAgIGZsZWV0LmFkZCh2YW4pOwogICAgICAgIGZsZWV0LnByaW50QWxsKCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJUb3RhbDogIiArIGZsZWV0LnRvdGFsS20oKSArICIga20iKTsKICAgICAgICBUcnVjayBiaWcgPSAoVHJ1Y2spIGZsZWV0LmdldCgxKTsKICAgICAgICBiaWcucHJpbnREZXRhaWxzKCk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Vehicle.java",
+          "content": "public class Vehicle\n{\n    private String plate;\n    private int km;\n    public Vehicle(String plate)\n    {\n        this.plate = plate;\n        km = 0;\n    }\n    public void drive(int distance)\n    {\n        km = km + distance;\n    }\n    public String getPlate()\n    {\n        return plate;\n    }\n    public int getKm()\n    {\n        return km;\n    }\n}"
+        },
+        {
+          "name": "Truck.java",
+          "content": "public class Truck extends Vehicle\n{\n    private int maxLoad;\n    public Truck(String plate, int maxLoad)\n    {\n        super(plate);\n        this.maxLoad = maxLoad;\n    }\n    public int getMaxLoad()\n    {\n        return maxLoad;\n    }\n    public void printDetails()\n    {\n        System.out.println(getPlate() + \": \" + getKm()\n            + \" km, max load \" + maxLoad + \" kg\");\n    }\n}"
+        },
+        {
+          "name": "Fleet.java",
+          "content": "import java.util.ArrayList;\npublic class Fleet\n{\n    private ArrayList<Vehicle> vehicles;\n    public Fleet()\n    {\n        vehicles = new ArrayList<>();\n    }\n    public void add(Vehicle vehicle)\n    {\n        vehicles.add(vehicle);\n    }\n    public Vehicle get(int index)\n    {\n        return vehicles.get(index);\n    }\n    public void printAll()\n    {\n        for(Vehicle vehicle : vehicles) {\n            System.out.println(vehicle.getPlate() + \": \" + vehicle.getKm() + \" km\");\n        }\n    }\n    public int totalKm()\n    {\n        int total = 0;\n        for(Vehicle vehicle : vehicles) {\n            total = total + vehicle.getKm();\n        }\n        return total;\n    }\n}"
+        }
+      ]
+    },
+    "p2-list": {
+      "type": "code",
+      "xp": 6,
+      "title": "Show.java",
+      "minLines": 40,
+      "maxLines": 52,
+      "starter": "import java.util.ArrayList;\npublic class Show\n{\n    private ArrayList<Ticket> tickets;\n    public Show()\n    {\n        // Create the list.\n    }\n    public void sell(Ticket ticket)\n    {\n        // Add the ticket.\n    }\n    public void printSeats()\n    {\n        // One line per ticket.\n    }\n    public int totalSales()\n    {\n        // Add up getPrice() of each ticket.\n    }\n    public Ticket find(String seat)\n    {\n        // Return the ticket, or null.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "D1: 10 dollars\nE2: 30 dollars\nTotal: 40\n30\ntrue"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"ArrayList<Ticket>\"), \"Keep one ArrayList<Ticket>.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CnB1YmxpYyBjbGFzcyBTaG93CnsKICAgIHByaXZhdGUgQXJyYXlMaXN0PFRpY2tldD4gdGlja2V0czsKICAgIHB1YmxpYyBTaG93KCkKICAgIHsKICAgICAgICB0aWNrZXRzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICB9CiAgICBwdWJsaWMgdm9pZCBzZWxsKFRpY2tldCB0aWNrZXQpCiAgICB7CiAgICAgICAgdGlja2V0cy5hZGQodGlja2V0KTsKICAgIH0KICAgIHB1YmxpYyB2b2lkIHByaW50U2VhdHMoKQogICAgewogICAgICAgIGZvcihUaWNrZXQgdGlja2V0IDogdGlja2V0cykgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4odGlja2V0LmdldFNlYXQoKSArICI6ICIgKyB0aWNrZXQuZ2V0UHJpY2UoKSArICIgZG9sbGFycyIpOwogICAgICAgIH0KICAgIH0KICAgIHB1YmxpYyBpbnQgdG90YWxTYWxlcygpCiAgICB7CiAgICAgICAgaW50IHRvdGFsID0gMDsKICAgICAgICBmb3IoVGlja2V0IHRpY2tldCA6IHRpY2tldHMpIHsKICAgICAgICAgICAgdG90YWwgPSB0b3RhbCArIHRpY2tldC5nZXRQcmljZSgpOwogICAgICAgIH0KICAgICAgICByZXR1cm4gdG90YWw7CiAgICB9CiAgICBwdWJsaWMgVGlja2V0IGZpbmQoU3RyaW5nIHNlYXQpCiAgICB7CiAgICAgICAgZm9yKFRpY2tldCB0aWNrZXQgOiB0aWNrZXRzKSB7CiAgICAgICAgICAgIGlmKHRpY2tldC5nZXRTZWF0KCkuZXF1YWxzKHNlYXQpKSB7CiAgICAgICAgICAgICAgICByZXR1cm4gdGlja2V0OwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgICAgIHJldHVybiBudWxsOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Ticket.java",
+          "content": "public class Ticket\n{\n    private String seat;\n    private int price;\n    public Ticket(String seat, int price)\n    {\n        this.seat = seat;\n        this.price = price;\n    }\n    public String getSeat()\n    {\n        return seat;\n    }\n    public int getPrice()\n    {\n        return price;\n    }\n}"
+        },
+        {
+          "name": "StudentTicket.java",
+          "content": "public class StudentTicket extends Ticket\n{\n    private String studentId;\n    public StudentTicket(String seat, int price,\n        String studentId)\n    {\n        super(seat, price);\n        this.studentId = studentId;\n    }\n    public String getStudentId()\n    {\n        return studentId;\n    }\n    public int getDiscount()\n    {\n        return getPrice() / 5;\n    }\n    public void printTicket()\n    {\n        System.out.println(\"Seat \" + getSeat() + \": \" + getPrice() + \" dollars, student \"\n            + studentId);\n        System.out.println(\"  discount: \" + getDiscount() + \" dollars\");\n    }\n}"
+        },
+        {
+          "name": "ShowCheck.java",
+          "content": "public class ShowCheck\n{\n    public static void main(String[] args)\n    {\n        Show show = new Show();\n        show.sell(new Ticket(\"D1\", 10));\n        show.sell(new StudentTicket(\"E2\", 30, \"2005555\"));\n        show.printSeats();\n        System.out.println(\"Total: \" + show.totalSales());\n        System.out.println(show.find(\"E2\").getPrice());\n        System.out.println(show.find(\"X1\") == null);\n    }\n}"
+        }
+      ]
+    },
+    "p2-demo": {
+      "type": "code",
+      "xp": 4,
+      "title": "ShowDemo.java",
+      "minLines": 25,
+      "maxLines": 37,
+      "starter": "public class ShowDemo\n{\n    public static void main(String[] args)\n    {\n        // 1. Sell A3 (20), B12 (15,\n        //    student 2001234), C5 (25).\n        // 2. Print the seats and the total.\n        // 3. Find B12, cast it to\n        //    StudentTicket, printTicket().\n        // 4. Look for Z9.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "A3: 20 dollars\nB12: 15 dollars\nC5: 25 dollars\nTotal: 60 dollars\nSeat B12: 15 dollars, student 2001234\n  discount: 3 dollars\nZ9 not sold"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"(StudentTicket)\"), \"Cast the ticket to StudentTicket before calling printTicket().\");",
+      "answer": "cHVibGljIGNsYXNzIFNob3dEZW1vCnsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgU2hvdyBzaG93ID0gbmV3IFNob3coKTsKICAgICAgICBzaG93LnNlbGwobmV3IFRpY2tldCgiQTMiLCAyMCkpOwogICAgICAgIHNob3cuc2VsbChuZXcgU3R1ZGVudFRpY2tldCgiQjEyIiwKICAgICAgICAgICAgMTUsICIyMDAxMjM0IikpOwogICAgICAgIHNob3cuc2VsbChuZXcgVGlja2V0KCJDNSIsIDI1KSk7CiAgICAgICAgc2hvdy5wcmludFNlYXRzKCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJUb3RhbDogIiArIHNob3cudG90YWxTYWxlcygpICsgIiBkb2xsYXJzIik7CiAgICAgICAgVGlja2V0IGZvdW5kID0gc2hvdy5maW5kKCJCMTIiKTsKICAgICAgICBpZihmb3VuZCAhPSBudWxsKSB7CiAgICAgICAgICAgIFN0dWRlbnRUaWNrZXQgc3R1ZGVudCA9CiAgICAgICAgICAgICAgICAoU3R1ZGVudFRpY2tldCkgZm91bmQ7CiAgICAgICAgICAgIHN0dWRlbnQucHJpbnRUaWNrZXQoKTsKICAgICAgICB9CiAgICAgICAgaWYoc2hvdy5maW5kKCJaOSIpID09IG51bGwpIHsKICAgICAgICAgICAgU3lzdGVtLm91dC5wcmludGxuKCJaOSBub3Qgc29sZCIpOwogICAgICAgIH0KICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Ticket.java",
+          "content": "public class Ticket\n{\n    private String seat;\n    private int price;\n    public Ticket(String seat, int price)\n    {\n        this.seat = seat;\n        this.price = price;\n    }\n    public String getSeat()\n    {\n        return seat;\n    }\n    public int getPrice()\n    {\n        return price;\n    }\n}"
+        },
+        {
+          "name": "StudentTicket.java",
+          "content": "public class StudentTicket extends Ticket\n{\n    private String studentId;\n    public StudentTicket(String seat, int price,\n        String studentId)\n    {\n        super(seat, price);\n        this.studentId = studentId;\n    }\n    public String getStudentId()\n    {\n        return studentId;\n    }\n    public int getDiscount()\n    {\n        return getPrice() / 5;\n    }\n    public void printTicket()\n    {\n        System.out.println(\"Seat \" + getSeat() + \": \" + getPrice() + \" dollars, student \"\n            + studentId);\n        System.out.println(\"  discount: \" + getDiscount() + \" dollars\");\n    }\n}"
+        },
+        {
+          "name": "Show.java",
+          "content": "import java.util.ArrayList;\npublic class Show\n{\n    private ArrayList<Ticket> tickets;\n    public Show()\n    {\n        tickets = new ArrayList<>();\n    }\n    public void sell(Ticket ticket)\n    {\n        tickets.add(ticket);\n    }\n    public void printSeats()\n    {\n        for(Ticket ticket : tickets) {\n            System.out.println(ticket.getSeat() + \": \" + ticket.getPrice() + \" dollars\");\n        }\n    }\n    public int totalSales()\n    {\n        int total = 0;\n        for(Ticket ticket : tickets) {\n            total = total + ticket.getPrice();\n        }\n        return total;\n    }\n    public Ticket find(String seat)\n    {\n        for(Ticket ticket : tickets) {\n            if(ticket.getSeat().equals(seat)) {\n                return ticket;\n            }\n        }\n        return null;\n    }\n}"
+        }
+      ]
+    },
+    "q1-2": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "YHNob3coKWAgcnVucyB0aGUgdGV4dCBsb29wLCB0aGVuIHRoZSBldmVudCBsb29wLCB0aGVuIHRoZSBqb2IgbG9vcC4gU28gYm90aCB0ZXh0IG5vdGljZXMgY29tZSBmaXJzdC4gQSBpcyB0aGUgb3JkZXIgdGhleSB3ZXJlIGFkZGVkLCB3aGljaCB0aGUgb25lLWxpc3QgYm9hcmQgd2lsbCBnaXZlLg=="
+    },
+    "q1-3": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "RXZlcnkgdGV4dCwgZXZlbnQgYW5kIGpvYiBub3RpY2UgaXMgYSBgTm90aWNlYC4gQSBsaXN0IG9mIGBUZXh0Tm90aWNlYCBvciBgSm9iTm90aWNlYCB3b3VsZCBob2xkIG9ubHkgdGhhdCBvbmUga2luZCwgYW5kIGEgbGlzdCBvZiBgU3RyaW5nYCBob2xkcyBubyBub3RpY2VzIGF0IGFsbC4="
+    },
+    "q1-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "VGhlIGxpc3QgYmVsb25ncyB0byB0aGUgYm9hcmQsIHNvIHRoZSBub3RpY2UgY2xhc3NlcyBzdGF5IGV4YWN0bHkgYXMgdGhleSB3ZXJlLiBUaGUgZGVtbyBjaGFuZ2VzIG9ubHkgYmVjYXVzZSBpdCBub3cgY2FsbHMgb25lIGFkZCBtZXRob2QgaW5zdGVhZCBvZiB0aHJlZS4gQSBub3RpY2UgaXMgbm90IGEgYm9hcmQsIHNvIEQgZmFpbHMgdGhlIGlzLWEgdGVzdC4="
+    },
+    "q2-3": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "YFRleHROb3RpY2VgIGV4dGVuZHMgYE5vdGljZWAsIHNvIGl0IGlzIGEgc3VidHlwZSBvZiBgTm90aWNlYC4gQSByZXZlcnNlcyB0aGUgcmVsYXRpb25zaGlwOiBhIG5vdGljZSBjb3VsZCBiZSBhbiBldmVudCBvciBhIGpvYiBub3RpY2UuIEV2ZW50IGFuZCB0ZXh0IG5vdGljZXMgYXJlIHNpYmxpbmdzLCBhbmQgbmVpdGhlciBpcyBhIHN1YnR5cGUgb2YgdGhlIG90aGVyLg=="
+    },
+    "q2-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "QSBgU3RyaW5nYCBpcyBub3QgYSBgTm90aWNlYCwgc28gdGhlIGNvbXBpbGVyIHJlcG9ydHMgIlN0cmluZyBjYW5ub3QgYmUgY29udmVydGVkIHRvIE5vdGljZSIuIEEgcGxhaW4gYE5vdGljZWAgKEIpIGlzIGFjY2VwdGVkLCBhbmQgc28gaXMgYW55IHN1YmNsYXNzIG9iamVjdCAoQSwgRCku"
+    },
+    "q2-5": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "VGhlIHBhcmFtZXRlcidzIHR5cGUgaXMgYE5vdGljZWAsIHNvIGl0IHRha2VzIGEgbm90aWNlIG9yIGFuIG9iamVjdCBvZiBhbnkgc3ViY2xhc3Mgb2YgYE5vdGljZWAuIEEgaXMgdGVtcHRpbmcsIGJ1dCBzdWJzdGl0dXRpb24gYWxsb3dzIHN1YmNsYXNzIG9iamVjdHMgdG9vLiBBIGBTdHJpbmdgIGlzIG5vdCBhIG5vdGljZSwgc28gRCBpcyB3cm9uZy4="
+    },
+    "q3-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "YGdldFBpbnMoKWAgaXMgYSBgTm90aWNlYCBtZXRob2QuIGBwcmludFN1bW1hcnkoKWAgaXMgd3JpdHRlbiBvbmx5IGluIHRoZSBzdWJjbGFzc2VzLCBzbyBBIGlzIHJlZnVzZWQgZXZlbiB0aG91Z2ggZXZlcnkgb2JqZWN0IGluIHRoZSBsaXN0IGhhcyBvbmUuIE5vIGNsYXNzIGhlcmUgaGFzIGBnZXRNZXNzYWdlKClgIG9yIGBnZXRFbXBsb3llcigpYC4="
+    },
+    "q3-5": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 3,
+      "explain": "QSBtYW1tYWwgbWlnaHQgYmUgYSBkb2csIHNvIGl0IGNhbm5vdCBnbyBpbiBhIGxpc3Qgb2YgY2F0czogIk1hbW1hbCBjYW5ub3QgYmUgY29udmVydGVkIHRvIENhdCIuIEEgd29ya3MgYmVjYXVzZSBldmVyeSBtYW1tYWwgaXMgYW4gYW5pbWFsLg=="
+    },
+    "q3-6": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "VGhlIGNvbXBpbGVyIGFsbG93cyBvbmx5IGBOb3RpY2VgIG1ldGhvZHMgb24gYSBgTm90aWNlYCB2YXJpYWJsZS4gYHByaW50U3VtbWFyeSgpYCBpcyBwdWJsaWMsIHNvIEEgaXMgd3JvbmcuIFRoZSBsaXN0IGhvbGRzIHRoZSB0ZXh0LCBldmVudCBhbmQgam9iIG5vdGljZSBvYmplY3RzIHRoZW1zZWx2ZXMsIHdpdGggYWxsIHRoZWlyIGZpZWxkcywgc28gQyBhbmQgRCBhcmUgd3Jvbmcu"
+    },
+    "q4-3": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "VGhlIG9iamVjdCB3YXMgbWFkZSB3aXRoIGBuZXcgVGV4dE5vdGljZSguLi4pYCwgYW5kIHN0b3JpbmcgaXQgaW4gYSBgTm90aWNlYCB2YXJpYWJsZSBkb2VzIG5vdCBjaGFuZ2UgaXQuIEEgY29uZnVzZXMgdGhlIHZhcmlhYmxlJ3MgZGVjbGFyZWQgdHlwZSB3aXRoIHRoZSBvYmplY3QncyBhY3R1YWwgdHlwZS4="
+    },
+    "q4-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "VGhlIGNvbXBpbGVyIGRvZXMgbm90IHJ1biB0aGUgcHJvZ3JhbSwgc28gaXQgZG9lcyBub3Qga25vdyB3aGljaCBvYmplY3QgYG5gIHdpbGwgcmVmZXIgdG8uIEl0IGNoZWNrcyB0aGUgY2FsbCBhZ2FpbnN0IHRoZSBkZWNsYXJlZCB0eXBlIG9ubHkuIEEgaXMgdGhlIHRlbXB0aW5nIGFuc3dlciwgYmVjYXVzZSB0aGUgb2JqZWN0IGRvZXMgaGF2ZSB0aGUgbWV0aG9kLg=="
+    },
+    "q4-5": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "YGdldGAgb24gYW4gYEFycmF5TGlzdDxOb3RpY2U+YCByZXR1cm5zIGEgYE5vdGljZWAsIHdoYXRldmVyIHdhcyBhZGRlZC4gVGhpcyBpcyB0eXBlIGxvc3MuIFRoZSBjb21waWxlciBkb2VzIG5vdCBrbm93IHdoaWNoIG5vdGljZSB3YXMgYWRkZWQgZmlyc3QgKEEpLiBEIGlzIHRoZSB0eXBlIG9mIHRoZSB3aG9sZSBsaXN0LCBub3Qgb2Ygb25lIGVsZW1lbnQu"
+    },
+    "q5-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "QSBjYXN0IGNoYW5nZXMgbm8gb2JqZWN0IGFuZCBtYWtlcyBubyBjb3B5OiBgdGAgYW5kIGBuYCByZWZlciB0byB0aGUgc2FtZSBvYmplY3QuIGBuYCBzdGF5cyBhIGBOb3RpY2VgIHZhcmlhYmxlIChEKTsgb25seSB0aGUgZXhwcmVzc2lvbiBgKFRleHROb3RpY2UpIG5gIGhhcyB0aGUgdHlwZSBgVGV4dE5vdGljZWAu"
+    },
+    "q5-5": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "SXQgaXMgYSBydW4tdGltZSBlcnJvciwgZm91bmQgYnkgY2hlY2tpbmcgdGhlIGFjdHVhbCBvYmplY3QuIFVucmVsYXRlZCB0eXBlcyAoQSkgYXJlIGNhdWdodCBlYXJsaWVyLCBhcyBhIGNvbXBpbGUgZXJyb3IuIFN0b3JpbmcgYSBzdWJjbGFzcyBvYmplY3QgaW4gYSBzdXBlcmNsYXNzIHZhcmlhYmxlIChEKSBuZWVkcyBubyBjYXN0IGFuZCBpcyBhbHdheXMgc2FmZS4="
+    },
+    "q5-6": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 3,
+      "explain": "YFN0cmluZ2AgYW5kIGBOb3RpY2VgIGFyZSBub3QgaW4gdGhlIHNhbWUgbGluZSBvZiB0aGUgaGllcmFyY2h5LCBzbyB0aGUgY2FzdCBjYW4gbmV2ZXIgd29yay4gQSBhbmQgQiBtaWdodCB3b3JrLCBkZXBlbmRpbmcgb24gdGhlIG9iamVjdCwgc28gdGhleSBjb21waWxlLiBDIGFsd2F5cyB3b3JrczogZXZlcnkgbm90aWNlIGlzIGFuIGBPYmplY3RgLg=="
+    },
+    "q6-2": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 3,
+      "explain": "QW4gYE9iamVjdGAgaXMgbm90IG5lY2Vzc2FyaWx5IGEgbm90aWNlOiAiT2JqZWN0IGNhbm5vdCBiZSBjb252ZXJ0ZWQgdG8gTm90aWNlIi4gRXZlcnkgb3RoZXIgbGluZSBzdG9yZXMgc29tZSBvYmplY3QgaW4gYW4gYE9iamVjdGAgdmFyaWFibGUsIHdoaWNoIGFsd2F5cyB3b3JrcywgZXZlbiBmb3IgYSBsaXN0IChDKS4="
+    },
+    "q6-3": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "QSBsaXN0IG9mIGBPYmplY3RgIGNhbiBob2xkIHRleHQgbm90aWNlcyAoQSBpcyB3cm9uZykgYW5kIGtlZXBzIHRoZWlyIG9yZGVyIChDIGlzIHdyb25nKSwgYnV0IGVhY2ggZWxlbWVudCBjb21lcyBiYWNrIGFzIGFuIGBPYmplY3RgLCB3aGljaCBoYXMgbm8gYGdldEF1dGhvcigpYC4="
+    },
+    "q6-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "QSBjbGFzcyB3aXRoIG5vIGBleHRlbmRzYCBleHRlbmRzIGBPYmplY3RgLiBgVGV4dE5vdGljZWAgaXMgYSBzdWJjbGFzcyBvZiBgTm90aWNlYCwgbm90IGl0cyBzdXBlcmNsYXNzLCBhbmQgdGhlIGJvYXJkIGlzIG5vdCByZWxhdGVkIHRvIGBOb3RpY2VgIGJ5IGluaGVyaXRhbmNlIGF0IGFsbC4="
+    },
+    "q7-2": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "QSBwaG90byBub3RpY2UgaXMgYSBgTm90aWNlYCwgc28gYGFkZE5vdGljZWAgYWNjZXB0cyBpdCBhbmQgdGhlIG9uZSBsb29wIHByaW50cyBpdC4gQSwgQiBhbmQgRCBhcmUgdGhlIGNoYW5nZXMgdGhlIG9sZCB0aHJlZS1saXN0IGJvYXJkIG5lZWRlZC4="
+    },
+    "q7-3": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "QSBwYXJhbWV0ZXIncyBkZWNsYXJlZCB0eXBlIGlzIHdyaXR0ZW4gaW4gdGhlIG1ldGhvZCBoZWFkZXIsIGBOb3RpY2Ugbm90aWNlYCwgYW5kIGl0IG5ldmVyIGNoYW5nZXMuIFRoZSBhY3R1YWwgdHlwZSBjaGFuZ2VzIHdpdGggZWFjaCBjYWxsOiBoZXJlIGl0IGlzIGBUZXh0Tm90aWNlYC4="
+    },
+    "q8-6": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "YGdldEFnZSgpYCBpcyBpbiBgQW5pbWFsYC4gYGdldExhYmVsKClgIGlzIHRlbXB0aW5nLCBiZWNhdXNlIGV2ZXJ5IHN1YmNsYXNzIGhhcyBvbmUsIGJ1dCBpdCBpcyBub3QgaW4gYEFuaW1hbGAsIHNvIEQgaXMgcmVmdXNlZCBqdXN0IGxpa2UgYHByaW50U3VtbWFyeSgpYCBvbiBhIGBOb3RpY2VgLiBDIG5lZWRzIGEgY2FzdC4="
+    },
+    "q9-3": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "YFZlaGljbGVgIGlzIHRoZSBtb3N0IHNwZWNpZmljIHR5cGUgdGhhdCBjb3ZlcnMgYm90aC4gQSBsaXN0IG9mIGBUcnVja2AgcmVmdXNlcyBwbGFpbiB2ZWhpY2xlcywgYW5kIGEgbGlzdCBvZiBgT2JqZWN0YCB3b3VsZCBsb3NlIGBnZXRQbGF0ZSgpYCBhbmQgYGdldEttKClgLg=="
+    }
+  }
+}

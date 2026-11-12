@@ -1,0 +1,1039 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 2001: Lecture 17 Workbook</title>
+  <link rel="icon" href="../../runtime/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
+  <link rel="stylesheet" href="../../runtime/workbook.css">
+  <style>
+    html, html[data-theme], html.wb-presenting, html.wb-presenting[data-theme] { --ink-quiet: var(--ink); --code-comment: var(--good-ink); }
+    .wb-shot { margin: 1rem 0 1.2rem; }
+    .wb-shot img { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; border: 1px solid var(--rule); border-radius: 6px; background: #fff; }
+    .wb-shot figcaption { font-family: var(--font-sans); font-size: 0.85rem; color: var(--ink); text-align: center; margin-top: 0.4rem; }
+    .wb-outcomes h3 { margin-top: 1.4rem; }
+  </style>
+  <script type="module">
+    import { initWorkbook } from "../../runtime/workbook.js";
+    initWorkbook({ id: "lecture-17", specs: "./exercises.json" });
+  </script>
+</head>
+<body>
+<main>
+
+<div class="wb-title-block">
+  <div>
+    <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
+    <h1>Lecture 17 Workbook</h1>
+    <div class="wb-subtitle">Chapter 12, Part 2: Subtyping and substitutable objects</div>
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
+  </div>
+  <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+</div>
+
+<p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run takes a few seconds while Java loads). Each box includes the other classes it needs and a short checking program. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
+<p>This workbook holds the notes and the questions for Lecture 17. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. For a multiple-choice question, circle one letter. Section 8 is the animal shelter problem, to do at home as practice. Section 10 has two complete programs to write after class. By the end, you should be able to:</p>
+<ul>
+<li>explain why a subclass is a subtype, and use a subclass object where its superclass is expected;</li>
+<li>keep objects of several subclasses in one list of the superclass type;</li>
+<li>tell the declared type of a variable from the actual type of its object, and say which calls compile;</li>
+<li>write a cast, and say whether a cast is refused by the compiler or fails when the program runs;</li>
+<li>explain why every class is a subclass of <code>Object</code>; and</li>
+<li>write complete programs that keep several kinds of object in one list.</li>
+</ul>
+<h2 id="s1">1. One list</h2>
+<h3>The notice board so far</h3>
+<p>In Lecture 16 we moved what every notice shares, an author and a pin count, into the superclass <code>Notice</code>. <code>TextNotice</code>, <code>EventNotice</code> and <code>JobNotice</code> extend it, and each adds its own fields and its own <code>printSummary()</code> method. The board, however, still keeps one list for each kind of notice.</p>
+<figure class="wb-shot">
+  <img src="img/three_lists.png" alt="Class diagram of the notice board from Lecture 16. Notice sits above TextNotice, EventNotice and JobNotice. NoticeBoard has three lists, textNotices, eventNotices and jobNotices, and three add methods, all shown in red, and an arrow to each kind of notice." loading="lazy" style="max-width: 640px">
+</figure>
+<p>Here is the board. The parts in red are repeated once for each kind of notice.</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">NoticeBoard</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">TextNotice</span>&gt; textNotices;
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">EventNotice</span>&gt; eventNotices;
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">JobNotice</span>&gt; jobNotices;
+    <span class="wb-kw">public</span> <span class="wb-fn">NoticeBoard</span>()
+    {
+        textNotices = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        eventNotices = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        jobNotices = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addTextNotice</span>(<span class="wb-type">TextNotice</span> notice)
+    {
+        textNotices.add(notice);
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addEventNotice</span>(<span class="wb-type">EventNotice</span> notice)
+    {
+        eventNotices.add(notice);
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addJobNotice</span>(<span class="wb-type">JobNotice</span> notice)
+    {
+        jobNotices.add(notice);
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">show</span>()
+    {
+        <span class="wb-kw">for</span>(<span class="wb-type">TextNotice</span> notice : textNotices) {
+            notice.printSummary();
+        }
+        <span class="wb-kw">for</span>(<span class="wb-type">EventNotice</span> notice : eventNotices) {
+            notice.printSummary();
+        }
+        <span class="wb-kw">for</span>(<span class="wb-type">JobNotice</span> notice : jobNotices) {
+            notice.printSummary();
+        }
+    }
+}</code></pre>
+<p>The demo makes four notices: ada's text notice, pinned twice; bo's event "Hackathon" on day 12, pinned once; chen's text notice; and dara's job at the Campus Bookstore. It adds them to the board in that order and calls <code>show()</code>, which prints:</p>
+<pre class="wb-output">ada: Study group at 4pm.
+  pins: 2
+chen: Lost calculator.
+  pins: 0
+bo: Hackathon, day 12
+  pins: 1
+dara: job at Campus Bookstore
+  pins: 0</pre>
+<h3>The problem</h3>
+<p>The board has three lists, three add methods and three loops in <code>show()</code>, and it is 37 lines long. Every new kind of notice needs a fourth list, a fourth add method and a fourth loop. The board also prints by kind: both text notices come first, although bo's event was added before chen's text notice.</p>
+<h3>The goal: one list</h3>
+<p>We would like one list that holds every notice, whatever its kind, in the order the notices were added.</p>
+<figure class="wb-shot">
+  <img src="img/one_list.png" alt="One ArrayList<Notice> with four elements: 0 ada: TextNotice, 1 bo: EventNotice, 2 chen: TextNotice, 3 dara: JobNotice." loading="lazy" style="max-width: 520px">
+</figure>
+<p>The list's element type becomes <code>Notice</code>, the superclass:</p>
+<pre><code><span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Notice</span>&gt; notices;
+<span class="wb-kw">public</span> <span class="wb-fn">NoticeBoard</span>()
+{
+    notices = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+}</code></pre>
+<p>For this to work, Java must let a <code>TextNotice</code> go into a list of <code>Notice</code>. The next section explains when it does.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.1</div>
+  <p><strong>1.1</strong> A fourth kind of notice, <code>PhotoNotice</code>, extends <code>Notice</code>. List every change that the three-list board above needs before it can show photo notices.</p>
+
+  <wb-short id="q1-1"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.2</div>
+  <p><strong>1.2</strong> The demo adds ada (text), bo (event), chen (text) and dara (job), in that order. In which order does the three-list board print the authors?</p>
+
+  <wb-choice id="q1-2">
+    <ol type="A">
+      <li>ada, bo, chen, dara</li>
+      <li>ada, chen, bo, dara</li>
+      <li>dara, chen, bo, ada</li>
+      <li>bo, ada, chen, dara</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.3</div>
+  <p><strong>1.3</strong> Which type should the board's single list have, so that it can hold every kind of notice?</p>
+
+  <wb-choice id="q1-3">
+    <ol type="A">
+      <li><code>ArrayList&lt;TextNotice&gt;</code></li>
+      <li><code>ArrayList&lt;String&gt;</code></li>
+      <li><code>ArrayList&lt;Notice&gt;</code></li>
+      <li><code>ArrayList&lt;JobNotice&gt;</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.4</div>
+  <p><strong>1.4</strong> When the board changes to one list, which code has to change?</p>
+
+  <wb-choice id="q1-4">
+    <ol type="A">
+      <li>All five classes, because each notice must know about the new list.</li>
+      <li>Only <code>NoticeBoard</code>, and the demo's calls to the add methods.</li>
+      <li><code>Notice</code> and <code>NoticeBoard</code>, because <code>Notice</code> must store the list.</li>
+      <li>The three subclasses, which must now extend <code>NoticeBoard</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s2">2. Subtypes</h2>
+<h3>Classes are types</h3>
+<p>Every class is also a <strong>type</strong>. When we declare <code>TextNotice first</code>, the type <code>TextNotice</code> says what the variable <code>first</code> may refer to. A subclass defines a <strong>subtype</strong> of its superclass: <code>TextNotice</code>, <code>EventNotice</code> and <code>JobNotice</code> are subtypes of <code>Notice</code>. This matches the is-a test from Lecture 16: every text notice is a notice.</p>
+<figure class="wb-shot">
+  <img src="img/subtypes.png" alt="Notice at the top, with TextNotice, EventNotice and JobNotice below it. Each subclass is a subtype of Notice." loading="lazy" style="max-width: 420px">
+</figure>
+<h3>Substitution</h3>
+<p>A variable of a superclass type can refer to an object of any of its subclasses.</p>
+<pre><code><span class="wb-type">Notice</span> n = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"ada"</span>, <span class="wb-str">"Study group at 4pm."</span>);
+<span class="wb-type">Notice</span> m = <span class="wb-kw">new</span> <span class="wb-fn">JobNotice</span>(<span class="wb-str">"dara"</span>, <span class="wb-str">"Campus Bookstore"</span>);</code></pre>
+<p>Wherever an object of the superclass is expected, an object of a subclass may be used instead. This is called <strong>substitution</strong>. It is safe because a text notice has every field and every method that a notice has, so anything we can ask of a notice, we can ask of a text notice.</p>
+<h3>Only from subclass to superclass</h3>
+<p>Substitution does not work the other way round.</p>
+<pre><code><span class="wb-type">Notice</span> n = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"ada"</span>, <span class="wb-str">"Study group at 4pm."</span>);
+<span class="wb-type">TextNotice</span> t = n;</code></pre>
+<pre class="wb-output">error: incompatible types: Notice cannot be converted to TextNotice</pre>
+<p>The compiler checks each line on its own. On the second line it sees only that <code>n</code> is a <code>Notice</code>. Not every notice is a text notice: <code>n</code> might refer to an event notice. So Java refuses the line, although this particular <code>n</code> refers to a text notice.</p>
+<h3>Substitution in method calls</h3>
+<p>A parameter is a variable too, and passing an argument stores the argument in the parameter. So the same rule applies: a parameter of type <code>Notice</code> accepts a text notice, an event notice or a job notice.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addNotice</span>(<span class="wb-type">Notice</span> notice)
+{
+    notices.add(notice);
+}</code></pre>
+<pre><code>board.addNotice(first);     <span class="wb-cmt">// a TextNotice</span>
+board.addNotice(second);    <span class="wb-cmt">// an EventNotice</span>
+board.addNotice(fourth);    <span class="wb-cmt">// a JobNotice</span></code></pre>
+<p>One add method replaces three. Inside it, <code>notices.add(notice)</code> works for the same reason: the <code>add</code> method of an <code>ArrayList&lt;Notice&gt;</code> expects a <code>Notice</code>.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.1</div>
+  <p><strong>2.1</strong> Write yes or no: does each line compile? <code>Notice</code> has the constructor <code>Notice(String author)</code>.</p>
+
+  <wb-table id="q2-1">
+    <table>
+      <thead><tr><th>Line</th><th>Compiles?</th></tr></thead>
+      <tbody>
+        <tr><td><code>Notice n = new EventNotice("bo", "Hackathon", 12);</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>TextNotice t = new Notice("eli");</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>EventNotice e = new TextNotice("ada", "Study group at 4pm.");</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>Notice m = new JobNotice("dara", "Campus Bookstore");</code></td><td data-blank="3"></td></tr>
+        <tr><td><code>Object o = new TextNotice("chen", "Lost calculator.");</code></td><td data-blank="4"></td></tr>
+        <tr><td><code>JobNotice j = new Notice("dara");</code></td><td data-blank="5"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.2</div>
+  <p><strong>2.2</strong> In the example above, <code>n</code> refers to a text notice. Why does Java still refuse <code>TextNotice t = n;</code>?</p>
+
+  <wb-short id="q2-2"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.3</div>
+  <p><strong>2.3</strong> Which sentence is true?</p>
+
+  <wb-choice id="q2-3">
+    <ol type="A">
+      <li>Every <code>Notice</code> is a <code>TextNotice</code>.</li>
+      <li>Every <code>TextNotice</code> is a <code>Notice</code>.</li>
+      <li>Every <code>EventNotice</code> is a <code>TextNotice</code>.</li>
+      <li><code>Notice</code> is a subtype of <code>TextNotice</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.4</div>
+  <p><strong>2.4</strong> The board has the method <code>addNotice(Notice notice)</code>. After the line below, which call does <strong>not</strong> compile?</p>
+
+<pre><code><span class="wb-type">Notice</span> n = <span class="wb-kw">new</span> <span class="wb-fn">JobNotice</span>(<span class="wb-str">"dara"</span>, <span class="wb-str">"Campus Bookstore"</span>);</code></pre>
+  <wb-choice id="q2-4">
+    <ol type="A">
+      <li><code>board.addNotice(n);</code></li>
+      <li><code>board.addNotice(new Notice("fay"));</code></li>
+      <li><code>board.addNotice("Lost keys");</code></li>
+      <li><code>board.addNotice(new JobNotice("eli", "Library"));</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.5</div>
+  <p><strong>2.5</strong> A method is declared <code>public void welcome(Notice notice)</code>. Which arguments can it be given?</p>
+
+  <wb-choice id="q2-5">
+    <ol type="A">
+      <li>Only objects made with <code>new Notice(...)</code>.</li>
+      <li>Only <code>TextNotice</code> objects.</li>
+      <li>Any <code>Notice</code>, <code>TextNotice</code>, <code>EventNotice</code> or <code>JobNotice</code> object.</li>
+      <li>Any object at all, including a <code>String</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s3">3. New board</h2>
+<h3>NoticeBoard with one list</h3>
+<p>Here is the new board. It has one <code>ArrayList&lt;Notice&gt;</code>, one add method, and one loop in <code>show()</code>. It drops from 37 lines to 20, and the four notice classes do not change at all.</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">NoticeBoard</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Notice</span>&gt; notices;
+    <span class="wb-kw">public</span> <span class="wb-fn">NoticeBoard</span>()
+    {
+        notices = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addNotice</span>(<span class="wb-type">Notice</span> notice)
+    {
+        notices.add(notice);
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">show</span>()
+    {
+        <span class="wb-kw">for</span>(<span class="wb-type">Notice</span> notice : notices) {
+            System.out.println(notice.getAuthor() + <span class="wb-str">"  pins: "</span> + notice.getPins());
+        }
+    }
+}</code></pre>
+<h3>The demo</h3>
+<p>The demo makes the same four notices as before and adds each one with <code>addNotice</code>.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">NoticeBoardDemo</span>
+{
+    <span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
+    {
+        <span class="wb-type">TextNotice</span> first = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"ada"</span>, <span class="wb-str">"Study group at 4pm."</span>);
+        <span class="wb-type">EventNotice</span> second = <span class="wb-kw">new</span> <span class="wb-fn">EventNotice</span>(<span class="wb-str">"bo"</span>, <span class="wb-str">"Hackathon"</span>, <span class="wb-num">12</span>);
+        <span class="wb-type">TextNotice</span> third = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"chen"</span>, <span class="wb-str">"Lost calculator."</span>);
+        <span class="wb-type">JobNotice</span> fourth = <span class="wb-kw">new</span> <span class="wb-fn">JobNotice</span>(<span class="wb-str">"dara"</span>, <span class="wb-str">"Campus Bookstore"</span>);
+        first.pin();
+        first.pin();
+        second.pin();
+        <span class="wb-type">NoticeBoard</span> board = <span class="wb-kw">new</span> <span class="wb-fn">NoticeBoard</span>();
+        board.addNotice(first);
+        board.addNotice(second);
+        board.addNotice(third);
+        board.addNotice(fourth);
+        board.show();
+    }
+}</code></pre>
+<p><strong>Output</strong></p>
+<pre class="wb-output">ada  pins: 2
+bo  pins: 1
+chen  pins: 0
+dara  pins: 0</pre>
+<p>The notices now print in the order they were added, because one list keeps that order. One loop prints all four kinds.</p>
+<h3>The loop variable</h3>
+<p>In <code>show()</code>, the loop variable <code>notice</code> has the type <code>Notice</code> on every turn. The objects it refers to are of different classes.</p>
+<figure class="wb-shot">
+  <img src="img/loop_variable.png" alt="Four turns of the loop. In every turn the type of notice is Notice; the object it refers to is ada's TextNotice, then bo's EventNotice, then chen's TextNotice, then dara's JobNotice." loading="lazy" style="max-width: 520px">
+</figure>
+<h3>Why show() does not call printSummary()</h3>
+<p>The old <code>show()</code> printed each notice's summary. Calling it in the new loop does not compile.</p>
+<pre><code><span class="wb-kw">for</span>(<span class="wb-type">Notice</span> notice : notices) {
+    notice.printSummary();
+}</code></pre>
+<pre class="wb-output">error: cannot find symbol
+  symbol:   method printSummary()
+  location: variable notice of type Notice</pre>
+<p>Each subclass writes its own <code>printSummary()</code>, but <code>Notice</code> has none. The variable's type is <code>Notice</code>, so the loop may call only the <code>Notice</code> methods: <code>pin()</code>, <code>getAuthor()</code> and <code>getPins()</code>. That is why the new <code>show()</code> prints just the author and the pins. Chapter 13 shows how each notice can print its full summary from this one loop.</p>
+<h3>A list for every mammal</h3>
+<p>The same rule works in any hierarchy. Here <code>Mammal</code> extends <code>Animal</code>, and <code>Cat</code> and <code>Dog</code> extend <code>Mammal</code>. A <code>Cat</code> has the method <code>meow()</code> and a <code>Dog</code> has <code>bark()</code>.</p>
+<figure class="wb-shot">
+  <img src="img/mammals.png" alt="Class diagram: Animal, with name and getName(), at the top; Mammal extends Animal; Cat, with meow(), and Dog, with bark(), extend Mammal." loading="lazy" style="max-width: 600px">
+</figure>
+<pre><code><span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Mammal</span>&gt; mammals = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+mammals.add(<span class="wb-kw">new</span> <span class="wb-fn">Cat</span>(<span class="wb-str">"Tom"</span>));
+mammals.add(<span class="wb-kw">new</span> <span class="wb-fn">Dog</span>(<span class="wb-str">"Rex"</span>));
+<span class="wb-kw">for</span>(<span class="wb-type">Mammal</span> m : mammals) {
+    System.out.println(m.getName());
+}</code></pre>
+<pre class="wb-output">Tom
+Rex</pre>
+<p>A list of <code>Mammal</code> takes a <code>Mammal</code> or an object of any subclass of <code>Mammal</code>. An <code>ArrayList&lt;Cat&gt;</code> would refuse Rex, and an <code>ArrayList&lt;Animal&gt;</code> would also take animals that are not mammals. When we add a variable, Java looks at the variable's type, not at the object it refers to.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.1</div>
+  <p><strong>3.1</strong> This demo uses the new board. Write what it prints, and say why fay's notice shows 2 pins although it was pinned after it was added.</p>
+
+<pre><code><span class="wb-type">NoticeBoard</span> board = <span class="wb-kw">new</span> <span class="wb-fn">NoticeBoard</span>();
+<span class="wb-type">JobNotice</span> job = <span class="wb-kw">new</span> <span class="wb-fn">JobNotice</span>(<span class="wb-str">"eli"</span>, <span class="wb-str">"Library"</span>);
+<span class="wb-type">TextNotice</span> text = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"fay"</span>, <span class="wb-str">"Room 2 is free."</span>);
+board.addNotice(job);
+board.addNotice(text);
+text.pin();
+text.pin();
+job.pin();
+board.addNotice(<span class="wb-kw">new</span> <span class="wb-fn">EventNotice</span>(<span class="wb-str">"gil"</span>, <span class="wb-str">"Git basics"</span>, <span class="wb-num">5</span>));
+board.show();</code></pre>
+  <wb-table id="q3-1">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table><p>Why does fay's notice show 2 pins?</p>  <wb-short id="q3-1-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.2</div>
+  <p><strong>3.2</strong> Write one line that creates a list for every mammal: cats, dogs and any other <code>Mammal</code>. Then say why <code>ArrayList&lt;Cat&gt;</code> and <code>ArrayList&lt;Animal&gt;</code> are the wrong choices.</p>
+
+  <wb-short id="q3-2"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.3</div>
+  <p><strong>3.3</strong> The classes are <code>Animal</code>, <code>Mammal</code>, <code>Cat</code> and <code>Dog</code>, as above. After these declarations, write yes or no: does each numbered line compile?</p>
+
+<pre><code><span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Mammal</span>&gt; mammals = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+<span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Animal</span>&gt; animals = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+<span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Cat</span>&gt; cats = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+<span class="wb-type">Mammal</span> m = <span class="wb-kw">new</span> <span class="wb-fn">Dog</span>(<span class="wb-str">"Rex"</span>);
+<span class="wb-type">Animal</span> a = <span class="wb-kw">new</span> <span class="wb-fn">Cat</span>(<span class="wb-str">"Tom"</span>);</code></pre>
+  <wb-table id="q3-3">
+    <table>
+      <thead><tr><th></th><th>Line</th><th>Compiles?</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><code>mammals.add(new Cat("Tom"));</code></td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td><code>mammals.add(new Dog("Rex"));</code></td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td><code>mammals.add(new Mammal("Moby"));</code></td><td data-blank="2"></td></tr>
+        <tr><td>4</td><td><code>mammals.add(new Animal("Nemo"));</code></td><td data-blank="3"></td></tr>
+        <tr><td>5</td><td><code>mammals.add(m);</code></td><td data-blank="4"></td></tr>
+        <tr><td>6</td><td><code>mammals.add(a);</code></td><td data-blank="5"></td></tr>
+        <tr><td>7</td><td><code>animals.add(new Dog("Rex"));</code></td><td data-blank="6"></td></tr>
+        <tr><td>8</td><td><code>cats.add(new Dog("Rex"));</code></td><td data-blank="7"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.4</div>
+  <p><strong>3.4</strong> Inside the loop <code>for(Notice notice : notices)</code>, which call compiles?</p>
+
+  <wb-choice id="q3-4">
+    <ol type="A">
+      <li><code>notice.printSummary()</code></li>
+      <li><code>notice.getPins()</code></li>
+      <li><code>notice.getMessage()</code></li>
+      <li><code>notice.getEmployer()</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.5</div>
+  <p><strong>3.5</strong> With the declarations of 3.3, which line does <strong>not</strong> compile?</p>
+
+  <wb-choice id="q3-5">
+    <ol type="A">
+      <li><code>animals.add(m);</code></li>
+      <li><code>mammals.add(new Cat("Tom"));</code></li>
+      <li><code>animals.add(new Animal("Nemo"));</code></li>
+      <li><code>cats.add(new Mammal("Moby"));</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.6</div>
+  <p><strong>3.6</strong> Why does the new <code>show()</code> print only the author and the pins of each notice?</p>
+
+  <wb-choice id="q3-6">
+    <ol type="A">
+      <li>Because <code>printSummary()</code> is private in each subclass.</li>
+      <li>Because the loop variable is a <code>Notice</code>, and <code>Notice</code> has no <code>printSummary()</code>.</li>
+      <li>Because an <code>ArrayList&lt;Notice&gt;</code> can hold only objects made with <code>new Notice(...)</code>.</li>
+      <li>Because adding a notice to the list removes the fields of its subclass.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s4">4. Declared type</h2>
+<h3>Declared type and actual type</h3>
+<p>Every variable that refers to an object involves two types.</p>
+<figure class="wb-shot">
+  <img src="img/declared_actual.png" alt="The variable Notice n refers to a TextNotice object with author "ada" and message "Study group at 4pm.". The declared type is Notice; the actual type is TextNotice." loading="lazy" style="max-width: 520px">
+</figure>
+<p>The <strong>declared type</strong> is the type written when the variable is declared, here <code>Notice</code>. It never changes. The <strong>actual type</strong> is the class of the object the variable refers to, here <code>TextNotice</code>: the class named after <code>new</code>. If we later store a job notice in <code>n</code>, the actual type becomes <code>JobNotice</code>, while the declared type is still <code>Notice</code>.</p>
+<h3>The declared type decides which calls compile</h3>
+<pre><code><span class="wb-type">Notice</span> n = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"ada"</span>, <span class="wb-str">"Study group at 4pm."</span>);
+n.pin();            <span class="wb-cmt">// fine: pin() is in Notice</span>
+n.printSummary();   <span class="wb-cmt">// compile error: not in Notice</span></code></pre>
+<p>The object really is a text notice, and it still has <code>printSummary()</code>. But the compiler looks only at the declared type, so it allows only the methods of <code>Notice</code>. Storing an object in a <code>Notice</code> variable does not change the object; it only limits what we may call through that variable.</p>
+<h3>Type loss</h3>
+<p>A list of <code>Notice</code> gives back each element as a <code>Notice</code>, and the loop variable in <code>show()</code> is a <code>Notice</code>. What the subclass adds is out of sight. This is called <strong>type loss</strong>.</p>
+<figure class="wb-shot">
+  <img src="img/type_loss.png" alt="Seen as a TextNotice, the object offers pin(), getAuthor(), getPins() and printSummary(). Stored in a Notice variable, it is seen as a Notice and offers only pin(), getAuthor() and getPins()." loading="lazy" style="max-width: 520px">
+</figure>
+<p>The next section shows how to get the subclass methods back with a cast.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.1</div>
+  <p><strong>4.1</strong> Write the declared type and the actual type for each variable.</p>
+
+  <wb-table id="q4-1">
+    <table>
+      <thead><tr><th>Declaration</th><th>Declared type</th><th>Actual type</th></tr></thead>
+      <tbody>
+        <tr><td><code>Notice n = new JobNotice("dara", "Campus Bookstore");</code></td><td data-blank="0-0"></td><td data-blank="0-1"></td></tr>
+        <tr><td><code>Animal a = new Cat("Tom");</code></td><td data-blank="1-0"></td><td data-blank="1-1"></td></tr>
+        <tr><td><code>Mammal m = new Dog("Rex");</code></td><td data-blank="2-0"></td><td data-blank="2-1"></td></tr>
+        <tr><td><code>Object o = "hello";</code></td><td data-blank="3-0"></td><td data-blank="3-1"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.2</div>
+  <p><strong>4.2</strong> After <code>Notice n = new EventNotice("bo", "Hackathon", 12);</code>, write yes or no: does each call compile?</p>
+
+  <wb-table id="q4-2">
+    <table>
+      <thead><tr><th>Call</th><th>Compiles?</th></tr></thead>
+      <tbody>
+        <tr><td><code>n.pin();</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>n.getAuthor();</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>n.printSummary();</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>n.getPins();</code></td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.3</div>
+  <p><strong>4.3</strong> After <code>Notice n = new TextNotice("ada", "Study group at 4pm.");</code>, what is the actual type of the object <code>n</code> refers to?</p>
+
+  <wb-choice id="q4-3">
+    <ol type="A">
+      <li><code>Notice</code>, because it was stored in a <code>Notice</code> variable.</li>
+      <li><code>TextNotice</code></li>
+      <li><code>Object</code></li>
+      <li>It has no type until a method is called on it.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.4</div>
+  <p><strong>4.4</strong> What decides whether <code>n.printSummary()</code> compiles?</p>
+
+  <wb-choice id="q4-4">
+    <ol type="A">
+      <li>The actual type of the object that <code>n</code> refers to.</li>
+      <li>The declared type of <code>n</code>.</li>
+      <li>Whether <code>n</code> has been pinned.</li>
+      <li>Whether the object was added to a board.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.5</div>
+  <p><strong>4.5</strong> The new board's first element is ada's text notice. Which type does the compiler give <code>notices.get(0)</code>?</p>
+
+  <wb-choice id="q4-5">
+    <ol type="A">
+      <li><code>TextNotice</code>, because ada's text notice was added first.</li>
+      <li><code>Notice</code></li>
+      <li><code>Object</code></li>
+      <li><code>ArrayList&lt;Notice&gt;</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s5">5. Casts</h2>
+<h3>Casting back to a subclass</h3>
+<p>When we know the actual class of an object, a <strong>cast</strong> gives the subclass type back.</p>
+<pre><code><span class="wb-type">Notice</span> n = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"ada"</span>, <span class="wb-str">"Study group at 4pm."</span>);
+n.pin();
+<span class="wb-type">TextNotice</span> t = (<span class="wb-type">TextNotice</span>) n;
+t.printSummary();</code></pre>
+<pre class="wb-output">ada: Study group at 4pm.
+  pins: 1</pre>
+<p>A cast writes a type in brackets before an expression: <code>(TextNotice) n</code>. It tells the compiler "this notice is a text notice". The expression now has the type <code>TextNotice</code>, so it can be stored in <code>t</code>, and <code>t.printSummary()</code> compiles. The cast does not change or copy the object: <code>n</code> and <code>t</code> refer to the same object, which is why the summary shows the pin added through <code>n</code>.</p>
+<h3>A wrong cast</h3>
+<p>A cast is a promise, and Java checks it when the program runs.</p>
+<pre><code><span class="wb-type">Notice</span> n = <span class="wb-kw">new</span> <span class="wb-fn">EventNotice</span>(<span class="wb-str">"bo"</span>, <span class="wb-str">"Hackathon"</span>, <span class="wb-num">12</span>);
+<span class="wb-type">TextNotice</span> t = (<span class="wb-type">TextNotice</span>) n;</code></pre>
+<pre class="wb-output">Exception in thread "main" java.lang.ClassCastException: class EventNotice
+cannot be cast to class TextNotice</pre>
+<p>This compiles, because a <code>Notice</code> might be a text notice. When it runs, Java looks at the actual object. It is an event notice, so the cast fails with a <code>ClassCastException</code> and the program stops.</p>
+<h3>An impossible cast</h3>
+<pre><code><span class="wb-type">String</span> s = <span class="wb-str">"hello"</span>;
+<span class="wb-type">Notice</span> n = (<span class="wb-type">Notice</span>) s;</code></pre>
+<pre class="wb-output">error: incompatible types: String cannot be converted to Notice</pre>
+<p>A <code>String</code> can never be a <code>Notice</code>: neither class is a subclass of the other. The compiler knows this, so it refuses the cast before the program runs.</p>
+<h3>Two checks</h3>
+<p>A cast is checked twice.</p>
+<figure class="wb-shot">
+  <img src="img/two_checks.png" alt="Two checks. At compile time Java checks the declared types: (Notice) "hello" is refused. Then at run time it checks the actual object: an event notice cast to TextNotice throws ClassCastException." loading="lazy" style="max-width: 560px">
+</figure>
+<p>A cast that can never work is a compile error. A cast that might work compiles, and is checked again when it runs: it succeeds if the object is of that class or one of its subclasses, and throws <code>ClassCastException</code> otherwise.</p>
+<h3>When to use a cast</h3>
+<p>Cast only when you know the actual class of the object, for example because you just looked it up by a name that only a dog has. A wrong guess stops the program. A later chapter shows a safe way to test an object's class before a cast. Good designs need few casts: Chapter 13 shows how the loop in <code>show()</code> can call each kind's own <code>printSummary()</code> with no cast at all.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.1</div>
+  <p><strong>5.1</strong> After these lines, write two lines that print bo's full summary with <code>printSummary()</code>. Then write the output.</p>
+
+<pre><code><span class="wb-type">Notice</span> n = <span class="wb-kw">new</span> <span class="wb-fn">EventNotice</span>(<span class="wb-str">"bo"</span>, <span class="wb-str">"Hackathon"</span>, <span class="wb-num">12</span>);
+n.pin();</code></pre>
+<p>Write the two lines in the box. It makes bo's event notice and pins it, as above, then runs your lines.</p>  <wb-exercise id="q5-1"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.2</div>
+  <p><strong>5.2</strong> With the mammal classes of Section 3, write fine, compile error or run-time error for each numbered line. Each line is tried on its own.</p>
+
+<pre><code><span class="wb-type">Animal</span> a = <span class="wb-kw">new</span> <span class="wb-fn">Cat</span>(<span class="wb-str">"Tom"</span>);
+<span class="wb-type">Mammal</span> m = <span class="wb-kw">new</span> <span class="wb-fn">Dog</span>(<span class="wb-str">"Rex"</span>);</code></pre>
+  <wb-table id="q5-2">
+    <table>
+      <thead><tr><th></th><th>Line</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><code>a.getName();</code></td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td><code>a.meow();</code></td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td><code>((Cat) a).meow();</code></td><td data-blank="2"></td></tr>
+        <tr><td>4</td><td><code>Mammal x = a;</code></td><td data-blank="3"></td></tr>
+        <tr><td>5</td><td><code>Mammal y = (Mammal) a;</code></td><td data-blank="4"></td></tr>
+        <tr><td>6</td><td><code>((Dog) m).bark();</code></td><td data-blank="5"></td></tr>
+        <tr><td>7</td><td><code>((Cat) m).meow();</code></td><td data-blank="6"></td></tr>
+        <tr><td>8</td><td><code>String s = (String) a;</code></td><td data-blank="7"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.3</div>
+  <p><strong>5.3</strong> After <code>Notice n = new JobNotice("dara", "Campus Bookstore");</code>, write fine, compile error or run-time error for each line.</p>
+
+  <wb-table id="q5-3">
+    <table>
+      <thead><tr><th>Line</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td><code>JobNotice j = (JobNotice) n;</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>TextNotice t = (TextNotice) n;</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>String s = (String) n;</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>Object o = n;</code></td><td data-blank="3"></td></tr>
+        <tr><td><code>JobNotice k = n;</code></td><td data-blank="4"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.4</div>
+  <p><strong>5.4</strong> What does the cast in <code>TextNotice t = (TextNotice) n;</code> change?</p>
+
+  <wb-choice id="q5-4">
+    <ol type="A">
+      <li>It turns the object into a <code>TextNotice</code>.</li>
+      <li>Only the type the compiler uses for the expression; the object stays the same.</li>
+      <li>It makes a copy of the object with the type <code>TextNotice</code>.</li>
+      <li>It changes the declared type of <code>n</code> for the rest of the method.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.5</div>
+  <p><strong>5.5</strong> When is a <code>ClassCastException</code> thrown?</p>
+
+  <wb-choice id="q5-5">
+    <ol type="A">
+      <li>When the program is compiled and the two types are unrelated.</li>
+      <li>When the program runs and the object is not of the class named in the cast.</li>
+      <li>Every time a cast is used.</li>
+      <li>When a subclass object is stored in a superclass variable.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.6</div>
+  <p><strong>5.6</strong> <code>n</code> is declared as a <code>Notice</code>. Which cast does the compiler refuse?</p>
+
+  <wb-choice id="q5-6">
+    <ol type="A">
+      <li><code>(TextNotice) n</code></li>
+      <li><code>(JobNotice) n</code></li>
+      <li><code>(Object) n</code></li>
+      <li><code>(String) n</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s6">6. Object</h2>
+<h3>The superclass of every class</h3>
+<p>Java has a class called <code>Object</code> at the top of every hierarchy. A class written without <code>extends</code> extends <code>Object</code>. So <code>Notice</code> extends <code>Object</code>, <code>TextNotice</code> extends <code>Notice</code>, and every object, including every <code>String</code>, is an <code>Object</code>.</p>
+<figure class="wb-shot">
+  <img src="img/object_top.png" alt="Object at the top, above Notice, String and Animal. TextNotice is below Notice, and Mammal is below Animal." loading="lazy" style="max-width: 460px">
+</figure>
+<h3>An Object variable</h3>
+<p>Because every object is an <code>Object</code>, a variable of type <code>Object</code> can refer to anything. But the declared type decides which calls compile, and <code>Object</code> has only a few general methods, none of them ours.</p>
+<pre><code><span class="wb-type">Object</span> o = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"ada"</span>, <span class="wb-str">"Study group at 4pm."</span>);
+o = <span class="wb-str">"hello"</span>;                    <span class="wb-cmt">// fine: a String is an Object</span>
+o = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"chen"</span>, <span class="wb-str">"Lost calculator."</span>);
+System.out.println(o.getAuthor());</code></pre>
+<pre class="wb-output">error: cannot find symbol
+  symbol:   method getAuthor()
+  location: variable o of type Object</pre>
+<h3>The most specific type</h3>
+<p>An <code>ArrayList&lt;Object&gt;</code> could hold notices, strings, anything, but each element would come back as an <code>Object</code>, so we could not even call <code>getAuthor()</code>. An <code>ArrayList&lt;Notice&gt;</code> holds only notices, and each element comes back as a <code>Notice</code>.</p>
+<figure class="wb-shot">
+  <img src="img/object_list.png" alt="get(0) on an ArrayList<Object> gives the element back as an Object, so getAuthor() is refused. get(0) on an ArrayList<Notice> gives it back as a Notice, so getAuthor() and getPins() are fine." loading="lazy" style="max-width: 520px">
+</figure>
+<p>Choose the most specific type that covers every element you want to store. The compiler then refuses anything else, and lets you call every method that all the elements share.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.1</div>
+  <p><strong>6.1</strong> Choose the most specific list type for each job. Use the notice classes and the mammal classes.</p>
+
+  <wb-table id="q6-1">
+    <table>
+      <thead><tr><th>What the list must hold</th><th>List type</th></tr></thead>
+      <tbody>
+        <tr><td>every kind of notice</td><td data-blank="0"></td></tr>
+        <tr><td>cats only</td><td data-blank="1"></td></tr>
+        <tr><td>cats and dogs</td><td data-blank="2"></td></tr>
+        <tr><td>notices and strings together</td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.2</div>
+  <p><strong>6.2</strong> Which line does <strong>not</strong> compile?</p>
+
+  <wb-choice id="q6-2">
+    <ol type="A">
+      <li><code>Object o = "hello";</code></li>
+      <li><code>Object o = new TextNotice("ada", "Study group at 4pm.");</code></li>
+      <li><code>Object o = new ArrayList&lt;Notice&gt;();</code></li>
+      <li><code>Notice n = new Object();</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.3</div>
+  <p><strong>6.3</strong> Why does the board use <code>ArrayList&lt;Notice&gt;</code> rather than <code>ArrayList&lt;Object&gt;</code>?</p>
+
+  <wb-choice id="q6-3">
+    <ol type="A">
+      <li>An <code>ArrayList&lt;Object&gt;</code> cannot hold text notices.</li>
+      <li>With <code>Notice</code>, the loop can call <code>getAuthor()</code>, and the compiler refuses a <code>String</code>.</li>
+      <li>An <code>ArrayList&lt;Object&gt;</code> does not keep the order of its elements.</li>
+      <li><code>ArrayList&lt;Object&gt;</code> does not compile.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.4</div>
+  <p><strong>6.4</strong> <code>Notice</code> is written as <code>public class Notice</code>, with no <code>extends</code>. What is its superclass?</p>
+
+  <wb-choice id="q6-4">
+    <ol type="A">
+      <li>It has no superclass.</li>
+      <li><code>TextNotice</code></li>
+      <li><code>Object</code></li>
+      <li><code>NoticeBoard</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s7">7. Whole program</h2>
+<h3>The class diagram</h3>
+<p>Here is the whole program. The four notice classes are exactly as in Lecture 16; only <code>NoticeBoard</code> has changed. It is linked to <code>Notice</code> alone, not to each subclass, and the demo's code is in Section 3.</p>
+<figure class="wb-shot">
+  <img src="img/whole_program.png" alt="The whole program: NoticeBoardDemo uses NoticeBoard, which has one list, notices : ArrayList<Notice>, and the method addNotice(notice : Notice), both shown in red. An arrow marked * goes from NoticeBoard to Notice, and TextNotice, EventNotice and JobNotice extend Notice." loading="lazy" style="max-width: 640px">
+</figure>
+<h3>A new kind of notice</h3>
+<p>Compare this with 1.1. If we add a class <code>PhotoNotice extends Notice</code>, the board does not change at all: <code>addNotice</code> already accepts a photo notice, and the loop in <code>show()</code> already prints its author and pins. Only the new class and the demo are written.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.1</div>
+  <p><strong>7.1</strong> Write a method <code>totalPins()</code> for the new <code>NoticeBoard</code>. It returns the total number of pins on all the notices. For the demo in Section 3, it returns 3.</p>
+
+<p>Add the method to the class below. The box includes the notice classes, adds the four notices of the Section 3 demo and prints <code>totalPins()</code>.</p>  <wb-exercise id="q7-1"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.2</div>
+  <p><strong>7.2</strong> A class <code>PhotoNotice extends Notice</code> is added. What must change in the new <code>NoticeBoard</code>?</p>
+
+  <wb-choice id="q7-2">
+    <ol type="A">
+      <li>A new list field for photo notices.</li>
+      <li>A new method <code>addPhotoNotice</code>.</li>
+      <li>Nothing.</li>
+      <li>A new loop in <code>show()</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.3</div>
+  <p><strong>7.3</strong> The demo calls <code>board.addNotice(first)</code>, where <code>first</code> is declared <code>TextNotice</code>. Inside <code>addNotice</code>, what is the declared type of the parameter <code>notice</code>?</p>
+
+  <wb-choice id="q7-3">
+    <ol type="A">
+      <li><code>TextNotice</code>, the type of the argument.</li>
+      <li><code>Notice</code></li>
+      <li><code>Object</code></li>
+      <li>It changes with each call.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s8">8. Practice</h2>
+<p>This section is the animal shelter problem, to do at home as practice. Try each part before you read its solution.</p>
+<h3>The starter program</h3>
+<p>The shelter classes are the ones you wrote in Lecture 16:</p>
+<ul>
+<li><code>Animal(String name, int age)</code> has <code>getName()</code>, <code>getAge()</code>, <code>isAdopted()</code> and <code>adopt()</code>;</li>
+<li><code>Dog(String name, int age, String breed)</code> adds <code>getBreed()</code>;</li>
+<li><code>Cat(String name, int age, boolean indoor)</code> adds <code>isIndoor()</code>;</li>
+<li><code>Rabbit(String name, int age, String colour)</code> adds <code>getColour()</code>.</li>
+</ul>
+<p>Each of the three subclasses also has <code>getLabel()</code>. The starter <code>Shelter</code> keeps one list for each kind of animal.</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Shelter</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Dog</span>&gt; dogs;
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Cat</span>&gt; cats;
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Rabbit</span>&gt; rabbits;
+    <span class="wb-kw">public</span> <span class="wb-fn">Shelter</span>()
+    {
+        dogs = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        cats = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+        rabbits = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addDog</span>(<span class="wb-type">Dog</span> dog)
+    {
+        dogs.add(dog);
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addCat</span>(<span class="wb-type">Cat</span> cat)
+    {
+        cats.add(cat);
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">addRabbit</span>(<span class="wb-type">Rabbit</span> rabbit)
+    {
+        rabbits.add(rabbit);
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printAll</span>()
+    {
+        <span class="wb-kw">for</span>(<span class="wb-type">Dog</span> animal : dogs) {
+            System.out.println(animal.getName() + <span class="wb-str">", age "</span> + animal.getAge());
+        }
+        <span class="wb-kw">for</span>(<span class="wb-type">Cat</span> animal : cats) {
+            System.out.println(animal.getName() + <span class="wb-str">", age "</span> + animal.getAge());
+        }
+        <span class="wb-kw">for</span>(<span class="wb-type">Rabbit</span> animal : rabbits) {
+            System.out.println(animal.getName() + <span class="wb-str">", age "</span> + animal.getAge());
+        }
+    }
+}</code></pre>
+<p>The demo makes Rex, a Beagle of age 3; Mia, an indoor cat of age 2; Biscuit, a Collie of age 5; and Clover, a brown rabbit of age 1. It adopts Mia, adds the four in that order, and calls <code>printAll()</code>, which prints by kind:</p>
+<pre class="wb-output">Rex, age 3
+Biscuit, age 5
+Mia, age 2
+Clover, age 1</pre>
+<h3>Part 1: One list</h3>
+<p>Replace the three lists with one <code>ArrayList&lt;Animal&gt; animals</code>, and write the three methods in red. <code>printAll()</code> uses one loop. <code>countAdopted()</code> returns how many animals are adopted. Keep <code>Animal</code>, <code>Dog</code>, <code>Cat</code> and <code>Rabbit</code> unchanged. The demo adds the four animals with <code>add</code>, calls <code>printAll()</code>, then prints the adopted count.</p>
+<figure class="wb-shot">
+  <img src="img/shelter.png" alt="Class diagram of Shelter: the field animals : ArrayList<Animal>, the constructor Shelter(), and the methods add(animal : Animal), printAll() and countAdopted() : int, shown in red." loading="lazy" style="max-width: 360px">
+</figure>
+<pre class="wb-output">Rex, age 3
+Mia, age 2
+Biscuit, age 5
+Clover, age 1
+Adopted: 1</pre>
+<h3>Part 2: Searches</h3>
+<p>Add two methods to <code>Shelter</code>. <code>findByName(String name)</code> returns the animal with that name, or <code>null</code> if there is none. <code>oldest()</code> returns the animal with the largest age, or <code>null</code> if the shelter is empty. Both return an <code>Animal</code>. The demo finds Rex, casts him to <code>Dog</code> and prints his breed; looks for Max, who is not there; and prints the oldest animal. The new demo prints the five lines of Part 1, then:</p>
+<pre class="wb-output">Rex breed: Beagle
+Not found
+Oldest: Biscuit, age 5</pre>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.1</div>
+  <p><strong>8.1</strong> Write the class <code>Shelter</code> for Part 1.</p>
+
+<p>The box includes <code>Animal</code>, <code>Dog</code>, <code>Cat</code> and <code>Rabbit</code>, and runs the Part 1 demo.</p>  <wb-exercise id="q8-1"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.2</div>
+  <p><strong>8.2</strong> Write the methods <code>findByName</code> and <code>oldest</code> for Part 2.</p>
+
+<p>Add the two methods to your <code>Shelter</code> from 8.1. The box includes the four animal classes and runs the Part 2 demo.</p>  <wb-exercise id="q8-2"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.3</div>
+  <p><strong>8.3</strong> Write the lines of the Part 2 demo that find Rex and print <code>Rex breed: Beagle</code>. Check for <code>null</code> before the cast.</p>
+
+<p>The box includes a model <code>Shelter</code> and the animal classes, and fills the shelter as in the demo. Write the lines that find Rex and print his breed.</p>  <wb-exercise id="q8-3"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.4</div>
+  <p><strong>8.4</strong> Mia is a cat. What happens when this code runs, and why?</p>
+
+<pre><code><span class="wb-type">Animal</span> found = shelter.findByName(<span class="wb-str">"Mia"</span>);
+<span class="wb-type">Dog</span> dog = (<span class="wb-type">Dog</span>) found;
+System.out.println(dog.getBreed());</code></pre>
+  <wb-short id="q8-4"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.5</div>
+  <p><strong>8.5</strong> After <code>Animal a = new Dog("Rex", 3, "Beagle");</code>, write yes or no: does each line compile? Say why for each no.</p>
+
+  <wb-table id="q8-5">
+    <table>
+      <thead><tr><th>Line</th><th>Compiles?</th></tr></thead>
+      <tbody>
+        <tr><td><code>Dog d = a;</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>a.getBreed();</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>Dog e = (Dog) a;</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>a.getAge();</code></td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table><p>Why does each no fail?</p>  <wb-short id="q8-5-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.6</div>
+  <p><strong>8.6</strong> After <code>Animal old = shelter.oldest();</code>, which line compiles?</p>
+
+  <wb-choice id="q8-6">
+    <ol type="A">
+      <li><code>old.getBreed();</code></li>
+      <li><code>old.getAge();</code></li>
+      <li><code>Dog d = old;</code></li>
+      <li><code>old.getLabel();</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s9">9. Review</h2>
+<h3>Subtypes, declared types and casts</h3>
+<p>A subclass is a subtype, so a subclass object can go wherever its superclass is expected: in a variable, as an argument, or in a list. One list of the superclass type can then hold every kind of object. The compiler checks each line against declared types only, so through a superclass variable we can call only superclass methods. A cast gives back the subclass type: it is refused if it can never work, and it throws <code>ClassCastException</code> if the object turns out to be of another class. Every class is a subclass of <code>Object</code>, but choose the most specific type that covers every element.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 9.1</div>
+  <p><strong>9.1</strong> This code has two mistakes, and each one stops it from compiling. Find both and give a fix for each.</p>
+
+<pre><code><span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Notice</span>&gt; notices = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+notices.add(<span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"eli"</span>, <span class="wb-str">"Room 2 is free."</span>));
+notices.add(<span class="wb-str">"Lost keys"</span>);
+<span class="wb-kw">for</span>(<span class="wb-type">Notice</span> notice : notices) {
+    notice.printSummary();
+}</code></pre>
+  <wb-short id="q9-1"></wb-short><p>Now fix both mistakes in the box: add hal's text notice <code>"Lost keys."</code> instead of the string, and print each author. The box includes the notice classes.</p>  <wb-exercise id="q9-1-fix"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 9.2</div>
+  <p><strong>9.2</strong> Write true or false for each statement.</p>
+
+  <wb-table id="q9-2">
+    <table>
+      <thead><tr><th>Statement</th><th>True or false?</th></tr></thead>
+      <tbody>
+        <tr><td>A <code>Notice</code> variable can refer to a <code>JobNotice</code> object.</td><td data-blank="0"></td></tr>
+        <tr><td>A cast changes the class of the object.</td><td data-blank="1"></td></tr>
+        <tr><td>The compiler checks calls against the actual type of the object.</td><td data-blank="2"></td></tr>
+        <tr><td>A wrong cast between related classes compiles.</td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 9.3</div>
+  <p><strong>9.3</strong> A fleet has plain vehicles and trucks, and <code>Truck</code> extends <code>Vehicle</code>. Which list type should the fleet use?</p>
+
+  <wb-choice id="q9-3">
+    <ol type="A">
+      <li><code>ArrayList&lt;Truck&gt;</code></li>
+      <li><code>ArrayList&lt;Vehicle&gt;</code></li>
+      <li><code>ArrayList&lt;Object&gt;</code></li>
+      <li><code>ArrayList&lt;String&gt;</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s10">10. Complete Java Programs</h2>
+<p>Write these two programs after class. Each reuses a superclass and a subclass from Lecture 16, and adds a class that keeps both kinds in one list, and a demo.</p>
+<h3>Program A: Fleet</h3>
+<ul>
+<li><code>Vehicle(String plate)</code> and <code>Truck(String plate, int maxLoad)</code> are the classes from Lecture 16's Program A. <code>Vehicle</code> has <code>drive(int distance)</code>, <code>getPlate()</code> and <code>getKm()</code>. <code>Truck</code> extends it and adds <code>getMaxLoad()</code> and <code>printDetails()</code>, which prints a line such as <code>TRK-42: 150 km, max load 900 kg</code>.</li>
+<li><code>Fleet</code> has one private field <code>ArrayList&lt;Vehicle&gt; vehicles</code>. <code>add(Vehicle vehicle)</code> adds a vehicle. <code>get(int index)</code> returns the vehicle at that index. <code>printAll()</code> prints one line for each vehicle, such as <code>CAR-7: 30 km</code>. <code>totalKm()</code> returns the total distance of all the vehicles.</li>
+<li><code>FleetDemo</code> makes the vehicle <code>CAR-7</code>, the truck <code>TRK-42</code> with a maximum load of 900, and the vehicle <code>VAN-3</code>. The car drives 30 km, the truck 100 km and then 50 km, and the van 20 km. It adds the three in that order and prints them all and the total. Then it gets the vehicle at index 1, casts it to <code>Truck</code>, and calls <code>printDetails()</code>.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Fleet</code></div>
+<p>The box includes model <code>Vehicle</code> and <code>Truck</code> classes, adds a car and a truck to a fleet, prints them and the total, and gets the vehicle at index 1.</p>
+  <wb-exercise id="p1-list"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>FleetDemo</code></div>
+<p>The box includes model <code>Vehicle</code>, <code>Truck</code> and <code>Fleet</code> classes and runs your demo.</p>
+  <wb-exercise id="p1-demo"></wb-exercise>
+</div>
+<p>The demo prints:</p>
+<pre class="wb-output">CAR-7: 30 km
+TRK-42: 150 km
+VAN-3: 20 km
+Total: 200 km
+TRK-42: 150 km, max load 900 kg</pre>
+<h3>Program B: Show</h3>
+<ul>
+<li><code>Ticket(String seat, int price)</code> and <code>StudentTicket(String seat, int price, String studentId)</code> are the classes from Lecture 16's Program B. <code>Ticket</code> has <code>getSeat()</code> and <code>getPrice()</code>. <code>StudentTicket</code> extends it and adds <code>getStudentId()</code>, <code>getDiscount()</code> and <code>printTicket()</code>, which prints two lines such as <code>Seat B12: 15 dollars, student 2001234</code> and <code>  discount: 3 dollars</code>.</li>
+<li><code>Show</code> has one private field <code>ArrayList&lt;Ticket&gt; tickets</code>. <code>sell(Ticket ticket)</code> adds a ticket. <code>printSeats()</code> prints one line for each ticket, such as <code>A3: 20 dollars</code>. <code>totalSales()</code> returns the total of the prices. <code>find(String seat)</code> returns the ticket for that seat, or <code>null</code> if it was not sold.</li>
+<li><code>ShowDemo</code> sells a ticket for seat A3 at 20 dollars, a student ticket for seat B12 at 15 dollars to student 2001234, and a ticket for seat C5 at 25 dollars. It prints the seats and the total. It finds seat B12, casts it to <code>StudentTicket</code> and calls <code>printTicket()</code>. Then it looks for seat Z9 and prints <code>Z9 not sold</code>.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Show</code></div>
+<p>The box includes model <code>Ticket</code> and <code>StudentTicket</code> classes, sells a ticket and a student ticket, prints the seats and the total, and finds one seat that was sold and one that was not.</p>
+  <wb-exercise id="p2-list"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>ShowDemo</code></div>
+<p>The box includes model <code>Ticket</code>, <code>StudentTicket</code> and <code>Show</code> classes and runs your demo.</p>
+  <wb-exercise id="p2-demo"></wb-exercise>
+</div>
+<p>The demo prints:</p>
+<pre class="wb-output">A3: 20 dollars
+B12: 15 dollars
+C5: 25 dollars
+Total: 60 dollars
+Seat B12: 15 dollars, student 2001234
+  discount: 3 dollars
+Z9 not sold</pre>
+<hr>
+<section class="wb-outcomes wb-review">
+<h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+<p>A subclass is a subtype of its superclass, so a subclass object can go wherever the superclass is expected. That lets one list of the superclass type hold every kind of object.</p>
+<h3>One list</h3>
+<ul>
+<li>The board from Lecture 16 had <strong>three lists</strong>, three add methods and three loops, and it printed the notices by kind, not in the order they were added.</li>
+<li>Every text, event and job notice is a <code>Notice</code>, so one <code>ArrayList&lt;Notice&gt;</code> can hold them all.</li>
+</ul>
+<h3>Subtypes</h3>
+<ul>
+<li>A class is a type. A subclass is a <strong>subtype</strong>: every <code>TextNotice</code> is a <code>Notice</code>.</li>
+<li><strong>Substitution:</strong> a subclass object can go where the superclass is expected, in a variable, as an argument or in a list. <code>Notice n = new TextNotice(...);</code> compiles.</li>
+<li>It works only <strong>from subclass to superclass</strong>. <code>TextNotice t = n;</code> is refused, because a notice might not be a text notice.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_subtypes.png" alt="The slide Classes are types, subclasses are subtypes." loading="lazy" style="max-width: 560px">
+<figcaption>A subclass is a subtype.</figcaption>
+</figure>
+<h3>New board</h3>
+<ul>
+<li>The new board has <strong>one list</strong>, one <code>addNotice(Notice notice)</code> method and one loop, and it prints the notices in the order they were added.</li>
+<li>The loop variable is declared <code>Notice</code>, so the loop can call only <code>Notice</code> methods: <code>getAuthor()</code> and <code>getPins()</code>, but not <code>printSummary()</code>.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_loop_variable.png" alt="The slide The loop variable: one declared type, different objects." loading="lazy" style="max-width: 560px">
+<figcaption>One declared type, different objects.</figcaption>
+</figure>
+<h3>Declared type</h3>
+<ul>
+<li>The <strong>declared type</strong> is written in the declaration; the <strong>actual type</strong> is the class of the object. In <code>Notice n = new TextNotice(...);</code> they are <code>Notice</code> and <code>TextNotice</code>.</li>
+<li>The compiler checks each call against the <strong>declared type</strong> only. The object keeps its actual type and all its fields.</li>
+<li><strong>Type loss:</strong> <code>notices.get(0)</code> on an <code>ArrayList&lt;Notice&gt;</code> gives back a <code>Notice</code>, whatever was added.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_declared_actual.png" alt="The slide Declared type and actual type." loading="lazy" style="max-width: 560px">
+<figcaption>Declared type and actual type.</figcaption>
+</figure>
+<h3>Casts</h3>
+<ul>
+<li>A <strong>cast</strong> <code>(TextNotice) n</code> gives the expression the subclass type. It changes no object and makes no copy.</li>
+<li>A cast that can never work, such as <code>(String) n</code>, is a <strong>compile error</strong>.</li>
+<li>A cast to the wrong subclass compiles, then throws <code>ClassCastException</code> when the program <strong>runs</strong>.</li>
+<li>Use a cast only when you know the object's class, for example after a search that found Rex the dog.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_cast_checks.png" alt="The slide Cast checks: compile time and run time." loading="lazy" style="max-width: 560px">
+<figcaption>Two checks on a cast.</figcaption>
+</figure>
+<h3>Object</h3>
+<ul>
+<li>A class with no <code>extends</code> extends <code>Object</code>, so <code>Object</code> is the superclass of <strong>every class</strong>.</li>
+<li>An <code>Object</code> variable can hold anything but can call almost nothing. Choose the <strong>most specific type</strong> that covers every element: <code>ArrayList&lt;Notice&gt;</code>, not <code>ArrayList&lt;Object&gt;</code>.</li>
+</ul>
+<h3>Whole program</h3>
+<ul>
+<li>A new kind of notice, such as <code>PhotoNotice extends Notice</code>, needs <strong>no change</strong> to the board.</li>
+<li>The board still prints only the author and the pins. The next lecture introduces <strong>overriding</strong>, so the one loop can call each kind's own <code>printSummary()</code>.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_whole_program.png" alt="The slide The whole program: class diagram, with one ArrayList of Notice in NoticeBoard." loading="lazy" style="max-width: 560px">
+<figcaption>The whole program with one list.</figcaption>
+</figure>
+<h3>Practice and programs</h3>
+<ul>
+<li>The shelter keeps one <code>ArrayList&lt;Animal&gt;</code>. <code>findByName</code> returns an <code>Animal</code>, so the demo casts Rex to <code>Dog</code> before calling <code>getBreed()</code>.</li>
+<li><code>Fleet</code> keeps vehicles and trucks in one <code>ArrayList&lt;Vehicle&gt;</code>, and <code>Show</code> keeps tickets and student tickets in one <code>ArrayList&lt;Ticket&gt;</code>. Each demo casts one element back to the subclass.</li>
+</ul>
+</section>
+
+</main>
+</body>
+</html>
