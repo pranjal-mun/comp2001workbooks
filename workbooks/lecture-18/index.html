@@ -1,0 +1,1012 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 2001: Lecture 18 Workbook</title>
+  <link rel="icon" href="../../runtime/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
+  <link rel="stylesheet" href="../../runtime/workbook.css">
+  <style>
+    html, html[data-theme], html.wb-presenting, html.wb-presenting[data-theme] { --ink-quiet: var(--ink); --code-comment: var(--good-ink); }
+    .wb-shot { margin: 1rem 0 1.2rem; }
+    .wb-shot img { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; border: 1px solid var(--rule); border-radius: 6px; background: #fff; }
+    .wb-shot figcaption { font-family: var(--font-sans); font-size: 0.85rem; color: var(--ink); text-align: center; margin-top: 0.4rem; }
+    .wb-outcomes h3 { margin-top: 1.4rem; }
+  </style>
+  <script type="module">
+    import { initWorkbook } from "../../runtime/workbook.js";
+    initWorkbook({ id: "lecture-18", specs: "./exercises.json" });
+  </script>
+</head>
+<body>
+<main>
+
+<div class="wb-title-block">
+  <div>
+    <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
+    <h1>Lecture 18 Workbook</h1>
+    <div class="wb-subtitle">Chapter 13: Overriding and method lookup</div>
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
+  </div>
+  <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+</div>
+
+<p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run takes a few seconds while Java loads). Each box includes the other classes it needs and a short checking program. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
+<p>This workbook holds the notes and the questions for Lecture 18. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. For a multiple-choice question, circle one letter. Section 8 is the bike rental problem, to do at home as practice. Section 10 has two complete programs to write after class. By the end, you should be able to:</p>
+<ul>
+<li>override a superclass method, and use <code>@Override</code> to have the compiler check it;</li>
+<li>say which method runs for a call, by starting the lookup in the object's class;</li>
+<li>call the superclass version of a method with <code>super</code>;</li>
+<li>override <code>toString()</code> so that <code>println</code> shows an object's contents;</li>
+<li>override <code>equals</code> and <code>hashCode</code> together, and tell <code>==</code> from <code>equals</code>;</li>
+<li>choose between inheritance and a field (composition), and explain a <code>final</code> class; and</li>
+<li>write complete programs whose classes override <code>toString</code>, <code>equals</code> and <code>hashCode</code>.</li>
+</ul>
+<h2 id="s1">1. Overriding</h2>
+<h3>The notice board so far</h3>
+<p>In Lecture 17 the board kept every notice in one <code>ArrayList&lt;Notice&gt;</code>. <code>TextNotice</code>, <code>EventNotice</code> and <code>JobNotice</code> extend <code>Notice</code>, and each has its own <code>printSummary()</code>. <code>Notice</code> itself had no <code>printSummary()</code>.</p>
+<figure class="wb-shot">
+  <img src="img/board_so_far.png" alt="Class diagram from Lecture 17. Notice, with author, pins, a constructor, pin(), getAuthor() and getPins(), and no printSummary(). TextNotice, EventNotice and JobNotice extend Notice, and each has its own printSummary(), shown in red." loading="lazy" style="max-width: 600px">
+</figure>
+<p>The loop in <code>show()</code> has the loop variable <code>Notice notice</code>. The compiler checks each call against that declared type, and <code>Notice</code> has no <code>printSummary()</code>. So the loop could print only what every notice has:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">show</span>()
+{
+    <span class="wb-kw">for</span>(<span class="wb-type">Notice</span> notice : notices) {
+        System.out.println(notice.getAuthor() + <span class="wb-str">"  pins: "</span> + notice.getPins());
+    }
+}</code></pre>
+<p>The demo is the one from Lecture 17: ada's text notice, pinned twice; bo's event "Hackathon" on day 12, pinned once; chen's text notice "Lost calculator."; and dara's job at the Campus Bookstore. The board prints no message, no event title and no employer:</p>
+<pre class="wb-output">ada  pins: 2
+bo  pins: 1
+chen  pins: 0
+dara  pins: 0</pre>
+<h3>The fix: printSummary() in Notice</h3>
+<p>We give <code>Notice</code> its own <code>printSummary()</code>. It prints what every notice has, the author and the pins. Now the call <code>notice.printSummary()</code> compiles, because the declared type <code>Notice</code> has the method.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printSummary</span>()
+{
+    System.out.println(author + <span class="wb-str">"  pins: "</span> + pins);
+}</code></pre>
+<h3>Overriding</h3>
+<p>Now <code>Notice</code> and each subclass have a method with the same name and the same parameters (none). When a subclass has a method with the same name and the same parameter types as a method of its superclass, the subclass method <strong>overrides</strong> the superclass method. For a <code>TextNotice</code> object, the <code>TextNotice</code> version runs, and the <code>Notice</code> version does not.</p>
+<figure class="wb-shot">
+  <img src="img/overriding.png" alt="The same class diagram, now with printSummary() in Notice as well, shown in red. TextNotice, EventNotice and JobNotice each still have their own printSummary(), also in red." loading="lazy" style="max-width: 600px">
+</figure>
+<p>The three subclasses did not change. Their methods were already there; adding the method to <code>Notice</code> is what makes them overrides. Here is <code>TextNotice</code>:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">TextNotice</span> extends <span class="wb-type">Notice</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> message;
+    <span class="wb-kw">public</span> <span class="wb-fn">TextNotice</span>(<span class="wb-type">String</span> author,
+        <span class="wb-type">String</span> message)
+    {
+        super(author);
+        <span class="wb-kw">this</span>.message = message;
+    }
+    @<span class="wb-type">Override</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printSummary</span>()
+    {
+        System.out.println(getAuthor() + <span class="wb-str">": "</span> + message);
+        System.out.println(<span class="wb-str">"  pins: "</span> + getPins());
+    }
+}</code></pre>
+<h3>@Override</h3>
+<p>The line <code>@Override</code> above the method is an <strong>annotation</strong>. It asks the compiler to check that the method really overrides a method of the superclass. Without it, a typo such as <code>printSumary()</code> would quietly make a new method, and the <code>Notice</code> version would run for text notices. With <code>@Override</code>, the typo is a compile error:</p>
+<pre class="wb-output">error: method does not override or implement a method from a supertype</pre>
+<p>Write <code>@Override</code> on every method that overrides one.</p>
+<h3>The new loop</h3>
+<p>The loop in <code>show()</code> now calls <code>printSummary()</code>, and each notice prints its own detail:</p>
+<pre><code><span class="wb-kw">for</span>(<span class="wb-type">Notice</span> notice : notices) {
+    notice.printSummary();
+}</code></pre>
+<pre class="wb-output">ada: Study group at 4pm.
+  pins: 2
+bo: Hackathon, day 12
+  pins: 1
+chen: Lost calculator.
+  pins: 0
+dara: job at Campus Bookstore
+  pins: 0</pre>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.1</div>
+  <p><strong>1.1</strong> Before the fix, why could the loop in <code>show()</code> not call <code>printSummary()</code>, although every object in the list had one?</p>
+
+  <wb-short id="q1-1"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.2</div>
+  <p><strong>1.2</strong> <code>Notice</code> has <code>public void printSummary()</code>. Each header below is written in <code>TextNotice</code>, with <code>@Override</code> above it. Write yes or no: does it override <code>Notice</code>'s method, so that it compiles?</p>
+
+  <wb-table id="q1-2">
+    <table>
+      <thead><tr><th>Header in <code>TextNotice</code></th><th>Overrides?</th></tr></thead>
+      <tbody>
+        <tr><td><code>public void printSummary()</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>public void printSummary(String prefix)</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>public void printsummary()</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>public void print()</code></td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.3</div>
+  <p><strong>1.3</strong> What does <code>@Override</code> do?</p>
+
+  <wb-choice id="q1-3">
+    <ol type="A">
+      <li>It makes the method override the superclass method.</li>
+      <li>It asks the compiler to check that the method overrides a superclass method.</li>
+      <li>It runs the superclass method first.</li>
+      <li>It stops subclasses from overriding the method.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.4</div>
+  <p><strong>1.4</strong> Suppose <code>TextNotice</code>'s method is misspelled <code>printSumary()</code> and has no <code>@Override</code>. What does the board print for chen's notice?</p>
+
+  <wb-choice id="q1-4">
+    <ol type="A">
+      <li>Nothing: the program does not compile.</li>
+      <li><code>chen: Lost calculator.</code> and then <code>  pins: 0</code></li>
+      <li><code>chen  pins: 0</code></li>
+      <li>An exception, because the method is missing.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.5</div>
+  <p><strong>1.5</strong> Which change made <code>notice.printSummary()</code> compile inside the loop?</p>
+
+  <wb-choice id="q1-5">
+    <ol type="A">
+      <li>Adding <code>@Override</code> to the three subclasses.</li>
+      <li>Adding <code>printSummary()</code> to <code>Notice</code>.</li>
+      <li>Changing the list to <code>ArrayList&lt;TextNotice&gt;</code>.</li>
+      <li>Casting each notice to <code>TextNotice</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s2">2. Lookup</h2>
+<h3>Two decisions</h3>
+<p>In Lecture 17 we met the <strong>declared type</strong> of a variable, the type written in its declaration, and the <strong>actual type</strong>, the class of the object it refers to. (The textbook calls them the static type and the dynamic type.) A call such as <code>n.printSummary()</code> involves two decisions, made at two different times.</p>
+<figure class="wb-shot">
+  <img src="img/two_decisions.png" alt="The variable Notice n refers to a TextNotice object. First, at compile time, the declared type Notice decides whether there is a printSummary(). Then, at run time, the actual type TextNotice decides which printSummary() runs." loading="lazy" style="max-width: 560px">
+</figure>
+<ul>
+<li>When the program is compiled, the <strong>declared type</strong> decides whether the call is allowed.</li>
+<li>When the program runs, the <strong>actual type</strong> decides which method runs.</li>
+</ul>
+<h3>Method lookup</h3>
+<p>When a method is called, Java finds the method to run in this way. It starts in the class of the object. If that class has the method, that method runs. If not, Java goes up to the superclass and looks there, then to its superclass, and so on. The first method it finds runs, and only that one. This is called <strong>dynamic method lookup</strong>. The compiler has already made sure that some class on the way up has the method, so the search always ends.</p>
+<figure class="wb-shot">
+  <img src="img/lookup_chain.png" alt="A chain of three classes: Object at the top with toString() and equals(obj), Notice below it with pin() and printSummary(), and TextNotice at the bottom with printSummary(). For a TextNotice object, printSummary() is found in TextNotice, pin() one class up in Notice, and toString() two classes up in Object." loading="lazy" style="max-width: 560px">
+</figure>
+<p>Here is a trace for chen's notice:</p>
+<pre><code><span class="wb-type">Notice</span> n = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"chen"</span>, <span class="wb-str">"Lost calculator."</span>);
+n.printSummary();</code></pre>
+<pre class="wb-output">chen: Lost calculator.
+  pins: 0</pre>
+<p>The variable <code>n</code> is declared <code>Notice</code>, so the call compiles. The object is a <code>TextNotice</code>, so the lookup starts in <code>TextNotice</code>, finds <code>printSummary()</code> there and runs it. A call <code>n.pin()</code> would start in <code>TextNotice</code> too, find nothing, and go up to <code>Notice</code>.</p>
+<h3>No override</h3>
+<p>Suppose <code>JobNotice</code> had no <code>printSummary()</code>. For dara's notice, the lookup starts in <code>JobNotice</code>, finds nothing, and goes up to <code>Notice</code>. The board's last line is then the <code>Notice</code> version, with no employer:</p>
+<pre class="wb-output">dara  pins: 0</pre>
+<h3>Method polymorphism</h3>
+<p>In the loop of <code>show()</code>, the same line, <code>notice.printSummary()</code>, runs <code>TextNotice</code>'s method for ada, <code>EventNotice</code>'s for bo, <code>TextNotice</code>'s for chen and <code>JobNotice</code>'s for dara. One call runs a different method for each kind of object. This is <strong>method polymorphism</strong>: the object decides which method runs, not the variable.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.1</div>
+  <p><strong>2.1</strong> The notice classes are as in Section 1, and none of them has its own <code>toString()</code>. After the lines below, write the class whose method runs for each call.</p>
+
+<pre><code><span class="wb-type">Notice</span> j = <span class="wb-kw">new</span> <span class="wb-fn">JobNotice</span>(<span class="wb-str">"dara"</span>, <span class="wb-str">"Campus Bookstore"</span>);
+<span class="wb-type">TextNotice</span> t = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"eli"</span>, <span class="wb-str">"Room 2 is free."</span>);
+<span class="wb-type">Notice</span> p = <span class="wb-kw">new</span> <span class="wb-fn">Notice</span>(<span class="wb-str">"fay"</span>);</code></pre>
+  <wb-table id="q2-1">
+    <table>
+      <thead><tr><th>Call</th><th>Method found in</th></tr></thead>
+      <tbody>
+        <tr><td><code>j.printSummary()</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>j.getAuthor()</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>t.printSummary()</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>t.pin()</code></td><td data-blank="3"></td></tr>
+        <tr><td><code>p.printSummary()</code></td><td data-blank="4"></td></tr>
+        <tr><td><code>j.toString()</code></td><td data-blank="5"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.2</div>
+  <p><strong>2.2</strong> Suppose <code>EventNotice</code> has no <code>printSummary()</code>, and the other classes are as in Section 1. What does the board print for bo's event notice, which was pinned once? Explain.</p>
+
+  <wb-table id="q2-2">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+      </tbody>
+    </table>
+  </wb-table><p>Explain.</p>  <wb-short id="q2-2-why"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.3</div>
+  <p><strong>2.3</strong> In your own words, what is method polymorphism? Use the loop in <code>show()</code> as the example.</p>
+
+  <wb-short id="q2-3"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.4</div>
+  <p><strong>2.4</strong> <code>Notice n = new EventNotice("bo", "Hackathon", 12);</code> What decides whether <code>n.printSummary()</code> compiles?</p>
+
+  <wb-choice id="q2-4">
+    <ol type="A">
+      <li>The declared type of <code>n</code>, <code>Notice</code>.</li>
+      <li>The actual type of the object, <code>EventNotice</code>.</li>
+      <li>Whether <code>EventNotice</code> has <code>@Override</code>.</li>
+      <li>Whether the program has created an event notice yet.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.5</div>
+  <p><strong>2.5</strong> With the same <code>n</code>, which <code>printSummary()</code> runs?</p>
+
+  <wb-choice id="q2-5">
+    <ol type="A">
+      <li><code>Notice</code>'s, because <code>n</code> is declared <code>Notice</code>.</li>
+      <li><code>EventNotice</code>'s, because the object is an event notice.</li>
+      <li>Both, <code>Notice</code>'s first.</li>
+      <li>Both, <code>EventNotice</code>'s first.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.6</div>
+  <p><strong>2.6</strong> <code>n</code> refers to a <code>TextNotice</code>. Where does the lookup for <code>n.pin()</code> find the method?</p>
+
+  <wb-choice id="q2-6">
+    <ol type="A">
+      <li>In <code>TextNotice</code>.</li>
+      <li>In <code>Notice</code>.</li>
+      <li>In <code>Object</code>.</li>
+      <li>Nowhere: the call is a compile error.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s3">3. Super</h2>
+<h3>The same lines in three overrides</h3>
+<p>Look at the three <code>printSummary()</code> methods of Section 1. Each prints the author and the pins again, although <code>Notice.printSummary()</code> already does exactly that.</p>
+<pre><code><span class="wb-cmt">// TextNotice</span>
+System.out.println(getAuthor() + <span class="wb-str">": "</span> + message);
+System.out.println(<span class="wb-str">"  pins: "</span> + getPins());
+<span class="wb-cmt">// EventNotice</span>
+System.out.println(getAuthor() + <span class="wb-str">": "</span> + title + <span class="wb-str">", day "</span> + day);
+System.out.println(<span class="wb-str">"  pins: "</span> + getPins());
+<span class="wb-cmt">// JobNotice</span>
+System.out.println(getAuthor() + <span class="wb-str">": job at "</span> + employer);
+System.out.println(<span class="wb-str">"  pins: "</span> + getPins());</code></pre>
+<h3>super.printSummary()</h3>
+<p>Inside an override, <code>super.printSummary()</code> runs the superclass version of the method. The override can then add its own lines.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">TextNotice</span> extends <span class="wb-type">Notice</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> message;
+    <span class="wb-kw">public</span> <span class="wb-fn">TextNotice</span>(<span class="wb-type">String</span> author,
+        <span class="wb-type">String</span> message)
+    {
+        super(author);
+        <span class="wb-kw">this</span>.message = message;
+    }
+    @<span class="wb-type">Override</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printSummary</span>()
+    {
+        super.printSummary();
+        System.out.println(<span class="wb-str">"  "</span> + message);
+    }
+}</code></pre>
+<p><code>EventNotice</code> and <code>JobNotice</code> change in the same way. For ada's notice the calls happen in this order:</p>
+<figure class="wb-shot">
+  <img src="img/super_order.png" alt="Three steps for ada's notice. 1: TextNotice.printSummary() starts. 2: super.printSummary() runs Notice's version, which prints ada  pins: 2. 3: back in TextNotice, it prints the message." loading="lazy" style="max-width: 520px">
+</figure>
+<pre class="wb-output">ada  pins: 2
+  Study group at 4pm.
+bo  pins: 1
+  Hackathon, day 12
+chen  pins: 0
+  Lost calculator.
+dara  pins: 0
+  job at Campus Bookstore</pre>
+<p>Two points to note.</p>
+<ul>
+<li><code>super</code> is not automatic. An override replaces the superclass method completely, unless it calls it with <code>super</code>.</li>
+<li>Without <code>super.</code>, the line <code>printSummary();</code> calls this same method again, which calls itself again, and so on. The program stops with a <code>StackOverflowError</code>.</li>
+</ul>
+<p>In a constructor, <code>super(author)</code> calls the superclass constructor and must be the first line. In a method, <code>super.printSummary()</code> calls a superclass method and may go anywhere in the method.</p>
+<h3>Access: private, protected and public</h3>
+<p>The fields <code>author</code> and <code>pins</code> are <code>private</code>, so even a subclass cannot use them directly: in <code>TextNotice</code>, the name <code>author</code> is a compile error, "<code>author has private access in
+Notice</code>". That is why the subclasses call <code>getAuthor()</code> and <code>getPins()</code>, or <code>super.printSummary()</code>. Java has a third level of access between private and public:</p>
+<figure class="wb-shot">
+  <img src="img/access.png" alt="Three levels of access. private: only Notice. protected: Notice, its subclasses and its package. public: every class." loading="lazy" style="max-width: 520px">
+</figure>
+<p>A <strong>package</strong> is a group of classes. In a BlueJ project every class is in the same package, so there <code>protected</code> works like <code>public</code>. Keep fields <code>private</code> and give subclasses getters. <code>protected</code> suits a helper method that only subclasses should call.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.1</div>
+  <p><strong>3.1</strong> The classes are the ones with <code>super</code> above. Write what this code prints.</p>
+
+<pre><code><span class="wb-type">EventNotice</span> e = <span class="wb-kw">new</span> <span class="wb-fn">EventNotice</span>(<span class="wb-str">"gil"</span>, <span class="wb-str">"Chess club"</span>, <span class="wb-num">3</span>);
+e.pin();
+e.pin();
+e.printSummary();</code></pre>
+  <wb-table id="q3-1">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.2</div>
+  <p><strong>3.2</strong> Write <code>printSummary()</code> for <code>JobNotice</code>. Use <code>super</code> for the first line. For dara's notice it prints <code>dara  pins: 0</code> and then <code>  job at Campus Bookstore</code>.</p>
+
+<p>Add <code>printSummary()</code> to the class below. The box includes <code>Notice</code> with its <code>printSummary()</code>, and prints dara's notice.</p>  <wb-exercise id="q3-2"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.3</div>
+  <p><strong>3.3</strong> In <code>TextNotice</code>'s override, the line <code>super.printSummary();</code> is written as <code>printSummary();</code>. What happens when the board shows ada's notice?</p>
+
+  <wb-choice id="q3-3">
+    <ol type="A">
+      <li><code>Notice</code>'s version runs, as before.</li>
+      <li>It is a compile error.</li>
+      <li>The method calls itself again and again, until the program stops with a <code>StackOverflowError</code>.</li>
+      <li>Nothing is printed for ada.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.4</div>
+  <p><strong>3.4</strong> <code>author</code> is a <code>private</code> field of <code>Notice</code>. Can <code>TextNotice</code>'s <code>printSummary()</code> use the name <code>author</code>?</p>
+
+  <wb-choice id="q3-4">
+    <ol type="A">
+      <li>Yes, because <code>TextNotice</code> is a subclass of <code>Notice</code>.</li>
+      <li>Yes, but only in a method marked <code>@Override</code>.</li>
+      <li>No. It must call <code>getAuthor()</code>, or <code>super.printSummary()</code>.</li>
+      <li>No, unless <code>TextNotice</code> is <code>final</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.5</div>
+  <p><strong>3.5</strong> A method of <code>Notice</code> is declared <code>protected</code>. Where can it be called?</p>
+
+  <wb-choice id="q3-5">
+    <ol type="A">
+      <li>Only inside <code>Notice</code>.</li>
+      <li>In <code>Notice</code>, its subclasses and the classes of its package.</li>
+      <li>Only in the subclasses of <code>Notice</code>.</li>
+      <li>In every class, like a <code>public</code> method.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s4">4. toString</h2>
+<h3>Printing an object</h3>
+<p>What happens when we print a notice?</p>
+<pre><code><span class="wb-type">TextNotice</span> first = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"ada"</span>, <span class="wb-str">"Study group at 4pm."</span>);
+System.out.println(first);</code></pre>
+<pre class="wb-output">TextNotice@41a4555e</pre>
+<p><code>println</code> asks the object for its text by calling its <code>toString()</code> method. None of our classes has one, so the lookup goes up to <code>Object</code>. <code>Object</code>'s version returns the class name, an <code>@</code> sign and a number from <code>Object</code>'s <code>hashCode()</code> method, written in hexadecimal. The number may be different on your computer.</p>
+<h3>Overriding toString()</h3>
+<p>We override <code>toString()</code> to say how a notice looks as text. <code>Notice</code> returns the author and the pins, and each subclass adds its own fields after <code>super.toString()</code>:</p>
+<pre><code><span class="wb-cmt">// In Notice</span>
+@<span class="wb-type">Override</span>
+<span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">toString</span>()
+{
+    <span class="wb-kw">return</span> author + <span class="wb-str">" [pins: "</span> + pins + <span class="wb-str">"]"</span>;
+}</code></pre>
+<pre><code><span class="wb-cmt">// In TextNotice</span>
+@<span class="wb-type">Override</span>
+<span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">toString</span>()
+{
+    <span class="wb-kw">return</span> super.toString() + <span class="wb-str">" "</span> + message;
+}</code></pre>
+<p><code>Notice.toString()</code> overrides <code>Object</code>'s version, so it has <code>@Override</code> too. The method returns the text and does not print it. The caller decides what to do with the text: print it, join it to other text, or keep it. In this version <code>toString()</code> replaces <code>printSummary()</code> in all four classes.</p>
+<h3>The board prints each notice</h3>
+<p><code>show()</code> now passes each notice to <code>println</code>:</p>
+<pre><code><span class="wb-kw">for</span>(<span class="wb-type">Notice</span> notice : notices) {
+    System.out.println(notice);
+}</code></pre>
+<pre class="wb-output">ada [pins: 2] Study group at 4pm.
+bo [pins: 1] Hackathon, day 12
+chen [pins: 0] Lost calculator.
+dara [pins: 0] job at Campus Bookstore</pre>
+<p>For bo, the lookup for <code>toString()</code> starts in <code>EventNotice</code> and finds its version, which calls <code>Notice</code>'s with <code>super</code>:</p>
+<figure class="wb-shot">
+  <img src="img/tostring_chain.png" alt="EventNotice.toString() calls super.toString(), which runs Notice.toString() and returns "bo [pins: 1]"." loading="lazy" style="max-width: 460px">
+</figure>
+<p>The <code>+</code> operator also calls <code>toString()</code> when one side is a <code>String</code>: <code>"Board: " + notice</code> joins the text with the notice's <code>toString()</code>.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.1</div>
+  <p><strong>4.1</strong> The classes are the ones with <code>toString()</code> above. Write what this code prints.</p>
+
+<pre><code><span class="wb-type">Notice</span> n = <span class="wb-kw">new</span> <span class="wb-fn">EventNotice</span>(<span class="wb-str">"bo"</span>, <span class="wb-str">"Hackathon"</span>, <span class="wb-num">12</span>);
+n.pin();
+<span class="wb-type">Notice</span> m = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"hal"</span>, <span class="wb-str">"Lost keys."</span>);
+System.out.println(n);
+System.out.println(<span class="wb-str">"Found: "</span> + m);</code></pre>
+  <wb-table id="q4-1">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.2</div>
+  <p><strong>4.2</strong> Write <code>toString()</code> for <code>JobNotice</code>. For dara's notice it returns <code>dara [pins: 0] job at Campus Bookstore</code>.</p>
+
+<p>Add <code>toString()</code> to the class below. The box includes <code>Notice</code> with its <code>toString()</code>, and prints dara's notice.</p>  <wb-exercise id="q4-2"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.3</div>
+  <p><strong>4.3</strong> Which method does <code>System.out.println(notice)</code> call on the notice?</p>
+
+  <wb-choice id="q4-3">
+    <ol type="A">
+      <li><code>printSummary()</code></li>
+      <li><code>getAuthor()</code></li>
+      <li><code>toString()</code></li>
+      <li><code>hashCode()</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.4</div>
+  <p><strong>4.4</strong> A class <code>Room</code> does not override <code>toString()</code>. What does <code>System.out.println(room)</code> print?</p>
+
+  <wb-choice id="q4-4">
+    <ol type="A">
+      <li>Nothing.</li>
+      <li>All the fields of the room.</li>
+      <li>The class name, <code>@</code> and a number, such as <code>Room@1b6d3586</code>.</li>
+      <li>It is a compile error.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.5</div>
+  <p><strong>4.5</strong> Why does <code>toString()</code> return the text instead of printing it?</p>
+
+  <wb-choice id="q4-5">
+    <ol type="A">
+      <li>Because a method of <code>Object</code> cannot print.</li>
+      <li>So that the caller can print the text, join it to other text or keep it.</li>
+      <li>Because <code>println</code> cannot print a <code>String</code>.</li>
+      <li>Because a <code>void</code> method cannot be overridden.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s5">5. Equality</h2>
+<h3>Two notices with the same contents</h3>
+<p>Here are two text notices with the same author and the same message, and a third variable that refers to the first notice.</p>
+<pre><code><span class="wb-type">TextNotice</span> a = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"ada"</span>, <span class="wb-str">"Study group at 4pm."</span>);
+<span class="wb-type">TextNotice</span> b = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"ada"</span>, <span class="wb-str">"Study group at 4pm."</span>);
+<span class="wb-type">TextNotice</span> c = a;
+System.out.println(a == b);
+System.out.println(a == c);
+System.out.println(a.equals(b));</code></pre>
+<pre class="wb-output">false
+true
+false</pre>
+<figure class="wb-shot">
+  <img src="img/same_object.png" alt="Variables a and c both refer to one TextNotice object with "ada" and "Study group at 4pm.". Variable b refers to a second TextNotice object with the same author and message." loading="lazy" style="max-width: 520px">
+</figure>
+<ul>
+<li><code>==</code> compares references. It asks: are these the <strong>same object</strong>? Yes for <code>a</code> and <code>c</code>, no for <code>a</code> and <code>b</code>.</li>
+<li><code>equals</code> should ask: do these objects have the <strong>same contents</strong>? But we have not overridden it, so <code>Object</code>'s version runs, and it just uses <code>==</code>.</li>
+</ul>
+<p>We decide what "equal" means for our own class, and override <code>equals</code>. Two text notices are equal when the author and the message are equal. The pins do not count.</p>
+<h3>Overriding equals</h3>
+<pre><code>@<span class="wb-type">Override</span>
+<span class="wb-kw">public</span> <span class="wb-kw">boolean</span> <span class="wb-fn">equals</span>(<span class="wb-type">Object</span> obj)
+{
+    <span class="wb-kw">if</span>(<span class="wb-kw">this</span> == obj) {
+        <span class="wb-kw">return</span> <span class="wb-kw">true</span>;
+    }
+    <span class="wb-kw">if</span>(!(obj instanceof <span class="wb-type">TextNotice</span>)) {
+        <span class="wb-kw">return</span> <span class="wb-kw">false</span>;
+    }
+    <span class="wb-type">TextNotice</span> other = (<span class="wb-type">TextNotice</span>) obj;
+    <span class="wb-kw">return</span> getAuthor().equals(other.getAuthor())
+        &amp;&amp; message.equals(other.message);
+}</code></pre>
+<ul>
+<li>The parameter is an <code>Object</code>, exactly as in <code>Object</code>'s version. A parameter of type <code>TextNotice</code> would make a different method that does not override.</li>
+<li><code>obj instanceof TextNotice</code> is <code>true</code> when <code>obj</code> refers to a text notice, and <code>false</code> for any other object or for <code>null</code>. It is the safe check before the cast, so the cast cannot fail.</li>
+<li><code>other.message</code> is allowed: <code>message</code> is private to the class <code>TextNotice</code>, and this code is in that class.</li>
+<li>The two <code>String</code>s are compared with <code>equals</code>, which <code>String</code> overrides to compare the characters.</li>
+</ul>
+<figure class="wb-shot">
+  <img src="img/equals_steps.png" alt="The steps of equals. Same object? If yes, true. If no: is it a text notice? If no, false. If yes, cast, then compare the author and the message." loading="lazy" style="max-width: 560px">
+</figure>
+<p>Now <code>a.equals(b)</code> is <code>true</code>, while <code>a == b</code> is still <code>false</code>: they are two objects with the same contents. <code>a.equals("hello")</code> returns <code>false</code>, with no exception. Library classes use <code>equals</code> too: an <code>ArrayList</code>'s <code>contains</code> and <code>indexOf</code> methods compare with <code>equals</code>.</p>
+<h3>hashCode</h3>
+<p>A <code>HashSet</code> holds no two equal elements. Add both notices to one:</p>
+<pre><code><span class="wb-type">HashSet</span>&lt;<span class="wb-type">TextNotice</span>&gt; set = <span class="wb-kw">new</span> <span class="wb-type">HashSet</span>&lt;&gt;();
+set.add(a);
+set.add(b);
+System.out.println(set.size());</code></pre>
+<p>With only <code>equals</code> overridden, this prints <code>2</code>, and the compiler (with all warnings on) says why:</p>
+<pre class="wb-output">warning: [overrides] Class TextNotice overrides equals, but neither it
+nor any superclass overrides hashCode method</pre>
+<p>A <code>HashSet</code> first calls <code>hashCode()</code> on the new element, to pick a group of elements to search. Only then does it call <code>equals</code> with each element of that group.</p>
+<figure class="wb-shot">
+  <img src="img/hashset.png" alt="How a HashSet adds b. set.add(b) calls b.hashCode(), which picks a group. Then equals is called with each element of that group. If an equal one is found, b is not added." loading="lazy" style="max-width: 560px">
+</figure>
+<p><code>Object</code>'s <code>hashCode()</code> usually gives different objects different numbers, so <code>a</code> and <code>b</code> usually land in different groups, and the set never compares them. The rule is: <strong>equal objects must have equal hash
+codes</strong>. So override <code>hashCode</code> whenever you override <code>equals</code>, and use the same fields. <code>Objects.hash(...)</code>, from <code>java.util.Objects</code>, builds a hash code from the fields:</p>
+<pre><code>@<span class="wb-type">Override</span>
+<span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">hashCode</span>()
+{
+    <span class="wb-kw">return</span> <span class="wb-type">Objects</span>.hash(getAuthor(), message);
+}</code></pre>
+<p>With both methods, the set's size is <code>1</code>.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.1</div>
+  <p><strong>5.1</strong> <code>TextNotice</code> overrides <code>equals</code> and <code>hashCode</code> as above. After these lines, write true or false for each expression.</p>
+
+<pre><code><span class="wb-type">TextNotice</span> p = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"eli"</span>, <span class="wb-str">"Room 2 is free."</span>);
+<span class="wb-type">TextNotice</span> q = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"eli"</span>, <span class="wb-str">"Room 2 is free."</span>);
+<span class="wb-type">TextNotice</span> r = <span class="wb-kw">new</span> <span class="wb-fn">TextNotice</span>(<span class="wb-str">"fay"</span>, <span class="wb-str">"Room 2 is free."</span>);
+<span class="wb-type">TextNotice</span> s = q;</code></pre>
+  <wb-table id="q5-1">
+    <table>
+      <thead><tr><th>Expression</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td><code>p == q</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>p.equals(q)</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>q == s</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>p.equals(r)</code></td><td data-blank="3"></td></tr>
+        <tr><td><code>r.equals(null)</code></td><td data-blank="4"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.2</div>
+  <p><strong>5.2</strong> Write <code>equals</code> and <code>hashCode</code> for <code>EventNotice</code>. Two event notices are equal when they have the same author, the same title and the same day. The class starts with <code>import java.util.Objects;</code>.</p>
+
+<p>Add the two methods to the class below. The box includes <code>Notice</code>, compares some event notices and puts them in a <code>HashSet</code>.</p>  <wb-exercise id="q5-2"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.3</div>
+  <p><strong>5.3</strong> Why must two equal objects have equal hash codes?</p>
+
+  <wb-short id="q5-3"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.4</div>
+  <p><strong>5.4</strong> What does <code>a == b</code> compare, when <code>a</code> and <code>b</code> are <code>TextNotice</code> variables?</p>
+
+  <wb-choice id="q5-4">
+    <ol type="A">
+      <li>The authors and the messages.</li>
+      <li>Whether <code>a</code> and <code>b</code> refer to the same object.</li>
+      <li>The hash codes of the two objects.</li>
+      <li>Whatever <code>TextNotice</code>'s <code>equals</code> compares.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.5</div>
+  <p><strong>5.5</strong> Why is the parameter of <code>equals</code> declared <code>Object</code>, not <code>TextNotice</code>?</p>
+
+  <wb-choice id="q5-5">
+    <ol type="A">
+      <li>With <code>Object</code> it overrides <code>Object</code>'s <code>equals</code>; with <code>TextNotice</code> it would be a different method.</li>
+      <li>An <code>Object</code> parameter makes the method faster.</li>
+      <li><code>instanceof</code> works only on an <code>Object</code>.</li>
+      <li>A <code>TextNotice</code> parameter is a compile error.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.6</div>
+  <p><strong>5.6</strong> <code>TextNotice</code> overrides <code>equals</code> but not <code>hashCode</code>. Ada's two equal notices <code>a</code> and <code>b</code> are added to an empty <code>HashSet</code>. What does <code>set.size()</code> return?</p>
+
+  <wb-choice id="q5-6">
+    <ol type="A">
+      <li>0</li>
+      <li>1</li>
+      <li>2</li>
+      <li>It throws an exception.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s6">6. Reuse</h2>
+<h3>Inheritance or composition</h3>
+<p>A board needs a list, and <code>ArrayList&lt;Notice&gt;</code> already has <code>add</code>, <code>get</code> and many more methods. Why not make the board a subclass of the list?</p>
+<figure class="wb-shot">
+  <img src="img/listboard.png" alt="Class diagram: ListBoard extends ArrayList<Notice>, which has add(e), clear(), remove(i), set(i, e) and many more methods." loading="lazy" style="max-width: 420px">
+</figure>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ListBoard</span>
+    extends <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Notice</span>&gt;
+{
+}</code></pre>
+<p>It compiles, and <code>ListBoard</code> inherits every list method. That is the problem: <code>board.clear()</code> and <code>board.remove(0)</code> compile too, so any code can wipe the board, and the board cannot stop it. The is-a test also fails: a notice board is not a list. It <strong>has</strong> a list.</p>
+<p>Our <code>NoticeBoard</code> keeps the list in a private field and offers only <code>addNotice</code> and <code>show</code>. Building a class from objects held in its fields is called <strong>composition</strong>. Use inheritance when the subclass really is a kind of the superclass, as a text notice is a kind of notice. Otherwise, use a field.</p>
+<h3>Final classes</h3>
+<p>A class declared <code>final</code> cannot have subclasses.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">final</span> <span class="wb-kw">class</span> <span class="wb-type">TextNotice</span> extends <span class="wb-type">Notice</span>
+
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">UrgentNotice</span> extends <span class="wb-type">TextNotice</span></code></pre>
+<pre class="wb-output">error: cannot inherit from final TextNotice</pre>
+<p>A subclass could override methods and break a promise the class makes, for example how its <code>equals</code> works. <code>final</code> rules that out. <code>String</code> is a <code>final</code> class, so nobody can change how strings behave. Most classes stay open, and so do ours. A single method can be declared <code>final</code> too; then no subclass can override that method.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.1</div>
+  <p><strong>6.1</strong> Give two reasons why <code>NoticeBoard</code> should have an <code>ArrayList&lt;Notice&gt;</code> field rather than extend <code>ArrayList&lt;Notice&gt;</code>.</p>
+
+  <wb-short id="q6-1"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.2</div>
+  <p><strong>6.2</strong> Which of these is composition?</p>
+
+  <wb-choice id="q6-2">
+    <ol type="A">
+      <li><code>TextNotice extends Notice</code></li>
+      <li><code>ListBoard extends ArrayList&lt;Notice&gt;</code></li>
+      <li><code>NoticeBoard</code> has a field <code>private ArrayList&lt;Notice&gt; notices</code>.</li>
+      <li><code>Notice</code> has <code>@Override</code> on <code>toString()</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.3</div>
+  <p><strong>6.3</strong> <code>TextNotice</code> is declared <code>public final class TextNotice extends Notice</code>. Which line is a compile error?</p>
+
+  <wb-choice id="q6-3">
+    <ol type="A">
+      <li><code>Notice n = new TextNotice("ada", "Hi");</code></li>
+      <li><code>public class UrgentNotice extends TextNotice</code></li>
+      <li><code>public class PhotoNotice extends Notice</code></li>
+      <li><code>TextNotice t = new TextNotice("bo", "Hi");</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s7">7. Whole program</h2>
+<h3>The class diagram</h3>
+<p>Here is the whole program, in its <code>toString()</code> version. Every notice class overrides <code>toString()</code>, and <code>printSummary()</code> is gone. <code>NoticeBoardDemo</code> makes the four notices of Section 1, and <code>show()</code> prints them as in Section 4.</p>
+<figure class="wb-shot">
+  <img src="img/whole_program.png" alt="The whole program: Notice, with author, pins, a constructor, pin(), getAuthor(), getPins() and toString() in red. TextNotice, EventNotice and JobNotice extend Notice, and each has toString() in red. NoticeBoardDemo uses NoticeBoard, which has notices : ArrayList<Notice>, NoticeBoard(), addNotice(notice) and show(), and an arrow marked * to Notice." loading="lazy" style="max-width: 640px">
+</figure>
+<h3>A new kind of notice</h3>
+<p>A new kind of notice needs only a new class. The board calls <code>println</code> on each notice, and the lookup finds the new class's <code>toString()</code>. The board itself does not change.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.1</div>
+  <p><strong>7.1</strong> Write a class <code>PhotoNotice extends Notice</code> with a field <code>caption</code>, a constructor <code>PhotoNotice(String author, String caption)</code> and <code>toString()</code>. When fay's photo "Campus at dawn", pinned once, is on the board, <code>show()</code> prints <code>fay [pins: 1] photo: Campus at dawn</code>.</p>
+
+<p>The box includes the notice classes and the board, and puts eli's text notice and fay's photo on the board.</p>  <wb-exercise id="q7-1"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.2</div>
+  <p><strong>7.2</strong> When <code>PhotoNotice</code> is added, what must change in <code>NoticeBoard</code>?</p>
+
+  <wb-choice id="q7-2">
+    <ol type="A">
+      <li>A new loop in <code>show()</code> for photo notices.</li>
+      <li>A cast to <code>PhotoNotice</code> inside the loop.</li>
+      <li>A new method <code>addPhotoNotice</code>.</li>
+      <li>Nothing.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.3</div>
+  <p><strong>7.3</strong> In <code>show()</code>, the loop variable <code>notice</code> is declared <code>Notice</code>. When it refers to bo's event notice, which <code>toString()</code> does <code>println(notice)</code> run first?</p>
+
+  <wb-choice id="q7-3">
+    <ol type="A">
+      <li><code>Notice</code>'s, the declared type.</li>
+      <li><code>EventNotice</code>'s, which then calls <code>Notice</code>'s.</li>
+      <li><code>Object</code>'s.</li>
+      <li><code>NoticeBoard</code>'s.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s8">8. Practice</h2>
+<p>This section is the bike rental problem, to do at home as practice. Try each part before you read its solution.</p>
+<h3>The starter program</h3>
+<p>A rental shop has bikes and e-bikes. The rate of a bike is in dollars per hour. <code>EBike</code> extends <code>Bike</code> and, so far, adds nothing.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Bike</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> id;
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> rate;
+    <span class="wb-kw">public</span> <span class="wb-fn">Bike</span>(<span class="wb-type">String</span> id, <span class="wb-kw">int</span> rate)
+    {
+        <span class="wb-kw">this</span>.id = id;
+        <span class="wb-kw">this</span>.rate = rate;
+    }
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getId</span>()
+    {
+        <span class="wb-kw">return</span> id;
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">cost</span>(<span class="wb-kw">int</span> hours)
+    {
+        <span class="wb-kw">return</span> rate * hours;
+    }
+}</code></pre>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">EBike</span> extends <span class="wb-type">Bike</span>
+{
+    <span class="wb-kw">public</span> <span class="wb-fn">EBike</span>(<span class="wb-type">String</span> id, <span class="wb-kw">int</span> rate)
+    {
+        super(id, rate);
+    }
+}</code></pre>
+<p>The demo puts bike B1 at 4 dollars an hour, bike B2 at 5 and e-bike E1 at 6 into one <code>ArrayList&lt;Bike&gt;</code>, and prints each with its cost for 3 hours:</p>
+<pre><code><span class="wb-kw">for</span>(<span class="wb-type">Bike</span> bike : fleet) {
+    System.out.println(bike + <span class="wb-str">": 3 hours, $"</span> + bike.cost(<span class="wb-num">3</span>));
+}</code></pre>
+<pre class="wb-output">Bike@3830f1c0: 3 hours, $12
+Bike@7d6f77cc: 3 hours, $15
+EBike@5aaa6d82: 3 hours, $18</pre>
+<h3>Part 1: Overrides</h3>
+<p>Write the three methods in red. <code>Bike.toString()</code> returns the id and the rate, as in <code>B1 ($4/h)</code>. An e-bike costs the bike price plus a $5 battery fee, and its <code>toString()</code> adds <code>" electric"</code>. Use <code>super</code> in both <code>EBike</code> methods.</p>
+<figure class="wb-shot">
+  <img src="img/bikes.png" alt="Class diagram: Bike, with id, rate, getId() and cost(hours), and toString() in red. EBike extends Bike and has cost(hours) and toString(), both in red." loading="lazy" style="max-width: 360px">
+</figure>
+<pre class="wb-output">B1 ($4/h): 3 hours, $12
+B2 ($5/h): 3 hours, $15
+E1 ($6/h) electric: 3 hours, $23</pre>
+<h3>Part 2: Equality</h3>
+<p>Two bikes are equal when they have the same id. Write <code>equals</code> and <code>hashCode</code> in <code>Bike</code>. The new demo prints the three lines of Part 1. Then it makes a new <code>Bike("B1", 4)</code>, called <code>returned</code>, and prints whether B1 equals it. Last, it adds B1, E1 and <code>returned</code> to a <code>HashSet&lt;Bike&gt;</code> and prints its size:</p>
+<pre class="wb-output">true
+Bikes out: 2</pre>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.1</div>
+  <p><strong>8.1</strong> Write <code>toString()</code> for <code>Bike</code> (Part 1).</p>
+
+<p>Add <code>toString()</code> to the starter <code>Bike</code> below. The box includes the starter <code>EBike</code> and runs the demo.</p>  <wb-exercise id="q8-1"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.2</div>
+  <p><strong>8.2</strong> Write the class <code>EBike</code> for Part 1, with its two overrides.</p>
+
+<p>The box includes a model <code>Bike</code> with the <code>toString()</code> of 8.1, and runs the demo.</p>  <wb-exercise id="q8-2"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.3</div>
+  <p><strong>8.3</strong> Write <code>equals</code> and <code>hashCode</code> for <code>Bike</code> (Part 2).</p>
+
+<p>Add the two methods to <code>Bike</code>. The box includes the Part 1 <code>EBike</code> and runs the Part 2 demo.</p>  <wb-exercise id="q8-3"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.4</div>
+  <p><strong>8.4</strong> In <code>EBike</code>, the line <code>return super.cost(hours) + 5;</code> is written as <code>return cost(hours) + 5;</code>. What happens when the demo runs, and why?</p>
+
+  <wb-short id="q8-4"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.5</div>
+  <p><strong>8.5</strong> In the demo's loop, <code>bike</code> is declared <code>Bike</code>. For E1, which <code>cost</code> runs first?</p>
+
+  <wb-choice id="q8-5">
+    <ol type="A">
+      <li><code>Bike</code>'s, because <code>bike</code> is declared <code>Bike</code>.</li>
+      <li><code>EBike</code>'s, which then calls <code>Bike</code>'s with <code>super</code>.</li>
+      <li>Both, <code>Bike</code>'s first, then <code>EBike</code>'s.</li>
+      <li><code>Object</code>'s.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.6</div>
+  <p><strong>8.6</strong> With the Part 2 <code>equals</code>, what is <code>new Bike("B1", 4).equals(new Bike("B1", 6))</code>?</p>
+
+  <wb-choice id="q8-6">
+    <ol type="A">
+      <li><code>true</code></li>
+      <li><code>false</code></li>
+      <li>It is a compile error.</li>
+      <li>It throws an exception.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s9">9. Review</h2>
+<h3>Overriding and lookup</h3>
+<p>A subclass method with the same name and parameters as a superclass method overrides it; mark it <code>@Override</code> so that the compiler checks. The declared type decides whether a call compiles, and the class of the object decides which method runs: the lookup starts in that class and goes up, and the first method found runs. <code>super.method()</code> runs the superclass version from inside an override. <code>println</code> calls <code>toString()</code>, so override it to describe your objects. <code>==</code> asks whether two references are the same object; override <code>equals</code> and <code>hashCode</code> together, with the same fields, to compare contents. Use a field, not inheritance, when the is-a test fails, and declare a class <code>final</code> when it must have no subclasses.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 9.1</div>
+  <p><strong>9.1</strong> Write true or false for each statement.</p>
+
+  <wb-table id="q9-1">
+    <table>
+      <thead><tr><th>Statement</th><th>True or false?</th></tr></thead>
+      <tbody>
+        <tr><td>An override has the same name and parameters as the superclass method.</td><td data-blank="0"></td></tr>
+        <tr><td>The declared type decides which override runs.</td><td data-blank="1"></td></tr>
+        <tr><td><code>super.printSummary()</code> runs the superclass version.</td><td data-blank="2"></td></tr>
+        <tr><td><code>Object</code>'s <code>equals</code> compares the fields of two objects.</td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 9.2</div>
+  <p><strong>9.2</strong> Which two methods should always be overridden together?</p>
+
+  <wb-choice id="q9-2">
+    <ol type="A">
+      <li><code>toString</code> and <code>equals</code></li>
+      <li><code>equals</code> and <code>hashCode</code></li>
+      <li><code>hashCode</code> and <code>toString</code></li>
+      <li><code>printSummary</code> and <code>toString</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 9.3</div>
+  <p><strong>9.3</strong> This version of <code>TextNotice</code> has two mistakes, and each one stops it from compiling. Find both and give a fix for each.</p>
+
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">TextNotice</span> extends <span class="wb-type">Notice</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> message;
+    <span class="wb-kw">public</span> <span class="wb-fn">TextNotice</span>(<span class="wb-type">String</span> author, <span class="wb-type">String</span> message)
+    {
+        super(author);
+        <span class="wb-kw">this</span>.message = message;
+    }
+    @<span class="wb-type">Override</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">printSummary</span>(<span class="wb-type">String</span> prefix)
+    {
+        System.out.println(prefix + message);
+    }
+    @<span class="wb-type">Override</span>
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">toString</span>()
+    {
+        System.out.println(getAuthor() + <span class="wb-str">": "</span> + message);
+    }
+}</code></pre>
+  <wb-short id="q9-3"></wb-short><p>Now fix both mistakes in the box. The box includes <code>Notice</code>, and prints a text notice and its summary.</p>  <wb-exercise id="q9-3-fix"></wb-exercise>
+</div>
+<h2 id="s10">10. Complete Java Programs</h2>
+<p>Write these two programs after class. Each reuses classes from Lecture 17's complete programs, and adds the methods of this lecture.</p>
+<h3>Program A: Fleet</h3>
+<ul>
+<li><code>Vehicle(String plate)</code> has <code>drive(int distance)</code>, <code>getPlate()</code> and <code>getKm()</code>, as in Lecture 17. Add <code>toString()</code>, which returns text such as <code>CAR-7: 30 km</code>.</li>
+<li><code>Truck(String plate, int maxLoad)</code> extends <code>Vehicle</code> and has <code>getMaxLoad()</code>. Its <code>printDetails()</code> is replaced by <code>toString()</code>, which uses <code>super</code> and returns text such as <code>TRK-42: 150 km, max load 900 kg</code>.</li>
+<li><code>Fleet</code> has one private field <code>ArrayList&lt;Vehicle&gt; vehicles</code>. <code>add(Vehicle vehicle)</code> adds a vehicle. <code>printAll()</code> prints each vehicle with <code>println</code>. <code>totalKm()</code> returns the total distance.</li>
+<li><code>FleetDemo</code> makes the vehicle <code>CAR-7</code>, the truck <code>TRK-42</code> with a maximum load of 900, and the vehicle <code>VAN-3</code>. The car drives 30 km, the truck 100 km and then 50 km, and the van 20 km. It adds the three to a fleet in that order, and prints them all and the total.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Vehicle</code></div>
+<p>The box drives a vehicle and prints it.</p>
+  <wb-exercise id="p1-vehicle"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Truck</code></div>
+<p>The box includes a model <code>Vehicle</code> class, drives a truck and prints it.</p>
+  <wb-exercise id="p1-truck"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Fleet</code></div>
+<p>The box includes model <code>Vehicle</code> and <code>Truck</code> classes and runs <code>FleetDemo</code>.</p>
+  <wb-exercise id="p1-fleet"></wb-exercise>
+</div>
+<p>The demo prints:</p>
+<pre class="wb-output">CAR-7: 30 km
+TRK-42: 150 km, max load 900 kg
+VAN-3: 20 km
+Total: 200 km</pre>
+<h3>Program B: Show</h3>
+<ul>
+<li><code>Ticket(String seat, int price)</code> has <code>getSeat()</code> and <code>getPrice()</code>, as in Lecture 17. Add <code>toString()</code>, which returns text such as <code>A3: 20 dollars</code>. Two tickets are equal when they are for the same seat: add <code>equals</code> and <code>hashCode</code>.</li>
+<li><code>StudentTicket(String seat, int price, String studentId)</code> extends <code>Ticket</code> and has <code>getStudentId()</code>. Its <code>toString()</code> uses <code>super</code> and returns text such as <code>B12: 15 dollars, student 2001234</code>.</li>
+<li><code>Show</code> has one private field <code>ArrayList&lt;Ticket&gt; tickets</code>. <code>sell(Ticket ticket)</code> adds the ticket and returns <code>true</code>, unless an equal ticket was already sold; then it adds nothing and returns <code>false</code>. Use the list's <code>contains</code>, which calls <code>equals</code>. <code>printSeats()</code> prints each ticket with <code>println</code>, and <code>totalSales()</code> returns the total of the prices.</li>
+<li><code>ShowDemo</code> sells a ticket for seat A3 at 20 dollars, a student ticket for seat B12 at 15 dollars to student 2001234, and a ticket for seat C5 at 25 dollars. Then it tries to sell another ticket for seat A3, at 30 dollars, and prints <code>A3 already sold</code> when <code>sell</code> returns <code>false</code>. Last, it prints the seats and the total.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Ticket</code></div>
+<p>The box prints a ticket and compares tickets for the same seat and for different seats.</p>
+  <wb-exercise id="p2-ticket"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>StudentTicket</code></div>
+<p>The box includes a model <code>Ticket</code> class and prints a student ticket.</p>
+  <wb-exercise id="p2-student"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Show</code></div>
+<p>The box includes model <code>Ticket</code> and <code>StudentTicket</code> classes and runs <code>ShowDemo</code>.</p>
+  <wb-exercise id="p2-show"></wb-exercise>
+</div>
+<p>The demo prints:</p>
+<pre class="wb-output">A3 already sold
+A3: 20 dollars
+B12: 15 dollars, student 2001234
+C5: 25 dollars
+Total: 60 dollars</pre>
+<hr>
+<section class="wb-outcomes wb-review">
+<h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+<p>A subclass can replace a superclass method with its own version. Java picks the version that runs from the class of the object, so one loop over a list of notices prints each kind its own way.</p>
+<h3>Overriding</h3>
+<ul>
+<li>The loop in <code>show()</code> could not call <code>printSummary()</code>, because the declared type <code>Notice</code> had no such method. The fix is a <code>printSummary()</code> in <code>Notice</code>.</li>
+<li>A subclass method with the <strong>same name and the same parameters</strong> as a superclass method <strong>overrides</strong> it. For a <code>TextNotice</code> object, the <code>TextNotice</code> version runs.</li>
+<li>Write <code>@Override</code> on every override. The compiler then checks it, and a typo such as <code>printsummary()</code> is a <strong>compile error</strong> instead of a new method.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_four_methods.png" alt="The slide The four printSummary() methods, one in Notice and one in each subclass." loading="lazy" style="max-width: 560px">
+<figcaption>One printSummary() in Notice and one in each subclass.</figcaption>
+</figure>
+<h3>Lookup</h3>
+<ul>
+<li>Two decisions: at compile time the <strong>declared type</strong> decides whether a call is allowed; at run time the <strong>actual type</strong> decides which method runs.</li>
+<li><strong>Method lookup</strong> starts in the class of the object and goes up to the superclass, and so on. The first method found runs.</li>
+<li>One call, a different method for each kind of object: this is <strong>method polymorphism</strong>.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_lookup.png" alt="The slide Method lookup: start in the object's class, then go up." loading="lazy" style="max-width: 560px">
+<figcaption>The lookup starts in the class of the object.</figcaption>
+</figure>
+<h3>Super</h3>
+<ul>
+<li><code>super.printSummary()</code> runs the <strong>superclass version</strong> from inside an override, so the subclass adds only its own lines.</li>
+<li>Without <code>super.</code>, the method calls itself again and again, and the program stops with a <code>StackOverflowError</code>.</li>
+<li><code>private</code> fields are not visible in a subclass; use the getters. <code>protected</code> opens a member to subclasses and the package.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_super_order.png" alt="The slide Call order with super." loading="lazy" style="max-width: 560px">
+<figcaption>The order of the calls with super.</figcaption>
+</figure>
+<h3>toString</h3>
+<ul>
+<li><code>println</code> calls <code>toString()</code>. <code>Object</code>'s version prints the class name, an <code>@</code> and a number, such as <code>TextNotice@41a4555e</code>.</li>
+<li>Override <code>toString()</code> to <strong>return</strong> the text. Each subclass adds its fields after <code>super.toString()</code>, and the board just prints each notice.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_tostring.png" alt="The slide NoticeBoard prints each notice with toString()." loading="lazy" style="max-width: 560px">
+<figcaption>The board prints each notice with toString().</figcaption>
+</figure>
+<h3>Equality</h3>
+<ul>
+<li><code>==</code> asks whether two references are the <strong>same object</strong>. <code>Object</code>'s <code>equals</code> does the same, so we override <code>equals</code> to compare the <strong>contents</strong>.</li>
+<li><code>equals</code> takes an <code>Object</code>: check for the same object, then <code>instanceof</code>, then cast and compare the fields.</li>
+<li><strong>Equal objects must have equal hash codes.</strong> Override <code>hashCode</code> together with <code>equals</code>, using the same fields, or a <code>HashSet</code> keeps two equal elements.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_equals.png" alt="The slide Same object or same contents: == and equals." loading="lazy" style="max-width: 560px">
+<figcaption>Same object or same contents.</figcaption>
+</figure>
+<h3>Reuse</h3>
+<ul>
+<li>A board <strong>has</strong> a list; it is not a list. Keep the list in a private field (<strong>composition</strong>) rather than extend <code>ArrayList</code>.</li>
+<li>A <code>final</code> class cannot have subclasses, and a <code>final</code> method cannot be overridden.</li>
+</ul>
+<h3>Practice and programs</h3>
+<ul>
+<li>In the bike shop, <code>EBike</code> overrides <code>cost</code> and <code>toString</code> with <code>super</code>, and <code>Bike</code> overrides <code>equals</code> and <code>hashCode</code> on the id.</li>
+<li><code>Fleet</code> and <code>Show</code> print each element with <code>println</code>. <code>Show</code> refuses a seat that was already sold, because <code>contains</code> calls the <code>equals</code> of <code>Ticket</code>.</li>
+<li>The next lecture introduces <strong>abstract classes</strong>.</li>
+</ul>
+</section>
+
+</main>
+</body>
+</html>
