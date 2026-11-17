@@ -39,7 +39,7 @@ export const LECTURES = [
   { n: 15, unit: 3, date: "2026-11-05", title: "Chapter 9: Testing, debugging, and well-behaved objects", built: true },
   { n: 16, unit: 4, date: "2026-11-10", title: "Chapter 12, Part 1: Inheritance can remove genuine duplication", built: true },
   { n: 17, unit: 4, date: "2026-11-12", title: "Chapter 12, Part 2: Subtyping and substitutable objects", built: true },
-  { n: 18, unit: 4, date: "2026-11-17", title: "Chapter 13: Dynamic method lookup and overriding", built: false },
+  { n: 18, unit: 4, date: "2026-11-17", title: "Chapter 13: Dynamic method lookup and overriding", built: true },
   { n: 19, unit: 4, date: "2026-11-19", title: "Chapter 14, Part 1: Abstract classes", built: false },
   { n: 20, unit: 4, date: "2026-11-24", title: "Chapter 14, Part 2: Interfaces", built: false },
   { n: 21, unit: 5, date: "2026-11-26", title: "Chapter 17, Part 1: Building a basic GUI", built: false },
