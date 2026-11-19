@@ -1,0 +1,914 @@
+{
+  "id": "lecture-19",
+  "course": "COMP 2001: Object-Oriented Programming",
+  "title": "Lecture 19 Workbook",
+  "subtitle": "Chapter 14, Part 1: Abstract classes",
+  "exercises": {
+    "q1-1": {
+      "type": "code",
+      "xp": 4,
+      "title": "Shape.java",
+      "minLines": 25,
+      "maxLines": 37,
+      "starter": "public abstract class Shape\n{\n    private String name;\n\n    public Shape(String name)\n    {\n        this.name = name;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public abstract double area();\n\n    public String describe()\n    {\n        return name + \" has area \" + area();\n    }\n\n    // Add the abstract method perimeter() here.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "20.0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"abstractdoubleperimeter();\"), \"Write abstract, the return type double, the name and a semicolon instead of a body.\");",
+      "answer": "cHVibGljIGFic3RyYWN0IGNsYXNzIFNoYXBlCnsKICAgIHByaXZhdGUgU3RyaW5nIG5hbWU7CgogICAgcHVibGljIFNoYXBlKFN0cmluZyBuYW1lKQogICAgewogICAgICAgIHRoaXMubmFtZSA9IG5hbWU7CiAgICB9CgogICAgcHVibGljIFN0cmluZyBnZXROYW1lKCkKICAgIHsKICAgICAgICByZXR1cm4gbmFtZTsKICAgIH0KCiAgICBwdWJsaWMgYWJzdHJhY3QgZG91YmxlIGFyZWEoKTsKCiAgICBwdWJsaWMgU3RyaW5nIGRlc2NyaWJlKCkKICAgIHsKICAgICAgICByZXR1cm4gbmFtZSArICIgaGFzIGFyZWEgIiArIGFyZWEoKTsKICAgIH0KCiAgICBwdWJsaWMgYWJzdHJhY3QgZG91YmxlIHBlcmltZXRlcigpOwp9",
+      "files": [
+        {
+          "name": "Square.java",
+          "content": "public class Square extends Shape\n{\n    private double side;\n\n    public Square(String name, double side)\n    {\n        super(name);\n        this.side = side;\n    }\n\n    public double area()\n    {\n        return side * side;\n    }\n\n    public double perimeter()\n    {\n        return 4 * side;\n    }\n}"
+        },
+        {
+          "name": "PerimeterCheck.java",
+          "content": "public class PerimeterCheck\n{\n    public static void main(String[] args)\n    {\n        Shape s = new Square(\"tile\", 5);\n        System.out.println(s.perimeter());\n    }\n}"
+        }
+      ]
+    },
+    "q1-2": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "Yes."
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "1": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "No."
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "2": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "No."
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "3": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "No."
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        }
+      }
+    },
+    "q1-6": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Q29kZSB3aXRoIGEgU2hhcGUgdmFyaWFibGUgY2FuIGNhbGwgYXJlYSgpIGRpcmVjdGx5LCB3aXRoIG5vIGluc3RhbmNlb2YgdGVzdHMgb3IgY2FzdHMuIEFuZCB0aGUgY29tcGlsZXIgbWFrZXMgZXZlcnkgY29uY3JldGUgc3ViY2xhc3Mgd3JpdGUgaXRzIG93biBhcmVhKCksIHNvIGEgZm9yZ290dGVuIG1ldGhvZCBpcyBhIGNvbXBpbGUgZXJyb3IgaW5zdGVhZCBvZiBhIHdyb25nIGFuc3dlciBvZiAwLg=="
+    },
+    "q2-2": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "Yes."
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "1": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "Yes."
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "2": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "Yes."
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "3": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "Yes."
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "4": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "No."
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        }
+      }
+    },
+    "q2-6": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "SWYgb2JqZWN0cyBvZiB0aGUgY2xhc3MgY291bGQgYmUgbWFkZSwgYSBjYWxsIHRvIHRoZSBhYnN0cmFjdCBtZXRob2Qgb24gb25lIG9mIHRoZW0gd291bGQgaGF2ZSBubyBib2R5IHRvIHJ1bi4gTWFraW5nIHRoZSBjbGFzcyBhYnN0cmFjdCBzdG9wcyBzdWNoIG9iamVjdHMgZnJvbSBiZWluZyBjcmVhdGVkLg=="
+    },
+    "q2-7": {
+      "type": "code",
+      "xp": 4,
+      "title": "Animal.java",
+      "minLines": 18,
+      "maxLines": 30,
+      "starter": "public abstract class Animal\n{\n    // Add the field, the constructor, getName() and makeSound().\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Rex says Woof"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicabstractStringmakeSound();\"), \"makeSound() is abstract: a header ending with a semicolon.\");",
+      "answer": "cHVibGljIGFic3RyYWN0IGNsYXNzIEFuaW1hbAp7CiAgICBwcml2YXRlIFN0cmluZyBuYW1lOwoKICAgIHB1YmxpYyBBbmltYWwoU3RyaW5nIG5hbWUpCiAgICB7CiAgICAgICAgdGhpcy5uYW1lID0gbmFtZTsKICAgIH0KCiAgICBwdWJsaWMgU3RyaW5nIGdldE5hbWUoKQogICAgewogICAgICAgIHJldHVybiBuYW1lOwogICAgfQoKICAgIHB1YmxpYyBhYnN0cmFjdCBTdHJpbmcgbWFrZVNvdW5kKCk7Cn0=",
+      "files": [
+        {
+          "name": "Dog.java",
+          "content": "public class Dog extends Animal\n{\n    public Dog(String name)\n    {\n        super(name);\n    }\n\n    public String makeSound()\n    {\n        return \"Woof\";\n    }\n}"
+        },
+        {
+          "name": "AnimalCheck.java",
+          "content": "public class AnimalCheck\n{\n    public static void main(String[] args)\n    {\n        Animal a = new Dog(\"Rex\");\n        System.out.println(a.getName() + \" says \" + a.makeSound());\n    }\n}"
+        }
+      ]
+    },
+    "q3-1": {
+      "type": "code",
+      "xp": 4,
+      "title": "Circle.java",
+      "minLines": 17,
+      "maxLines": 29,
+      "starter": "public class Circle extends Shape\n{\n    // Add the field, the constructor and area().\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "plate has area 314.0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"super(name)\"), \"Pass the name to Shape's constructor with super(name).\");",
+      "answer": "cHVibGljIGNsYXNzIENpcmNsZSBleHRlbmRzIFNoYXBlCnsKICAgIHByaXZhdGUgZG91YmxlIHJhZGl1czsKCiAgICBwdWJsaWMgQ2lyY2xlKFN0cmluZyBuYW1lLCBkb3VibGUgcmFkaXVzKQogICAgewogICAgICAgIHN1cGVyKG5hbWUpOwogICAgICAgIHRoaXMucmFkaXVzID0gcmFkaXVzOwogICAgfQoKICAgIHB1YmxpYyBkb3VibGUgYXJlYSgpCiAgICB7CiAgICAgICAgcmV0dXJuIDMuMTQgKiByYWRpdXMgKiByYWRpdXM7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Shape.java",
+          "content": "public abstract class Shape\n{\n    private String name;\n\n    public Shape(String name)\n    {\n        this.name = name;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public abstract double area();\n\n    public String describe()\n    {\n        return name + \" has area \" + area();\n    }\n}"
+        },
+        {
+          "name": "Rectangle.java",
+          "content": "public class Rectangle extends Shape\n{\n    private double width;\n    private double height;\n\n    public Rectangle(String name, double width, double height)\n    {\n        super(name);\n        this.width = width;\n        this.height = height;\n    }\n\n    public double area()\n    {\n        return width * height;\n    }\n}"
+        },
+        {
+          "name": "Square.java",
+          "content": "public class Square extends Shape\n{\n    private double side;\n\n    public Square(String name, double side)\n    {\n        super(name);\n        this.side = side;\n    }\n\n    public double area()\n    {\n        return side * side;\n    }\n}"
+        },
+        {
+          "name": "Triangle.java",
+          "content": "public class Triangle extends Shape\n{\n    private double base;\n    private double height;\n\n    public Triangle(String name, double base, double height)\n    {\n        super(name);\n        this.base = base;\n        this.height = height;\n    }\n\n    public double area()\n    {\n        return 0.5 * base * height;\n    }\n}"
+        },
+        {
+          "name": "CircleCheck.java",
+          "content": "public class CircleCheck\n{\n    public static void main(String[] args)\n    {\n        Shape plate = new Circle(\"plate\", 10);\n        System.out.println(plate.describe());\n    }\n}"
+        }
+      ]
+    },
+    "q3-5": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "RWFjaCBvZiB0aGUgdGhyZWUgY29uY3JldGUgc3ViY2xhc3NlcyBtdXN0IHdyaXRlIGl0cyBvd24gcGVyaW1ldGVyKCkgd2l0aCBhIGJvZHkuIEEgY2xhc3MgdGhhdCBkb2VzIG5vdCB3cml0ZSBpdCBubyBsb25nZXIgY29tcGlsZXMsIHdpdGggdGhlIG1lc3NhZ2UgdGhhdCBpdCBpcyBub3QgYWJzdHJhY3QgYW5kIGRvZXMgbm90IG92ZXJyaWRlIHBlcmltZXRlcigpLg=="
+    },
+    "q3-6": {
+      "type": "code",
+      "xp": 4,
+      "title": "Dog.java",
+      "minLines": 14,
+      "maxLines": 26,
+      "starter": "public class Dog extends Animal\n{\n    // Add the constructor and makeSound().\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "Rex says Woof"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"super(name)\"), \"Pass the name to Animal's constructor with super(name).\");",
+      "answer": "cHVibGljIGNsYXNzIERvZyBleHRlbmRzIEFuaW1hbAp7CiAgICBwdWJsaWMgRG9nKFN0cmluZyBuYW1lKQogICAgewogICAgICAgIHN1cGVyKG5hbWUpOwogICAgfQoKICAgIHB1YmxpYyBTdHJpbmcgbWFrZVNvdW5kKCkKICAgIHsKICAgICAgICByZXR1cm4gIldvb2YiOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Animal.java",
+          "content": "public abstract class Animal\n{\n    private String name;\n\n    public Animal(String name)\n    {\n        this.name = name;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public abstract String makeSound();\n}"
+        },
+        {
+          "name": "DogCheck.java",
+          "content": "public class DogCheck\n{\n    public static void main(String[] args)\n    {\n        Animal a = new Dog(\"Rex\");\n        System.out.println(a.getName() + \" says \" + a.makeSound());\n    }\n}"
+        }
+      ]
+    },
+    "q4-1": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "Yes."
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "1": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "No."
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "2": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "Yes."
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "3": {
+          "accept": [
+            "no",
+            "No",
+            "no.",
+            "No."
+          ],
+          "show": "no",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        },
+        "4": {
+          "accept": [
+            "yes",
+            "Yes",
+            "yes.",
+            "Yes."
+          ],
+          "show": "yes",
+          "placeholder": "yes / no",
+          "width": "8rem"
+        }
+      }
+    },
+    "q4-5": {
+      "type": "code",
+      "xp": 4,
+      "title": "LargestDemo.java",
+      "minLines": 26,
+      "maxLines": 38,
+      "starter": "import java.util.ArrayList;\n\npublic class LargestDemo\n{\n    public static Shape largest(ArrayList<Shape> shapes)\n    {\n        // Return the shape with the largest area.\n        return null;\n    }\n\n    public static void main(String[] args)\n    {\n        ArrayList<Shape> shapes = new ArrayList<>();\n        shapes.add(new Rectangle(\"table\", 3, 4));\n        shapes.add(new Square(\"tile\", 5));\n        shapes.add(new Triangle(\"sail\", 6, 3));\n        System.out.println(largest(shapes).getName());\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "tile"
+        }
+      ],
+      "check": "require(!source.replaceAll(\"\\\\s+\", \"\").contains(\"instanceof\"), \"Call area() on each shape; no instanceof is needed.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CgpwdWJsaWMgY2xhc3MgTGFyZ2VzdERlbW8KewogICAgcHVibGljIHN0YXRpYyBTaGFwZSBsYXJnZXN0KEFycmF5TGlzdDxTaGFwZT4gc2hhcGVzKQogICAgewogICAgICAgIFNoYXBlIGJlc3QgPSBzaGFwZXMuZ2V0KDApOwogICAgICAgIGZvcihTaGFwZSBzIDogc2hhcGVzKSB7CiAgICAgICAgICAgIGlmKHMuYXJlYSgpID4gYmVzdC5hcmVhKCkpIHsKICAgICAgICAgICAgICAgIGJlc3QgPSBzOwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgICAgIHJldHVybiBiZXN0OwogICAgfQoKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpCiAgICB7CiAgICAgICAgQXJyYXlMaXN0PFNoYXBlPiBzaGFwZXMgPSBuZXcgQXJyYXlMaXN0PD4oKTsKICAgICAgICBzaGFwZXMuYWRkKG5ldyBSZWN0YW5nbGUoInRhYmxlIiwgMywgNCkpOwogICAgICAgIHNoYXBlcy5hZGQobmV3IFNxdWFyZSgidGlsZSIsIDUpKTsKICAgICAgICBzaGFwZXMuYWRkKG5ldyBUcmlhbmdsZSgic2FpbCIsIDYsIDMpKTsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4obGFyZ2VzdChzaGFwZXMpLmdldE5hbWUoKSk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Shape.java",
+          "content": "public abstract class Shape\n{\n    private String name;\n\n    public Shape(String name)\n    {\n        this.name = name;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public abstract double area();\n\n    public String describe()\n    {\n        return name + \" has area \" + area();\n    }\n}"
+        },
+        {
+          "name": "Rectangle.java",
+          "content": "public class Rectangle extends Shape\n{\n    private double width;\n    private double height;\n\n    public Rectangle(String name, double width, double height)\n    {\n        super(name);\n        this.width = width;\n        this.height = height;\n    }\n\n    public double area()\n    {\n        return width * height;\n    }\n}"
+        },
+        {
+          "name": "Square.java",
+          "content": "public class Square extends Shape\n{\n    private double side;\n\n    public Square(String name, double side)\n    {\n        super(name);\n        this.side = side;\n    }\n\n    public double area()\n    {\n        return side * side;\n    }\n}"
+        },
+        {
+          "name": "Triangle.java",
+          "content": "public class Triangle extends Shape\n{\n    private double base;\n    private double height;\n\n    public Triangle(String name, double base, double height)\n    {\n        super(name);\n        this.base = base;\n        this.height = height;\n    }\n\n    public double area()\n    {\n        return 0.5 * base * height;\n    }\n}"
+        }
+      ]
+    },
+    "q4-7": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "tile has area 25.0",
+            "\"tile has area 25.0\""
+          ],
+          "show": "tile has area 25.0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "plate has area 314.0",
+            "\"plate has area 314.0\""
+          ],
+          "show": "plate has area 314.0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "2": {
+          "accept": [
+            "Total: 339.0",
+            "\"Total: 339.0\""
+          ],
+          "show": "Total: 339.0",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q5-1": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "table is large",
+            "\"table is large\""
+          ],
+          "show": "table is large",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "1": {
+          "accept": [
+            "tile is large",
+            "\"tile is large\""
+          ],
+          "show": "tile is large",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        },
+        "2": {
+          "accept": [
+            "sail is small",
+            "\"sail is small\""
+          ],
+          "show": "sail is small",
+          "caseSensitive": true,
+          "placeholder": "printed",
+          "width": "20rem"
+        }
+      }
+    },
+    "q5-2": {
+      "type": "code",
+      "xp": 4,
+      "title": "Shape.java",
+      "minLines": 28,
+      "maxLines": 40,
+      "starter": "public abstract class Shape\n{\n    private String name;\n\n    public Shape(String name)\n    {\n        this.name = name;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public abstract double area();\n\n    public String describe()\n    {\n        return name + \" has area \" + area();\n    }\n\n    // Add isBiggerThan here.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "true\nfalse"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"other.area()\"), \"Compare area() with other.area().\");",
+      "answer": "cHVibGljIGFic3RyYWN0IGNsYXNzIFNoYXBlCnsKICAgIHByaXZhdGUgU3RyaW5nIG5hbWU7CgogICAgcHVibGljIFNoYXBlKFN0cmluZyBuYW1lKQogICAgewogICAgICAgIHRoaXMubmFtZSA9IG5hbWU7CiAgICB9CgogICAgcHVibGljIFN0cmluZyBnZXROYW1lKCkKICAgIHsKICAgICAgICByZXR1cm4gbmFtZTsKICAgIH0KCiAgICBwdWJsaWMgYWJzdHJhY3QgZG91YmxlIGFyZWEoKTsKCiAgICBwdWJsaWMgU3RyaW5nIGRlc2NyaWJlKCkKICAgIHsKICAgICAgICByZXR1cm4gbmFtZSArICIgaGFzIGFyZWEgIiArIGFyZWEoKTsKICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBpc0JpZ2dlclRoYW4oU2hhcGUgb3RoZXIpCiAgICB7CiAgICAgICAgcmV0dXJuIGFyZWEoKSA+IG90aGVyLmFyZWEoKTsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Rectangle.java",
+          "content": "public class Rectangle extends Shape\n{\n    private double width;\n    private double height;\n\n    public Rectangle(String name, double width, double height)\n    {\n        super(name);\n        this.width = width;\n        this.height = height;\n    }\n\n    public double area()\n    {\n        return width * height;\n    }\n}"
+        },
+        {
+          "name": "Square.java",
+          "content": "public class Square extends Shape\n{\n    private double side;\n\n    public Square(String name, double side)\n    {\n        super(name);\n        this.side = side;\n    }\n\n    public double area()\n    {\n        return side * side;\n    }\n}"
+        },
+        {
+          "name": "Triangle.java",
+          "content": "public class Triangle extends Shape\n{\n    private double base;\n    private double height;\n\n    public Triangle(String name, double base, double height)\n    {\n        super(name);\n        this.base = base;\n        this.height = height;\n    }\n\n    public double area()\n    {\n        return 0.5 * base * height;\n    }\n}"
+        },
+        {
+          "name": "BiggerDemo.java",
+          "content": "public class BiggerDemo\n{\n    public static void main(String[] args)\n    {\n        Shape table = new Rectangle(\"table\", 3, 4);\n        Shape sail = new Triangle(\"sail\", 6, 3);\n        System.out.println(table.isBiggerThan(sail));\n        System.out.println(sail.isBiggerThan(table));\n    }\n}"
+        }
+      ]
+    },
+    "q5-6": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "VGhlIHNlbnRlbmNlIGlzIHRoZSBzYW1lIGZvciBldmVyeSBzaGFwZSBleGNlcHQgZm9yIHRoZSBudW1iZXIsIHNvIGl0IGlzIHdyaXR0ZW4gb25jZS4gQSBuZXcgc3ViY2xhc3MgZ2V0cyBpdCBmb3IgZnJlZSwgYW5kIGEgY2hhbmdlIHRvIHRoZSB3b3JkaW5nIGlzIG1hZGUgaW4gb25lIHBsYWNlLg=="
+    },
+    "q5-7": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "T25seSBTaGFwZS4gZGVzY3JpYmUoKSBpcyB3cml0dGVuIG9uY2UsIGluIFNoYXBlLCBhbmQgUmVjdGFuZ2xlLCBTcXVhcmUgYW5kIFRyaWFuZ2xlIGluaGVyaXQgaXQuIFRoZWlyIGFyZWEoKSBtZXRob2RzIGRvIG5vdCBjaGFuZ2Uu"
+    },
+    "q6-1": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "abstract with an abstract method",
+            "Abstract with an abstract method",
+            "abstract, with an abstract method",
+            "Abstract, with an abstract method",
+            "abstract with abstract method",
+            "Abstract with abstract method",
+            "abstract with an abstract method.",
+            "Abstract with an abstract method."
+          ],
+          "show": "abstract with an abstract method",
+          "placeholder": "choice",
+          "width": "16rem"
+        },
+        "1": {
+          "accept": [
+            "concrete",
+            "Concrete",
+            "concrete.",
+            "Concrete."
+          ],
+          "show": "concrete",
+          "placeholder": "choice",
+          "width": "16rem"
+        },
+        "2": {
+          "accept": [
+            "abstract, no abstract methods",
+            "Abstract, no abstract methods",
+            "abstract no abstract methods",
+            "Abstract no abstract methods",
+            "abstract with no abstract methods",
+            "Abstract with no abstract methods",
+            "abstract, with no abstract methods",
+            "Abstract, with no abstract methods",
+            "abstract, no abstract methods.",
+            "Abstract, no abstract methods."
+          ],
+          "show": "abstract, no abstract methods",
+          "placeholder": "choice",
+          "width": "16rem"
+        }
+      }
+    },
+    "q6-4": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 40,
+      "rows": 3,
+      "answer": "T25lIGV4YW1wbGU6IFBheW1lbnQsIHdpdGggQ2FyZFBheW1lbnQgYW5kIENhc2hQYXltZW50LCBhbmQgYW4gYWJzdHJhY3QgbWV0aG9kIGZlZSgpLiBFdmVyeSBwYXltZW50IGhhcyBhIGZlZSwgYnV0IGVhY2gga2luZCB3b3JrcyBpdCBvdXQgZGlmZmVyZW50bHksIHNvIHRoZXJlIGlzIG5vIGdlbmVyYWwgYm9keSB0byB3cml0ZSBpbiBQYXltZW50Lg=="
+    },
+    "q7-1": {
+      "type": "table",
+      "xp": 2,
+      "blanks": {
+        "0": {
+          "accept": [
+            "true",
+            "True"
+          ],
+          "show": "true",
+          "placeholder": "true / false",
+          "width": "7rem"
+        },
+        "1": {
+          "accept": [
+            "false",
+            "False"
+          ],
+          "show": "false",
+          "placeholder": "true / false",
+          "width": "7rem"
+        },
+        "2": {
+          "accept": [
+            "true",
+            "True"
+          ],
+          "show": "true",
+          "placeholder": "true / false",
+          "width": "7rem"
+        },
+        "3": {
+          "accept": [
+            "false",
+            "False"
+          ],
+          "show": "false",
+          "placeholder": "true / false",
+          "width": "7rem"
+        }
+      }
+    },
+    "q7-3": {
+      "type": "short",
+      "xp": 2,
+      "minChars": 20,
+      "rows": 2,
+      "answer": "Rmlyc3QsIHRoZSBjbGFzcyBoYXMgYW4gYWJzdHJhY3QgbWV0aG9kIGJ1dCBpcyBub3QgZGVjbGFyZWQgYWJzdHJhY3Q7IHdyaXRlIHB1YmxpYyBhYnN0cmFjdCBjbGFzcyBJbnN0cnVtZW50LiBTZWNvbmQsIHRoZSBhYnN0cmFjdCBtZXRob2QgaGFzIGEgYm9keTsgd3JpdGUgcHVibGljIGFic3RyYWN0IFN0cmluZyBzb3VuZCgpOyB3aXRoIGEgc2VtaWNvbG9uIGFuZCBubyBib2R5Lg=="
+    },
+    "q7-3-fix": {
+      "type": "code",
+      "xp": 4,
+      "title": "Instrument.java",
+      "minLines": 20,
+      "maxLines": 32,
+      "starter": "public class Instrument\n{\n    private String name;\n\n    public Instrument(String name)\n    {\n        this.name = name;\n    }\n\n    public String getName()\n    {\n        return name;\n    }\n\n    public abstract String sound()\n    {\n        return \"\";\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "guitar: strum"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicabstractclassInstrument\"), \"A class with an abstract method must be abstract.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicabstractStringsound();\"), \"An abstract method ends with a semicolon, with no body.\");",
+      "answer": "cHVibGljIGFic3RyYWN0IGNsYXNzIEluc3RydW1lbnQKewogICAgcHJpdmF0ZSBTdHJpbmcgbmFtZTsKCiAgICBwdWJsaWMgSW5zdHJ1bWVudChTdHJpbmcgbmFtZSkKICAgIHsKICAgICAgICB0aGlzLm5hbWUgPSBuYW1lOwogICAgfQoKICAgIHB1YmxpYyBTdHJpbmcgZ2V0TmFtZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIG5hbWU7CiAgICB9CgogICAgcHVibGljIGFic3RyYWN0IFN0cmluZyBzb3VuZCgpOwp9",
+      "files": [
+        {
+          "name": "Guitar.java",
+          "content": "public class Guitar extends Instrument\n{\n    public Guitar()\n    {\n        super(\"guitar\");\n    }\n\n    public String sound()\n    {\n        return \"strum\";\n    }\n}"
+        },
+        {
+          "name": "Band.java",
+          "content": "public class Band\n{\n    public static void main(String[] args)\n    {\n        Instrument i = new Guitar();\n        System.out.println(i.getName() + \": \" + i.sound());\n    }\n}"
+        }
+      ]
+    },
+    "p1-vehicle": {
+      "type": "code",
+      "xp": 6,
+      "title": "Vehicle.java",
+      "minLines": 35,
+      "maxLines": 47,
+      "starter": "// Make this class abstract.\npublic class Vehicle\n{\n    private String plate;\n    private int km;\n    public Vehicle(String plate)\n    {\n        this.plate = plate;\n        km = 0;\n    }\n    public void drive(int distance)\n    {\n        km = km + distance;\n    }\n    public String getPlate()\n    {\n        return plate;\n    }\n    public int getKm()\n    {\n        return km;\n    }\n    // Add ratePerKm(), cost() and toString() here.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "CAR-9: 12 km, cost 6.0\n6.0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicabstractclassVehicle\"), \"Declare Vehicle abstract.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicabstractdoubleratePerKm();\"), \"Add the abstract method ratePerKm(), with no body.\");",
+      "answer": "cHVibGljIGFic3RyYWN0IGNsYXNzIFZlaGljbGUKewogICAgcHJpdmF0ZSBTdHJpbmcgcGxhdGU7CiAgICBwcml2YXRlIGludCBrbTsKICAgIHB1YmxpYyBWZWhpY2xlKFN0cmluZyBwbGF0ZSkKICAgIHsKICAgICAgICB0aGlzLnBsYXRlID0gcGxhdGU7CiAgICAgICAga20gPSAwOwogICAgfQogICAgcHVibGljIHZvaWQgZHJpdmUoaW50IGRpc3RhbmNlKQogICAgewogICAgICAgIGttID0ga20gKyBkaXN0YW5jZTsKICAgIH0KICAgIHB1YmxpYyBTdHJpbmcgZ2V0UGxhdGUoKQogICAgewogICAgICAgIHJldHVybiBwbGF0ZTsKICAgIH0KICAgIHB1YmxpYyBpbnQgZ2V0S20oKQogICAgewogICAgICAgIHJldHVybiBrbTsKICAgIH0KICAgIHB1YmxpYyBhYnN0cmFjdCBkb3VibGUgcmF0ZVBlckttKCk7CiAgICBwdWJsaWMgZG91YmxlIGNvc3QoKQogICAgewogICAgICAgIHJldHVybiBrbSAqIHJhdGVQZXJLbSgpOwogICAgfQogICAgQE92ZXJyaWRlCiAgICBwdWJsaWMgU3RyaW5nIHRvU3RyaW5nKCkKICAgIHsKICAgICAgICByZXR1cm4gcGxhdGUgKyAiOiAiICsga20gKyAiIGttLCBjb3N0ICIgKyBjb3N0KCk7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "Car.java",
+          "content": "public class Car extends Vehicle\n{\n    public Car(String plate)\n    {\n        super(plate);\n    }\n    @Override\n    public double ratePerKm()\n    {\n        return 0.5;\n    }\n}"
+        },
+        {
+          "name": "VehicleCheck.java",
+          "content": "public class VehicleCheck\n{\n    public static void main(String[] args)\n    {\n        Vehicle v = new Car(\"CAR-9\");\n        v.drive(12);\n        System.out.println(v);\n        System.out.println(v.cost());\n    }\n}"
+        }
+      ]
+    },
+    "p1-truck": {
+      "type": "code",
+      "xp": 4,
+      "title": "Truck.java",
+      "minLines": 20,
+      "maxLines": 32,
+      "starter": "public class Truck extends Vehicle\n{\n    private int maxLoad;\n    public Truck(String plate, int maxLoad)\n    {\n        super(plate);\n        this.maxLoad = maxLoad;\n    }\n    public int getMaxLoad()\n    {\n        return maxLoad;\n    }\n    // Add ratePerKm() here.\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "TRK-8: 70 km, cost 140.0"
+        }
+      ],
+      "check": "",
+      "answer": "cHVibGljIGNsYXNzIFRydWNrIGV4dGVuZHMgVmVoaWNsZQp7CiAgICBwcml2YXRlIGludCBtYXhMb2FkOwogICAgcHVibGljIFRydWNrKFN0cmluZyBwbGF0ZSwgaW50IG1heExvYWQpCiAgICB7CiAgICAgICAgc3VwZXIocGxhdGUpOwogICAgICAgIHRoaXMubWF4TG9hZCA9IG1heExvYWQ7CiAgICB9CiAgICBwdWJsaWMgaW50IGdldE1heExvYWQoKQogICAgewogICAgICAgIHJldHVybiBtYXhMb2FkOwogICAgfQogICAgQE92ZXJyaWRlCiAgICBwdWJsaWMgZG91YmxlIHJhdGVQZXJLbSgpCiAgICB7CiAgICAgICAgcmV0dXJuIDIuMDsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Vehicle.java",
+          "content": "public abstract class Vehicle\n{\n    private String plate;\n    private int km;\n    public Vehicle(String plate)\n    {\n        this.plate = plate;\n        km = 0;\n    }\n    public void drive(int distance)\n    {\n        km = km + distance;\n    }\n    public String getPlate()\n    {\n        return plate;\n    }\n    public int getKm()\n    {\n        return km;\n    }\n    public abstract double ratePerKm();\n    public double cost()\n    {\n        return km * ratePerKm();\n    }\n    @Override\n    public String toString()\n    {\n        return plate + \": \" + km + \" km, cost \" + cost();\n    }\n}"
+        },
+        {
+          "name": "TruckCheck.java",
+          "content": "public class TruckCheck\n{\n    public static void main(String[] args)\n    {\n        Vehicle t = new Truck(\"TRK-8\", 500);\n        t.drive(70);\n        System.out.println(t);\n    }\n}"
+        }
+      ]
+    },
+    "p1-fleet": {
+      "type": "code",
+      "xp": 6,
+      "title": "Fleet.java",
+      "minLines": 29,
+      "maxLines": 41,
+      "starter": "import java.util.ArrayList;\npublic class Fleet\n{\n    private ArrayList<Vehicle> vehicles;\n    public Fleet()\n    {\n        // Create the list.\n    }\n    public void add(Vehicle vehicle)\n    {\n        // Add the vehicle.\n    }\n    public void printAll()\n    {\n        // println each vehicle.\n    }\n    public double totalCost()\n    {\n        // Add up cost() of each vehicle.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "CAR-7: 30 km, cost 15.0\nTRK-42: 150 km, cost 300.0\nVAN-3: 20 km, cost 10.0\nTotal cost: 325.0"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"ArrayList<Vehicle>\"), \"Keep one ArrayList<Vehicle>.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".cost()\"), \"Add up cost() of each vehicle.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CnB1YmxpYyBjbGFzcyBGbGVldAp7CiAgICBwcml2YXRlIEFycmF5TGlzdDxWZWhpY2xlPiB2ZWhpY2xlczsKICAgIHB1YmxpYyBGbGVldCgpCiAgICB7CiAgICAgICAgdmVoaWNsZXMgPSBuZXcgQXJyYXlMaXN0PD4oKTsKICAgIH0KICAgIHB1YmxpYyB2b2lkIGFkZChWZWhpY2xlIHZlaGljbGUpCiAgICB7CiAgICAgICAgdmVoaWNsZXMuYWRkKHZlaGljbGUpOwogICAgfQogICAgcHVibGljIHZvaWQgcHJpbnRBbGwoKQogICAgewogICAgICAgIGZvcihWZWhpY2xlIHZlaGljbGUgOiB2ZWhpY2xlcykgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4odmVoaWNsZSk7CiAgICAgICAgfQogICAgfQogICAgcHVibGljIGRvdWJsZSB0b3RhbENvc3QoKQogICAgewogICAgICAgIGRvdWJsZSB0b3RhbCA9IDA7CiAgICAgICAgZm9yKFZlaGljbGUgdmVoaWNsZSA6IHZlaGljbGVzKSB7CiAgICAgICAgICAgIHRvdGFsID0gdG90YWwgKyB2ZWhpY2xlLmNvc3QoKTsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIHRvdGFsOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Vehicle.java",
+          "content": "public abstract class Vehicle\n{\n    private String plate;\n    private int km;\n    public Vehicle(String plate)\n    {\n        this.plate = plate;\n        km = 0;\n    }\n    public void drive(int distance)\n    {\n        km = km + distance;\n    }\n    public String getPlate()\n    {\n        return plate;\n    }\n    public int getKm()\n    {\n        return km;\n    }\n    public abstract double ratePerKm();\n    public double cost()\n    {\n        return km * ratePerKm();\n    }\n    @Override\n    public String toString()\n    {\n        return plate + \": \" + km + \" km, cost \" + cost();\n    }\n}"
+        },
+        {
+          "name": "Car.java",
+          "content": "public class Car extends Vehicle\n{\n    public Car(String plate)\n    {\n        super(plate);\n    }\n    @Override\n    public double ratePerKm()\n    {\n        return 0.5;\n    }\n}"
+        },
+        {
+          "name": "Truck.java",
+          "content": "public class Truck extends Vehicle\n{\n    private int maxLoad;\n    public Truck(String plate, int maxLoad)\n    {\n        super(plate);\n        this.maxLoad = maxLoad;\n    }\n    public int getMaxLoad()\n    {\n        return maxLoad;\n    }\n    @Override\n    public double ratePerKm()\n    {\n        return 2.0;\n    }\n}"
+        },
+        {
+          "name": "FleetDemo.java",
+          "content": "public class FleetDemo\n{\n    public static void main(String[] args)\n    {\n        Vehicle car = new Car(\"CAR-7\");\n        Vehicle truck = new Truck(\"TRK-42\", 900);\n        Vehicle van = new Car(\"VAN-3\");\n        car.drive(30);\n        truck.drive(100);\n        truck.drive(50);\n        van.drive(20);\n        Fleet fleet = new Fleet();\n        fleet.add(car);\n        fleet.add(truck);\n        fleet.add(van);\n        fleet.printAll();\n        System.out.println(\"Total cost: \" + fleet.totalCost());\n    }\n}"
+        }
+      ]
+    },
+    "p2-ticket": {
+      "type": "code",
+      "xp": 6,
+      "title": "Ticket.java",
+      "minLines": 20,
+      "maxLines": 32,
+      "starter": "public abstract class Ticket\n{\n    private String seat;\n    public Ticket(String seat)\n    {\n        // Store the seat.\n    }\n    public String getSeat()\n    {\n        // Return the seat.\n    }\n    public abstract int price();\n    @Override\n    public String toString()\n    {\n        // The seat and price().\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "A3: 20 dollars\nA3"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"publicabstractintprice();\"), \"Keep the abstract method price(), with no body.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"price()\"), \"Use price() in toString().\");",
+      "answer": "cHVibGljIGFic3RyYWN0IGNsYXNzIFRpY2tldAp7CiAgICBwcml2YXRlIFN0cmluZyBzZWF0OwogICAgcHVibGljIFRpY2tldChTdHJpbmcgc2VhdCkKICAgIHsKICAgICAgICB0aGlzLnNlYXQgPSBzZWF0OwogICAgfQogICAgcHVibGljIFN0cmluZyBnZXRTZWF0KCkKICAgIHsKICAgICAgICByZXR1cm4gc2VhdDsKICAgIH0KICAgIHB1YmxpYyBhYnN0cmFjdCBpbnQgcHJpY2UoKTsKICAgIEBPdmVycmlkZQogICAgcHVibGljIFN0cmluZyB0b1N0cmluZygpCiAgICB7CiAgICAgICAgcmV0dXJuIHNlYXQgKyAiOiAiICsgcHJpY2UoKSArICIgZG9sbGFycyI7CiAgICB9Cn0=",
+      "files": [
+        {
+          "name": "AdultTicket.java",
+          "content": "public class AdultTicket extends Ticket\n{\n    public AdultTicket(String seat)\n    {\n        super(seat);\n    }\n    @Override\n    public int price()\n    {\n        return 20;\n    }\n}"
+        },
+        {
+          "name": "TicketCheck.java",
+          "content": "public class TicketCheck\n{\n    public static void main(String[] args)\n    {\n        Ticket t = new AdultTicket(\"A3\");\n        System.out.println(t);\n        System.out.println(t.getSeat());\n    }\n}"
+        }
+      ]
+    },
+    "p2-student": {
+      "type": "code",
+      "xp": 4,
+      "title": "StudentTicket.java",
+      "minLines": 27,
+      "maxLines": 39,
+      "starter": "public class StudentTicket extends Ticket\n{\n    private String studentId;\n    public StudentTicket(String seat,\n            String studentId)\n    {\n        // super(seat), then the id.\n    }\n    public String getStudentId()\n    {\n        // Return the id.\n    }\n    @Override\n    public int price()\n    {\n        // Return 15.\n    }\n    @Override\n    public String toString()\n    {\n        // super.toString(), then the id.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "B12: 15 dollars, student 2001234"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"super.toString()\"), \"Use super.toString() for the seat and the price.\");",
+      "answer": "cHVibGljIGNsYXNzIFN0dWRlbnRUaWNrZXQgZXh0ZW5kcyBUaWNrZXQKewogICAgcHJpdmF0ZSBTdHJpbmcgc3R1ZGVudElkOwogICAgcHVibGljIFN0dWRlbnRUaWNrZXQoU3RyaW5nIHNlYXQsCiAgICAgICAgICAgIFN0cmluZyBzdHVkZW50SWQpCiAgICB7CiAgICAgICAgc3VwZXIoc2VhdCk7CiAgICAgICAgdGhpcy5zdHVkZW50SWQgPSBzdHVkZW50SWQ7CiAgICB9CiAgICBwdWJsaWMgU3RyaW5nIGdldFN0dWRlbnRJZCgpCiAgICB7CiAgICAgICAgcmV0dXJuIHN0dWRlbnRJZDsKICAgIH0KICAgIEBPdmVycmlkZQogICAgcHVibGljIGludCBwcmljZSgpCiAgICB7CiAgICAgICAgcmV0dXJuIDE1OwogICAgfQogICAgQE92ZXJyaWRlCiAgICBwdWJsaWMgU3RyaW5nIHRvU3RyaW5nKCkKICAgIHsKICAgICAgICByZXR1cm4gc3VwZXIudG9TdHJpbmcoKSArICIsIHN0dWRlbnQgIiArIHN0dWRlbnRJZDsKICAgIH0KfQ==",
+      "files": [
+        {
+          "name": "Ticket.java",
+          "content": "public abstract class Ticket\n{\n    private String seat;\n    public Ticket(String seat)\n    {\n        this.seat = seat;\n    }\n    public String getSeat()\n    {\n        return seat;\n    }\n    public abstract int price();\n    @Override\n    public String toString()\n    {\n        return seat + \": \" + price() + \" dollars\";\n    }\n}"
+        },
+        {
+          "name": "StudentCheck.java",
+          "content": "public class StudentCheck\n{\n    public static void main(String[] args)\n    {\n        Ticket t = new StudentTicket(\"B12\", \"2001234\");\n        System.out.println(t);\n    }\n}"
+        }
+      ]
+    },
+    "p2-show": {
+      "type": "code",
+      "xp": 6,
+      "title": "Show.java",
+      "minLines": 29,
+      "maxLines": 41,
+      "starter": "import java.util.ArrayList;\npublic class Show\n{\n    private ArrayList<Ticket> tickets;\n    public Show()\n    {\n        // Create the list.\n    }\n    public void sell(Ticket ticket)\n    {\n        // Add the ticket.\n    }\n    public void printSeats()\n    {\n        // println each ticket.\n    }\n    public int totalSales()\n    {\n        // Add up price() of each ticket.\n    }\n}",
+      "cases": [
+        {
+          "name": "Output of the checking program",
+          "expected": "A3: 20 dollars\nB12: 15 dollars, student 2001234\nC5: 20 dollars\nTotal: 55 dollars"
+        }
+      ],
+      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"ArrayList<Ticket>\"), \"Keep one ArrayList<Ticket>.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\".price()\"), \"Add up price() of each ticket.\");",
+      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CnB1YmxpYyBjbGFzcyBTaG93CnsKICAgIHByaXZhdGUgQXJyYXlMaXN0PFRpY2tldD4gdGlja2V0czsKICAgIHB1YmxpYyBTaG93KCkKICAgIHsKICAgICAgICB0aWNrZXRzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICB9CiAgICBwdWJsaWMgdm9pZCBzZWxsKFRpY2tldCB0aWNrZXQpCiAgICB7CiAgICAgICAgdGlja2V0cy5hZGQodGlja2V0KTsKICAgIH0KICAgIHB1YmxpYyB2b2lkIHByaW50U2VhdHMoKQogICAgewogICAgICAgIGZvcihUaWNrZXQgdGlja2V0IDogdGlja2V0cykgewogICAgICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4odGlja2V0KTsKICAgICAgICB9CiAgICB9CiAgICBwdWJsaWMgaW50IHRvdGFsU2FsZXMoKQogICAgewogICAgICAgIGludCB0b3RhbCA9IDA7CiAgICAgICAgZm9yKFRpY2tldCB0aWNrZXQgOiB0aWNrZXRzKSB7CiAgICAgICAgICAgIHRvdGFsID0gdG90YWwgKyB0aWNrZXQucHJpY2UoKTsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIHRvdGFsOwogICAgfQp9",
+      "files": [
+        {
+          "name": "Ticket.java",
+          "content": "public abstract class Ticket\n{\n    private String seat;\n    public Ticket(String seat)\n    {\n        this.seat = seat;\n    }\n    public String getSeat()\n    {\n        return seat;\n    }\n    public abstract int price();\n    @Override\n    public String toString()\n    {\n        return seat + \": \" + price() + \" dollars\";\n    }\n}"
+        },
+        {
+          "name": "AdultTicket.java",
+          "content": "public class AdultTicket extends Ticket\n{\n    public AdultTicket(String seat)\n    {\n        super(seat);\n    }\n    @Override\n    public int price()\n    {\n        return 20;\n    }\n}"
+        },
+        {
+          "name": "StudentTicket.java",
+          "content": "public class StudentTicket extends Ticket\n{\n    private String studentId;\n    public StudentTicket(String seat,\n            String studentId)\n    {\n        super(seat);\n        this.studentId = studentId;\n    }\n    public String getStudentId()\n    {\n        return studentId;\n    }\n    @Override\n    public int price()\n    {\n        return 15;\n    }\n    @Override\n    public String toString()\n    {\n        return super.toString() + \", student \" + studentId;\n    }\n}"
+        },
+        {
+          "name": "ShowDemo.java",
+          "content": "public class ShowDemo\n{\n    public static void main(String[] args)\n    {\n        Show show = new Show();\n        show.sell(new AdultTicket(\"A3\"));\n        show.sell(new StudentTicket(\"B12\", \"2001234\"));\n        show.sell(new AdultTicket(\"C5\"));\n        show.printSeats();\n        System.out.println(\"Total: \" + show.totalSales() + \" dollars\");\n    }\n}"
+        }
+      ]
+    },
+    "q1-3": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "QW4gYWJzdHJhY3QgbWV0aG9kIGhhcyBubyBib2R5IHRvIGluaGVyaXQuIEl0IGlzIGEgcHJvbWlzZSB0aGF0IGVhY2ggY29uY3JldGUgc3ViY2xhc3Mgd3JpdGVzIG9uZSwgYW5kIGNhbGxzIHN1Y2ggYXMgYHMuYXJlYSgpYCBhcmUgYWxsb3dlZCBiZWNhdXNlIG9mIHRoYXQgcHJvbWlzZS4="
+    },
+    "q1-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "YFRyaWFuZ2xlYCBoYXMgYSBjb3JyZWN0IGBhcmVhKClgLCBidXQgYGFyZWFPZmAgbmV2ZXIgY2FsbHMgaXQuIE5laXRoZXIgYGluc3RhbmNlb2ZgIHRlc3QgaXMgdHJ1ZSwgc28gdGhlIG1ldGhvZCBmYWxscyB0aHJvdWdoIHRvIGByZXR1cm4gMGAuIEV2ZXJ5IG5ldyBjbGFzcyBuZWVkcyBhbm90aGVyIHRlc3Qu"
+    },
+    "q1-5": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "YFRyaWFuZ2xlYCBpbmhlcml0cyBgU2hhcGVgJ3MgYGFyZWEoKWAsIHNvIHRoZSBjYWxsIGNvbXBpbGVzIGFuZCBydW5zLCBhbmQgcmV0dXJucyB0aGUgbWFkZS11cCAwLiBXaXRoIGFuIGFic3RyYWN0IGBhcmVhKClgLCB0aGUgZm9yZ290dGVuIG1ldGhvZCB3b3VsZCBiZSBhIGNvbXBpbGUgZXJyb3IgaW5zdGVhZC4="
+    },
+    "q2-1": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "T25seSBhbiBhYnN0cmFjdCBjbGFzcyBtYXkgaGF2ZSBhbiBhYnN0cmFjdCBtZXRob2QsIGJlY2F1c2UgYSBub3JtYWwgY2xhc3MgbXVzdCBiZSBhYmxlIHRvIHJ1biBhbGwgaXRzIG1ldGhvZHMuIFRoZSBjb21waWxlciBzYXlzIGBTaGFwZSBpcyBub3QgYWJzdHJhY3QgYW5kIGRvZXMgbm90IG92ZXJyaWRlIGFic3RyYWN0IG1ldGhvZCBhcmVhKCkgaW4gU2hhcGVgLg=="
+    },
+    "q2-3": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "RXZlcnkgYFJlY3RhbmdsZWAsIGBTcXVhcmVgIG9yIGBUcmlhbmdsZWAgb2JqZWN0IGhhcyBhIGBuYW1lYCBmaWVsZCBmcm9tIGBTaGFwZWAuIFRoZSBzdWJjbGFzcyBjb25zdHJ1Y3RvciBzdGFydHMgd2l0aCBgc3VwZXIobmFtZSlgLCB3aGljaCBydW5zIGBTaGFwZWAncyBjb25zdHJ1Y3RvciB0byBzZXQgaXQu"
+    },
+    "q2-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "QSBjbGFzcyBtYXkgYmUgYWJzdHJhY3Qgd2l0aCBubyBhYnN0cmFjdCBtZXRob2RzLiBUaGUgd29yZCBgYWJzdHJhY3RgIG9uIHRoZSBjbGFzcyBpcyB3aGF0IHN0b3BzIGBuZXcgVmVoaWNsZSgpYCwgYW5kIHRoZSBtZXRob2RzIGtlZXAgdGhlaXIgYm9kaWVzLg=="
+    },
+    "q2-5": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "QW4gYWJzdHJhY3QgY2xhc3MgaXMgdXNlZnVsIG9ubHkgdGhyb3VnaCBpdHMgc3ViY2xhc3NlcywgYW5kIGBmaW5hbGAgZm9yYmlkcyBzdWJjbGFzc2VzLCBzbyB0aGUgdHdvIHdvcmRzIGNvbnRyYWRpY3QgZWFjaCBvdGhlci4="
+    },
+    "q3-2": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "VGhlc2UgYXJlIHRoZSB0d28gZml4ZXMgdGhlIGNvbXBpbGVyJ3MgbWVzc2FnZSBuYW1lcy4gRCBkb2VzIG5vdCBjb21waWxlOiBgc3VwZXIuYXJlYSgpYCB3b3VsZCBjYWxsIGFuIGFic3RyYWN0IG1ldGhvZCwgd2hpY2ggaGFzIG5vIGJvZHku"
+    },
+    "q3-3": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "QW4gYWJzdHJhY3QgY2xhc3MgaGFzIG5vIG9iamVjdHMsIHNvIGBuZXcgVHJpYW5nbGUoLi4uKWAgaXMgcmVmdXNlZC4gVmFyaWFibGVzIGFuZCBsaXN0cyBvZiB0aGUgdHlwZSBhcmUgc3RpbGwgZmluZS4="
+    },
+    "q3-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "QSBjb25jcmV0ZSBjbGFzcyBpcyBub3QgYWJzdHJhY3QsIHNvIGBuZXdgIHdvcmtzIGZvciBpdC4gSXRzIG93biBjb2RlIG1heSBoYXZlIG5vIGFic3RyYWN0IG1ldGhvZHMgYW5kIHN0aWxsIG5vdCBiZSBjb25jcmV0ZSwgaWYgaXQgaXMgZGVjbGFyZWQgYGFic3RyYWN0YCwgc28gQiBpcyBub3QgdGhlIGRlZmluaXRpb24u"
+    },
+    "q4-2": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "VGhlIGJvZHkgdGhhdCBydW5zIGlzIGZvdW5kIGZyb20gdGhlIGNsYXNzIG9mIHRoZSBvYmplY3QuIGBTaGFwZWAncyBgYXJlYSgpYCBoYXMgbm8gYm9keSwgc28gaXQgY291bGQgbmV2ZXIgYmUgdGhlIG9uZSB0aGF0IHJ1bnMu"
+    },
+    "q4-3": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 0,
+      "explain": "VGhlIGNvbXBpbGVyIGNoZWNrcyB0aGUgY2FsbCBhZ2FpbnN0IHRoZSB0eXBlIG9mIHRoZSB2YXJpYWJsZSwgYFNoYXBlYC4gVGhlIGFic3RyYWN0IG1ldGhvZCBpcyBlbm91Z2ggZm9yIHRoYXQgY2hlY2s7IGl0IGRvZXMgbm90IGxvb2sgYXQgd2hpY2ggb2JqZWN0IGBzYCB3aWxsIHJlZmVyIHRvLg=="
+    },
+    "q4-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "RXZlcnkgcmVjdGFuZ2xlLCBzcXVhcmUgYW5kIHRyaWFuZ2xlIGlzIGEgYFNoYXBlYCwgc28gYWxsIG9mIHRoZW0gY2FuIGdvIGluIHRoZSBzYW1lIGxpc3QuIFRoZXJlIGFyZSBubyBwbGFpbiBgU2hhcGVgIG9iamVjdHMgdG8gYWRkLg=="
+    },
+    "q4-6": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 3,
+      "explain": "YHRvdGFsQXJlYWAgb25seSBjYWxscyBgcy5hcmVhKClgLCB3aGljaCBldmVyeSBgU2hhcGVgIGhhcy4gQSBjaXJjbGUgaW4gdGhlIGxpc3QgcnVucyBgQ2lyY2xlYCdzIGBhcmVhKClgIHdpdGggbm8gY2hhbmdlIHRvIHRoZSBtZXRob2Qu"
+    },
+    "q5-3": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 1,
+      "explain": "T25lIG9iamVjdCBpcyBjcmVhdGVkLCBhIGBSZWN0YW5nbGVgLiBgc3VwZXIobmFtZSlgIGlzIHRoZSBmaXJzdCBsaW5lIG9mIGl0cyBjb25zdHJ1Y3Rvciwgc28gdGhlIGBTaGFwZWAgcGFydCAodGhlIG5hbWUpIGlzIHNldCBiZWZvcmUgdGhlIHdpZHRoIGFuZCBoZWlnaHQu"
+    },
+    "q5-4": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "YFRyaWFuZ2xlYCBoYXMgbm8gYGRlc2NyaWJlKClgLCBzbyB0aGUgc2VhcmNoIGdvZXMgdXAgdG8gYFNoYXBlYC4gSW5zaWRlIGl0LCB0aGUgY2FsbCBgYXJlYSgpYCBhZ2FpbiBzdGFydHMgZnJvbSB0aGUgb2JqZWN0J3MgY2xhc3MsIGBUcmlhbmdsZWAsIHdoaWNoIGhhcyBhIGJvZHku"
+    },
+    "q5-5": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 0,
+      "explain": "VGhlcmUgYXJlIG5vIHBsYWluIGBTaGFwZWAgb2JqZWN0cywgYW5kIGV2ZXJ5IGNvbmNyZXRlIHN1YmNsYXNzIG11c3Qgd3JpdGUgYGFyZWEoKWAuIFNvIHdoZW5ldmVyIGBkZXNjcmliZSgpYCBydW5zLCBhIGJvZHkgZm9yIGBhcmVhKClgIGV4aXN0cy4="
+    },
+    "q6-2": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "QSwgQiBhbmQgRCBhcmUgYWxsIHRydWUgb2YgYWJzdHJhY3QgY2xhc3NlcyB0b28uIFRoZSBxdWVzdGlvbiBpcyB3aGV0aGVyIGEgcGxhaW4gb2JqZWN0IG9mIHRoZSBjbGFzcyBtYWtlcyBzZW5zZTsgaWYgaXQgZG9lcywga2VlcCB0aGUgY2xhc3MgY29uY3JldGUu"
+    },
+    "q6-3": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "V2l0aCBubyBhYnN0cmFjdCBtZXRob2RzLCB0aGUgc3ViY2xhc3NlcyBoYXZlIG5vdGhpbmcgZXh0cmEgdG8gd3JpdGUuIFRoZSBvbmx5IGVmZmVjdCBpcyB0aGF0IGBuZXcgVmVoaWNsZSguLi4pYCBiZWNvbWVzIGEgY29tcGlsZSBlcnJvciwgd2hpY2ggbWF0Y2hlcyB0aGUgaWRlYSB0aGF0IGV2ZXJ5IHZlaGljbGUgaXMgYSBjYXIgb3IgYSBidXMu"
+    },
+    "q7-2": {
+      "type": "choice",
+      "xp": 1,
+      "options": 4,
+      "answer": 2,
+      "explain": "T25seSBjcmVhdGluZyBhbiBvYmplY3Qgb2YgdGhlIGFic3RyYWN0IGNsYXNzIGlzIHJlZnVzZWQuIExpc3RzIGFuZCB2YXJpYWJsZXMgb2YgdGhlIHR5cGUsIGFuZCBjYWxscyB0byBpdHMgYWJzdHJhY3QgbWV0aG9kLCBhcmUgYWxsb3dlZC4="
+    }
+  }
+}

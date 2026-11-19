@@ -1,0 +1,1038 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 2001: Lecture 20 Workbook</title>
+  <link rel="icon" href="../../runtime/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
+  <link rel="stylesheet" href="../../runtime/workbook.css">
+  <style>
+    html, html[data-theme], html.wb-presenting, html.wb-presenting[data-theme] { --ink-quiet: var(--ink); --code-comment: var(--good-ink); }
+    .wb-shot { margin: 1rem 0 1.2rem; }
+    .wb-shot img { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; border: 1px solid var(--rule); border-radius: 6px; background: #fff; }
+    .wb-shot figcaption { font-family: var(--font-sans); font-size: 0.85rem; color: var(--ink); text-align: center; margin-top: 0.4rem; }
+    .wb-outcomes h3 { margin-top: 1.4rem; }
+  </style>
+  <script type="module">
+    import { initWorkbook } from "../../runtime/workbook.js";
+    initWorkbook({ id: "lecture-20", specs: "./exercises.json" });
+  </script>
+</head>
+<body>
+<main>
+
+<div class="wb-title-block">
+  <div>
+    <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
+    <h1>Lecture 20 Workbook</h1>
+    <div class="wb-subtitle">Chapter 14, Part 2: Interfaces</div>
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
+  </div>
+  <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+</div>
+
+<p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run takes a few seconds while Java loads). Each box includes the other classes it needs and a short checking program. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
+<p>This workbook holds the notes and the questions for Lecture 20. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. For a multiple-choice question, circle one letter. Section 10 has two complete programs to write after class. By the end, you should be able to:</p>
+<ul>
+<li>explain why a class can extend only one class;</li>
+<li>write an interface, and a class that implements one or more interfaces;</li>
+<li>use an interface as the type of variables, parameters and lists;</li>
+<li>write a default method, and say why interfaces have them;</li>
+<li>declare a list with the <code>List</code> interface as its type;</li>
+<li>write a lambda for a functional interface, including those in <code>java.util.function</code>;</li>
+<li>choose between an abstract class and an interface; and</li>
+<li>write complete programs in which unrelated classes share an interface.</li>
+</ul>
+<h2 id="s1">1. One superclass</h2>
+<h3>Shapes and labels</h3>
+<p>Our example is a drawing program. It shows squares and text labels on a screen. <code>Shape</code> is the abstract class from Lecture 19, with a <code>name</code> and an abstract <code>area()</code>. <code>Square</code> extends it. <code>Label</code> holds a line of text. Both <code>Square</code> and <code>Label</code> have a method <code>draw()</code> that prints them.</p>
+<p>We want one list that holds squares and labels together, and one loop that calls <code>draw()</code> on each item. For that, the list needs one type that both classes belong to, and that type must have <code>draw()</code>.</p>
+<h3>Label as a Shape</h3>
+<p>One idea is to make <code>Label</code> extend <code>Shape</code>, and give <code>Shape</code> a <code>draw()</code> method. But a label is not a kind of shape. It has no area, yet <code>Label</code> would have to write <code>area()</code> because it is abstract in <code>Shape</code>. It could only return a made-up 0, which is a wrong answer that the compiler never reports.</p>
+<h3>Two superclasses</h3>
+<p>Suppose <code>Label</code> already extends a class <code>Text</code>, which holds its text. Then it cannot also extend <code>Shape</code>:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Label</span> extends <span class="wb-type">Text</span>, <span class="wb-type">Shape</span>
+{
+}</code></pre>
+<pre class="wb-output">error: '{' expected</pre>
+<p>After <code>extends</code>, Java allows exactly one class name. The compiler reads <code>Text</code>, expects the class body to start with <code>{</code>, and stops at the comma.</p>
+<h3>Multiple inheritance</h3>
+<p><strong>Multiple inheritance</strong> means a class inheriting directly from more than one supertype. Java forbids it for classes. The reason is a clash: two superclasses could each have a <code>draw()</code> method with a different body, or a field with the same name. The subclass would not know which one it gets.</p>
+<figure class="wb-shot">
+  <img src="img/multi_inherit.png" alt="Label with two superclasses, Text and Shape. Text has draw() with body A and Shape has draw() with body B. Label, outlined in red, would not know which draw() it gets." loading="lazy" style="max-width: 460px">
+</figure>
+<p>Java does allow a class to have more than one <strong>interface</strong>. Interfaces have no fields and normally no method bodies, so there is nothing to clash. The rest of this workbook is about them.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.1</div>
+  <p><strong>1.1</strong> <code>public class Label extends Text, Shape</code> gives <code>error: '{' expected</code>. Why?</p>
+
+  <wb-choice id="q1-1">
+    <ol type="A">
+      <li><code>Text</code> and <code>Shape</code> have different fields.</li>
+      <li><code>Shape</code> is abstract.</li>
+      <li>After <code>extends</code>, Java allows only one class name.</li>
+      <li><code>Label</code> must be abstract.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.2</div>
+  <p><strong>1.2</strong> <code>Label</code> extends <code>Shape</code> and writes an <code>area()</code> that returns 0. What is wrong with this design?</p>
+
+  <wb-choice id="q1-2">
+    <ol type="A">
+      <li>It does not compile.</li>
+      <li>A label is not a kind of shape, and its <code>area()</code> gives a made-up answer with no error.</li>
+      <li><code>Label</code> cannot also have a <code>draw()</code> method.</li>
+      <li><code>Shape</code>'s constructor cannot be called from <code>Label</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.3</div>
+  <p><strong>1.3</strong> Which of these is multiple inheritance?</p>
+
+  <wb-choice id="q1-3">
+    <ol type="A">
+      <li>A class with many subclasses.</li>
+      <li>A chain of three classes, each extending the one above it.</li>
+      <li>A class with several constructors.</li>
+      <li>A class inheriting directly from more than one supertype.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.4</div>
+  <p><strong>1.4</strong> Java forbids a class with two superclasses. What problem could two superclasses cause?</p>
+
+  <wb-short id="q1-4"></wb-short>
+</div>
+<h2 id="s2">2. Interfaces</h2>
+<h3>Interface syntax</h3>
+<p>An <strong>interface</strong> lists method headers that a class promises to provide. It is a type, like a class, but it has no fields, no constructors and no objects of its own. Write <code>interface</code> where a class has <code>class</code>:</p>
+<pre><code><span class="wb-kw">public</span> interface <span class="wb-type">Drawable</span>
+{
+    <span class="wb-kw">void</span> <span class="wb-fn">draw</span>();
+}</code></pre>
+<p><code>void draw();</code> is a header with no body, ending with a semicolon, like an abstract method in Lecture 19. Every method header in an interface is automatically <code>public</code> and <code>abstract</code>. Writing <code>public abstract void draw();</code> means the same thing, but most programmers leave both words out.</p>
+<p>In UML, an interface has «interface» above its name. A class that implements it has a dashed arrow with an open triangle pointing to the interface:</p>
+<figure class="wb-shot">
+  <img src="img/drawable_impl.png" alt="Class diagram: the interface Drawable, marked interface, has draw() : void. Square and Label each have draw() : void, with dashed arrows with open triangles pointing up to Drawable." loading="lazy" style="max-width: 600px">
+</figure>
+<h3>Interface rules</h3>
+<ul>
+<li>No constructor. <code>public Drawable() { }</code> inside the interface gives <code>error: &lt;identifier&gt; expected</code>. With no fields there is nothing to set up.</li>
+<li>No instance fields. Any field in an interface is a constant, so it must have a value. <code>int count;</code> gives <code>error: = expected</code>. <code>int MAX_ITEMS = 20;</code> is allowed, and it is automatically <code>public static final</code>.</li>
+<li>No objects. <code>Drawable d = new Drawable();</code> gives <code>error: Drawable is abstract; cannot be instantiated</code>.</li>
+<li>A class can have one superclass and <strong>any number</strong> of interfaces.</li>
+</ul>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.1</div>
+  <p><strong>2.1</strong> Write an interface <code>Playable</code> with two methods: <code>play</code>, which takes no parameters and returns nothing, and <code>length</code>, which returns an <code>int</code>.</p>
+
+<p>Write <code>Playable</code> in the box. The box includes a <code>Song</code> class that implements it, and plays a song.</p>  <wb-exercise id="q2-1"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.2</div>
+  <p><strong>2.2</strong> Each line below is written inside <code>public interface Drawable</code>. Write yes or no: does it compile?</p>
+
+  <wb-table id="q2-2">
+    <table>
+      <thead><tr><th>Line in <code>Drawable</code></th><th>Compiles?</th></tr></thead>
+      <tbody>
+        <tr><td><code>void draw();</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>public abstract void draw();</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>int MAX_ITEMS = 20;</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>private int count;</code></td><td data-blank="3"></td></tr>
+        <tr><td><code>public Drawable() { }</code></td><td data-blank="4"></td></tr>
+        <tr><td><code>void reset() { }</code></td><td data-blank="5"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.3</div>
+  <p><strong>2.3</strong> What is <code>int MAX_ITEMS = 20;</code> inside an interface?</p>
+
+  <wb-choice id="q2-3">
+    <ol type="A">
+      <li>A constant: it is <code>public</code>, <code>static</code> and <code>final</code> without saying so.</li>
+      <li>An instance field; each object gets its own copy.</li>
+      <li>A compile error, because interfaces have no fields.</li>
+      <li>A private field that only the interface can use.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.4</div>
+  <p><strong>2.4</strong> What happens with <code>Drawable d = new Drawable();</code>?</p>
+
+  <wb-choice id="q2-4">
+    <ol type="A">
+      <li><code>d</code> refers to an empty <code>Drawable</code> object.</li>
+      <li>It compiles, but fails when the program runs.</li>
+      <li>A compile error: <code>Drawable is abstract; cannot be instantiated</code>.</li>
+      <li>It compiles if <code>Drawable</code> has only one method.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s3">3. Implements</h2>
+<h3>implements syntax</h3>
+<p>A class promises to provide an interface's methods with the word <code>implements</code>. <code>Label</code> has no superclass of its own:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Label</span> implements <span class="wb-type">Drawable</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> text;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Label</span>(<span class="wb-type">String</span> text)
+    {
+        <span class="wb-kw">this</span>.text = text;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">draw</span>()
+    {
+        System.out.println(<span class="wb-str">"Label: "</span> + text);
+    }
+}</code></pre>
+<figure class="wb-shot">
+  <img src="img/label_impl.png" alt="Class diagram: Label, with the field text : String and draw() : void, has a dashed arrow with an open triangle to the interface Drawable." loading="lazy" style="max-width: 220px">
+</figure>
+<h3>extends and implements together</h3>
+<p><code>Square</code> extends <code>Shape</code> and implements <code>Drawable</code>. <code>extends</code> comes first, then <code>implements</code>. <code>Square</code> writes <code>area()</code> for <code>Shape</code> and <code>draw()</code> for <code>Drawable</code>:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Square</span> extends <span class="wb-type">Shape</span> implements <span class="wb-type">Drawable</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-kw">double</span> side;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Square</span>(<span class="wb-type">String</span> name, <span class="wb-kw">double</span> side)
+    {
+        super(name);
+        <span class="wb-kw">this</span>.side = side;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">double</span> <span class="wb-fn">area</span>()
+    {
+        <span class="wb-kw">return</span> side * side;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">draw</span>()
+    {
+        System.out.println(<span class="wb-str">"Square "</span> + getName() + <span class="wb-str">", area "</span> + area());
+    }
+}</code></pre>
+<figure class="wb-shot">
+  <img src="img/square_both.png" alt="Class diagram: Square has a solid arrow to the abstract class Shape, which has area() in italics, and a dashed arrow to the interface Drawable, which has draw(). Square has area() and draw()." loading="lazy" style="max-width: 360px">
+</figure>
+<h3>Two mistakes with implements</h3>
+<ul>
+<li>Leaving out the promised method. If <code>Label implements Drawable</code> has no <code>draw()</code>, the compiler says <code>Label is not abstract and does not override abstract method draw() in Drawable</code>.</li>
+<li>Forgetting <code>public</code>. Interface methods are always <code>public</code>, so the class's method must be <code>public</code> too. If <code>Label</code> writes <code>void draw()</code>, the compiler says <code>draw() in Label cannot implement draw() in Drawable</code> <code>attempting to assign weaker access privileges; was public</code>.</li>
+</ul>
+<h3>An abstract class implementing an interface</h3>
+<p>An abstract class can implement an interface without writing its methods:</p>
+<pre><code><span class="wb-kw">public</span> abstract <span class="wb-kw">class</span> <span class="wb-type">Shape</span> implements <span class="wb-type">Drawable</span></code></pre>
+<p><code>draw()</code> stays abstract in <code>Shape</code>, so every concrete subclass, such as <code>Square</code>, must write it. Every <code>Shape</code> is now a <code>Drawable</code>, and so is every <code>Square</code>, without writing <code>implements</code> again:</p>
+<pre><code><span class="wb-type">Drawable</span> d = <span class="wb-kw">new</span> <span class="wb-fn">Square</span>(<span class="wb-str">"tile"</span>, <span class="wb-num">5</span>);
+d.draw();</code></pre>
+<pre class="wb-output">Square tile, area 25.0</pre>
+<figure class="wb-shot">
+  <img src="img/pass_on.png" alt="Class diagram in a column: Shape has a dashed arrow up to the interface Drawable, and Square has a solid arrow up to Shape. Square has area() and draw()." loading="lazy" style="max-width: 220px">
+</figure>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.1</div>
+  <p><strong>3.1</strong> Write a class <code>Song</code> that implements <code>Playable</code> from question 2.1. It has private fields <code>title</code> (a <code>String</code>) and <code>seconds</code> (an <code>int</code>), a constructor <code>Song(String title, int seconds)</code>, a method <code>play()</code> that prints <code>Playing</code> followed by the title, such as <code>Playing Rain</code>, and a method <code>length()</code> that returns the seconds.</p>
+
+<p>Write <code>Song</code> in the box. The box includes <code>Playable</code>, plays the song Rain and prints its length.</p>  <wb-exercise id="q3-1"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.2</div>
+  <p><strong>3.2</strong> <code>public class Label implements Drawable</code> has no <code>draw()</code> method. What does the compiler say?</p>
+
+  <wb-choice id="q3-2">
+    <ol type="A">
+      <li>Nothing; <code>Label</code> inherits an empty <code>draw()</code>.</li>
+      <li><code>Label is not abstract and does not override abstract method draw() in Drawable</code>.</li>
+      <li><code>Drawable is abstract; cannot be instantiated</code>.</li>
+      <li><code>'{' expected</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.3</div>
+  <p><strong>3.3</strong> <code>Label</code> writes <code>void draw()</code> instead of <code>public void draw()</code>. Why is this a compile error?</p>
+
+  <wb-choice id="q3-3">
+    <ol type="A">
+      <li>The interface's method is public, and a class cannot give the method weaker access.</li>
+      <li>Every method in every class must be public.</li>
+      <li><code>draw()</code> must be <code>static</code>.</li>
+      <li>The method needs <code>@Override</code> above it.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.4</div>
+  <p><strong>3.4</strong> <code>Shape</code> is an abstract class and <code>Drawable</code> is an interface. Which header compiles?</p>
+
+  <wb-choice id="q3-4">
+    <ol type="A">
+      <li><code>public class Square implements Drawable extends Shape</code></li>
+      <li><code>public class Square extends Shape, Drawable</code></li>
+      <li><code>public class Square implements Shape, Drawable</code></li>
+      <li><code>public class Square extends Shape implements Drawable</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.5</div>
+  <p><strong>3.5</strong> <code>public abstract class Shape implements Drawable</code> does not write <code>draw()</code>. What is true?</p>
+
+  <wb-choice id="q3-5">
+    <ol type="A">
+      <li>It is a compile error: <code>Shape</code> must write <code>draw()</code>.</li>
+      <li><code>draw()</code> gets an empty body in <code>Shape</code>.</li>
+      <li>Subclasses of <code>Shape</code> are not <code>Drawable</code>.</li>
+      <li>It compiles. <code>draw()</code> stays abstract, and every concrete subclass must write it.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.6</div>
+  <p><strong>3.6</strong> Write a class <code>Circle</code> that extends <code>Shape</code> and implements <code>Drawable</code>. Here <code>Shape</code> has a name, <code>getName()</code> and an abstract <code>area()</code>. <code>Circle</code> has a field <code>radius</code>, a constructor <code>Circle(String name, double radius)</code>, an <code>area()</code> that returns <code>3.14 * radius * radius</code>, and a <code>draw()</code> that prints in the same form as <code>Square</code>, such as <code>Circle plate, area 314.0</code>.</p>
+
+<p>Write <code>Circle</code> in the box. The box includes <code>Shape</code> and <code>Drawable</code>, and draws a plate with radius 10.</p>  <wb-exercise id="q3-6"></wb-exercise>
+</div>
+<h2 id="s4">4. Interface types</h2>
+<h3>Drawable as a type</h3>
+<p>An interface is a type, so it can be the type of a variable, a parameter or a list. An <code>ArrayList&lt;Drawable&gt;</code> holds squares and labels together. In this section <code>Shape</code> does not implement <code>Drawable</code>; <code>Square</code> implements it directly, as in Section 3. Squares and labels share no superclass except <code>Object</code>. They share only the promise to have <code>draw()</code>.</p>
+<pre><code><span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Drawable</span>&gt; screen = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+screen.add(<span class="wb-kw">new</span> <span class="wb-fn">Square</span>(<span class="wb-str">"tile"</span>, <span class="wb-num">5</span>));
+screen.add(<span class="wb-kw">new</span> <span class="wb-fn">Label</span>(<span class="wb-str">"Exit"</span>));
+screen.add(<span class="wb-kw">new</span> <span class="wb-fn">Square</span>(<span class="wb-str">"mat"</span>, <span class="wb-num">2</span>));
+<span class="wb-kw">for</span>(<span class="wb-type">Drawable</span> d : screen) {
+    d.draw();
+}</code></pre>
+<pre class="wb-output">Square tile, area 25.0
+Label: Exit
+Square mat, area 4.0</pre>
+<figure class="wb-shot">
+  <img src="img/screen_list.png" alt="The list screen has three cells. They refer to a Square object "tile", a Label object "Exit" and a Square object "mat"." loading="lazy" style="max-width: 380px">
+</figure>
+<p><code>d.draw()</code> compiles because every <code>Drawable</code> has <code>draw()</code>. The body that runs is the object's own: <code>Square</code>'s for the squares and <code>Label</code>'s for the label. There are no <code>instanceof</code> tests and no casts.</p>
+<h3>Several interfaces</h3>
+<p>A second interface lets things be resized:</p>
+<pre><code><span class="wb-kw">public</span> interface <span class="wb-type">Resizable</span>
+{
+    <span class="wb-kw">void</span> <span class="wb-fn">scale</span>(<span class="wb-kw">double</span> factor);
+}</code></pre>
+<p>A class lists its interfaces after <code>implements</code>, separated by commas. <code>Square</code> must now write <code>draw()</code> and <code>scale(...)</code>, which multiplies its side by the factor:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Square</span> extends <span class="wb-type">Shape</span> implements <span class="wb-type">Drawable</span>, <span class="wb-type">Resizable</span>
+
+<span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">scale</span>(<span class="wb-kw">double</span> factor)
+{
+    side = side * factor;
+}</code></pre>
+<h3>One object, several types</h3>
+<p>A <code>Square</code> object is a <code>Square</code>, a <code>Shape</code>, a <code>Drawable</code> and a <code>Resizable</code>. Variables of all four types can refer to the same object. The type of the variable decides which methods the compiler lets you call through it:</p>
+<figure class="wb-shot">
+  <img src="img/one_object.png" alt="Four variables, Square a, Shape b, Drawable c and Resizable d, all refer to one Square object named tile with side 5.0." loading="lazy" style="max-width: 420px">
+</figure>
+<table>
+  <thead><tr><th>Variable type</th><th>Can call</th></tr></thead>
+  <tbody>
+      <tr><td><code>Square</code></td><td>everything</td></tr>
+      <tr><td><code>Shape</code></td><td><code>getName()</code>, <code>area()</code></td></tr>
+      <tr><td><code>Drawable</code></td><td><code>draw()</code></td></tr>
+      <tr><td><code>Resizable</code></td><td><code>scale(...)</code></td></tr>
+  </tbody>
+</table>
+<h3>A parameter of interface type</h3>
+<p>A method should ask for the smallest type it needs. <code>growAll</code> only calls <code>scale(...)</code>, so its parameter is a list of <code>Resizable</code>:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">growAll</span>(<span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Resizable</span>&gt; items, <span class="wb-kw">double</span> factor)
+{
+    <span class="wb-kw">for</span>(<span class="wb-type">Resizable</span> r : items) {
+        r.scale(factor);
+    }
+}</code></pre>
+<p>With <code>tile</code> (side 5) and <code>mat</code> (side 2) in <code>items</code>, <code>growAll(items, 2)</code> doubles each side, and drawing them prints:</p>
+<pre class="wb-output">Square tile, area 100.0
+Square mat, area 16.0</pre>
+<p>A <code>Label</code> is not <code>Resizable</code>, so it cannot go in <code>items</code>. Any future class that implements <code>Resizable</code> can, with no change to <code>growAll</code>.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.1</div>
+  <p><strong>4.1</strong> <code>Square</code> implements <code>Drawable</code> and <code>Resizable</code>. <code>Label</code> implements only <code>Drawable</code>. Write yes or no: does each line compile?</p>
+
+  <wb-table id="q4-1">
+    <table>
+      <thead><tr><th>Line</th><th>Compiles?</th></tr></thead>
+      <tbody>
+        <tr><td><code>Drawable a = new Square("mat", 2);</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>Shape b = new Label("Exit");</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>Resizable c = new Square("tile", 5);</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>Square d = new Label("Exit");</code></td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.2</div>
+  <p><strong>4.2</strong> Here <code>Shape</code> does not implement <code>Drawable</code>. After the two lines below, write yes or no: does each call compile?</p>
+
+<pre><code><span class="wb-type">Drawable</span> d = <span class="wb-kw">new</span> <span class="wb-fn">Square</span>(<span class="wb-str">"tile"</span>, <span class="wb-num">5</span>);
+<span class="wb-type">Shape</span> s = <span class="wb-kw">new</span> <span class="wb-fn">Square</span>(<span class="wb-str">"mat"</span>, <span class="wb-num">2</span>);</code></pre>
+  <wb-table id="q4-2">
+    <table>
+      <thead><tr><th>Call</th><th>Compiles?</th></tr></thead>
+      <tbody>
+        <tr><td><code>d.draw();</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>d.area();</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>s.area();</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>s.draw();</code></td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.3</div>
+  <p><strong>4.3</strong> In <code>for(Drawable d : screen) { d.draw(); }</code>, why does <code>d.draw()</code> compile?</p>
+
+  <wb-choice id="q4-3">
+    <ol type="A">
+      <li>Every object in Java has a <code>draw()</code> method.</li>
+      <li>The compiler checks each object in the list.</li>
+      <li><code>d</code> has type <code>Drawable</code>, and every <code>Drawable</code> has <code>draw()</code>.</li>
+      <li><code>Square</code> and <code>Label</code> extend the same superclass.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.4</div>
+  <p><strong>4.4</strong> <code>screen</code> holds a <code>Label</code>. When the loop reaches it, which <code>draw()</code> runs?</p>
+
+  <wb-choice id="q4-4">
+    <ol type="A">
+      <li>The <code>draw()</code> in <code>Label</code>.</li>
+      <li>The <code>draw()</code> in <code>Drawable</code>.</li>
+      <li>The <code>draw()</code> in <code>Square</code>, the class of the first object.</li>
+      <li>None; <code>draw()</code> has no body.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.5</div>
+  <p><strong>4.5</strong> <code>items</code> is an <code>ArrayList&lt;Resizable&gt;</code>. What happens with <code>items.add(new Label("Exit"));</code>?</p>
+
+  <wb-choice id="q4-5">
+    <ol type="A">
+      <li>It compiles, and <code>growAll</code> skips the label.</li>
+      <li>It compiles, but fails when <code>growAll</code> calls <code>scale</code>.</li>
+      <li>It compiles, because <code>Label</code> implements <code>Drawable</code>.</li>
+      <li>A compile error: a <code>Label</code> cannot be converted to <code>Resizable</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.6</div>
+  <p><strong>4.6</strong> <code>Square</code> implements <code>Drawable</code> and <code>Resizable</code>. What does this code print?</p>
+
+<pre><code><span class="wb-type">Square</span> rug = <span class="wb-kw">new</span> <span class="wb-fn">Square</span>(<span class="wb-str">"rug"</span>, <span class="wb-num">3</span>);
+<span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Drawable</span>&gt; screen = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+screen.add(rug);
+screen.add(<span class="wb-kw">new</span> <span class="wb-fn">Label</span>(<span class="wb-str">"Open"</span>));
+rug.scale(<span class="wb-num">2</span>);
+<span class="wb-kw">for</span>(<span class="wb-type">Drawable</span> d : screen) {
+    d.draw();
+}</code></pre>
+  <wb-table id="q4-6">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.7</div>
+  <p><strong>4.7</strong> Write a static method <code>drawAll(ArrayList&lt;Drawable&gt; items)</code> that draws each item, then prints the number of items followed by <code>items drawn</code>, such as <code>2 items drawn</code>.</p>
+
+<p>Write <code>drawAll</code> in the box. The box includes <code>Drawable</code>, <code>Square</code> and <code>Label</code>, and draws a label and a square.</p>  <wb-exercise id="q4-7"></wb-exercise>
+</div>
+<h2 id="s5">5. Default methods</h2>
+<h3>Default method syntax</h3>
+<p>A <strong>default method</strong> is a method in an interface with the word <code>default</code> and a body. Every class that implements the interface gets it, as if it were inherited. Here <code>Drawable</code> gets a method that draws the item inside a frame:</p>
+<pre><code><span class="wb-kw">public</span> interface <span class="wb-type">Drawable</span>
+{
+    <span class="wb-kw">void</span> <span class="wb-fn">draw</span>();
+
+    default <span class="wb-kw">void</span> <span class="wb-fn">drawFramed</span>()
+    {
+        System.out.println(<span class="wb-str">"+--------------+"</span>);
+        draw();
+        System.out.println(<span class="wb-str">"+--------------+"</span>);
+    }
+}</code></pre>
+<pre><code><span class="wb-type">Drawable</span> d = <span class="wb-kw">new</span> <span class="wb-fn">Label</span>(<span class="wb-str">"Exit"</span>);
+d.drawFramed();</code></pre>
+<pre class="wb-output">+--------------+
+Label: Exit
++--------------+</pre>
+<p>An interface has no fields, so a default method's body can only use its parameters and call other methods, such as <code>draw()</code>. The <code>draw()</code> that runs is the object's own, here <code>Label</code>'s.</p>
+<h3>Why default methods exist</h3>
+<p>Suppose <code>Drawable</code> is used by many classes, and a new method <code>drawFramed()</code> is added to it.</p>
+<figure class="wb-shot">
+  <img src="img/default_why.png" alt="Drawable gets a new method drawFramed(). As an abstract method, outlined in red, every class that implements Drawable stops compiling. As a default method, outlined in blue, every class gets it and nothing breaks." loading="lazy" style="max-width: 600px">
+</figure>
+<p>With the abstract version, <code>Label</code> fails with <code>Label is not abstract and does not override abstract method drawFramed() in Drawable</code>. Default methods were added to Java so that interfaces in the Java library could grow without breaking code that already implements them.</p>
+<h3>Overriding a default method</h3>
+<p>A class can still write its own version of a default method, with the same header. Then objects of that class run their own version instead of the default.</p>
+<h3>Two defaults with the same name</h3>
+<p>Suppose <code>Drawable</code> has <code>default String info()</code> returning <code>"can be drawn"</code>, and <code>Resizable</code> has one returning <code>"can be resized"</code>. If <code>Square</code> implements both and does not write <code>info()</code>, the compiler cannot choose:</p>
+<pre class="wb-output">error: types Drawable and Resizable are incompatible;
+  class Square inherits unrelated defaults for info() from types
+  Drawable and Resizable</pre>
+<p><code>Square</code> must write its own <code>info()</code>. Inside it, <code>Drawable.super.info()</code> calls the version in <code>Drawable</code>:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">info</span>()
+{
+    <span class="wb-kw">return</span> <span class="wb-type">Drawable</span>.super.info() + <span class="wb-str">" and "</span> + <span class="wb-type">Resizable</span>.super.info();
+}</code></pre>
+<p>Then <code>tile.info()</code> prints:</p>
+<pre class="wb-output">can be drawn and can be resized</pre>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.1</div>
+  <p><strong>5.1</strong> What is a default method?</p>
+
+  <wb-choice id="q5-1">
+    <ol type="A">
+      <li>A method in an interface with the word <code>default</code> and a body, which every implementing class gets.</li>
+      <li>The method a class runs when no other method fits.</li>
+      <li>An abstract method that every implementing class must write.</li>
+      <li>A constructor in an interface.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.2</div>
+  <p><strong>5.2</strong> <code>Drawable</code> has the default method <code>drawFramed()</code> above. What does this code print?</p>
+
+<pre><code><span class="wb-type">Drawable</span> d = <span class="wb-kw">new</span> <span class="wb-fn">Square</span>(<span class="wb-str">"tile"</span>, <span class="wb-num">5</span>);
+d.drawFramed();</code></pre>
+  <wb-table id="q5-2">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.3</div>
+  <p><strong>5.3</strong> Why add <code>drawFramed()</code> to <code>Drawable</code> as a default method rather than an abstract one?</p>
+
+  <wb-choice id="q5-3">
+    <ol type="A">
+      <li>Default methods run faster.</li>
+      <li>An abstract method cannot call <code>draw()</code>.</li>
+      <li>Classes that already implement <code>Drawable</code> keep compiling, and get the new method.</li>
+      <li>Only default methods can be <code>public</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.4</div>
+  <p><strong>5.4</strong> <code>Drawable</code> has only <code>void draw();</code>. Add a default method <code>drawTwice()</code> that calls <code>draw()</code> twice.</p>
+
+<p>Add <code>drawTwice()</code> to <code>Drawable</code> in the box. The box includes <code>Label</code>, and calls <code>drawTwice()</code> on the label Exit.</p>  <wb-exercise id="q5-4"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.5</div>
+  <p><strong>5.5</strong> In <code>Square</code>'s <code>info()</code>, what does <code>Drawable.super.info()</code> do?</p>
+
+  <wb-choice id="q5-5">
+    <ol type="A">
+      <li>It calls <code>info()</code> in <code>Square</code>'s superclass, <code>Shape</code>.</li>
+      <li>It calls the default <code>info()</code> written in <code>Drawable</code>.</li>
+      <li>It calls <code>info()</code> in every interface <code>Square</code> implements.</li>
+      <li>It creates a <code>Drawable</code> object and calls its <code>info()</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s6">6. Library</h2>
+<h3>The List interface</h3>
+<p>The Java library uses interfaces too. <code>List</code> is an interface in <code>java.util</code>. It has the methods we know from <code>ArrayList</code>: <code>add</code>, <code>get</code>, <code>remove</code>, <code>size</code> and more. <code>ArrayList</code> and <code>LinkedList</code> are two classes that implement it, built in different ways. The interface is the <strong>specification</strong>: what you can do with a list. Each class is one way to do it. The name says it: an <code>ArrayList</code> is a <code>List</code> built on an array.</p>
+<figure class="wb-shot">
+  <img src="img/list_impl.png" alt="Class diagram: the interface List<E> has add, get and size. ArrayList<E> and LinkedList<E> have dashed arrows with open triangles pointing up to List<E>." loading="lazy" style="max-width: 460px">
+</figure>
+<h3>Changing one line</h3>
+<p>Declare the variable with the interface type. Only the <code>new</code> part names a class:</p>
+<pre><code><span class="wb-type">List</span>&lt;<span class="wb-type">String</span>&gt; names = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+names.add(<span class="wb-str">"Ana"</span>);
+names.add(<span class="wb-str">"Ben"</span>);
+names.add(<span class="wb-num">0</span>, <span class="wb-str">"Cara"</span>);
+System.out.println(names);</code></pre>
+<pre class="wb-output">[Cara, Ana, Ben]</pre>
+<p>The program needs <code>import java.util.List;</code> as well as the import of the class. To switch to a <code>LinkedList</code>, change <code>new ArrayList&lt;&gt;()</code> to <code>new LinkedList&lt;&gt;()</code> and its import. The rest of the code stays the same, and it prints the same list. A method with a <code>List&lt;String&gt;</code> parameter accepts both kinds of list.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.1</div>
+  <p><strong>6.1</strong> Which is true of <code>List</code>, <code>ArrayList</code> and <code>LinkedList</code>?</p>
+
+  <wb-choice id="q6-1">
+    <ol type="A">
+      <li><code>List</code> is a class, and the other two extend it.</li>
+      <li>All three are interfaces.</li>
+      <li><code>ArrayList</code> is an interface, and <code>List</code> implements it.</li>
+      <li><code>List</code> is an interface, and the other two are classes that implement it.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.2</div>
+  <p><strong>6.2</strong> Why write <code>List&lt;String&gt; names = new ArrayList&lt;&gt;();</code> rather than <code>ArrayList&lt;String&gt; names = new ArrayList&lt;&gt;();</code>?</p>
+
+  <wb-choice id="q6-2">
+    <ol type="A">
+      <li>An <code>ArrayList</code> variable cannot call <code>add</code>.</li>
+      <li>Only the <code>new</code> part names the class, so switching to another kind of list changes one line.</li>
+      <li>It makes the list faster.</li>
+      <li>A <code>List</code> can hold any type, and an <code>ArrayList</code> only strings.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.3</div>
+  <p><strong>6.3</strong> The list program above is changed to use a <code>LinkedList</code>. Which parts change, and why does the rest stay the same?</p>
+
+  <wb-short id="q6-3"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.4</div>
+  <p><strong>6.4</strong> Write a static method <code>countLong(List&lt;String&gt; names)</code> that returns how many names have more than 4 characters.</p>
+
+<p>Write <code>countLong</code> in the box. It is called with an <code>ArrayList</code> and a <code>LinkedList</code>.</p>  <wb-exercise id="q6-4"></wb-exercise>
+</div>
+<h2 id="s7">7. Lambdas</h2>
+<h3>Functional interfaces</h3>
+<p>A <strong>functional interface</strong> is an interface with exactly one abstract method. Default methods do not count, so an interface with one abstract method and five default methods is still functional. <code>Drawable</code>, with only <code>draw()</code>, is one. <code>@FunctionalInterface</code> above it asks the compiler to check this; it is optional:</p>
+<pre><code>@<span class="wb-type">FunctionalInterface</span>
+<span class="wb-kw">public</span> interface <span class="wb-type">Drawable</span>
+{
+    <span class="wb-kw">void</span> <span class="wb-fn">draw</span>();
+}</code></pre>
+<p>Wherever a functional interface is expected, you can write a lambda. The lambda becomes the body of the one abstract method.</p>
+<h3>A lambda as a Drawable</h3>
+<pre><code><span class="wb-type">Drawable</span> line = () -&gt; System.out.println(<span class="wb-str">"--------"</span>);
+<span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Drawable</span>&gt; screen = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+screen.add(<span class="wb-kw">new</span> <span class="wb-fn">Label</span>(<span class="wb-str">"Exit"</span>));
+screen.add(line);
+screen.add(<span class="wb-kw">new</span> <span class="wb-fn">Square</span>(<span class="wb-str">"tile"</span>, <span class="wb-num">5</span>));
+<span class="wb-kw">for</span>(<span class="wb-type">Drawable</span> d : screen) {
+    d.draw();
+}</code></pre>
+<pre class="wb-output">Label: Exit
+--------
+Square tile, area 25.0</pre>
+<p><code>draw()</code> takes no parameters, so the lambda starts with <code>()</code>. Its type is <code>Drawable</code>, so it goes in the same list as squares and labels, and <code>d.draw()</code> runs the lambda's body.</p>
+<h3>Interfaces in java.util.function</h3>
+<p>The package <code>java.util.function</code> has ready-made functional interfaces:</p>
+<table>
+  <thead><tr><th>Interface</th><th>Method</th><th>Takes, gives back</th><th>Example lambda</th></tr></thead>
+  <tbody>
+      <tr><td><code>Predicate&lt;T&gt;</code></td><td><code>test</code></td><td>a <code>T</code>, a <code>boolean</code></td><td><code>s -&gt; s.length() &gt; 4</code></td></tr>
+      <tr><td><code>Consumer&lt;T&gt;</code></td><td><code>accept</code></td><td>a <code>T</code>, nothing</td><td><code>s -&gt; System.out.println(s)</code></td></tr>
+      <tr><td><code>Supplier&lt;T&gt;</code></td><td><code>get</code></td><td>nothing, a <code>T</code></td><td><code>() -&gt; "Ana"</code></td></tr>
+      <tr><td><code>BinaryOperator&lt;T&gt;</code></td><td><code>apply</code></td><td>two <code>T</code>s, a <code>T</code></td><td><code>(a, b) -&gt; a + b</code></td></tr>
+  </tbody>
+</table>
+<pre><code><span class="wb-type">Predicate</span>&lt;<span class="wb-type">String</span>&gt; isLong = s -&gt; s.length() &gt; <span class="wb-num">4</span>;
+<span class="wb-type">Consumer</span>&lt;<span class="wb-type">String</span>&gt; show = s -&gt; System.out.println(<span class="wb-str">"Name: "</span> + s);
+<span class="wb-type">Supplier</span>&lt;<span class="wb-type">String</span>&gt; first = () -&gt; <span class="wb-str">"Ana"</span>;
+<span class="wb-type">BinaryOperator</span>&lt;<span class="wb-type">Integer</span>&gt; add = (a, b) -&gt; a + b;
+
+System.out.println(isLong.test(<span class="wb-str">"Benedict"</span>));
+show.accept(first.get());
+System.out.println(add.apply(<span class="wb-num">3</span>, <span class="wb-num">4</span>));</code></pre>
+<pre class="wb-output">true
+Name: Ana
+7</pre>
+<h3>removeIf and Predicate</h3>
+<p>The parameter of <code>removeIf</code> has type <code>Predicate</code>, so every lambda passed to <code>removeIf</code> in Lecture 8 was a <code>Predicate</code>. A <code>Predicate</code> in a variable can be passed too. <code>forEach</code> takes a <code>Consumer</code> in the same way.</p>
+<pre><code><span class="wb-type">ArrayList</span>&lt;<span class="wb-type">String</span>&gt; names = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+names.add(<span class="wb-str">"Ana"</span>);
+names.add(<span class="wb-str">"Benedict"</span>);
+names.add(<span class="wb-str">"Cara"</span>);
+names.add(<span class="wb-str">"Dominic"</span>);
+<span class="wb-type">Predicate</span>&lt;<span class="wb-type">String</span>&gt; isLong = s -&gt; s.length() &gt; <span class="wb-num">4</span>;
+names.removeIf(isLong);
+System.out.println(names);</code></pre>
+<pre class="wb-output">[Ana, Cara]</pre>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.1</div>
+  <p><strong>7.1</strong> Write yes or no: can a lambda be written for each interface?</p>
+
+<pre><code>interface <span class="wb-type">A</span>
+{
+    <span class="wb-kw">void</span> <span class="wb-fn">run</span>();
+}
+
+interface <span class="wb-type">B</span>
+{
+    <span class="wb-kw">void</span> <span class="wb-fn">up</span>();
+    <span class="wb-kw">void</span> <span class="wb-fn">down</span>();
+}
+
+interface <span class="wb-type">C</span>
+{
+    <span class="wb-kw">int</span> <span class="wb-fn">size</span>();
+    default <span class="wb-kw">boolean</span> <span class="wb-fn">isEmpty</span>()
+    {
+        <span class="wb-kw">return</span> size() == <span class="wb-num">0</span>;
+    }
+}
+
+interface <span class="wb-type">D</span>
+{
+    default <span class="wb-kw">void</span> <span class="wb-fn">hello</span>()
+    {
+        System.out.println(<span class="wb-str">"hello"</span>);
+    }
+}</code></pre>
+  <wb-table id="q7-1">
+    <table>
+      <thead><tr><th>Interface</th><th>Lambda possible?</th></tr></thead>
+      <tbody>
+        <tr><td><code>A</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>B</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>C</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>D</code></td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.2</div>
+  <p><strong>7.2</strong> What does <code>@FunctionalInterface</code> above an interface do?</p>
+
+  <wb-choice id="q7-2">
+    <ol type="A">
+      <li>It makes the interface functional.</li>
+      <li>It asks the compiler to check that the interface has exactly one abstract method.</li>
+      <li>It lets the interface have fields.</li>
+      <li>It turns every method into a default method.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.3</div>
+  <p><strong>7.3</strong> <code>Drawable</code> has one abstract method, <code>void draw()</code>. Write one statement that makes a <code>Drawable</code> named <code>star</code> from a lambda that prints <code>*****</code>.</p>
+
+<p>Write the statement in the box. The box includes <code>Drawable</code>, and draws the star twice.</p>  <wb-exercise id="q7-3"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.4</div>
+  <p><strong>7.4</strong> <code>Predicate&lt;String&gt; isLong = s -&gt; s.length() &gt; 4;</code> Which call uses it, and what does the call give back?</p>
+
+  <wb-choice id="q7-4">
+    <ol type="A">
+      <li><code>isLong.apply("Benedict")</code>, which gives back 8.</li>
+      <li><code>isLong.accept("Benedict")</code>, which gives back nothing.</li>
+      <li><code>isLong.test("Benedict")</code>, which gives back <code>true</code>.</li>
+      <li><code>isLong.get()</code>, which gives back <code>"Benedict"</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.5</div>
+  <p><strong>7.5</strong> <code>names</code> holds <code>[Ana, Ben, Cara, Bo]</code>. What is in <code>names</code> after <code>names.removeIf(s -&gt; s.startsWith("B"));</code>?</p>
+
+  <wb-choice id="q7-5">
+    <ol type="A">
+      <li><code>[Ben, Bo]</code></li>
+      <li><code>[Ana, Ben, Cara, Bo]</code></li>
+      <li><code>[Cara]</code></li>
+      <li><code>[Ana, Cara]</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.6</div>
+  <p><strong>7.6</strong> <code>names</code> is an <code>ArrayList&lt;String&gt;</code>. Write a <code>Predicate&lt;String&gt;</code> named <code>isShort</code> that is true for strings with fewer than 4 characters, then use it with <code>removeIf</code> to remove the short names from <code>names</code>.</p>
+
+<p>Write the two lines in the box. The list holds Ana, Benedict, Bo and Cara, and the box prints it at the end.</p>  <wb-exercise id="q7-6"></wb-exercise>
+</div>
+<h2 id="s8">8. Choosing</h2>
+<h3>Abstract class or interface</h3>
+<table>
+  <thead><tr><th></th><th>Abstract class</th><th>Interface</th></tr></thead>
+  <tbody>
+      <tr><td>fields</td><td>yes</td><td>constants only</td></tr>
+      <tr><td>constructor</td><td>yes</td><td>no</td></tr>
+      <tr><td>method bodies</td><td>yes</td><td>default methods only</td></tr>
+      <tr><td>how many a class can have</td><td>one (<code>extends</code>)</td><td>any number (<code>implements</code>)</td></tr>
+      <tr><td>the classes below it</td><td>are kinds of one thing</td><td>share one ability</td></tr>
+  </tbody>
+</table>
+<p>A class can implement any number of interfaces but extend only one class. So an interface puts fewer limits on the classes that use it, and it is usually the first choice. Default methods do not change this; they exist mainly so that old interfaces can grow.</p>
+<h3>How to choose</h3>
+<figure class="wb-shot">
+  <img src="img/choose.png" alt="One question: does the supertype need fields, a constructor or shared code? If yes, use an abstract class. If no, use an interface." loading="lazy" style="max-width: 520px">
+</figure>
+<p>A design can use both. <code>Shape</code> is an abstract class that holds the shared <code>name</code> and implements <code>Drawable</code>. <code>Label</code> joins the same list of drawable items through <code>Drawable</code> alone.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.1</div>
+  <p><strong>8.1</strong> For each case, write abstract class, interface, or both.</p>
+
+  <wb-table id="q8-1">
+    <table>
+      <thead><tr><th>Case</th><th>Choice</th></tr></thead>
+      <tbody>
+        <tr><td><code>Cat</code>, <code>Dog</code> and <code>Horse</code> each have a name and an age, set by a constructor.</td><td data-blank="0"></td></tr>
+        <tr><td><code>Song</code>, <code>Podcast</code> and <code>Alarm</code> are unrelated, but each can be played.</td><td data-blank="1"></td></tr>
+        <tr><td><code>Circle</code> and <code>Square</code> are shapes with a name. Only some shapes, such as <code>Square</code>, can be resized.</td><td data-blank="2"></td></tr>
+        <tr><td><code>Phone</code>, <code>Laptop</code> and <code>Scooter</code> are unrelated, but each can be charged.</td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.2</div>
+  <p><strong>8.2</strong> How many classes can a class extend, and how many interfaces can it implement?</p>
+
+  <wb-choice id="q8-2">
+    <ol type="A">
+      <li>One class and one interface.</li>
+      <li>Any number of classes and one interface.</li>
+      <li>One class and any number of interfaces.</li>
+      <li>Any number of each.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.3</div>
+  <p><strong>8.3</strong> <code>Car</code> and <code>Bus</code> both need a <code>plate</code> field set by a constructor, and some code that is the same for both. Which supertype fits?</p>
+
+  <wb-choice id="q8-3">
+    <ol type="A">
+      <li>An abstract class, because an interface has no fields and no constructor.</li>
+      <li>An interface, because an interface is usually the first choice.</li>
+      <li>An interface with a default constructor.</li>
+      <li>A functional interface.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 8.4</div>
+  <p><strong>8.4</strong> A supertype needs no fields, no constructor and no shared code. Why is an interface the better choice than an abstract class?</p>
+
+  <wb-short id="q8-4"></wb-short>
+</div>
+<h2 id="s9">9. Review</h2>
+
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 9.1</div>
+  <p><strong>9.1</strong> Write true or false for each statement.</p>
+
+  <wb-table id="q9-1">
+    <table>
+      <thead><tr><th>Statement</th><th>True or false?</th></tr></thead>
+      <tbody>
+        <tr><td>An interface can have a constructor.</td><td data-blank="0"></td></tr>
+        <tr><td>A class can implement more than one interface.</td><td data-blank="1"></td></tr>
+        <tr><td>A default method has a body.</td><td data-blank="2"></td></tr>
+        <tr><td>A lambda can be written for any interface.</td><td data-blank="3"></td></tr>
+        <tr><td>A <code>Label</code> can be added to an <code>ArrayList&lt;Drawable&gt;</code> because <code>Label</code> implements <code>Drawable</code>.</td><td data-blank="4"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 9.2</div>
+  <p><strong>9.2</strong> <code>Drawable</code> has one abstract method, <code>void draw()</code>. What is true of this line?</p>
+
+<pre><code><span class="wb-type">Drawable</span> d = () -&gt; System.out.println(<span class="wb-str">"--------"</span>);</code></pre>
+  <wb-choice id="q9-2">
+    <ol type="A">
+      <li>It compiles, and <code>d.draw()</code> prints the dashes.</li>
+      <li>It is a compile error, because <code>Drawable</code> is an interface.</li>
+      <li>It compiles, but <code>d</code> cannot be added to an <code>ArrayList&lt;Drawable&gt;</code>.</li>
+      <li>It creates a <code>Label</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 9.3</div>
+  <p><strong>9.3</strong> The interface <code>Chargeable</code> has one method, <code>void charge();</code>. This class should implement it. It has two mistakes, and each one stops it from compiling. Find both and give a fix for each.</p>
+
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Phone</span> extends <span class="wb-type">Chargeable</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> battery;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Phone</span>()
+    {
+        battery = <span class="wb-num">0</span>;
+    }
+
+    <span class="wb-kw">void</span> <span class="wb-fn">charge</span>()
+    {
+        battery = <span class="wb-num">100</span>;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getBattery</span>()
+    {
+        <span class="wb-kw">return</span> battery;
+    }
+}</code></pre>
+  <wb-short id="q9-3"></wb-short><p>Now fix both mistakes in the box. The box includes <code>Chargeable</code>, charges the phone through a <code>Chargeable</code> variable and prints the battery.</p>  <wb-exercise id="q9-3-fix"></wb-exercise>
+</div>
+<h2 id="s10">10. Complete Java Programs</h2>
+<p>Write these two programs after class. Each reuses classes from Lecture 19's complete programs and adds an interface, so that an unrelated class can join the same list.</p>
+<h3>Program A: Invoice</h3>
+<ul>
+<li><code>Billable</code> is an interface with one method, <code>double cost()</code>.</li>
+<li><code>Vehicle</code> is the abstract class from Lecture 19, which already has <code>cost()</code>. It now implements <code>Billable</code>. <code>Car</code> (0.5 per km) and <code>Truck</code> (2.0 per km) are unchanged.</li>
+<li><code>Parking(String plate, int hours)</code> implements <code>Billable</code>. Its cost is 3.0 per hour, and its <code>toString()</code> returns text such as <code>Parking CAR-7: 4 hours, cost 12.0</code>.</li>
+<li><code>Invoice</code> has one private field <code>ArrayList&lt;Billable&gt; items</code>. <code>add(Billable item)</code> adds an item, <code>printAll()</code> prints each item with <code>println</code>, and <code>total()</code> returns the total cost.</li>
+<li><code>InvoiceDemo</code> makes the car <code>CAR-7</code> and the truck <code>TRK-42</code> with a maximum load of 900. The car drives 30 km and the truck 150 km. It adds the car, the truck and 4 hours of parking for <code>CAR-7</code> to an invoice, in that order, and prints them all and the total.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Billable</code></div>
+<p>The box includes a <code>Parking</code> class that implements it, and prints the cost of 2 hours of parking.</p>
+  <wb-exercise id="p1-billable"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Vehicle</code></div>
+<p>The starter is the <code>Vehicle</code> class of Lecture 19. Make it implement <code>Billable</code>. The box includes <code>Billable</code> and <code>Car</code>, and adds up the cost of a car through a <code>Billable</code> variable.</p>
+  <wb-exercise id="p1-vehicle"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Parking</code></div>
+<p>The box includes <code>Billable</code>, and prints 4 hours of parking for CAR-7.</p>
+  <wb-exercise id="p1-parking"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Invoice</code></div>
+<p>The box includes <code>Billable</code> and model <code>Vehicle</code>, <code>Car</code>, <code>Truck</code> and <code>Parking</code> classes, and runs <code>InvoiceDemo</code>.</p>
+  <wb-exercise id="p1-invoice"></wb-exercise>
+</div>
+<p>The demo prints:</p>
+<pre class="wb-output">CAR-7: 30 km, cost 15.0
+TRK-42: 150 km, cost 300.0
+Parking CAR-7: 4 hours, cost 12.0
+Total: 327.0</pre>
+<h3>Program B: Order</h3>
+<ul>
+<li><code>Sellable</code> is an interface with one abstract method, <code>int price()</code>, and a default method <code>priceText()</code> that returns the price followed by <code>dollars</code>, such as <code>20 dollars</code>.</li>
+<li><code>Ticket</code> is the abstract class from Lecture 19. It now implements <code>Sellable</code>, so it no longer declares its own abstract <code>price()</code>; it inherits that promise from <code>Sellable</code>. Its <code>toString()</code> uses <code>priceText()</code>. <code>AdultTicket</code> (20) and <code>StudentTicket</code> (15) are unchanged.</li>
+<li><code>Snack(String name, int price)</code> implements <code>Sellable</code>. Its <code>toString()</code> returns text such as <code>popcorn: 6 dollars</code>.</li>
+<li><code>Order</code> has one private field <code>List&lt;Sellable&gt; items</code>, created as an <code>ArrayList</code>. <code>add(Sellable item)</code> adds an item, <code>printAll()</code> prints each item with <code>println</code>, and <code>total()</code> returns the total of the prices.</li>
+<li><code>OrderDemo</code> adds an adult ticket for seat A3, a student ticket for seat B12 to student 2001234, and a popcorn snack for 6 dollars. Then it prints the items and the total.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Sellable</code></div>
+<p>The box includes a <code>Snack</code> class that implements it, and prints the price text of a snack.</p>
+  <wb-exercise id="p2-sellable"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Ticket</code></div>
+<p>The box includes <code>Sellable</code> and an <code>AdultTicket</code> class with a price of 20, and prints an adult ticket.</p>
+  <wb-exercise id="p2-ticket"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Snack</code></div>
+<p>The box includes <code>Sellable</code>, and prints a popcorn snack for 6 dollars.</p>
+  <wb-exercise id="p2-snack"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Order</code></div>
+<p>The box includes model <code>Sellable</code>, <code>Ticket</code>, <code>AdultTicket</code>, <code>StudentTicket</code> and <code>Snack</code> classes, and runs <code>OrderDemo</code>.</p>
+  <wb-exercise id="p2-order"></wb-exercise>
+</div>
+<p>The demo prints:</p>
+<pre class="wb-output">A3: 20 dollars
+B12: 15 dollars, student 2001234
+popcorn: 6 dollars
+Total: 41 dollars</pre>
+<hr>
+<section class="wb-outcomes wb-review">
+<h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+<p>A class can extend only one class. An interface gives unrelated classes a shared type, so squares and labels can go in one list and be drawn by one loop.</p>
+<h3>Interfaces</h3>
+<ul>
+<li>A class has <strong>exactly one superclass</strong>: <code>extends Text, Shape</code> is a compile error.</li>
+<li>An <strong>interface</strong> lists method headers that a class promises to provide: <code>public interface Drawable { void draw(); }</code>. Its methods are <strong>public and abstract</strong> without saying so.</li>
+<li>No constructor, no instance fields (only constants such as <code>int MAX_ITEMS = 20;</code>), and <strong>no objects</strong>: <code>new Drawable()</code> is a compile error.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_interface.png" alt="The slide Writing an interface." loading="lazy" style="max-width: 560px">
+<figcaption>An interface with one method.</figcaption>
+</figure>
+<h3>implements</h3>
+<ul>
+<li>A class keeps the promise with <code>implements</code>, writing every method of the interface as <strong><code>public</code></strong>.</li>
+<li><code>extends</code> comes first: <code>public class Square extends Shape implements Drawable</code>. A class can have <strong>one superclass and any number of interfaces</strong>.</li>
+<li>An abstract class can implement an interface without writing its methods; its concrete subclasses must write them.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_extends_implements.png" alt="The slide extends and implements together." loading="lazy" style="max-width: 560px">
+<figcaption>Square writes area() for Shape and draw() for Drawable.</figcaption>
+</figure>
+<h3>Interface types</h3>
+<ul>
+<li>An interface is a <strong>type</strong>: <code>ArrayList&lt;Drawable&gt;</code> holds squares and labels together, with no <code>instanceof</code> tests and no casts.</li>
+<li>The <strong>type of the variable</strong> decides which methods can be called; the <strong>class of the object</strong> decides which body runs.</li>
+<li>A method should ask for the smallest type it needs, such as <code>ArrayList&lt;Resizable&gt;</code>.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_one_loop.png" alt="The slide One loop draws everything." loading="lazy" style="max-width: 560px">
+<figcaption>One loop calls draw() on each item.</figcaption>
+</figure>
+<h3>Default methods</h3>
+<ul>
+<li>A <strong>default method</strong> has the word <code>default</code> and a body. Every implementing class gets it, and can still write its own version.</li>
+<li>Default methods let an interface <strong>grow without breaking</strong> the classes that already implement it.</li>
+<li>Two defaults with the same name: the class must write its own method, and can call <code>Drawable.super.info()</code>.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_default.png" alt="The slide Default methods." loading="lazy" style="max-width: 560px">
+<figcaption>drawFramed() calls each object's own draw().</figcaption>
+</figure>
+<h3>Library and lambdas</h3>
+<ul>
+<li><code>List</code> is an interface; <code>ArrayList</code> and <code>LinkedList</code> implement it. With <code>List&lt;String&gt; names = new ArrayList&lt;&gt;();</code> only the <code>new</code> part names the class.</li>
+<li>A <strong>functional interface</strong> has exactly one abstract method, and a <strong>lambda</strong> can stand for it: <code>Drawable line = () -&gt; System.out.println("--------");</code></li>
+<li><code>java.util.function</code> has <code>Predicate</code> (<code>test</code>), <code>Consumer</code> (<code>accept</code>), <code>Supplier</code> (<code>get</code>) and <code>BinaryOperator</code> (<code>apply</code>). <code>removeIf</code> takes a <code>Predicate</code>.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_lambda.png" alt="The slide A lambda as a Drawable." loading="lazy" style="max-width: 560px">
+<figcaption>A lambda goes in the same list as squares and labels.</figcaption>
+</figure>
+<h3>Choosing</h3>
+<ul>
+<li>Use an <strong>abstract class</strong> when the supertype needs fields, a constructor or shared code.</li>
+<li>Otherwise an <strong>interface</strong> is usually the first choice, because a class can implement any number of them. A design can use both.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_compare.png" alt="The slide Abstract class or interface." loading="lazy" style="max-width: 560px">
+<figcaption>What each kind of supertype can have.</figcaption>
+</figure>
+<h3>Programs</h3>
+<ul>
+<li><code>Billable</code> lets vehicles and parking share one invoice, and <code>Sellable</code>, with a default <code>priceText()</code>, lets tickets and snacks share one order.</li>
+</ul>
+</section>
+
+</main>
+</body>
+</html>

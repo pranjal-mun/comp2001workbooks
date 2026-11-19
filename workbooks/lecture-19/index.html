@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 2001: Lecture 19 Workbook</title>
+  <link rel="icon" href="../../runtime/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
+  <link rel="stylesheet" href="../../runtime/workbook.css">
+  <style>
+    html, html[data-theme], html.wb-presenting, html.wb-presenting[data-theme] { --ink-quiet: var(--ink); --code-comment: var(--good-ink); }
+    .wb-shot { margin: 1rem 0 1.2rem; }
+    .wb-shot img { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; border: 1px solid var(--rule); border-radius: 6px; background: #fff; }
+    .wb-shot figcaption { font-family: var(--font-sans); font-size: 0.85rem; color: var(--ink); text-align: center; margin-top: 0.4rem; }
+    .wb-outcomes h3 { margin-top: 1.4rem; }
+  </style>
+  <script type="module">
+    import { initWorkbook } from "../../runtime/workbook.js";
+    initWorkbook({ id: "lecture-19", specs: "./exercises.json" });
+  </script>
+</head>
+<body>
+<main>
+
+<div class="wb-title-block">
+  <div>
+    <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
+    <h1>Lecture 19 Workbook</h1>
+    <div class="wb-subtitle">Chapter 14, Part 1: Abstract classes</div>
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
+  </div>
+  <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+</div>
+
+<p class="wb-meta">Every code box on this page is live: press <strong>▶ Run</strong> to compile and run it in your browser (the first run takes a few seconds while Java loads). Each box includes the other classes it needs and a short checking program. Exercises award XP when you get them right; XP can be spent to reveal a model answer.</p>
+<p>This workbook holds the notes and the questions for Lecture 19. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. For a multiple-choice question, circle one letter. Section 8 has two complete programs to write after class. By the end, you should be able to:</p>
+<ul>
+<li>write an abstract method, and say what it promises about every subclass;</li>
+<li>declare an abstract class, and say what it may and may not contain;</li>
+<li>finish a subclass of an abstract class, or explain why it must be abstract too;</li>
+<li>use an abstract class as the type of variables, parameters and lists;</li>
+<li>write normal methods in an abstract class that call its abstract methods;</li>
+<li>decide whether a superclass should be abstract or concrete; and</li>
+<li>write complete programs with an abstract superclass and concrete subclasses.</li>
+</ul>
+<h2 id="s1">1. Abstract methods</h2>
+<h3>Abstract method syntax</h3>
+<p>An <strong>abstract method</strong> is a method header with no body. It says <em>what</em> every subclass must be able to do, but not <em>how</em>. Each subclass writes its own body for it.</p>
+<p>The header is a normal header with the word <code>abstract</code> added, and it ends with a semicolon where the body would be:</p>
+<pre><code><span class="wb-kw">public</span> abstract <span class="wb-kw">double</span> <span class="wb-fn">area</span>();</code></pre>
+<p>Compare it with a normal method, which has a header and a body in braces:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">double</span> <span class="wb-fn">area</span>()
+{
+    <span class="wb-kw">return</span> width * height;
+}</code></pre>
+<p>A class that has an abstract method must itself be marked <code>abstract</code>. Section 2 explains why.</p>
+<h3>Three mistakes</h3>
+<ul>
+<li>An empty body is still a body. <code>public abstract double area() { }</code> gives <code>error: abstract methods cannot have a body</code>.</li>
+<li>A private method is hidden from subclasses, so no subclass could write its body. <code>private abstract double area();</code> gives <code>error: illegal combination of modifiers: abstract and private</code>.</li>
+<li>Leaving out the body without writing <code>abstract</code>: <code>public double area();</code> gives <code>error: missing method body, or declare abstract</code>.</li>
+</ul>
+<h3>Shape and two subclasses</h3>
+<p>Our example is a set of shapes. Every shape has an area, but the way to work it out depends on the kind of shape. So <code>Shape</code> declares <code>area()</code> as abstract, and <code>Rectangle</code> and <code>Square</code> each write a body. In UML, <em>italics</em> mark something abstract: the class name <em>Shape</em> and the method <em>area()</em>.</p>
+<figure class="wb-shot">
+  <img src="img/shape_two.png" alt="Class diagram: Shape, in italics because it is abstract, has the abstract method area() : double, also in italics. Rectangle, with width and height, and Square, with side, extend Shape, and each has its own area() : double." loading="lazy" style="max-width: 520px">
+</figure>
+<pre><code><span class="wb-kw">public</span> abstract <span class="wb-kw">class</span> <span class="wb-type">Shape</span>
+{
+    <span class="wb-kw">public</span> abstract <span class="wb-kw">double</span> <span class="wb-fn">area</span>();
+}</code></pre>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Rectangle</span> extends <span class="wb-type">Shape</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-kw">double</span> width;
+    <span class="wb-kw">private</span> <span class="wb-kw">double</span> height;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Rectangle</span>(<span class="wb-kw">double</span> width, <span class="wb-kw">double</span> height)
+    {
+        <span class="wb-kw">this</span>.width = width;
+        <span class="wb-kw">this</span>.height = height;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-kw">double</span> <span class="wb-fn">area</span>()
+    {
+        <span class="wb-kw">return</span> width * height;
+    }
+}</code></pre>
+<p><code>Square</code> looks the same, with one field <code>side</code> and the body <code>return side * side;</code>. You may write <code>@Override</code> above each <code>area()</code>, as in Lecture 18; the compiler then checks the header.</p>
+<h3>Calling area() on a Shape variable</h3>
+<pre><code><span class="wb-type">Shape</span> s = <span class="wb-kw">new</span> <span class="wb-fn">Rectangle</span>(<span class="wb-num">3</span>, <span class="wb-num">4</span>);
+System.out.println(s.area());
+s = <span class="wb-kw">new</span> <span class="wb-fn">Square</span>(<span class="wb-num">5</span>);
+System.out.println(s.area());</code></pre>
+<pre class="wb-output">12.0
+25.0</pre>
+<p>The variable <code>s</code> has type <code>Shape</code>, so <code>s.area()</code> compiles: every <code>Shape</code> has <code>area()</code>. The body that runs is the one in the object's own class, <code>Rectangle</code>'s first and <code>Square</code>'s second.</p>
+<h3>Without area() in Shape</h3>
+<p>Why not leave <code>area()</code> out of <code>Shape</code>? Then <code>s.area()</code> does not compile, and code that gets a <code>Shape</code> must test for each class and cast:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">double</span> <span class="wb-fn">areaOf</span>(<span class="wb-type">Shape</span> s)
+{
+    <span class="wb-kw">if</span>(s instanceof <span class="wb-type">Rectangle</span>) {
+        <span class="wb-kw">return</span> ((<span class="wb-type">Rectangle</span>) s).area();
+    }
+    <span class="wb-kw">else</span> <span class="wb-kw">if</span>(s instanceof <span class="wb-type">Square</span>) {
+        <span class="wb-kw">return</span> ((<span class="wb-type">Square</span>) s).area();
+    }
+    <span class="wb-kw">return</span> 0;
+}</code></pre>
+<p>A <code>Triangle</code> class was added later, with its own <code>area()</code>, but nobody updated <code>areaOf</code>. For a rectangle, a square and a triangle the program prints the following. The triangle's area comes out as 0.0, with no error:</p>
+<pre class="wb-output">12.0
+25.0
+0.0</pre>
+<h3>With a made-up body in Shape</h3>
+<p>Another idea is a normal <code>area()</code> in <code>Shape</code> that returns 0. Then <code>s.area()</code> compiles. But there is no true area for a general shape, so the 0 is made up. If a <code>Triangle</code> class forgets its own <code>area()</code>, it inherits the 0, and <code>new Triangle(6, 3).area()</code> prints <code>0.0</code>. The compiler says nothing.</p>
+<h3>Benefits of abstract methods</h3>
+<table>
+  <thead><tr><th>In <code>Shape</code></th><th>Client code</th><th>A subclass is added</th></tr></thead>
+  <tbody>
+      <tr><td>no <code>area()</code></td><td>tests each class, then casts</td><td>wrong answer, no error</td></tr>
+      <tr><td><code>area()</code> returns 0</td><td>one call: <code>s.area()</code></td><td>forgets <code>area()</code>: 0, no error</td></tr>
+      <tr><td><code>abstract area()</code></td><td>one call: <code>s.area()</code></td><td>forgets <code>area()</code>: compile error</td></tr>
+  </tbody>
+</table>
+<p>With an abstract method, the compiler makes sure every subclass writes the method, and client code calls it on any <code>Shape</code> with no tests and no casts.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.1</div>
+  <p><strong>1.1</strong> Every shape should also have a perimeter, but it is worked out differently for each kind of shape. Write the header of an abstract method <code>perimeter</code> in <code>Shape</code> that returns a <code>double</code>.</p>
+
+<p>Add the abstract method to <code>Shape</code> below. The box includes a <code>Square</code> class with its own <code>perimeter()</code>, and prints the perimeter of a square.</p>  <wb-exercise id="q1-1"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.2</div>
+  <p><strong>1.2</strong> Each line below is written inside <code>public abstract class Part</code>. Write yes or no: does it compile?</p>
+
+  <wb-table id="q1-2">
+    <table>
+      <thead><tr><th>Line in <code>Part</code></th><th>Compiles?</th></tr></thead>
+      <tbody>
+        <tr><td><code>public abstract int sides();</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>public abstract void reset() { }</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>public String label();</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>private abstract void draw();</code></td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.3</div>
+  <p><strong>1.3</strong> What does <code>public abstract double area();</code> in <code>Shape</code> say?</p>
+
+  <wb-choice id="q1-3">
+    <ol type="A">
+      <li>Every subclass inherits a body that returns 0.</li>
+      <li>Every concrete subclass must have an <code>area()</code> method with its own body.</li>
+      <li><code>area()</code> can never be called.</li>
+      <li><code>area()</code> runs before the subclass's own method.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.4</div>
+  <p><strong>1.4</strong> In the version without <code>area()</code> in <code>Shape</code>, why did <code>areaOf</code> return 0.0 for the triangle?</p>
+
+  <wb-choice id="q1-4">
+    <ol type="A">
+      <li><code>Triangle</code>'s own <code>area()</code> returns 0.</li>
+      <li><code>areaOf</code> has no test for <code>Triangle</code>, so it reaches <code>return 0</code>.</li>
+      <li>The cast to <code>Rectangle</code> failed.</li>
+      <li><code>Triangle</code> has no <code>area()</code> method.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.5</div>
+  <p><strong>1.5</strong> <code>Shape</code> has a normal <code>area()</code> that returns 0, and <code>Triangle</code> forgets to write its own. What happens with <code>System.out.println(new Triangle(6, 3).area());</code>?</p>
+
+  <wb-choice id="q1-5">
+    <ol type="A">
+      <li>A compile error: <code>Triangle</code> has no <code>area()</code>.</li>
+      <li>An exception when the program runs.</li>
+      <li>It prints <code>0.0</code>, with no error.</li>
+      <li>It prints <code>9.0</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.6</div>
+  <p><strong>1.6</strong> Give two reasons to make <code>area()</code> abstract in <code>Shape</code>, rather than leave it out or give it a body that returns 0.</p>
+
+  <wb-short id="q1-6"></wb-short>
+</div>
+<h2 id="s2">2. Abstract classes</h2>
+<h3>Abstract class syntax</h3>
+<p>An <strong>abstract class</strong> is a class meant only to be a superclass. Write <code>abstract</code> before <code>class</code>:</p>
+<pre><code><span class="wb-kw">public</span> abstract <span class="wb-kw">class</span> <span class="wb-type">Shape</span></code></pre>
+<p>It can hold abstract methods and normal methods. You cannot create an object of it with <code>new</code>, but you can create objects of its subclasses, such as <code>new Rectangle(3, 4)</code> and <code>new Square(5)</code>.</p>
+<h3>Abstract methods only in abstract classes</h3>
+<p>A normal class must be able to run every one of its methods, so only an abstract class may have an abstract method. If <code>Shape</code> has <code>public abstract double area();</code> but the header is just <code>public class Shape</code>, the compiler says:</p>
+<pre class="wb-output">Shape is not abstract and does not override abstract method area() in Shape</pre>
+<p>The fix is <code>public abstract class Shape</code>.</p>
+<h3>No objects of an abstract class</h3>
+<p>A plain <code>Shape</code> object would have no <code>area()</code> body to run, so Java refuses to create one. It does this when the code is compiled, not when it runs:</p>
+<pre class="wb-output">error: Shape is abstract; cannot be instantiated</pre>
+<p>The type <code>Shape</code> is still fine. <code>Shape s</code> on the left of <code>=</code> is allowed; only <code>new Shape(...)</code> on the right is not.</p>
+<h3>Contents of an abstract class</h3>
+<p>An abstract class can have everything a normal class has. Here is the full <code>Shape</code> we use from now on. It has a field, a constructor, two normal methods, and one abstract method:</p>
+<pre><code><span class="wb-kw">public</span> abstract <span class="wb-kw">class</span> <span class="wb-type">Shape</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> name;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Shape</span>(<span class="wb-type">String</span> name)
+    {
+        <span class="wb-kw">this</span>.name = name;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getName</span>()
+    {
+        <span class="wb-kw">return</span> name;
+    }
+
+    <span class="wb-kw">public</span> abstract <span class="wb-kw">double</span> <span class="wb-fn">area</span>();
+
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">describe</span>()
+    {
+        <span class="wb-kw">return</span> name + <span class="wb-str">" has area "</span> + area();
+    }
+}</code></pre>
+<figure class="wb-shot">
+  <img src="img/full_shape.png" alt="Class diagram of the full Shape, in italics because it is abstract: the field name : String, the constructor Shape(name : String), getName() : String, the abstract method area() : double in italics, and describe() : String." loading="lazy" style="max-width: 300px">
+</figure>
+<p><code>describe()</code> calls <code>area()</code>, which has no body in <code>Shape</code>. Section 5 shows which <code>area()</code> runs.</p>
+<h3>Two more rules</h3>
+<ul>
+<li>A class can be abstract with <strong>no</strong> abstract methods. Use this when an object of the general class makes no sense. For example, <code>Vehicle</code> has subclasses <code>Car</code> and <code>Bus</code>, and every method has a body, but nobody owns a plain vehicle.</li>
+<li>A class cannot be both <code>abstract</code> and <code>final</code>. <code>abstract</code> needs subclasses, and <code>final</code> forbids them. <code>public abstract final class Shape</code> gives <code>error: illegal combination of modifiers: abstract and final</code>.</li>
+</ul>
+<h3>Benefits of abstract classes</h3>
+<ul>
+<li>Shared fields and methods are written once, in the superclass: <code>name</code>, <code>getName()</code> and <code>describe()</code> live in <code>Shape</code>.</li>
+<li>Each subclass writes only what is different about it: its own fields and its <code>area()</code>.</li>
+<li>Nobody can create a meaningless general object.</li>
+</ul>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.1</div>
+  <p><strong>2.1</strong> <code>Shape</code> has <code>public abstract double area();</code>, but its header is <code>public class Shape</code>. What happens?</p>
+
+  <wb-choice id="q2-1">
+    <ol type="A">
+      <li>It compiles, and <code>area()</code> returns 0.</li>
+      <li>A compile error: <code>Shape</code> is not abstract but has an abstract method.</li>
+      <li>It compiles, but <code>new Shape("box")</code> fails when the program runs.</li>
+      <li>It compiles, and no <code>Shape</code> objects can be made.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.2</div>
+  <p><strong>2.2</strong> Write yes or no: can an abstract class have each of these?</p>
+
+  <wb-table id="q2-2">
+    <table>
+      <thead><tr><th>Member</th><th>Allowed?</th></tr></thead>
+      <tbody>
+        <tr><td>a private field</td><td data-blank="0"></td></tr>
+        <tr><td>a constructor</td><td data-blank="1"></td></tr>
+        <tr><td>a normal method with a body</td><td data-blank="2"></td></tr>
+        <tr><td>an abstract method</td><td data-blank="3"></td></tr>
+        <tr><td>an object made with <code>new</code></td><td data-blank="4"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.3</div>
+  <p><strong>2.3</strong> No <code>Shape</code> object can ever be created. Why does <code>Shape</code> still have a constructor?</p>
+
+  <wb-choice id="q2-3">
+    <ol type="A">
+      <li>It does not need one; the compiler ignores it.</li>
+      <li>Each subclass constructor calls it with <code>super(name)</code>, to set the field <code>name</code>.</li>
+      <li><code>new Shape("box")</code> calls it.</li>
+      <li>It runs once, when the class is loaded.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.4</div>
+  <p><strong>2.4</strong> <code>public abstract class Vehicle</code> has no abstract methods. Every method has a body. What is true?</p>
+
+  <wb-choice id="q2-4">
+    <ol type="A">
+      <li>It is a compile error: an abstract class needs an abstract method.</li>
+      <li>It compiles. No <code>Vehicle</code> objects can be made, only objects of its subclasses.</li>
+      <li>All of its methods become abstract.</li>
+      <li>It compiles, and <code>new Vehicle()</code> works because nothing is abstract.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.5</div>
+  <p><strong>2.5</strong> Why is <code>public abstract final class Shape</code> a compile error?</p>
+
+  <wb-choice id="q2-5">
+    <ol type="A">
+      <li>A final class cannot have fields.</li>
+      <li>An abstract class cannot have a constructor.</li>
+      <li>An abstract class needs subclasses, and a final class cannot have any.</li>
+      <li><code>final</code> must come before <code>public</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.6</div>
+  <p><strong>2.6</strong> In your own words, why must a class with an abstract method be abstract itself?</p>
+
+  <wb-short id="q2-6"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.7</div>
+  <p><strong>2.7</strong> Write an abstract class <code>Animal</code>. It has a private field <code>name</code>, a constructor <code>Animal(String name)</code>, a method <code>getName()</code>, and an abstract method <code>makeSound()</code> that returns a <code>String</code>.</p>
+
+<p>Write <code>Animal</code> in the box. The box includes a <code>Dog</code> class whose sound is <code>"Woof"</code>, and prints a dog.</p>  <wb-exercise id="q2-7"></wb-exercise>
+</div>
+<h2 id="s3">3. Subclasses</h2>
+<h3>The rule for subclasses</h3>
+<p>A <strong>concrete</strong> class is one you can create objects of. A concrete subclass must give a body to every abstract method it inherits. In the diagram, <code>Rectangle</code> and <code>Square</code> write <code>area()</code>, so they are concrete. <code>Triangle</code> does not, so it does not compile.</p>
+<figure class="wb-shot">
+  <img src="img/subclass_rule.png" alt="Rectangle, Square and Triangle extend the abstract class Shape, which has the abstract method area(). Rectangle and Square each have area(), and objects of them can be made. Triangle, outlined in red, has no area(), and is a compile error." loading="lazy" style="max-width: 600px">
+</figure>
+<h3>An unfinished subclass</h3>
+<p>Here <code>Triangle</code> inherits the abstract <code>area()</code> and does not write it:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Triangle</span> extends <span class="wb-type">Shape</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-kw">double</span> base;
+    <span class="wb-kw">private</span> <span class="wb-kw">double</span> height;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Triangle</span>(<span class="wb-type">String</span> name, <span class="wb-kw">double</span> base, <span class="wb-kw">double</span> height)
+    {
+        super(name);
+        <span class="wb-kw">this</span>.base = base;
+        <span class="wb-kw">this</span>.height = height;
+    }
+}</code></pre>
+<pre class="wb-output">Triangle is not abstract and does not override abstract method area() in Shape</pre>
+<p>The message names both ways out: make <code>Triangle</code> abstract, or override <code>area()</code>.</p>
+<h3>Two ways to fix it</h3>
+<ul>
+<li><strong>Fix 1: write the body.</strong> Add <code>public double area()</code> with <code>return 0.5 * base * height;</code>. Now <code>new Triangle("sail", 6, 3)</code> works. This is the usual fix.</li>
+<li><strong>Fix 2: make it abstract too.</strong> Write <code>public abstract class Triangle extends Shape</code>. Then there are no triangle objects, and the job of writing <code>area()</code> passes to <code>Triangle</code>'s own subclasses. This makes sense only when <code>Triangle</code> will have subclasses of its own.</li>
+</ul>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.1</div>
+  <p><strong>3.1</strong> Write a concrete class <code>Circle</code> that extends the full <code>Shape</code> of Section 2. It has a field <code>radius</code>, a constructor <code>Circle(String name, double radius)</code>, and an <code>area()</code> that returns <code>3.14 * radius * radius</code>. Then <code>new Circle("plate", 10).describe()</code> returns <code>plate has area 314.0</code>.</p>
+
+<p>Write <code>Circle</code> in the box. The box includes the full <code>Shape</code>, and describes a plate with radius 10.</p>  <wb-exercise id="q3-1"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.2</div>
+  <p><strong>3.2</strong> <code>Triangle extends Shape</code> has no <code>area()</code>. Which change makes it compile?</p>
+
+  <wb-choice id="q3-2">
+    <ol type="A">
+      <li>Add <code>@Override</code> above the class header.</li>
+      <li>Remove <code>area()</code> from <code>Shape</code>'s subclasses <code>Rectangle</code> and <code>Square</code>.</li>
+      <li>Write <code>area()</code> in <code>Triangle</code>, or declare <code>Triangle</code> abstract.</li>
+      <li>Call <code>super.area()</code> in <code>Triangle</code>'s constructor.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.3</div>
+  <p><strong>3.3</strong> <code>Triangle</code> is fixed the second way: <code>public abstract class Triangle extends Shape</code>. Which line is now a compile error?</p>
+
+  <wb-choice id="q3-3">
+    <ol type="A">
+      <li><code>Shape s;</code></li>
+      <li><code>Triangle t;</code></li>
+      <li><code>Shape s = new Triangle("sail", 6, 3);</code></li>
+      <li><code>ArrayList&lt;Triangle&gt; list = new ArrayList&lt;&gt;();</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.4</div>
+  <p><strong>3.4</strong> What is a concrete class?</p>
+
+  <wb-choice id="q3-4">
+    <ol type="A">
+      <li>A class with no superclass.</li>
+      <li>A class with no abstract methods in its own code.</li>
+      <li>A class you can create objects of.</li>
+      <li>A class declared <code>final</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.5</div>
+  <p><strong>3.5</strong> <code>Shape</code> gets a second abstract method, <code>public abstract double perimeter();</code>. What must change in <code>Rectangle</code>, <code>Square</code> and <code>Triangle</code>, and what happens if one of them is not changed?</p>
+
+  <wb-short id="q3-5"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.6</div>
+  <p><strong>3.6</strong> Write a concrete class <code>Dog</code> that extends your <code>Animal</code> from 2.7. A dog's sound is <code>"Woof"</code>. Then this code prints <code>Rex says Woof</code>:</p>
+
+<pre><code><span class="wb-type">Animal</span> a = <span class="wb-kw">new</span> <span class="wb-fn">Dog</span>(<span class="wb-str">"Rex"</span>);
+System.out.println(a.getName() + <span class="wb-str">" says "</span> + a.makeSound());</code></pre>
+<p>Write <code>Dog</code> in the box. The box includes a model <code>Animal</code> class and runs the two lines above.</p>  <wb-exercise id="q3-6"></wb-exercise>
+</div>
+<h2 id="s4">4. Abstract types</h2>
+<h3>Shape as a type</h3>
+<p>An abstract class is still a type. Use it for variables (<code>Shape s = new Square("tile", 5);</code>), for parameters (<code>totalArea(ArrayList&lt;Shape&gt; shapes)</code>) and for lists (<code>ArrayList&lt;Shape&gt; shapes</code>). No object is ever just a <code>Shape</code>: each one is a rectangle, a square or a triangle.</p>
+<figure class="wb-shot">
+  <img src="img/shapes_list.png" alt="The list shapes has three cells. They refer to a Rectangle object "table", a Square object "tile" and a Triangle object "sail"." loading="lazy" style="max-width: 420px">
+</figure>
+<h3>Compile time and run time</h3>
+<p>For <code>double a = s.area();</code>, two different things happen at two different times:</p>
+<figure class="wb-shot">
+  <img src="img/two_times.png" alt="Two steps for double a = s.area(). When compiling, the compiler looks at the type of s, Shape, which has area(), so the line compiles. When running, Java looks at the object s refers to, a Square, and Square's area() runs and returns 25.0." loading="lazy" style="max-width: 600px">
+</figure>
+<p>The abstract method is what lets the call compile. The subclass's body is what runs.</p>
+<h3>One loop for every shape</h3>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">double</span> <span class="wb-fn">totalArea</span>(<span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Shape</span>&gt; shapes)
+{
+    <span class="wb-kw">double</span> total = <span class="wb-num">0</span>;
+    <span class="wb-kw">for</span>(<span class="wb-type">Shape</span> s : shapes) {
+        total = total + s.area();
+    }
+    <span class="wb-kw">return</span> total;
+}</code></pre>
+<p><code>s.area()</code> works for every object in the list, with no <code>instanceof</code> tests and no casts. Compare it with <code>areaOf</code> in Section 1.</p>
+<h3>Adding a Triangle class</h3>
+<p><code>Triangle</code> extends <code>Shape</code> and writes its own <code>area()</code>. The demo puts table (3 by 4), tile (side 5) and sail (base 6, height 3) in the list, describes each one and prints the total:</p>
+<pre class="wb-output">table has area 12.0
+tile has area 25.0
+sail has area 9.0
+Total: 46.0</pre>
+<p><code>totalArea</code> was not edited, and it adds the sail's 9.0 correctly.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.1</div>
+  <p><strong>4.1</strong> The classes are the full shapes of this lecture. Each line below comes after these two lines. Write yes or no: does it compile?</p>
+
+<pre><code><span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Shape</span>&gt; list = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+list.add(<span class="wb-kw">new</span> <span class="wb-fn">Rectangle</span>(<span class="wb-str">"table"</span>, <span class="wb-num">3</span>, <span class="wb-num">4</span>));</code></pre>
+  <wb-table id="q4-1">
+    <table>
+      <thead><tr><th>Line</th><th>Compiles?</th></tr></thead>
+      <tbody>
+        <tr><td><code>list.add(new Square("tile", 5));</code></td><td data-blank="0"></td></tr>
+        <tr><td><code>list.add(new Shape("box"));</code></td><td data-blank="1"></td></tr>
+        <tr><td><code>Shape s = list.get(0);</code></td><td data-blank="2"></td></tr>
+        <tr><td><code>Square q = list.get(0);</code></td><td data-blank="3"></td></tr>
+        <tr><td><code>double a = list.get(0).area();</code></td><td data-blank="4"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.2</div>
+  <p><strong>4.2</strong> <code>Shape s = new Square("tile", 5);</code> Which <code>area()</code> runs for <code>s.area()</code>?</p>
+
+  <wb-choice id="q4-2">
+    <ol type="A">
+      <li><code>Shape</code>'s, because <code>s</code> has type <code>Shape</code>.</li>
+      <li><code>Square</code>'s, because the object is a square.</li>
+      <li>None: <code>Shape</code>'s <code>area()</code> is abstract, so the call is an error.</li>
+      <li>Both, <code>Shape</code>'s first.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.3</div>
+  <p><strong>4.3</strong> With the same <code>s</code>, what lets <code>s.area()</code> compile?</p>
+
+  <wb-choice id="q4-3">
+    <ol type="A">
+      <li><code>Shape</code> declares <code>area()</code>, even without a body.</li>
+      <li><code>Square</code> has a body for <code>area()</code>.</li>
+      <li>The variable was given a square on the same line.</li>
+      <li>Nothing: it compiles only after a cast to <code>Square</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.4</div>
+  <p><strong>4.4</strong> What can an <code>ArrayList&lt;Shape&gt;</code> hold?</p>
+
+  <wb-choice id="q4-4">
+    <ol type="A">
+      <li>Only objects made with <code>new Shape(...)</code>.</li>
+      <li>Nothing, because <code>Shape</code> is abstract.</li>
+      <li>Objects of any concrete subclass of <code>Shape</code>, mixed in one list.</li>
+      <li>Objects of one subclass only, chosen by the first <code>add</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.5</div>
+  <p><strong>4.5</strong> Write a static method <code>largest(ArrayList&lt;Shape&gt; shapes)</code> that returns the shape with the largest area. You may assume the list is not empty. For table, tile and sail it returns tile.</p>
+
+<p>Write <code>largest</code> in the box. The box includes the full shapes, and prints the name of the largest of table, tile and sail.</p>  <wb-exercise id="q4-5"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.6</div>
+  <p><strong>4.6</strong> A new class <code>Circle extends Shape</code> is added, with its own <code>area()</code>. What must change in <code>totalArea</code>?</p>
+
+  <wb-choice id="q4-6">
+    <ol type="A">
+      <li>A new <code>instanceof Circle</code> test.</li>
+      <li>A cast to <code>Circle</code>.</li>
+      <li>The parameter must become <code>ArrayList&lt;Circle&gt;</code>.</li>
+      <li>Nothing.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.7</div>
+  <p><strong>4.7</strong> <code>Circle</code> is the class from 3.1, and <code>totalArea</code> is the method of this section. Write what this code prints.</p>
+
+<pre><code><span class="wb-type">ArrayList</span>&lt;<span class="wb-type">Shape</span>&gt; shapes = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
+shapes.add(<span class="wb-kw">new</span> <span class="wb-fn">Square</span>(<span class="wb-str">"tile"</span>, <span class="wb-num">5</span>));
+shapes.add(<span class="wb-kw">new</span> <span class="wb-fn">Circle</span>(<span class="wb-str">"plate"</span>, <span class="wb-num">10</span>));
+<span class="wb-kw">for</span>(<span class="wb-type">Shape</span> s : shapes) {
+    System.out.println(s.describe());
+}
+System.out.println(<span class="wb-str">"Total: "</span> + totalArea(shapes));</code></pre>
+  <wb-table id="q4-7">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<h2 id="s5">5. Shared code</h2>
+<h3>The constructor of an abstract class</h3>
+<p><code>Shape</code>'s constructor runs only through <code>super(...)</code> in a subclass constructor. For <code>new Rectangle("table", 3, 4)</code>, <code>Rectangle</code>'s constructor starts, and its first line <code>super(name)</code> runs <code>Shape("table")</code>, which stores the name. Then <code>Rectangle</code>'s constructor sets its own fields. The name is stored once, in <code>Shape</code>.</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-fn">Rectangle</span>(<span class="wb-type">String</span> name, <span class="wb-kw">double</span> width, <span class="wb-kw">double</span> height)
+{
+    super(name);
+    <span class="wb-kw">this</span>.width = width;
+    <span class="wb-kw">this</span>.height = height;
+}</code></pre>
+<figure class="wb-shot">
+  <img src="img/constructor_chain.png" alt="new Rectangle("table", 3, 4) runs the Rectangle constructor, which calls super(name), which runs Shape("table")." loading="lazy" style="max-width: 600px">
+</figure>
+<h3>describe() and area()</h3>
+<p><code>describe()</code> is written once, in <code>Shape</code>:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">describe</span>()
+{
+    <span class="wb-kw">return</span> name + <span class="wb-str">" has area "</span> + area();
+}</code></pre>
+<p>For <code>table.describe()</code>, <code>Rectangle</code> has no <code>describe()</code>, so <code>Shape</code>'s runs. It calls <code>area()</code>, and that call, too, is found from the object's own class: <code>Rectangle</code>'s <code>area()</code> runs and returns 12.0. The result is <code>"table has area 12.0"</code>.</p>
+<figure class="wb-shot">
+  <img src="img/describe_chain.png" alt="table.describe() runs describe() in Shape, which calls area() in Rectangle, which returns 12.0." loading="lazy" style="max-width: 560px">
+</figure>
+<p>A normal method in an abstract class can call an abstract method, because every object that runs it belongs to a concrete subclass, which has a body.</p>
+<h3>describe() for three shapes</h3>
+<table>
+  <thead><tr><th>Object</th><th><code>describe()</code> from</th><th><code>area()</code> from</th></tr></thead>
+  <tbody>
+      <tr><td>table</td><td><code>Shape</code></td><td><code>Rectangle</code></td></tr>
+      <tr><td>tile</td><td><code>Shape</code></td><td><code>Square</code></td></tr>
+      <tr><td>sail</td><td><code>Shape</code></td><td><code>Triangle</code></td></tr>
+  </tbody>
+</table>
+<p>The sentence is built in one place. Only the number changes from class to class.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.1</div>
+  <p><strong>5.1</strong> This method is added to <code>Shape</code>. The list holds table, tile and sail, in that order. Write what the loop prints.</p>
+
+<pre><code><span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">size</span>()
+{
+    <span class="wb-kw">if</span>(area() &gt; <span class="wb-num">10</span>) {
+        <span class="wb-kw">return</span> getName() + <span class="wb-str">" is large"</span>;
+    }
+    <span class="wb-kw">else</span> {
+        <span class="wb-kw">return</span> getName() + <span class="wb-str">" is small"</span>;
+    }
+}</code></pre>
+<pre><code><span class="wb-kw">for</span>(<span class="wb-type">Shape</span> s : shapes) {
+    System.out.println(s.size());
+}</code></pre>
+  <wb-table id="q5-1">
+    <table>
+      <thead><tr><th>Line</th><th>Printed</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-blank="0"></td></tr>
+        <tr><td>2</td><td data-blank="1"></td></tr>
+        <tr><td>3</td><td data-blank="2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.2</div>
+  <p><strong>5.2</strong> Write a method <code>isBiggerThan(Shape other)</code> for <code>Shape</code>. It returns <code>true</code> when this shape's area is larger than the area of <code>other</code>. For table and sail, <code>table.isBiggerThan(sail)</code> is <code>true</code>.</p>
+
+<p>Add <code>isBiggerThan</code> to <code>Shape</code> below. The box includes the three subclasses, and compares the table and the sail both ways.</p>  <wb-exercise id="q5-2"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.3</div>
+  <p><strong>5.3</strong> In what order does the code run for <code>new Rectangle("table", 3, 4)</code>?</p>
+
+  <wb-choice id="q5-3">
+    <ol type="A">
+      <li><code>Shape</code>'s constructor, then a new <code>Shape</code> object, then <code>Rectangle</code>'s constructor.</li>
+      <li><code>Rectangle</code>'s constructor starts; <code>super(name)</code> runs <code>Shape</code>'s constructor; then <code>Rectangle</code> sets width and height.</li>
+      <li><code>Rectangle</code>'s constructor runs completely; then <code>Shape</code>'s constructor runs.</li>
+      <li>Only <code>Rectangle</code>'s constructor runs, because <code>Shape</code> is abstract.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.4</div>
+  <p><strong>5.4</strong> For <code>sail.describe()</code>, where are <code>describe()</code> and the <code>area()</code> it calls found?</p>
+
+  <wb-choice id="q5-4">
+    <ol type="A">
+      <li>Both in <code>Shape</code>.</li>
+      <li>Both in <code>Triangle</code>.</li>
+      <li><code>describe()</code> in <code>Shape</code>, <code>area()</code> in <code>Triangle</code>.</li>
+      <li><code>describe()</code> in <code>Triangle</code>, <code>area()</code> in <code>Shape</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.5</div>
+  <p><strong>5.5</strong> <code>area()</code> has no body in <code>Shape</code>. Why can <code>describe()</code>, in <code>Shape</code>, still call it safely?</p>
+
+  <wb-choice id="q5-5">
+    <ol type="A">
+      <li>Every object that runs <code>describe()</code> belongs to a concrete subclass, which has a body for <code>area()</code>.</li>
+      <li>The call returns 0 when there is no body.</li>
+      <li><code>describe()</code> is only ever called on <code>Shape</code> objects.</li>
+      <li>The compiler copies a body into <code>Shape</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.6</div>
+  <p><strong>5.6</strong> Why is <code>describe()</code> written in <code>Shape</code> rather than once in each subclass?</p>
+
+  <wb-short id="q5-6"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.7</div>
+  <p><strong>5.7</strong> <code>describe()</code> in <code>Shape</code> is changed to return <code>name + ": " + area()</code>. Which classes must be edited, and why?</p>
+
+  <wb-short id="q5-7"></wb-short>
+</div>
+<h2 id="s6">6. Choosing</h2>
+<h3>Abstract or concrete</h3>
+<p>Not every superclass should be abstract. Two questions decide:</p>
+<figure class="wb-shot">
+  <img src="img/abstract_or_concrete.png" alt="Two questions. Would an object of the general class make sense? If no, make it abstract. If yes: can it give a real body to every method? If no, make it abstract. If yes, keep it concrete." loading="lazy" style="max-width: 520px">
+</figure>
+<p>If the general class is useful by itself, keep it concrete.</p>
+<h3>Three cases</h3>
+<ol type="a">
+<li><code>Animal</code>, with subclasses <code>Dog</code> and <code>Cat</code>. Every animal makes a sound, but there is no general sound. Make it an abstract class, with an abstract method <code>makeSound()</code>.</li>
+<li><code>BankAccount</code>, with subclass <code>SavingsAccount</code>. The bank opens plain accounts too. Keep it concrete: a plain account is a real thing.</li>
+<li><code>Vehicle</code>, with subclasses <code>Car</code> and <code>Bus</code>. Every method has a real body, but nobody owns a plain vehicle. Make it an abstract class with no abstract methods.</li>
+</ol>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.1</div>
+  <p><strong>6.1</strong> For each superclass, write <em>abstract with an abstract method</em>, <em>concrete</em>, or <em>abstract, no abstract methods</em>.</p>
+
+  <wb-table id="q6-1">
+    <table>
+      <thead><tr><th>Superclass</th><th>Choice</th></tr></thead>
+      <tbody>
+        <tr><td><code>Instrument</code>, with <code>Guitar</code> and <code>Drum</code>. Every instrument plays, but there is no general way to play.</td><td data-blank="0"></td></tr>
+        <tr><td><code>Book</code>, with subclass <code>Textbook</code>. The library lends plain books too.</td><td data-blank="1"></td></tr>
+        <tr><td><code>Employee</code>, with <code>Manager</code> and <code>Clerk</code>. Every method has a body, but every employee is a manager or a clerk.</td><td data-blank="2"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.2</div>
+  <p><strong>6.2</strong> Which is a good reason to keep a superclass concrete?</p>
+
+  <wb-choice id="q6-2">
+    <ol type="A">
+      <li>It has subclasses.</li>
+      <li>It has a constructor.</li>
+      <li>Objects of the general class are useful by themselves.</li>
+      <li>Its subclasses override some of its methods.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.3</div>
+  <p><strong>6.3</strong> <code>Vehicle</code> has no abstract methods. What is gained by declaring it <code>abstract</code>?</p>
+
+  <wb-choice id="q6-3">
+    <ol type="A">
+      <li>Its methods run faster.</li>
+      <li>Its subclasses no longer need constructors.</li>
+      <li>Nobody can create a plain <code>Vehicle</code> object.</li>
+      <li>Its subclasses must override every method.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.4</div>
+  <p><strong>6.4</strong> Give your own example of a superclass with two subclasses that should be abstract. Name one abstract method it should have, and say why that method has no body in the superclass.</p>
+
+  <wb-short id="q6-4"></wb-short>
+</div>
+<h2 id="s7">7. Review</h2>
+<h3>Abstract methods and classes</h3>
+<p>An abstract method is a header with no body, such as <code>public abstract double area();</code>. A class with an abstract method must be an abstract class, and no objects of it can be created. Every concrete subclass must write the body, or be abstract too. The abstract class is still a type for variables, parameters and lists, and the body that runs is found from the object's class. An abstract class can hold fields, a constructor and normal methods, and a normal method can call an abstract one. Make a superclass abstract when a plain object of it makes no sense.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.1</div>
+  <p><strong>7.1</strong> Write true or false for each statement.</p>
+
+  <wb-table id="q7-1">
+    <table>
+      <thead><tr><th>Statement</th><th>True or false?</th></tr></thead>
+      <tbody>
+        <tr><td>An abstract class can have a constructor.</td><td data-blank="0"></td></tr>
+        <tr><td><code>Shape s;</code> is a compile error when <code>Shape</code> is abstract.</td><td data-blank="1"></td></tr>
+        <tr><td>A concrete subclass must write every inherited abstract method.</td><td data-blank="2"></td></tr>
+        <tr><td>An abstract class must have at least one abstract method.</td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.2</div>
+  <p><strong>7.2</strong> <code>Shape</code> is abstract. Which line is a compile error?</p>
+
+  <wb-choice id="q7-2">
+    <ol type="A">
+      <li><code>ArrayList&lt;Shape&gt; shapes = new ArrayList&lt;&gt;();</code></li>
+      <li><code>Shape s = new Square("tile", 5);</code></li>
+      <li><code>Shape s = new Shape("box");</code></li>
+      <li><code>double a = s.area();</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.3</div>
+  <p><strong>7.3</strong> This class should be an abstract superclass for <code>Guitar</code> and <code>Drum</code>, each with its own <code>sound()</code>. It has two mistakes, and each one stops it from compiling. Find both and give a fix for each.</p>
+
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Instrument</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">String</span> name;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">Instrument</span>(<span class="wb-type">String</span> name)
+    {
+        <span class="wb-kw">this</span>.name = name;
+    }
+
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">getName</span>()
+    {
+        <span class="wb-kw">return</span> name;
+    }
+
+    <span class="wb-kw">public</span> abstract <span class="wb-type">String</span> <span class="wb-fn">sound</span>()
+    {
+        <span class="wb-kw">return</span> <span class="wb-str">""</span>;
+    }
+}</code></pre>
+  <wb-short id="q7-3"></wb-short><p>Now fix both mistakes in the box. The box includes a <code>Guitar</code> class whose <code>sound()</code> returns <code>"strum"</code>, and prints the guitar.</p>  <wb-exercise id="q7-3-fix"></wb-exercise>
+</div>
+<h2 id="s8">8. Complete Java Programs</h2>
+<p>Write these two programs after class. Each reuses classes from Lecture 18's complete programs, now with an abstract superclass.</p>
+<h3>Program A: Fleet</h3>
+<ul>
+<li><code>Vehicle(String plate)</code> is now abstract. It keeps <code>drive(int distance)</code>, <code>getPlate()</code> and <code>getKm()</code>. Add an abstract method <code>double ratePerKm()</code>, a method <code>double cost()</code> that returns the km times the rate, and <code>toString()</code>, which returns text such as <code>CAR-7: 30 km, cost 15.0</code>.</li>
+<li><code>Car(String plate)</code> extends <code>Vehicle</code>. Its rate is 0.5 per km.</li>
+<li><code>Truck(String plate, int maxLoad)</code> extends <code>Vehicle</code> and has <code>getMaxLoad()</code>. Its rate is 2.0 per km.</li>
+<li><code>Fleet</code> has one private field <code>ArrayList&lt;Vehicle&gt; vehicles</code>. <code>add(Vehicle vehicle)</code> adds a vehicle, <code>printAll()</code> prints each vehicle with <code>println</code>, and <code>totalCost()</code> returns the total cost.</li>
+<li><code>FleetDemo</code> makes the car <code>CAR-7</code>, the truck <code>TRK-42</code> with a maximum load of 900, and the car <code>VAN-3</code>. The first car drives 30 km, the truck 100 km and then 50 km, and the second car 20 km. It adds the three to a fleet in that order, and prints them all and the total cost.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Vehicle</code></div>
+<p>The starter is the <code>Vehicle</code> class of Lecture 18. The box includes a <code>Car</code> class with a rate of 0.5, drives a car and prints it.</p>
+  <wb-exercise id="p1-vehicle"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Truck</code></div>
+<p>The box includes a model <code>Vehicle</code> class, drives a truck and prints it.</p>
+  <wb-exercise id="p1-truck"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Fleet</code></div>
+<p>The box includes model <code>Vehicle</code>, <code>Car</code> and <code>Truck</code> classes and runs <code>FleetDemo</code>.</p>
+  <wb-exercise id="p1-fleet"></wb-exercise>
+</div>
+<p>The demo prints:</p>
+<pre class="wb-output">CAR-7: 30 km, cost 15.0
+TRK-42: 150 km, cost 300.0
+VAN-3: 20 km, cost 10.0
+Total cost: 325.0</pre>
+<h3>Program B: Show</h3>
+<ul>
+<li><code>Ticket(String seat)</code> is now abstract, with <code>getSeat()</code>. The price depends on the kind of ticket: add an abstract method <code>int price()</code>, and <code>toString()</code>, which returns text such as <code>A3: 20 dollars</code>.</li>
+<li><code>AdultTicket(String seat)</code> extends <code>Ticket</code>. Its price is 20.</li>
+<li><code>StudentTicket(String seat, String studentId)</code> extends <code>Ticket</code> and has <code>getStudentId()</code>. Its price is 15. Its <code>toString()</code> uses <code>super</code> and returns text such as <code>B12: 15 dollars, student 2001234</code>.</li>
+<li><code>Show</code> keeps its tickets in one private field, <code>ArrayList&lt;Ticket&gt; tickets</code>. <code>sell(Ticket ticket)</code> adds the ticket, <code>printSeats()</code> prints each ticket with <code>println</code>, and <code>totalSales()</code> returns the total of the prices.</li>
+<li><code>ShowDemo</code> sells an adult ticket for seat A3, a student ticket for seat B12 to student 2001234, and an adult ticket for seat C5. Then it prints the seats and the total.</li>
+</ul>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Ticket</code></div>
+<p>The box includes an <code>AdultTicket</code> class with a price of 20, and prints an adult ticket.</p>
+  <wb-exercise id="p2-ticket"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>StudentTicket</code></div>
+<p>The box includes a model <code>Ticket</code> class, and prints a student ticket.</p>
+  <wb-exercise id="p2-student"></wb-exercise>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title"><code>Show</code></div>
+<p>The box includes model <code>Ticket</code>, <code>AdultTicket</code> and <code>StudentTicket</code> classes and runs <code>ShowDemo</code>.</p>
+  <wb-exercise id="p2-show"></wb-exercise>
+</div>
+<p>The demo prints:</p>
+<pre class="wb-output">A3: 20 dollars
+B12: 15 dollars, student 2001234
+C5: 20 dollars
+Total: 55 dollars</pre>
+<hr>
+<section class="wb-outcomes wb-review">
+<h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+<p>An abstract class is a superclass that only exists to be extended. Its abstract methods say what every subclass must do, and each subclass says how.</p>
+<h3>Abstract methods</h3>
+<ul>
+<li>An <strong>abstract method</strong> is a header with <strong>no body</strong>: <code>public abstract double area();</code>, ending with a semicolon.</li>
+<li>An empty body <code>{ }</code> is still a body, and an abstract method cannot be <code>private</code>.</li>
+<li>With <code>area()</code> abstract in <code>Shape</code>, code with a <code>Shape</code> variable calls <code>s.area()</code> directly, with <strong>no <code>instanceof</code> tests and no casts</strong>, and a subclass that forgets <code>area()</code> is a <strong>compile error</strong>, not a wrong answer of 0.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_abstract_method.png" alt="The slide Writing an abstract method." loading="lazy" style="max-width: 560px">
+<figcaption>The parts of an abstract method header.</figcaption>
+</figure>
+<h3>Abstract classes</h3>
+<ul>
+<li>A class with an abstract method <strong>must be abstract</strong>: <code>public abstract class Shape</code>.</li>
+<li><strong>No objects</strong> of an abstract class: <code>new Shape("box")</code> is a compile error. <code>Shape s</code> as a variable is fine.</li>
+<li>An abstract class can have <strong>fields, a constructor and normal methods</strong>. It may have no abstract methods at all, and it cannot be <code>final</code>.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_contents.png" alt="The slide Contents of an abstract class." loading="lazy" style="max-width: 560px">
+<figcaption>The full Shape: a field, a constructor, two normal methods and one abstract method.</figcaption>
+</figure>
+<h3>Subclasses</h3>
+<ul>
+<li>A <strong>concrete</strong> class is one you can create objects of. A concrete subclass must <strong>write a body for every inherited abstract method</strong>.</li>
+<li>An unfinished subclass has two fixes: write the method, or declare the subclass abstract too.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_subclass_rule.png" alt="The slide The rule for subclasses." loading="lazy" style="max-width: 560px">
+<figcaption>Triangle without area() does not compile.</figcaption>
+</figure>
+<h3>Abstract types</h3>
+<ul>
+<li>An abstract class is still a <strong>type</strong> for variables, parameters and lists: <code>ArrayList&lt;Shape&gt;</code> holds rectangles, squares and triangles together.</li>
+<li>The <strong>type of the variable</strong> decides whether <code>s.area()</code> compiles; the <strong>class of the object</strong> decides which <code>area()</code> runs.</li>
+<li><code>totalArea</code> needs no change when a new subclass is added.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_two_times.png" alt="The slide Compile time and run time." loading="lazy" style="max-width: 560px">
+<figcaption>Compiling checks the variable's type; running uses the object's class.</figcaption>
+</figure>
+<h3>Shared code</h3>
+<ul>
+<li>The abstract class's constructor runs through <code>super(name)</code> in each subclass constructor.</li>
+<li>A <strong>normal method can call an abstract one</strong>: <code>describe()</code> in <code>Shape</code> calls <code>area()</code>, and each object's own <code>area()</code> runs.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_describe.png" alt="The slide describe() and area()." loading="lazy" style="max-width: 560px">
+<figcaption>describe() is found in Shape, area() in the object's class.</figcaption>
+</figure>
+<h3>Choosing</h3>
+<ul>
+<li>Make a superclass <strong>abstract</strong> when a plain object of it makes no sense, or when it cannot give a real body to every method.</li>
+<li>Keep it <strong>concrete</strong> when a plain object of it is useful by itself.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_choose.png" alt="The slide Abstract or concrete." loading="lazy" style="max-width: 560px">
+<figcaption>Two questions decide.</figcaption>
+</figure>
+<h3>Programs</h3>
+<ul>
+<li><code>Vehicle</code> and <code>Ticket</code> become abstract, with the abstract methods <code>ratePerKm()</code> and <code>price()</code>. Each subclass gives its own rate or price, and <code>cost()</code> and <code>toString()</code> are written once in the superclass.</li>
+<li>The next lecture introduces <strong>interfaces</strong>.</li>
+</ul>
+</section>
+
+</main>
+</body>
+</html>
