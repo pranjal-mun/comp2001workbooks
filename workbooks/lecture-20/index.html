@@ -41,7 +41,7 @@
 <li>use an interface as the type of variables, parameters and lists;</li>
 <li>write a default method, and say why interfaces have them;</li>
 <li>declare a list with the <code>List</code> interface as its type;</li>
-<li>write a lambda for a functional interface, including those in <code>java.util.function</code>;</li>
+<li>write a lambda for a functional interface;</li>
 <li>choose between an abstract class and an interface; and</li>
 <li>write complete programs in which unrelated classes share an interface.</li>
 </ul>
@@ -642,39 +642,7 @@ screen.add(<span class="wb-kw">new</span> <span class="wb-fn">Square</span>(<spa
 --------
 Square tile, area 25.0</pre>
 <p><code>draw()</code> takes no parameters, so the lambda starts with <code>()</code>. Its type is <code>Drawable</code>, so it goes in the same list as squares and labels, and <code>d.draw()</code> runs the lambda's body.</p>
-<h3>Interfaces in java.util.function</h3>
-<p>The package <code>java.util.function</code> has ready-made functional interfaces:</p>
-<table>
-  <thead><tr><th>Interface</th><th>Method</th><th>Takes, gives back</th><th>Example lambda</th></tr></thead>
-  <tbody>
-      <tr><td><code>Predicate&lt;T&gt;</code></td><td><code>test</code></td><td>a <code>T</code>, a <code>boolean</code></td><td><code>s -&gt; s.length() &gt; 4</code></td></tr>
-      <tr><td><code>Consumer&lt;T&gt;</code></td><td><code>accept</code></td><td>a <code>T</code>, nothing</td><td><code>s -&gt; System.out.println(s)</code></td></tr>
-      <tr><td><code>Supplier&lt;T&gt;</code></td><td><code>get</code></td><td>nothing, a <code>T</code></td><td><code>() -&gt; "Ana"</code></td></tr>
-      <tr><td><code>BinaryOperator&lt;T&gt;</code></td><td><code>apply</code></td><td>two <code>T</code>s, a <code>T</code></td><td><code>(a, b) -&gt; a + b</code></td></tr>
-  </tbody>
-</table>
-<pre><code><span class="wb-type">Predicate</span>&lt;<span class="wb-type">String</span>&gt; isLong = s -&gt; s.length() &gt; <span class="wb-num">4</span>;
-<span class="wb-type">Consumer</span>&lt;<span class="wb-type">String</span>&gt; show = s -&gt; System.out.println(<span class="wb-str">"Name: "</span> + s);
-<span class="wb-type">Supplier</span>&lt;<span class="wb-type">String</span>&gt; first = () -&gt; <span class="wb-str">"Ana"</span>;
-<span class="wb-type">BinaryOperator</span>&lt;<span class="wb-type">Integer</span>&gt; add = (a, b) -&gt; a + b;
-
-System.out.println(isLong.test(<span class="wb-str">"Benedict"</span>));
-show.accept(first.get());
-System.out.println(add.apply(<span class="wb-num">3</span>, <span class="wb-num">4</span>));</code></pre>
-<pre class="wb-output">true
-Name: Ana
-7</pre>
-<h3>removeIf and Predicate</h3>
-<p>The parameter of <code>removeIf</code> has type <code>Predicate</code>, so every lambda passed to <code>removeIf</code> in Lecture 8 was a <code>Predicate</code>. A <code>Predicate</code> in a variable can be passed too. <code>forEach</code> takes a <code>Consumer</code> in the same way.</p>
-<pre><code><span class="wb-type">ArrayList</span>&lt;<span class="wb-type">String</span>&gt; names = <span class="wb-kw">new</span> <span class="wb-type">ArrayList</span>&lt;&gt;();
-names.add(<span class="wb-str">"Ana"</span>);
-names.add(<span class="wb-str">"Benedict"</span>);
-names.add(<span class="wb-str">"Cara"</span>);
-names.add(<span class="wb-str">"Dominic"</span>);
-<span class="wb-type">Predicate</span>&lt;<span class="wb-type">String</span>&gt; isLong = s -&gt; s.length() &gt; <span class="wb-num">4</span>;
-names.removeIf(isLong);
-System.out.println(names);</code></pre>
-<pre class="wb-output">[Ana, Cara]</pre>
+<p>The method <code>removeIf</code> from Lecture 8 takes a <code>Predicate</code>, which is also a functional interface. Its one abstract method takes one value and gives back a <code>boolean</code>, so every lambda passed to <code>removeIf</code> was a <code>Predicate</code>.</p>
 <h3>Practice</h3>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice 7.1</div>
@@ -740,20 +708,7 @@ interface <span class="wb-type">D</span>
 </div>
 <div class="wb-checkpoint">
   <div class="wb-block-title">Practice 7.4</div>
-  <p><strong>7.4</strong> <code>Predicate&lt;String&gt; isLong = s -&gt; s.length() &gt; 4;</code> Which call uses it, and what does the call give back?</p>
-
-  <wb-choice id="q7-4">
-    <ol type="A">
-      <li><code>isLong.apply("Benedict")</code>, which gives back 8.</li>
-      <li><code>isLong.accept("Benedict")</code>, which gives back nothing.</li>
-      <li><code>isLong.test("Benedict")</code>, which gives back <code>true</code>.</li>
-      <li><code>isLong.get()</code>, which gives back <code>"Benedict"</code>.</li>
-    </ol>
-  </wb-choice>
-</div>
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Practice 7.5</div>
-  <p><strong>7.5</strong> <code>names</code> holds <code>[Ana, Ben, Cara, Bo]</code>. What is in <code>names</code> after <code>names.removeIf(s -&gt; s.startsWith("B"));</code>?</p>
+  <p><strong>7.4</strong> <code>names</code> holds <code>[Ana, Ben, Cara, Bo]</code>. What is in <code>names</code> after <code>names.removeIf(s -&gt; s.startsWith("B"));</code>?</p>
 
   <wb-choice id="q7-5">
     <ol type="A">
@@ -763,12 +718,6 @@ interface <span class="wb-type">D</span>
       <li><code>[Ana, Cara]</code></li>
     </ol>
   </wb-choice>
-</div>
-<div class="wb-checkpoint">
-  <div class="wb-block-title">Practice 7.6</div>
-  <p><strong>7.6</strong> <code>names</code> is an <code>ArrayList&lt;String&gt;</code>. Write a <code>Predicate&lt;String&gt;</code> named <code>isShort</code> that is true for strings with fewer than 4 characters, then use it with <code>removeIf</code> to remove the short names from <code>names</code>.</p>
-
-<p>Write the two lines in the box. The list holds Ana, Benedict, Bo and Cara, and the box prints it at the end.</p>  <wb-exercise id="q7-6"></wb-exercise>
 </div>
 <h2 id="s8">8. Choosing</h2>
 <h3>Abstract class or interface</h3>
@@ -1012,7 +961,7 @@ Total: 41 dollars</pre>
 <ul>
 <li><code>List</code> is an interface; <code>ArrayList</code> and <code>LinkedList</code> implement it. With <code>List&lt;String&gt; names = new ArrayList&lt;&gt;();</code> only the <code>new</code> part names the class.</li>
 <li>A <strong>functional interface</strong> has exactly one abstract method, and a <strong>lambda</strong> can stand for it: <code>Drawable line = () -&gt; System.out.println("--------");</code></li>
-<li><code>java.util.function</code> has <code>Predicate</code> (<code>test</code>), <code>Consumer</code> (<code>accept</code>), <code>Supplier</code> (<code>get</code>) and <code>BinaryOperator</code> (<code>apply</code>). <code>removeIf</code> takes a <code>Predicate</code>.</li>
+<li><code>removeIf</code> from Lecture 8 takes a <code>Predicate</code>, which is also a functional interface.</li>
 </ul>
 <figure class="wb-shot">
 <img src="img/slide_lambda.png" alt="The slide A lambda as a Drawable." loading="lazy" style="max-width: 560px">

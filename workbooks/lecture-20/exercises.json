@@ -483,23 +483,6 @@
         }
       ]
     },
-    "q7-6": {
-      "type": "code",
-      "xp": 4,
-      "title": "ShortDemo.java",
-      "minLines": 19,
-      "maxLines": 31,
-      "starter": "import java.util.ArrayList;\nimport java.util.function.Predicate;\n\npublic class ShortDemo\n{\n    public static void main(String[] args)\n    {\n        ArrayList<String> names = new ArrayList<>();\n        names.add(\"Ana\");\n        names.add(\"Benedict\");\n        names.add(\"Bo\");\n        names.add(\"Cara\");\n        // Write isShort, then use it with removeIf.\n        System.out.println(names);\n    }\n}",
-      "cases": [
-        {
-          "name": "Output of the checking program",
-          "expected": "[Benedict, Cara]"
-        }
-      ],
-      "check": "require(source.replaceAll(\"\\\\s+\", \"\").contains(\"Predicate<String>isShort\"), \"Store the lambda in a Predicate<String> named isShort.\");\nrequire(source.replaceAll(\"\\\\s+\", \"\").contains(\"removeIf(isShort)\"), \"Pass isShort to removeIf.\");",
-      "answer": "aW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CmltcG9ydCBqYXZhLnV0aWwuZnVuY3Rpb24uUHJlZGljYXRlOwoKcHVibGljIGNsYXNzIFNob3J0RGVtbwp7CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKQogICAgewogICAgICAgIEFycmF5TGlzdDxTdHJpbmc+IG5hbWVzID0gbmV3IEFycmF5TGlzdDw+KCk7CiAgICAgICAgbmFtZXMuYWRkKCJBbmEiKTsKICAgICAgICBuYW1lcy5hZGQoIkJlbmVkaWN0Iik7CiAgICAgICAgbmFtZXMuYWRkKCJCbyIpOwogICAgICAgIG5hbWVzLmFkZCgiQ2FyYSIpOwogICAgICAgIFByZWRpY2F0ZTxTdHJpbmc+IGlzU2hvcnQgPSBzIC0+IHMubGVuZ3RoKCkgPCA0OwogICAgICAgIG5hbWVzLnJlbW92ZUlmKGlzU2hvcnQpOwogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbihuYW1lcyk7CiAgICB9Cn0=",
-      "files": []
-    },
     "q8-1": {
       "type": "table",
       "xp": 2,
@@ -1016,13 +999,6 @@
       "options": 4,
       "answer": 1,
       "explain": "QW4gaW50ZXJmYWNlIHdpdGggb25lIGFic3RyYWN0IG1ldGhvZCBpcyBmdW5jdGlvbmFsIHdpdGggb3Igd2l0aG91dCB0aGUgYW5ub3RhdGlvbi4gVGhlIGFubm90YXRpb24gb25seSB0dXJucyBhIG1pc3Rha2UsIHN1Y2ggYXMgYSBzZWNvbmQgYWJzdHJhY3QgbWV0aG9kLCBpbnRvIGEgY29tcGlsZSBlcnJvci4="
-    },
-    "q7-4": {
-      "type": "choice",
-      "xp": 1,
-      "options": 4,
-      "answer": 2,
-      "explain": "VGhlIG1ldGhvZCBvZiBgUHJlZGljYXRlYCBpcyBgdGVzdGAuIEl0IHRha2VzIG9uZSB2YWx1ZSBhbmQgZ2l2ZXMgYmFjayBhIGBib29sZWFuYDsgYCJCZW5lZGljdCJgIGhhcyA4IGNoYXJhY3RlcnMsIHNvIGB0cnVlYC4="
     },
     "q7-5": {
       "type": "choice",

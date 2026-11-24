@@ -128,7 +128,8 @@ from hl import unsplit  # noqa: E402
 from workbook import question_code, answer_code, QUESTION_RAW, QUESTION_SOURCE, SOURCE, STUDENT, listings, inline, group  # noqa: E402
 
 ID = {n: 'q' + n.replace('.', '-') for n in QUESTION_SOURCE}
-assert len(ID) == 43, len(ID)
+ID['7.4'] = 'q7-5'  # 7.4 was 7.5 before the java.util.function cut; the id keeps its published meaning
+assert len(ID) == 41, len(ID)
 
 
 def solution(n):
@@ -249,7 +250,7 @@ for folder, demo_name, classes in [
         ('iface', 'DrawDemo', SHAPE_FILES), ('passon', 'PassDemo', ('Drawable', 'Shape', 'Square')),
         ('multi', 'GrowDemo', ('Drawable', 'Resizable', 'Shape', 'Square', 'Label')),
         ('default', 'FrameDemo', SHAPE_FILES), ('conflict', 'InfoDemo', ('Drawable', 'Resizable', 'Shape', 'Square')),
-        ('listspec', 'ListDemo', ()), ('lambda', 'LambdaDemo', SHAPE_FILES), ('func', 'FuncDemo', ()), ('func', 'RemoveDemo', ())]:
+        ('listspec', 'ListDemo', ()), ('lambda', 'LambdaDemo', SHAPE_FILES),]:
     got = run(read(f'{folder}/{demo_name}.java'), files_at(folder, *classes))
     assert got == output(f'{folder}/{demo_name}.output.txt'), (folder, got)
     shows(got)
@@ -354,14 +355,6 @@ assert '        ' + answer_code('7.3') in STAR
 checked('q7-3', 'StarDemo.java', STAR.replace(answer_code('7.3'), '// Make the Drawable star from a lambda here.'), STAR,
         files_at(ST, 'Drawable'), output(ST + '/StarDemo.output.txt'), [has('->', 'Write a lambda: () -> followed by the statement.')])
 assert E['q7-3']['cases'][0]['expected'] == '*****\n*****'
-SH = 'workbook/short'
-SHORTDEMO = read(SH + '/ShortDemo.java')
-TWO = answer_code('7.6').replace('\n', '\n        ')
-assert TWO in SHORTDEMO
-checked('q7-6', 'ShortDemo.java', SHORTDEMO.replace(TWO, '// Write isShort, then use it with removeIf.'), SHORTDEMO,
-        [], output(SH + '/ShortDemo.output.txt'),
-        [has('Predicate<String> isShort', 'Store the lambda in a Predicate<String> named isShort.'), has('removeIf(isShort)', 'Pass isShort to removeIf.')])
-assert E['q7-6']['cases'][0]['expected'] == '[Benedict, Cara]'
 
 # ------------------------------------------------ 8. Choosing
 CHOICE_FORMS = {
@@ -443,7 +436,7 @@ checked('p2-order', 'Order.java', skeleton('import java.util.ArrayList;\nimport 
 # ------------------------------------------------ multiple choice
 CHOICES = re.compile(r'\\begin\{choices\}(.*?)\\end\{choices\}', re.S)
 MCQS = [n for n in QUESTION_SOURCE if CHOICES.search(QUESTION_RAW[n])]
-assert len(MCQS) == 23, MCQS
+assert len(MCQS) == 22, MCQS
 for n in MCQS:
     raw = QUESTION_RAW[n]
     opts = re.split(r'\\item\b', CHOICES.search(raw)[1])[1:]
@@ -496,9 +489,8 @@ assert compile_errors(demo('L', 'List<String> x = new List<>();', 'import java.u
 # 7.2: the annotation turns a second abstract method into an error.
 TWO_ABS = '@FunctionalInterface\npublic interface Drawable\n{\n    void draw();\n    void erase();\n}'
 assert compile_errors(LINES, [file('Drawable.java', TWO_ABS)]) and not compile_errors(LINES, files_at('lambda', 'Drawable')) and answer_index('7.2') == 1
-# 7.4 and 7.5.
-assert run(demo('P', 'Predicate<String> isLong = s -> s.length() > 4;\nSystem.out.println(isLong.test("Benedict"));', 'import java.util.function.Predicate;\n\n')) == 'true' and answer_index('7.4') == 2
-assert run(read('workbook/startsb/StartsDemo.java')) == output('workbook/startsb/StartsDemo.output.txt') == '[Ana, Cara]' and answer_index('7.5') == 3
+# 7.4: removeIf with a lambda.
+assert run(read('workbook/startsb/StartsDemo.java')) == output('workbook/startsb/StartsDemo.output.txt') == '[Ana, Cara]' and answer_index('7.4') == 3
 # 9.2: a lambda Drawable goes in an ArrayList<Drawable>.
 assert run(demo('Dash', 'Drawable d = () -> System.out.println("--------");\njava.util.ArrayList<Drawable> list = new java.util.ArrayList<>();\nlist.add(d);\nlist.get(0).draw();'), files_at('lambda', 'Drawable')) == '--------' and answer_index('9.2') == 0
 
@@ -511,7 +503,7 @@ for spec in E.values():
     for f in spec['files']:
         f['content'] = unsplit(f['content'])
 
-assert len(E) == 52, len(E)
+assert len(E) == 50, len(E)
 data = {'id': 'lecture-20', 'course': 'COMP 2001: Object-Oriented Programming',
         'title': 'Lecture 20 Workbook', 'subtitle': 'Chapter 14, Part 2: Interfaces', 'exercises': E}
 out = pathlib.Path(__file__).with_name('exercises.json')
