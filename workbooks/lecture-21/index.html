@@ -1,0 +1,996 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 2001: Lecture 21 Workbook</title>
+  <link rel="icon" href="../../runtime/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../runtime/img/favicon-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="../../runtime/img/favicon-256.png">
+  <link rel="stylesheet" href="../../runtime/workbook.css">
+  <style>
+    html, html[data-theme], html.wb-presenting, html.wb-presenting[data-theme] { --ink-quiet: var(--ink); --code-comment: var(--good-ink); }
+    .wb-shot { margin: 1rem 0 1.2rem; }
+    .wb-shot img { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; border: 1px solid var(--rule); border-radius: 6px; background: #fff; }
+    .wb-shot figcaption { font-family: var(--font-sans); font-size: 0.85rem; color: var(--ink); text-align: center; margin-top: 0.4rem; }
+    .wb-outcomes h3 { margin-top: 1.4rem; }
+  </style>
+  <script type="module">
+    import { initWorkbook } from "../../runtime/workbook.js";
+    initWorkbook({ id: "lecture-21", specs: "./exercises.json" });
+  </script>
+</head>
+<body>
+<main>
+
+<div class="wb-title-block">
+  <div>
+    <div class="wb-course">COMP 2001: Object-Oriented Programming</div>
+    <h1>Lecture 21 Workbook</h1>
+    <div class="wb-subtitle">Chapter 17, Part 1: Building a GUI</div>
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science, Memorial University of Newfoundland</p>
+  </div>
+  <img src="../../runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+</div>
+
+<p class="wb-meta">The JavaFX programs on this page cannot run in the browser, so the windows are screenshots of the real programs. Run the code yourself in BlueJ. Every question has an answer box: choose an option, fill in a table, or write your answer and compare it with the model answer. Correct answers award XP.</p>
+<p>This workbook holds the notes and the questions for Lecture 21. Each section starts with notes that explain everything on the slides, and a little more. Answer the questions as we discuss the slides. For a multiple-choice question, choose one letter.</p>
+<p><strong>Run this lecture's code in BlueJ.</strong> The programs use JavaFX, which BlueJ includes but the course website's code boxes do not. On the website, the windows are screenshots, and the code cannot be run there. To try a program yourself, open it in BlueJ, right-click the class and choose <strong>Run JavaFX
+Application</strong>.</p>
+<p>Section 8 has two complete programs to write after class. By the end, you should be able to:</p>
+<ul>
+<li>name four principles of a good interface and spot when a window breaks one;</li>
+<li>explain the event loop, and how an event-driven program differs from a sequential one;</li>
+<li>write a JavaFX program that shows a window with a label;</li>
+<li>write a handler class and register it on a button with <code>setOnAction</code>;</li>
+<li>read what the user typed in a text field when a button is clicked;</li>
+<li>arrange a window with <code>VBox</code>, <code>HBox</code> and <code>BorderPane</code>, and draw it as a tree of objects; and</li>
+<li>write complete programs with buttons, text fields and handler classes.</li>
+</ul>
+<h2 id="s1">1. Good design</h2>
+<h3>Console programs and GUI programs</h3>
+<p>So far our programs have been <strong>console programs</strong>: they print lines of text, and the user types answers. Most programs people use have a <strong>GUI</strong>, a graphical user interface, with windows, buttons and boxes to type in. The two programs below do the same job: they ask for a name and greet the person.</p>
+<p><strong>ConsoleGreeter</strong> (the user types <code>Ana</code>)</p>
+<pre class="wb-output">Greeter
+What is your name?
+Ana
+Hello, Ana!</pre>
+<figure class="wb-shot">
+  <img src="img/greeter_after.png" alt="The Greeter window: the title Greeter, What is your name?, a box holding Ana, the text Hello, Ana!, and the buttons Say hello and Clear." loading="lazy" style="max-width: 324px">
+</figure>
+<p>In the console version, the program decides the order: it asks one question, waits for one answer and ends. In the window version, the user sees the title, the box and both buttons at once, and can click them in any order and as often as they like. By the end of this lecture we can build the window on the right.</p>
+<h3>Four principles of interface design</h3>
+<p><strong>HCI</strong>, human-computer interaction, studies how people use programs. A good interface can be used without reading a manual. Four principles help:</p>
+<table>
+  <thead><tr><th><strong>Visible</strong></th><th>You can see what you are able to do. Every box has a label, and every button says what it does.</th></tr></thead>
+  <tbody>
+      <tr><td><strong>Feedback</strong></td><td>The program shows what just happened. After a click, something on the screen changes.</td></tr>
+      <tr><td><strong>Consistent</strong></td><td>The same action looks and works the same way everywhere. Save is always in the same menu.</td></tr>
+      <tr><td><strong>Forgiving</strong></td><td>Mistakes are easy to spot and easy to fix. A wrong entry gets a clear message, not a crash.</td></tr>
+  </tbody>
+</table>
+<h3>A poor window and a better window</h3>
+<p>The window on the left breaks two of the principles. Its box has no label, so the user does not know what to type, and the button text <code>Go</code> does not say what the button does (visible). Clicking the button changes nothing on the screen (feedback). The window on the right fixes all three problems.</p>
+<figure class="wb-shot">
+  <img src="img/bad_form.png" alt="A window titled Form with an unlabelled box and a button marked Go." loading="lazy" style="max-width: 276px">
+</figure>
+<figure class="wb-shot">
+  <img src="img/name_after.png" alt="A window titled Hello with What is your name?, a box holding Ana, a Say hello button and Hello, Ana!." loading="lazy" style="max-width: 276px">
+</figure>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.1</div>
+  <p><strong>1.1</strong> Give two changes that would make the <code>Form</code> window above easier to use. For each change, name the principle it helps.</p>
+
+  <wb-short id="q1-1"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.2</div>
+  <p><strong>1.2</strong> A sign-up form has ten boxes. When one box is filled in wrongly, the form empties all ten boxes and shows <code>Invalid input</code>. Which principle does this break, and what should the form do instead?</p>
+
+  <wb-short id="q1-2"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.3</div>
+  <p><strong>1.3</strong> A form shows <code>Error 0x80</code> when an email address has no <code>@</code> sign, and does not say which box is wrong. Which principle does it break most clearly?</p>
+
+  <wb-choice id="q1-3">
+    <ol type="A">
+      <li>Visible</li>
+      <li>Consistent</li>
+      <li>Forgiving</li>
+      <li>None: it shows a message, so it gives feedback.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.4</div>
+  <p><strong>1.4</strong> Which change makes an app more <em>consistent</em>?</p>
+
+  <wb-choice id="q1-4">
+    <ol type="A">
+      <li>A short sound after every click.</li>
+      <li>An Undo button.</li>
+      <li>The Cancel button is in the same place in every dialog.</li>
+      <li>A label next to every box.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 1.5</div>
+  <p><strong>1.5</strong> A drawing app has an Undo button that removes the last line drawn. Which principle does Undo support most directly?</p>
+
+  <wb-choice id="q1-5">
+    <ol type="A">
+      <li>Visible</li>
+      <li>Feedback</li>
+      <li>Consistent</li>
+      <li>Forgiving</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s2">2. Event flow</h2>
+<h3>The event loop</h3>
+<p>Desktop programs, phone apps and web browsers all run a loop like the one below. Each pass waits for an <strong>event</strong>, something the user does, such as a click or a key press. Then it runs the code for that event, and redraws the parts of the window that changed. The loop ends when the user closes the program.</p>
+<figure class="wb-shot">
+  <img src="img/event_loop.png" alt="The event loop: build the window, then wait for the next event, run the code for that event and redraw what changed, and repeat. When the window is closed, the loop stops." loading="lazy" style="max-width: 440px">
+</figure>
+<p>JavaFX, the library we use, writes this loop for us. It starts the loop, waits, and calls our code when an event happens. We never write the loop ourselves; we write only the code for each event.</p>
+<h3>The game loop</h3>
+<p>A game also runs a loop, but it does not wait for the user. Each pass reads which keys are down, updates the game (moves the player and the enemies one small step), and draws the whole screen. One pass draws one <strong>frame</strong>, and most games run about 60 frames per second. This is why the enemies keep moving when no key is pressed: the loop keeps going whether or not anything happens. The loop ends when the player quits.</p>
+<h3>Sequential and event-driven programs</h3>
+<p>A console program is <strong>sequential</strong>: the code decides the order of the statements, runs once and stops. A GUI program is <strong>event-driven</strong>: it builds the window, then waits, and the user's actions decide which code runs next.</p>
+<figure class="wb-shot">
+  <img src="img/seq_event.png" alt="Left, sequential: first statement, next statement, program ends. Right, event-driven: build the window, wait for the user; a user click runs the handler, which goes back to waiting." loading="lazy" style="max-width: 600px">
+</figure>
+<h3>Events and handlers</h3>
+<p>An <strong>event</strong> is something that happens: a click, a key press, a swipe, a menu choice. A <strong>handler</strong> is the code that runs when that event happens. Some libraries call it a <strong>listener</strong>. The program connects each event to its handler before the user starts. Every GUI program works this way:</p>
+<table>
+  <thead><tr><th><strong>Program</strong></th><th><strong>Event</strong></th><th><strong>Handler</strong></th></tr></thead>
+  <tbody>
+      <tr><td>A platform game</td><td>the jump key is pressed</td><td><code>jump()</code>: the character jumps</td></tr>
+      <tr><td>A shopping site</td><td><code>Add to cart</code> is clicked</td><td><code>addToCart()</code>: adds the item</td></tr>
+      <tr><td>A photo app</td><td>the user swipes left</td><td><code>nextPhoto()</code>: shows the next photo</td></tr>
+      <tr><td>Our first program</td><td><code>Say hello</code> is clicked</td><td><code>handle()</code>: shows <code>Hello!</code></td></tr>
+  </tbody>
+</table>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.1</div>
+  <p><strong>2.1</strong> Fill in the missing steps of the event loop.</p>
+
+<figure class="wb-shot">
+  <img src="img/loop_blanks.png" alt="The event loop with blanks: build the window, then three empty steps in a loop, and an empty box that leads to stop." loading="lazy" style="max-width: 520px">
+</figure>
+  <wb-short id="q2-1"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.2</div>
+  <p><strong>2.2</strong> A calculator app has buttons for the digits, for <code>+</code> and for <code>=</code>. Name two events in this app, and say what the handler for each should do.</p>
+
+  <wb-short id="q2-2"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.3</div>
+  <p><strong>2.3</strong> In a game, the enemies move even when the player presses nothing. In our JavaFX windows, nothing changes until the user does something. Explain the difference using the two kinds of loop.</p>
+
+  <wb-short id="q2-3"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.4</div>
+  <p><strong>2.4</strong> Who writes the event loop in a JavaFX program?</p>
+
+  <wb-choice id="q2-4">
+    <ol type="A">
+      <li>We write a <code>while(true)</code> loop at the end of <code>start</code>.</li>
+      <li>JavaFX runs it; we write only the handlers.</li>
+      <li>Each handler contains its own loop.</li>
+      <li>BlueJ adds it when the program is run from BlueJ.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.5</div>
+  <p><strong>2.5</strong> What ends the event loop in this lecture's programs?</p>
+
+  <wb-choice id="q2-5">
+    <ol type="A">
+      <li>The <code>start</code> method returning.</li>
+      <li>A handler's <code>handle</code> method returning.</li>
+      <li>The user closing the window.</li>
+      <li>The loop stops by itself after 60 passes.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.6</div>
+  <p><strong>2.6</strong> Which is true of a game loop but <em>not</em> of the event loop?</p>
+
+  <wb-choice id="q2-6">
+    <ol type="A">
+      <li>It ends when the user quits.</li>
+      <li>It reacts to key presses.</li>
+      <li>It draws the whole screen on every pass, even when no key is pressed.</li>
+      <li>It runs code in response to what the user does.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 2.7</div>
+  <p><strong>2.7</strong> Which of these programs is event-driven?</p>
+
+  <wb-choice id="q2-7">
+    <ol type="A">
+      <li>A program that reads a file of marks and prints the average.</li>
+      <li>A calculator app with buttons.</li>
+      <li><code>ConsoleGreeter</code>, which waits for the user to type a name.</li>
+      <li>A program that prints a times table.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s3">3. First window</h2>
+<h3>JavaFX</h3>
+<p><strong>JavaFX</strong> is a library of Java classes for windows, buttons, text boxes and menus. Every part of a window is an object, made with <code>new</code> like any object we have made before. BlueJ includes JavaFX. To run a JavaFX class in BlueJ, right-click it and choose <strong>Run JavaFX Application</strong>. The course's web IDE does not include JavaFX, so the programs in this lecture run in BlueJ.</p>
+<h3>A first JavaFX program</h3>
+<pre><code><span class="wb-kw">import</span> javafx.application.Application;
+<span class="wb-kw">import</span> javafx.scene.Scene;
+<span class="wb-kw">import</span> javafx.scene.control.Label;
+<span class="wb-kw">import</span> javafx.stage.Stage;
+
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">HelloWindow</span> extends <span class="wb-type">Application</span>
+{
+    @<span class="wb-type">Override</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">start</span>(<span class="wb-type">Stage</span> stage)
+    {
+        <span class="wb-type">Label</span> message = <span class="wb-kw">new</span> <span class="wb-fn">Label</span>(<span class="wb-str">"Hello, world!"</span>);
+        <span class="wb-type">Scene</span> scene = <span class="wb-kw">new</span> <span class="wb-fn">Scene</span>(message, <span class="wb-num">300</span>, <span class="wb-num">100</span>);
+        stage.setTitle(<span class="wb-str">"Hello"</span>);
+        stage.setScene(scene);
+        stage.show();
+    }
+}</code></pre>
+<figure class="wb-shot">
+  <img src="img/hello_window.png" alt="A window titled Hello showing the text Hello, world!." loading="lazy" style="max-width: 288px">
+</figure>
+<p><code>extends Application</code> makes <code>HelloWindow</code> a JavaFX program. All the setup goes in the method <code>start</code>. It makes a label, puts it in a scene that is 300 pixels wide and 100 pixels high, gives the window the title <code>Hello</code>, puts the scene in the window and shows the window.</p>
+<h3>Stage, Scene and Label</h3>
+<ul>
+<li>A <strong>Stage</strong> is the window itself: its border, its title bar and its buttons for closing it. JavaFX makes the stage and passes it to <code>start</code>.</li>
+<li>A <strong>Scene</strong> is everything shown inside the window. It holds exactly one object, called its <strong>root</strong>. Here the root is the label. <code>stage.setScene(scene)</code> puts the scene in the window.</li>
+<li>A <strong>Label</strong> is a piece of text the user can read but not edit.</li>
+</ul>
+<p>The names come from a theatre: a stage shows a scene. Nothing appears on the screen until <code>stage.show()</code> runs.</p>
+<h3>Launching a JavaFX program</h3>
+<p>We never write <code>new HelloWindow()</code> and never call <code>start</code> ourselves. When the program is run, JavaFX makes the <code>HelloWindow</code> object, makes a <code>Stage</code>, and calls <code>start(stage)</code>. Our code in <code>start</code> builds the window and calls <code>show()</code>. <code>start</code> is a method of <code>Application</code> that we override, as in Lecture 18. Outside BlueJ, a JavaFX program starts itself from <code>main</code> with the static method <code>launch</code>:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">static</span> <span class="wb-kw">void</span> <span class="wb-fn">main</span>(<span class="wb-type">String</span>[] args)
+{
+    launch(args);
+}</code></pre>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.1</div>
+  <p><strong>3.1</strong> Write the <code>start</code> method of a class <code>WelcomeWindow</code> that shows a window titled <code>Welcome</code>, 400 pixels wide and 80 pixels high, with the text <code>Lecture 21</code> inside.</p>
+
+  <wb-short id="q3-1"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.2</div>
+  <p><strong>3.2</strong> <code>HelloWindow</code> uses a <code>Stage</code>, a <code>Scene</code> and a <code>Label</code>. Which of the three does our code <em>not</em> create with <code>new</code>, and where does it come from?</p>
+
+  <wb-short id="q3-2"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.3</div>
+  <p><strong>3.3</strong> What happens if we delete the line <code>stage.show();</code> from <code>HelloWindow</code>?</p>
+
+  <wb-choice id="q3-3">
+    <ol type="A">
+      <li>It does not compile.</li>
+      <li>The program runs, but no window appears.</li>
+      <li>An empty window titled <code>Hello</code> appears.</li>
+      <li><code>Hello, world!</code> is printed in the terminal instead.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.4</div>
+  <p><strong>3.4</strong> Which method does every JavaFX program in this lecture override?</p>
+
+  <wb-choice id="q3-4">
+    <ol type="A">
+      <li><code>main</code></li>
+      <li><code>launch</code></li>
+      <li><code>show</code></li>
+      <li><code>start</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.5</div>
+  <p><strong>3.5</strong> In <code>new Scene(message, 300, 100)</code>, what are 300 and 100?</p>
+
+  <wb-choice id="q3-5">
+    <ol type="A">
+      <li>The width and height of the scene, in pixels.</li>
+      <li>The x and y position of the window on the screen.</li>
+      <li>The font size and the padding of the label.</li>
+      <li>The largest number of rows and columns.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 3.6</div>
+  <p><strong>3.6</strong> <code>HelloWindow</code> contains no <code>new HelloWindow()</code>. Why does its <code>start</code> method still run?</p>
+
+  <wb-choice id="q3-6">
+    <ol type="A">
+      <li><code>start</code> is static, so it needs no object.</li>
+      <li>JavaFX makes the object and calls <code>start</code>.</li>
+      <li>BlueJ writes the missing line when the class is compiled.</li>
+      <li>Objects of a class that extends <code>Application</code> cannot be made with <code>new</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s4">4. Buttons</h2>
+<h3>Adding a button</h3>
+<p><strong>inside start</strong></p>
+<pre><code><span class="wb-type">Button</span> button = <span class="wb-kw">new</span> <span class="wb-fn">Button</span>(<span class="wb-str">"Say hello"</span>);
+<span class="wb-type">Label</span> greeting = <span class="wb-kw">new</span> <span class="wb-fn">Label</span>(<span class="wb-str">""</span>);
+
+<span class="wb-type">VBox</span> root = <span class="wb-kw">new</span> <span class="wb-fn">VBox</span>(<span class="wb-num">10</span>);
+root.setPadding(<span class="wb-kw">new</span> <span class="wb-fn">Insets</span>(<span class="wb-num">15</span>));
+root.getChildren().addAll(button, greeting);
+
+stage.setTitle(<span class="wb-str">"Hello"</span>);
+stage.setScene(<span class="wb-kw">new</span> <span class="wb-fn">Scene</span>(root, <span class="wb-num">300</span>, <span class="wb-num">110</span>));
+stage.show();</code></pre>
+<figure class="wb-shot">
+  <img src="img/button_dead.png" alt="A window titled Hello with a Say hello button and nothing under it." loading="lazy" style="max-width: 300px">
+</figure>
+<p>A <code>Button</code> is a control the user can click. A window with more than one object needs a <strong>pane</strong>, an object that holds others and arranges them. <code>VBox(10)</code> puts its children in a column, 10 pixels apart. <code>setPadding(new Insets(15))</code> leaves a 15-pixel border inside it. <code>getChildren().addAll(button, greeting)</code> puts the button and the label in the box, in that order. The <code>VBox</code> is the scene's root. Clicking the button does nothing yet, because no handler is connected to it.</p>
+<h3>The EventHandler interface</h3>
+<p>A button needs to know what to do when it is clicked. JavaFX gives us an interface for that, the same idea as in Lecture 20. Shortened, it is:</p>
+<pre><code><span class="wb-kw">public</span> interface <span class="wb-type">EventHandler</span>&lt;<span class="wb-type">T</span>&gt;
+{
+    <span class="wb-kw">void</span> <span class="wb-fn">handle</span>(<span class="wb-type">T</span> event);
+}</code></pre>
+<p><code>T</code> is the kind of event. A click on a button is an <code>ActionEvent</code>, so a button wants an <code>EventHandler&lt;ActionEvent&gt;</code>. Any class that implements it promises a method <code>handle(ActionEvent
+event)</code>. The button calls <code>handle</code> every time it is clicked.</p>
+<h3>Writing a handler class</h3>
+<pre><code><span class="wb-kw">import</span> javafx.event.ActionEvent;
+<span class="wb-kw">import</span> javafx.event.EventHandler;
+<span class="wb-kw">import</span> javafx.scene.control.Label;
+
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">HelloHandler</span> implements <span class="wb-type">EventHandler</span>&lt;<span class="wb-type">ActionEvent</span>&gt;
+{
+    <span class="wb-kw">private</span> <span class="wb-type">Label</span> greeting;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">HelloHandler</span>(<span class="wb-type">Label</span> greeting)
+    {
+        <span class="wb-kw">this</span>.greeting = greeting;
+    }
+
+    @<span class="wb-type">Override</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">handle</span>(<span class="wb-type">ActionEvent</span> event)
+    {
+        greeting.setText(<span class="wb-str">"Hello!"</span>);
+    }
+}</code></pre>
+<p>The handler must change the label, so it keeps a reference to the label in a field, and the constructor receives that label. <code>handle</code> sets the label's text to <code>Hello!</code>. The parameter <code>event</code> describes the click; we do not need it here. If the class leaves out <code>implements EventHandler&lt;ActionEvent&gt;</code>, the line that registers it does not compile, even though the class has a <code>handle</code> method:</p>
+<pre class="wb-output">error: incompatible types: HelloHandler cannot be converted to EventHandler&lt;ActionEvent&gt;</pre>
+<h3>Registering the handler</h3>
+<p><strong>inside start</strong></p>
+<pre><code><span class="wb-type">Button</span> button = <span class="wb-kw">new</span> <span class="wb-fn">Button</span>(<span class="wb-str">"Say hello"</span>);
+<span class="wb-type">Label</span> greeting = <span class="wb-kw">new</span> <span class="wb-fn">Label</span>(<span class="wb-str">""</span>);
+button.setOnAction(<span class="wb-kw">new</span> <span class="wb-fn">HelloHandler</span>(greeting));
+
+<span class="wb-type">VBox</span> root = <span class="wb-kw">new</span> <span class="wb-fn">VBox</span>(<span class="wb-num">10</span>);
+root.setPadding(<span class="wb-kw">new</span> <span class="wb-fn">Insets</span>(<span class="wb-num">15</span>));
+root.getChildren().addAll(button, greeting);
+
+stage.setTitle(<span class="wb-str">"Hello"</span>);
+stage.setScene(<span class="wb-kw">new</span> <span class="wb-fn">Scene</span>(root, <span class="wb-num">300</span>, <span class="wb-num">110</span>));
+stage.show();</code></pre>
+<figure class="wb-shot">
+  <img src="img/button_after.png" alt="The same window after one click: Hello! appears under the button." loading="lazy" style="max-width: 276px">
+</figure>
+<p>after one click</p>
+<p>The new line is <code>button.setOnAction(new HelloHandler(greeting));</code>. It gives the button a <code>HelloHandler</code> object; this is called <strong>registering</strong> the handler. The handler gets the same <code>greeting</code> label that is shown in the window.</p>
+<h3>Handling a click</h3>
+<figure class="wb-shot">
+  <img src="img/handling_click.png" alt="A Button "Say hello" holds its handler, a HelloHandler, which holds the Label greeting. On a click, 1: the button calls handle(event); 2: handle calls setText("Hello!") on the label." loading="lazy" style="max-width: 640px">
+</figure>
+<p>The button holds a reference to the handler object, and the handler holds a reference to the label. On a click, the button calls <code>handle</code>, and <code>handle</code> changes the label. The label is the same object that is in the window, so the window changes.</p>
+<p><code>setOnAction</code> only stores the handler. If we add <code>System.out.println("start is finished");</code> after <code>stage.show()</code> and <code>System.out.println("handle runs");</code> in <code>handle</code>, and the user clicks twice, the terminal shows:</p>
+<pre class="wb-output">start is finished
+handle runs
+handle runs</pre>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.1</div>
+  <p><strong>4.1</strong> Write a handler class <code>ByeHandler</code> that sets the text of a label to <code>Bye!</code>. The label comes in through the constructor.</p>
+
+  <wb-short id="q4-1"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.2</div>
+  <p><strong>4.2</strong> A window has a button <code>byeButton</code> and a label <code>message</code>. Write the line that registers a <code>ByeHandler</code> on the button.</p>
+
+  <wb-short id="q4-2"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.3</div>
+  <p><strong>4.3</strong> <code>start</code> in <code>HelloButton</code> makes the label <code>greeting</code> as a local variable. Why can <code>handle</code> not just use that variable, so that <code>HelloHandler</code> needs a field and a constructor?</p>
+
+  <wb-short id="q4-3"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.4</div>
+  <p><strong>4.4</strong> A student changes <code>HelloHandler</code>'s constructor so that it ignores its parameter and does <code>this.greeting = new Label("");</code>. The program compiles. What does the window show after a click, and why?</p>
+
+  <wb-short id="q4-4"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.5</div>
+  <p><strong>4.5</strong> <code>HelloHandler</code> keeps its <code>handle</code> method but loses <code>implements EventHandler&lt;ActionEvent&gt;</code>. What happens?</p>
+
+  <wb-choice id="q4-5">
+    <ol type="A">
+      <li>It compiles and works as before.</li>
+      <li>It compiles, but clicking does nothing.</li>
+      <li><code>setOnAction(new HelloHandler(greeting))</code> does not compile.</li>
+      <li>A click throws an exception.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.6</div>
+  <p><strong>4.6</strong> When does <code>handle</code> run?</p>
+
+  <wb-choice id="q4-6">
+    <ol type="A">
+      <li>When <code>setOnAction</code> is called.</li>
+      <li>Once, when <code>start</code> runs.</li>
+      <li>Once, when the window first appears.</li>
+      <li>Each time the button is clicked.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.7</div>
+  <p><strong>4.7</strong> Why does the window change when <code>handle</code> calls <code>greeting.setText("Hello!")</code>?</p>
+
+  <wb-choice id="q4-7">
+    <ol type="A">
+      <li><code>handle</code> redraws the whole window.</li>
+      <li>The handler refers to the same <code>Label</code> object that is in the window.</li>
+      <li><code>setOnAction</code> copied the label into the button.</li>
+      <li><code>greeting</code> is a static variable.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 4.8</div>
+  <p><strong>4.8</strong> We delete the line <code>button.setOnAction(new HelloHandler(greeting));</code>. What happens when the button is clicked?</p>
+
+  <wb-choice id="q4-8">
+    <ol type="A">
+      <li>Nothing changes.</li>
+      <li>The program does not compile.</li>
+      <li>An exception is thrown.</li>
+      <li>The window closes.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s5">5. Text fields</h2>
+<h3>TextField</h3>
+<p>Now the user types a name, and the greeting uses it. A <strong>TextField</strong> is a one-line box the user can type in. <code>getText()</code> returns what is in the box right now, and <code>setText(...)</code> changes it.</p>
+<figure class="wb-shot">
+  <img src="img/name_empty.png" alt="What is your name? with an empty box and a Say hello button." loading="lazy" style="max-width: 240px">
+</figure>
+<figure class="wb-shot">
+  <img src="img/name_typed.png" alt="The same window with Ana typed in the box." loading="lazy" style="max-width: 240px">
+</figure>
+<figure class="wb-shot">
+  <img src="img/name_after.png" alt="A window titled Hello with What is your name?, a box holding Ana, a Say hello button and Hello, Ana!." loading="lazy" style="max-width: 240px">
+</figure>
+<h3>Reading a text field in a handler</h3>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">GreetHandler</span> implements <span class="wb-type">EventHandler</span>&lt;<span class="wb-type">ActionEvent</span>&gt;
+{
+    <span class="wb-kw">private</span> <span class="wb-type">TextField</span> nameField;
+    <span class="wb-kw">private</span> <span class="wb-type">Label</span> greeting;
+
+    <span class="wb-kw">public</span> <span class="wb-fn">GreetHandler</span>(<span class="wb-type">TextField</span> nameField, <span class="wb-type">Label</span> greeting)
+    {
+        <span class="wb-kw">this</span>.nameField = nameField;
+        <span class="wb-kw">this</span>.greeting = greeting;
+    }
+
+    @<span class="wb-type">Override</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">handle</span>(<span class="wb-type">ActionEvent</span> event)
+    {
+        <span class="wb-type">String</span> name = nameField.getText();
+        greeting.setText(<span class="wb-str">"Hello, "</span> + name + <span class="wb-str">"!"</span>);
+    }
+}</code></pre>
+<p>This handler needs two objects: the box to read and the label to change. Both come in through the constructor. <code>handle</code> reads the name and builds the greeting. In <code>start</code>, four objects go into the <code>VBox</code>, from top to bottom, and the handler gets the same <code>nameField</code> and <code>greeting</code> that are in the window:</p>
+<pre><code><span class="wb-type">Label</span> prompt = <span class="wb-kw">new</span> <span class="wb-fn">Label</span>(<span class="wb-str">"What is your name?"</span>);
+<span class="wb-type">TextField</span> nameField = <span class="wb-kw">new</span> <span class="wb-fn">TextField</span>();
+<span class="wb-type">Button</span> button = <span class="wb-kw">new</span> <span class="wb-fn">Button</span>(<span class="wb-str">"Say hello"</span>);
+<span class="wb-type">Label</span> greeting = <span class="wb-kw">new</span> <span class="wb-fn">Label</span>(<span class="wb-str">""</span>);
+button.setOnAction(<span class="wb-kw">new</span> <span class="wb-fn">GreetHandler</span>(nameField, greeting));
+
+<span class="wb-type">VBox</span> root = <span class="wb-kw">new</span> <span class="wb-fn">VBox</span>(<span class="wb-num">10</span>);
+root.setPadding(<span class="wb-kw">new</span> <span class="wb-fn">Insets</span>(<span class="wb-num">15</span>));
+root.getChildren().addAll(prompt, nameField, button, greeting);
+
+stage.setTitle(<span class="wb-str">"Hello"</span>);
+stage.setScene(<span class="wb-kw">new</span> <span class="wb-fn">Scene</span>(root, <span class="wb-num">300</span>, <span class="wb-num">170</span>));
+stage.show();</code></pre>
+<h3>When getText runs</h3>
+<p><code>getText()</code> is called inside <code>handle</code>, so it reads the box at the moment of the click. If the user types Ana and clicks, the window shows <code>Hello, Ana!</code>. If the user then empties the box and clicks again, it shows <code>Hello, !</code>. Calling <code>getText()</code> in <code>start</code> would not work: <code>start</code> runs before the user has typed anything, so it would always give <code>""</code>, the empty string.</p>
+<h3>Checking for an empty name</h3>
+<p><code>Hello, !</code> does not tell the user what went wrong. The new <code>handle</code> checks for an empty name with the <code>String</code> method <code>isEmpty()</code> and tells the user what to do. This is feedback, and it makes the interface forgiving.</p>
+<pre><code>@<span class="wb-type">Override</span>
+<span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">handle</span>(<span class="wb-type">ActionEvent</span> event)
+{
+    <span class="wb-type">String</span> name = nameField.getText();
+    <span class="wb-kw">if</span>(name.isEmpty()) {
+        greeting.setText(<span class="wb-str">"Please type your name first."</span>);
+    }
+    <span class="wb-kw">else</span> {
+        greeting.setText(<span class="wb-str">"Hello, "</span> + name + <span class="wb-str">"!"</span>);
+    }
+}</code></pre>
+<figure class="wb-shot">
+  <img src="img/name_check_blank.png" alt="After a click with an empty box: Please type your name first." loading="lazy" style="max-width: 264px">
+</figure>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.1</div>
+  <p><strong>5.1</strong> A handler has the fields <code>nameField</code> and <code>greeting</code>. Write its <code>handle</code> method so that a click shows <code>Good morning, </code> followed by the name and a full stop, for example <code>Good morning, Ana.</code></p>
+
+  <wb-short id="q5-1"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.2</div>
+  <p><strong>5.2</strong> Change your <code>handle</code> from 5.1 so that an empty box shows <code>Name missing.</code> instead.</p>
+
+  <wb-short id="q5-2"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.3</div>
+  <p><strong>5.3</strong> A student reads the box in <code>start</code> and passes the string <code>name</code> to the handler. The handler's <code>handle</code> method runs <code>greeting.setText("Hello, " + name + "!");</code></p>
+
+<pre><code><span class="wb-type">Label</span> prompt = <span class="wb-kw">new</span> <span class="wb-fn">Label</span>(<span class="wb-str">"What is your name?"</span>);
+<span class="wb-type">TextField</span> nameField = <span class="wb-kw">new</span> <span class="wb-fn">TextField</span>();
+<span class="wb-type">Button</span> button = <span class="wb-kw">new</span> <span class="wb-fn">Button</span>(<span class="wb-str">"Say hello"</span>);
+<span class="wb-type">Label</span> greeting = <span class="wb-kw">new</span> <span class="wb-fn">Label</span>(<span class="wb-str">""</span>);
+<span class="wb-type">String</span> name = nameField.getText();
+button.setOnAction(<span class="wb-kw">new</span> <span class="wb-fn">EarlyHandler</span>(name, greeting));</code></pre>
+<p>The user types <code>Ana</code> and clicks <code>Say hello</code>. What does the window show, and why?</p>
+  <wb-short id="q5-3"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.4</div>
+  <p><strong>5.4</strong> The program uses the <code>handle</code> that checks for an empty name. Fill in what the greeting label shows after each action, in order.</p>
+
+  <wb-table id="q5-4">
+    <table>
+      <thead><tr><th><strong>Action</strong></th><th><strong>Greeting label shows</strong></th></tr></thead>
+      <tbody>
+        <tr><td>The user types <code>Ben</code> and clicks</td><td data-blank="0"></td></tr>
+        <tr><td>The user empties the box and clicks</td><td data-blank="1"></td></tr>
+        <tr><td>The user types <code>Cy</code> and does not click</td><td data-blank="2"></td></tr>
+        <tr><td>The user clicks</td><td data-blank="3"></td></tr>
+      </tbody>
+    </table>
+  </wb-table>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.5</div>
+  <p><strong>5.5</strong> What does <code>getText()</code> return when the text field is empty?</p>
+
+  <wb-choice id="q5-5">
+    <ol type="A">
+      <li><code>null</code></li>
+      <li><code>""</code>, the empty string</li>
+      <li><code>" "</code>, a single space</li>
+      <li>It throws an exception.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.6</div>
+  <p><strong>5.6</strong> Where must <code>getText()</code> be called to get what the user typed?</p>
+
+  <wb-choice id="q5-6">
+    <ol type="A">
+      <li>In <code>start</code>, right after the text field is made.</li>
+      <li>In the handler's constructor.</li>
+      <li>Inside <code>handle</code>.</li>
+      <li>In <code>main</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 5.7</div>
+  <p><strong>5.7</strong> With the empty-name check, the user types two spaces and clicks. What does the label show?</p>
+
+  <wb-choice id="q5-7">
+    <ol type="A">
+      <li><code>Please type your name first.</code></li>
+      <li><code>Hello,</code> followed by three spaces and <code>!</code></li>
+      <li><code>Hello, !</code></li>
+      <li>Nothing changes.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s6">6. Layouts</h2>
+<h3>VBox and HBox</h3>
+<p>We never give a button an x and y position. A <strong>pane</strong> arranges its children for us, and arranges them again when the window changes size. <code>VBox</code> makes a column and <code>HBox</code> makes a row. The number in <code>new VBox(10)</code> is the gap between children, in pixels. The two programs below are the same except for the line above each window.</p>
+<p><code>VBox root = new VBox(10);</code></p>
+<figure class="wb-shot">
+  <img src="img/pane_vbox.png" alt="A VBox: the buttons One, Two and Three in a column." loading="lazy" style="max-width: 276px">
+</figure>
+<p><code>HBox root = new HBox(10);</code></p>
+<figure class="wb-shot">
+  <img src="img/pane_hbox.png" alt="An HBox: the buttons One, Two and Three in a row." loading="lazy" style="max-width: 276px">
+</figure>
+<p><code>setPadding(new Insets(15))</code> leaves 15 pixels of space inside the edge of a pane. <code>new Insets(10, 0, 10, 0)</code> gives the four sides separately, in the order top, right, bottom, left: here 10 above and 10 below only.</p>
+<h3>BorderPane</h3>
+<p>A <code>BorderPane</code> has five areas: top, left, center, right and bottom. Each area holds one object, set with <code>setTop</code>, <code>setLeft</code>, <code>setCenter</code>, <code>setRight</code> and <code>setBottom</code>. Areas we leave empty take no space. Calling <code>setBottom</code> a second time replaces the first object.</p>
+<pre><code><span class="wb-type">BorderPane</span> root = <span class="wb-kw">new</span> <span class="wb-fn">BorderPane</span>();
+root.setTop(<span class="wb-kw">new</span> <span class="wb-fn">Button</span>(<span class="wb-str">"Top"</span>));
+root.setLeft(<span class="wb-kw">new</span> <span class="wb-fn">Button</span>(<span class="wb-str">"Left"</span>));
+root.setCenter(<span class="wb-kw">new</span> <span class="wb-fn">Button</span>(<span class="wb-str">"Center"</span>));
+root.setRight(<span class="wb-kw">new</span> <span class="wb-fn">Button</span>(<span class="wb-str">"Right"</span>));
+root.setBottom(<span class="wb-kw">new</span> <span class="wb-fn">Button</span>(<span class="wb-str">"Bottom"</span>));</code></pre>
+<figure class="wb-shot">
+  <img src="img/pane_border.png" alt="A BorderPane with buttons named Top, Left, Center, Right and Bottom in its five areas." loading="lazy" style="max-width: 312px">
+</figure>
+<p>When the window is made bigger, the top and bottom areas stay at the edges, the left and right areas stay at the sides, and the centre gets all the extra space. That is why the main content goes in the centre.</p>
+<figure class="wb-shot">
+  <img src="img/pane_border_big.png" alt="The same BorderPane made bigger: the centre area gets the extra space." loading="lazy" style="max-width: 456px">
+</figure>
+<h3>Panes inside panes</h3>
+<p>Each <code>BorderPane</code> area holds one object. To put two buttons at the bottom, we put them in an <code>HBox</code>, and the <code>HBox</code> goes at the bottom. A pane can go inside another pane, because a pane is an object too. The Greeter is a tidier version of the name program, with a title and a <code>Clear</code> button. <code>ClearHandler</code> is built like <code>GreetHandler</code>; its <code>handle</code> sets the text of both the box and the greeting to <code>""</code>.</p>
+<pre><code><span class="wb-type">Label</span> title = <span class="wb-kw">new</span> <span class="wb-fn">Label</span>(<span class="wb-str">"Greeter"</span>);
+title.setFont(<span class="wb-kw">new</span> <span class="wb-fn">Font</span>(<span class="wb-num">20</span>));
+<span class="wb-type">Label</span> prompt = <span class="wb-kw">new</span> <span class="wb-fn">Label</span>(<span class="wb-str">"What is your name?"</span>);
+<span class="wb-type">TextField</span> nameField = <span class="wb-kw">new</span> <span class="wb-fn">TextField</span>();
+<span class="wb-type">Label</span> greeting = <span class="wb-kw">new</span> <span class="wb-fn">Label</span>(<span class="wb-str">""</span>);
+<span class="wb-type">Button</span> helloButton = <span class="wb-kw">new</span> <span class="wb-fn">Button</span>(<span class="wb-str">"Say hello"</span>);
+<span class="wb-type">Button</span> clearButton = <span class="wb-kw">new</span> <span class="wb-fn">Button</span>(<span class="wb-str">"Clear"</span>);
+helloButton.setOnAction(<span class="wb-kw">new</span> <span class="wb-fn">GreetHandler</span>(nameField, greeting));
+clearButton.setOnAction(<span class="wb-kw">new</span> <span class="wb-fn">ClearHandler</span>(nameField, greeting));
+
+<span class="wb-type">VBox</span> middle = <span class="wb-kw">new</span> <span class="wb-fn">VBox</span>(<span class="wb-num">10</span>);
+middle.setPadding(<span class="wb-kw">new</span> <span class="wb-fn">Insets</span>(<span class="wb-num">10</span>, <span class="wb-num">0</span>, <span class="wb-num">10</span>, <span class="wb-num">0</span>));
+middle.getChildren().addAll(prompt, nameField, greeting);
+<span class="wb-type">HBox</span> buttons = <span class="wb-kw">new</span> <span class="wb-fn">HBox</span>(<span class="wb-num">10</span>);
+buttons.getChildren().addAll(helloButton, clearButton);
+
+<span class="wb-type">BorderPane</span> root = <span class="wb-kw">new</span> <span class="wb-fn">BorderPane</span>();
+root.setPadding(<span class="wb-kw">new</span> <span class="wb-fn">Insets</span>(<span class="wb-num">15</span>));
+root.setTop(title);
+root.setCenter(middle);
+root.setBottom(buttons);
+
+stage.setTitle(<span class="wb-str">"Greeter"</span>);
+stage.setScene(<span class="wb-kw">new</span> <span class="wb-fn">Scene</span>(root, <span class="wb-num">320</span>, <span class="wb-num">200</span>));
+stage.show();</code></pre>
+<figure class="wb-shot">
+  <img src="img/greeter_after.png" alt="The Greeter window: the title Greeter, What is your name?, a box holding Ana, the text Hello, Ana!, and the buttons Say hello and Clear." loading="lazy" style="max-width: 276px">
+</figure>
+<h3>The tree of objects</h3>
+<p>Every window is a <strong>tree of objects</strong>. JavaFX calls this tree the <strong>scene graph</strong>. The panes are the branches; the controls the user sees and uses (labels, text fields, buttons) are the leaves.</p>
+<figure class="wb-shot">
+  <img src="img/greeter_tree.png" alt="The Greeter tree: Stage, then Scene, then BorderPane. The BorderPane has Label "Greeter" at the top, a VBox in the center holding Label, TextField and Label, and an HBox at the bottom holding the buttons Say hello and Clear." loading="lazy" style="max-width: 620px">
+</figure>
+<p>The code builds the tree from the bottom up: first the controls, then the boxes that hold them, then the root, then the scene. Dragging the Greeter window bigger gives the extra space to the centre, so the buttons stay at the bottom.</p>
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.1</div>
+  <p><strong>6.1</strong> Draw the tree of objects for this window, from the <code>Scene</code> down.</p>
+
+<pre><code><span class="wb-type">Label</span> title = <span class="wb-kw">new</span> <span class="wb-fn">Label</span>(<span class="wb-str">"New note"</span>);
+<span class="wb-type">TextField</span> noteField = <span class="wb-kw">new</span> <span class="wb-fn">TextField</span>();
+<span class="wb-type">Button</span> addButton = <span class="wb-kw">new</span> <span class="wb-fn">Button</span>(<span class="wb-str">"Add"</span>);
+<span class="wb-type">Label</span> count = <span class="wb-kw">new</span> <span class="wb-fn">Label</span>(<span class="wb-str">"0 notes"</span>);
+<span class="wb-type">HBox</span> row = <span class="wb-kw">new</span> <span class="wb-fn">HBox</span>(<span class="wb-num">10</span>);
+row.getChildren().addAll(noteField, addButton);
+<span class="wb-type">VBox</span> root = <span class="wb-kw">new</span> <span class="wb-fn">VBox</span>(<span class="wb-num">10</span>);
+root.setPadding(<span class="wb-kw">new</span> <span class="wb-fn">Insets</span>(<span class="wb-num">15</span>));
+root.getChildren().addAll(title, row, count);</code></pre>
+  <wb-short id="q6-1"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.2</div>
+  <p><strong>6.2</strong> The objects <code>title</code>, <code>noteField</code>, <code>save</code> and <code>cancel</code> are already made. Write the code that puts <code>title</code> at the top of a <code>BorderPane</code> called <code>root</code>, <code>noteField</code> in the centre, and <code>save</code> and <code>cancel</code> side by side at the bottom, with padding 15.</p>
+
+<figure class="wb-shot">
+  <img src="img/wb_save_window.png" alt="A window titled Notes: Notes at the top, a text box in the middle, and Save and Cancel side by side at the bottom." loading="lazy" style="max-width: 300px">
+</figure>
+  <wb-short id="q6-2"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.3</div>
+  <p><strong>6.3</strong> The Greeter's two buttons are in an <code>HBox</code>, and the <code>HBox</code> is placed with <code>root.setBottom(buttons)</code>. Why not call <code>root.setBottom(helloButton)</code> and then <code>root.setBottom(clearButton)</code>?</p>
+
+  <wb-short id="q6-3"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.4</div>
+  <p><strong>6.4</strong> Which code shows <code>save</code> and <code>cancel</code> side by side at the bottom of a <code>BorderPane</code>?</p>
+
+  <wb-choice id="q6-4">
+    <ol type="A">
+      <li><code>root.setBottom(save); root.setBottom(cancel);</code></li>
+      <li>An <code>HBox</code> holding both, placed with <code>root.setBottom(...)</code>.</li>
+      <li><code>root.setBottom(save, cancel);</code></li>
+      <li>A <code>VBox</code> holding both, placed with <code>root.setBottom(...)</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.5</div>
+  <p><strong>6.5</strong> In <code>new VBox(10)</code>, what is 10?</p>
+
+  <wb-choice id="q6-5">
+    <ol type="A">
+      <li>The gap between the children, in pixels.</li>
+      <li>The largest number of children.</li>
+      <li>The space around the edge of the box.</li>
+      <li>The width of the box.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.6</div>
+  <p><strong>6.6</strong> The Greeter window is dragged much bigger. Which area of its <code>BorderPane</code> gets the extra space?</p>
+
+  <wb-choice id="q6-6">
+    <ol type="A">
+      <li>The top, so the title grows.</li>
+      <li>The bottom, so the buttons spread out.</li>
+      <li>The centre.</li>
+      <li>All five areas get an equal share.</li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 6.7</div>
+  <p><strong>6.7</strong> In the Greeter's tree of objects, which objects are the leaves (objects with no children)?</p>
+
+  <wb-choice id="q6-7">
+    <ol type="A">
+      <li>The panes: <code>BorderPane</code>, <code>VBox</code> and <code>HBox</code>.</li>
+      <li>The controls: the labels, the text field and the buttons.</li>
+      <li>The <code>Stage</code> and the <code>Scene</code>.</li>
+      <li>Only the buttons.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s7">7. Review</h2>
+
+<h3>Practice</h3>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.1</div>
+  <p><strong>7.1</strong> Design a window for a tip calculator. It has a title at the top; a label <code>Bill amount</code>, a text field and a result label in the middle; and two buttons, <code>15%</code> and <code>20%</code>, side by side at the bottom. Draw its tree of objects from the <code>BorderPane</code> down, and say which objects need handlers.</p>
+
+  <wb-short id="q7-1"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.2</div>
+  <p><strong>7.2</strong> A student's <code>ClearHandler</code> has only a <code>greeting</code> field, and its <code>handle</code> does <code>greeting.setText("");</code>. Users say the name stays in the box after <code>Clear</code>. Write the corrected class.</p>
+
+  <wb-short id="q7-2"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.3</div>
+  <p><strong>7.3</strong> Put these steps of the <code>HelloName</code> program in the order they happen: (a) <code>getText()</code> runs; (b) <code>setOnAction</code> stores the handler; (c) the user types a name; (d) <code>stage.show()</code> runs; (e) the user clicks.</p>
+
+  <wb-short id="q7-3"></wb-short>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.4</div>
+  <p><strong>7.4</strong> Which line registers a handler?</p>
+
+  <wb-choice id="q7-4">
+    <ol type="A">
+      <li><code>new GreetHandler(nameField, greeting);</code> on its own line</li>
+      <li><code>helloButton.setOnAction(new GreetHandler(nameField, greeting));</code></li>
+      <li><code>greeting.setText("Hello, " + name + "!");</code></li>
+      <li><code>root.getChildren().add(new GreetHandler(nameField, greeting));</code></li>
+    </ol>
+  </wb-choice>
+</div>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Practice 7.5</div>
+  <p><strong>7.5</strong> In the <code>ScoreWindow</code> from the slides, the <code>-</code> and <code>+</code> buttons do nothing when clicked. What is missing?</p>
+
+  <wb-choice id="q7-5">
+    <ol type="A">
+      <li>The buttons must be in a <code>BorderPane</code>.</li>
+      <li>Handler classes, registered on the buttons with <code>setOnAction</code>.</li>
+      <li>A call to <code>handle</code> at the end of <code>start</code>.</li>
+      <li>A second call to <code>stage.show()</code>.</li>
+    </ol>
+  </wb-choice>
+</div>
+<h2 id="s8">8. Complete Java Programs</h2>
+<p>Write these two programs after class, in BlueJ. Each uses a plain Java class that keeps the data, handler classes, and a JavaFX class that builds the window.</p>
+<h3>Program A: Click Counter</h3>
+<ul>
+<li><code>Counter</code> has an <code>int</code> field <code>count</code>, set to 0 by its constructor, and three methods: <code>add()</code> adds 1, <code>reset()</code> sets it back to 0, and <code>getCount()</code> returns it.</li>
+<li><code>AddHandler</code> implements <code>EventHandler&lt;ActionEvent&gt;</code>. Its constructor takes a <code>Counter</code> and a <code>Label</code>, in that order. <code>handle</code> calls <code>add()</code> and sets the label to <code>Count: </code> followed by the count.</li>
+<li><code>ResetHandler</code> is the same, but <code>handle</code> calls <code>reset()</code>.</li>
+<li><code>CounterApp</code> makes one <code>Counter</code>, a title label <code>Click Counter</code> with <code>new Font(20)</code>, a label <code>Count: 0</code>, and the buttons <code>Add one</code> and <code>Reset</code>, and registers a handler on each button. A <code>BorderPane</code> with padding 15 has the title at the top, the count label in the centre, and an <code>HBox(10)</code> with the two buttons at the bottom. The window is titled <code>Counter</code>, 280 by 160.</li>
+</ul>
+<p>Start from this code:</p>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">Counter</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-kw">int</span> count;
+    <span class="wb-kw">public</span> <span class="wb-fn">Counter</span>()
+    {
+        <span class="wb-cmt">// Start at 0.</span>
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">add</span>()
+    {
+        <span class="wb-cmt">// Add 1.</span>
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">reset</span>()
+    {
+        <span class="wb-cmt">// Back to 0.</span>
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">getCount</span>()
+    {
+        <span class="wb-cmt">// Return the count.</span>
+    }
+}</code></pre>
+<pre><code><span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">AddHandler</span>
+    implements <span class="wb-type">EventHandler</span>&lt;<span class="wb-type">ActionEvent</span>&gt;
+{
+    <span class="wb-kw">private</span> <span class="wb-type">Counter</span> counter;
+    <span class="wb-kw">private</span> <span class="wb-type">Label</span> display;
+    <span class="wb-kw">public</span> <span class="wb-fn">AddHandler</span>(<span class="wb-type">Counter</span> counter,
+                      <span class="wb-type">Label</span> display)
+    {
+        <span class="wb-cmt">// Store both references.</span>
+    }
+    @<span class="wb-type">Override</span>
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">handle</span>(<span class="wb-type">ActionEvent</span> event)
+    {
+        <span class="wb-cmt">// add(), then show "Count: " and</span>
+        <span class="wb-cmt">// the count on the label.</span>
+    }
+}</code></pre>
+<p>The window after <code>Add one</code> is clicked three times:</p>
+<figure class="wb-shot">
+  <img src="img/wb_counter_three.png" alt="A window titled Counter: Click Counter, Count: 3, and the buttons Add one and Reset." loading="lazy" style="max-width: 312px">
+</figure>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Your program</div>
+<p>Write the four classes in BlueJ and run <code>CounterApp</code>. When the window works, paste your four classes here and compare them with the model answer.</p>
+  <wb-short id="p1"></wb-short>
+</div>
+<h3>Program B: Shopping List</h3>
+<ul>
+<li><code>ShoppingList</code> has a field <code>ArrayList&lt;String&gt; items</code>, made by its constructor, and four methods: <code>add(String item)</code>, <code>clear()</code>, <code>size()</code>, and <code>toString()</code>, which returns the items joined with commas: <code>String.join(", ", items)</code>.</li>
+<li><code>AddItemHandler</code>'s constructor takes a <code>ShoppingList</code>, a <code>TextField</code> and two labels, <code>listLabel</code> and <code>status</code>, in that order. <code>handle</code> reads the text field. If it is empty, the status shows <code>Type an item first.</code> Otherwise it adds the item to the list, sets <code>listLabel</code> to the size, <code> items: </code> and the list, empties the text field, and sets the status to <code>Added </code> followed by the item and a full stop.</li>
+<li><code>ClearListHandler</code>'s constructor takes the list, <code>listLabel</code> and <code>status</code>. <code>handle</code> clears the list, sets <code>listLabel</code> to <code>0 items</code> and the status to <code>List cleared.</code></li>
+<li><code>ShoppingApp</code> makes the list, a title <code>Shopping List</code> with <code>new Font(20)</code>, the text field, the buttons <code>Add</code> and <code>Clear list</code>, a label <code>0 items</code> and an empty status label. A <code>BorderPane</code> with padding 15 has the title at the top; in the centre, a <code>VBox(10)</code> with padding <code>Insets(10, 0, 10, 0)</code> holding the text field, an <code>HBox(10)</code> with the two buttons, and the list label; and the status label at the bottom. The window is titled <code>Shopping</code>, 340 by 220.</li>
+</ul>
+<p>Start from this code:</p>
+<pre><code><span class="wb-kw">import</span> java.util.ArrayList;
+<span class="wb-kw">public</span> <span class="wb-kw">class</span> <span class="wb-type">ShoppingList</span>
+{
+    <span class="wb-kw">private</span> <span class="wb-type">ArrayList</span>&lt;<span class="wb-type">String</span>&gt; items;
+    <span class="wb-kw">public</span> <span class="wb-fn">ShoppingList</span>()
+    {
+        <span class="wb-cmt">// Create the list.</span>
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">add</span>(<span class="wb-type">String</span> item)
+    {
+        <span class="wb-cmt">// Add the item.</span>
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">clear</span>()
+    {
+        <span class="wb-cmt">// Remove every item.</span>
+    }
+    <span class="wb-kw">public</span> <span class="wb-kw">int</span> <span class="wb-fn">size</span>()
+    {
+        <span class="wb-cmt">// The number of items.</span>
+    }
+    @<span class="wb-type">Override</span>
+    <span class="wb-kw">public</span> <span class="wb-type">String</span> <span class="wb-fn">toString</span>()
+    {
+        <span class="wb-cmt">// String.join(", ", items)</span>
+    }
+}</code></pre>
+<pre><code>@<span class="wb-type">Override</span>
+<span class="wb-kw">public</span> <span class="wb-kw">void</span> <span class="wb-fn">handle</span>(<span class="wb-type">ActionEvent</span> event)
+{
+    <span class="wb-cmt">// 1. Read the text field.</span>
+    <span class="wb-cmt">// 2. If it is empty, show</span>
+    <span class="wb-cmt">//    "Type an item first."</span>
+    <span class="wb-cmt">//    in the status label.</span>
+    <span class="wb-cmt">// 3. Otherwise: add the item,</span>
+    <span class="wb-cmt">//    set listLabel, empty the</span>
+    <span class="wb-cmt">//    field, and set the status.</span>
+}</code></pre>
+<p>The window after <code>milk</code>, <code>eggs</code> and <code>bread</code> are added:</p>
+<figure class="wb-shot">
+  <img src="img/wb_shop_three.png" alt="A window titled Shopping: Shopping List, an empty box, the buttons Add and Clear list, 3 items: milk, eggs, bread, and Added bread." loading="lazy" style="max-width: 360px">
+</figure>
+<div class="wb-checkpoint">
+  <div class="wb-block-title">Your program</div>
+<p>Write the four classes in BlueJ and run <code>ShoppingApp</code>. When the window works, paste your four classes here and compare them with the model answer.</p>
+  <wb-short id="p2"></wb-short>
+</div>
+<hr>
+<section class="wb-outcomes wb-review">
+<h2 id="summary" data-toc-title="Lecture summary">Lecture summary</h2>
+<p>A GUI program builds a window and then waits. The user's clicks and key presses decide which code runs next. In JavaFX, every part of the window is an object, a handler class says what a button does, and panes arrange the objects.</p>
+<h3>Good design</h3>
+<ul>
+<li>Four principles: <strong>visible</strong> (you can see what to do), <strong>feedback</strong> (the screen shows what happened), <strong>consistent</strong> (the same action works the same way everywhere) and <strong>forgiving</strong> (mistakes are easy to spot and fix).</li>
+</ul>
+<h3>Event flow</h3>
+<ul>
+<li>The <strong>event loop</strong> waits for an event, runs the code for it and redraws what changed, until the window is closed. <strong>JavaFX writes the loop</strong>; we write only the handlers.</li>
+<li>A <strong>game loop</strong> does not wait: it draws a new frame about 60 times a second.</li>
+<li>A console program is <strong>sequential</strong>; a GUI program is <strong>event-driven</strong>. An <strong>event</strong> (a click, a key press) runs its <strong>handler</strong>.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_event_loop.png" alt="The slide The event loop." loading="lazy" style="max-width: 560px">
+<figcaption>Wait, run the code for the event, redraw, repeat.</figcaption>
+</figure>
+<h3>First window</h3>
+<ul>
+<li>A JavaFX program <strong><code>extends Application</code></strong> and overrides <strong><code>start(Stage stage)</code></strong>. JavaFX makes the object and the stage, then calls <code>start</code>.</li>
+<li>The <strong>Stage</strong> is the window, the <strong>Scene</strong> is what is inside it (one root object), and a <strong>Label</strong> is text. Nothing appears until <strong><code>stage.show()</code></strong>.</li>
+<li>Run JavaFX programs in <strong>BlueJ</strong>: right-click the class and choose <strong>Run JavaFX Application</strong>.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_first.png" alt="The slide A first JavaFX program." loading="lazy" style="max-width: 560px">
+<figcaption>HelloWindow: a label in a scene in a stage.</figcaption>
+</figure>
+<h3>Buttons</h3>
+<ul>
+<li>A handler class <strong><code>implements EventHandler&lt;ActionEvent&gt;</code></strong> and writes <code>handle(ActionEvent event)</code>. The objects it changes come in through its <strong>constructor</strong>.</li>
+<li><strong><code>button.setOnAction(new HelloHandler(greeting));</code></strong> registers the handler. It only stores it; <code>handle</code> runs <strong>once per click</strong>, after <code>start</code> has finished.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_register.png" alt="The slide Registering the handler." loading="lazy" style="max-width: 560px">
+<figcaption>setOnAction connects the button to its handler.</figcaption>
+</figure>
+<h3>Text fields</h3>
+<ul>
+<li>A <strong>TextField</strong> is a box to type in. Call <strong><code>getText()</code> inside <code>handle</code></strong>, so it reads the box at the moment of the click.</li>
+<li>An empty box gives <code>""</code>. Check with <code>isEmpty()</code> and tell the user what to do.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_textfield.png" alt="The slide Reading a text field in a handler." loading="lazy" style="max-width: 560px">
+<figcaption>The handler gets the box and the label it needs.</figcaption>
+</figure>
+<h3>Layouts</h3>
+<ul>
+<li><strong>VBox</strong> makes a column and <strong>HBox</strong> a row; <code>new VBox(10)</code> puts 10 pixels between children, and <code>setPadding(new Insets(15))</code> leaves space at the edge.</li>
+<li>A <strong>BorderPane</strong> has top, left, center, right and bottom. Each area holds <strong>one object</strong>, and the <strong>centre gets the extra space</strong>.</li>
+<li>Panes go inside panes. Every window is a <strong>tree of objects</strong> (the scene graph): panes are branches, controls are leaves.</li>
+</ul>
+<figure class="wb-shot">
+<img src="img/slide_tree.png" alt="The slide The tree of objects." loading="lazy" style="max-width: 560px">
+<figcaption>The Greeter as a tree of objects.</figcaption>
+</figure>
+<h3>Programs</h3>
+<ul>
+<li>The <strong>Click Counter</strong> and the <strong>Shopping List</strong> each keep their data in a plain Java class, with one handler class per button.</li>
+</ul>
+</section>
+
+</main>
+</body>
+</html>

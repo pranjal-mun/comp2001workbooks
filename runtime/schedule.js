@@ -42,7 +42,7 @@ export const LECTURES = [
   { n: 18, unit: 4, date: "2026-11-17", title: "Chapter 13: Dynamic method lookup and overriding", built: true },
   { n: 19, unit: 4, date: "2026-11-19", title: "Chapter 14, Part 1: Abstract classes", built: true },
   { n: 20, unit: 4, date: "2026-11-24", title: "Chapter 14, Part 2: Interfaces", built: true },
-  { n: 21, unit: 5, date: "2026-11-26", title: "Chapter 17, Part 1: Building a basic GUI", built: false },
+  { n: 21, unit: 5, date: "2026-11-26", title: "Chapter 17, Part 1: Building a basic GUI", built: true },
   { n: 22, unit: 5, date: "2026-12-01", title: "Chapter 17, Part 2: Events and GUI design", built: false },
 ];
 
